@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/login_controller.dart';
+import 'package:shipment/controllers/register_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
+import 'package:shipment/views/register_view.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -31,7 +33,10 @@ class LoginView extends StatelessWidget {
                   Expanded(
                     flex: 16,
                     //todo: replace png with svg to save space
-                    child: Image.asset('assets/images/red2.png'),
+                    child: Hero(
+                      tag: "auth_image",
+                      child: Image.asset('assets/images/driver.png'),
+                    ),
                   ),
                   const Spacer(),
                 ],
@@ -107,30 +112,32 @@ class LoginView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      GetBuilder<LoginController>(builder: (controller) {
-                        return ElevatedButton(
-                          onPressed: () {
-                            controller.login();
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 14.0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Center(
-                                child: controller.isLoading
-                                    ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                    : Text(
-                                        "Login".toUpperCase(),
-                                        style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                      ),
+                      GetBuilder<LoginController>(
+                        builder: (controller) {
+                          return ElevatedButton(
+                            onPressed: () {
+                              controller.login();
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 14.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Center(
+                                  child: controller.isLoading
+                                      ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                      : Text(
+                                          "Login".toUpperCase(),
+                                          style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                        ),
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        },
+                      ),
                       const SizedBox(height: 24),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -141,7 +148,7 @@ class LoginView extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              //todo: go to register
+                              Get.to(() => RegisterView());
                             },
                             child: Text(
                               "register",

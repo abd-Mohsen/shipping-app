@@ -16,13 +16,17 @@ class RegisterController extends GetxController {
     super.onClose();
   }
 
+  List<String> roles = ["driver", "customer", "company", "employee"];
+
   @override
   void onInit() {
     getSupervisorsNames();
     super.onInit();
   }
 
-  final userName = TextEditingController();
+  final firstName = TextEditingController();
+  final middleName = TextEditingController();
+  final lastName = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
   final rePassword = TextEditingController();
