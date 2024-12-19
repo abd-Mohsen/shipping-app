@@ -1,12 +1,8 @@
 import 'dart:async';
-
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-
-import '../constants.dart';
-import '../models/login_model.dart';
-import '../services/remote_services.dart';
+import 'package:shipment/views/driver_home_view.dart';
 
 class LoginController extends GetxController {
   @override
@@ -61,6 +57,7 @@ class LoginController extends GetxController {
     //   return; // admin, show a message from backend (send a header that represents the platform)
     // }
     await Future.delayed(Duration(milliseconds: 1500));
+    Get.offAll(() => const DriverHomeView());
     toggleLoading(false);
   }
 }
