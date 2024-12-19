@@ -7,20 +7,22 @@ import '../models/user_model.dart';
 class RegisterController extends GetxController {
   @override
   void onClose() {
-    // email.dispose();
-    // password.dispose();
-    // rePassword.dispose();
-    // fName.dispose();
-    // lName.dispose();
-    // phone.dispose();
+    //
     super.onClose();
   }
 
   List<String> roles = ["driver", "customer", "company", "employee"];
 
+  int roleIndex = 0;
+
+  void setRole(int newIndex) {
+    roleIndex = newIndex;
+    update();
+  }
+
   @override
   void onInit() {
-    getSupervisorsNames();
+    //getSupervisorsNames();
     super.onInit();
   }
 
@@ -31,9 +33,6 @@ class RegisterController extends GetxController {
   final password = TextEditingController();
   final rePassword = TextEditingController();
   final phone = TextEditingController();
-  String roleINEnglish = "supervisor";
-  String selectedRole = "مشرف";
-  UserModel? selectedSupervisor; //(show if role is 3)
 
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   bool buttonPressed = false;
@@ -56,17 +55,6 @@ class RegisterController extends GetxController {
   bool get rePasswordVisible => _rePasswordVisible;
   void toggleRePasswordVisibility(bool value) {
     _rePasswordVisible = value;
-    update();
-  }
-
-  void setRole(String role) {
-    role == "مشرف" ? roleINEnglish = "supervisor" : roleINEnglish = "salesman";
-    selectedRole = role;
-    update();
-  }
-
-  void setSupervisor(UserModel supervisor) {
-    selectedSupervisor = supervisor;
     update();
   }
 
@@ -113,80 +101,4 @@ class RegisterController extends GetxController {
 
     toggleLoadingRegister(false);
   }
-  //--------------------------------------------------------------------------------
-  //for otp
-
-  // final OtpFieldController otpController = OtpFieldController();
-  // final CountdownController timeController = CountdownController(autoStart: true);
-  //
-  // late String _registerToken;
-  // bool _isTimeUp = false;
-  // bool get isTimeUp => _isTimeUp;
-  // late String _verifyUrl;
-  //
-  // bool _isLoadingOtp = false;
-  // bool get isLoadingOtp => _isLoadingOtp;
-  //
-  // void toggleLoadingOtp(bool value) {
-  //   _isLoadingOtp = value;
-  //   update();
-  // }
-  //
-  // void toggleTimerState(bool val) {
-  //   _isTimeUp = val;
-  //   update();
-  // }
-  //
-  // void verifyOtp(String pin) async {
-  //   if (_isTimeUp) {
-  //     Get.defaultDialog(middleText: "otp time up dialog".tr);
-  //   } else {
-  //     toggleLoadingOtp(true);
-  //     try {
-  //       if (await RemoteServices.verifyRegisterOtp(_verifyUrl, _registerToken, pin).timeout(kTimeOutDuration)) {
-  //         Get.offAll(() => const LoginPage());
-  //         Get.defaultDialog(middleText: "account created successfully, please login".tr);
-  //       } else {
-  //         Get.defaultDialog(middleText: "wrong otp dialog".tr);
-  //       }
-  //     } on TimeoutException {
-  //       kTimeOutDialog();
-  //     } catch (e) {
-  //       //print(e.toString());
-  //     } finally {
-  //       toggleLoadingOtp(false);
-  //     }
-  //   }
-  // }
-  //
-  // void resendOtp() async {
-  //   if (_isTimeUp) {
-  //     toggleLoadingOtp(true);
-  //     try {
-  //       _verifyUrl = (await RemoteServices.sendRegisterOtp(_registerToken).timeout(kTimeOutDuration))!;
-  //       timeController.restart();
-  //       otpController.clear();
-  //       _isTimeUp = false;
-  //     } on TimeoutException {
-  //       kTimeOutDialog();
-  //     } catch (e) {
-  //       //print(e.toString());
-  //     } finally {
-  //       toggleLoadingOtp(false);
-  //     }
-  //   } else {
-  //     Get.showSnackbar(GetSnackBar(
-  //       messageText: Text(
-  //         "wait till time is up".tr,
-  //         textAlign: TextAlign.center,
-  //         style: kTextStyle14.copyWith(color: Colors.white),
-  //       ),
-  //       backgroundColor: Colors.grey.shade800,
-  //       duration: const Duration(milliseconds: 800),
-  //       borderRadius: 30,
-  //       maxWidth: 150,
-  //       margin: const EdgeInsets.only(bottom: 50),
-  //     ));
-  //   }
-  // }
 }

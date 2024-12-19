@@ -27,6 +27,8 @@ dependencies:
   dropdown_search: ^6.0.1
   flutter_spinkit: ^5.2.1
   flutter_svg: ^2.0.16
+  carousel_slider: ^5.0.0
+  smooth_page_indicator: ^1.2.0+3
 
 
 dev_dependencies:
