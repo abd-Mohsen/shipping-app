@@ -14,7 +14,7 @@ class LoginController extends GetxController {
 
   final GetStorage _getStorage = GetStorage();
 
-  final email = TextEditingController();
+  final phone = TextEditingController();
   final password = TextEditingController();
 
   bool _isLoading = false;

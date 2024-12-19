@@ -37,35 +37,35 @@ class AboutUsPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Text(
-              "تم تطوير هذا البرنامج لصالح شركة ليتيا المساهمة الخاصة, جميع الحقوق محفوظة.",
+              "تم تطوير هذا البرنامج لصالح شركة , جميع الحقوق محفوظة.",
               style: tt.titleMedium!.copyWith(color: cs.onSurface),
             ),
           ),
           ListTile(
             leading: Icon(Icons.phone, color: cs.primary),
             title: Text(
-              "3333583",
+              "2222222",
               style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
             ),
           ),
           ListTile(
             leading: Icon(Icons.fax, color: cs.primary),
             title: Text(
-              "3333578",
+              "2222222",
               style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
             ),
           ),
           ListTile(
             leading: Icon(Icons.language, color: cs.primary),
             title: Text(
-              "Letia.sy",
+              "example.sy",
               style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
             ),
           ),
           ListTile(
             leading: Icon(Icons.email, color: cs.primary),
             title: Text(
-              "contact@Letia.com",
+              "contact@example.com",
               style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
             ),
           ),
@@ -88,7 +88,7 @@ class AboutUsPage extends StatelessWidget {
             //   style: tt.titleMedium!.copyWith(color: cs.onSurface),
             // ),
             title: Text(
-              "0964622616",
+              "0000000000",
               style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
             ),
           ),
@@ -99,7 +99,7 @@ class AboutUsPage extends StatelessWidget {
             //   style: tt.titleMedium!.copyWith(color: cs.onSurface),
             // ),
             title: Text(
-              "abdMohsen333@gmail.com",
+              "example@gmail.com",
               style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
             ),
           ),
