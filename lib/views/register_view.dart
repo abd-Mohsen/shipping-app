@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shipment/controllers/register_controller.dart';
 import 'package:get/get.dart';
+import 'package:shipment/views/components/id_image_selector.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'components/auth_background.dart';
@@ -39,6 +40,7 @@ class RegisterView extends StatelessWidget {
                         flex: 3,
                         //todo: replace png with svg to save space
                         //todo: scrolling is a bit sluggish, fix performance
+                        //todo: remove image from bottom right in this page
                         child: Hero(
                           tag: "auth_image",
                           child: Column(
@@ -179,7 +181,7 @@ class RegisterView extends StatelessWidget {
                           ),
                           AuthField(
                             controller: rC.phone,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.phone,
                             textInputAction: TextInputAction.next,
                             label: "phone",
                             prefixIcon: Padding(
@@ -253,6 +255,12 @@ class RegisterView extends StatelessWidget {
                                 },
                               );
                             },
+                          ),
+                          IdImageSelector(
+                            title: "ID photo (front)",
+                            onTap: () {},
+                            isSubmitted: controller.idFront != null,
+                            image: controller.idFront,
                           ),
                           const SizedBox(height: 16),
                           GetBuilder<RegisterController>(

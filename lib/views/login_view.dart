@@ -56,7 +56,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       AuthField(
                         controller: lC.phone,
-                        keyboardType: TextInputType.emailAddress,
+                        keyboardType: TextInputType.phone,
                         textInputAction: TextInputAction.next,
                         label: "phone",
                         prefixIcon: Padding(

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
 
@@ -63,6 +64,20 @@ class RegisterController extends GetxController {
   void toggleRePasswordVisibility(bool value) {
     _rePasswordVisible = value;
     update();
+  }
+
+  XFile? idFront;
+  XFile? idRear;
+  XFile? dLicenseFront;
+  XFile? dLicenseRear;
+
+  Future pickImage(XFile? selectedImage, String source) async {
+    XFile? pickedImage =
+        await ImagePicker().pickImage(source: source == "camera" ? ImageSource.camera : ImageSource.gallery);
+    selectedImage = pickedImage; //todo: not updating, the reference isnt correct?
+    print(idFront == null);
+    update();
+    Get.back();
   }
 
   List<UserModel> availableSupervisors = [];
