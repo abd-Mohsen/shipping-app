@@ -106,7 +106,7 @@ class LoginView extends StatelessWidget {
                           },
                           child: Text(
                             "forgot password?",
-                            style: tt.labelMedium!.copyWith(color: cs.onBackground.withOpacity(0.6)),
+                            style: tt.labelMedium!.copyWith(color: cs.onBackground.withOpacity(0.7)),
                             textAlign: TextAlign.end,
                           ),
                         ),

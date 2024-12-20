@@ -11,7 +11,12 @@ class RegisterController extends GetxController {
     super.onClose();
   }
 
-  List<String> roles = ["driver", "customer", "company", "employee"];
+  List<String> roles = [
+    "driver",
+    "customer",
+    "company",
+    //"employee",
+  ];
 
   int roleIndex = 0;
 
@@ -26,6 +31,8 @@ class RegisterController extends GetxController {
     super.onInit();
   }
 
+  final companyName = TextEditingController();
+  final numberOfVehicles = TextEditingController();
   final firstName = TextEditingController();
   final middleName = TextEditingController();
   final lastName = TextEditingController();

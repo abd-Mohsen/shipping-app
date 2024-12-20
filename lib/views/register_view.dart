@@ -64,7 +64,7 @@ class RegisterView extends StatelessWidget {
                                   viewportFraction: 1,
                                 ),
                               ),
-                              const SizedBox(height: 12),
+                              //const SizedBox(height: 4),
                               AnimatedSmoothIndicator(
                                 activeIndex: rC.roleIndex,
                                 count: rC.roles.length,
@@ -90,6 +90,45 @@ class RegisterView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
+                          //todo: add fields and hide them based on role
+                          Visibility(
+                            visible: controller.roles[controller.roleIndex] == "company",
+                            child: AuthField(
+                              controller: rC.companyName,
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.next,
+                              label: "company name",
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Icon(Icons.house, color: cs.primary),
+                              ),
+                              validator: (val) {
+                                return validateInput(rC.companyName.text, 4, 50, "");
+                              },
+                              onChanged: (val) {
+                                if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                              },
+                            ),
+                          ),
+                          Visibility(
+                            visible: controller.roles[controller.roleIndex] == "company",
+                            child: AuthField(
+                              controller: rC.numberOfVehicles,
+                              keyboardType: TextInputType.number,
+                              textInputAction: TextInputAction.next,
+                              label: "number of vehicles",
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Icon(Icons.local_shipping, color: cs.primary),
+                              ),
+                              validator: (val) {
+                                return validateInput(rC.numberOfVehicles.text, 4, 50, ""); //todo: this is a number
+                              },
+                              onChanged: (val) {
+                                if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                              },
+                            ),
+                          ),
                           AuthField(
                             controller: rC.firstName,
                             keyboardType: TextInputType.text,
@@ -176,8 +215,7 @@ class RegisterView extends StatelessWidget {
                                         child: Icon(CupertinoIcons.eye_fill, color: cs.primary),
                                       ),
                                 validator: (val) {
-                                  return validateInput(rC.password.text, 4, 50, "password",
-                                      pass: rC.password.text, rePass: rC.rePassword.text);
+                                  return validateInput(rC.password.text, 4, 50, "password");
                                 },
                                 onChanged: (val) {
                                   if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();

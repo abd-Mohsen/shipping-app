@@ -70,7 +70,7 @@ class AuthField extends StatelessWidget {
           ),
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
-          floatingLabelBehavior: FloatingLabelBehavior.never,
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
         ),
         style: tt.titleSmall!.copyWith(color: Colors.black),
         validator: validator,
