@@ -257,10 +257,30 @@ class RegisterView extends StatelessWidget {
                             },
                           ),
                           IdImageSelector(
-                            title: "ID photo (front)",
-                            onTap: () {},
+                            title: "ID (front)",
                             isSubmitted: controller.idFront != null,
                             image: controller.idFront,
+                          ),
+                          IdImageSelector(
+                            title: "ID (rear)",
+                            isSubmitted: controller.idRear != null,
+                            image: controller.idRear,
+                          ),
+                          Visibility(
+                            visible: controller.roles[controller.roleIndex] == "driver",
+                            child: IdImageSelector(
+                              title: "driving license (front)",
+                              isSubmitted: controller.dLicenseFront != null,
+                              image: controller.dLicenseFront,
+                            ),
+                          ),
+                          Visibility(
+                            visible: controller.roles[controller.roleIndex] == "driver",
+                            child: IdImageSelector(
+                              title: "driving license (rear)",
+                              isSubmitted: controller.dLicenseRear != null,
+                              image: controller.dLicenseRear,
+                            ),
                           ),
                           const SizedBox(height: 16),
                           GetBuilder<RegisterController>(

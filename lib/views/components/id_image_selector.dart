@@ -7,13 +7,13 @@ import 'package:shipment/controllers/register_controller.dart';
 
 class IdImageSelector extends StatelessWidget {
   final String title;
-  final void Function() onTap;
+  //final void Function() onTap;
   final bool isSubmitted;
   final XFile? image;
   const IdImageSelector({
     super.key,
     required this.title,
-    required this.onTap,
+    //required this.onTap,
     required this.isSubmitted,
     required this.image,
   });
@@ -35,20 +35,40 @@ class IdImageSelector extends StatelessWidget {
               : Icon(Icons.add_a_photo, color: cs.primary),
           onTap: () {
             Get.bottomSheet(
+              //todo: ask for camera permission
               Container(
-                color: cs.background,
+                decoration: BoxDecoration(
+                  color: cs.background,
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                ),
+                //height: MediaQuery.of(context).size.height / 2,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    image == null
-                        ? Center(
-                            child: Text(
-                              "no photo is selected",
-                              style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                            ),
-                          )
-                        : Image.file(
-                            File(image!.path),
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0, top: 16),
+                      child: Text(
+                        "$title preview",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: tt.titleLarge!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height / 3,
+                        child: Center(
+                          child: image == null
+                              ? Text(
+                                  "no photo is selected",
+                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                )
+                              : Image.file(File(image!.path)),
+                        ),
+                      ),
+                    ),
                     ListTile(
                       leading: Icon(
                         Icons.camera,

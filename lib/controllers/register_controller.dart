@@ -72,10 +72,13 @@ class RegisterController extends GetxController {
   XFile? dLicenseRear;
 
   Future pickImage(XFile? selectedImage, String source) async {
-    XFile? pickedImage =
-        await ImagePicker().pickImage(source: source == "camera" ? ImageSource.camera : ImageSource.gallery);
-    selectedImage = pickedImage; //todo: not updating, the reference isnt correct?
-    print(idFront == null);
+    XFile? pickedImage = await ImagePicker().pickImage(
+      source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
+    );
+    if (selectedImage == idFront) idFront = pickedImage; //todo: all of them are updating at once
+    if (selectedImage == idRear) idRear = pickedImage;
+    //if (selectedImage == dLicenseFront) dLicenseFront = pickedImage;
+    if (selectedImage == dLicenseRear) dLicenseRear = pickedImage;
     update();
     Get.back();
   }
@@ -90,6 +93,7 @@ class RegisterController extends GetxController {
   }
 
   Future register() async {
+    // todo: check if the required photos are not null (based on role)
     buttonPressed = true;
     bool isValid = registerFormKey.currentState!.validate();
     if (!isValid) return;
