@@ -71,14 +71,22 @@ class RegisterController extends GetxController {
   XFile? dLicenseFront;
   XFile? dLicenseRear;
 
-  Future pickImage(XFile? selectedImage, String source) async {
+  Future pickImage(String selectedImage, String source) async {
     XFile? pickedImage = await ImagePicker().pickImage(
       source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
     );
-    if (selectedImage == idFront) idFront = pickedImage; //todo: all of them are updating at once
-    if (selectedImage == idRear) idRear = pickedImage;
-    //if (selectedImage == dLicenseFront) dLicenseFront = pickedImage;
-    if (selectedImage == dLicenseRear) dLicenseRear = pickedImage;
+    if (selectedImage == "ID (front)") {
+      idFront = pickedImage; //todo: all of them are updating at once, wrong references?
+    }
+    if (selectedImage == "ID (rear)") {
+      idRear = pickedImage;
+    }
+    if (selectedImage == "driving license (front)") {
+      dLicenseFront = pickedImage;
+    }
+    if (selectedImage == "driving license (rear)") {
+      dLicenseRear = pickedImage;
+    }
     update();
     Get.back();
   }

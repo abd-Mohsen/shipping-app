@@ -79,7 +79,7 @@ class IdImageSelector extends StatelessWidget {
                         style: tt.titleMedium!.copyWith(color: cs.onSurface),
                       ),
                       onTap: () {
-                        controller.pickImage(image, "camera");
+                        controller.pickImage(title, "camera");
                       },
                     ),
                     ListTile(
@@ -92,7 +92,7 @@ class IdImageSelector extends StatelessWidget {
                         style: tt.titleMedium!.copyWith(color: cs.onSurface),
                       ),
                       onTap: () {
-                        controller.pickImage(image, "gallery");
+                        controller.pickImage(title, "gallery");
                       },
                     ),
                   ],
