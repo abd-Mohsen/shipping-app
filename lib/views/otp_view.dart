@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:shipment/controllers/login_controller.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
-import 'package:shipment/views/components/auth_field.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import '../controllers/otp_controller.dart';
 import 'components/auth_background.dart';
@@ -25,7 +23,7 @@ class OTPView extends StatelessWidget {
 
     return SafeArea(
       child: PopScope(
-        canPop: false,
+        canPop: true, // make false
         onPopInvokedWithResult: (didPop, result) async {
           if (didPop) {
             return;

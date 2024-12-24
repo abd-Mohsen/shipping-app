@@ -41,8 +41,7 @@ class RegisterView extends StatelessWidget {
                         Expanded(
                           flex: 3,
                           //todo: replace png with svg to save space
-                          //todo: scrolling is a bit sluggish, fix performance
-                          //todo: remove image from bottom right in this page
+                          //todo: put arrows around the pic
                           child: Hero(
                             tag: "auth_image",
                             child: Column(
