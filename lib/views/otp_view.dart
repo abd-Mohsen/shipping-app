@@ -4,6 +4,7 @@ import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
+import 'package:shipment/views/reset_pass_view2.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import '../controllers/otp_controller.dart';
 import 'components/auth_background.dart';
@@ -39,7 +40,7 @@ class OTPView extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "reset password",
+                    "enter OTP".toUpperCase(),
                     style: tt.titleLarge!.copyWith(color: cs.onSurface),
                   ),
                   const SizedBox(height: 16),
@@ -100,9 +101,10 @@ class OTPView extends StatelessWidget {
                         GetBuilder<OTPController>(
                           builder: (controller) {
                             return ElevatedButton(
-                              onPressed: controller.isTimeUp
+                              onPressed: !controller.isTimeUp // remove !
                                   ? () {
                                       //controller.resendOtp();
+                                      Get.to(ResetPassView2());
                                     }
                                   : null,
                               style: ButtonStyle(

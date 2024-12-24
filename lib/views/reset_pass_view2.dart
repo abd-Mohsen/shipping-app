@@ -6,14 +6,14 @@ import 'package:shipment/views/otp_view.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class ResetPassView1 extends StatelessWidget {
-  const ResetPassView1({super.key});
+class ResetPassView2 extends StatelessWidget {
+  const ResetPassView2({super.key});
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    ResetPassController rPC = Get.put(ResetPassController());
+    ResetPassController rPC = Get.find();
 
     return SafeArea(
       child: AuthBackground(
@@ -24,7 +24,7 @@ class ResetPassView1 extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "reset password".toUpperCase(),
+                  "set new password".toUpperCase(),
                   style: tt.titleLarge!.copyWith(color: cs.onSurface),
                 ),
                 const SizedBox(height: 16),
@@ -36,7 +36,7 @@ class ResetPassView1 extends StatelessWidget {
                       //todo: replace png with svg to save space
                       child: Hero(
                         tag: "auth_image",
-                        child: Image.asset('assets/images/sms1.png'),
+                        child: Image.asset('assets/images/password.png'),
                       ),
                     ),
                     const Spacer(),
@@ -51,24 +51,40 @@ class ResetPassView1 extends StatelessWidget {
                 Expanded(
                   flex: 8,
                   child: Form(
-                    key: rPC.firstFormKey,
+                    key: rPC.secondFormKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         AuthField(
-                          controller: rPC.phone,
-                          keyboardType: TextInputType.phone,
-                          textInputAction: TextInputAction.done,
-                          label: "your phone",
+                          controller: rPC.newPassword,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.next,
+                          label: "new password",
                           prefixIcon: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Icon(Icons.phone_android, color: cs.primary),
+                            child: Icon(Icons.lock, color: cs.primary),
                           ),
                           validator: (val) {
-                            return validateInput(rPC.phone.text, 4, 50, "phone");
+                            return validateInput(rPC.newPassword.text, 4, 50, "");
                           },
                           onChanged: (val) {
-                            if (rPC.button1Pressed) rPC.firstFormKey.currentState!.validate();
+                            if (rPC.button2Pressed) rPC.secondFormKey.currentState!.validate();
+                          },
+                        ),
+                        AuthField(
+                          controller: rPC.rePassword,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          label: "re enter new password",
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Icon(Icons.lock, color: cs.primary),
+                          ),
+                          validator: (val) {
+                            return validateInput(rPC.rePassword.text, 4, 50, "");
+                          },
+                          onChanged: (val) {
+                            if (rPC.button2Pressed) rPC.secondFormKey.currentState!.validate();
                           },
                         ),
                         const SizedBox(height: 16),
@@ -101,7 +117,7 @@ class ResetPassView1 extends StatelessWidget {
                         const SizedBox(height: 24),
                         Center(
                           child: Text(
-                            "this will send a code as an sms to the phone number associated with your account.",
+                            "now you are logged in, you can set a new password",
                             style: tt.titleSmall!.copyWith(color: cs.onSurface),
                           ),
                         ),
