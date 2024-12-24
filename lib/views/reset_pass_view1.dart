@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/login_controller.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
+import 'package:shipment/views/otp_view.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -72,11 +73,11 @@ class ResetPassView1 extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 16),
-                        GetBuilder<LoginController>(
+                        GetBuilder<ResetPassController>(
                           builder: (controller) {
                             return ElevatedButton(
                               onPressed: () {
-                                controller.login();
+                                Get.to(OTPView(source: "reset"));
                               },
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
@@ -86,7 +87,7 @@ class ResetPassView1 extends StatelessWidget {
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: Center(
-                                    child: controller.isLoading
+                                    child: controller.isLoading1
                                         ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                         : Text(
                                             "send".toUpperCase(),
