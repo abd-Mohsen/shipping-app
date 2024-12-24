@@ -5,18 +5,19 @@ import '../../constants.dart';
 
 class AuthBackground extends StatelessWidget {
   final Widget child;
+  final String pageName;
   const AuthBackground({
     super.key,
     required this.child,
-    this.topImage = "assets/images/main_top.png",
-    this.bottomImage = "assets/images/login_bottom.png",
+    required this.pageName,
   });
-
-  final String topImage, bottomImage;
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
+    String topImage = pageName != "otp" ? "assets/images/auth_top1.png" : "assets/images/auth_top2.png";
+    String bottomImage = "assets/images/login_bottom.png";
+
     return PopScope(
       canPop: true,
       onPopInvokedWithResult: (didPop, result) async {
@@ -42,11 +43,12 @@ class AuthBackground extends StatelessWidget {
                   width: 120,
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: Image.asset(bottomImage, width: 120),
-              ),
+              if (pageName != "register")
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Image.asset(bottomImage, width: 120),
+                ),
               SafeArea(child: child),
             ],
           ),
