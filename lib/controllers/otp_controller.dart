@@ -50,9 +50,9 @@ class OTPController extends GetxController {
       //   toggleLoading(false);
       //   return;
       // }
-     // _verifyUrl = res;
+      // _verifyUrl = res;
     } else {
-     // await RemoteServices.sendForgotPasswordOtp(resetController!.email.text);
+      // await RemoteServices.sendForgotPasswordOtp(resetController!.email.text);
     }
     timeController.restart();
     otpController.clear();
@@ -84,12 +84,12 @@ class OTPController extends GetxController {
         otpController.clear();
       }
     } else {
-      String? resetToken = await RemoteServices.verifyForgotPasswordOtp(resetController!.email.text, pin);
+      String? resetToken = await RemoteServices.verifyForgotPasswordOtp(resetController!.phone.text, pin);
       if (resetToken == null) {
         otpController.clear();
       } else {
         resetController!.setResetToken(resetToken);
-       // Get.off(() => const ResetPasswordView2());
+        // Get.off(() => const ResetPasswordView2());
       }
     }
     toggleLoading(false);

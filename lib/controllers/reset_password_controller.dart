@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 
 class ResetPassController extends GetxController {
-  final email = TextEditingController();
+  final phone = TextEditingController();
   final newPassword = TextEditingController();
   final rePassword = TextEditingController();
 

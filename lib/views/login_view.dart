@@ -5,6 +5,7 @@ import 'package:shipment/controllers/login_controller.dart';
 import 'package:shipment/controllers/register_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
 import 'package:shipment/views/register_view.dart';
+import 'package:shipment/views/reset_pass_view1.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -104,7 +105,7 @@ class LoginView extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 8, right: 8, bottom: 12, top: 8),
                           child: GestureDetector(
                             onTap: () {
-                              //
+                              Get.to(() => const ResetPassView1());
                             },
                             child: Text(
                               "forgot password?",
