@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
+import '../services/remote_services.dart';
 
 class RegisterController extends GetxController {
   @override
@@ -35,8 +37,8 @@ class RegisterController extends GetxController {
   final companyName = TextEditingController();
   final numberOfVehicles = TextEditingController();
   final firstName = TextEditingController();
-  final middleName = TextEditingController();
   final lastName = TextEditingController();
+  final userName = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
   final rePassword = TextEditingController();
@@ -75,18 +77,11 @@ class RegisterController extends GetxController {
     XFile? pickedImage = await ImagePicker().pickImage(
       source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
     );
-    if (selectedImage == "ID (front)") {
-      idFront = pickedImage; //todo: all of them are updating at once, wrong references?
-    }
-    if (selectedImage == "ID (rear)") {
-      idRear = pickedImage;
-    }
-    if (selectedImage == "driving license (front)") {
-      dLicenseFront = pickedImage;
-    }
-    if (selectedImage == "driving license (rear)") {
-      dLicenseRear = pickedImage;
-    }
+    if (selectedImage == "ID (front)") idFront = pickedImage;
+    if (selectedImage == "ID (rear)") idRear = pickedImage;
+    if (selectedImage == "driving license (front)") dLicenseFront = pickedImage;
+    if (selectedImage == "driving license (rear)") dLicenseRear = pickedImage;
+
     update();
     Get.back();
   }
@@ -102,28 +97,40 @@ class RegisterController extends GetxController {
 
   Future register() async {
     // todo: check if the required photos are not null (based on role)
+    // todo: make sure that num of vehicles is a whole positive integer
     buttonPressed = true;
     bool isValid = registerFormKey.currentState!.validate();
     if (!isValid) return;
     toggleLoadingRegister(true);
 
-    // bool success = (await RemoteServices.register(
-    //   userName.text,
-    //   email.text,
-    //   password.text,
-    //   rePassword.text,
-    //   phone.text,
-    //   roleINEnglish,
-    //   roleINEnglish == "salesman" ? selectedSupervisor?.id : null,
-    // ));
-    if (true /*success*/) {
+    File? idFrontFile = idFront == null ? null : File(idFront!.path);
+    File? idRearFile = idRear == null ? null : File(idRear!.path);
+    File? lFrontFile = dLicenseFront == null ? null : File(dLicenseFront!.path);
+    File? lRearFile = dLicenseRear == null ? null : File(dLicenseRear!.path);
+
+    bool success = (await RemoteServices.register(
+      userName.text,
+      firstName.text,
+      lastName.text,
+      roles[roleIndex],
+      phone.text,
+      password.text,
+      rePassword.text,
+      companyName.text,
+      numberOfVehicles.text,
+      idFrontFile,
+      idRearFile,
+      lFrontFile,
+      lRearFile,
+    ));
+    if (success) {
       Get.back();
       Get.defaultDialog(
         titleStyle: const TextStyle(color: Colors.black),
         middleTextStyle: const TextStyle(color: Colors.black),
         backgroundColor: Colors.white,
         title: "تم التسجيل",
-        middleText: "الرجاء انتظار موافقة المسؤول في الشركة",
+        middleText: "الرجاء انتظار الموافقة",
         // confirm: TextButton(
         //   onPressed: () {
         //     Get.back();

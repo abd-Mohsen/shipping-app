@@ -12,7 +12,7 @@ import 'constants.dart';
 //todo (later): replace ugly dialogs with snackbars
 class Api {
   var client = http.Client();
-  final String _hostIP = "$kHostIP/api";
+  final String _hostIP = "$kHostIP/en/api";
   final _getStorage = GetStorage();
   String get accessToken => _getStorage.read("token");
 
@@ -157,7 +157,7 @@ class Api {
     }
   }
 
-  Future<String?> postRequestWithImage(String endPoint, List<String> images, Map<String, String> body,
+  Future<String?> postRequestWithImages(String endPoint, Map<String, File?> images, Map<String, String> body,
       {bool auth = false, bool canRefresh = true, bool showTimeout = true}) async {
     try {
       var request = http.MultipartRequest(
@@ -172,12 +172,14 @@ class Api {
 
       request.fields.addAll(body);
 
-      for (var imagePath in images) {
-        File imageFile = File(imagePath);
+      for (var entry in images.entries) {
+        String imageField = entry.key;
+        File? imageFile = entry.value;
+        if (imageFile == null) continue;
         var stream = http.ByteStream(imageFile.openRead());
         var length = await imageFile.length();
         var multipartFile = http.MultipartFile(
-          'images[]',
+          imageField,
           stream,
           length,
           filename: basename(imageFile.path),

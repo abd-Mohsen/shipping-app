@@ -3,9 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/login_view.dart';
 
-String kHostIP = "https://api1.letia.sy";
-//"http://10.0.2.2:8000";
-//"http://lelia-back.000webhostapp.com";
+String kHostIP = "http://192.168.1.35:8000";
 
 String kFontFamily = 'Alexandria';
 

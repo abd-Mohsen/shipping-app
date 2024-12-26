@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -19,23 +20,38 @@ class RemoteServices {
 
   static Future<bool> register(
     String userName,
-    String email,
+    String firstName,
+    String lastName,
+    String role,
+    String phone,
     String password,
     String passwordConfirmation,
-    String phone,
-    String role,
-    int? supervisorId,
+    String companyName,
+    String numVehicle,
+    File? idFront,
+    File? idRear,
+    File? licenseFront,
+    File? licenseRear,
   ) async {
-    Map<String, dynamic> body = {
-      "name": userName,
-      "email": email,
+    Map<String, String> body = {
+      "first_name": firstName,
+      "last_name": lastName,
+      "username": userName,
+      "phone_number": phone,
       "password": password,
-      "password_confirmation": passwordConfirmation,
+      "confirmation_password": passwordConfirmation,
       "role": role,
-      "phone": phone,
-      if (supervisorId != null) "supervisor_id": supervisorId,
+      "company_name": companyName,
+      "vehicle_num": numVehicle,
+      "members_num": "4",
     };
-    String? json = await api.postRequest("register", body, auth: false);
+    Map<String, File?> images = {
+      "ID_photo_front": idFront,
+      "ID_photo_rare": idRear,
+      "driving_license_photo_front": licenseFront,
+      "driving_license_photo_rare": licenseRear,
+    };
+    String? json = await api.postRequestWithImages("auth/register", images, body, auth: false);
     if (json == null) {
       Get.defaultDialog(
         titleStyle: const TextStyle(color: Colors.black),
@@ -49,12 +65,12 @@ class RemoteServices {
     return true;
   }
 
-  static Future<LoginModel?> login(String email, String password) async {
+  static Future<LoginModel?> login(String phone, String password) async {
     Map<String, dynamic> body = {
-      "email": email,
+      "phone_number": phone,
       "password": password,
     };
-    String? json = await api.postRequest("login", body, auth: false);
+    String? json = await api.postRequest("auth/token/", body, auth: false);
     if (json == null) {
       Get.defaultDialog(
         titleStyle: const TextStyle(color: Colors.black),

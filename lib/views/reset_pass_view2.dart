@@ -92,7 +92,7 @@ class ResetPassView2 extends StatelessWidget {
                           builder: (controller) {
                             return ElevatedButton(
                               onPressed: () {
-                                Get.to(OTPView(source: "reset"));
+                                //
                               },
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
@@ -105,7 +105,7 @@ class ResetPassView2 extends StatelessWidget {
                                     child: controller.isLoading1
                                         ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                         : Text(
-                                            "send".toUpperCase(),
+                                            "ok".toUpperCase(),
                                             style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                           ),
                                   ),
