@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/login_view.dart';
 
-String kHostIP = "http://192.168.1.35:8000";
+String kHostIP = "http://192.168.1.37:8000";
 
 String kFontFamily = 'Alexandria';
 

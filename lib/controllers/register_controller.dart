@@ -38,7 +38,7 @@ class RegisterController extends GetxController {
   final numberOfVehicles = TextEditingController();
   final firstName = TextEditingController();
   final lastName = TextEditingController();
-  final userName = TextEditingController();
+  final userName = TextEditingController(); //todo: only english
   final email = TextEditingController();
   final password = TextEditingController();
   final rePassword = TextEditingController();

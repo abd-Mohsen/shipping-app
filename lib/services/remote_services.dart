@@ -51,7 +51,7 @@ class RemoteServices {
       "driving_license_photo_front": licenseFront,
       "driving_license_photo_rare": licenseRear,
     };
-    String? json = await api.postRequestWithImages("auth/register", images, body, auth: false);
+    String? json = await api.postRequestWithImages("auth/register/", images, body, auth: false);
     if (json == null) {
       Get.defaultDialog(
         titleStyle: const TextStyle(color: Colors.black),
