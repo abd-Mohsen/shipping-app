@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/views/driver_home_view.dart';
 
 import 'login_view.dart';
 
@@ -16,13 +17,12 @@ class _RedirectPageState extends State<RedirectPage> {
   void initState() {
     //todo(later): handle app updates from here
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // GetStorage getStorage = GetStorage();
-      // Get.offAll(() => (!getStorage.hasData("token"))
-      //     ? const LoginView()
-      //     : getStorage.read("role") == "supervisor"
-      //         ? const SupervisorView()
-      //         : const HomeView());
-      Get.offAll(() => LoginView());
+      GetStorage getStorage = GetStorage();
+      Get.offAll(() => (!getStorage.hasData("token")) ? const LoginView() : DriverHomeView()
+          // : getStorage.read("role") == "supervisor"
+          //     ? const SupervisorView()
+          //     : const HomeView()
+          );
     });
     super.initState();
   }

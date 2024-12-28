@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
+import '../services/remote_services.dart';
+import '../views/otp_view.dart';
 
 class DriverHomeController extends GetxController {
   @override
@@ -40,14 +42,15 @@ class DriverHomeController extends GetxController {
   UserModel? get currentUser => _currentUser;
 
   void getCurrentUser() async {
-    // toggleLoadingUser(true);
-    // _currentUser = await RemoteServices.fetchCurrentUser();
-    // if (_currentUser != null && !_currentUser!.isActivated) {
-    //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
-    // } else if (_currentUser != null && !_currentUser!.isVerified) {
-    //   Get.to(() => const OTPView(source: "register"));
-    // }
-    // toggleLoadingUser(false);
+    //todo
+    toggleLoadingUser(true);
+    _currentUser = await RemoteServices.fetchCurrentUser();
+    if (_currentUser != null && !_currentUser!.isActivated) {
+      Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
+    } else if (_currentUser != null && !_currentUser!.isVerified) {
+      Get.to(() => const OTPView(source: "register"));
+    }
+    toggleLoadingUser(false);
   }
 
   Position? position;
