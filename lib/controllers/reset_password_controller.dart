@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:shipment/controllers/otp_controller.dart';
 
 import '../constants.dart';
+import '../services/remote_services.dart';
+import '../views/otp_view.dart';
 
 class ResetPassController extends GetxController {
   final phone = TextEditingController();
@@ -32,9 +35,10 @@ class ResetPassController extends GetxController {
     if (!isValid) return;
     toggleLoading1(true);
 
-    // if (await RemoteServices.sendForgotPasswordOtp(email.text).timeout(kTimeOutDuration)) {
-    //   Get.to(() => const OTPView(source: "reset"));
-    // }
+    if (await RemoteServices.sendOtp(phone.text)) {
+      Get.put(OTPController(phone.text, "reset"));
+      Get.to(() => const OTPView(source: "reset"));
+    }
 
     toggleLoading1(false);
   }

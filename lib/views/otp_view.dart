@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/reset_pass_view2.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import '../controllers/otp_controller.dart';
@@ -18,9 +17,9 @@ class OTPView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    late ResetPassController rPC;
-    if (source == "reset") rPC = Get.find();
-    OTPController oC = Get.put(OTPController(source == "reset" ? rPC : null));
+    // late ResetPassController rPC;
+    // if (source == "reset") rPC = Get.find();
+    OTPController oC = Get.find();
 
     return SafeArea(
       child: PopScope(
@@ -83,9 +82,9 @@ class OTPView extends StatelessWidget {
                                 ),
                                 hasError: con.isTimeUp,
                                 outlineBorderRadius: 15,
-                                length: 5,
+                                length: 6,
                                 width: MediaQuery.of(context).size.width / 1.2,
-                                fieldWidth: MediaQuery.of(context).size.width / 8,
+                                fieldWidth: MediaQuery.of(context).size.width / 10,
                                 style: tt.labelLarge!.copyWith(color: Colors.black),
                                 textFieldAlignment: MainAxisAlignment.spaceAround,
                                 fieldStyle: FieldStyle.box,
@@ -101,10 +100,9 @@ class OTPView extends StatelessWidget {
                         GetBuilder<OTPController>(
                           builder: (controller) {
                             return ElevatedButton(
-                              onPressed: !controller.isTimeUp // remove !
+                              onPressed: controller.isTimeUp // remove !
                                   ? () {
-                                      //controller.resendOtp();
-                                      Get.to(ResetPassView2());
+                                      controller.resendOtp();
                                     }
                                   : null,
                               style: ButtonStyle(

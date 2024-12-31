@@ -76,7 +76,7 @@ class ResetPassView1 extends StatelessWidget {
                           builder: (controller) {
                             return ElevatedButton(
                               onPressed: () {
-                                Get.to(OTPView(source: "reset"));
+                                controller.toOTP();
                               },
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all<Color>(cs.primary),

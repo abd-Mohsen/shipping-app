@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otp_text_field/otp_field.dart';
-import 'package:shipment/controllers/reset_password_controller.dart';
+import 'package:shipment/views/reset_pass_view2.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:flutter/material.dart';
 
 import '../services/remote_services.dart';
+import '../views/login_view.dart';
 import 'login_controller.dart';
 
 class OTPController extends GetxController {
-  ResetPassController? resetController;
-  OTPController(this.resetController);
+  late String phone;
+  late String source;
+  OTPController(this.phone, this.source);
   final OtpFieldController otpController = OtpFieldController();
   final CountdownController timeController = CountdownController(autoStart: true);
 
@@ -20,7 +22,6 @@ class OTPController extends GetxController {
   void onInit() async {
     //todo(later): handle null, and the otp page might open while not receiving the code (timeout)
     //todo(later): sometimes i get a timeout, but receive the code anyways
-    //_verifyUrl = (await RemoteServices.sendRegisterOtp())!;
     await Future.delayed(const Duration(milliseconds: 200));
     otpController.setFocus(0);
     super.onInit();
@@ -45,21 +46,14 @@ class OTPController extends GetxController {
   void resendOtp() async {
     if (!_isTimeUp || isLoading) return;
     toggleLoading(true);
-
-    if (resetController == null) {
-      // String? res = await RemoteServices.sendRegisterOtp();
-      // if (res == null) {
-      //   toggleLoading(false);
-      //   return;
-      // }
-      // _verifyUrl = res;
-    } else {
-      // await RemoteServices.sendForgotPasswordOtp(resetController!.email.text);
+    bool sent = await RemoteServices.sendOtp(phone);
+    //todo: show to many requests snack bar (from api.dart)
+    if (sent) {
+      timeController.restart();
+      otpController.clear();
+      otpController.setFocus(0);
+      _isTimeUp = false;
     }
-    timeController.restart();
-    otpController.clear();
-    _isTimeUp = false;
-
     toggleLoading(false);
   }
 
@@ -73,9 +67,9 @@ class OTPController extends GetxController {
       return;
     }
     toggleLoading(true);
-
-    if (resetController == null) {
-      if (await RemoteServices.verifyRegisterOtp(_verifyUrl, pin)) {
+    bool isCorrect = await RemoteServices.verifyOtp(phone, pin);
+    if (isCorrect) {
+      if (source == "register") {
         Get.back();
         Get.showSnackbar(const GetSnackBar(
           message: "تم التأكيد بنجاح",
@@ -83,16 +77,16 @@ class OTPController extends GetxController {
           backgroundColor: Colors.green,
         ));
       } else {
-        otpController.clear();
+        //todo: show a warning when exiting this page
+        Get.off(() => const ResetPassView2());
       }
     } else {
-      String? resetToken = await RemoteServices.verifyForgotPasswordOtp(resetController!.phone.text, pin);
-      if (resetToken == null) {
-        otpController.clear();
-      } else {
-        resetController!.setResetToken(resetToken);
-        // Get.off(() => const ResetPasswordView2());
-      }
+      Get.showSnackbar(const GetSnackBar(
+        message: "error",
+        duration: Duration(milliseconds: 2500),
+        backgroundColor: Colors.red,
+      ));
+      otpController.clear();
     }
     toggleLoading(false);
   }
@@ -102,7 +96,7 @@ class OTPController extends GetxController {
       _getStorage.remove("token");
       _getStorage.remove("role");
       Get.put(LoginController());
-      //Get.offAll(() => const LoginView());
+      Get.offAll(() => const LoginView());
     }
   }
 }
