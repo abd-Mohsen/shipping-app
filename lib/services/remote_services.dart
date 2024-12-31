@@ -85,12 +85,12 @@ class RemoteServices {
   }
 
   static Future<bool> logout() async {
-    String? json = await api.getRequest("logout", auth: true);
+    String? json = await api.postRequest("auth/logout/", {}, auth: true);
     return json != null;
   }
 
   static Future<UserModel?> fetchCurrentUser() async {
-    String? json = await api.getRequest("users/profile", auth: true, showTimeout: false);
+    String? json = await api.getRequest("get-user-info/", auth: true, showTimeout: false);
     if (json == null) return null;
     return UserModel.fromJson(jsonDecode(json));
   }

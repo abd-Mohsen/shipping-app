@@ -51,17 +51,17 @@ class LoginController extends GetxController {
       return;
     }
     _getStorage.write("token", loginData.token);
-    _getStorage.write("role", loginData.user.role.type);
+    _getStorage.write("role", loginData.role.type);
     print(_getStorage.read("token"));
-    if (loginData.user.role.type == "driver") {
+    if (loginData.role.type == "driver") {
       Get.offAll(() => const DriverHomeView());
-    } else if (loginData.user.role.type == "customer") {
+    } else if (loginData.role.type == "customer") {
       Get.offAll(() => const DriverHomeView());
-    } else if (loginData.user.role.type == "company") {
+    } else if (loginData.role.type == "company") {
       Get.offAll(() => const DriverHomeView());
     } else {
       print("wrong role");
-      return; // admin, show a message from backend (send a header that represents the platform)
+      return; // other role
     }
     toggleLoading(false);
   }

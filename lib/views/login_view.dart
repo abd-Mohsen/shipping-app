@@ -24,28 +24,30 @@ class LoginView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Column(
-              children: [
-                Text(
-                  "LOGIN",
-                  style: tt.titleLarge!.copyWith(color: cs.onSurface),
-                ),
-                Row(
-                  children: [
-                    const Spacer(),
-                    Expanded(
-                      flex: 16,
-                      //todo: replace png with svg to save space
-                      child: Hero(
-                        tag: "auth_image",
-                        child: Image.asset('assets/images/driver.png'),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    "LOGIN",
+                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                  ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      Expanded(
+                        flex: 16,
+                        //todo: replace png with svg to save space
+                        child: Hero(
+                          tag: "auth_image",
+                          child: Image.asset('assets/images/driver.png'),
+                        ),
                       ),
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-                const SizedBox(height: 8 * 2),
-              ],
+                      const Spacer(),
+                    ],
+                  ),
+                  const SizedBox(height: 8 * 2),
+                ],
+              ),
             ),
             Row(
               children: [

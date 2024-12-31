@@ -28,11 +28,13 @@ class Api {
     bool canRefresh = true,
     bool showTimeout = true,
   }) async {
+    print("sending to $_hostIP/$endPoint");
+    print("Token $accessToken");
     try {
       var response = await client
           .get(
             Uri.parse("$_hostIP/$endPoint"),
-            headers: !auth ? headers : {...headers, "Authorization": "Bearer $accessToken"},
+            headers: !auth ? headers : {...headers, "Authorization": "Token $accessToken"},
           )
           .timeout(kTimeOutDuration);
       print(response.body + "===========" + response.statusCode.toString());
@@ -59,6 +61,8 @@ class Api {
     bool canRefresh = true,
     bool showTimeout = true,
   }) async {
+    print("sending to $_hostIP/$endPoint");
+    //print("Token $accessToken");
     try {
       var response = await client
           .post(
@@ -159,6 +163,8 @@ class Api {
 
   Future<String?> postRequestWithImages(String endPoint, Map<String, File?> images, Map<String, String> body,
       {bool auth = false, bool canRefresh = true, bool showTimeout = true}) async {
+    print("sending to $_hostIP/$endPoint");
+    if (auth) print("Token $accessToken");
     try {
       var request = http.MultipartRequest(
         "POST",

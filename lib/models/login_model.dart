@@ -1,106 +1,55 @@
 import 'dart:convert';
 
-List<LoginModel> loginModelFromJson(String str) =>
-    List<LoginModel>.from(json.decode(str).map((x) => LoginModel.fromJson(x)));
+import 'package:shipment/models/user_model.dart';
 
-String loginModelToJson(List<LoginModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+LoginModel loginModelFromJson(String str) => LoginModel.fromJson(json.decode(str));
+
+String loginModelToJson(LoginModel data) => json.encode(data.toJson());
+
+class CompanyInfo {
+  final String name;
+  final int membersNum;
+  final int vehicleNum;
+  final List<UserModel> employees;
+
+  CompanyInfo({
+    required this.name,
+    required this.membersNum,
+    required this.vehicleNum,
+    required this.employees,
+  });
+
+  factory CompanyInfo.fromJson(Map<String, dynamic> json) => CompanyInfo(
+        name: json["name"],
+        membersNum: json["members_num"],
+        vehicleNum: json["vehicle_num"],
+        employees: List<UserModel>.from(json["employees"].map((x) => UserModel.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "members_num": membersNum,
+        "vehicle_num": vehicleNum,
+        "employees": List<dynamic>.from(employees.map((x) => x.toJson())),
+      };
+}
 
 class LoginModel {
   final String token;
-  final User user;
-  final Driver driver;
-  final dynamic company;
+  final Role role;
 
   LoginModel({
     required this.token,
-    required this.user,
-    required this.driver,
-    required this.company,
+    required this.role,
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         token: json["token"],
-        user: User.fromJson(json["user"]),
-        driver: Driver.fromJson(json["driver"]),
-        company: json["company"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "token": token,
-        "user": user.toJson(),
-        "driver": driver.toJson(),
-        "company": company,
-      };
-}
-
-class Driver {
-  final String drivingLicensePhotoFront;
-  final String drivingLicensePhotoRare;
-  final String idPhotoFront;
-  final String idPhotoRare;
-  final bool isVerifiedLicense;
-  final bool isVerifiedId;
-  final bool hasAVechicle;
-  final bool inCompany;
-
-  Driver({
-    required this.drivingLicensePhotoFront,
-    required this.drivingLicensePhotoRare,
-    required this.idPhotoFront,
-    required this.idPhotoRare,
-    required this.isVerifiedLicense,
-    required this.isVerifiedId,
-    required this.hasAVechicle,
-    required this.inCompany,
-  });
-
-  factory Driver.fromJson(Map<String, dynamic> json) => Driver(
-        drivingLicensePhotoFront: json["driving_license_photo_front"],
-        drivingLicensePhotoRare: json["driving_license_photo_rare"],
-        idPhotoFront: json["ID_photo_front"],
-        idPhotoRare: json["ID_photo_rare"],
-        isVerifiedLicense: json["is_verified_license"],
-        isVerifiedId: json["is_verified_ID"],
-        hasAVechicle: json["has_a_vechicle"],
-        inCompany: json["in_company"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "driving_license_photo_front": drivingLicensePhotoFront,
-        "driving_license_photo_rare": drivingLicensePhotoRare,
-        "ID_photo_front": idPhotoFront,
-        "ID_photo_rare": idPhotoRare,
-        "is_verified_license": isVerifiedLicense,
-        "is_verified_ID": isVerifiedId,
-        "has_a_vechicle": hasAVechicle,
-        "in_company": inCompany,
-      };
-}
-
-class User {
-  final String firstName;
-  final String lastName;
-  final String phoneNumber;
-  final Role role;
-
-  User({
-    required this.firstName,
-    required this.lastName,
-    required this.phoneNumber,
-    required this.role,
-  });
-
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        phoneNumber: json["phone_number"],
         role: Role.fromJson(json["role"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "first_name": firstName,
-        "last_name": lastName,
-        "phone_number": phoneNumber,
+        "token": token,
         "role": role.toJson(),
       };
 }

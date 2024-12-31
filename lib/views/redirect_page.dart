@@ -18,7 +18,7 @@ class _RedirectPageState extends State<RedirectPage> {
     //todo(later): handle app updates from here
     WidgetsBinding.instance.addPostFrameCallback((_) {
       GetStorage getStorage = GetStorage();
-      Get.offAll(() => (!getStorage.hasData("token")) ? const LoginView() : DriverHomeView()
+      Get.offAll(() => !getStorage.hasData("token") ? const LoginView() : DriverHomeView()
           // : getStorage.read("role") == "supervisor"
           //     ? const SupervisorView()
           //     : const HomeView()

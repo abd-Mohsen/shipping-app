@@ -6,7 +6,9 @@ import 'package:geolocator/geolocator.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
+import '../views/login_view.dart';
 import '../views/otp_view.dart';
+import 'login_controller.dart';
 
 class DriverHomeController extends GetxController {
   @override
@@ -42,14 +44,15 @@ class DriverHomeController extends GetxController {
   UserModel? get currentUser => _currentUser;
 
   void getCurrentUser() async {
-    //todo
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
-    if (_currentUser != null && !_currentUser!.isActivated) {
-      Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
-    } else if (_currentUser != null && !_currentUser!.isVerified) {
-      Get.to(() => const OTPView(source: "register"));
-    }
+    // if (_currentUser!.driverInfo != null && !_currentUser!.driverInfo!.isVerifiedId) {
+    //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
+    // }
+    //todo: handle the case of: no car, no license and no verified phone
+    // else if (_currentUser != null && !_currentUser!.isVerified) {
+    //   Get.to(() => const OTPView(source: "register"));
+    // }
     toggleLoadingUser(false);
   }
 
@@ -113,11 +116,11 @@ class DriverHomeController extends GetxController {
   }
 
   void logout() async {
-    // if (await RemoteServices.logout()) {
-    //   _getStorage.remove("token");
-    //   _getStorage.remove("role");
-    //   Get.put(LoginController());
-    //   Get.offAll(() => const LoginView());
-    // }
+    if (await RemoteServices.logout()) {
+      _getStorage.remove("token");
+      _getStorage.remove("role");
+      Get.put(LoginController());
+      Get.offAll(() => const LoginView());
+    }
   }
 }
