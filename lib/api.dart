@@ -62,7 +62,7 @@ class Api {
     bool showTimeout = true,
   }) async {
     print("sending to $_hostIP/$endPoint");
-    //print("Token $accessToken");
+    if (auth) print("Token $accessToken");
     try {
       var response = await client
           .post(
@@ -71,7 +71,7 @@ class Api {
                 ? headers
                 : {
                     ...headers,
-                    "Authorization": "Bearer $accessToken",
+                    "Authorization": "Token $accessToken",
                   },
             body: jsonEncode(body),
           )
@@ -108,7 +108,7 @@ class Api {
                 ? headers
                 : {
                     ...headers,
-                    "Authorization": "Bearer $accessToken",
+                    "Authorization": "Token $accessToken",
                   },
             body: jsonEncode(body),
           )
@@ -140,7 +140,7 @@ class Api {
       var response = await client
           .delete(
             Uri.parse("$_hostIP/$endPoint"),
-            headers: !auth ? headers : {...headers, "Authorization": "Bearer $accessToken"},
+            headers: !auth ? headers : {...headers, "Authorization": "Token $accessToken"},
           )
           .timeout(kTimeOutDuration2);
 
@@ -173,7 +173,7 @@ class Api {
 
       request.headers.addAll({
         ...headers,
-        if (auth) "Authorization": "Bearer $accessToken",
+        if (auth) "Authorization": "Token $accessToken",
       });
 
       request.fields.addAll(body);
