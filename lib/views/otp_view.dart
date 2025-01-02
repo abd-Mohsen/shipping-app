@@ -75,7 +75,7 @@ class OTPView extends StatelessWidget {
                               textDirection: TextDirection.ltr,
                               child: OTPTextField(
                                 //todo(later): let app focus on the first need when resending and when opening page
-                                controller: con.otpController,
+                                controller: con.otpFieldController,
                                 otpFieldStyle: OtpFieldStyle(
                                   focusBorderColor: cs.primary,
                                   backgroundColor: Colors.grey.shade200,

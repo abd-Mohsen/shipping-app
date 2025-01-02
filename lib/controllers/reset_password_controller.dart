@@ -6,6 +6,7 @@ import 'package:shipment/controllers/otp_controller.dart';
 
 import '../constants.dart';
 import '../services/remote_services.dart';
+import '../views/login_view.dart';
 import '../views/otp_view.dart';
 
 class ResetPassController extends GetxController {
@@ -36,7 +37,7 @@ class ResetPassController extends GetxController {
     toggleLoading1(true);
 
     if (await RemoteServices.sendOtp(phone.text)) {
-      Get.put(OTPController(phone.text, "reset"));
+      Get.put(OTPController(phone.text, "reset", this));
       Get.to(() => const OTPView(source: "reset"));
     }
 
@@ -48,6 +49,12 @@ class ResetPassController extends GetxController {
 
   GlobalKey<FormState> secondFormKey = GlobalKey<FormState>();
   bool button2Pressed = false;
+
+  late String otp;
+
+  void setOtp(String otp) {
+    this.otp = otp;
+  }
 
   bool _isLoading2 = false;
   bool get isLoading2 => _isLoading2;
@@ -76,14 +83,14 @@ class ResetPassController extends GetxController {
     if (!isValid) return;
     toggleLoading2(true);
 
-    // if (await RemoteServices.resetPassword(email.text, newPassword.text, _resetToken!)) {
-    //   Get.offAll(() => const LoginView());
-    //   Get.showSnackbar(const GetSnackBar(
-    //     message: "تم بنجاح",
-    //     duration: Duration(milliseconds: 2500),
-    //     backgroundColor: Colors.green,
-    //   ));
-    // }
+    if (await RemoteServices.resetPassword(phone.text, newPassword.text, rePassword.text, otp)) {
+      Get.offAll(() => const LoginView());
+      Get.showSnackbar(const GetSnackBar(
+        message: "تم بنجاح",
+        duration: Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
+      ));
+    }
 
     toggleLoading2(false);
   }

@@ -92,7 +92,7 @@ class ResetPassView2 extends StatelessWidget {
                           builder: (controller) {
                             return ElevatedButton(
                               onPressed: () {
-                                //
+                                controller.resetPass();
                               },
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all<Color>(cs.primary),

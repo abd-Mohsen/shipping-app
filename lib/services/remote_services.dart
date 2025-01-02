@@ -131,14 +131,14 @@ class RemoteServices {
     return json != null;
   }
 
-  static Future<bool> resetPassword(String email, String password, String resetToken) async {
+  static Future<bool> resetPassword(String phone, String password, String rePassword, String otp) async {
     Map<String, dynamic> body = {
-      "email": email,
-      "password": password,
-      "password_confirmation": password,
-      "token": resetToken,
+      "phone_number": phone,
+      "otp": otp,
+      "new_password": password,
+      "confirm_password": rePassword,
     };
-    String? json = await api.postRequest("reset-password", body, auth: false);
+    String? json = await api.postRequest("auth/password-reset/", body, auth: false);
     return json != null;
   }
 }

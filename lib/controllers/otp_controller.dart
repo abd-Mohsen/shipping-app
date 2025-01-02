@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otp_text_field/otp_field.dart';
+import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/reset_pass_view2.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,11 @@ import 'login_controller.dart';
 class OTPController extends GetxController {
   late String phone;
   late String source;
-  OTPController(this.phone, this.source);
-  final OtpFieldController otpController = OtpFieldController();
+  ResetPassController? resetPassController;
+
+  OTPController(this.phone, this.source, this.resetPassController);
+
+  final OtpFieldController otpFieldController = OtpFieldController();
   final CountdownController timeController = CountdownController(autoStart: true);
 
   final GetStorage _getStorage = GetStorage();
@@ -23,7 +27,7 @@ class OTPController extends GetxController {
     //todo(later): handle null, and the otp page might open while not receiving the code (timeout)
     //todo(later): sometimes i get a timeout, but receive the code anyways
     await Future.delayed(const Duration(milliseconds: 200));
-    otpController.setFocus(0);
+    otpFieldController.setFocus(0);
     super.onInit();
   }
 
@@ -50,8 +54,8 @@ class OTPController extends GetxController {
     //todo: show to many requests snack bar (from api.dart)
     if (sent) {
       timeController.restart();
-      otpController.clear();
-      otpController.setFocus(0);
+      otpFieldController.clear();
+      otpFieldController.setFocus(0);
       _isTimeUp = false;
     }
     toggleLoading(false);
@@ -78,6 +82,7 @@ class OTPController extends GetxController {
         ));
       } else {
         //todo: show a warning when exiting this page
+        resetPassController!.setOtp(pin);
         Get.off(() => const ResetPassView2());
       }
     } else {
@@ -86,7 +91,7 @@ class OTPController extends GetxController {
         duration: Duration(milliseconds: 2500),
         backgroundColor: Colors.red,
       ));
-      otpController.clear();
+      otpFieldController.clear();
     }
     toggleLoading(false);
   }
