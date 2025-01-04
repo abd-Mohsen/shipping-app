@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 
 class AuthField extends StatelessWidget {
@@ -78,8 +81,19 @@ class AuthField extends StatelessWidget {
   }
 }
 
-String? validateInput(String val, int min, int max, String type,
-    {String pass = "", String rePass = "", bool canBeEmpty = false}) {
+String? validateInput(
+  String val,
+  int min,
+  int max,
+  String type, {
+  String pass = "",
+  String rePass = "",
+  bool canBeEmpty = false,
+  bool english = false,
+  bool wholeNumber = false,
+  int lowerRange = 0,
+  int upperRange = 10,
+}) {
   if (val.trim().isEmpty && !canBeEmpty) return "لا يمكن أن يكون فارغ";
 
   if (type == "username") {
@@ -89,13 +103,27 @@ String? validateInput(String val, int min, int max, String type,
     if (!GetUtils.isEmail(val)) return "ادخل بريد الكتروني صالح";
   }
   if (type == "phone") {
-    if (!GetUtils.isPhoneNumber(val)) return "رقم الهاتف غير صالح";
+    final RegExp numericRegExp = RegExp(r'^[0-9]+$');
+    if (!numericRegExp.hasMatch(val)) return "رقم الهاتف غير صالح";
   }
   if (val.length < min) return "الطول لا يمكن ان يكون أقصر من $min";
 
   if (val.length > max) return "الطول لا يمكن ان يكون أكبر من $max";
 
   if (pass != rePass) return "كلمتا المرور غير متطابقتان";
+
+  if (english) {
+    final RegExp englishRegExp = RegExp(r'^[a-zA-Z\s]+$');
+    if (!englishRegExp.hasMatch(val)) return "must be english".tr;
+  }
+
+  if (wholeNumber) {
+    final RegExp numericRegExp = RegExp(r'^[0-9]+$');
+    if (!numericRegExp.hasMatch(val)) return "whole number";
+    int num = int.parse(val);
+    if (num > upperRange) return "${"cannot be greater".tr} ${"than".tr} $upperRange";
+    if (num < lowerRange) return "${"cannot be less".tr} ${"than".tr} $lowerRange";
+  }
 
   return null;
 }

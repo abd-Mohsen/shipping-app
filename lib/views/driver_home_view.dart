@@ -74,7 +74,7 @@ class DriverHomeView extends StatelessWidget {
                               : UserAccountsDrawerHeader(
                                   //showing old data or not showing at all, add loading (is it solved?)
                                   accountName: Text(
-                                    "${con.currentUser!.firstName} ${con.currentUser!.firstName}",
+                                    "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
                                     style: tt.headlineMedium,
                                     overflow: TextOverflow.ellipsis,
                                   ),

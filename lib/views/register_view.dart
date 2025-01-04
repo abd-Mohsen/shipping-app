@@ -174,7 +174,7 @@ class RegisterView extends StatelessWidget {
                                 child: Icon(Icons.person, color: cs.primary),
                               ),
                               validator: (val) {
-                                return validateInput(rC.userName.text, 4, 50, "");
+                                return validateInput(rC.userName.text, 4, 50, "", english: true);
                               },
                               onChanged: (val) {
                                 if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
@@ -190,7 +190,7 @@ class RegisterView extends StatelessWidget {
                                 child: Icon(Icons.phone_android, color: cs.primary),
                               ),
                               validator: (val) {
-                                return validateInput(rC.phone.text, 4, 50, "phone");
+                                return validateInput(rC.phone.text, 10, 10, "phone");
                               },
                               onChanged: (val) {
                                 if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();

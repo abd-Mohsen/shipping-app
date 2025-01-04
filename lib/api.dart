@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'constants.dart';
 
 //todo (later): show different snackbar if there is a server error "5--"
-//todo (later): show different snackbar if there is a user error "422"
+//todo (later): show different snackbar if there is a user error "422" (register and login), show msg from backend
 //todo (later): replace ugly dialogs with snackbars
 class Api {
   var client = http.Client();

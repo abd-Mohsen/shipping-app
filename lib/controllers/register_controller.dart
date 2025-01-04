@@ -38,7 +38,7 @@ class RegisterController extends GetxController {
   final numberOfVehicles = TextEditingController();
   final firstName = TextEditingController();
   final lastName = TextEditingController();
-  final userName = TextEditingController(); //todo: only english
+  final userName = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
   final rePassword = TextEditingController();
@@ -96,8 +96,6 @@ class RegisterController extends GetxController {
   }
 
   Future register() async {
-    // todo: check if the required photos are not null (based on role)
-    // todo: make sure that num of vehicles is a whole positive integer
     buttonPressed = true;
     bool isValid = registerFormKey.currentState!.validate();
     if (!isValid) return;
