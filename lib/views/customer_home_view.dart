@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
-import 'package:shipment/controllers/add_address_controller.dart';
+import 'package:shipment/controllers/make_order_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
-import 'package:shipment/controllers/driver_home_controller.dart';
-
+import 'package:shipment/views/make_order_view.dart';
 import '../constants.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
@@ -34,48 +32,23 @@ class CustomerHomeView extends StatelessWidget {
           backgroundColor: cs.primary,
           title: Text(
             'customer'.toUpperCase(),
-            style: tt.headlineMedium!.copyWith(letterSpacing: 2, color: cs.onPrimary),
+            style: tt.headlineSmall!.copyWith(letterSpacing: 2, color: cs.onPrimary),
           ),
           centerTitle: true,
           actions: [
             //
           ],
         ),
-        backgroundColor: cs.background,
+        backgroundColor: cs.surface,
         body: GetBuilder<CustomerHomeController>(
           //init: HomeController(),
           builder: (con) => Column(),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.bottomSheet(
-              enableDrag: false,
-              GetBuilder<AddAddressController>(
-                init: AddAddressController(),
-                builder: (controller) {
-                  return OSMFlutter(
-                    controller: controller.mapController,
-                    mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                    osmOption: OSMOption(
-                      isPicker: true,
-                      userLocationMarker: UserLocationMaker(
-                        personMarker: MarkerIcon(
-                          icon: Icon(Icons.person, color: cs.primary, size: 30),
-                        ),
-                        directionArrowMarker: MarkerIcon(
-                          icon: Icon(Icons.person, color: cs.primary),
-                        ),
-                      ),
-                      zoomOption: ZoomOption(
-                        initZoom: 16,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
+            Get.to(() => const MakeOrderView());
           },
-          child: Icon(Icons.add),
+          child: Icon(Icons.add, color: cs.onPrimary),
           foregroundColor: cs.onPrimary,
         ),
         drawer: Drawer(

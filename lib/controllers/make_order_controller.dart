@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:geocode/geocode.dart';
 import 'package:http/http.dart' as http;
 
-class AddAddressController extends GetxController {
-  GeoCode geoCode = GeoCode();
+class MakeOrderController extends GetxController {
+  //todo: add location permission if not added automatically
 
   MapController mapController = MapController(
     initMapWithUserPosition: const UserTrackingOption(
@@ -31,6 +30,7 @@ class AddAddressController extends GetxController {
                 icon: Icon(
                   Icons.location_on,
                   color: Colors.red,
+                  size: 40,
                 ),
               ),
             );
