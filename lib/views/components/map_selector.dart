@@ -46,15 +46,20 @@ class MapSelector extends StatelessWidget {
         ).whenComplete(onClose);
       },
       child: Container(
-        margin: EdgeInsets.all(12),
+        margin: const EdgeInsets.only(top: 16, left: 12, right: 12),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-            //
-            ),
+          border: Border.all(
+            color: cs.onSurface,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              Icons.map,
+              Icons.location_pin,
               color: cs.primary,
               size: 35,
             ),
@@ -69,12 +74,16 @@ class MapSelector extends StatelessWidget {
                 SizedBox(height: 12),
                 Text(
                   address,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: tt.titleSmall!.copyWith(
                     color: address == "select location" ? cs.primary : cs.onSurface.withOpacity(0.5),
+                    fontWeight: address == "select location" ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
+                SizedBox(height: 4),
               ],
-            )
+            ),
           ],
         ),
       ),

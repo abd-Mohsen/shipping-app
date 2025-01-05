@@ -33,7 +33,7 @@ class MakeOrderView extends StatelessWidget {
             MapSelector(
               mapController: controller.mapController1,
               start: true,
-              address: controller.sourceState ?? "select location",
+              address: controller.sourceLocation?.addressEncoder().toString() ?? "select location",
               onClose: () {
                 controller.calculateStartAddress();
               },
@@ -41,7 +41,7 @@ class MakeOrderView extends StatelessWidget {
             MapSelector(
               mapController: controller.mapController2,
               start: false,
-              address: controller.targetState ?? "select location",
+              address: controller.targetLocation?.addressEncoder().toString() ?? "select location",
               onClose: () {
                 controller.calculateTargetAddress();
               },

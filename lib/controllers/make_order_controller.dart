@@ -4,10 +4,12 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shipment/models/location_model.dart';
 
 class MakeOrderController extends GetxController {
   //todo: add location permission if not added automatically
   //todo: make initial position the selected position if not null
+  //todo: prevent from selecting outside syria
 
   MapController mapController1 = MapController(
     initMapWithUserPosition: const UserTrackingOption(
@@ -26,8 +28,8 @@ class MakeOrderController extends GetxController {
   GeoPoint? startPosition;
   GeoPoint? endPosition;
 
-  String? sourceState;
-  String? targetState;
+  LocationModel? sourceLocation;
+  LocationModel? targetLocation;
 
   @override
   void onInit() {
@@ -72,25 +74,29 @@ class MakeOrderController extends GetxController {
   }
 
   void calculateStartAddress() async {
+    // todo: add loading indicator
     if (startPosition == null) return;
-    sourceState = await getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
+    sourceLocation = await getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
+    print(sourceLocation?.addressEncoder().toJson());
     update();
   }
 
   void calculateTargetAddress() async {
     if (endPosition == null) return;
-    targetState = await getAddressFromLatLng(endPosition!.latitude, endPosition!.longitude);
+    targetLocation = await getAddressFromLatLng(endPosition!.latitude, endPosition!.longitude);
+    print(targetLocation?.addressEncoder().toJson());
     update();
   }
 
-  Future<String?> getAddressFromLatLng(double latitude, double longitude) async {
+  Future<LocationModel?> getAddressFromLatLng(double latitude, double longitude) async {
+    //todo: handle errors
     try {
       final url = Uri.parse('https://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude');
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        return data["address"]["state"];
+        return LocationModel.fromJson(data["address"]);
       } else {
         print('Failed to get address');
       }

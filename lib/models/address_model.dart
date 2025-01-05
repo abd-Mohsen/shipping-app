@@ -7,7 +7,7 @@ String addressModelToJson(List<AddressModel> data) => json.encode(List<dynamic>.
 
 class AddressModel {
   final String name;
-  final AddressModel? child;
+  AddressModel? child;
 
   AddressModel({
     required this.name,
@@ -23,4 +23,15 @@ class AddressModel {
         "name": name,
         "child": child?.toJson(),
       };
+
+  @override
+  String toString() {
+    List<String> list = [];
+    AddressModel? curr = this;
+    while (curr != null) {
+      list.add(curr.name);
+      curr = curr.child;
+    }
+    return list.join(", ");
+  }
 }
