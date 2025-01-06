@@ -109,8 +109,18 @@ class MakeOrderController extends GetxController {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool buttonPressed = false;
+
   TextEditingController description = TextEditingController();
   TextEditingController price = TextEditingController();
+  TextEditingController weight = TextEditingController();
+  TextEditingController otherInfo = TextEditingController();
+
+  bool coveredCar = false;
+
+  void toggleCoveredCar() {
+    coveredCar = !coveredCar;
+    update();
+  }
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

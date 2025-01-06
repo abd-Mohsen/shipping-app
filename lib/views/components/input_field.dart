@@ -23,7 +23,7 @@ class InputField extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final TextInputAction? textInputAction;
-  final Widget? prefixIcon;
+  final IconData? prefixIcon;
   final Widget? suffixIcon;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
@@ -33,7 +33,7 @@ class InputField extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 20),
       child: TextFormField(
         controller: controller,
         textInputAction: textInputAction,
@@ -71,7 +71,14 @@ class InputField extends StatelessWidget {
           //hintText: "password".tr,
           hintText: label,
           hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-          prefixIcon: prefixIcon,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Icon(
+              prefixIcon,
+              color: cs.onSurface,
+              size: 22,
+            ),
+          ),
           suffixIcon: suffixIcon,
           floatingLabelBehavior: FloatingLabelBehavior.never,
         ),

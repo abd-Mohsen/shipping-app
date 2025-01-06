@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -56,7 +57,7 @@ class MakeOrderView extends StatelessWidget {
                 label: "description",
                 keyboardType: TextInputType.multiline,
                 textInputAction: TextInputAction.newline,
-                prefixIcon: Icon(Icons.text_snippet, color: cs.onSurface),
+                prefixIcon: Icons.text_snippet,
                 validator: (val) {
                   return validateInput(controller.description.text, 10, 1000, "text"); //todo check constraints
                 },
@@ -69,13 +70,64 @@ class MakeOrderView extends StatelessWidget {
                 label: "expected price",
                 keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
-                prefixIcon: Icon(Icons.attach_money, color: cs.onSurface),
+                prefixIcon: Icons.attach_money,
                 validator: (val) {
                   return validateInput(controller.price.text, 1, 10, "", wholeNumber: true); //todo check constraints
                 },
                 onChanged: (val) {
                   if (controller.buttonPressed) controller.formKey.currentState!.validate();
                 },
+              ),
+              InputField(
+                controller: controller.weight,
+                label: "weight with unit",
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                prefixIcon: Icons.monitor_weight,
+                validator: (val) {
+                  return validateInput(controller.weight.text, 1, 100, ""); //todo check constraints
+                },
+                onChanged: (val) {
+                  if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                },
+              ),
+              InputField(
+                controller: controller.otherInfo,
+                label: "other info (optional)",
+                keyboardType: TextInputType.multiline,
+                textInputAction: TextInputAction.newline,
+                prefixIcon: Icons.note,
+                validator: (val) {
+                  return validateInput(controller.otherInfo.text, 1, 1000, ""); //todo check constraints
+                },
+                onChanged: (val) {
+                  if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: CheckboxListTile(
+                  value: controller.coveredCar,
+                  onChanged: (val) {
+                    controller.toggleCoveredCar();
+                  },
+                  title: Text(
+                    "covered car required",
+                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                  ),
+                  secondary: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Icon(
+                      CupertinoIcons.car,
+                      color: cs.onSurface,
+                      size: 22,
+                    ),
+                  ),
+                  // shape: RoundedRectangleBorder(
+                  //   side: BorderSide(width: 1.5, color: cs.onSurface),
+                  //   borderRadius: BorderRadius.circular(32),
+                  // ),
+                ),
               ),
               ElevatedButton(
                 onPressed: () {
