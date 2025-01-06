@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/get_utils/get_utils.dart';
 
 class AuthField extends StatelessWidget {
   const AuthField({
@@ -92,7 +89,7 @@ String? validateInput(
   bool english = false,
   bool wholeNumber = false,
   int lowerRange = 0,
-  int upperRange = 10,
+  int upperRange = 10000000000,
 }) {
   if (val.trim().isEmpty && !canBeEmpty) return "لا يمكن أن يكون فارغ";
 
@@ -119,7 +116,7 @@ String? validateInput(
 
   if (wholeNumber) {
     final RegExp numericRegExp = RegExp(r'^[0-9]+$');
-    if (!numericRegExp.hasMatch(val)) return "whole number";
+    if (!numericRegExp.hasMatch(val)) return "must be a whole number";
     int num = int.parse(val);
     if (num > upperRange) return "${"cannot be greater".tr} ${"than".tr} $upperRange";
     if (num < lowerRange) return "${"cannot be less".tr} ${"than".tr} $lowerRange";

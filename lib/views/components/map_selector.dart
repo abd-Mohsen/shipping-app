@@ -46,7 +46,7 @@ class MapSelector extends StatelessWidget {
         ).whenComplete(onClose);
       },
       child: Container(
-        margin: const EdgeInsets.only(top: 16, left: 12, right: 12),
+        margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           border: Border.all(
@@ -63,7 +63,7 @@ class MapSelector extends StatelessWidget {
               color: cs.primary,
               size: 35,
             ),
-            SizedBox(width: 32),
+            const SizedBox(width: 28),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -72,13 +72,16 @@ class MapSelector extends StatelessWidget {
                   style: tt.titleMedium!.copyWith(color: cs.onSurface),
                 ),
                 SizedBox(height: 12),
-                Text(
-                  address,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: tt.titleSmall!.copyWith(
-                    color: address == "select location" ? cs.primary : cs.onSurface.withOpacity(0.5),
-                    fontWeight: address == "select location" ? FontWeight.bold : FontWeight.normal,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.6,
+                  child: Text(
+                    address,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: tt.titleSmall!.copyWith(
+                      color: address == "select location" ? cs.primary : cs.onSurface.withOpacity(0.5),
+                      fontWeight: address == "select location" ? FontWeight.bold : FontWeight.normal,
+                    ),
                   ),
                 ),
                 SizedBox(height: 4),

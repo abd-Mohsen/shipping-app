@@ -90,6 +90,7 @@ class MakeOrderController extends GetxController {
 
   Future<LocationModel?> getAddressFromLatLng(double latitude, double longitude) async {
     //todo: handle errors
+    //todo: make it a service
     try {
       final url = Uri.parse('https://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude');
       final response = await http.get(url);
@@ -104,5 +105,41 @@ class MakeOrderController extends GetxController {
       print(e.toString());
     }
     return null;
+  }
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool buttonPressed = false;
+  TextEditingController description = TextEditingController();
+  TextEditingController price = TextEditingController();
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  void toggleLoading(bool value) {
+    _isLoading = value;
+    update();
+  }
+
+  void makeOrder() async {
+    buttonPressed = true;
+    bool valid = formKey.currentState!.validate();
+    if (!valid) return;
+    if (sourceLocation == null || targetLocation == null) {
+      Get.showSnackbar(const GetSnackBar(
+        message: "اختر الموقع أولاً",
+        duration: Duration(milliseconds: 2500),
+      ));
+      return;
+    }
+    List<String> syriaNames = ["sy", "syria", "سوريا"];
+    if (!syriaNames.contains(sourceLocation!.country) || !syriaNames.contains(targetLocation!.country)) {
+      Get.showSnackbar(const GetSnackBar(
+        message: "اختر موقع في سوريا",
+        duration: Duration(milliseconds: 2500),
+      ));
+      return;
+    }
+    toggleLoading(true);
+    await Future.delayed(Duration(milliseconds: 2000));
+    toggleLoading(false);
   }
 }
