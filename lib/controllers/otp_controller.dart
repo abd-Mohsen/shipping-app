@@ -71,8 +71,8 @@ class OTPController extends GetxController {
       return;
     }
     toggleLoading(true);
-    bool isCorrect = await RemoteServices.verifyOtp(phone, pin);
-    if (isCorrect) {
+    String? resetToken = await RemoteServices.verifyOtp(phone, pin); //success
+    if (resetToken != null) {
       if (source == "register") {
         Get.back();
         Get.showSnackbar(const GetSnackBar(
@@ -83,6 +83,7 @@ class OTPController extends GetxController {
       } else {
         //todo: show a warning when exiting this page
         resetPassController!.setOtp(pin);
+        resetPassController!.setResetToken(resetToken);
         Get.off(() => const ResetPassView2());
       }
     } else {

@@ -125,16 +125,16 @@ class RemoteServices {
     return json != null;
   }
 
-  static Future<bool> verifyOtp(String phone, String otp) async {
+  static Future<String?> verifyOtp(String phone, String otp) async {
     Map<String, dynamic> body = {"phone_number": phone, "otp": otp};
     String? json = await api.postRequest("auth/verify-otp/", body, auth: false);
-    return json != null;
+    if (json == null) return null;
+    return jsonDecode(json)["reset_token"];
   }
 
-  static Future<bool> resetPassword(String phone, String password, String rePassword, String otp) async {
+  static Future<bool> resetPassword(String resetToken, String password, String rePassword) async {
     Map<String, dynamic> body = {
-      "phone_number": phone,
-      "otp": otp,
+      "reset_token": resetToken,
       "new_password": password,
       "confirm_password": rePassword,
     };

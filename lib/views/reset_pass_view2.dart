@@ -102,7 +102,7 @@ class ResetPassView2 extends StatelessWidget {
                                 child: SizedBox(
                                   width: double.infinity,
                                   child: Center(
-                                    child: controller.isLoading1
+                                    child: controller.isLoading2
                                         ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                         : Text(
                                             "ok".toUpperCase(),
