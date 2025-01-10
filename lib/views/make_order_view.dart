@@ -36,6 +36,7 @@ class MakeOrderView extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
             children: [
+              //todo: add an svg here
               MapSelector(
                 mapController: controller.mapController1,
                 start: true,
