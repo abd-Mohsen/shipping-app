@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
@@ -36,7 +37,10 @@ class MakeOrderView extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
             children: [
-              //todo: add an svg here
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: SvgPicture.asset("assets/images/make_order.svg", height: 200),
+              ),
               MapSelector(
                 mapController: controller.mapController1,
                 start: true,
@@ -130,6 +134,7 @@ class MakeOrderView extends StatelessWidget {
                   // ),
                 ),
               ),
+              //todo: add drop down for vehicle types and payment methods
               ElevatedButton(
                 onPressed: () {
                   controller.makeOrder();

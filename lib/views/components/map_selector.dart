@@ -22,6 +22,7 @@ class MapSelector extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
+        //todo: allow to choose from my addresses first
         showModalBottomSheet(
           context: context,
           enableDrag: false,

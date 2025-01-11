@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/location_model.dart';
 
 import '../constants.dart';
 import '../main.dart';
@@ -139,6 +141,25 @@ class RemoteServices {
       "confirm_password": rePassword,
     };
     String? json = await api.postRequest("auth/password-reset/", body, auth: false);
+    return json != null;
+  }
+
+  static Future<LocationModel?> getAddressFromLatLng(double latitude, double longitude) async {
+    //todo: handle errors
+    String? json = await api.getRequest(
+      'https://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude',
+      toMyServer: false,
+    );
+    if (json == null) return null;
+    final data = jsonDecode(json);
+    return LocationModel.fromJson(data["address"]);
+  }
+
+  static Future<bool> addAddress(AddressModel address) async {
+    Map<String, dynamic> body = {
+      "address": [address.toJson()],
+    };
+    String? json = await api.postRequest("user_addresses/", body, auth: true);
     return json != null;
   }
 }

@@ -27,13 +27,14 @@ class Api {
     bool auth = false,
     bool canRefresh = true,
     bool showTimeout = true,
+    bool toMyServer = true,
   }) async {
-    print("sending to $_hostIP/$endPoint");
+    print("sending to ${toMyServer ? "$_hostIP/" : ""}$endPoint");
     print("Token $accessToken");
     try {
       var response = await client
           .get(
-            Uri.parse("$_hostIP/$endPoint"),
+            Uri.parse("${toMyServer ? "$_hostIP/" : ""}$endPoint"),
             headers: !auth ? headers : {...headers, "Authorization": "Token $accessToken"},
           )
           .timeout(kTimeOutDuration);

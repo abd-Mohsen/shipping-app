@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/make_order_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/views/make_order_view.dart';
+import 'package:shipment/views/my_addresses_view.dart';
 import '../constants.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
@@ -103,6 +104,13 @@ class CustomerHomeView extends StatelessWidget {
                           tC.updateTheme(value);
                         },
                       ),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.maps_home_work_outlined),
+                      title: Text("عناويني", style: tt.titleMedium!.copyWith(color: cs.onBackground)),
+                      onTap: () {
+                        Get.to(const MyAddressesView());
+                      },
                     ),
                     ListTile(
                       leading: const Icon(Icons.info_outline),
