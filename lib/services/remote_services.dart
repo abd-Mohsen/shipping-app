@@ -176,4 +176,19 @@ class RemoteServices {
     if (json == null) return null;
     return vehicleTypeModelFromJson(json);
   }
+
+  static Future<bool> makeOrder(body) async {
+    String? json = await api.postRequest("customer_order/", body, auth: true);
+    if (json == null) {
+      // Get.defaultDialog(
+      //   titleStyle: const TextStyle(color: Colors.black),
+      //   middleTextStyle: const TextStyle(color: Colors.black),
+      //   backgroundColor: Colors.white,
+      //   title: "خطأ",
+      //   middleText: "يرجى التأكد من البيانات المدخلة و المحاولة مجدداً, قد يكون الاتصال ضعيف",
+      // );
+      return false;
+    }
+    return true;
+  }
 }

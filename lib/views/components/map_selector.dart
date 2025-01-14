@@ -75,13 +75,16 @@ class MapSelector extends StatelessWidget {
                 SizedBox(height: 12),
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 1.6,
-                  child: Text(
-                    address,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: tt.titleSmall!.copyWith(
-                      color: address == "select location" ? cs.primary : cs.onSurface.withOpacity(0.5),
-                      fontWeight: address == "select location" ? FontWeight.bold : FontWeight.normal,
+                  child: Directionality(
+                    textDirection: address == "select location" ? TextDirection.ltr : TextDirection.rtl,
+                    child: Text(
+                      address,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: tt.titleSmall!.copyWith(
+                        color: address == "select location" ? cs.primary : cs.onSurface.withOpacity(0.5),
+                        fontWeight: address == "select location" ? FontWeight.bold : FontWeight.normal,
+                      ),
                     ),
                   ),
                 ),

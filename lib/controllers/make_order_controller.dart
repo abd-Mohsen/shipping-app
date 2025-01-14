@@ -8,7 +8,7 @@ import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:shipment/services/remote_services.dart';
 
 class MakeOrderController extends GetxController {
-  //todo: add location permission if not added automatically
+  //todo: add location permission if not added automatically (check when entering the app)
   //todo: make initial position the selected position if not null
 
   @override
@@ -97,11 +97,11 @@ class MakeOrderController extends GetxController {
   TextEditingController price = TextEditingController();
   TextEditingController weight = TextEditingController();
   TextEditingController otherInfo = TextEditingController();
+  TextEditingController accountName = TextEditingController();
   MultiSelectController<PaymentMethodModel> paymentMethodController = MultiSelectController<PaymentMethodModel>();
   MultiSelectController<VehicleTypeModel> vehicleTypeController = MultiSelectController<VehicleTypeModel>();
 
   bool coveredCar = false;
-
   void toggleCoveredCar() {
     coveredCar = !coveredCar;
     update();
@@ -111,6 +111,21 @@ class MakeOrderController extends GetxController {
   bool get isLoading => _isLoading;
   void toggleLoading(bool value) {
     _isLoading = value;
+    update();
+  }
+
+  bool isBankSelected = false;
+
+  void toggleFields() {
+    isBankSelected = paymentMethodController.selectedItems.any((payment) => payment.label == "bank_account");
+    // isBankSelected = false;
+    // for (final item in paymentMethodController.selectedItems) {
+    //   print(item.value.name);
+    //   if (item.value.name == "bank_account") {
+    //     isBankSelected = true;
+    //     break;
+    //   }
+    // }
     update();
   }
 
@@ -145,7 +160,17 @@ class MakeOrderController extends GetxController {
     toggleLoadingVehicle(false);
   }
 
+  formatPayment() {
+    List res = [];
+    for (final item in paymentMethodController.selectedItems) {
+      if (item.value.name == "bank_account") res.add({"payment": item.value.id, "details": accountName.text});
+      res.add({"payment": item.value.id, "details": null});
+    }
+    return res;
+  }
+
   void makeOrder() async {
+    if (isLoading || isLoadingVehicle || isLoadingPayment) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
@@ -165,7 +190,27 @@ class MakeOrderController extends GetxController {
       return;
     }
     toggleLoading(true);
-    await Future.delayed(Duration(milliseconds: 2000));
+    Map<String, dynamic> order = {
+      "discription": description.text,
+      "type_vehicle": vehicleTypeController.selectedItems.first.value.id, //todo: select only one type
+      "start_point": [sourceLocation!.addressEncoder().toJson()],
+      "end_point": [targetLocation!.addressEncoder().toJson()],
+      "weight": weight.text,
+      "price": int.parse(price.text),
+      "DateTime": DateTime.now().toIso8601String(),
+      "with_cover": coveredCar,
+      "other_info": otherInfo.text == "" ? null : otherInfo.text,
+      "payment_methods": formatPayment(),
+    };
+    print(order);
+    bool success = await RemoteServices.makeOrder(order);
+    if (success) {
+      Get.back();
+      Get.showSnackbar(const GetSnackBar(
+        message: "تم تسجيل الطلبية بنجاح",
+        duration: Duration(milliseconds: 2500),
+      ));
+    }
     toggleLoading(false);
   }
 }

@@ -1,7 +1,5 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -107,7 +105,13 @@ class MakeOrderView extends StatelessWidget {
                 textInputAction: TextInputAction.newline,
                 prefixIcon: Icons.note,
                 validator: (val) {
-                  return validateInput(controller.otherInfo.text, 1, 1000, ""); //todo check constraints
+                  return validateInput(
+                    controller.otherInfo.text,
+                    0,
+                    1000,
+                    "",
+                    canBeEmpty: true,
+                  ); //todo check constraints
                 },
                 onChanged: (val) {
                   if (controller.buttonPressed) controller.formKey.currentState!.validate();
@@ -181,8 +185,9 @@ class MakeOrderView extends StatelessWidget {
                           return null;
                         },
                         onSelectionChange: (selectedItems) {
-                          if (controller.buttonPressed) controller.formKey.currentState!.validate(); //todo
+                          if (controller.buttonPressed) controller.formKey.currentState!.validate();
                           print("OnSelectionChange: $selectedItems");
+                          controller.toggleFields();
                         },
                       ),
                     ),
@@ -254,13 +259,34 @@ class MakeOrderView extends StatelessWidget {
                           return null;
                         },
                         onSelectionChange: (selectedItems) {
-                          if (controller.buttonPressed) controller.formKey.currentState!.validate(); //todo
+                          if (controller.buttonPressed) controller.formKey.currentState!.validate();
                           print("OnSelectionChange: $selectedItems");
                         },
                       ),
                     ),
+              Visibility(
+                visible: controller.isBankSelected,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: InputField(
+                    controller: controller.accountName,
+                    label: "bank account name",
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.none,
+                    prefixIcon: Icons.account_balance,
+                    validator: (val) {
+                      return validateInput(controller.accountName.text, 1, 1000, ""); //todo check constraints
+                    },
+                    onChanged: (val) {
+                      if (controller.isBankSelected && controller.buttonPressed) {
+                        controller.formKey.currentState!.validate();
+                      }
+                    },
+                  ),
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
+                padding: const EdgeInsets.only(bottom: 8.0),
                 child: CheckboxListTile(
                   value: controller.coveredCar,
                   onChanged: (val) {
