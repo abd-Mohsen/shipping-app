@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
+import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:shipment/services/remote_services.dart';
 
 class MakeOrderController extends GetxController {
@@ -13,6 +14,7 @@ class MakeOrderController extends GetxController {
   @override
   void onInit() {
     getPaymentMethods();
+    getVehicleTypes();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         mapController1.listenerMapSingleTapping.addListener(
@@ -96,6 +98,7 @@ class MakeOrderController extends GetxController {
   TextEditingController weight = TextEditingController();
   TextEditingController otherInfo = TextEditingController();
   MultiSelectController<PaymentMethodModel> paymentMethodController = MultiSelectController<PaymentMethodModel>();
+  MultiSelectController<VehicleTypeModel> vehicleTypeController = MultiSelectController<VehicleTypeModel>();
 
   bool coveredCar = false;
 
@@ -112,6 +115,7 @@ class MakeOrderController extends GetxController {
   }
 
   List<PaymentMethodModel> paymentMethods = [];
+  List<VehicleTypeModel> vehicleTypes = [];
 
   bool _isLoadingPayment = false;
   bool get isLoadingPayment => _isLoadingPayment;
@@ -120,11 +124,25 @@ class MakeOrderController extends GetxController {
     update();
   }
 
+  bool _isLoadingVehicle = false;
+  bool get isLoadingVehicle => _isLoadingVehicle;
+  void toggleLoadingVehicle(bool value) {
+    _isLoadingVehicle = value;
+    update();
+  }
+
   void getPaymentMethods() async {
     toggleLoadingPayment(true);
     List<PaymentMethodModel> newPaymentMethods = await RemoteServices.fetchPaymentMethods() ?? [];
     paymentMethods.addAll(newPaymentMethods);
     toggleLoadingPayment(false);
+  }
+
+  void getVehicleTypes() async {
+    toggleLoadingVehicle(true);
+    List<VehicleTypeModel> newItems = await RemoteServices.fetchVehicleType() ?? [];
+    vehicleTypes.addAll(newItems);
+    toggleLoadingVehicle(false);
   }
 
   void makeOrder() async {

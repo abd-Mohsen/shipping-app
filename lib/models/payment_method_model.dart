@@ -17,7 +17,7 @@ class PaymentMethodModel {
 
   factory PaymentMethodModel.fromJson(Map<String, dynamic> json) => PaymentMethodModel(
         id: json["id"],
-        name: json["name"],
+        name: utf8.decode(json["name"].codeUnits),
       );
 
   Map<String, dynamic> toJson() => {
