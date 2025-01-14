@@ -1,35 +1,18 @@
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/models/location_model.dart';
+import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/services/remote_services.dart';
 
 class MakeOrderController extends GetxController {
   //todo: add location permission if not added automatically
   //todo: make initial position the selected position if not null
 
-  MapController mapController1 = MapController(
-    initMapWithUserPosition: const UserTrackingOption(
-      enableTracking: true,
-      unFollowUser: true,
-    ),
-  );
-
-  MapController mapController2 = MapController(
-    initMapWithUserPosition: const UserTrackingOption(
-      enableTracking: true,
-      unFollowUser: true,
-    ),
-  );
-
-  GeoPoint? startPosition;
-  GeoPoint? endPosition;
-
-  LocationModel? sourceLocation;
-  LocationModel? targetLocation;
-
   @override
   void onInit() {
+    getPaymentMethods();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         mapController1.listenerMapSingleTapping.addListener(
@@ -70,6 +53,26 @@ class MakeOrderController extends GetxController {
     super.onInit();
   }
 
+  MapController mapController1 = MapController(
+    initMapWithUserPosition: const UserTrackingOption(
+      enableTracking: true,
+      unFollowUser: true,
+    ),
+  );
+
+  MapController mapController2 = MapController(
+    initMapWithUserPosition: const UserTrackingOption(
+      enableTracking: true,
+      unFollowUser: true,
+    ),
+  );
+
+  GeoPoint? startPosition;
+  GeoPoint? endPosition;
+
+  LocationModel? sourceLocation;
+  LocationModel? targetLocation;
+
   void calculateStartAddress() async {
     // todo: add loading indicator
     if (startPosition == null) return;
@@ -92,6 +95,7 @@ class MakeOrderController extends GetxController {
   TextEditingController price = TextEditingController();
   TextEditingController weight = TextEditingController();
   TextEditingController otherInfo = TextEditingController();
+  MultiSelectController<PaymentMethodModel> paymentMethodController = MultiSelectController<PaymentMethodModel>();
 
   bool coveredCar = false;
 
@@ -105,6 +109,22 @@ class MakeOrderController extends GetxController {
   void toggleLoading(bool value) {
     _isLoading = value;
     update();
+  }
+
+  List<PaymentMethodModel> paymentMethods = [];
+
+  bool _isLoadingPayment = false;
+  bool get isLoadingPayment => _isLoadingPayment;
+  void toggleLoadingPayment(bool value) {
+    _isLoadingPayment = value;
+    update();
+  }
+
+  void getPaymentMethods() async {
+    toggleLoadingPayment(true);
+    List<PaymentMethodModel> newPaymentMethods = await RemoteServices.fetchPaymentMethods() ?? [];
+    paymentMethods.addAll(newPaymentMethods);
+    toggleLoadingPayment(false);
   }
 
   void makeOrder() async {

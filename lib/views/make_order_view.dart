@@ -1,9 +1,12 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:multi_dropdown/multi_dropdown.dart';
+import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
 
@@ -109,6 +112,123 @@ class MakeOrderView extends StatelessWidget {
                   if (controller.buttonPressed) controller.formKey.currentState!.validate();
                 },
               ),
+              controller.isLoadingPayment //todo: add refresh button
+                  ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                  : Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      //todo (later): list tile borders positions arent updating until i touch the screen
+                      child: MultiDropdown<PaymentMethodModel>(
+                        items: controller.paymentMethods
+                            .map(
+                              (paymentMethod) => DropdownItem(
+                                label: paymentMethod.name,
+                                value: paymentMethod,
+                              ),
+                            )
+                            .toList(),
+                        controller: controller.paymentMethodController,
+                        enabled: true,
+                        //searchEnabled: true,
+                        chipDecoration: ChipDecoration(
+                          backgroundColor: cs.primary,
+                          wrap: true,
+                          runSpacing: 2,
+                          spacing: 10,
+                        ),
+                        fieldDecoration: FieldDecoration(
+                          hintText: 'Payment Methods',
+                          hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+                          prefixIcon: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 24.0),
+                            child: Icon(CupertinoIcons.money_dollar),
+                          ),
+                          showClearIcon: false,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32),
+                            borderSide: BorderSide(color: cs.onSurface),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        dropdownDecoration: DropdownDecoration(
+                          marginTop: 2,
+                          maxHeight: 500,
+                          header: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Text(
+                              'Select payment method',
+                              textAlign: TextAlign.start,
+                              style: tt.titleSmall!.copyWith(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                        dropdownItemDecoration: DropdownItemDecoration(
+                          backgroundColor: Colors.grey.shade300,
+                          selectedBackgroundColor: Colors.grey.shade300,
+                          textColor: Colors.black87,
+                          selectedTextColor: Colors.black87,
+                          selectedIcon: Icon(Icons.check_box, color: cs.primary),
+                          disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select a payment method';
+                          }
+                          return null;
+                        },
+                        onSelectionChange: (selectedItems) {
+                          if (controller.buttonPressed) controller.formKey.currentState!.validate(); //todo
+                          print("OnSelectionChange: $selectedItems");
+                        },
+                      ),
+                      // child: DropdownSearch<PaymentMethodModel>.multiSelection(
+                      //   validator: (paymentMethod) {
+                      //     if (paymentMethod == null) return "الرجاء اختيار طريقة الدفع";
+                      //     return null;
+                      //   },
+                      //   compareFn: (paymentMethod1, paymentMethod2) => paymentMethod1.id == paymentMethod2.id,
+                      //   popupProps: PopupProps.menu(
+                      //     showSearchBox: true,
+                      //     searchFieldProps: TextFieldProps(
+                      //       style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                      //       decoration: InputDecoration(
+                      //         fillColor: Colors.white70,
+                      //         hintText: "اسم المندوب",
+                      //         prefix: Padding(
+                      //           padding: const EdgeInsets.all(4),
+                      //           child: Icon(Icons.search, color: cs.onSurface),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      //   decoratorProps: DropDownDecoratorProps(
+                      //     baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+                      //     decoration: InputDecoration(
+                      //       labelText: "اسم المندوب",
+                      //       labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                      //       //hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                      //       //hintText: "اختر اسم المندوب".tr,
+                      //       // icon: Icon(
+                      //       //   Icons.text,
+                      //       //   color: cs.onBackground,
+                      //       // ),
+                      //       border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                      //     ),
+                      //   ),
+                      //   items: (filter, infiniteScrollProps) => con.subordinates,
+                      //   itemAsString: (UserModel user) => user.userName,
+                      //   onChanged: (UserModel? user) async {
+                      //     con.selectSubordinate(user);
+                      //     await Future.delayed(const Duration(milliseconds: 1000));
+                      //     if (con.buttonPressed) con.dataFormKey.currentState!.validate();
+                      //   },
+                      //   //enabled: !con.enabled,
+                      // ),
+                    ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: CheckboxListTile(

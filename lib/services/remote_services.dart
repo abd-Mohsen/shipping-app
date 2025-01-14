@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/location_model.dart';
+import 'package:shipment/models/payment_method_model.dart';
 
 import '../constants.dart';
 import '../main.dart';
@@ -161,5 +162,11 @@ class RemoteServices {
     };
     String? json = await api.postRequest("user_addresses/", body, auth: true);
     return json != null;
+  }
+
+  static Future<List<PaymentMethodModel>?> fetchPaymentMethods() async {
+    String? json = await api.getRequest("get_payment_methods/", showTimeout: false);
+    if (json == null) return null;
+    return paymentMethodModelFromJson(json);
   }
 }
