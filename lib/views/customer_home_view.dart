@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:shipment/controllers/make_order_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/my_addresses_view.dart';

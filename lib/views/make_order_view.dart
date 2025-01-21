@@ -22,7 +22,7 @@ class MakeOrderView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
     MakeOrderController mOC = Get.put(MakeOrderController());
     return Scaffold(
-      backgroundColor: cs.background,
+      backgroundColor: cs.surface,
       appBar: AppBar(
         backgroundColor: cs.primary,
         title: Text(
@@ -158,12 +158,7 @@ class MakeOrderView extends StatelessWidget {
                               ),
                               labelText: "required vehicle type",
                               labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                              //hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
-                              //hintText: "اختر اسم المندوب".tr,
-                              // icon: Icon(
-                              //   Icons.text,
-                              //   color: cs.onBackground,
-                              // ),
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(32),
                                 borderSide: BorderSide(
@@ -174,8 +169,22 @@ class MakeOrderView extends StatelessWidget {
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(32),
                                 borderSide: BorderSide(
-                                  width: 1,
+                                  width: 0.5,
                                   color: cs.onSurface,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(32),
+                                borderSide: BorderSide(
+                                  width: 0.5,
+                                  color: cs.error,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(32),
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: cs.error,
                                 ),
                               ),
                             ),
@@ -291,6 +300,7 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    //print(GetStorage().read("token"));
                     controller.makeOrder();
                   },
                   style: ButtonStyle(

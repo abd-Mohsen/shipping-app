@@ -166,10 +166,9 @@ class MakeOrderController extends GetxController {
     toggleLoadingVehicle(false);
   }
 
-  formatPayment() {
+  List formatPayment() {
     List res = [];
     for (final item in paymentMethodController.selectedItems) {
-      if (item.value.name == "bank_account") res.add({"payment": item.value.id});
       res.add({"payment": item.value.id});
     }
     return res;
@@ -198,7 +197,7 @@ class MakeOrderController extends GetxController {
     toggleLoading(true);
     Map<String, dynamic> order = {
       "discription": description.text,
-      "type_vehicle": vehicleTypeController.selectedItems.first.value.id, //todo: select only one type
+      "type_vehicle": selectedVehicleType?.id,
       "start_point": [sourceLocation!.addressEncoder().toJson()],
       "end_point": [targetLocation!.addressEncoder().toJson()],
       "weight": weight.text,
