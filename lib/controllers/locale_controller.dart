@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class LocaleController {
+class LocaleController extends GetxController {
   final _getStorage = GetStorage();
   late Locale _initLocale;
   Locale get initialLang => _initLocale;
@@ -19,11 +19,11 @@ class LocaleController {
   String getCurrentLanguageLabel() {
     final currentLang = _getStorage.read("lang");
     if (currentLang == "ar") {
-      return "Arabic ".tr;
+      return "Arabic".tr;
     } else if (currentLang == "en") {
-      return "English ".tr;
+      return "English".tr;
     } else {
-      return Get.deviceLocale!.languageCode;
+      return Get.deviceLocale!.languageCode == "ar" ? "Arabic ".tr : "English ".tr;
     }
   }
 

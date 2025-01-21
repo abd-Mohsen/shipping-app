@@ -91,23 +91,22 @@ String? validateInput(
   int lowerRange = 0,
   int upperRange = 10000000000,
 }) {
-  if (val.trim().isEmpty && !canBeEmpty) return "لا يمكن أن يكون فارغ";
+  if (val.trim().isEmpty && !canBeEmpty) return "cannot be empty";
 
   if (type == "username") {
-    if (!GetUtils.isUsername(val)) return "اسم المستخدم غير صالح";
+    if (!GetUtils.isUsername(val)) return "user name is not valid";
   }
   if (type == "email") {
-    if (!GetUtils.isEmail(val)) return "ادخل بريد الكتروني صالح";
+    if (!GetUtils.isEmail(val)) return "email is not valid";
   }
   if (type == "phone") {
     final RegExp numericRegExp = RegExp(r'^[0-9]+$');
-    if (!numericRegExp.hasMatch(val)) return "رقم الهاتف غير صالح";
+    if (!numericRegExp.hasMatch(val)) return "phone is not valid";
   }
-  if (val.length < min) return "الطول لا يمكن ان يكون أقصر من $min";
+  if (val.length < min) return "${"cannot be shorter".tr} ${"than".tr} $min ${"characters".tr}";
+  if (val.length > max) return "${"cannot be longer".tr} ${"than".tr} $max ${"characters".tr}";
 
-  if (val.length > max) return "الطول لا يمكن ان يكون أكبر من $max";
-
-  if (pass != rePass) return "كلمتا المرور غير متطابقتان";
+  if (pass != rePass) return "password does not match";
 
   if (english) {
     final RegExp englishRegExp = RegExp(r'^[a-zA-Z\s]+$');

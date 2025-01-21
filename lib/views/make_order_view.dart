@@ -26,7 +26,7 @@ class MakeOrderView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: cs.primary,
         title: Text(
-          'make an order'.toUpperCase(),
+          'make an order'.tr,
           style: tt.headlineSmall!.copyWith(color: cs.onPrimary),
         ),
         centerTitle: true,
@@ -48,7 +48,7 @@ class MakeOrderView extends StatelessWidget {
                 MapSelector(
                   mapController: controller.mapController1,
                   start: true,
-                  address: controller.sourceLocation?.addressEncoder().toString() ?? "select location",
+                  address: controller.sourceLocation?.addressEncoder().toString() ?? "select location".tr,
                   onClose: () {
                     controller.calculateStartAddress();
                   },
@@ -56,7 +56,7 @@ class MakeOrderView extends StatelessWidget {
                 MapSelector(
                   mapController: controller.mapController2,
                   start: false,
-                  address: controller.targetLocation?.addressEncoder().toString() ?? "select location",
+                  address: controller.targetLocation?.addressEncoder().toString() ?? "select location".tr,
                   onClose: () {
                     controller.calculateTargetAddress();
                   },
@@ -64,7 +64,7 @@ class MakeOrderView extends StatelessWidget {
                 SizedBox(height: 8),
                 InputField(
                   controller: controller.description,
-                  label: "description",
+                  label: "description".tr,
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.newline,
                   prefixIcon: Icons.text_snippet,
@@ -77,7 +77,7 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 InputField(
                   controller: controller.price,
-                  label: "expected price",
+                  label: "expected price".tr,
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
                   prefixIcon: Icons.attach_money,
@@ -90,7 +90,7 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 InputField(
                   controller: controller.weight,
-                  label: "weight with unit",
+                  label: "weight with unit".tr,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   prefixIcon: Icons.monitor_weight,
@@ -103,7 +103,7 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 InputField(
                   controller: controller.otherInfo,
-                  label: "other info (optional)",
+                  label: "other info (optional)".tr,
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.newline,
                   prefixIcon: Icons.note,
@@ -126,7 +126,7 @@ class MakeOrderView extends StatelessWidget {
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : DropdownSearch<VehicleTypeModel>(
                           validator: (type) {
-                            if (type == null) return "tou must select a type";
+                            if (type == null) return "you must select a type".tr;
                             return null;
                           },
                           compareFn: (type1, type2) => type1.id == type2.id,
@@ -141,7 +141,7 @@ class MakeOrderView extends StatelessWidget {
                               style: tt.titleSmall!.copyWith(color: cs.onSurface),
                               decoration: InputDecoration(
                                 fillColor: Colors.white70,
-                                hintText: "vehicle type",
+                                hintText: "vehicle type".tr,
                                 prefix: Padding(
                                   padding: const EdgeInsets.all(4),
                                   child: Icon(Icons.search, color: cs.onSurface),
@@ -156,7 +156,7 @@ class MakeOrderView extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                                 child: Icon(Icons.fire_truck),
                               ),
-                              labelText: "required vehicle type",
+                              labelText: "required vehicle type".tr,
                               labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
                               floatingLabelBehavior: FloatingLabelBehavior.never,
                               enabledBorder: OutlineInputBorder(
@@ -222,7 +222,7 @@ class MakeOrderView extends StatelessWidget {
                             spacing: 10,
                           ),
                           fieldDecoration: FieldDecoration(
-                            hintText: 'Payment Methods',
+                            hintText: 'payment methods'.tr,
                             hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
                             prefixIcon: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
@@ -246,7 +246,7 @@ class MakeOrderView extends StatelessWidget {
                             header: Padding(
                               padding: const EdgeInsets.all(12),
                               child: Text(
-                                'Select payment method',
+                                'select payment method'.tr,
                                 textAlign: TextAlign.start,
                                 style: tt.titleSmall!.copyWith(color: Colors.black),
                               ),
@@ -262,7 +262,7 @@ class MakeOrderView extends StatelessWidget {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please select a payment method';
+                              return 'select payment method'.tr;
                             }
                             return null;
                           },
@@ -281,7 +281,7 @@ class MakeOrderView extends StatelessWidget {
                       controller.toggleCoveredCar();
                     },
                     title: Text(
-                      "covered car required",
+                      "covered car required".tr,
                       style: tt.titleSmall!.copyWith(color: cs.onSurface),
                     ),
                     secondary: Padding(
@@ -314,7 +314,7 @@ class MakeOrderView extends StatelessWidget {
                         child: controller.isLoading
                             ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                             : Text(
-                                "make order".toUpperCase(),
+                                "make order".tr.toUpperCase(),
                                 style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                               ),
                       ),

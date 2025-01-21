@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
+import 'package:shipment/controllers/locale_controller.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/my_addresses_view.dart';
 import '../constants.dart';
@@ -15,6 +16,7 @@ class CustomerHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
     CustomerHomeController hC = Get.put(CustomerHomeController());
+    LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
@@ -47,11 +49,11 @@ class CustomerHomeView extends StatelessWidget {
           onPressed: () {
             Get.to(() => const MakeOrderView());
           },
-          child: Icon(Icons.add, color: cs.onPrimary),
           foregroundColor: cs.onPrimary,
+          child: Icon(Icons.add, color: cs.onPrimary),
         ),
         drawer: Drawer(
-          backgroundColor: cs.background,
+          backgroundColor: cs.surface,
           child: Column(
             children: [
               Expanded(
@@ -74,7 +76,7 @@ class CustomerHomeView extends StatelessWidget {
                                       backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
                                     ),
                                     child: Text(
-                                      'خطأ, انقر للتحديث',
+                                      'refresh'.tr,
                                       style: tt.titleMedium!.copyWith(color: cs.onPrimary),
                                     ),
                                   ),
@@ -95,7 +97,7 @@ class CustomerHomeView extends StatelessWidget {
                     }),
                     ListTile(
                       leading: const Icon(Icons.dark_mode_outlined),
-                      title: Text("الوضع الداكن", style: tt.titleMedium!.copyWith(color: cs.onBackground)),
+                      title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
                       trailing: Switch(
                         value: tC.switchValue,
                         onChanged: (bool value) {
@@ -104,22 +106,56 @@ class CustomerHomeView extends StatelessWidget {
                       ),
                     ),
                     ListTile(
+                      leading: Icon(
+                        Icons.language,
+                        color: cs.onSurface,
+                      ),
+                      title: DropdownButton(
+                        elevation: 10,
+                        iconEnabledColor: cs.onSurface,
+                        dropdownColor: Colors.grey[300],
+                        hint: Text(
+                          lC.getCurrentLanguageLabel(),
+                          style: tt.labelLarge!.copyWith(color: cs.onSurface),
+                        ),
+                        items: [
+                          DropdownMenuItem(
+                            value: "ar",
+                            child: Text(
+                              "Arabic".tr,
+                              style: tt.labelLarge!.copyWith(color: Colors.black),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "en",
+                            child: Text(
+                              "English".tr,
+                              style: tt.labelLarge!.copyWith(color: Colors.black),
+                            ),
+                          ),
+                        ],
+                        onChanged: (val) {
+                          lC.updateLocale(val!);
+                        },
+                      ),
+                    ),
+                    ListTile(
                       leading: const Icon(Icons.maps_home_work_outlined),
-                      title: Text("عناويني", style: tt.titleMedium!.copyWith(color: cs.onBackground)),
+                      title: Text("My Addresses".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
                       onTap: () {
                         Get.to(const MyAddressesView());
                       },
                     ),
                     ListTile(
                       leading: const Icon(Icons.info_outline),
-                      title: Text("حول التطبيق", style: tt.titleMedium!.copyWith(color: cs.onBackground)),
+                      title: Text("About app".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
                       onTap: () {
                         Get.to(const AboutUsPage());
                       },
                     ),
                     ListTile(
                       leading: Icon(Icons.logout, color: cs.error),
-                      title: Text("تسجيل خروج", style: tt.titleMedium!.copyWith(color: cs.error)),
+                      title: Text("logout".tr, style: tt.titleSmall!.copyWith(color: cs.error)),
                       onTap: () {
                         //hC.logout();
                       },
@@ -130,8 +166,8 @@ class CustomerHomeView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(
-                  '® جميع الحقوق محفوظة',
-                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+                  "${"all rights reserved".tr} ®",
+                  style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
                 ),
               ),
             ],

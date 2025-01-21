@@ -68,7 +68,7 @@ class InputField extends StatelessWidget {
           ),
           focusedErrorBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(32)),
-            borderSide: BorderSide(width: 2, color: Colors.red),
+            borderSide: BorderSide(width: 1.5, color: Colors.red),
           ),
           //hintText: "password".tr,
           hintText: label,

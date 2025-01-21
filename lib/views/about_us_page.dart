@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
@@ -12,8 +13,8 @@ class AboutUsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: cs.primary,
         title: Text(
-          'حول التطبيق',
-          style: tt.headlineMedium!.copyWith(color: cs.onPrimary),
+          'about app'.tr,
+          style: tt.headlineSmall!.copyWith(color: cs.onPrimary),
         ),
         centerTitle: true,
       ),
