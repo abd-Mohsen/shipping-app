@@ -132,6 +132,12 @@ class MakeOrderController extends GetxController {
   List<PaymentMethodModel> paymentMethods = [];
   List<VehicleTypeModel> vehicleTypes = [];
 
+  VehicleTypeModel? selectedVehicleType;
+  void selectVehicleType(VehicleTypeModel? user) {
+    selectedVehicleType = user;
+    update();
+  }
+
   bool _isLoadingPayment = false;
   bool get isLoadingPayment => _isLoadingPayment;
   void toggleLoadingPayment(bool value) {
@@ -163,8 +169,8 @@ class MakeOrderController extends GetxController {
   formatPayment() {
     List res = [];
     for (final item in paymentMethodController.selectedItems) {
-      if (item.value.name == "bank_account") res.add({"payment": item.value.id, "details": accountName.text});
-      res.add({"payment": item.value.id, "details": null});
+      if (item.value.name == "bank_account") res.add({"payment": item.value.id});
+      res.add({"payment": item.value.id});
     }
     return res;
   }

@@ -35,7 +35,7 @@ class MyThemes {
       onError: Colors.white70,
       background: Colors.white,
       onBackground: Colors.black,
-      surface: Colors.grey[300]!,
+      surface: Colors.white,
       onSurface: Colors.black,
     ),
     textTheme: kMyTextTheme,

@@ -32,8 +32,16 @@ class InputField extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
+
+    border() {
+      return OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(32)),
+        borderSide: BorderSide(width: 0.5, color: cs.onSurface),
+      );
+    }
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: TextFormField(
         controller: controller,
         textInputAction: textInputAction,
@@ -44,18 +52,12 @@ class InputField extends StatelessWidget {
         decoration: InputDecoration(
           //filled: true,
           fillColor: const Color(0xFFf9eaee),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
-            borderSide: BorderSide(width: 1.5, color: cs.onSurface),
-          ),
+          focusedBorder: border(),
           disabledBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(32)),
             borderSide: BorderSide(width: 1.5, color: Colors.transparent),
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
-            borderSide: BorderSide(width: 1.5, color: cs.onSurface),
-          ),
+          enabledBorder: border(),
           // border: const OutlineInputBorder(
           //   borderRadius: BorderRadius.all(Radius.circular(32)),
           //   borderSide: BorderSide(width: 1),
