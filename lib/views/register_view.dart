@@ -29,9 +29,9 @@ class RegisterView extends StatelessWidget {
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 16, top: 20),
+                      padding: const EdgeInsets.only(bottom: 16, top: 40),
                       child: Text(
-                        "Register as",
+                        "Register as:".tr,
                         style: tt.titleLarge!.copyWith(color: cs.onSurface),
                       ),
                     ),
@@ -53,7 +53,7 @@ class RegisterView extends StatelessWidget {
                                         children: [
                                           SizedBox(height: 150, child: Image.asset('assets/images/$role.png')),
                                           Text(
-                                            role,
+                                            role.tr,
                                             style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                           ),
                                         ],
@@ -100,7 +100,7 @@ class RegisterView extends StatelessWidget {
                                 controller: rC.companyName,
                                 keyboardType: TextInputType.text,
                                 textInputAction: TextInputAction.next,
-                                label: "company name",
+                                label: "company name".tr,
                                 prefixIcon: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 16),
                                   child: Icon(Icons.house, color: cs.primary),
@@ -119,7 +119,7 @@ class RegisterView extends StatelessWidget {
                                 controller: rC.numberOfVehicles,
                                 keyboardType: TextInputType.number,
                                 textInputAction: TextInputAction.next,
-                                label: "number of vehicles",
+                                label: "number of vehicles".tr,
                                 prefixIcon: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 16),
                                   child: Icon(Icons.local_shipping, color: cs.primary),
@@ -136,7 +136,7 @@ class RegisterView extends StatelessWidget {
                               controller: rC.firstName,
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.next,
-                              label: "first name",
+                              label: "first name".tr,
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Icon(Icons.person, color: cs.primary),
@@ -152,7 +152,7 @@ class RegisterView extends StatelessWidget {
                               controller: rC.lastName,
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.next,
-                              label: "last name",
+                              label: "last name".tr,
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Icon(Icons.person, color: cs.primary),
@@ -168,7 +168,7 @@ class RegisterView extends StatelessWidget {
                               controller: rC.userName,
                               keyboardType: TextInputType.text,
                               textInputAction: TextInputAction.next,
-                              label: "user name",
+                              label: "user name".tr,
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Icon(Icons.person, color: cs.primary),
@@ -184,7 +184,7 @@ class RegisterView extends StatelessWidget {
                               controller: rC.phone,
                               keyboardType: TextInputType.phone,
                               textInputAction: TextInputAction.next,
-                              label: "phone",
+                              label: "phone".tr,
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Icon(Icons.phone_android, color: cs.primary),
@@ -203,7 +203,7 @@ class RegisterView extends StatelessWidget {
                                   obscure: !controller.passwordVisible,
                                   keyboardType: TextInputType.text,
                                   textInputAction: TextInputAction.next,
-                                  label: "password",
+                                  label: "password".tr,
                                   prefixIcon: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 16),
                                     child: Icon(Icons.lock, color: cs.primary),
@@ -233,7 +233,7 @@ class RegisterView extends StatelessWidget {
                                   obscure: !controller.rePasswordVisible,
                                   keyboardType: TextInputType.text,
                                   textInputAction: TextInputAction.done,
-                                  label: "re enter password",
+                                  label: "re enter password".tr,
                                   prefixIcon: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 16),
                                     child: Icon(Icons.lock, color: cs.primary),
@@ -258,19 +258,19 @@ class RegisterView extends StatelessWidget {
                               },
                             ),
                             IdImageSelector(
-                              title: "ID (front)",
+                              title: "ID (front)".tr,
                               isSubmitted: controller.idFront != null,
                               image: controller.idFront,
                             ),
                             IdImageSelector(
-                              title: "ID (rear)",
+                              title: "ID (rear)".tr,
                               isSubmitted: controller.idRear != null,
                               image: controller.idRear,
                             ),
                             Visibility(
                               visible: controller.roles[controller.roleIndex] == "driver",
                               child: IdImageSelector(
-                                title: "driving license (front)",
+                                title: "driving license (front)".tr,
                                 isSubmitted: controller.dLicenseFront != null,
                                 image: controller.dLicenseFront,
                               ),
@@ -278,7 +278,7 @@ class RegisterView extends StatelessWidget {
                             Visibility(
                               visible: controller.roles[controller.roleIndex] == "driver",
                               child: IdImageSelector(
-                                title: "driving license (rear)",
+                                title: "driving license (rear)".tr,
                                 isSubmitted: controller.dLicenseRear != null,
                                 image: controller.dLicenseRear,
                               ),
@@ -301,7 +301,7 @@ class RegisterView extends StatelessWidget {
                                         child: controller.isLoading
                                             ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                             : Text(
-                                                "register".toUpperCase(),
+                                                "register".tr.toUpperCase(),
                                                 style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                               ),
                                       ),

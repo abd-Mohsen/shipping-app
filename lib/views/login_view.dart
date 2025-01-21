@@ -103,7 +103,7 @@ class LoginView extends StatelessWidget {
                           );
                         }),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 12, top: 8),
+                          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 12, top: 12),
                           child: GestureDetector(
                             onTap: () {
                               Get.to(() => const ResetPassView1());
