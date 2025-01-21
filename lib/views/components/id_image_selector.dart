@@ -35,10 +35,10 @@ class IdImageSelector extends StatelessWidget {
               : Icon(Icons.add_a_photo, color: cs.primary),
           onTap: () {
             Get.bottomSheet(
-              //todo: ask for camera permission
+              //todo: ask for camera and storage permission
               Container(
                 decoration: BoxDecoration(
-                  color: cs.background,
+                  color: cs.surface,
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                 ),
                 //height: MediaQuery.of(context).size.height / 2,
@@ -48,7 +48,7 @@ class IdImageSelector extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0, top: 16),
                       child: Text(
-                        "$title preview",
+                        "${"preview".tr} $title",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
@@ -62,7 +62,7 @@ class IdImageSelector extends StatelessWidget {
                         child: Center(
                           child: image == null
                               ? Text(
-                                  "no photo is selected",
+                                  "no photo is selected".tr,
                                   style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                 )
                               : Image.file(File(image!.path)),
@@ -75,7 +75,7 @@ class IdImageSelector extends StatelessWidget {
                         color: cs.onSurface,
                       ),
                       title: Text(
-                        image == null ? "take a photo" : "take a new photo",
+                        image == null ? "take photo".tr : "take new photo".tr,
                         style: tt.titleMedium!.copyWith(color: cs.onSurface),
                       ),
                       onTap: () {
@@ -88,7 +88,7 @@ class IdImageSelector extends StatelessWidget {
                         color: cs.onSurface,
                       ),
                       title: Text(
-                        image == null ? "select a photo from gallery" : "select a new photo from gallery",
+                        image == null ? "select photo from gallery".tr : "select new photo from gallery".tr,
                         style: tt.titleMedium!.copyWith(color: cs.onSurface),
                       ),
                       onTap: () {

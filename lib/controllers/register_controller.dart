@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../constants.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 
@@ -77,10 +76,10 @@ class RegisterController extends GetxController {
     XFile? pickedImage = await ImagePicker().pickImage(
       source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
     );
-    if (selectedImage == "ID (front)") idFront = pickedImage;
-    if (selectedImage == "ID (rear)") idRear = pickedImage;
-    if (selectedImage == "driving license (front)") dLicenseFront = pickedImage;
-    if (selectedImage == "driving license (rear)") dLicenseRear = pickedImage;
+    if (selectedImage == "ID (front)".tr) idFront = pickedImage;
+    if (selectedImage == "ID (rear)".tr) idRear = pickedImage;
+    if (selectedImage == "driving license (front)".tr) dLicenseFront = pickedImage;
+    if (selectedImage == "driving license (rear)".tr) dLicenseRear = pickedImage;
 
     update();
     Get.back();
@@ -100,7 +99,7 @@ class RegisterController extends GetxController {
     bool isValid = registerFormKey.currentState!.validate();
     if (!isValid) return;
     toggleLoadingRegister(true);
-
+    //todo validate images
     File? idFrontFile = idFront == null ? null : File(idFront!.path);
     File? idRearFile = idRear == null ? null : File(idRear!.path);
     File? lFrontFile = dLicenseFront == null ? null : File(dLicenseFront!.path);
@@ -124,11 +123,12 @@ class RegisterController extends GetxController {
     if (success) {
       Get.back();
       Get.defaultDialog(
+        //todo: use snackbar instead
         titleStyle: const TextStyle(color: Colors.black),
         middleTextStyle: const TextStyle(color: Colors.black),
         backgroundColor: Colors.white,
-        title: "تم التسجيل",
-        middleText: "الرجاء انتظار الموافقة",
+        title: "registered successfully".tr,
+        middleText: "kindly wait for acceptance".tr,
         // confirm: TextButton(
         //   onPressed: () {
         //     Get.back();

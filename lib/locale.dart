@@ -99,6 +99,16 @@ class MyLocale extends Translations {
           "register": "register",
           "company name": "company name",
           "number of vehicles": "number of vehicles",
+          "preview": "preview",
+          "no photo is selected": "no photo is selected",
+          "take photo": "take photo",
+          "select photo from gallery": "select photo from gallery",
+          "take new photo": "take new photo",
+          "select new photo from gallery": "select new photo from gallery",
+          "characters": "characters",
+          "must be english": "must be english",
+          "registered successfully": "registered successfully",
+          "kindly wait for acceptance": "kindly wait for acceptance",
         },
         "ar": {
           "Arabic": "العربية",
@@ -153,7 +163,7 @@ class MyLocale extends Translations {
           "exam details": "تفاصيل الفحص",
           "scan paper": "مسح الورقة",
           //
-          "passwords don't match": "كلمتا المرور لا تتطابقان",
+          "passwords don't match": "كلمتا المرور غير متطابقان",
           "are you sure you want to quit the app?": "هل تريد الخروج من التطبيق؟",
           "your session has expired please login again": "انتهت صلاحية الجلسة, من فضلك سجل دخول مجدداً",
           """operation is taking so long, please check your internet 
@@ -195,6 +205,16 @@ class MyLocale extends Translations {
           "register": "تسجيل",
           "company name": "اسم الشركة",
           "number of vehicles": "عدد المركبات",
+          "preview": "معاينة",
+          "no photo is selected": "لم يتم اختيار صورة",
+          "take photo": "التقط صورة",
+          "select photo from gallery": "اختر صورة من المعرض",
+          "take new photo": "التقط صورة جديدة",
+          "select new photo from gallery": "اختر صورة جديدة من المعرض",
+          "characters": "أحرف",
+          "must be english": "يجب أن يكون بالانكليزية",
+          "registered successfully": "تم التسجيل بنجاح",
+          "kindly wait for acceptance": "الرجاء انتظار الموافقة",
         },
       };
 }

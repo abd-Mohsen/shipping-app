@@ -62,7 +62,7 @@ class RemoteServices {
         middleTextStyle: const TextStyle(color: Colors.black),
         backgroundColor: Colors.white,
         title: "خطأ",
-        middleText: "يرجى المحاولة مجدداً, قد يكون البريد الالكتلاوني مستخدماً بالفعل",
+        middleText: "يرجى المحاولة مجدداً, قد يكون الهاتف أو اسم الحساب مستخدماً بالفعل",
       );
       return false;
     }

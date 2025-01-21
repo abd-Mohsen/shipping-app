@@ -91,22 +91,22 @@ String? validateInput(
   int lowerRange = 0,
   int upperRange = 10000000000,
 }) {
-  if (val.trim().isEmpty && !canBeEmpty) return "cannot be empty";
+  if (val.trim().isEmpty && !canBeEmpty) return "cannot be empty".tr;
 
   if (type == "username") {
-    if (!GetUtils.isUsername(val)) return "user name is not valid";
+    if (!GetUtils.isUsername(val)) return "invalid user name".tr;
   }
   if (type == "email") {
-    if (!GetUtils.isEmail(val)) return "email is not valid";
+    if (!GetUtils.isEmail(val)) return "invalid email".tr;
   }
   if (type == "phone") {
     final RegExp numericRegExp = RegExp(r'^[0-9]+$');
-    if (!numericRegExp.hasMatch(val)) return "phone is not valid";
+    if (!numericRegExp.hasMatch(val)) return "invalid phone".tr;
   }
   if (val.length < min) return "${"cannot be shorter".tr} ${"than".tr} $min ${"characters".tr}";
   if (val.length > max) return "${"cannot be longer".tr} ${"than".tr} $max ${"characters".tr}";
 
-  if (pass != rePass) return "password does not match";
+  if (pass != rePass) return "passwords don't match".tr;
 
   if (english) {
     final RegExp englishRegExp = RegExp(r'^[a-zA-Z\s]+$');
@@ -115,7 +115,7 @@ String? validateInput(
 
   if (wholeNumber) {
     final RegExp numericRegExp = RegExp(r'^[0-9]+$');
-    if (!numericRegExp.hasMatch(val)) return "must be a whole number";
+    if (!numericRegExp.hasMatch(val)) return "enter a whole number".tr;
     int num = int.parse(val);
     if (num > upperRange) return "${"cannot be greater".tr} ${"than".tr} $upperRange";
     if (num < lowerRange) return "${"cannot be less".tr} ${"than".tr} $lowerRange";
