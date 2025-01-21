@@ -157,7 +157,7 @@ class CustomerHomeView extends StatelessWidget {
                       leading: Icon(Icons.logout, color: cs.error),
                       title: Text("logout".tr, style: tt.titleSmall!.copyWith(color: cs.error)),
                       onTap: () {
-                        //hC.logout();
+                        hC.logout();
                       },
                     ),
                   ],

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/login_controller.dart';
-import 'package:shipment/controllers/register_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
 import 'package:shipment/views/register_view.dart';
 import 'package:shipment/views/reset_pass_view1.dart';
@@ -28,7 +27,7 @@ class LoginView extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "LOGIN",
+                    "welcome back".tr.toUpperCase(),
                     style: tt.titleLarge!.copyWith(color: cs.onSurface),
                   ),
                   Row(
@@ -63,7 +62,7 @@ class LoginView extends StatelessWidget {
                           controller: lC.phone,
                           keyboardType: TextInputType.phone,
                           textInputAction: TextInputAction.next,
-                          label: "phone",
+                          label: "phone".tr,
                           prefixIcon: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Icon(Icons.phone_android, color: cs.primary),
@@ -81,7 +80,7 @@ class LoginView extends StatelessWidget {
                             obscure: !controller.passwordVisible,
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.done,
-                            label: "password",
+                            label: "password".tr,
                             prefixIcon: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Icon(Icons.lock, color: cs.primary),
@@ -110,7 +109,7 @@ class LoginView extends StatelessWidget {
                               Get.to(() => const ResetPassView1());
                             },
                             child: Text(
-                              "forgot password?",
+                              "forgot password?".tr,
                               style: tt.labelMedium!.copyWith(color: cs.onBackground.withOpacity(0.7)),
                               textAlign: TextAlign.end,
                             ),
@@ -134,7 +133,7 @@ class LoginView extends StatelessWidget {
                                     child: controller.isLoading
                                         ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                         : Text(
-                                            "Login".toUpperCase(),
+                                            "login".tr.toUpperCase(),
                                             style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                           ),
                                   ),
@@ -148,7 +147,7 @@ class LoginView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Don’t have an Account ? ",
+                              "don’t have an Account? ".tr,
                               style: tt.titleSmall!.copyWith(color: cs.onSurface),
                             ),
                             GestureDetector(
@@ -156,7 +155,7 @@ class LoginView extends StatelessWidget {
                                 Get.to(() => RegisterView());
                               },
                               child: Text(
-                                "register",
+                                "register here".tr,
                                 style: tt.titleSmall!.copyWith(color: Colors.blueAccent, fontWeight: FontWeight.bold),
                               ),
                             ),
