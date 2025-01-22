@@ -7,8 +7,6 @@ import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
-
-import '../constants.dart';
 import '../main.dart';
 import '../models/login_model.dart';
 import '../models/user_model.dart';

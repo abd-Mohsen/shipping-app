@@ -87,6 +87,7 @@ class DriverHomeView extends StatelessWidget {
                                 );
                     }),
                     //todo: add language and other widgets, and unify the drawer if possible
+                    //todo: redirect if not verified or have no car
                     ListTile(
                       leading: const Icon(Icons.dark_mode_outlined),
                       title: Text("الوضع الداكن", style: tt.titleMedium!.copyWith(color: cs.onBackground)),

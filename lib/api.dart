@@ -38,14 +38,17 @@ class Api {
             headers: !auth ? headers : {...headers, "Authorization": "Token $accessToken"},
           )
           .timeout(kTimeOutDuration);
-      print(response.body + "===========" + response.statusCode.toString());
+
+      String responseBody = utf8.decode(latin1.encode(response.body));
+      print("$responseBody =========== ${response.statusCode}");
+
       if (canRefresh && response.statusCode == 401) {
         _getStorage.remove("token");
         _getStorage.remove("role");
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return null;
       }
-      return response.statusCode == 200 ? response.body : null;
+      return response.statusCode == 200 ? responseBody : null;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
       return null;
@@ -77,14 +80,15 @@ class Api {
             body: jsonEncode(body),
           )
           .timeout(kTimeOutDuration);
-      print(response.body);
+      String responseBody = utf8.decode(latin1.encode(response.body));
+      print("$responseBody =========== ${response.statusCode}");
       if (canRefresh && response.statusCode == 401) {
         _getStorage.remove("token");
         _getStorage.remove("role");
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return null;
       }
-      return (response.statusCode == 200 || response.statusCode == 201) ? response.body : null;
+      return (response.statusCode == 200 || response.statusCode == 201) ? responseBody : null;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
       return null;
@@ -120,8 +124,10 @@ class Api {
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return null;
       }
-      print(response.body);
-      return (response.statusCode == 200 || response.statusCode == 201) ? response.body : null;
+      String responseBody = utf8.decode(latin1.encode(response.body));
+      print(responseBody + "===========" + response.statusCode.toString());
+
+      return (response.statusCode == 200 || response.statusCode == 201) ? responseBody : null;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
       return null;
@@ -151,7 +157,7 @@ class Api {
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return false;
       }
-      print(response.body + "===========" + response.statusCode.toString());
+      print("${response.body}===========${response.statusCode}");
       return response.statusCode == 204;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
@@ -196,8 +202,9 @@ class Api {
 
       var response = await request.send();
       String responseBody = await response.stream.bytesToString();
-      print(responseBody);
-      print(response.statusCode);
+      responseBody = utf8.decode(latin1.encode(responseBody));
+      print("$responseBody===========${response.statusCode}");
+
       if (canRefresh && response.statusCode == 401) {
         _getStorage.remove("token");
         _getStorage.remove("role");
