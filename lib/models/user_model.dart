@@ -5,6 +5,46 @@ List<UserModel> userModelFromJson(String str) =>
 
 String userModelToJson(List<UserModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+class UserModel {
+  final String firstName;
+  final String lastName;
+  final String phoneNumber;
+  final Role role;
+  final bool isVerified;
+  final DriverInfo? driverInfo;
+  final CompanyInfo? companyInfo;
+
+  UserModel({
+    required this.firstName,
+    required this.lastName,
+    required this.phoneNumber,
+    required this.role,
+    required this.isVerified,
+    required this.driverInfo,
+    required this.companyInfo,
+  });
+
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        phoneNumber: json["phone_number"],
+        role: Role.fromJson(json["role"]),
+        isVerified: json["is_verified"],
+        driverInfo: json["driver_info"] == null ? null : DriverInfo.fromJson(json["driver_info"]),
+        companyInfo: json["company_info"] == null ? null : CompanyInfo.fromJson(json["company_info"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "first_name": firstName,
+        "last_name": lastName,
+        "phone_number": phoneNumber,
+        "role": role.toJson(),
+        "is_verified": isVerified,
+        "driver_info": driverInfo?.toJson(),
+        "company_info": companyInfo?.toJson(),
+      };
+}
+
 class CompanyInfo {
   final String name;
   final int membersNum;
@@ -33,42 +73,6 @@ class CompanyInfo {
       };
 }
 
-class UserModel {
-  final String firstName;
-  final String lastName;
-  final String phoneNumber;
-  final Role role;
-  final DriverInfo? driverInfo;
-  final CompanyInfo? companyInfo;
-
-  UserModel({
-    required this.firstName,
-    required this.lastName,
-    required this.phoneNumber,
-    required this.role,
-    required this.driverInfo,
-    required this.companyInfo,
-  });
-
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        phoneNumber: json["phone_number"],
-        role: Role.fromJson(json["role"]),
-        driverInfo: json["driver_info"] == null ? null : DriverInfo.fromJson(json["driver_info"]),
-        companyInfo: json["company_info"] == null ? null : CompanyInfo.fromJson(json["company_info"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "first_name": firstName,
-        "last_name": lastName,
-        "phone_number": phoneNumber,
-        "role": role.toJson(),
-        "driver_info": driverInfo!.toJson(),
-        "company_info": companyInfo!.toJson(),
-      };
-}
-
 class DriverInfo {
   final String drivingLicensePhotoFront;
   final String drivingLicensePhotoRare;
@@ -76,7 +80,7 @@ class DriverInfo {
   final String idPhotoRare;
   final bool isVerifiedLicense;
   final bool isVerifiedId;
-  final bool hasAVechicle;
+  final bool hasAVehicle;
   final bool inCompany;
 
   DriverInfo({
@@ -86,7 +90,7 @@ class DriverInfo {
     required this.idPhotoRare,
     required this.isVerifiedLicense,
     required this.isVerifiedId,
-    required this.hasAVechicle,
+    required this.hasAVehicle,
     required this.inCompany,
   });
 
@@ -97,7 +101,7 @@ class DriverInfo {
         idPhotoRare: json["ID_photo_rare"],
         isVerifiedLicense: json["is_verified_license"],
         isVerifiedId: json["is_verified_ID"],
-        hasAVechicle: json["has_a_vechicle"],
+        hasAVehicle: json["has_a_vechicle"],
         inCompany: json["in_company"],
       );
 
@@ -108,7 +112,7 @@ class DriverInfo {
         "ID_photo_rare": idPhotoRare,
         "is_verified_license": isVerifiedLicense,
         "is_verified_ID": isVerifiedId,
-        "has_a_vechicle": hasAVechicle,
+        "has_a_vechicle": hasAVehicle,
         "in_company": inCompany,
       };
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 
 import '../constants.dart';
+import '../controllers/locale_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
 
@@ -14,6 +15,7 @@ class DriverHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
     DriverHomeController hC = Get.put(DriverHomeController());
+    LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
@@ -37,13 +39,13 @@ class DriverHomeView extends StatelessWidget {
             //
           ],
         ),
-        backgroundColor: cs.background,
+        backgroundColor: cs.surface,
         body: GetBuilder<DriverHomeController>(
           //init: HomeController(),
           builder: (con) => Column(),
         ),
         drawer: Drawer(
-          backgroundColor: cs.background,
+          backgroundColor: cs.surface,
           child: Column(
             children: [
               Expanded(
@@ -90,7 +92,7 @@ class DriverHomeView extends StatelessWidget {
                     //todo: redirect if not verified or have no car
                     ListTile(
                       leading: const Icon(Icons.dark_mode_outlined),
-                      title: Text("الوضع الداكن", style: tt.titleMedium!.copyWith(color: cs.onBackground)),
+                      title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
                       trailing: Switch(
                         value: tC.switchValue,
                         onChanged: (bool value) {
@@ -99,15 +101,56 @@ class DriverHomeView extends StatelessWidget {
                       ),
                     ),
                     ListTile(
+                      leading: Icon(
+                        Icons.language,
+                        color: cs.onSurface,
+                      ),
+                      title: DropdownButton(
+                        elevation: 10,
+                        iconEnabledColor: cs.onSurface,
+                        dropdownColor: Colors.grey[300],
+                        hint: Text(
+                          lC.getCurrentLanguageLabel(),
+                          style: tt.labelLarge!.copyWith(color: cs.onSurface),
+                        ),
+                        items: [
+                          DropdownMenuItem(
+                            value: "ar",
+                            child: Text(
+                              "Arabic".tr,
+                              style: tt.labelLarge!.copyWith(color: Colors.black),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: "en",
+                            child: Text(
+                              "English".tr,
+                              style: tt.labelLarge!.copyWith(color: Colors.black),
+                            ),
+                          ),
+                        ],
+                        onChanged: (val) {
+                          lC.updateLocale(val!);
+                        },
+                      ),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.local_shipping_outlined),
+                      title: Text("my vehicles".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                      onTap: () {
+                        //Get.to(const MyAddressesView());
+                      },
+                    ),
+                    ListTile(
                       leading: const Icon(Icons.info_outline),
-                      title: Text("حول التطبيق", style: tt.titleMedium!.copyWith(color: cs.onBackground)),
+                      title: Text("About app".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
                       onTap: () {
                         Get.to(const AboutUsPage());
                       },
                     ),
                     ListTile(
                       leading: Icon(Icons.logout, color: cs.error),
-                      title: Text("تسجيل خروج", style: tt.titleMedium!.copyWith(color: cs.error)),
+                      title: Text("logout".tr, style: tt.titleSmall!.copyWith(color: cs.error)),
                       onTap: () {
                         hC.logout();
                       },

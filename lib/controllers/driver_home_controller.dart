@@ -9,6 +9,7 @@ import '../services/remote_services.dart';
 import '../views/login_view.dart';
 import '../views/otp_view.dart';
 import 'login_controller.dart';
+import 'otp_controller.dart';
 
 class DriverHomeController extends GetxController {
   @override
@@ -46,13 +47,11 @@ class DriverHomeController extends GetxController {
   void getCurrentUser() async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
-    // if (_currentUser!.driverInfo != null && !_currentUser!.driverInfo!.isVerifiedId) {
-    //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
-    // }
     //todo: handle the case of: no car, no license and no verified phone
-    // else if (_currentUser != null && !_currentUser!.isVerified) {
-    //   Get.to(() => const OTPView(source: "register"));
-    // }
+    if (_currentUser != null && !_currentUser!.isVerified) {
+      Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
+      Get.to(() => const OTPView(source: "register"));
+    }
     toggleLoadingUser(false);
   }
 
