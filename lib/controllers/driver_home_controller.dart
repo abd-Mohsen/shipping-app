@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shipment/views/my_vehicles_view.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
@@ -47,11 +48,36 @@ class DriverHomeController extends GetxController {
   void getCurrentUser() async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
-    //todo: handle the case of: no car, no license and no verified phone
-    if (_currentUser != null && !_currentUser!.isVerified) {
-      Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
-      Get.to(() => const OTPView(source: "register"));
+    //todo: show (complete account) page to change id and license if not verified
+    if (_currentUser != null) {
+      if (!_currentUser!.isVerified) {
+        Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
+        Get.to(() => const OTPView(source: "register"));
+      } else if (!_currentUser!.driverInfo!.hasAVehicle) {
+        //todo: show a dialog, you must add a vehicle before using the app
+        Get.to(() => const MyVehiclesView());
+      } else if (!_currentUser!.driverInfo!.isVerifiedId || !_currentUser!.driverInfo!.isVerifiedLicense) {
+        Get.dialog(
+            AlertDialog(
+              backgroundColor: Colors.white,
+              title: const Text("بياناتك لم تقبل بعد", style: TextStyle(color: Colors.black)),
+              content: const Text("يرجى التواصل مع الشركة لتفعيل حسابك", style: TextStyle(color: Colors.black)),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Get.offAll(() => const LoginView()); //todo: go to complete account page
+                  },
+                  child: const Text(
+                    "تسجيل خروج",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ],
+            ),
+            barrierDismissible: false);
+      }
     }
+
     toggleLoadingUser(false);
   }
 

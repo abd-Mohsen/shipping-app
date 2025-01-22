@@ -10,10 +10,11 @@ class AboutUsPage extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     return Scaffold(
+      backgroundColor: cs.surface,
       appBar: AppBar(
         backgroundColor: cs.primary,
         title: Text(
-          'about app'.tr,
+          'About app'.tr,
           style: tt.headlineSmall!.copyWith(color: cs.onPrimary),
         ),
         centerTitle: true,
@@ -22,18 +23,18 @@ class AboutUsPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 40, bottom: 24),
-            child: Hero(
-              tag: "logo",
-              child: Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    "assets/images/lelia_logo.jpg",
-                    height: MediaQuery.sizeOf(context).width / 2,
-                  ),
-                ),
-              ),
-            ),
+            // child: Hero(
+            //   tag: "logo",
+            //   child: Center(
+            //     child: ClipRRect(
+            //       borderRadius: BorderRadius.circular(20),
+            //       child: Image.asset(
+            //         "assets/images/lelia_logo.jpg",
+            //         height: MediaQuery.sizeOf(context).width / 2,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -75,35 +76,35 @@ class AboutUsPage extends StatelessWidget {
             indent: 75,
             endIndent: 75,
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 12, left: 12, top: 24, bottom: 12),
-            child: Text(
-              "للاستفسار يرجى التواصل مع المطور",
-              style: tt.titleMedium!.copyWith(color: cs.onSurface),
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.phone_android, color: cs.primary),
-            // title: Text(
-            //   "موبايل",
-            //   style: tt.titleMedium!.copyWith(color: cs.onSurface),
-            // ),
-            title: Text(
-              "0000000000",
-              style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.email, color: cs.primary),
-            // title: Text(
-            //   "بريد الكتروني",
-            //   style: tt.titleMedium!.copyWith(color: cs.onSurface),
-            // ),
-            title: Text(
-              "example@gmail.com",
-              style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 12, left: 12, top: 24, bottom: 12),
+          //   child: Text(
+          //     "للاستفسار يرجى التواصل مع المطور",
+          //     style: tt.titleMedium!.copyWith(color: cs.onSurface),
+          //   ),
+          // ),
+          // ListTile(
+          //   leading: Icon(Icons.phone_android, color: cs.primary),
+          //   // title: Text(
+          //   //   "موبايل",
+          //   //   style: tt.titleMedium!.copyWith(color: cs.onSurface),
+          //   // ),
+          //   title: Text(
+          //     "0000000000",
+          //     style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+          //   ),
+          // ),
+          // ListTile(
+          //   leading: Icon(Icons.email, color: cs.primary),
+          //   // title: Text(
+          //   //   "بريد الكتروني",
+          //   //   style: tt.titleMedium!.copyWith(color: cs.onSurface),
+          //   // ),
+          //   title: Text(
+          //     "example@gmail.com",
+          //     style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+          //   ),
+          // ),
         ],
       ),
     );
