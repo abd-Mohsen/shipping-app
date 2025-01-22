@@ -189,4 +189,22 @@ class RemoteServices {
     }
     return true;
   }
+
+  static Future<bool> addVehicle(
+    String ownerName,
+    String vehicleTypeID,
+    String vehicleRegistrationNumber,
+    File? vehicleRegistrationPhoto,
+  ) async {
+    Map<String, String> body = {
+      "full_name_owner": ownerName,
+      "vehicle_type": vehicleTypeID,
+      "vehicle_registration_number": vehicleRegistrationNumber,
+    };
+    Map<String, File?> images = {
+      "vehicle_registration_photo": vehicleRegistrationPhoto,
+    };
+    String? json = await api.postRequestWithImages("vehicles/", images, body, auth: true);
+    return json != null;
+  }
 }

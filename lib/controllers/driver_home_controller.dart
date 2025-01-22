@@ -58,23 +58,24 @@ class DriverHomeController extends GetxController {
         Get.to(() => const MyVehiclesView());
       } else if (!_currentUser!.driverInfo!.isVerifiedId || !_currentUser!.driverInfo!.isVerifiedLicense) {
         Get.dialog(
-            AlertDialog(
-              backgroundColor: Colors.white,
-              title: const Text("بياناتك لم تقبل بعد", style: TextStyle(color: Colors.black)),
-              content: const Text("يرجى التواصل مع الشركة لتفعيل حسابك", style: TextStyle(color: Colors.black)),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Get.offAll(() => const LoginView()); //todo: go to complete account page
-                  },
-                  child: const Text(
-                    "تسجيل خروج",
-                    style: TextStyle(color: Colors.red),
-                  ),
+          AlertDialog(
+            backgroundColor: Colors.white,
+            title: const Text("بياناتك لم تقبل بعد", style: TextStyle(color: Colors.black)),
+            content: const Text("يرجى التواصل مع الشركة لتفعيل حسابك", style: TextStyle(color: Colors.black)),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Get.offAll(() => const LoginView()); //todo: go to complete account page
+                },
+                child: const Text(
+                  "تسجيل خروج",
+                  style: TextStyle(color: Colors.red),
                 ),
-              ],
-            ),
-            barrierDismissible: false);
+              ),
+            ],
+          ),
+          barrierDismissible: false,
+        );
       }
     }
 

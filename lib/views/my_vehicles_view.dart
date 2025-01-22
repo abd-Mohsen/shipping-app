@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shipment/controllers/my_addresses_controller.dart';
 import 'package:get/get.dart';
+import 'package:shipment/controllers/my_vehicles_controller.dart';
+import 'package:shipment/views/components/add_vehicle_sheet.dart';
 
 class MyVehiclesView extends StatelessWidget {
   const MyVehiclesView({super.key});
@@ -9,7 +10,7 @@ class MyVehiclesView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    MyAddressesController mAC = Get.put(MyAddressesController());
+    MyVehiclesController mVC = Get.put(MyVehiclesController());
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
@@ -22,19 +23,25 @@ class MyVehiclesView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //add a vehicle (bottom sheet)
+          showModalBottomSheet(
+            context: context,
+            enableDrag: false,
+            builder: (BuildContext context) => AddVehicleSheet(),
+          );
         },
         foregroundColor: cs.onPrimary,
         child: Icon(Icons.add, color: cs.onPrimary),
       ),
-      body: GetBuilder<MyAddressesController>(builder: (controller) {
-        return ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-          children: [
-            //
-          ],
-        );
-      }),
+      body: GetBuilder<MyVehiclesController>(
+        builder: (controller) {
+          return ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+            children: [
+              //
+            ],
+          );
+        },
+      ),
     );
   }
 }
