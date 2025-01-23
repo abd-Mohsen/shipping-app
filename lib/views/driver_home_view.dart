@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
+import 'package:shipment/views/my_vehicles_view.dart';
 
 import '../constants.dart';
 import '../controllers/locale_controller.dart';
@@ -138,7 +139,7 @@ class DriverHomeView extends StatelessWidget {
                       leading: const Icon(Icons.local_shipping_outlined),
                       title: Text("my vehicles".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
                       onTap: () {
-                        //Get.to(const MyAddressesView());
+                        Get.to(() => const MyVehiclesView());
                       },
                     ),
                     ListTile(

@@ -17,7 +17,7 @@ class VehicleTypeModel {
 
   factory VehicleTypeModel.fromJson(Map<String, dynamic> json) => VehicleTypeModel(
         id: json["id"],
-        type: utf8.decode(json["type"].codeUnits),
+        type: json["type"],
       );
 
   Map<String, dynamic> toJson() => {

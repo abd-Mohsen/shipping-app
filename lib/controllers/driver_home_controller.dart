@@ -49,6 +49,7 @@ class DriverHomeController extends GetxController {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
     //todo: show (complete account) page to change id and license if not verified
+    //todo: dont let user logout if user is loading (it may redirect after logout)
     if (_currentUser != null) {
       if (!_currentUser!.isVerified) {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));

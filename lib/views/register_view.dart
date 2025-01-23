@@ -261,11 +261,23 @@ class RegisterView extends StatelessWidget {
                               title: "ID (front)".tr,
                               isSubmitted: controller.idFront != null,
                               image: controller.idFront,
+                              onTapCamera: () {
+                                controller.pickImage("ID (front)".tr, "camera");
+                              },
+                              onTapGallery: () {
+                                controller.pickImage("ID (front)".tr, "gallery");
+                              },
                             ),
                             IdImageSelector(
                               title: "ID (rear)".tr,
                               isSubmitted: controller.idRear != null,
                               image: controller.idRear,
+                              onTapCamera: () {
+                                controller.pickImage("ID (rear)".tr, "camera");
+                              },
+                              onTapGallery: () {
+                                controller.pickImage("ID (rear)".tr, "gallery");
+                              },
                             ),
                             Visibility(
                               visible: controller.roles[controller.roleIndex] == "driver",
@@ -273,6 +285,12 @@ class RegisterView extends StatelessWidget {
                                 title: "driving license (front)".tr,
                                 isSubmitted: controller.dLicenseFront != null,
                                 image: controller.dLicenseFront,
+                                onTapCamera: () {
+                                  controller.pickImage("driving license (front)".tr, "camera");
+                                },
+                                onTapGallery: () {
+                                  controller.pickImage("driving license (front)".tr, "gallery");
+                                },
                               ),
                             ),
                             Visibility(
@@ -281,6 +299,12 @@ class RegisterView extends StatelessWidget {
                                 title: "driving license (rear)".tr,
                                 isSubmitted: controller.dLicenseRear != null,
                                 image: controller.dLicenseRear,
+                                onTapCamera: () {
+                                  controller.pickImage("driving license (rear)".tr, "camera");
+                                },
+                                onTapGallery: () {
+                                  controller.pickImage("driving license (rear)".tr, "gallery");
+                                },
                               ),
                             ),
                             const SizedBox(height: 16),

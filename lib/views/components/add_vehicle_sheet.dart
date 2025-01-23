@@ -26,7 +26,8 @@ class AddVehicleSheet extends StatelessWidget {
           ),
           child: Form(
             key: controller.formKey,
-            child: Column(
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
               children: [
                 InputField(
                   controller: controller.vehicleOwner,
@@ -42,13 +43,13 @@ class AddVehicleSheet extends StatelessWidget {
                   },
                 ),
                 InputField(
-                  controller: controller.vehicleOwner,
-                  label: "owner name".tr,
+                  controller: controller.licensePlate,
+                  label: "license Plate".tr,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
-                  prefixIcon: Icons.person,
+                  prefixIcon: Icons.local_police_outlined,
                   validator: (val) {
-                    return validateInput(controller.vehicleOwner.text, 0, 100, "");
+                    return validateInput(controller.licensePlate.text, 0, 100, "", wholeNumber: true);
                   },
                   onChanged: (val) {
                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
@@ -137,8 +138,38 @@ class AddVehicleSheet extends StatelessWidget {
                   title: "registration".tr,
                   isSubmitted: controller.registration != null,
                   image: controller.registration,
+                  onTapCamera: () {
+                    controller.pickImage("camera");
+                  },
+                  onTapGallery: () {
+                    controller.pickImage("gallery");
+                  },
                 ),
-                //todo: refactor image selector to work with other than register
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      controller.submit();
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 14.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Center(
+                          child: controller.isLoading
+                              ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                              : Text(
+                                  "add".tr.toUpperCase(),
+                                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

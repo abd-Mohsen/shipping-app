@@ -63,6 +63,6 @@ class MyVehiclesController extends GetxController {
   }
 
   void submit() async {
-    //
+    //check that image is selected
   }
 }
