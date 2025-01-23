@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,7 +64,41 @@ class MyVehiclesController extends GetxController {
     toggleLoadingVehicle(false);
   }
 
+  void resetForm() {
+    vehicleOwner.text = "";
+    licensePlate.text = "";
+    selectedVehicleType = null;
+    registration = null;
+  }
+
   void submit() async {
     //check that image is selected
+    if (isLoading || isLoadingVehicle) return;
+    buttonPressed = true;
+    bool valid = formKey.currentState!.validate();
+    if (!valid) return;
+    if (registration == null) {
+      Get.showSnackbar(GetSnackBar(
+        message: "pick images first".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      return;
+    }
+    toggleLoading(true);
+    bool success = await RemoteServices.addVehicle(
+      vehicleOwner.text,
+      selectedVehicleType!.id,
+      licensePlate.text,
+      File(registration!.path),
+    );
+    if (success) {
+      Get.back();
+      Get.showSnackbar(GetSnackBar(
+        message: "the car was added successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      resetForm();
+    }
+    toggleLoading(false);
   }
 }

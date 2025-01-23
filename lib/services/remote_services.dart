@@ -192,13 +192,13 @@ class RemoteServices {
 
   static Future<bool> addVehicle(
     String ownerName,
-    String vehicleTypeID,
+    int vehicleTypeID,
     String vehicleRegistrationNumber,
     File? vehicleRegistrationPhoto,
   ) async {
     Map<String, String> body = {
       "full_name_owner": ownerName,
-      "vehicle_type": vehicleTypeID,
+      "vehicle_type": vehicleTypeID.toString(),
       "vehicle_registration_number": vehicleRegistrationNumber,
     };
     Map<String, File?> images = {

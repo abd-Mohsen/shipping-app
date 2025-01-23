@@ -200,7 +200,7 @@ class Api {
         request.files.add(multipartFile);
       }
 
-      var response = await request.send();
+      var response = await request.send().timeout(kTimeOutDuration);
       String responseBody = await response.stream.bytesToString();
       responseBody = utf8.decode(latin1.encode(responseBody));
       print("$responseBody===========${response.statusCode}");
