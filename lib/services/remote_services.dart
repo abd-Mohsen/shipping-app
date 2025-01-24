@@ -167,7 +167,7 @@ class RemoteServices {
   }
 
   static Future<List<PaymentMethodModel>?> fetchPaymentMethods() async {
-    String? json = await api.getRequest("get_payment_methods/");
+    String? json = await api.getRequest("cstomer_payment_methods/", utf8Decode: false, auth: true);
     if (json == null) return null;
     return paymentMethodModelFromJson(json);
   }
