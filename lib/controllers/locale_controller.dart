@@ -28,6 +28,6 @@ class LocaleController extends GetxController {
   }
 
   void loadInitLocale() {
-    _initLocale = Locale(_getStorage.read("lang") ?? Get.deviceLocale!.languageCode);
+    _initLocale = Locale(_getStorage.read("lang") ?? "ar");
   }
 }

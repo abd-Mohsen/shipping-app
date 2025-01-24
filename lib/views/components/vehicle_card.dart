@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class VehicleCard extends StatelessWidget {
-  final String licensePlate;
+  final String licensePlate; //todo pass only the model
 
   const VehicleCard({super.key, required this.licensePlate});
 

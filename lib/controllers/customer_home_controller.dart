@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shipment/models/order_model.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
@@ -18,9 +19,19 @@ class CustomerHomeController extends GetxController {
     super.onInit();
   }
 
+  List<OrderModel> myOrders = [];
+
   void getOrders() async {
-    var x = await RemoteServices.fetchCustomerOrders();
-    print(x);
+    //todo:pagination
+    toggleLoading(true);
+    List<OrderModel> newItems = await RemoteServices.fetchCustomerOrders() ?? [];
+    myOrders.addAll(newItems);
+    toggleLoading(false);
+  }
+
+  Future<void> refreshOrders() async {
+    myOrders.clear();
+    getOrders();
   }
 
   final GetStorage _getStorage = GetStorage();
@@ -64,62 +75,62 @@ class CustomerHomeController extends GetxController {
 
   Position? position;
 
-  Future<void> getLocation(context) async {
-    ColorScheme cs = Theme.of(context).colorScheme;
-    toggleLoading(true);
-    LocationPermission permission;
-
-    if (!await Geolocator.isLocationServiceEnabled()) {
-      toggleLoading(false);
-      Get.defaultDialog(
-        title: "",
-        content: Column(
-          children: [
-            const Icon(
-              Icons.location_on,
-              size: 80,
-            ),
-            Text(
-              "من فضلك قم بتشغيل خدمة تحديد الموقع أولاً",
-              style: TextStyle(fontSize: 24, color: cs.onSurface),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      );
-    }
-
-    permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        toggleLoading(false);
-        Get.showSnackbar(const GetSnackBar(
-          message: "تم رفض صلاحية الموقع, لا يمكن تحديد موقعك الحالي",
-          duration: Duration(milliseconds: 1500),
-        ));
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      toggleLoading(false);
-      Get.showSnackbar(const GetSnackBar(
-        message: "تم رفض صلاحية الموقع, يجب اعطاء صلاحية من اعدادات التطبيق",
-        duration: Duration(milliseconds: 1500),
-      ));
-    }
-    try {
-      position = await Geolocator.getCurrentPosition().timeout(kTimeOutDuration);
-    } on TimeoutException {
-      Get.showSnackbar(kTimeOutSnackBar());
-      toggleLoading(false);
-    } catch (e) {
-      print(e.toString());
-    }
-    print('${position!.longitude} ${position!.latitude}');
-    toggleLoading(false);
-  }
+  // Future<void> getLocation(context) async {
+  //   ColorScheme cs = Theme.of(context).colorScheme;
+  //   toggleLoading(true);
+  //   LocationPermission permission;
+  //
+  //   if (!await Geolocator.isLocationServiceEnabled()) {
+  //     toggleLoading(false);
+  //     Get.defaultDialog(
+  //       title: "",
+  //       content: Column(
+  //         children: [
+  //           const Icon(
+  //             Icons.location_on,
+  //             size: 80,
+  //           ),
+  //           Text(
+  //             "من فضلك قم بتشغيل خدمة تحديد الموقع أولاً",
+  //             style: TextStyle(fontSize: 24, color: cs.onSurface),
+  //             textAlign: TextAlign.center,
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   }
+  //
+  //   permission = await Geolocator.checkPermission();
+  //
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       toggleLoading(false);
+  //       Get.showSnackbar(const GetSnackBar(
+  //         message: "تم رفض صلاحية الموقع, لا يمكن تحديد موقعك الحالي",
+  //         duration: Duration(milliseconds: 1500),
+  //       ));
+  //     }
+  //   }
+  //
+  //   if (permission == LocationPermission.deniedForever) {
+  //     toggleLoading(false);
+  //     Get.showSnackbar(const GetSnackBar(
+  //       message: "تم رفض صلاحية الموقع, يجب اعطاء صلاحية من اعدادات التطبيق",
+  //       duration: Duration(milliseconds: 1500),
+  //     ));
+  //   }
+  //   try {
+  //     position = await Geolocator.getCurrentPosition().timeout(kTimeOutDuration);
+  //   } on TimeoutException {
+  //     Get.showSnackbar(kTimeOutSnackBar());
+  //     toggleLoading(false);
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  //   print('${position!.longitude} ${position!.latitude}');
+  //   toggleLoading(false);
+  // }
 
   void logout() async {
     if (await RemoteServices.logout()) {

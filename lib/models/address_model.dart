@@ -16,7 +16,7 @@ class AddressModel {
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
         name: json["name"],
-        child: AddressModel.fromJson(json["child"]),
+        child: json["child"] == null ? null : AddressModel.fromJson(json["child"]),
       );
 
   Map<String, dynamic> toJson() => {

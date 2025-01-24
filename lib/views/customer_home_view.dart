@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/locale_controller.dart';
+import 'package:shipment/views/components/order_card.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/my_addresses_view.dart';
 import '../constants.dart';
@@ -42,9 +43,18 @@ class CustomerHomeView extends StatelessWidget {
         ),
         backgroundColor: cs.surface,
         body: GetBuilder<CustomerHomeController>(
-          //init: HomeController(),
-          builder: (con) => Column(),
-        ),
+            //init: HomeController(),
+            builder: (controller) {
+          if (controller.isLoading) return SpinKitSquareCircle(color: cs.primary);
+          return RefreshIndicator(
+            onRefresh: controller.refreshOrders,
+            child: ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              itemCount: controller.myOrders.length,
+              itemBuilder: (context, i) => OrderCard(order: controller.myOrders[i]),
+            ),
+          );
+        }),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Get.to(() => const MakeOrderView());
