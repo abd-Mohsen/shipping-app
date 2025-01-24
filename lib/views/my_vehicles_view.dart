@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/my_vehicles_controller.dart';
 import 'package:shipment/views/components/add_vehicle_sheet.dart';
+import 'package:shipment/views/components/vehicle_card.dart';
 
 class MyVehiclesView extends StatelessWidget {
   const MyVehiclesView({super.key});
@@ -34,12 +36,15 @@ class MyVehiclesView extends StatelessWidget {
       ),
       body: GetBuilder<MyVehiclesController>(
         builder: (controller) {
-          return ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-            children: [
-              //
-            ],
-          );
+          return controller.isLoading
+              ? SpinKitSquareCircle(color: cs.primary)
+              : ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                  itemCount: controller.myVehicles.length,
+                  itemBuilder: (context, i) => VehicleCard(
+                    licensePlate: controller.myVehicles[i].licensePlate,
+                  ),
+                );
         },
       ),
     );

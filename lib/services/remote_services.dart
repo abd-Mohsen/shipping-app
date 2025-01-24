@@ -10,6 +10,7 @@ import 'package:shipment/models/vehicle_type_model.dart';
 import '../main.dart';
 import '../models/login_model.dart';
 import '../models/user_model.dart';
+import '../models/vehicle_model.dart';
 
 class RemoteServices {
   static Map<String, String> headers = {
@@ -164,13 +165,13 @@ class RemoteServices {
   }
 
   static Future<List<PaymentMethodModel>?> fetchPaymentMethods() async {
-    String? json = await api.getRequest("get_payment_methods/", showTimeout: false);
+    String? json = await api.getRequest("get_payment_methods/");
     if (json == null) return null;
     return paymentMethodModelFromJson(json);
   }
 
   static Future<List<VehicleTypeModel>?> fetchVehicleType() async {
-    String? json = await api.getRequest("get_vehicle_type/", showTimeout: false);
+    String? json = await api.getRequest("get_vehicle_type/");
     if (json == null) return null;
     return vehicleTypeModelFromJson(json);
   }
@@ -206,5 +207,11 @@ class RemoteServices {
     };
     String? json = await api.postRequestWithImages("vehicles/", images, body, auth: true);
     return json != null;
+  }
+
+  static Future<List<VehicleModel>?> fetchMyVehicles() async {
+    String? json = await api.getRequest("vehicles/", auth: true);
+    if (json == null) return null;
+    return vehicleModelFromJson(json);
   }
 }

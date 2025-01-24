@@ -6,15 +6,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:flutter/material.dart';
 
+import '../models/vehicle_model.dart';
 import '../services/remote_services.dart';
 
 class MyVehiclesController extends GetxController {
   //todo: dont let user get back if there is no vehicles (handel not loaded yet case)
-  List<VehicleTypeModel> vehicles = [];
+  List<VehicleModel> myVehicles = [];
 
   @override
   onInit() {
     getVehicleTypes();
+    getMyVehicle();
     super.onInit();
   }
 
@@ -48,6 +50,13 @@ class MyVehiclesController extends GetxController {
     update();
   }
 
+  bool _isLoadingSubmit = false;
+  bool get isLoadingSubmit => _isLoadingSubmit;
+  void toggleLoadingSubmit(bool value) {
+    _isLoadingSubmit = value;
+    update();
+  }
+
   bool _isLoadingVehicle = false;
   bool get isLoadingVehicle => _isLoadingVehicle;
   void toggleLoadingVehicle(bool value) {
@@ -64,6 +73,13 @@ class MyVehiclesController extends GetxController {
     toggleLoadingVehicle(false);
   }
 
+  void getMyVehicle() async {
+    toggleLoading(true);
+    List<VehicleModel> newItems = await RemoteServices.fetchMyVehicles() ?? [];
+    myVehicles.addAll(newItems);
+    toggleLoading(false);
+  }
+
   void resetForm() {
     vehicleOwner.text = "";
     licensePlate.text = "";
@@ -72,8 +88,7 @@ class MyVehiclesController extends GetxController {
   }
 
   void submit() async {
-    //check that image is selected
-    if (isLoading || isLoadingVehicle) return;
+    if (isLoading || isLoadingVehicle || isLoadingSubmit) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
@@ -84,7 +99,7 @@ class MyVehiclesController extends GetxController {
       ));
       return;
     }
-    toggleLoading(true);
+    toggleLoadingSubmit(true);
     bool success = await RemoteServices.addVehicle(
       vehicleOwner.text,
       selectedVehicleType!.id,
@@ -99,6 +114,6 @@ class MyVehiclesController extends GetxController {
       ));
       resetForm();
     }
-    toggleLoading(false);
+    toggleLoadingSubmit(false);
   }
 }

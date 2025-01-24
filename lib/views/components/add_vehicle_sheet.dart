@@ -159,7 +159,7 @@ class AddVehicleSheet extends StatelessWidget {
                       child: SizedBox(
                         width: double.infinity,
                         child: Center(
-                          child: controller.isLoading
+                          child: controller.isLoadingSubmit
                               ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                               : Text(
                                   "add".tr.toUpperCase(),
