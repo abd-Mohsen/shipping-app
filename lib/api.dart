@@ -28,6 +28,7 @@ class Api {
     bool canRefresh = true,
     bool showTimeout = true,
     bool toMyServer = true,
+    bool utf8Decode = true,
   }) async {
     print("sending to ${toMyServer ? "$_hostIP/" : ""}$endPoint");
     print("Token $accessToken");
@@ -39,7 +40,7 @@ class Api {
           )
           .timeout(kTimeOutDuration);
 
-      String responseBody = utf8.decode(latin1.encode(response.body));
+      String responseBody = utf8Decode ? utf8.decode(latin1.encode(response.body)) : response.body;
       print("$responseBody =========== ${response.statusCode}");
 
       if (canRefresh && response.statusCode == 401) {

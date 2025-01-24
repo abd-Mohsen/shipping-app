@@ -14,7 +14,13 @@ class CustomerHomeController extends GetxController {
   @override
   onInit() {
     getCurrentUser();
+    getOrders();
     super.onInit();
+  }
+
+  void getOrders() async {
+    var x = await RemoteServices.fetchCustomerOrders();
+    print(x);
   }
 
   final GetStorage _getStorage = GetStorage();

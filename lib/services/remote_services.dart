@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/location_model.dart';
+import 'package:shipment/models/order_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import '../main.dart';
@@ -150,6 +151,7 @@ class RemoteServices {
     String? json = await api.getRequest(
       'https://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude',
       toMyServer: false,
+      utf8Decode: false,
     );
     if (json == null) return null;
     final data = jsonDecode(json);
@@ -213,5 +215,11 @@ class RemoteServices {
     String? json = await api.getRequest("vehicles/", auth: true);
     if (json == null) return null;
     return vehicleModelFromJson(json);
+  }
+
+  static Future<List<OrderModel>?> fetchCustomerOrders() async {
+    String? json = await api.getRequest("customer_order/", auth: true);
+    if (json == null) return null;
+    return orderModelFromJson(json);
   }
 }
