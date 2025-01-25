@@ -16,7 +16,7 @@ class MyVehiclesController extends GetxController {
   @override
   onInit() {
     getVehicleTypes();
-    getMyVehicle();
+    getMyVehicles();
     super.onInit();
   }
 
@@ -73,11 +73,16 @@ class MyVehiclesController extends GetxController {
     toggleLoadingVehicle(false);
   }
 
-  void getMyVehicle() async {
+  void getMyVehicles() async {
     toggleLoading(true);
     List<VehicleModel> newItems = await RemoteServices.fetchMyVehicles() ?? [];
     myVehicles.addAll(newItems);
     toggleLoading(false);
+  }
+
+  Future<void> refreshMyVehicles() async {
+    myVehicles.clear();
+    getMyVehicles();
   }
 
   void resetForm() {

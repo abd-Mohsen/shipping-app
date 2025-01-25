@@ -50,14 +50,18 @@ class DriverHomeController extends GetxController {
     _currentUser = await RemoteServices.fetchCurrentUser();
     //todo: show (complete account) page to change id and license if not verified
     //todo: dont let user logout if user is loading (it may redirect after logout)
+    /*
+      'Pending', 'Verified', 'Refused', 'No_Input',
+    */
     if (_currentUser != null) {
       if (!_currentUser!.isVerified) {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));
-      } else if (!_currentUser!.driverInfo!.hasAVehicle) {
+      } else if (_currentUser!.driverInfo!.vehicleStatus == "No_Input") {
         //todo: show a dialog, you must add a vehicle before using the app
         Get.to(() => const MyVehiclesView());
-      } else if (!_currentUser!.driverInfo!.isVerifiedId || !_currentUser!.driverInfo!.isVerifiedLicense) {
+      } else if (_currentUser!.driverInfo!.idStatus == "No_Input" ||
+          _currentUser!.driverInfo!.licenseStatus == "No_Input") {
         Get.dialog(
           AlertDialog(
             backgroundColor: Colors.white,
@@ -66,6 +70,7 @@ class DriverHomeController extends GetxController {
             actions: [
               TextButton(
                 onPressed: () {
+                  //todo: logout first
                   Get.offAll(() => const LoginView()); //todo: go to complete account page
                 },
                 child: const Text(

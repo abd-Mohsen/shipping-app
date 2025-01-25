@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shipment/models/vehicle_model.dart';
 
 class VehicleCard extends StatelessWidget {
-  final String licensePlate; //todo pass only the model
+  final VehicleModel vehicle;
 
-  const VehicleCard({super.key, required this.licensePlate});
+  const VehicleCard({super.key, required this.vehicle});
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +34,14 @@ class VehicleCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                licensePlate,
+                vehicle.licensePlate,
                 style: tt.titleMedium!.copyWith(color: cs.onSurface),
               ),
               SizedBox(height: 12),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.6,
                 child: Text(
-                  "idk",
+                  vehicle.vehicleTypeInfo.type,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: tt.titleSmall!.copyWith(

@@ -38,11 +38,14 @@ class MyVehiclesView extends StatelessWidget {
         builder: (controller) {
           return controller.isLoading
               ? SpinKitSquareCircle(color: cs.primary)
-              : ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                  itemCount: controller.myVehicles.length,
-                  itemBuilder: (context, i) => VehicleCard(
-                    licensePlate: controller.myVehicles[i].licensePlate,
+              : RefreshIndicator(
+                  onRefresh: controller.refreshMyVehicles,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                    itemCount: controller.myVehicles.length,
+                    itemBuilder: (context, i) => VehicleCard(
+                      vehicle: controller.myVehicles[i],
+                    ),
                   ),
                 );
         },
