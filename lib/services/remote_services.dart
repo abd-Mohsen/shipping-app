@@ -207,7 +207,7 @@ class RemoteServices {
     Map<String, File?> images = {
       "vehicle_registration_photo": vehicleRegistrationPhoto,
     };
-    String? json = await api.postRequestWithImages("vehicles/", images, body, auth: true);
+    String? json = await api.postRequestWithImages("vehicles/", images, body, auth: true, utf8Decode: false);
     return json != null;
   }
 

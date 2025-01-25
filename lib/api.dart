@@ -169,8 +169,15 @@ class Api {
     }
   }
 
-  Future<String?> postRequestWithImages(String endPoint, Map<String, File?> images, Map<String, String> body,
-      {bool auth = false, bool canRefresh = true, bool showTimeout = true}) async {
+  Future<String?> postRequestWithImages(
+    String endPoint,
+    Map<String, File?> images,
+    Map<String, String> body, {
+    bool auth = false,
+    bool canRefresh = true,
+    bool showTimeout = true,
+    bool utf8Decode = true,
+  }) async {
     print("sending to $_hostIP/$endPoint");
     if (auth) print("Token $accessToken");
     try {
@@ -203,7 +210,7 @@ class Api {
 
       var response = await request.send().timeout(kTimeOutDuration);
       String responseBody = await response.stream.bytesToString();
-      responseBody = utf8.decode(latin1.encode(responseBody));
+      if (utf8Decode) responseBody = utf8.decode(latin1.encode(responseBody));
       print("$responseBody===========${response.statusCode}");
 
       if (canRefresh && response.statusCode == 401) {

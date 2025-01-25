@@ -118,6 +118,7 @@ class MyVehiclesController extends GetxController {
         duration: const Duration(milliseconds: 2500),
       ));
       resetForm();
+      refreshMyVehicles();
     }
     toggleLoadingSubmit(false);
   }

@@ -14,9 +14,9 @@ class VehicleModel {
   final int vehicleType;
   final VehicleTypeModel vehicleTypeInfo;
   final String licensePlate;
-  final String vehicleRegistrationPhoto;
+  final String registrationPhoto;
   final DateTime createdAt;
-  final dynamic updatedAt;
+  final DateTime? updatedAt;
 
   VehicleModel({
     required this.id,
@@ -25,7 +25,7 @@ class VehicleModel {
     required this.vehicleType,
     required this.vehicleTypeInfo,
     required this.licensePlate,
-    required this.vehicleRegistrationPhoto,
+    required this.registrationPhoto,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -37,7 +37,7 @@ class VehicleModel {
         vehicleType: json["vehicle_type"],
         vehicleTypeInfo: VehicleTypeModel.fromJson(json["vehicle_type_info"]),
         licensePlate: json["vehicle_registration_number"],
-        vehicleRegistrationPhoto: json["vehicle_registration_photo"],
+        registrationPhoto: json["vehicle_registration_photo"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"],
       );
@@ -49,7 +49,7 @@ class VehicleModel {
         "vehicle_type": vehicleType,
         "vehicle_type_info": vehicleTypeInfo.toJson(),
         "vehicle_registration_number": licensePlate,
-        "vehicle_registration_photo": vehicleRegistrationPhoto,
+        "vehicle_registration_photo": registrationPhoto,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt,
       };
