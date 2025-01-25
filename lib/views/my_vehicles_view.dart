@@ -45,6 +45,37 @@ class MyVehiclesView extends StatelessWidget {
                     itemCount: controller.myVehicles.length,
                     itemBuilder: (context, i) => VehicleCard(
                       vehicle: controller.myVehicles[i],
+                      onDelete: () {
+                        Get.defaultDialog(
+                          title: "",
+                          content: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              "delete the vehicle?".tr,
+                              style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                            ),
+                          ),
+                          confirm: TextButton(
+                            onPressed: () {
+                              Get.back();
+                              controller.deleteVehicle(controller.myVehicles[i].id);
+                            },
+                            child: Text(
+                              "yes",
+                              style: tt.titleMedium!.copyWith(color: Colors.red),
+                            ),
+                          ),
+                          cancel: TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: Text(
+                              "no",
+                              style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 );

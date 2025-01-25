@@ -159,7 +159,7 @@ class Api {
         return false;
       }
       print("${response.body}===========${response.statusCode}");
-      return response.statusCode == 204;
+      return response.statusCode == 204 || response.statusCode == 200;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
       return false;

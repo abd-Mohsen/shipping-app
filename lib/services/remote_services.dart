@@ -222,4 +222,9 @@ class RemoteServices {
     if (json == null) return null;
     return orderModelFromJson(json);
   }
+
+  static Future<bool> deleteVehicle(int id) async {
+    bool json = await api.deleteRequest("vehicles/$id/", auth: true);
+    return json;
+  }
 }

@@ -7,8 +7,13 @@ import 'package:shipment/models/vehicle_model.dart';
 
 class VehicleCard extends StatelessWidget {
   final VehicleModel vehicle;
+  final void Function() onDelete;
 
-  const VehicleCard({super.key, required this.vehicle});
+  const VehicleCard({
+    super.key,
+    required this.vehicle,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class VehicleCard extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.directions_car_filled,
-          color: cs.primary,
+          color: cs.primary, //todo: change color based on status
           size: 35,
         ),
         title: Padding(
@@ -96,6 +101,18 @@ class VehicleCard extends StatelessWidget {
               ),
             ),
           ),
+          ListTile(
+            onTap: onDelete,
+            title: Text(
+              "remove".tr,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: tt.titleMedium!.copyWith(
+                color: Colors.red,
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
           Image.network(
             "$kHostIP/${vehicle.registrationPhoto}",
             loadingBuilder: (context, child, loadingProgress) {
@@ -111,13 +128,13 @@ class VehicleCard extends StatelessWidget {
                 );
               }
             },
-            // errorBuilder: (context, error, stackTrace) {
-            //   // Handle the error state here (optional)
-            //   return Padding(
-            //     padding: const EdgeInsets.all(16.0),
-            //     child: Text("Error loading image"),
-            //   );
-            // },
+            errorBuilder: (context, error, stackTrace) {
+              // Handle the error state here (optional)
+              return const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text("Error loading image"),
+              );
+            },
           ),
         ],
       ),

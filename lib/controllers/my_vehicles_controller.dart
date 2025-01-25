@@ -92,6 +92,14 @@ class MyVehiclesController extends GetxController {
     registration = null;
   }
 
+  void deleteVehicle(int id) async {
+    bool res = await RemoteServices.deleteVehicle(id);
+    if (res) {
+      myVehicles.removeWhere((vehicle) => vehicle.id == id);
+      update();
+    }
+  }
+
   void submit() async {
     if (isLoading || isLoadingVehicle || isLoadingSubmit) return;
     buttonPressed = true;
