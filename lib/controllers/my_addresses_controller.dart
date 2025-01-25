@@ -64,11 +64,19 @@ class MyAddressesController extends GetxController {
     update();
   }
 
-  List<AddressModel> addresses = [];
+  List<AddressModel> myAddresses = [];
 
   void getMyAddresses() async {
-    //
+    toggleLoading(true);
+    List<AddressModel> newItems = await RemoteServices.fetchMyAddresses() ?? [];
+    myAddresses.addAll(newItems);
+    toggleLoading(false);
   } //todo
+
+  Future<void> refreshMyAddress() async {
+    myAddresses.clear();
+    getMyAddresses();
+  }
 
   Future<void> addAddress() async {
     if (isLoadingAdd || selectedPosition == null) return;
@@ -83,7 +91,14 @@ class MyAddressesController extends GetxController {
       toggleLoadingAdd(false);
       return;
     }
-    await RemoteServices.addAddress(selectedLocation!.addressEncoder());
+    bool success = await RemoteServices.addAddress(selectedLocation!.addressEncoder());
+    if (success) {
+      Get.showSnackbar(GetSnackBar(
+        message: "the address was added successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      refreshMyAddress();
+    }
     toggleLoadingAdd(false);
   }
 }

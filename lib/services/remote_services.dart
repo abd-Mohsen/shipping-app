@@ -166,6 +166,12 @@ class RemoteServices {
     return json != null;
   }
 
+  static Future<List<AddressModel>?> fetchMyAddresses() async {
+    String? json = await api.getRequest("user_addresses/", auth: true);
+    if (json == null) return null;
+    return addressModelFromJson(json);
+  }
+
   static Future<List<PaymentMethodModel>?> fetchPaymentMethods() async {
     String? json = await api.getRequest("cstomer_payment_methods/", utf8Decode: false, auth: true);
     if (json == null) return null;
