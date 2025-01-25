@@ -50,6 +50,7 @@ class DriverHomeController extends GetxController {
     _currentUser = await RemoteServices.fetchCurrentUser();
     //todo: show (complete account) page to change id and license if not verified
     //todo: dont let user logout if user is loading (it may redirect after logout)
+    //todo: do the same for customer and company
     /*
       'Pending', 'Verified', 'Refused', 'No_Input',
     */

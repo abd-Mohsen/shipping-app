@@ -6,15 +6,18 @@ List<AddressModel> addressModelFromJson(String str) =>
 String addressModelToJson(List<AddressModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class AddressModel {
+  final int? id;
   final String name;
   AddressModel? child;
 
   AddressModel({
+    this.id,
     required this.name,
     required this.child,
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
+        id: json["id"],
         name: json["name"],
         child: json["child"] == null ? null : AddressModel.fromJson(json["child"]),
       );

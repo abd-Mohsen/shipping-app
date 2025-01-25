@@ -71,7 +71,7 @@ class MyAddressesController extends GetxController {
   } //todo
 
   Future<void> addAddress() async {
-    if (isLoadingAdd) return;
+    if (isLoadingAdd || selectedPosition == null) return;
     toggleLoadingAdd(true);
     await calculateLocation();
     List<String> syriaNames = ["sy", "syria", "سوريا"];
@@ -80,10 +80,10 @@ class MyAddressesController extends GetxController {
         message: "اختر موقع في سوريا",
         duration: Duration(milliseconds: 2500),
       ));
-      toggleLoading(false);
+      toggleLoadingAdd(false);
       return;
     }
     await RemoteServices.addAddress(selectedLocation!.addressEncoder());
-    toggleLoading(false);
+    toggleLoadingAdd(false);
   }
 }
