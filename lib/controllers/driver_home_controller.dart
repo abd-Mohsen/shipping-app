@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
@@ -16,6 +17,7 @@ class DriverHomeController extends GetxController {
   @override
   onInit() {
     getCurrentUser();
+    getGovernorates();
     super.onInit();
   }
 
@@ -25,6 +27,13 @@ class DriverHomeController extends GetxController {
   bool get isLoading => _isLoading;
   void toggleLoading(bool value) {
     _isLoading = value;
+    update();
+  }
+
+  bool _isLoadingGovernorates = false;
+  bool get isLoadingGovernorates => _isLoadingGovernorates;
+  void toggleLoadingGovernorate(bool value) {
+    _isLoadingGovernorates = value;
     update();
   }
 
@@ -44,6 +53,24 @@ class DriverHomeController extends GetxController {
 
   UserModel? _currentUser;
   UserModel? get currentUser => _currentUser;
+
+  List<GovernorateModel> governorates = [];
+
+  GovernorateModel? selectedGovernorate;
+
+  void setGovernorate(GovernorateModel? governorate) {
+    selectedGovernorate = governorate;
+    // make a new requests to get orders from selected gov
+    update();
+  }
+
+  void getGovernorates() async {
+    toggleLoadingGovernorate(true);
+    List<GovernorateModel> newItems = await RemoteServices.fetchGovernorates() ?? [];
+    governorates.addAll(newItems);
+    setGovernorate(governorates[0]);
+    toggleLoadingGovernorate(false);
+  }
 
   void getCurrentUser() async {
     toggleLoadingUser(true);
@@ -89,66 +116,67 @@ class DriverHomeController extends GetxController {
     toggleLoadingUser(false);
   }
 
-  Position? position;
-
-  Future<void> getLocation(context) async {
-    ColorScheme cs = Theme.of(context).colorScheme;
-    toggleLoading(true);
-    LocationPermission permission;
-
-    if (!await Geolocator.isLocationServiceEnabled()) {
-      toggleLoading(false);
-      Get.defaultDialog(
-        title: "",
-        content: Column(
-          children: [
-            const Icon(
-              Icons.location_on,
-              size: 80,
-            ),
-            Text(
-              "من فضلك قم بتشغيل خدمة تحديد الموقع أولاً",
-              style: TextStyle(fontSize: 24, color: cs.onSurface),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      );
-    }
-
-    permission = await Geolocator.checkPermission();
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        toggleLoading(false);
-        Get.showSnackbar(const GetSnackBar(
-          message: "تم رفض صلاحية الموقع, لا يمكن تحديد موقعك الحالي",
-          duration: Duration(milliseconds: 1500),
-        ));
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      toggleLoading(false);
-      Get.showSnackbar(const GetSnackBar(
-        message: "تم رفض صلاحية الموقع, يجب اعطاء صلاحية من اعدادات التطبيق",
-        duration: Duration(milliseconds: 1500),
-      ));
-    }
-    try {
-      position = await Geolocator.getCurrentPosition().timeout(kTimeOutDuration);
-    } on TimeoutException {
-      Get.showSnackbar(kTimeOutSnackBar());
-      toggleLoading(false);
-    } catch (e) {
-      print(e.toString());
-    }
-    print('${position!.longitude} ${position!.latitude}');
-    toggleLoading(false);
-  }
+  // Position? position;
+  //
+  // Future<void> getLocation(context) async {
+  //   ColorScheme cs = Theme.of(context).colorScheme;
+  //   toggleLoading(true);
+  //   LocationPermission permission;
+  //
+  //   if (!await Geolocator.isLocationServiceEnabled()) {
+  //     toggleLoading(false);
+  //     Get.defaultDialog(
+  //       title: "",
+  //       content: Column(
+  //         children: [
+  //           const Icon(
+  //             Icons.location_on,
+  //             size: 80,
+  //           ),
+  //           Text(
+  //             "من فضلك قم بتشغيل خدمة تحديد الموقع أولاً",
+  //             style: TextStyle(fontSize: 24, color: cs.onSurface),
+  //             textAlign: TextAlign.center,
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   }
+  //
+  //   permission = await Geolocator.checkPermission();
+  //
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       toggleLoading(false);
+  //       Get.showSnackbar(const GetSnackBar(
+  //         message: "تم رفض صلاحية الموقع, لا يمكن تحديد موقعك الحالي",
+  //         duration: Duration(milliseconds: 1500),
+  //       ));
+  //     }
+  //   }
+  //
+  //   if (permission == LocationPermission.deniedForever) {
+  //     toggleLoading(false);
+  //     Get.showSnackbar(const GetSnackBar(
+  //       message: "تم رفض صلاحية الموقع, يجب اعطاء صلاحية من اعدادات التطبيق",
+  //       duration: Duration(milliseconds: 1500),
+  //     ));
+  //   }
+  //   try {
+  //     position = await Geolocator.getCurrentPosition().timeout(kTimeOutDuration);
+  //   } on TimeoutException {
+  //     Get.showSnackbar(kTimeOutSnackBar());
+  //     toggleLoading(false);
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  //   print('${position!.longitude} ${position!.latitude}');
+  //   toggleLoading(false);
+  // }
 
   void logout() async {
+    //todo: add loading to prevent spam
     if (await RemoteServices.logout()) {
       _getStorage.remove("token");
       _getStorage.remove("role");

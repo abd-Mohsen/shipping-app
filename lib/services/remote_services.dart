@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
@@ -232,5 +233,11 @@ class RemoteServices {
   static Future<bool> deleteVehicle(int id) async {
     bool json = await api.deleteRequest("vehicles/$id/", auth: true);
     return json;
+  }
+
+  static Future<List<GovernorateModel>?> fetchGovernorates() async {
+    String? json = await api.getRequest("get_governorate/", auth: true);
+    if (json == null) return null;
+    return governorateModelFromJson(json);
   }
 }
