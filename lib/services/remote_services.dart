@@ -240,4 +240,10 @@ class RemoteServices {
     if (json == null) return null;
     return governorateModelFromJson(json);
   }
+
+  static Future<List<OrderModel>?> fetchExploreOrders(int governorateID) async {
+    String? json = await api.getRequest("driver_order/?order_location=$governorateID&page=1", auth: true);
+    if (json == null) return null;
+    return orderModelFromJson(json);
+  }
 }

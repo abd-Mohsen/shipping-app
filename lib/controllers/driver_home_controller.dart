@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shipment/models/governorate_model.dart';
+import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
@@ -27,6 +28,13 @@ class DriverHomeController extends GetxController {
   bool get isLoading => _isLoading;
   void toggleLoading(bool value) {
     _isLoading = value;
+    update();
+  }
+
+  bool _isLoadingExplore = false;
+  bool get isLoadingExplore => _isLoadingExplore;
+  void toggleLoadingExplore(bool value) {
+    _isLoadingExplore = value;
     update();
   }
 
@@ -55,21 +63,36 @@ class DriverHomeController extends GetxController {
   UserModel? get currentUser => _currentUser;
 
   List<GovernorateModel> governorates = [];
-
   GovernorateModel? selectedGovernorate;
+
+  List<OrderModel> exploreOrders = [];
 
   void setGovernorate(GovernorateModel? governorate) {
     selectedGovernorate = governorate;
-    // make a new requests to get orders from selected gov
-    update();
+    refreshExploreOrders();
   }
 
   void getGovernorates() async {
     toggleLoadingGovernorate(true);
     List<GovernorateModel> newItems = await RemoteServices.fetchGovernorates() ?? [];
     governorates.addAll(newItems);
-    setGovernorate(governorates[0]);
+    if (newItems.isNotEmpty) {
+      setGovernorate(governorates[0]);
+      getExploreOrders();
+    }
     toggleLoadingGovernorate(false);
+  }
+
+  void getExploreOrders() async {
+    toggleLoadingExplore(true);
+    List<OrderModel> newItems = await RemoteServices.fetchExploreOrders(selectedGovernorate!.id) ?? [];
+    exploreOrders.addAll(newItems);
+    toggleLoadingExplore(false);
+  }
+
+  Future<void> refreshExploreOrders() async {
+    exploreOrders.clear();
+    getExploreOrders();
   }
 
   void getCurrentUser() async {

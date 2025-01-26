@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/models/governorate_model.dart';
 import '../../controllers/driver_home_controller.dart';
+import '../components/order_card.dart';
 
 class DriverExploreTab extends StatelessWidget {
   const DriverExploreTab({super.key});
@@ -95,6 +96,19 @@ class DriverExploreTab extends StatelessWidget {
                       // if (controller.buttonPressed) controller.formKey.currentState!.validate();
                     },
                     //enabled: !con.enabled,
+                  ),
+          ),
+          //
+          Expanded(
+            child: controller.isLoadingExplore
+                ? SpinKitSquareCircle(color: cs.primary)
+                : RefreshIndicator(
+                    onRefresh: controller.refreshExploreOrders,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      itemCount: controller.exploreOrders.length,
+                      itemBuilder: (context, i) => OrderCard(order: controller.exploreOrders[i]),
+                    ),
                   ),
           ),
         ],
