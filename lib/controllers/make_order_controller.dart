@@ -10,6 +10,7 @@ import 'package:shipment/services/remote_services.dart';
 class MakeOrderController extends GetxController {
   //todo: add location permission if not added automatically (check when entering the app)
   //todo: make initial position the selected position if not null
+  //todo: when making order using preexisting address, check if its in syria first (in the 14 govs)
 
   @override
   void onInit() {

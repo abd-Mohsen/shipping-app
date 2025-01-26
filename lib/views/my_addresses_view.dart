@@ -3,6 +3,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shipment/controllers/my_addresses_controller.dart';
 import 'package:get/get.dart';
+import 'package:shipment/views/components/address_card.dart';
 
 class MyAddressesView extends StatelessWidget {
   const MyAddressesView({super.key});
@@ -57,18 +58,29 @@ class MyAddressesView extends StatelessWidget {
               );
             },
             foregroundColor: cs.onPrimary,
-            child: controller.isLoadingAdd ? SpinKitCircle(color: cs.onPrimary) : Icon(Icons.add, color: cs.onPrimary),
+            child: controller.isLoadingAdd
+                ? SpinKitRotatingPlain(color: cs.onPrimary, size: 20)
+                : Icon(Icons.add, color: cs.onPrimary),
           );
         },
       ),
       body: GetBuilder<MyAddressesController>(
         builder: (controller) {
-          return ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-            children: [
-              //todo: make it builder, create address card and refresh indicator
-            ],
-          );
+          return controller.isLoading
+              ? SpinKitSquareCircle(color: cs.primary)
+              : RefreshIndicator(
+                  onRefresh: controller.refreshMyAddress,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                    itemCount: controller.myAddresses.length,
+                    itemBuilder: (context, i) => AddressCard(
+                      address: controller.myAddresses[i],
+                      onDelete: () {
+                        controller.deleteAddress(controller.myAddresses[i].id!);
+                      },
+                    ),
+                  ),
+                );
         },
       ),
     );

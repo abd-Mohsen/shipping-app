@@ -15,6 +15,7 @@ class VehicleModel {
   final VehicleTypeModel vehicleTypeInfo;
   final String licensePlate;
   final String registrationPhoto;
+  final String registrationStatus;
   final DateTime createdAt;
   final DateTime? updatedAt;
 
@@ -26,6 +27,7 @@ class VehicleModel {
     required this.vehicleTypeInfo,
     required this.licensePlate,
     required this.registrationPhoto,
+    required this.registrationStatus,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -38,6 +40,7 @@ class VehicleModel {
         vehicleTypeInfo: VehicleTypeModel.fromJson(json["vehicle_type_info"]),
         licensePlate: json["vehicle_registration_number"],
         registrationPhoto: json["vehicle_registration_photo"],
+        registrationStatus: json["registration_status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"],
       );

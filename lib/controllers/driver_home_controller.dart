@@ -118,8 +118,8 @@ class DriverHomeController extends GetxController {
             actions: [
               TextButton(
                 onPressed: () {
-                  //todo: logout first
-                  Get.offAll(() => const LoginView()); //todo: go to complete account page
+                  logout();
+                  //todo: go to complete account page
                 },
                 child: const Text(
                   "تسجيل خروج",

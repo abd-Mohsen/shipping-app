@@ -25,7 +25,7 @@ class VehicleCard extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.directions_car_filled,
-          color: cs.primary, //todo: change color based on status
+          color: vehicle.registrationStatus == "Verified" ? Colors.green : cs.primary,
           size: 35,
         ),
         title: Padding(
@@ -84,6 +84,24 @@ class VehicleCard extends StatelessWidget {
           ),
           ListTile(
             title: Text(
+              "status".tr,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: tt.titleMedium!.copyWith(
+                color: cs.onSurface.withOpacity(1),
+              ),
+            ),
+            subtitle: Text(
+              vehicle.registrationStatus.tr, //todo: localize this
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: tt.titleSmall!.copyWith(
+                color: cs.onSurface.withOpacity(0.5),
+              ),
+            ),
+          ),
+          ListTile(
+            title: Text(
               "creation date".tr,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -115,6 +133,7 @@ class VehicleCard extends StatelessWidget {
           ),
           Image.network(
             "$kHostIP/${vehicle.registrationPhoto}",
+            headers: const {"Keep-Alive": "timeout=5, max=1000"},
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) {
                 return child;

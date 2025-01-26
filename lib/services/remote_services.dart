@@ -173,6 +173,11 @@ class RemoteServices {
     return addressModelFromJson(json);
   }
 
+  static Future<bool> deleteAddress(int id) async {
+    bool json = await api.deleteRequest("user_addresses/$id/", auth: true);
+    return json;
+  }
+
   static Future<List<PaymentMethodModel>?> fetchPaymentMethods() async {
     String? json = await api.getRequest("cstomer_payment_methods/", utf8Decode: false, auth: true);
     if (json == null) return null;

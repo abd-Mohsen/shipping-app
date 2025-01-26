@@ -8,7 +8,7 @@ import '../services/remote_services.dart';
 class MyAddressesController extends GetxController {
   @override
   void onInit() {
-    //getMyAddresses();
+    getMyAddresses();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => mapController.listenerMapSingleTapping.addListener(
         () async {
@@ -77,6 +77,15 @@ class MyAddressesController extends GetxController {
   Future<void> refreshMyAddress() async {
     myAddresses.clear();
     getMyAddresses();
+  }
+
+  void deleteAddress(int id) async {
+    //todo: backend is not returning id, fix
+    bool res = await RemoteServices.deleteAddress(id);
+    if (res) {
+      myAddresses.removeWhere((address) => address.id == id);
+      update();
+    }
   }
 
   Future<void> addAddress() async {
