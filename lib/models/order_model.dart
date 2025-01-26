@@ -91,30 +91,26 @@ class OrderModel {
 class OrderLocation {
   final int id;
   final String name;
-  final List<dynamic> children;
 
   OrderLocation({
     required this.id,
     required this.name,
-    required this.children,
   });
 
   factory OrderLocation.fromJson(Map<String, dynamic> json) => OrderLocation(
         id: json["id"],
         name: json["name"],
-        children: List<dynamic>.from(json["children"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "children": List<dynamic>.from(children.map((x) => x)),
       };
 }
 
 class OrderOwner {
   final String name;
-  final String phoneNumber;
+  final String? phoneNumber;
 
   OrderOwner({
     required this.name,
@@ -133,7 +129,7 @@ class OrderOwner {
 }
 
 class PaymentMethod {
-  final int id;
+  final int? id;
   final Payment payment;
   final bool isActive;
 

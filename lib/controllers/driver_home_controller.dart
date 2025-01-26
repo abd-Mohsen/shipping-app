@@ -76,10 +76,7 @@ class DriverHomeController extends GetxController {
     toggleLoadingGovernorate(true);
     List<GovernorateModel> newItems = await RemoteServices.fetchGovernorates() ?? [];
     governorates.addAll(newItems);
-    if (newItems.isNotEmpty) {
-      setGovernorate(governorates[0]);
-      getExploreOrders();
-    }
+    if (newItems.isNotEmpty) setGovernorate(governorates[3]);
     toggleLoadingGovernorate(false);
   }
 
