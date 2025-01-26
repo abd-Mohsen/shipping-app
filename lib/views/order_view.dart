@@ -7,6 +7,9 @@ import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/order_model.dart';
 
 class OrderView extends StatelessWidget {
+  //todo: make it different depending on status, and on wither if the user is driver or customer
+  //todo: improve
+  //todo: edit and delete
   final OrderModel order;
   const OrderView({super.key, required this.order});
 

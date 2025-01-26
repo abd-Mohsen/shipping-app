@@ -66,7 +66,7 @@ class MyAddressesView extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
             children: [
-              //
+              //todo: make it builder, create address card and refresh indicator
             ],
           );
         },

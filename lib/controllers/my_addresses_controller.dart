@@ -8,6 +8,7 @@ import '../services/remote_services.dart';
 class MyAddressesController extends GetxController {
   @override
   void onInit() {
+    //getMyAddresses();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) => mapController.listenerMapSingleTapping.addListener(
         () async {
