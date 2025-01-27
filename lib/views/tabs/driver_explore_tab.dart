@@ -107,7 +107,10 @@ class DriverExploreTab extends StatelessWidget {
                     child: ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       itemCount: controller.exploreOrders.length,
-                      itemBuilder: (context, i) => OrderCard(order: controller.exploreOrders[i]),
+                      itemBuilder: (context, i) => OrderCard(
+                        order: controller.exploreOrders[i],
+                        isCustomer: false,
+                      ),
                     ),
                   ),
           ),

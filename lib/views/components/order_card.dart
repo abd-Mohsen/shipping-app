@@ -6,8 +6,13 @@ import 'package:shipment/views/order_view.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderModel order;
+  final bool isCustomer;
 
-  const OrderCard({super.key, required this.order});
+  const OrderCard({
+    super.key,
+    required this.order,
+    required this.isCustomer,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class OrderCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Get.to(() => OrderView(order: order));
+        Get.to(() => OrderView(order: order, isCustomer: isCustomer));
       },
       child: Container(
         padding: const EdgeInsets.all(12),

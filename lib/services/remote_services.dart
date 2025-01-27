@@ -240,6 +240,11 @@ class RemoteServices {
     return json;
   }
 
+  static Future<bool> deleteCustomerOrder(int id) async {
+    bool json = await api.deleteRequest("customer_order/$id/", auth: true);
+    return json;
+  }
+
   static Future<List<GovernorateModel>?> fetchGovernorates() async {
     String? json = await api.getRequest("get_governorate/", auth: true);
     if (json == null) return null;

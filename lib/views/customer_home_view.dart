@@ -43,18 +43,22 @@ class CustomerHomeView extends StatelessWidget {
         ),
         backgroundColor: cs.surface,
         body: GetBuilder<CustomerHomeController>(
-            //init: HomeController(),
-            builder: (controller) {
-          if (controller.isLoading) return SpinKitSquareCircle(color: cs.primary);
-          return RefreshIndicator(
-            onRefresh: controller.refreshOrders,
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              itemCount: controller.myOrders.length,
-              itemBuilder: (context, i) => OrderCard(order: controller.myOrders[i]),
-            ),
-          );
-        }),
+          //init: HomeController(),
+          builder: (controller) {
+            if (controller.isLoading) return SpinKitSquareCircle(color: cs.primary);
+            return RefreshIndicator(
+              onRefresh: controller.refreshOrders,
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                itemCount: controller.myOrders.length,
+                itemBuilder: (context, i) => OrderCard(
+                  order: controller.myOrders[i],
+                  isCustomer: true,
+                ),
+              ),
+            );
+          },
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Get.to(() => const MakeOrderView());

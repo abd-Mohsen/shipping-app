@@ -3,6 +3,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/order_model.dart';
 
@@ -11,12 +12,19 @@ class OrderView extends StatelessWidget {
   //todo: improve
   //todo: edit and delete
   final OrderModel order;
-  const OrderView({super.key, required this.order});
+  final bool isCustomer;
+  const OrderView({
+    super.key,
+    required this.order,
+    required this.isCustomer,
+  });
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
+    late CustomerHomeController cHC;
+    if (isCustomer) cHC = Get.find();
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -28,18 +36,48 @@ class OrderView extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-              //
-            },
-            icon: Icon(Icons.edit),
-          ),
-          IconButton(
-            onPressed: () {
-              //
-            },
-            icon: Icon(Icons.delete),
-          )
+          if (isCustomer)
+            IconButton(
+              onPressed: () {
+                //
+              },
+              icon: Icon(Icons.edit),
+            ),
+          if (isCustomer)
+            IconButton(
+              onPressed: () {
+                Get.defaultDialog(
+                  title: "",
+                  content: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      "delete the order?".tr,
+                      style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                    ),
+                  ),
+                  confirm: TextButton(
+                    onPressed: () {
+                      Get.back();
+                      cHC.deleteOrder(order.id);
+                    },
+                    child: Text(
+                      "yes",
+                      style: tt.titleMedium!.copyWith(color: Colors.red),
+                    ),
+                  ),
+                  cancel: TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text(
+                      "no",
+                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                    ),
+                  ),
+                );
+              },
+              icon: Icon(Icons.delete),
+            )
         ],
       ),
       body: GetBuilder<OrderController>(
