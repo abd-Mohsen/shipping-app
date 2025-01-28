@@ -48,7 +48,7 @@ class OrderCard extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 2,
                   child: Text(
-                    order.discription,
+                    order.description,
                     style: tt.titleMedium!.copyWith(color: cs.onSurface),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,

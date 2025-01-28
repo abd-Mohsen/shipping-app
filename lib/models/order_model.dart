@@ -14,7 +14,7 @@ class OrderModel {
   final dynamic driver;
   final VehicleTypeModel typeVehicle;
   final OrderLocation orderLocation;
-  final String discription;
+  final String description;
   final AddressModel startPoint;
   final AddressModel endPoint;
   final String weight;
@@ -33,7 +33,7 @@ class OrderModel {
     required this.driver,
     required this.typeVehicle,
     required this.orderLocation,
-    required this.discription,
+    required this.description,
     required this.startPoint,
     required this.endPoint,
     required this.weight,
@@ -53,7 +53,7 @@ class OrderModel {
         driver: json["driver"],
         typeVehicle: VehicleTypeModel.fromJson(json["type_vehicle"]),
         orderLocation: OrderLocation.fromJson(json["order_location"]),
-        discription: json["discription"],
+        description: json["discription"],
         startPoint: AddressModel.fromJson(json["start_point"]),
         endPoint: AddressModel.fromJson(json["end_point"]),
         weight: json["weight"],
@@ -73,7 +73,7 @@ class OrderModel {
         "driver": driver,
         "type_vehicle": typeVehicle.toJson(),
         "order_location": orderLocation.toJson(),
-        "discription": discription,
+        "discription": description,
         "start_point": startPoint.toJson(),
         "end_point": endPoint.toJson(),
         "weight": weight,
