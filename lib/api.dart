@@ -53,6 +53,9 @@ class Api {
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
       return null;
+    } on SocketException {
+      if (showTimeout) kTimeOutSnackBar();
+      return null;
     } catch (e) {
       print(e.toString());
       return null;
@@ -91,6 +94,9 @@ class Api {
       }
       return (response.statusCode == 200 || response.statusCode == 201) ? responseBody : null;
     } on TimeoutException {
+      if (showTimeout) kTimeOutSnackBar();
+      return null;
+    } on SocketException {
       if (showTimeout) kTimeOutSnackBar();
       return null;
     } catch (e) {
@@ -132,6 +138,9 @@ class Api {
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
       return null;
+    } on SocketException {
+      if (showTimeout) kTimeOutSnackBar();
+      return null;
     } catch (e) {
       print(e.toString());
       return null;
@@ -161,6 +170,9 @@ class Api {
       print("${response.body}===========${response.statusCode}");
       return response.statusCode == 204 || response.statusCode == 200;
     } on TimeoutException {
+      if (showTimeout) kTimeOutSnackBar();
+      return false;
+    } on SocketException {
       if (showTimeout) kTimeOutSnackBar();
       return false;
     } catch (e) {
@@ -228,6 +240,9 @@ class Api {
       // });
       return null;
     } on TimeoutException {
+      if (showTimeout) kTimeOutSnackBar();
+      return null;
+    } on SocketException {
       if (showTimeout) kTimeOutSnackBar();
       return null;
     } catch (e) {

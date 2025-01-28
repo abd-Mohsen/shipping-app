@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
+import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:shipment/views/components/input_field.dart';
@@ -20,7 +21,8 @@ class MakeOrderView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    MakeOrderController mOC = Get.put(MakeOrderController());
+    CustomerHomeController cHC = Get.find();
+    MakeOrderController mOC = Get.put(MakeOrderController(customerHomeController: cHC));
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(

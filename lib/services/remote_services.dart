@@ -174,7 +174,7 @@ class RemoteServices {
   }
 
   static Future<bool> deleteAddress(int id) async {
-    bool json = await api.deleteRequest("user_addresses/$id/", auth: true);
+    bool json = await api.deleteRequest("user_addresses/$id", auth: true);
     return json;
   }
 

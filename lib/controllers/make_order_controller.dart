@@ -2,6 +2,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
+import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
@@ -11,7 +12,9 @@ class MakeOrderController extends GetxController {
   //todo: add location permission if not added automatically (check when entering the app)
   //todo: make initial position the selected position if not null
   //todo: when making order using preexisting address, check if its in syria first (in the 14 govs)
-  //todo: refresh orders list after making an order
+
+  CustomerHomeController customerHomeController;
+  MakeOrderController({required this.customerHomeController});
 
   @override
   void onInit() {
@@ -212,6 +215,7 @@ class MakeOrderController extends GetxController {
     print(order);
     bool success = await RemoteServices.makeOrder(order);
     if (success) {
+      customerHomeController.refreshOrders();
       Get.back();
       Get.showSnackbar(const GetSnackBar(
         message: "تم تسجيل الطلبية بنجاح",
