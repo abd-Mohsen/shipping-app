@@ -19,7 +19,7 @@ class DriverExploreTab extends StatelessWidget {
       return Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
             child: controller.isLoadingGovernorates
                 ? SpinKitThreeBounce(color: cs.primary, size: 20)
                 : DropdownSearch<GovernorateModel>(

@@ -23,18 +23,18 @@ class AboutUsPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 40, bottom: 24),
-            // child: Hero(
-            //   tag: "logo",
-            //   child: Center(
-            //     child: ClipRRect(
-            //       borderRadius: BorderRadius.circular(20),
-            //       child: Image.asset(
-            //         "assets/images/lelia_logo.jpg",
-            //         height: MediaQuery.sizeOf(context).width / 2,
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            child: Hero(
+              tag: "logo",
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    "assets/images/logo.png",
+                    height: MediaQuery.sizeOf(context).width / 2,
+                  ),
+                ),
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

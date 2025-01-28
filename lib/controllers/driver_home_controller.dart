@@ -109,8 +109,8 @@ class DriverHomeController extends GetxController {
       } else if (_currentUser!.driverInfo!.vehicleStatus == "No_Input") {
         //todo: show a dialog, you must add a vehicle before using the app
         Get.to(() => const MyVehiclesView());
-      } else if (_currentUser!.driverInfo!.idStatus == "No_Input" ||
-          _currentUser!.driverInfo!.licenseStatus == "No_Input") {
+      } else if (_currentUser!.driverInfo!.idStatus == "Pending" ||
+          _currentUser!.driverInfo!.licenseStatus == "Pending") {
         Get.dialog(
           AlertDialog(
             backgroundColor: Colors.white,

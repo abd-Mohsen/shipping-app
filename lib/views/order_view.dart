@@ -85,36 +85,38 @@ class OrderView extends StatelessWidget {
         builder: (controller) {
           return Column(
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3.2,
-                child: OSMFlutter(
-                  controller: controller.mapController,
-                  mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                  osmOption: OSMOption(
-                    isPicker: true,
-                    userLocationMarker: UserLocationMaker(
-                      personMarker: MarkerIcon(
-                        icon: Icon(Icons.person, color: cs.primary, size: 40),
+              if (isCustomer)
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 3.2,
+                  child: OSMFlutter(
+                    controller: controller.mapController,
+                    mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+                    osmOption: OSMOption(
+                      isPicker: true,
+                      userLocationMarker: UserLocationMaker(
+                        personMarker: MarkerIcon(
+                          icon: Icon(Icons.person, color: cs.primary, size: 40),
+                        ),
+                        directionArrowMarker: MarkerIcon(
+                          icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                        ),
                       ),
-                      directionArrowMarker: MarkerIcon(
-                        icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                      zoomOption: const ZoomOption(
+                        initZoom: 16,
                       ),
-                    ),
-                    zoomOption: const ZoomOption(
-                      initZoom: 16,
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Divider(
-                  thickness: 4,
-                  color: cs.primary,
-                  indent: 80,
-                  endIndent: 80,
+              if (isCustomer)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Divider(
+                    thickness: 4,
+                    color: cs.primary,
+                    indent: 80,
+                    endIndent: 80,
+                  ),
                 ),
-              ),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
