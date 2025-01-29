@@ -13,7 +13,15 @@ class DriverHistoryTab extends StatelessWidget {
 
     return ListView(
       children: [
-        Center(child: Text("see orders history")),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Text(
+              "driver's orders history",
+              style: tt.titleMedium!.copyWith(color: cs.onSurface),
+            ),
+          ),
+        ),
       ],
     );
   }

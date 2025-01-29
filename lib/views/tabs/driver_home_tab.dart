@@ -13,7 +13,14 @@ class DriverHomeTab extends StatelessWidget {
 
     return ListView(
       children: [
-        Center(child: Text("home (put the current order in here)")),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+              child: Text(
+            "current order and some other details",
+            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+          )),
+        ),
       ],
     );
   }

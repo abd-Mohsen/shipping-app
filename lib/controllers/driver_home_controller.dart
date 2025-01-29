@@ -82,6 +82,7 @@ class DriverHomeController extends GetxController {
 
   void getExploreOrders() async {
     //todo: implement pagination
+    if (selectedGovernorate == null) return;
     toggleLoadingExplore(true);
     List<OrderModel> newItems = await RemoteServices.fetchExploreOrders(selectedGovernorate!.id) ?? [];
     exploreOrders.addAll(newItems);
@@ -96,6 +97,7 @@ class DriverHomeController extends GetxController {
   void getCurrentUser() async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
+    //todo: dont let user do anything before user is loaded
     //todo: show (complete account) page to change id and license if not verified
     //todo: dont let user logout if user is loading (it may redirect after logout)
     //todo: do the same for customer and company

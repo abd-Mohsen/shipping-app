@@ -347,7 +347,7 @@ class OrderView extends StatelessWidget {
                     //       maxLines: 1,
                     //     ),
                     //   ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
                     Text(
                       "details".tr,
                       style: tt.titleLarge!.copyWith(color: cs.onSurface.withOpacity(0.7), fontWeight: FontWeight.bold),
@@ -367,12 +367,12 @@ class OrderView extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            "weight".tr,
+                            "weight".tr + ": ",
                             style: tt.titleSmall!.copyWith(color: cs.onSurface),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                           ),
-                          const SizedBox(width: 16),
+                          const SizedBox(width: 8),
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 1.8,
                             child: Text(
@@ -402,6 +402,7 @@ class OrderView extends StatelessWidget {
                           ],
                         ),
                       ),
+                    const SizedBox(height: 12),
                   ],
                 ),
               )

@@ -246,7 +246,7 @@ class RemoteServices {
   }
 
   static Future<List<GovernorateModel>?> fetchGovernorates() async {
-    String? json = await api.getRequest("get_governorate/", auth: true);
+    String? json = await api.getRequest("get_governorate/", auth: true, showTimeout: false);
     if (json == null) return null;
     return governorateModelFromJson(json);
   }

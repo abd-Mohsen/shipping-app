@@ -58,12 +58,9 @@ class DriverHomeView extends StatelessWidget {
               backgroundColor: cs.primary,
               title: Text(
                 'driver'.toUpperCase(),
-                style: tt.headlineMedium!.copyWith(letterSpacing: 2, color: cs.onPrimary),
+                style: tt.headlineSmall!.copyWith(letterSpacing: 2, color: cs.onPrimary),
               ),
               centerTitle: true,
-              actions: [
-                //
-              ],
             ),
             backgroundColor: cs.surface,
             body: IndexedStack(

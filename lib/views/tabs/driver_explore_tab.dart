@@ -22,81 +22,98 @@ class DriverExploreTab extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
             child: controller.isLoadingGovernorates
                 ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                : DropdownSearch<GovernorateModel>(
-                    validator: (type) {
-                      if (type == null) return "you must select a governorate".tr;
-                      return null;
-                    },
-                    selectedItem: controller.selectedGovernorate,
-                    compareFn: (type1, type2) => type1.id == type2.id,
-                    popupProps: PopupProps.menu(
-                      showSearchBox: false,
-                      menuProps: MenuProps(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                : controller.selectedGovernorate == null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            controller.getGovernorates();
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+                          ),
+                          child: Text(
+                            'خطأ, انقر للتحديث',
+                            style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                          ),
                         ),
+                      )
+                    : DropdownSearch<GovernorateModel>(
+                        //todo: show refresh button if failed
+                        validator: (type) {
+                          if (type == null) return "you must select a governorate".tr;
+                          return null;
+                        },
+                        selectedItem: controller.selectedGovernorate,
+                        compareFn: (type1, type2) => type1.id == type2.id,
+                        popupProps: PopupProps.menu(
+                          showSearchBox: false,
+                          menuProps: MenuProps(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          searchFieldProps: TextFieldProps(
+                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                            decoration: InputDecoration(
+                              fillColor: Colors.white70,
+                              hintText: "governorate name".tr,
+                              prefix: Padding(
+                                padding: const EdgeInsets.all(4),
+                                child: Icon(Icons.search, color: cs.onSurface),
+                              ),
+                            ),
+                          ),
+                        ),
+                        decoratorProps: DropDownDecoratorProps(
+                          baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+                          decoration: InputDecoration(
+                            prefixIcon: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 24.0),
+                              child: Icon(Icons.location_city),
+                            ),
+                            labelText: "selected governorate".tr,
+                            labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32),
+                              borderSide: BorderSide(
+                                width: .5,
+                                color: cs.onSurface,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32),
+                              borderSide: BorderSide(
+                                width: 0.5,
+                                color: cs.onSurface,
+                              ),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32),
+                              borderSide: BorderSide(
+                                width: 0.5,
+                                color: cs.error,
+                              ),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: cs.error,
+                              ),
+                            ),
+                          ),
+                        ),
+                        items: (filter, infiniteScrollProps) => controller.governorates,
+                        itemAsString: (GovernorateModel governorate) => governorate.name,
+                        onChanged: (GovernorateModel? governorate) async {
+                          controller.setGovernorate(governorate);
+                          // await Future.delayed(const Duration(milliseconds: 1000));
+                          // if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                        },
+                        //enabled: !con.enabled,
                       ),
-                      searchFieldProps: TextFieldProps(
-                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                        decoration: InputDecoration(
-                          fillColor: Colors.white70,
-                          hintText: "governorate name".tr,
-                          prefix: Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: Icon(Icons.search, color: cs.onSurface),
-                          ),
-                        ),
-                      ),
-                    ),
-                    decoratorProps: DropDownDecoratorProps(
-                      baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
-                      decoration: InputDecoration(
-                        prefixIcon: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Icon(Icons.location_city),
-                        ),
-                        labelText: "selected governorate".tr,
-                        labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32),
-                          borderSide: BorderSide(
-                            width: .5,
-                            color: cs.onSurface,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32),
-                          borderSide: BorderSide(
-                            width: 0.5,
-                            color: cs.onSurface,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32),
-                          borderSide: BorderSide(
-                            width: 0.5,
-                            color: cs.error,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: cs.error,
-                          ),
-                        ),
-                      ),
-                    ),
-                    items: (filter, infiniteScrollProps) => controller.governorates,
-                    itemAsString: (GovernorateModel governorate) => governorate.name,
-                    onChanged: (GovernorateModel? governorate) async {
-                      controller.setGovernorate(governorate);
-                      // await Future.delayed(const Duration(milliseconds: 1000));
-                      // if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                    },
-                    //enabled: !con.enabled,
-                  ),
           ),
           //
           Expanded(
