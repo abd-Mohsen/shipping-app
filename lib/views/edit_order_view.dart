@@ -29,7 +29,7 @@ class EditOrderView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: cs.primary,
         title: Text(
-          'edit order'.tr,
+          'edit order'.tr.toUpperCase(),
           style: tt.headlineSmall!.copyWith(color: cs.onPrimary),
         ),
         centerTitle: true,
@@ -44,10 +44,10 @@ class EditOrderView extends StatelessWidget {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: SvgPicture.asset("assets/images/make_order.svg", height: 200),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: 16.0),
+                //   child: SvgPicture.asset("assets/images/make_order.svg", height: 200),
+                // ),
                 MapSelector(
                   mapController: controller.mapController1,
                   start: true,

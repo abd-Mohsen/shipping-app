@@ -258,15 +258,19 @@ class RemoteServices {
   }
 
   static Future<bool> editOrder(body, id) async {
-    String? json = await api.postRequest("customer_order/$id/", body, auth: true);
+    String? json = await api.putRequest("customer_order/$id/", body, auth: true);
     if (json == null) {
       return false;
     }
     return true;
   }
 
-  static Future<bool> editOrderPaymentMethods(body) async {
+  static Future<bool> addOrderPaymentMethods(body) async {
     String? json = await api.postRequest("cstomer_payment_methods/", body, auth: true);
     return json != null;
+  }
+
+  static Future<bool> deleteOrderPaymentMethod(id) async {
+    return await api.deleteRequest("cstomer_payment_methods/$id/", auth: true);
   }
 }

@@ -64,7 +64,7 @@ class OrderModel {
         status: json["status"],
         paymentMethods: List<PaymentMethod>.from(json["payment_methods"].map((x) => PaymentMethod.fromJson(x))),
         createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"],
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -140,7 +140,7 @@ class PaymentMethod {
   });
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
-        id: json["id"],
+        id: json["id"] ?? json["order_payment_id"],
         payment: Payment.fromJson(json["payment"]),
         isActive: json["is_active"],
       );

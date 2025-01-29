@@ -194,14 +194,20 @@ class EditOrderController extends GetxController {
       "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
     };
-    print(newOrder);
+
+    bool removePaymentSuccess = true;
+
+    for (int paymentId in order.paymentMethods.map((p) => p.id!)) {
+      removePaymentSuccess &= await RemoteServices.deleteOrderPaymentMethod(paymentId);
+    }
     bool success = await RemoteServices.editOrder(newOrder, order.id);
-    bool paymentSuccess = await RemoteServices.editOrderPaymentMethods({
+    bool addPaymentSuccess = await RemoteServices.addOrderPaymentMethods({
       "order_id": order.id,
       "payment_methods": formatPayment(),
     });
-    if (success && paymentSuccess) {
+    if (success && addPaymentSuccess && removePaymentSuccess) {
       customerHomeController.refreshOrders();
+      Get.back();
       Get.back();
       Get.showSnackbar(GetSnackBar(
         message: "order edited successfully".tr,
