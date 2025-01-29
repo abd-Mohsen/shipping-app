@@ -3,19 +3,18 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
-import 'package:shipment/models/location_model.dart';
-import 'package:shipment/models/payment_method_model.dart';
-import 'package:shipment/models/vehicle_type_model.dart';
-import 'package:shipment/services/remote_services.dart';
 
-class MakeOrderController extends GetxController {
-  //todo: add location permission if not added automatically (check when entering the app)
-  //todo: make initial position the selected position if not null
-  //todo: when making order using preexisting address, check if its in syria first (in the 14 govs)
-  //todo: do the same in edit order
+import '../models/location_model.dart';
+import '../models/order_model.dart';
+import '../models/payment_method_model.dart';
+import '../models/vehicle_type_model.dart';
+import '../services/remote_services.dart';
 
+class EditOrderController extends GetxController {
   CustomerHomeController customerHomeController;
-  MakeOrderController({required this.customerHomeController});
+  OrderModel order;
+
+  EditOrderController({required this.customerHomeController, required this.order});
 
   @override
   void onInit() {
@@ -57,7 +56,6 @@ class MakeOrderController extends GetxController {
         );
       },
     );
-
     super.onInit();
   }
 
@@ -82,7 +80,6 @@ class MakeOrderController extends GetxController {
   LocationModel? targetLocation;
 
   void calculateStartAddress() async {
-    // todo: add loading indicator
     if (startPosition == null) return;
     sourceLocation = await RemoteServices.getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
     print(sourceLocation?.addressEncoder().toJson());
@@ -117,21 +114,6 @@ class MakeOrderController extends GetxController {
   bool get isLoading => _isLoading;
   void toggleLoading(bool value) {
     _isLoading = value;
-    update();
-  }
-
-  bool isBankSelected = false;
-
-  void toggleFields() {
-    isBankSelected = paymentMethodController.selectedItems.any((payment) => payment.label == "bank_account");
-    // isBankSelected = false;
-    // for (final item in paymentMethodController.selectedItems) {
-    //   print(item.value.name);
-    //   if (item.value.name == "bank_account") {
-    //     isBankSelected = true;
-    //     break;
-    //   }
-    // }
     update();
   }
 
@@ -180,7 +162,7 @@ class MakeOrderController extends GetxController {
     return res;
   }
 
-  void makeOrder() async {
+  void editOrder() async {
     if (isLoading || isLoadingVehicle || isLoadingPayment) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
@@ -201,7 +183,7 @@ class MakeOrderController extends GetxController {
       return;
     }
     toggleLoading(true);
-    Map<String, dynamic> order = {
+    Map<String, dynamic> newOrder = {
       "discription": description.text,
       "type_vehicle": selectedVehicleType?.id,
       "start_point": [sourceLocation!.addressEncoder().toJson()],
@@ -211,15 +193,18 @@ class MakeOrderController extends GetxController {
       "DateTime": DateTime.now().toIso8601String(),
       "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
-      "payment_methods": formatPayment(),
     };
-    print(order);
-    bool success = await RemoteServices.makeOrder(order);
-    if (success) {
+    print(newOrder);
+    bool success = await RemoteServices.editOrder(newOrder, order.id);
+    bool paymentSuccess = await RemoteServices.editOrderPaymentMethods({
+      "order_id": order.id,
+      "payment_methods": formatPayment(),
+    });
+    if (success && paymentSuccess) {
       customerHomeController.refreshOrders();
       Get.back();
       Get.showSnackbar(GetSnackBar(
-        message: "order added successfully".tr,
+        message: "order edited successfully".tr,
         duration: const Duration(milliseconds: 2500),
       ));
     }

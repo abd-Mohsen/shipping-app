@@ -6,6 +6,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/order_model.dart';
+import 'package:shipment/views/edit_order_view.dart';
 
 class OrderView extends StatelessWidget {
   //todo: make it different depending on status, and on wither if the user is driver or customer
@@ -40,7 +41,7 @@ class OrderView extends StatelessWidget {
           if (isCustomer)
             IconButton(
               onPressed: () {
-                //
+                Get.to(() => EditOrderView(order: order));
               },
               icon: Icon(Icons.edit),
             ),
@@ -237,7 +238,7 @@ class OrderView extends StatelessWidget {
                     const SizedBox(height: 12),
                     Text(
                       "address".tr,
-                      style: tt.titleLarge!.copyWith(color: cs.onSurface.withOpacity(0.7), fontWeight: FontWeight.bold),
+                      style: tt.titleLarge!.copyWith(color: cs.onSurface.withOpacity(0.7)),
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 12),
@@ -347,10 +348,10 @@ class OrderView extends StatelessWidget {
                     //       maxLines: 1,
                     //     ),
                     //   ),
-                    const SizedBox(height: 32),
+                    const SizedBox(height: 24),
                     Text(
                       "details".tr,
-                      style: tt.titleLarge!.copyWith(color: cs.onSurface.withOpacity(0.7), fontWeight: FontWeight.bold),
+                      style: tt.titleLarge!.copyWith(color: cs.onSurface.withOpacity(0.7)),
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 12),
@@ -367,7 +368,7 @@ class OrderView extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            "weight".tr + ": ",
+                            "${"weight".tr}: ",
                             style: tt.titleSmall!.copyWith(color: cs.onSurface),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
