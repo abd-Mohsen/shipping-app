@@ -17,7 +17,7 @@ class RegisterController extends GetxController {
     "driver",
     "customer",
     "company",
-    //"employee",
+    "employee",
   ];
 
   int roleIndex = 0;
@@ -34,7 +34,7 @@ class RegisterController extends GetxController {
   }
 
   final companyName = TextEditingController();
-  final numberOfVehicles = TextEditingController();
+  final otp = TextEditingController();
   final firstName = TextEditingController();
   final lastName = TextEditingController();
   final userName = TextEditingController();
@@ -109,12 +109,13 @@ class RegisterController extends GetxController {
       userName.text,
       firstName.text,
       lastName.text,
-      roles[roleIndex],
+      roles[roleIndex] == "employee" ? "company_employee" : roles[roleIndex],
       phone.text,
       password.text,
       rePassword.text,
       companyName.text,
-      numberOfVehicles.text,
+      "69",
+      otp.text,
       idFrontFile,
       idRearFile,
       lFrontFile,

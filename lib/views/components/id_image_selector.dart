@@ -50,27 +50,35 @@ class IdImageSelector extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
-                      style: tt.titleLarge!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                      style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height / 3,
-                      child: Center(
-                        child: image == null
-                            ? Text(
-                                "no photo is selected".tr,
-                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              )
-                            : Image.file(File(image!.path)),
+                  Divider(
+                    color: cs.onSurface,
+                    thickness: 1,
+                    indent: 50,
+                    endIndent: 50,
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height / 3,
+                        child: Center(
+                          child: image == null
+                              ? Text(
+                                  "no photo is selected".tr,
+                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                )
+                              : Image.file(File(image!.path)),
+                        ),
                       ),
                     ),
                   ),
                   ListTile(
                     leading: Icon(
                       Icons.camera,
-                      color: cs.onSurface,
+                      color: cs.primary,
                     ),
                     title: Text(
                       image == null ? "take photo".tr : "take new photo".tr,
@@ -84,7 +92,7 @@ class IdImageSelector extends StatelessWidget {
                   ListTile(
                     leading: Icon(
                       Icons.photo,
-                      color: cs.onSurface,
+                      color: cs.primary,
                     ),
                     title: Text(
                       image == null ? "select photo from gallery".tr : "select new photo from gallery".tr,

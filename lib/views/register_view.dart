@@ -29,7 +29,7 @@ class RegisterView extends StatelessWidget {
                 Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 16, top: 40),
+                      padding: const EdgeInsets.only(bottom: 20, top: 52),
                       child: Text(
                         "Register as:".tr,
                         style: tt.titleLarge!.copyWith(color: cs.onSurface),
@@ -107,25 +107,6 @@ class RegisterView extends StatelessWidget {
                                 ),
                                 validator: (val) {
                                   return validateInput(rC.companyName.text, 4, 50, "");
-                                },
-                                onChanged: (val) {
-                                  if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
-                                },
-                              ),
-                            ),
-                            Visibility(
-                              visible: controller.roles[controller.roleIndex] == "company",
-                              child: AuthField(
-                                controller: rC.numberOfVehicles,
-                                keyboardType: TextInputType.number,
-                                textInputAction: TextInputAction.next,
-                                label: "number of vehicles".tr,
-                                prefixIcon: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                                  child: Icon(Icons.local_shipping, color: cs.primary),
-                                ),
-                                validator: (val) {
-                                  return validateInput(rC.numberOfVehicles.text, 4, 50, ""); //todo: this is a number
                                 },
                                 onChanged: (val) {
                                   if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
@@ -257,6 +238,40 @@ class RegisterView extends StatelessWidget {
                                 );
                               },
                             ),
+                            Visibility(
+                              visible: controller.roles[controller.roleIndex] == "employee",
+                              child: AuthField(
+                                controller: rC.otp,
+                                keyboardType: TextInputType.number,
+                                textInputAction: TextInputAction.done,
+                                label: "registration code".tr,
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  child: Icon(Icons.numbers, color: cs.primary),
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    Get.defaultDialog(
+                                      title: "note".tr,
+                                      middleText: "the company must send this code to your phone number".tr,
+                                      backgroundColor: cs.surface,
+                                      titleStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                      middleTextStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.info,
+                                    color: cs.primary,
+                                  ),
+                                ),
+                                validator: (val) {
+                                  return validateInput(rC.otp.text, 4, 6, "", wholeNumber: true);
+                                },
+                                onChanged: (val) {
+                                  if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                                },
+                              ),
+                            ),
                             IdImageSelector(
                               title: "ID (front)".tr,
                               isSubmitted: controller.idFront != null,
@@ -280,7 +295,7 @@ class RegisterView extends StatelessWidget {
                               },
                             ),
                             Visibility(
-                              visible: controller.roles[controller.roleIndex] == "driver",
+                              visible: ["driver", "employee"].contains(controller.roles[controller.roleIndex]),
                               child: IdImageSelector(
                                 title: "driving license (front)".tr,
                                 isSubmitted: controller.dLicenseFront != null,
@@ -294,7 +309,7 @@ class RegisterView extends StatelessWidget {
                               ),
                             ),
                             Visibility(
-                              visible: controller.roles[controller.roleIndex] == "driver",
+                              visible: ["driver", "employee"].contains(controller.roles[controller.roleIndex]),
                               child: IdImageSelector(
                                 title: "driving license (rear)".tr,
                                 isSubmitted: controller.dLicenseRear != null,

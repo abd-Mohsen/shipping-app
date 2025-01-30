@@ -33,6 +33,7 @@ class RemoteServices {
     String passwordConfirmation,
     String companyName,
     String numVehicle,
+    String otp,
     File? idFront,
     File? idRear,
     File? licenseFront,
@@ -49,6 +50,7 @@ class RemoteServices {
       "company_name": companyName,
       "vehicle_num": numVehicle,
       "members_num": "4",
+      "otp_code": otp,
     };
     Map<String, File?> images = {
       "ID_photo_front": idFront,
@@ -63,6 +65,7 @@ class RemoteServices {
         middleTextStyle: const TextStyle(color: Colors.black),
         backgroundColor: Colors.white,
         title: "خطأ",
+        //todo: show the error msg from backend, from api.dart directly
         middleText: "يرجى المحاولة مجدداً, قد يكون الهاتف أو اسم الحساب مستخدماً بالفعل",
       );
       return false;

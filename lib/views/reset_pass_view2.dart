@@ -55,6 +55,7 @@ class ResetPassView2 extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        //todo: make text obscure and add show password button
                         AuthField(
                           controller: rPC.newPassword,
                           keyboardType: TextInputType.text,
