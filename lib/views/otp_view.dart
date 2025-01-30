@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:shipment/views/reset_pass_view2.dart';
+import 'package:shipment/views/components/custom_button.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import '../controllers/otp_controller.dart';
 import 'components/auth_background.dart';
@@ -99,29 +99,19 @@ class OTPView extends StatelessWidget {
                         const SizedBox(height: 16),
                         GetBuilder<OTPController>(
                           builder: (controller) {
-                            return ElevatedButton(
-                              onPressed: controller.isTimeUp // remove !
+                            return CustomButton(
+                              onTap: controller.isTimeUp
                                   ? () {
                                       controller.resendOtp();
                                     }
                                   : null,
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    WidgetStateProperty.all<Color>(controller.isTimeUp ? cs.primary : Colors.grey),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 14.0),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: controller.isLoading
-                                        ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                        : Text(
-                                            "resend".toUpperCase(),
-                                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                          ),
-                                  ),
-                                ),
+                              child: Center(
+                                child: controller.isLoading
+                                    ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                    : Text(
+                                        "resend".toUpperCase(),
+                                        style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                      ),
                               ),
                             );
                           },

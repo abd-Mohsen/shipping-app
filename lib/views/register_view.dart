@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shipment/controllers/register_controller.dart';
 import 'package:get/get.dart';
+import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/id_image_selector.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -326,26 +327,17 @@ class RegisterView extends StatelessWidget {
                             const SizedBox(height: 16),
                             GetBuilder<RegisterController>(
                               builder: (controller) {
-                                return ElevatedButton(
-                                  onPressed: () {
+                                return CustomButton(
+                                  onTap: () {
                                     controller.register();
                                   },
-                                  style: ButtonStyle(
-                                    backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 14.0),
-                                    child: SizedBox(
-                                      width: double.infinity,
-                                      child: Center(
-                                        child: controller.isLoading
-                                            ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                            : Text(
-                                                "register".tr.toUpperCase(),
-                                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                              ),
-                                      ),
-                                    ),
+                                  child: Center(
+                                    child: controller.isLoading
+                                        ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                        : Text(
+                                            "register".tr.toUpperCase(),
+                                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                          ),
                                   ),
                                 );
                               },

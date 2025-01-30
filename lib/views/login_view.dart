@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/login_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
+import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/register_view.dart';
 import 'package:shipment/views/reset_pass_view1.dart';
 import 'components/auth_background.dart';
@@ -118,26 +119,17 @@ class LoginView extends StatelessWidget {
                         const SizedBox(height: 8),
                         GetBuilder<LoginController>(
                           builder: (controller) {
-                            return ElevatedButton(
-                              onPressed: () {
+                            return CustomButton(
+                              onTap: () {
                                 controller.login();
                               },
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 14.0),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: controller.isLoading
-                                        ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                        : Text(
-                                            "login".tr.toUpperCase(),
-                                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                          ),
-                                  ),
-                                ),
+                              child: Center(
+                                child: controller.isLoading
+                                    ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                    : Text(
+                                        "login".tr.toUpperCase(),
+                                        style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                      ),
                               ),
                             );
                           },

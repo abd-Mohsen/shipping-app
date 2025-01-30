@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
-import 'package:shipment/views/otp_view.dart';
+import 'package:shipment/views/components/custom_button.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -74,26 +74,17 @@ class ResetPassView1 extends StatelessWidget {
                         const SizedBox(height: 16),
                         GetBuilder<ResetPassController>(
                           builder: (controller) {
-                            return ElevatedButton(
-                              onPressed: () {
+                            return CustomButton(
+                              onTap: () {
                                 controller.toOTP();
                               },
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 14.0),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: controller.isLoading1
-                                        ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                        : Text(
-                                            "send".toUpperCase(),
-                                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                          ),
-                                  ),
-                                ),
+                              child: Center(
+                                child: controller.isLoading1
+                                    ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                    : Text(
+                                        "send".toUpperCase(),
+                                        style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                      ),
                               ),
                             );
                           },

@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
-import 'package:shipment/views/otp_view.dart';
+import 'package:shipment/views/components/custom_button.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -52,56 +53,73 @@ class ResetPassView2 extends StatelessWidget {
                   flex: 8,
                   child: Form(
                     key: rPC.secondFormKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        //todo: make text obscure and add show password button
-                        AuthField(
-                          controller: rPC.newPassword,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.next,
-                          label: "new password",
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Icon(Icons.lock, color: cs.primary),
-                          ),
-                          validator: (val) {
-                            return validateInput(rPC.newPassword.text, 4, 50, "");
-                          },
-                          onChanged: (val) {
-                            if (rPC.button2Pressed) rPC.secondFormKey.currentState!.validate();
-                          },
-                        ),
-                        AuthField(
-                          controller: rPC.rePassword,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.done,
-                          label: "re enter new password",
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Icon(Icons.lock, color: cs.primary),
-                          ),
-                          validator: (val) {
-                            return validateInput(rPC.rePassword.text, 4, 50, "");
-                          },
-                          onChanged: (val) {
-                            if (rPC.button2Pressed) rPC.secondFormKey.currentState!.validate();
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        GetBuilder<ResetPassController>(
-                          builder: (controller) {
-                            return ElevatedButton(
-                              onPressed: () {
-                                controller.resetPass();
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+                    child: GetBuilder<ResetPassController>(builder: (controller) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          //todo: make text obscure and add show password button
+                          AuthField(
+                            controller: rPC.newPassword,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.next,
+                            obscure: !controller.passwordVisible,
+                            label: "new password",
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Icon(Icons.lock, color: cs.primary),
+                            ),
+                            suffixIcon: GestureDetector(
+                              onTap: () => controller.togglePasswordVisibility(!controller.passwordVisible),
+                              child: Icon(
+                                controller.passwordVisible ? CupertinoIcons.eye_slash_fill : CupertinoIcons.eye_fill,
+                                color: cs.primary,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 14.0),
-                                child: SizedBox(
-                                  width: double.infinity,
+                            ),
+                            validator: (val) {
+                              return validateInput(rPC.newPassword.text, 8, 50, "");
+                            },
+                            onChanged: (val) {
+                              if (rPC.button2Pressed) rPC.secondFormKey.currentState!.validate();
+                            },
+                          ),
+                          AuthField(
+                            controller: rPC.rePassword,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                            obscure: !controller.rePasswordVisible,
+                            label: "re enter new password",
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Icon(Icons.lock, color: cs.primary),
+                            ),
+                            suffixIcon: GestureDetector(
+                              onTap: () => controller.toggleRePasswordVisibility(!controller.rePasswordVisible),
+                              child: Icon(
+                                controller.rePasswordVisible ? CupertinoIcons.eye_slash_fill : CupertinoIcons.eye_fill,
+                                color: cs.primary,
+                              ),
+                            ),
+                            validator: (val) {
+                              return validateInput(
+                                rPC.rePassword.text,
+                                8,
+                                50,
+                                "",
+                                pass: controller.newPassword.text,
+                                rePass: controller.rePassword.text,
+                              );
+                            },
+                            onChanged: (val) {
+                              if (rPC.button2Pressed) rPC.secondFormKey.currentState!.validate();
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          GetBuilder<ResetPassController>(
+                            builder: (controller) {
+                              return CustomButton(
+                                  onTap: () {
+                                    controller.resetPass();
+                                  },
                                   child: Center(
                                     child: controller.isLoading2
                                         ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
@@ -109,21 +127,19 @@ class ResetPassView2 extends StatelessWidget {
                                             "ok".toUpperCase(),
                                             style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                           ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 24),
-                        Center(
-                          child: Text(
-                            "now you are logged in, you can set a new password",
-                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                  ));
+                            },
                           ),
-                        ),
-                      ],
-                    ),
+                          const SizedBox(height: 24),
+                          Center(
+                            child: Text(
+                              "now you are logged in, you can set a new password",
+                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
                   ),
                 ),
                 const Spacer(),

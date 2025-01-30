@@ -6,6 +6,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/order_model.dart';
+import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/edit_order_view.dart';
 
 class OrderView extends StatelessWidget {
@@ -111,27 +112,18 @@ class OrderView extends StatelessWidget {
                 ),
               if (!isCustomer)
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-                  child: ElevatedButton(
-                    onPressed: () {
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomButton(
+                    onTap: () {
                       //
                     },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Center(
-                          child: false
-                              ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                              : Text(
-                                  "apply".tr.toUpperCase(),
-                                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                ),
-                        ),
-                      ),
+                    child: Center(
+                      child: false
+                          ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                          : Text(
+                              "apply".tr.toUpperCase(),
+                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                            ),
                     ),
                   ),
                 ),
