@@ -20,6 +20,7 @@ class AddVehicleSheet extends StatelessWidget {
     return GetBuilder<MyVehiclesController>(
       builder: (controller) {
         return Container(
+          height: MediaQuery.of(context).size.height / 2,
           decoration: BoxDecoration(
             color: cs.surface,
             borderRadius: BorderRadius.circular(20),
@@ -134,6 +135,7 @@ class AddVehicleSheet extends StatelessWidget {
                           //enabled: !con.enabled,
                         ),
                 ),
+                //todo border is not showing in this sheet
                 IdImageSelector(
                   title: "registration".tr,
                   isSubmitted: controller.registration != null,

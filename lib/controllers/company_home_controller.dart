@@ -83,6 +83,10 @@ class CompanyHomeController extends GetxController {
   TextEditingController phone = TextEditingController();
 
   void addEmployee() async {
+    if (isLoadingEmployeesAdd) return;
+    bool valid = addEmployeeFormKey.currentState!.validate();
+    if (!valid) return;
+    employeeButtonPressed = true;
     toggleLoadingEmployeesAdd(true);
     bool success = await RemoteServices.addEmployee(phone.text);
     if (success) {
@@ -95,4 +99,6 @@ class CompanyHomeController extends GetxController {
     }
     toggleLoadingEmployeesAdd(false);
   }
+
+  //------------------vehicles-----------------------
 }

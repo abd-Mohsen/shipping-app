@@ -81,6 +81,7 @@ class MyVehiclesController extends GetxController {
   }
 
   Future<void> refreshMyVehicles() async {
+    print("refresh==============");
     myVehicles.clear();
     getMyVehicles();
   }
@@ -90,6 +91,7 @@ class MyVehiclesController extends GetxController {
     licensePlate.text = "";
     selectedVehicleType = null;
     registration = null;
+    buttonPressed = false;
   }
 
   void deleteVehicle(int id) async {
