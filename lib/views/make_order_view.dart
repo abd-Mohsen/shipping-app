@@ -8,6 +8,7 @@ import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
+import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
 
@@ -300,27 +301,18 @@ class MakeOrderView extends StatelessWidget {
                     // ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
+                CustomButton(
+                  onTap: () {
                     //print(GetStorage().read("token"));
                     controller.makeOrder();
                   },
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 14.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: controller.isLoading
-                            ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                            : Text(
-                                "make order".tr.toUpperCase(),
-                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                              ),
-                      ),
-                    ),
+                  child: Center(
+                    child: controller.isLoading
+                        ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                        : Text(
+                            "make order".tr.toUpperCase(),
+                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                          ),
                   ),
                 ),
               ],

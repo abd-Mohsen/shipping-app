@@ -85,9 +85,9 @@ class ResetPassController extends GetxController {
 
     if (await RemoteServices.resetPassword(resetToken!, newPassword.text, rePassword.text)) {
       Get.offAll(() => const LoginView());
-      Get.showSnackbar(const GetSnackBar(
-        message: "تم بنجاح",
-        duration: Duration(milliseconds: 2500),
+      Get.showSnackbar(GetSnackBar(
+        message: "done successfully".tr,
+        duration: const Duration(milliseconds: 2500),
         backgroundColor: Colors.green,
       ));
     }

@@ -123,22 +123,12 @@ class RegisterController extends GetxController {
     ));
     if (success) {
       Get.back();
-      Get.defaultDialog(
-        //todo: use snackbar instead
-        titleStyle: const TextStyle(color: Colors.black),
-        middleTextStyle: const TextStyle(color: Colors.black),
-        backgroundColor: Colors.white,
-        title: "registered successfully".tr,
-        middleText: "kindly wait for acceptance".tr,
-        // confirm: TextButton(
-        //   onPressed: () {
-        //     Get.back();
-        //   },
-        //   child: Text("ok"),
-        // )
-      );
+      Get.showSnackbar(GetSnackBar(
+        message: "done successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
+      ));
     }
-
     toggleLoadingRegister(false);
   }
 }

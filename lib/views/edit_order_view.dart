@@ -2,7 +2,6 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
@@ -10,6 +9,7 @@ import 'package:shipment/controllers/edit_order_controller.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
+import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
 import 'components/auth_field.dart';
@@ -301,27 +301,17 @@ class EditOrderView extends StatelessWidget {
                     // ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    //print(GetStorage().read("token"));
+                CustomButton(
+                  onTap: () {
                     controller.editOrder();
                   },
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 14.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Center(
-                        child: controller.isLoading
-                            ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                            : Text(
-                                "edit order".tr.toUpperCase(),
-                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                              ),
-                      ),
-                    ),
+                  child: Center(
+                    child: controller.isLoading
+                        ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                        : Text(
+                            "edit order".tr.toUpperCase(),
+                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                          ),
                   ),
                 ),
               ],
