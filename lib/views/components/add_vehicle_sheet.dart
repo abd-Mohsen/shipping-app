@@ -2,8 +2,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/input_field.dart';
-
 import '../../controllers/my_vehicles_controller.dart';
 import '../../models/vehicle_type_model.dart';
 import 'auth_field.dart';
@@ -27,7 +27,7 @@ class AddVehicleSheet extends StatelessWidget {
           child: Form(
             key: controller.formKey,
             child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
               children: [
                 InputField(
                   controller: controller.vehicleOwner,
@@ -145,29 +145,17 @@ class AddVehicleSheet extends StatelessWidget {
                     controller.pickImage("gallery");
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      controller.submit();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Center(
-                          child: controller.isLoadingSubmit
-                              ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                              : Text(
-                                  "add".tr.toUpperCase(),
-                                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                ),
-                        ),
-                      ),
-                    ),
+                CustomButton(
+                  onTap: () {
+                    controller.submit();
+                  },
+                  child: Center(
+                    child: controller.isLoadingSubmit
+                        ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                        : Text(
+                            "add".tr.toUpperCase(),
+                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                          ),
                   ),
                 ),
               ],

@@ -276,4 +276,13 @@ class RemoteServices {
   static Future<bool> deleteOrderPaymentMethod(id) async {
     return await api.deleteRequest("cstomer_payment_methods/$id/", auth: true);
   }
+
+  static Future<bool> addEmployee(String phoneNumber) async {
+    String? json = await api.postRequest(
+      "auth/employee-register/",
+      {"phone_number": phoneNumber},
+      auth: true,
+    );
+    return json != null;
+  }
 }

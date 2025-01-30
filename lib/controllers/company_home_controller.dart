@@ -4,6 +4,7 @@ import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
 import 'login_controller.dart';
+import 'package:flutter/material.dart';
 
 class CompanyHomeController extends GetxController {
   @override
@@ -58,5 +59,40 @@ class CompanyHomeController extends GetxController {
       Get.put(LoginController());
       Get.offAll(() => const LoginView());
     }
+  }
+
+  // -----------------employees-----------------------
+
+  bool _isLoadingEmployees = false;
+  bool get isLoadingEmployees => _isLoadingEmployees;
+  void toggleLoadingEmployees(bool value) {
+    _isLoadingEmployees = value;
+    update();
+  }
+
+  bool _isLoadingEmployeesAdd = false;
+  bool get isLoadingEmployeesAdd => _isLoadingEmployeesAdd;
+  void toggleLoadingEmployeesAdd(bool value) {
+    _isLoadingEmployeesAdd = value;
+    update();
+  }
+
+  GlobalKey<FormState> addEmployeeFormKey = GlobalKey<FormState>();
+  bool employeeButtonPressed = false;
+
+  TextEditingController phone = TextEditingController();
+
+  void addEmployee() async {
+    toggleLoadingEmployeesAdd(true);
+    bool success = await RemoteServices.addEmployee(phone.text);
+    if (success) {
+      Get.back();
+      Get.showSnackbar(GetSnackBar(
+        message: "an invitation code was send to the employee".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      phone.text == "";
+    }
+    toggleLoadingEmployeesAdd(false);
   }
 }
