@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/views/company_home_view.dart';
 import 'package:shipment/views/customer_home_view.dart';
 import 'package:shipment/views/driver_home_view.dart';
 
@@ -26,7 +27,11 @@ class _RedirectPageState extends State<RedirectPage> {
                 ? const DriverHomeView()
                 : getStorage.read("role") == "customer"
                     ? const CustomerHomeView()
-                    : Placeholder(),
+                    : getStorage.read("role") == "company"
+                        ? const CompanyHomeView()
+                        : getStorage.read("role") == "company_employee"
+                            ? Placeholder()
+                            : Placeholder(),
       );
     });
     super.initState();

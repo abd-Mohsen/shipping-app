@@ -109,6 +109,7 @@ String? validateInput(
   if (pass != rePass) return "passwords don't match".tr;
 
   if (english) {
+    //todo: allow [*_-] in thee name
     final RegExp englishRegExp = RegExp(r'^[a-zA-Z\s]+$');
     if (!englishRegExp.hasMatch(val)) return "must be english".tr;
   }

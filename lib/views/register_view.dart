@@ -24,6 +24,7 @@ class RegisterView extends StatelessWidget {
         pageName: "register",
         child: GetBuilder<RegisterController>(builder: (controller) {
           return SingleChildScrollView(
+            //todo: not scrolling while keyboard is on screen (same with all auth pages)
             child: Column(
               children: [
                 Column(

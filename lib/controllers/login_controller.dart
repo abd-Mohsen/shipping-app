@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/views/company_home_view.dart';
 import 'package:shipment/views/customer_home_view.dart';
 import 'package:shipment/views/driver_home_view.dart';
 
@@ -59,6 +59,8 @@ class LoginController extends GetxController {
     } else if (loginData.role.type == "customer") {
       Get.offAll(() => const CustomerHomeView());
     } else if (loginData.role.type == "company") {
+      Get.offAll(() => const CompanyHomeView());
+    } else if (loginData.role.type == "company_employee") {
       Get.offAll(() => const Placeholder());
     } else {
       print("wrong role");
