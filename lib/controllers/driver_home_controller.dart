@@ -19,6 +19,8 @@ class DriverHomeController extends GetxController {
   onInit() {
     getCurrentUser();
     getGovernorates();
+    getCurrentOrders();
+    getHistoryOrders();
     super.onInit();
   }
 
@@ -35,6 +37,20 @@ class DriverHomeController extends GetxController {
   bool get isLoadingExplore => _isLoadingExplore;
   void toggleLoadingExplore(bool value) {
     _isLoadingExplore = value;
+    update();
+  }
+
+  bool _isLoadingCurrent = false;
+  bool get isLoadingCurrent => _isLoadingCurrent;
+  void toggleLoadingCurrent(bool value) {
+    _isLoadingCurrent = value;
+    update();
+  }
+
+  bool _isLoadingHistory = false;
+  bool get isLoadingHistory => _isLoadingHistory;
+  void toggleLoadingHistory(bool value) {
+    _isLoadingHistory = value;
     update();
   }
 
@@ -66,6 +82,8 @@ class DriverHomeController extends GetxController {
   GovernorateModel? selectedGovernorate;
 
   List<OrderModel> exploreOrders = [];
+  List<OrderModel> currOrders = [];
+  List<OrderModel> historyOrders = [];
 
   void setGovernorate(GovernorateModel? governorate) {
     selectedGovernorate = governorate;
@@ -84,14 +102,40 @@ class DriverHomeController extends GetxController {
     //todo: implement pagination
     if (selectedGovernorate == null) return;
     toggleLoadingExplore(true);
-    List<OrderModel> newItems = await RemoteServices.fetchExploreOrders(selectedGovernorate!.id) ?? [];
+    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(selectedGovernorate!.id, "available") ?? [];
     exploreOrders.addAll(newItems);
     toggleLoadingExplore(false);
+  }
+
+  void getCurrentOrders() async {
+    //todo: implement pagination
+    toggleLoadingCurrent(true);
+    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(selectedGovernorate!.id, "processing") ?? [];
+    currOrders.addAll(newItems);
+    toggleLoadingCurrent(false);
+  }
+
+  void getHistoryOrders() async {
+    //todo: implement pagination
+    toggleLoadingHistory(true);
+    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(selectedGovernorate!.id, "done") ?? [];
+    historyOrders.addAll(newItems);
+    toggleLoadingHistory(false);
   }
 
   Future<void> refreshExploreOrders() async {
     exploreOrders.clear();
     getExploreOrders();
+  }
+
+  Future<void> refreshCurrOrders() async {
+    currOrders.clear();
+    getCurrentOrders();
+  }
+
+  Future<void> refreshHistoryOrders() async {
+    historyOrders.clear();
+    getHistoryOrders();
   }
 
   void getCurrentUser() async {

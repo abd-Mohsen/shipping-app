@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:shipment/views/components/order_card.dart';
 import '../../controllers/driver_home_controller.dart';
 
 class DriverHomeTab extends StatelessWidget {
@@ -11,17 +13,32 @@ class DriverHomeTab extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-              child: Text(
-            "current order and some other details",
-            style: tt.titleMedium!.copyWith(color: cs.onSurface),
-          )),
-        ),
-      ],
+    return GetBuilder<DriverHomeController>(
+      builder: (controller) {
+        return controller.isLoadingCurrent
+            ? SpinKitSquareCircle(color: cs.primary)
+            : RefreshIndicator(
+                onRefresh: controller.refreshCurrOrders,
+                child: controller.currOrders.isEmpty
+                    ? ListView(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(32),
+                            child: Center(
+                              child: Text(
+                                "no data, pull down to refresh".tr,
+                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : ListView.builder(
+                        itemCount: controller.currOrders.length,
+                        itemBuilder: (context, i) => OrderCard(order: controller.currOrders[i], isCustomer: false),
+                      ),
+              );
+      },
     );
   }
 }

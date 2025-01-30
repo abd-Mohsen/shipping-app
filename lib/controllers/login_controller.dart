@@ -54,14 +54,12 @@ class LoginController extends GetxController {
     _getStorage.write("token", loginData.token);
     _getStorage.write("role", loginData.role.type);
     print(_getStorage.read("token"));
-    if (loginData.role.type == "driver") {
+    if (loginData.role.type == "driver" || loginData.role.type == "company_employee") {
       Get.offAll(() => const DriverHomeView());
     } else if (loginData.role.type == "customer") {
       Get.offAll(() => const CustomerHomeView());
     } else if (loginData.role.type == "company") {
       Get.offAll(() => const CompanyHomeView());
-    } else if (loginData.role.type == "company_employee") {
-      Get.offAll(() => const Placeholder());
     } else {
       print("wrong role");
       return; // other role

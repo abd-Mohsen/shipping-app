@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import '../../controllers/driver_home_controller.dart';
+import '../components/order_card.dart';
 
 class DriverHistoryTab extends StatelessWidget {
   const DriverHistoryTab({super.key});
@@ -11,18 +13,32 @@ class DriverHistoryTab extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Text(
-              "driver's orders history",
-              style: tt.titleMedium!.copyWith(color: cs.onSurface),
-            ),
-          ),
-        ),
-      ],
+    return GetBuilder<DriverHomeController>(
+      builder: (controller) {
+        return controller.isLoadingHistory
+            ? SpinKitSquareCircle(color: cs.primary)
+            : RefreshIndicator(
+                onRefresh: controller.refreshHistoryOrders,
+                child: controller.historyOrders.isEmpty
+                    ? ListView(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(32),
+                            child: Center(
+                              child: Text(
+                                "no data, pull down to refresh".tr,
+                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : ListView.builder(
+                        itemCount: controller.historyOrders.length,
+                        itemBuilder: (context, i) => OrderCard(order: controller.historyOrders[i], isCustomer: false),
+                      ),
+              );
+      },
     );
   }
 }

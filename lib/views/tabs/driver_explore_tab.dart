@@ -121,14 +121,28 @@ class DriverExploreTab extends StatelessWidget {
                 ? SpinKitSquareCircle(color: cs.primary)
                 : RefreshIndicator(
                     onRefresh: controller.refreshExploreOrders,
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      itemCount: controller.exploreOrders.length,
-                      itemBuilder: (context, i) => OrderCard(
-                        order: controller.exploreOrders[i],
-                        isCustomer: false,
-                      ),
-                    ),
+                    child: controller.exploreOrders.isEmpty
+                        ? ListView(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(32),
+                                child: Center(
+                                  child: Text(
+                                    "no data, pull down to refresh".tr,
+                                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : ListView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            itemCount: controller.exploreOrders.length,
+                            itemBuilder: (context, i) => OrderCard(
+                              order: controller.exploreOrders[i],
+                              isCustomer: false,
+                            ),
+                          ),
                   ),
           ),
         ],

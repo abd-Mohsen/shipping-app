@@ -18,22 +18,22 @@ class _RedirectPageState extends State<RedirectPage> {
   @override
   void initState() {
     //todo(later): handle app updates from here
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      GetStorage getStorage = GetStorage();
-      Get.offAll(
-        () => !getStorage.hasData("token")
-            ? const LoginView()
-            : getStorage.read("role") == "driver"
-                ? const DriverHomeView()
-                : getStorage.read("role") == "customer"
-                    ? const CustomerHomeView()
-                    : getStorage.read("role") == "company"
-                        ? const CompanyHomeView()
-                        : getStorage.read("role") == "company_employee"
-                            ? Placeholder()
-                            : Placeholder(),
-      );
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        GetStorage getStorage = GetStorage();
+        Get.offAll(
+          () => !getStorage.hasData("token")
+              ? const LoginView()
+              : getStorage.read("role") == "driver" || getStorage.read("role") == "company_employee"
+                  ? const DriverHomeView()
+                  : getStorage.read("role") == "customer"
+                      ? const CustomerHomeView()
+                      : getStorage.read("role") == "company"
+                          ? const CompanyHomeView()
+                          : const Placeholder(),
+        );
+      },
+    );
     super.initState();
   }
 
