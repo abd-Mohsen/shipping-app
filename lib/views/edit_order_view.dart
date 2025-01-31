@@ -13,6 +13,8 @@ import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
 import 'components/auth_field.dart';
+import 'components/date_selector.dart';
+import 'components/time_selector.dart';
 
 class EditOrderView extends StatelessWidget {
   final OrderModel order;
@@ -51,7 +53,7 @@ class EditOrderView extends StatelessWidget {
                 MapSelector(
                   mapController: controller.mapController1,
                   start: true,
-                  address: controller.sourceLocation?.addressEncoder().toString() ?? "select location".tr,
+                  address: controller.startAddress?.toString() ?? "select location".tr,
                   onClose: () {
                     controller.calculateStartAddress();
                   },
@@ -59,7 +61,7 @@ class EditOrderView extends StatelessWidget {
                 MapSelector(
                   mapController: controller.mapController2,
                   start: false,
-                  address: controller.targetLocation?.addressEncoder().toString() ?? "select location".tr,
+                  address: controller.endAddress?.toString() ?? "select location".tr,
                   onClose: () {
                     controller.calculateTargetAddress();
                   },
@@ -128,6 +130,7 @@ class EditOrderView extends StatelessWidget {
                   child: controller.isLoadingVehicle
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : DropdownSearch<VehicleTypeModel>(
+                          selectedItem: controller.selectedVehicleType,
                           validator: (type) {
                             if (type == null) return "you must select a type".tr;
                             return null;
@@ -276,6 +279,8 @@ class EditOrderView extends StatelessWidget {
                           },
                         ),
                 ),
+                DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
+                TimeSelector(time: controller.selectedTime, selectTimeCallback: controller.setTime),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: CheckboxListTile(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 
+import '../models/address_model.dart';
 import '../models/location_model.dart';
 import '../models/order_model.dart';
 import '../models/payment_method_model.dart';
@@ -17,9 +18,10 @@ class EditOrderController extends GetxController {
   EditOrderController({required this.customerHomeController, required this.order});
 
   @override
-  void onInit() {
-    getPaymentMethods();
-    getVehicleTypes();
+  void onInit() async {
+    await getPaymentMethods();
+    await getVehicleTypes();
+    prePopulate();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         mapController1.listenerMapSingleTapping.addListener(
@@ -79,17 +81,20 @@ class EditOrderController extends GetxController {
   LocationModel? sourceLocation;
   LocationModel? targetLocation;
 
+  AddressModel? startAddress;
+  AddressModel? endAddress;
+
   void calculateStartAddress() async {
     if (startPosition == null) return;
     sourceLocation = await RemoteServices.getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
-    print(sourceLocation?.addressEncoder().toJson());
+    startAddress = sourceLocation?.addressEncoder();
     update();
   }
 
   void calculateTargetAddress() async {
     if (endPosition == null) return;
     targetLocation = await RemoteServices.getAddressFromLatLng(endPosition!.latitude, endPosition!.longitude);
-    print(targetLocation?.addressEncoder().toJson());
+    endAddress = targetLocation?.addressEncoder();
     update();
   }
 
@@ -100,13 +105,25 @@ class EditOrderController extends GetxController {
   TextEditingController price = TextEditingController();
   TextEditingController weight = TextEditingController();
   TextEditingController otherInfo = TextEditingController();
-  TextEditingController accountName = TextEditingController();
+  //TextEditingController accountName = TextEditingController();
   MultiSelectController<PaymentMethodModel> paymentMethodController = MultiSelectController<PaymentMethodModel>();
   MultiSelectController<VehicleTypeModel> vehicleTypeController = MultiSelectController<VehicleTypeModel>();
 
   bool coveredCar = false;
   void toggleCoveredCar() {
     coveredCar = !coveredCar;
+    update();
+  }
+
+  DateTime? selectedDate;
+  void setDate(DateTime val) {
+    selectedDate = val;
+    update();
+  }
+
+  TimeOfDay? selectedTime;
+  void setTime(TimeOfDay val) {
+    selectedTime = val;
     update();
   }
 
@@ -121,8 +138,8 @@ class EditOrderController extends GetxController {
   List<VehicleTypeModel> vehicleTypes = [];
 
   VehicleTypeModel? selectedVehicleType;
-  void selectVehicleType(VehicleTypeModel? user) {
-    selectedVehicleType = user;
+  void selectVehicleType(VehicleTypeModel? vehicle) {
+    selectedVehicleType = vehicle;
     update();
   }
 
@@ -140,14 +157,14 @@ class EditOrderController extends GetxController {
     update();
   }
 
-  void getPaymentMethods() async {
+  Future<void> getPaymentMethods() async {
     toggleLoadingPayment(true);
     List<PaymentMethodModel> newPaymentMethods = await RemoteServices.fetchPaymentMethods() ?? [];
     paymentMethods.addAll(newPaymentMethods);
     toggleLoadingPayment(false);
   }
 
-  void getVehicleTypes() async {
+  Future<void> getVehicleTypes() async {
     toggleLoadingVehicle(true);
     List<VehicleTypeModel> newItems = await RemoteServices.fetchVehicleType() ?? [];
     vehicleTypes.addAll(newItems);
@@ -160,6 +177,23 @@ class EditOrderController extends GetxController {
       res.add({"payment": item.value.id});
     }
     return res;
+  }
+
+  void prePopulate() {
+    startAddress = order.startPoint;
+    endAddress = order.endPoint;
+    description.text = order.description;
+    price.text = order.price;
+    weight.text = order.weight;
+    otherInfo.text = order.otherInfo ?? "";
+    selectedVehicleType = order.typeVehicle;
+    List currentPaymentMethodsIDs = order.paymentMethods.map((p) => p.payment.methodName).toList();
+    paymentMethodController.selectWhere((item) => currentPaymentMethodsIDs.contains(item.value.name));
+    DateTime orderDate = order.dateTime;
+    selectedDate = orderDate;
+    selectedTime = TimeOfDay(hour: orderDate.hour, minute: orderDate.minute);
+    coveredCar = order.withCover;
+    update();
   }
 
   //todo: test
@@ -183,6 +217,29 @@ class EditOrderController extends GetxController {
       ));
       return;
     }
+    if (selectedDate == null || selectedTime == null) {
+      Get.showSnackbar(GetSnackBar(
+        message: "pick a date and time first".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    DateTime desiredDate = DateTime(
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      selectedTime!.hour,
+      selectedTime!.minute,
+    );
+    DateTime thresholdDate = DateTime.now().add(const Duration(hours: 1));
+    print(desiredDate.toIso8601String());
+    print(thresholdDate.toIso8601String());
+    if (desiredDate.isBefore(thresholdDate)) {
+      Get.showSnackbar(GetSnackBar(
+        message: "pick a time at least 1 hr from now".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      return;
+    }
     toggleLoading(true);
     Map<String, dynamic> newOrder = {
       "discription": description.text,
@@ -191,7 +248,7 @@ class EditOrderController extends GetxController {
       "end_point": [targetLocation!.addressEncoder().toJson()],
       "weight": weight.text,
       "price": int.parse(price.text),
-      "DateTime": DateTime.now().toIso8601String(),
+      "DateTime": desiredDate.toIso8601String(),
       "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
     };
@@ -199,7 +256,7 @@ class EditOrderController extends GetxController {
     bool removePaymentSuccess = true;
 
     for (int paymentId in order.paymentMethods.map((p) => p.id!)) {
-      removePaymentSuccess &= await RemoteServices.deleteOrderPaymentMethod(paymentId);
+      removePaymentSuccess = await RemoteServices.deleteOrderPaymentMethod(paymentId);
     }
     bool success = await RemoteServices.editOrder(newOrder, order.id);
     bool addPaymentSuccess = await RemoteServices.addOrderPaymentMethods({
