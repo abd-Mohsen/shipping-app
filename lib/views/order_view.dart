@@ -395,6 +395,29 @@ class OrderView extends StatelessWidget {
                           ],
                         ),
                       ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+                      child: Row(
+                        children: [
+                          Text(
+                            "${"added at".tr}: ",
+                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.8,
+                            child: Text(
+                              Jiffy.parseFromDateTime(order.createdAt).format(pattern: "d / M / y"),
+                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 12),
                   ],
                 ),

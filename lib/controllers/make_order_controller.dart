@@ -107,6 +107,18 @@ class MakeOrderController extends GetxController {
   MultiSelectController<PaymentMethodModel> paymentMethodController = MultiSelectController<PaymentMethodModel>();
   MultiSelectController<VehicleTypeModel> vehicleTypeController = MultiSelectController<VehicleTypeModel>();
 
+  DateTime? selectedDate;
+  void setDate(DateTime val) {
+    selectedDate = val;
+    update();
+  }
+
+  TimeOfDay? selectedTime;
+  void setTime(TimeOfDay val) {
+    selectedTime = val;
+    update();
+  }
+
   bool coveredCar = false;
   void toggleCoveredCar() {
     coveredCar = !coveredCar;
@@ -200,6 +212,29 @@ class MakeOrderController extends GetxController {
       ));
       return;
     }
+    if (selectedDate == null || selectedTime == null) {
+      Get.showSnackbar(GetSnackBar(
+        message: "pick a date and time first".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    DateTime desiredDate = DateTime(
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      selectedTime!.hour,
+      selectedTime!.minute,
+    );
+    DateTime thresholdDate = DateTime.now().add(const Duration(hours: 1));
+    print(desiredDate.toIso8601String());
+    print(thresholdDate.toIso8601String());
+    if (desiredDate.isBefore(thresholdDate)) {
+      Get.showSnackbar(GetSnackBar(
+        message: "pick a time at least 1 hr from now".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      return;
+    }
     toggleLoading(true);
     Map<String, dynamic> order = {
       "discription": description.text,
@@ -208,7 +243,7 @@ class MakeOrderController extends GetxController {
       "end_point": [targetLocation!.addressEncoder().toJson()],
       "weight": weight.text,
       "price": int.parse(price.text),
-      "DateTime": DateTime.now().toIso8601String(),
+      "DateTime": desiredDate.toIso8601String(),
       "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
       "payment_methods": formatPayment(),

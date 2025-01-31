@@ -9,8 +9,10 @@ import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:shipment/views/components/custom_button.dart';
+import 'package:shipment/views/components/date_selector.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
+import 'package:shipment/views/components/time_selector.dart';
 
 import '../controllers/make_order_controller.dart';
 import 'components/auth_field.dart';
@@ -276,6 +278,8 @@ class MakeOrderView extends StatelessWidget {
                           },
                         ),
                 ),
+                DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
+                TimeSelector(time: controller.selectedTime, selectTimeCallback: controller.setTime),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: CheckboxListTile(
