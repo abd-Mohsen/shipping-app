@@ -55,6 +55,7 @@ class ResetPassView1 extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        //todo: if phone does not exist in db, show msg
                         AuthField(
                           controller: rPC.phone,
                           keyboardType: TextInputType.phone,

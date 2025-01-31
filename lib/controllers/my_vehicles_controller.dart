@@ -128,7 +128,7 @@ class MyVehiclesController extends GetxController {
         duration: const Duration(milliseconds: 2500),
       ));
       resetForm();
-      refreshMyVehicles();
+      refreshMyVehicles(); //todo: doesnt refresh everytime
     }
     toggleLoadingSubmit(false);
   }

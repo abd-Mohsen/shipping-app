@@ -254,9 +254,9 @@ class RemoteServices {
     return governorateModelFromJson(json);
   }
 
-  static Future<List<OrderModel>?> fetchDriverOrders(int governorateID, String type) async {
+  static Future<List<OrderModel>?> fetchDriverOrders(int? governorateID, String type) async {
     String? json = await api.getRequest(
-      "driver_order/?order_location=$governorateID&order_status=$type&page=1",
+      "driver_order/?${governorateID == null ? "" : "order_location=$governorateID"}&order_status=$type&page=1",
       auth: true,
     );
     if (json == null) return null;
