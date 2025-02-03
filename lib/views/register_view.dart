@@ -108,7 +108,7 @@ class RegisterView extends StatelessWidget {
                                   child: Icon(Icons.house, color: cs.primary),
                                 ),
                                 validator: (val) {
-                                  return validateInput(rC.companyName.text, 4, 50, "");
+                                  return validateInput(rC.companyName.text, 2, 50, "");
                                 },
                                 onChanged: (val) {
                                   if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
@@ -125,7 +125,7 @@ class RegisterView extends StatelessWidget {
                                 child: Icon(Icons.person, color: cs.primary),
                               ),
                               validator: (val) {
-                                return validateInput(rC.firstName.text, 4, 50, "");
+                                return validateInput(rC.firstName.text, 2, 50, "");
                               },
                               onChanged: (val) {
                                 if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
@@ -141,7 +141,7 @@ class RegisterView extends StatelessWidget {
                                 child: Icon(Icons.person, color: cs.primary),
                               ),
                               validator: (val) {
-                                return validateInput(rC.lastName.text, 4, 50, "");
+                                return validateInput(rC.lastName.text, 2, 50, "");
                               },
                               onChanged: (val) {
                                 if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
@@ -157,7 +157,7 @@ class RegisterView extends StatelessWidget {
                                 child: Icon(Icons.person, color: cs.primary),
                               ),
                               validator: (val) {
-                                return validateInput(rC.userName.text, 4, 50, "", english: true);
+                                return validateInput(rC.userName.text, 2, 50, "", english: true);
                               },
                               onChanged: (val) {
                                 if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
@@ -201,7 +201,7 @@ class RegisterView extends StatelessWidget {
                                           child: Icon(CupertinoIcons.eye_fill, color: cs.primary),
                                         ),
                                   validator: (val) {
-                                    return validateInput(rC.password.text, 4, 50, "password");
+                                    return validateInput(rC.password.text, 8, 50, "password");
                                   },
                                   onChanged: (val) {
                                     if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
@@ -231,7 +231,7 @@ class RegisterView extends StatelessWidget {
                                           child: Icon(CupertinoIcons.eye_fill, color: cs.primary),
                                         ),
                                   validator: (val) {
-                                    return validateInput(rC.rePassword.text, 4, 50, "password",
+                                    return validateInput(rC.rePassword.text, 8, 50, "password",
                                         pass: rC.password.text, rePass: rC.rePassword.text);
                                   },
                                   onChanged: (val) {

@@ -66,7 +66,7 @@ class ResetPassView1 extends StatelessWidget {
                             child: Icon(Icons.phone_android, color: cs.primary),
                           ),
                           validator: (val) {
-                            return validateInput(rPC.phone.text, 4, 50, "phone");
+                            return validateInput(rPC.phone.text, 10, 10, "phone");
                           },
                           onChanged: (val) {
                             if (rPC.button1Pressed) rPC.firstFormKey.currentState!.validate();

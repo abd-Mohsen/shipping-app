@@ -84,11 +84,12 @@ class OTPController extends GetxController {
         //todo: show a warning when exiting this page
         resetPassController!.setOtp(pin);
         resetPassController!.setResetToken(resetToken);
+        //todo: login after verifying otp
         Get.off(() => const ResetPassView2());
       }
     } else {
       Get.showSnackbar(const GetSnackBar(
-        message: "error",
+        message: "incorrect",
         duration: Duration(milliseconds: 2500),
         backgroundColor: Colors.red,
       ));

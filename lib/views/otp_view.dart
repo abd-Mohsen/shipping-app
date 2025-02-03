@@ -100,6 +100,7 @@ class OTPView extends StatelessWidget {
                         GetBuilder<OTPController>(
                           builder: (controller) {
                             return CustomButton(
+                              //todo: color is always red
                               onTap: controller.isTimeUp
                                   ? () {
                                       controller.resendOtp();

@@ -154,7 +154,8 @@ class DriverHomeController extends GetxController {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));
       } else if (_currentUser!.driverInfo!.vehicleStatus == "No_Input") {
-        //todo: show a dialog, you must add a vehicle before using the app
+        /*todo: replace dialog with a page, its shows the status of id and license, you cant go back, you just logout
+        and replace them if refused or no input*/
         Get.to(() => const MyVehiclesView());
       } else if (_currentUser!.driverInfo!.idStatus == "Pending" ||
           _currentUser!.driverInfo!.licenseStatus == "Pending") {

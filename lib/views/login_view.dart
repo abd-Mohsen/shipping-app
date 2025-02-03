@@ -69,7 +69,7 @@ class LoginView extends StatelessWidget {
                             child: Icon(Icons.phone_android, color: cs.primary),
                           ),
                           validator: (val) {
-                            return validateInput(lC.phone.text, 4, 50, "phone");
+                            return validateInput(lC.phone.text, 10, 10, "phone");
                           },
                           onChanged: (val) {
                             if (lC.buttonPressed) lC.loginFormKey.currentState!.validate();
@@ -96,7 +96,7 @@ class LoginView extends StatelessWidget {
                                     child: Icon(CupertinoIcons.eye_fill, color: cs.primary),
                                   ),
                             validator: (val) {
-                              return validateInput(lC.password.text, 4, 50, "password");
+                              return validateInput(lC.password.text, 0, 50, "password");
                             },
                             onChanged: (val) {
                               if (lC.buttonPressed) lC.loginFormKey.currentState!.validate();
