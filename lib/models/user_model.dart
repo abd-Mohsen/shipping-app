@@ -46,10 +46,10 @@ class UserModel {
 }
 
 class DriverInfo {
-  final String drivingLicensePhotoFront;
-  final String drivingLicensePhotoRare;
-  final String idPhotoFront;
-  final String idPhotoRare;
+  final String? drivingLicensePhotoFront;
+  final String? drivingLicensePhotoRare;
+  final String? idPhotoFront;
+  final String? idPhotoRare;
   final String licenseStatus;
   final String idStatus;
   final String vehicleStatus;

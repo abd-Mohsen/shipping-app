@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/order_model.dart';
+import 'package:shipment/views/complete_account_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
@@ -154,31 +155,31 @@ class DriverHomeController extends GetxController {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));
       } else if (_currentUser!.driverInfo!.vehicleStatus == "No_Input") {
-        /*todo: replace dialog with a page, its shows the status of id and license, you cant go back, you just logout
-        and replace them if refused or no input*/
+        //todo: handle the cars case
         Get.to(() => const MyVehiclesView());
-      } else if (_currentUser!.driverInfo!.idStatus == "Pending" ||
-          _currentUser!.driverInfo!.licenseStatus == "Pending") {
-        Get.dialog(
-          AlertDialog(
-            backgroundColor: Colors.white,
-            title: const Text("بياناتك لم تقبل بعد", style: TextStyle(color: Colors.black)),
-            content: const Text("يرجى التواصل مع الشركة لتفعيل حسابك", style: TextStyle(color: Colors.black)),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  logout();
-                  //todo: go to complete account page
-                },
-                child: const Text(
-                  "تسجيل خروج",
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
-          ),
-          barrierDismissible: false,
-        );
+      } else if (_currentUser!.driverInfo!.idStatus != "Verified" ||
+          _currentUser!.driverInfo!.licenseStatus != "Verified") {
+        Get.to(CompleteAccountView(user: _currentUser!));
+        // Get.dialog(
+        //   AlertDialog(
+        //     backgroundColor: Colors.white,
+        //     title: const Text("بياناتك لم تقبل بعد", style: TextStyle(color: Colors.black)),
+        //     content: const Text("يرجى التواصل مع الشركة لتفعيل حسابك", style: TextStyle(color: Colors.black)),
+        //     actions: [
+        //       TextButton(
+        //         onPressed: () {
+        //           logout();
+        //           //todo: go to complete account page
+        //         },
+        //         child: const Text(
+        //           "تسجيل خروج",
+        //           style: TextStyle(color: Colors.red),
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        //   barrierDismissible: false,
+        // );
       }
     }
 
