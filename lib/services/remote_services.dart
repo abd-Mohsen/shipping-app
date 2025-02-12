@@ -58,7 +58,7 @@ class RemoteServices {
       "driving_license_photo_front": licenseFront,
       "driving_license_photo_rare": licenseRear,
     };
-    String? json = await api.postRequestWithImages("auth/register/", images, body, auth: false);
+    String? json = await api.requestWithFiles("auth/register/", images, body, auth: false);
     if (json == null) {
       Get.defaultDialog(
         titleStyle: const TextStyle(color: Colors.black),
@@ -222,7 +222,7 @@ class RemoteServices {
     Map<String, File?> images = {
       "vehicle_registration_photo": vehicleRegistrationPhoto,
     };
-    String? json = await api.postRequestWithImages("vehicles/", images, body, auth: true, utf8Decode: false);
+    String? json = await api.requestWithFiles("vehicles/", images, body, auth: true, utf8Decode: false);
     return json != null;
   }
 
@@ -286,6 +286,31 @@ class RemoteServices {
       {"phone_number": phoneNumber},
       auth: true,
     );
+    return json != null;
+  }
+
+  static Future<bool> editProfile({
+    String? firstName,
+    String? lastName,
+    String? companyName,
+    File? idFront,
+    File? idRear,
+    File? licenseFront,
+    File? licenseRear,
+  }) async {
+    Map<String, String> body = {
+      "first_name": firstName ?? "",
+      "last_name": lastName ?? "",
+      "company_name": companyName ?? "",
+    };
+    Map<String, File?> images = {
+      "ID_photo_front": idFront,
+      "ID_photo_rare": idRear,
+      "driving_license_photo_front": licenseFront,
+      "driving_license_photo_rare": licenseRear,
+    };
+    String? json =
+        await api.requestWithFiles("auth/profile/", images, body, auth: true, utf8Decode: false, methodType: "PUT");
     return json != null;
   }
 }

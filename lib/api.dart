@@ -181,7 +181,7 @@ class Api {
     }
   }
 
-  Future<String?> postRequestWithImages(
+  Future<String?> requestWithFiles(
     String endPoint,
     Map<String, File?> images,
     Map<String, String> body, {
@@ -189,12 +189,13 @@ class Api {
     bool canRefresh = true,
     bool showTimeout = true,
     bool utf8Decode = true,
+    String methodType = "POST",
   }) async {
     print("sending to $_hostIP/$endPoint");
     if (auth) print("Token $accessToken");
     try {
       var request = http.MultipartRequest(
-        "POST",
+        methodType,
         Uri.parse("$_hostIP/$endPoint"),
       );
 
@@ -202,6 +203,8 @@ class Api {
         ...headers,
         if (auth) "Authorization": "Token $accessToken",
       });
+
+      body.removeWhere((k, v) => v == ""); //todo: test if works
 
       request.fields.addAll(body);
 

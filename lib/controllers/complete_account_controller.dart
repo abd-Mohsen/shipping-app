@@ -1,21 +1,29 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shipment/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
+import '../services/remote_services.dart';
+import '../views/login_view.dart';
+import 'login_controller.dart';
 
+//todo re check everything
+//todo: do it for other roles
 class CompleteAccountController extends GetxController {
+  final GetStorage _getStorage = GetStorage();
+
   UserModel user;
   CompleteAccountController({required this.user});
 
   @override
   onInit() async {
-    idFront = await downloadImage("$kHostIP/${user.driverInfo!.idPhotoFront}");
-    update();
+    prepopulateImages();
     super.onInit();
   }
 
@@ -24,17 +32,59 @@ class CompleteAccountController extends GetxController {
   XFile? dLicenseFront;
   XFile? dLicenseRear;
 
+  Future<void> prepopulateImages() async {
+    toggleLoadingImages(true);
+    idFront = await downloadImage("$kHostIP/${user.driverInfo!.idPhotoFront}");
+    idRear = await downloadImage("$kHostIP/${user.driverInfo!.idPhotoRare}");
+    dLicenseFront = await downloadImage("$kHostIP/${user.driverInfo!.drivingLicensePhotoFront}");
+    dLicenseRear = await downloadImage("$kHostIP/${user.driverInfo!.drivingLicensePhotoRare}");
+    toggleLoadingImages(false);
+  }
+
+  bool id1Changed = false;
+  bool id2Changed = false;
+  bool license1Changed = false;
+  bool license2Changed = false;
+
   Future pickImage(String selectedImage, String source) async {
     XFile? pickedImage = await ImagePicker().pickImage(
       source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
     );
-    if (selectedImage == "ID (front)".tr) idFront = pickedImage;
-    if (selectedImage == "ID (rear)".tr) idRear = pickedImage;
-    if (selectedImage == "driving license (front)".tr) dLicenseFront = pickedImage;
-    if (selectedImage == "driving license (rear)".tr) dLicenseRear = pickedImage;
 
+    if (pickedImage == null) return;
+
+    if (selectedImage == "ID (front)".tr) {
+      idFront = pickedImage;
+      id1Changed = true;
+    }
+    if (selectedImage == "ID (rear)".tr) {
+      idRear = pickedImage;
+      id2Changed = true;
+    }
+    if (selectedImage == "driving license (front)".tr) {
+      dLicenseFront = pickedImage;
+      license1Changed = true;
+    }
+    if (selectedImage == "driving license (rear)".tr) {
+      dLicenseRear = pickedImage;
+      license2Changed = true;
+    }
     update();
     Get.back();
+  }
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  void toggleLoading(bool value) {
+    _isLoading = value;
+    update();
+  }
+
+  bool _isLoadingImages = false;
+  bool get isLoadingImages => _isLoadingImages;
+  void toggleLoadingImages(bool value) {
+    _isLoadingImages = value;
+    update();
   }
 
   Future<XFile?> downloadImage(String imageUrl) async {
@@ -45,8 +95,11 @@ class CompleteAccountController extends GetxController {
       // Get the document directory path
       final documentDirectory = await getTemporaryDirectory();
 
-      // Create a file in the temporary directory
-      final file = File('${documentDirectory.path}/image.jpg');
+      // Generate a unique filename using the image URL's hash code
+      final uniqueFileName = 'image_${imageUrl.hashCode}.jpg';
+
+      // Create a file in the temporary directory with the unique filename
+      final file = File('${documentDirectory.path}/$uniqueFileName');
 
       // Write the image bytes to the file
       file.writeAsBytesSync(response.bodyBytes);
@@ -56,6 +109,35 @@ class CompleteAccountController extends GetxController {
     } catch (e) {
       print('Error: $e');
       return null;
+    }
+  }
+
+  void submit() async {
+    toggleLoading(true);
+    bool success = await RemoteServices.editProfile(
+      idFront: id1Changed ? File(idFront!.path) : null,
+      idRear: id2Changed ? File(idRear!.path) : null,
+      licenseFront: license1Changed ? File(dLicenseFront!.path) : null,
+      licenseRear: license2Changed ? File(dLicenseRear!.path) : null,
+    );
+    if (success) {
+      //Get.back();
+      Get.showSnackbar(GetSnackBar(
+        message: "updated successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
+      ));
+    }
+    toggleLoading(false);
+  }
+
+  void logout() async {
+    //todo: add loading to prevent spam
+    if (await RemoteServices.logout()) {
+      _getStorage.remove("token");
+      _getStorage.remove("role");
+      Get.put(LoginController());
+      Get.offAll(() => const LoginView());
     }
   }
 }
