@@ -21,33 +21,32 @@ class LoginView extends StatelessWidget {
     return SafeArea(
       child: AuthBackground(
         pageName: "login",
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 8),
           children: <Widget>[
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Text(
-                    "welcome back".tr.toUpperCase(),
-                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
-                  ),
-                  Row(
-                    children: [
-                      const Spacer(),
-                      Expanded(
-                        flex: 16,
-                        //todo: replace png with svg to save space
-                        child: Hero(
-                          tag: "auth_image",
-                          child: Image.asset('assets/images/driver.png'),
-                        ),
+            Column(
+              children: [
+                Text(
+                  "welcome back".tr.toUpperCase(),
+                  style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                ),
+                Row(
+                  children: [
+                    const Spacer(),
+                    Expanded(
+                      flex: 16,
+                      //todo: replace png with svg to save space
+                      child: Hero(
+                        tag: "auth_image",
+                        child: Image.asset('assets/images/driver.png'),
                       ),
-                      const Spacer(),
-                    ],
-                  ),
-                  const SizedBox(height: 8 * 2),
-                ],
-              ),
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+                const SizedBox(height: 8 * 2),
+              ],
             ),
             Row(
               children: [
@@ -111,7 +110,7 @@ class LoginView extends StatelessWidget {
                             },
                             child: Text(
                               "forgot password?".tr,
-                              style: tt.labelMedium!.copyWith(color: cs.onBackground.withOpacity(0.7)),
+                              style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.7)),
                               textAlign: TextAlign.end,
                             ),
                           ),

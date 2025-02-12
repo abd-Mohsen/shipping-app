@@ -27,8 +27,8 @@ class AuthBackground extends StatelessWidget {
         Get.dialog(kCloseAppDialog());
       },
       child: Scaffold(
-        backgroundColor: cs.background,
-        resizeToAvoidBottomInset: false,
+        backgroundColor: cs.surface,
+        //resizeToAvoidBottomInset: false,
         body: SizedBox(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,

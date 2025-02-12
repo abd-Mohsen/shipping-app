@@ -33,8 +33,9 @@ class OTPView extends StatelessWidget {
         },
         child: AuthBackground(
           pageName: "otp",
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: ListView(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 8),
             children: <Widget>[
               Column(
                 children: [
@@ -106,6 +107,7 @@ class OTPView extends StatelessWidget {
                                       controller.resendOtp();
                                     }
                                   : null,
+                              color: !controller.isTimeUp ? Colors.grey : cs.primary,
                               child: Center(
                                 child: controller.isLoading
                                     ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)

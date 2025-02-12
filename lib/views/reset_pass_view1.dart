@@ -18,8 +18,9 @@ class ResetPassView1 extends StatelessWidget {
     return SafeArea(
       child: AuthBackground(
         pageName: "otp",
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 8),
           children: <Widget>[
             Column(
               children: [

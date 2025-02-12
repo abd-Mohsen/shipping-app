@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final void Function()? onTap;
   final Widget child;
+  final Color? color;
 
   const CustomButton({
     super.key,
     required this.onTap,
     required this.child,
+    this.color,
   });
 
   @override
@@ -20,7 +22,7 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+          backgroundColor: WidgetStateProperty.all<Color>(color ?? cs.primary),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 14.0),
