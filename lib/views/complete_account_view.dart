@@ -17,8 +17,38 @@ class CompleteAccountView extends StatelessWidget {
     CompleteAccountController cAC = Get.put(CompleteAccountController(user: user));
 
     return PopScope(
-      //todo: prevent from exiting
-      //todo: improve UX
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (didPop) {
+          return;
+        }
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              'you cannot exit'.tr,
+              style: tt.titleLarge!.copyWith(color: cs.onSurface),
+            ),
+            content: Text(
+              'You cannot use the app until your info are accepted, logout if you want'.tr,
+              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  'OK',
+                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                ),
+              ),
+              TextButton(
+                onPressed: () => cAC.logout(),
+                child: const Text('logout'),
+              ),
+            ],
+          ),
+        );
+      },
       child: Scaffold(
         backgroundColor: cs.surface,
         appBar: AppBar(
@@ -28,18 +58,18 @@ class CompleteAccountView extends StatelessWidget {
             style: tt.titleMedium!.copyWith(color: cs.onPrimary),
           ),
           //centerTitle: true,
-          leading: Icon(Icons.arrow_back),
-          actions: [
-            IconButton(
-              onPressed: () {
-                cAC.logout();
-              },
-              icon: Icon(
-                Icons.logout,
-                color: cs.onPrimary,
-              ),
-            )
-          ],
+          leading: const Icon(Icons.arrow_back),
+          // actions: [
+          //   IconButton(
+          //     onPressed: () {
+          //       cAC.logout();
+          //     },
+          //     icon: Icon(
+          //       Icons.logout,
+          //       color: cs.onPrimary,
+          //     ),
+          //   )
+          // ],
         ),
         body: GetBuilder<CompleteAccountController>(
           builder: (controller) {
@@ -48,13 +78,11 @@ class CompleteAccountView extends StatelessWidget {
                 : RefreshIndicator(
                     onRefresh: controller.prepopulateImages,
                     child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
                       children: [
                         Text(
-                          'some of your data are refused or not accepted yet, please re upload the refused data or '
-                                  'wait for approval'
-                              .tr,
-                          style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                          "complete info text".tr,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
                         ),
                         const SizedBox(height: 12),
                         IdImageSelector(

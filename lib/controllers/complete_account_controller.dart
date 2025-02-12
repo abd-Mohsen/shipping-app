@@ -113,6 +113,14 @@ class CompleteAccountController extends GetxController {
   }
 
   void submit() async {
+    if (isLoading) return;
+    if (!id1Changed && !id2Changed && !license1Changed && !license2Changed) {
+      Get.showSnackbar(GetSnackBar(
+        message: "no new images were selected".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      return;
+    }
     toggleLoading(true);
     bool success = await RemoteServices.editProfile(
       idFront: id1Changed ? File(idFront!.path) : null,

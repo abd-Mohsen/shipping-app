@@ -41,6 +41,7 @@ class LoginController extends GetxController {
 
   void login() async {
     //todo: almost done, just check all cases
+    //todo: login controller is not disposed after logging in
     if (isLoading) return; // todo (later): do this for every button, to not send multiple requests
     buttonPressed = true;
     bool isValid = loginFormKey.currentState!.validate();

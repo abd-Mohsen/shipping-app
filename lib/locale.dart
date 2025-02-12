@@ -109,6 +109,9 @@ class MyLocale extends Translations {
           "must be english": "must be english",
           "registered successfully": "registered successfully",
           "kindly wait for acceptance": "kindly wait for acceptance",
+          "complete info": "complete info",
+          "complete info text": "some of your data are refused or not accepted yet, please re upload the refused "
+              "data or wait for approval",
         },
         "ar": {
           "Arabic": "العربية",
@@ -215,6 +218,9 @@ class MyLocale extends Translations {
           "must be english": "يجب أن يكون بالانكليزية",
           "registered successfully": "تم التسجيل بنجاح",
           "kindly wait for acceptance": "الرجاء انتظار الموافقة",
+          "complete info": "إتمام البيانات",
+          "complete info text": "بعض بياناتك مرفوضة او لم يتم قبولها بعد, الرجاء انتظار القبول و اعادة ارسال "
+              "البيانات المرفوضة",
         },
       };
 }
