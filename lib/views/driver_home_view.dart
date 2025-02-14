@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
+import 'package:shipment/views/edit_profile_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import 'package:shipment/views/tabs/driver_explore_tab.dart';
 import 'package:shipment/views/tabs/driver_history_tab.dart';
@@ -64,8 +65,8 @@ class DriverHomeView extends StatelessWidget {
             ),
             backgroundColor: cs.surface,
             body: IndexedStack(
-              children: tabs,
               index: controller.tabIndex,
+              children: tabs,
             ),
             drawer: Drawer(
               backgroundColor: cs.surface,
@@ -75,41 +76,52 @@ class DriverHomeView extends StatelessWidget {
                     child: ListView(
                       children: [
                         GetBuilder<DriverHomeController>(builder: (con) {
-                          return con.isLoadingUser
-                              ? Padding(
-                                  padding: const EdgeInsets.all(24),
-                                  child: SpinKitPianoWave(color: cs.primary),
-                                )
-                              : con.currentUser == null
+                          return Column(
+                            children: [
+                              con.isLoadingUser
                                   ? Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          con.getCurrentUser();
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                                        ),
-                                        child: Text(
-                                          'خطأ, انقر للتحديث',
-                                          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
-                                        ),
-                                      ),
+                                      padding: const EdgeInsets.all(24),
+                                      child: SpinKitPianoWave(color: cs.primary),
                                     )
-                                  : UserAccountsDrawerHeader(
-                                      //showing old data or not showing at all, add loading (is it solved?)
-                                      accountName: Text(
-                                        "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
-                                        //todo: handle arabic UTF-8, preferably from api.dart directly
-                                        style: tt.headlineSmall,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      accountEmail: Text(
-                                        con.currentUser!.phoneNumber,
-                                        style: tt.titleMedium,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    );
+                                  : con.currentUser == null
+                                      ? Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              con.getCurrentUser();
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+                                            ),
+                                            child: Text(
+                                              'خطأ, انقر للتحديث',
+                                              style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                            ),
+                                          ),
+                                        )
+                                      : UserAccountsDrawerHeader(
+                                          //showing old data or not showing at all, add loading (is it solved?)
+                                          accountName: Text(
+                                            "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
+                                            //todo: handle arabic UTF-8, preferably from api.dart directly
+                                            style: tt.headlineSmall,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          accountEmail: Text(
+                                            con.currentUser!.phoneNumber,
+                                            style: tt.titleMedium,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                              ListTile(
+                                leading: const Icon(Icons.manage_accounts),
+                                title: Text("edit profile".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                                onTap: () {
+                                  Get.to(EditProfileView(user: con.currentUser!, homeController: hC));
+                                },
+                              ),
+                            ],
+                          );
                         }),
                         //todo: add language and other widgets, and unify the drawer if possible
                         //todo: redirect if not verified or have no car
