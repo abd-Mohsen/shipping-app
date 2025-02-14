@@ -11,7 +11,7 @@ import 'package:shipment/views/edit_order_view.dart';
 
 class OrderView extends StatelessWidget {
   //todo: make it different depending on status, and on wither if the user is driver or customer
-  //todo: improve
+  //todo: improve (use primary containers)
   //todo: edit and delete
   //todo: add payment methods, driver details and status
   final OrderModel order;

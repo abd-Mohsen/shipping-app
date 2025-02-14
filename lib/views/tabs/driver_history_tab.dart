@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import '../../controllers/driver_home_controller.dart';
 import '../components/order_card.dart';
 
@@ -22,11 +23,12 @@ class DriverHistoryTab extends StatelessWidget {
                 child: controller.historyOrders.isEmpty
                     ? ListView(
                         children: [
+                          Lottie.asset("assets/animations/timer.json", height: 200),
                           Padding(
                             padding: const EdgeInsets.all(32),
                             child: Center(
                               child: Text(
-                                "no data, pull down to refresh".tr,
+                                "no history, pull down to refresh".tr,
                                 style: tt.titleSmall!.copyWith(color: cs.onSurface),
                               ),
                             ),

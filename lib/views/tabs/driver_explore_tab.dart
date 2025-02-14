@@ -2,6 +2,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shipment/models/governorate_model.dart';
 import '../../controllers/driver_home_controller.dart';
 import '../components/order_card.dart';
@@ -124,12 +125,13 @@ class DriverExploreTab extends StatelessWidget {
                     child: controller.exploreOrders.isEmpty
                         ? ListView(
                             children: [
+                              Lottie.asset("assets/animations/search.json", height: 300),
                               Padding(
-                                padding: const EdgeInsets.all(32),
+                                padding: const EdgeInsets.all(24),
                                 child: Center(
                                   child: Text(
                                     "no data, pull down to refresh".tr,
-                                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
                               ),

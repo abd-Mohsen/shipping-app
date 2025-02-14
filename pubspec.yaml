@@ -30,6 +30,7 @@ dependencies:
   flutter_svg: ^2.0.16
   carousel_slider: ^5.0.0
   smooth_page_indicator: ^1.2.0+3
+  lottie: ^3.1.0
 
 
 dev_dependencies:
@@ -43,6 +44,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/animations/
   fonts:
     - family: Alexandria
       fonts:
