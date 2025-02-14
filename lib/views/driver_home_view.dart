@@ -76,30 +76,30 @@ class DriverHomeView extends StatelessWidget {
                     child: ListView(
                       children: [
                         GetBuilder<DriverHomeController>(builder: (con) {
-                          return Column(
-                            children: [
-                              con.isLoadingUser
+                          return con.isLoadingUser
+                              ? Padding(
+                                  padding: const EdgeInsets.all(24),
+                                  child: SpinKitPianoWave(color: cs.primary),
+                                )
+                              : con.currentUser == null
                                   ? Padding(
-                                      padding: const EdgeInsets.all(24),
-                                      child: SpinKitPianoWave(color: cs.primary),
+                                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          con.getCurrentUser();
+                                        },
+                                        style: ButtonStyle(
+                                          backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+                                        ),
+                                        child: Text(
+                                          'خطأ, انقر للتحديث',
+                                          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                        ),
+                                      ),
                                     )
-                                  : con.currentUser == null
-                                      ? Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              con.getCurrentUser();
-                                            },
-                                            style: ButtonStyle(
-                                              backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                                            ),
-                                            child: Text(
-                                              'خطأ, انقر للتحديث',
-                                              style: tt.titleMedium!.copyWith(color: cs.onPrimary),
-                                            ),
-                                          ),
-                                        )
-                                      : UserAccountsDrawerHeader(
+                                  : Column(
+                                      children: [
+                                        UserAccountsDrawerHeader(
                                           //showing old data or not showing at all, add loading (is it solved?)
                                           accountName: Text(
                                             "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
@@ -113,15 +113,16 @@ class DriverHomeView extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
-                              ListTile(
-                                leading: const Icon(Icons.manage_accounts),
-                                title: Text("edit profile".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                                onTap: () {
-                                  Get.to(EditProfileView(user: con.currentUser!, homeController: hC));
-                                },
-                              ),
-                            ],
-                          );
+                                        ListTile(
+                                          leading: const Icon(Icons.manage_accounts),
+                                          title: Text("edit profile".tr,
+                                              style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                                          onTap: () {
+                                            Get.to(EditProfileView(user: con.currentUser!, homeController: hC));
+                                          },
+                                        ),
+                                      ],
+                                    );
                         }),
                         //todo: add language and other widgets, and unify the drawer if possible
                         //todo: redirect if not verified or have no car

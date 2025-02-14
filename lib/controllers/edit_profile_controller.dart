@@ -7,6 +7,7 @@ import '../services/remote_services.dart';
 class EditProfileController extends GetxController {
   //todo implement for all roles
   //todo add delete profile
+  //todo add images
 
   UserModel user;
   dynamic homeController;
