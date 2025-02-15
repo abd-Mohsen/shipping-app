@@ -202,7 +202,7 @@ class EditOrderController extends GetxController {
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
-    if (sourceLocation == null || targetLocation == null) {
+    if (startAddress == null || endAddress == null) {
       Get.showSnackbar(GetSnackBar(
         message: "pick positions first".tr,
         duration: const Duration(milliseconds: 2500),
@@ -210,7 +210,8 @@ class EditOrderController extends GetxController {
       return;
     }
     List<String> syriaNames = ["sy", "syria", "سوريا"];
-    if (!syriaNames.contains(sourceLocation!.country) || !syriaNames.contains(targetLocation!.country)) {
+    if ((sourceLocation != null && !syriaNames.contains(sourceLocation!.country)) ||
+        (targetLocation != null && !syriaNames.contains(targetLocation!.country))) {
       Get.showSnackbar(GetSnackBar(
         message: "pick a position in syria".tr,
         duration: const Duration(milliseconds: 2500),
@@ -244,26 +245,20 @@ class EditOrderController extends GetxController {
     Map<String, dynamic> newOrder = {
       "discription": description.text,
       "type_vehicle": selectedVehicleType?.id,
-      "start_point": [sourceLocation!.addressEncoder().toJson()],
-      "end_point": [targetLocation!.addressEncoder().toJson()],
+      "start_point": [startAddress!.toJson()],
+      "end_point": [endAddress!.toJson()],
       "weight": weight.text,
       "price": int.parse(price.text),
       "DateTime": desiredDate.toIso8601String(),
       "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
-    };
-
-    bool removePaymentSuccess = true;
-
-    for (int paymentId in order.paymentMethods.map((p) => p.id!)) {
-      removePaymentSuccess = await RemoteServices.deleteOrderPaymentMethod(paymentId);
-    }
-    bool success = await RemoteServices.editOrder(newOrder, order.id);
-    bool addPaymentSuccess = await RemoteServices.addOrderPaymentMethods({
-      "order_id": order.id,
       "payment_methods": formatPayment(),
-    });
-    if (success && addPaymentSuccess && removePaymentSuccess) {
+    };
+    print(newOrder); //todo: payments are not changing
+
+    bool success = await RemoteServices.editOrder(newOrder, order.id);
+
+    if (success) {
       customerHomeController.refreshOrders();
       Get.back();
       Get.back();
