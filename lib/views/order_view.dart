@@ -1,3 +1,4 @@
+import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -110,12 +111,92 @@ class OrderView extends StatelessWidget {
                     ),
                   ),
                 ),
+              /*
+              DRAFT = 'draft'
+    AVAILABLE = 'available'
+    PENDING = 'pending'
+    APPROVED = 'approved'
+    PROCESSING = 'processing'
+    DONE = 'done'
+               */
+              //if (isCustomer)
+              Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: EasyStepper(
+                  activeStep: 0,
+                  activeStepTextColor: Colors.black87,
+                  finishedStepTextColor: Colors.black87,
+                  internalPadding: 0,
+                  showLoadingAnimation: false,
+                  stepRadius: 8,
+                  showStepBorder: false,
+                  steps: [
+                    EasyStep(
+                      customStep: CircleAvatar(
+                        radius: 8,
+                        backgroundColor: Colors.white,
+                        child: CircleAvatar(
+                          radius: 7,
+                          backgroundColor: 0 >= 0 ? Colors.orange : Colors.white,
+                        ),
+                      ),
+                      title: 'Waiting',
+                    ),
+                    EasyStep(
+                      customStep: CircleAvatar(
+                        radius: 8,
+                        backgroundColor: Colors.white,
+                        child: CircleAvatar(
+                          radius: 7,
+                          backgroundColor: 0 >= 1 ? Colors.orange : Colors.white,
+                        ),
+                      ),
+                      title: 'Order Received',
+                      topTitle: true,
+                    ),
+                    EasyStep(
+                      customStep: CircleAvatar(
+                        radius: 8,
+                        backgroundColor: Colors.white,
+                        child: CircleAvatar(
+                          radius: 7,
+                          backgroundColor: 0 >= 2 ? Colors.orange : Colors.white,
+                        ),
+                      ),
+                      title: 'Preparing',
+                    ),
+                    EasyStep(
+                      customStep: CircleAvatar(
+                        radius: 8,
+                        backgroundColor: Colors.white,
+                        child: CircleAvatar(
+                          radius: 7,
+                          backgroundColor: 0 >= 3 ? Colors.orange : Colors.white,
+                        ),
+                      ),
+                      title: 'On Way',
+                      topTitle: true,
+                    ),
+                    EasyStep(
+                      customStep: CircleAvatar(
+                        radius: 8,
+                        backgroundColor: Colors.white,
+                        child: CircleAvatar(
+                          radius: 7,
+                          backgroundColor: 0 >= 4 ? Colors.orange : Colors.white,
+                        ),
+                      ),
+                      title: 'Delivered',
+                    ),
+                  ],
+                ),
+              ),
               if (!isCustomer)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CustomButton(
                     onTap: () {
-                      //
+                      //todo: radio list tile, and check what details to add
                     },
                     child: Center(
                       child: false
