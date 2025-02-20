@@ -83,7 +83,7 @@ class Api {
                   },
             body: jsonEncode(body),
           )
-          .timeout(kTimeOutDuration);
+          .timeout(kTimeOutDuration2);
       String responseBody = utf8.decode(latin1.encode(response.body));
       print("$responseBody =========== ${response.statusCode}");
       if (canRefresh && response.statusCode == 401) {

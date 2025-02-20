@@ -119,10 +119,8 @@ class OrderView extends StatelessWidget {
     PROCESSING = 'processing'
     DONE = 'done'
                */
-              //if (isCustomer)
-              Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: EasyStepper(
+              if (isCustomer)
+                EasyStepper(
                   activeStep: 0,
                   activeStepTextColor: Colors.black87,
                   finishedStepTextColor: Colors.black87,
@@ -190,7 +188,6 @@ class OrderView extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
               if (!isCustomer)
                 Padding(
                   padding: const EdgeInsets.all(8.0),

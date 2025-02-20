@@ -151,35 +151,17 @@ class DriverHomeController extends GetxController {
       'Pending', 'Verified', 'Refused', 'No_Input',
     */
     if (_currentUser != null) {
+      if (_currentUser!.driverInfo!.vehicleStatus == "No_Input") {
+        //todo: handle the cars case
+        Get.to(() => const MyVehiclesView());
+      }
+      if (_currentUser!.driverInfo!.idStatus.toLowerCase() != "verified" ||
+          _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+        Get.to(CompleteAccountView(user: _currentUser!));
+      }
       if (!_currentUser!.isVerified) {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));
-      } else if (_currentUser!.driverInfo!.vehicleStatus == "No_Input") {
-        //todo: handle the cars case
-        Get.to(() => const MyVehiclesView());
-      } else if (_currentUser!.driverInfo!.idStatus.toLowerCase() != "verified" ||
-          _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
-        Get.to(CompleteAccountView(user: _currentUser!));
-        // Get.dialog(
-        //   AlertDialog(
-        //     backgroundColor: Colors.white,
-        //     title: const Text("بياناتك لم تقبل بعد", style: TextStyle(color: Colors.black)),
-        //     content: const Text("يرجى التواصل مع الشركة لتفعيل حسابك", style: TextStyle(color: Colors.black)),
-        //     actions: [
-        //       TextButton(
-        //         onPressed: () {
-        //           logout();
-        //           //todo: go to complete account page
-        //         },
-        //         child: const Text(
-        //           "تسجيل خروج",
-        //           style: TextStyle(color: Colors.red),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        //   barrierDismissible: false,
-        // );
       }
     }
 

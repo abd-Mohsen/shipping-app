@@ -145,6 +145,9 @@ class OTPView extends StatelessWidget {
                                 color: Colors.red,
                                 size: 25,
                               ),
+                              onTap: () {
+                                oC.logout();
+                              },
                               title: Text(
                                 "logout",
                                 style: tt.titleSmall!.copyWith(color: cs.error),

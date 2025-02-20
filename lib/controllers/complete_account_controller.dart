@@ -34,10 +34,10 @@ class CompleteAccountController extends GetxController {
 
   Future<void> prepopulateImages() async {
     toggleLoadingImages(true);
-    idFront = await downloadImage("$kHostIP/${user.driverInfo!.idPhotoFront}");
-    idRear = await downloadImage("$kHostIP/${user.driverInfo!.idPhotoRare}");
-    dLicenseFront = await downloadImage("$kHostIP/${user.driverInfo!.drivingLicensePhotoFront}");
-    dLicenseRear = await downloadImage("$kHostIP/${user.driverInfo!.drivingLicensePhotoRare}");
+    idFront = await downloadImage("$kHostIP/en${user.driverInfo!.idPhotoFront}");
+    idRear = await downloadImage("$kHostIP/en${user.driverInfo!.idPhotoRare}");
+    dLicenseFront = await downloadImage("$kHostIP/en${user.driverInfo!.drivingLicensePhotoFront}");
+    dLicenseRear = await downloadImage("$kHostIP/en${user.driverInfo!.drivingLicensePhotoRare}");
     toggleLoadingImages(false);
   }
 

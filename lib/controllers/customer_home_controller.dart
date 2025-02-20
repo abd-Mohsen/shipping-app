@@ -7,9 +7,11 @@ import 'package:shipment/models/order_model.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
+import '../views/complete_account_view.dart';
 import '../views/login_view.dart';
 import '../views/otp_view.dart';
 import 'login_controller.dart';
+import 'otp_controller.dart';
 
 class CustomerHomeController extends GetxController {
   @override
@@ -72,13 +74,17 @@ class CustomerHomeController extends GetxController {
   void getCurrentUser() async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
-    // if (_currentUser!.driverInfo != null && !_currentUser!.driverInfo!.isVerifiedId) {
-    //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
-    // }
-    //todo: handle the case of: no car, no license and no verified phone
-    // else if (_currentUser != null && !_currentUser!.isVerified) {
-    //   Get.to(() => const OTPView(source: "register"));
-    // }
+    if (_currentUser != null) {
+      //todo: no id info in customer
+      // if (_currentUser!.driverInfo!.idStatus.toLowerCase() != "verified" ||
+      //     _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+      //   Get.to(CompleteAccountView(user: _currentUser!));
+      // }
+      if (!_currentUser!.isVerified) {
+        Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
+        Get.to(() => const OTPView(source: "register"));
+      }
+    }
     toggleLoadingUser(false);
   }
 

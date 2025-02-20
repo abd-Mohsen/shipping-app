@@ -9,6 +9,7 @@ import 'package:shipment/views/my_addresses_view.dart';
 import '../constants.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
+import 'edit_profile_view.dart';
 
 class CustomerHomeView extends StatelessWidget {
   const CustomerHomeView({super.key});
@@ -73,42 +74,66 @@ class CustomerHomeView extends StatelessWidget {
               Expanded(
                 child: ListView(
                   children: [
-                    GetBuilder<CustomerHomeController>(builder: (con) {
-                      return con.isLoadingUser
-                          ? Padding(
-                              padding: const EdgeInsets.all(24),
-                              child: SpinKitPianoWave(color: cs.primary),
-                            )
-                          : con.currentUser == null
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      con.getCurrentUser();
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+                    GetBuilder<CustomerHomeController>(
+                      builder: (con) {
+                        return con.isLoadingUser
+                            ? Padding(
+                                padding: const EdgeInsets.all(24),
+                                child: SpinKitPianoWave(color: cs.primary),
+                              )
+                            : con.currentUser == null
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        con.getCurrentUser();
+                                      },
+                                      style: ButtonStyle(
+                                        backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+                                      ),
+                                      child: Text(
+                                        'refresh'.tr,
+                                        style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                      ),
                                     ),
-                                    child: Text(
-                                      'refresh'.tr,
-                                      style: tt.titleMedium!.copyWith(color: cs.onPrimary),
-                                    ),
-                                  ),
-                                )
-                              : UserAccountsDrawerHeader(
-                                  //showing old data or not showing at all, add loading (is it solved?)
-                                  accountName: Text(
-                                    "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
-                                    style: tt.headlineMedium,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  accountEmail: Text(
-                                    con.currentUser!.phoneNumber,
-                                    style: tt.titleMedium,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
-                    }),
+                                  )
+                                : Column(
+                                    children: [
+                                      UserAccountsDrawerHeader(
+                                        //showing old data or not showing at all, add loading (is it solved?)
+                                        accountName: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
+                                              style: tt.headlineSmall,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              "@${con.currentUser!.firstName}",
+                                              style: tt.labelMedium,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                        accountEmail: Text(
+                                          con.currentUser!.phoneNumber,
+                                          style: tt.titleMedium,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      ListTile(
+                                        leading: const Icon(Icons.manage_accounts),
+                                        title: Text("edit profile".tr,
+                                            style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                                        onTap: () {
+                                          Get.to(EditProfileView(user: con.currentUser!, homeController: hC));
+                                        },
+                                      ),
+                                    ],
+                                  );
+                      },
+                    ),
                     ListTile(
                       leading: const Icon(Icons.dark_mode_outlined),
                       title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),

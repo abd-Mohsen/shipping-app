@@ -9,6 +9,13 @@ class EditProfileController extends GetxController {
   //todo add delete profile
   //todo add images
 
+  @override
+  void onInit() {
+    firstName.text = user.firstName;
+    lastName.text = user.lastName;
+    super.onInit();
+  }
+
   UserModel user;
   dynamic homeController;
   EditProfileController({required this.user, required this.homeController});
