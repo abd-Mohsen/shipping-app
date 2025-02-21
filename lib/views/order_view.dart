@@ -226,7 +226,7 @@ class OrderView extends StatelessWidget {
                         maxLines: 3,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 12),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
                       child: Row(
@@ -249,35 +249,37 @@ class OrderView extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(
-                            Icons.date_range_outlined,
-                            color: cs.onSurface,
-                            size: 22,
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y"),
-                            style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                      child: Row(
-                        children: [
-                          Icon(
                             Icons.watch_later_outlined,
                             color: cs.onSurface,
                             size: 22,
                           ),
                           const SizedBox(width: 16),
                           Text(
-                            Jiffy.parseFromDateTime(order.dateTime).jm,
+                            Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y") +
+                                "    " +
+                                Jiffy.parseFromDateTime(order.dateTime).jm,
                             style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
                           ),
                         ],
                       ),
                     ),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                    //   child: Row(
+                    //     children: [
+                    //       Icon(
+                    //         Icons.watch_later_outlined,
+                    //         color: cs.onSurface,
+                    //         size: 22,
+                    //       ),
+                    //       const SizedBox(width: 16),
+                    //       Text(
+                    //         Jiffy.parseFromDateTime(order.dateTime).jm,
+                    //         style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     if (!isCustomer)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
@@ -306,64 +308,77 @@ class OrderView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Text(
-                      "address".tr,
-                      style: tt.titleLarge!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 12),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 60,
-                            child: Text(
-                              "from",
-                              style: tt.titleMedium!
-                                  .copyWith(color: cs.onSurface.withOpacity(0.7), fontWeight: FontWeight.bold),
+                    Card(
+                      color: cs.secondaryContainer,
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "address".tr,
+                              style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
                               overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          const SizedBox(width: 16),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 1.8,
-                            child: Text(
-                              order.startPoint.toString(),
-                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
+                            const SizedBox(height: 12),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 50,
+                                    child: Text(
+                                      "from".tr,
+                                      style: tt.titleSmall!
+                                          .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.7,
+                                    child: Text(
+                                      order.startPoint.toString(),
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 50,
+                                    child: Text(
+                                      "to".tr,
+                                      style: tt.titleSmall!
+                                          .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.7,
+                                    child: Text(
+                                      order.endPoint.toString(),
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 60,
-                            child: Text(
-                              "to",
-                              style: tt.titleMedium!
-                                  .copyWith(color: cs.onSurface.withOpacity(0.7), fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 1.8,
-                            child: Text(
-                              order.endPoint.toString(),
-                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+
                     // if (isCustomer)
                     //   ListTile(
                     //     //leading: Icon(Icons.date_range),
@@ -418,85 +433,102 @@ class OrderView extends StatelessWidget {
                     //       maxLines: 1,
                     //     ),
                     //   ),
-                    const SizedBox(height: 24),
-                    Text(
-                      "details".tr,
-                      style: tt.titleLarge!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                      overflow: TextOverflow.ellipsis,
-                    ),
                     const SizedBox(height: 12),
-                    if (order.otherInfo != null)
-                      ListTile(
-                        title: Text(
-                          order.otherInfo!,
-                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-                      child: Row(
-                        children: [
-                          Text(
-                            "${"weight".tr}: ",
-                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                          ),
-                          const SizedBox(width: 8),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 1.8,
-                            child: Text(
-                              order.weight,
-                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (order.withCover)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-                        child: Row(
+                    Card(
+                      color: cs.secondaryContainer,
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 1.8,
-                              child: Text(
-                                "covered vehicle is required",
+                            Text(
+                              "details".tr,
+                              style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 20),
+                            if (order.otherInfo != null)
+                              Text(
+                                order.otherInfo!,
                                 style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                 overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
+                              ),
+                            const SizedBox(height: 12),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "${"weight".tr}: ",
+                                    style: tt.titleSmall!.copyWith(
+                                      color: cs.onSecondaryContainer,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 3,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.8,
+                                    child: Text(
+                                      order.weight,
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if (order.withCover)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width / 1.8,
+                                      child: Text(
+                                        "covered vehicle is required".tr,
+                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "${"added at".tr}: ",
+                                    style: tt.titleSmall!.copyWith(
+                                      color: cs.onSecondaryContainer,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width / 2,
+                                    child: Text(
+                                      Jiffy.parseFromDateTime(order.createdAt).format(pattern: "d / M / y"),
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-                      child: Row(
-                        children: [
-                          Text(
-                            "${"added at".tr}: ",
-                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                          ),
-                          const SizedBox(width: 8),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 1.8,
-                            child: Text(
-                              Jiffy.parseFromDateTime(order.createdAt).format(pattern: "d / M / y"),
-                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 24),
                   ],
                 ),
               )

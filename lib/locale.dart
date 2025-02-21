@@ -112,6 +112,10 @@ class MyLocale extends Translations {
           "complete info": "complete info",
           "complete info text": "some of your data are refused or not accepted yet, please re upload the refused "
               "data or wait for approval",
+          "from": "from",
+          "to": "to",
+          "address": "address",
+          "covered vehicle is required": "covered vehicle is required",
         },
         "ar": {
           "Arabic": "العربية",
@@ -221,6 +225,10 @@ class MyLocale extends Translations {
           "complete info": "إتمام البيانات",
           "complete info text": "بعض بياناتك مرفوضة او لم يتم قبولها بعد, الرجاء انتظار القبول و اعادة ارسال "
               "البيانات المرفوضة",
+          "from": "من",
+          "to": "إلى",
+          "address": "العنوان",
+          "covered vehicle is required": "يجب أن تكون السيارة بغطاء",
         },
       };
 }

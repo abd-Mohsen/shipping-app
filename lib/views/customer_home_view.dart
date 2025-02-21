@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/locale_controller.dart';
 import 'package:shipment/views/components/order_card.dart';
@@ -47,16 +48,35 @@ class CustomerHomeView extends StatelessWidget {
           //init: HomeController(),
           builder: (controller) {
             if (controller.isLoading) return SpinKitSquareCircle(color: cs.primary);
+            //todo: show animations if no curr order, and filter orders
             return RefreshIndicator(
               onRefresh: controller.refreshOrders,
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                itemCount: controller.myOrders.length,
-                itemBuilder: (context, i) => OrderCard(
-                  order: controller.myOrders[i],
-                  isCustomer: true,
-                ),
-              ),
+              child: controller.myOrders.isEmpty
+                  ? Center(
+                      child: ListView(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Lottie.asset("assets/animations/simple truck.json", height: 200),
+                          Padding(
+                            padding: const EdgeInsets.all(32),
+                            child: Center(
+                              child: Text(
+                                "no ongoing orders, pull down to refresh".tr,
+                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      itemCount: controller.myOrders.length,
+                      itemBuilder: (context, i) => OrderCard(
+                        order: controller.myOrders[i],
+                        isCustomer: true,
+                      ),
+                    ),
             );
           },
         ),

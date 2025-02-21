@@ -20,6 +20,8 @@ class MyThemes {
       onBackground: Color(0xffA4A4A4),
       surface: Color(0xff1e234c),
       onSurface: Color(0xffD7D7D7),
+      secondaryContainer: Color(0xff42476b),
+      onSecondaryContainer: Colors.white,
     ),
     textTheme: kMyTextTheme,
   );
@@ -38,6 +40,8 @@ class MyThemes {
       onBackground: Colors.black,
       surface: Colors.white,
       onSurface: Colors.black,
+      secondaryContainer: const Color(0xffefefef),
+      onSecondaryContainer: Colors.black,
     ),
     textTheme: kMyTextTheme,
   );

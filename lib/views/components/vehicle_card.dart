@@ -132,7 +132,7 @@ class VehicleCard extends StatelessWidget {
             ),
           ),
           Image.network(
-            "$kHostIP/${vehicle.registrationPhoto}",
+            "$kHostIP/ar${vehicle.registrationPhoto}",
             headers: const {"Keep-Alive": "timeout=5, max=1000"},
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) {
@@ -148,7 +148,7 @@ class VehicleCard extends StatelessWidget {
               }
             },
             errorBuilder: (context, error, stackTrace) {
-              // Handle the error state here (optional)
+              print(error.toString());
               return const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text("Error loading image"),
