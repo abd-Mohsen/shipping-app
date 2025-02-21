@@ -85,28 +85,34 @@ class OrderView extends StatelessWidget {
         ],
       ),
       body: GetBuilder<OrderController>(
-        init: OrderController(),
+        init: OrderController(order: order),
         builder: (controller) {
           return Column(
             children: [
               if (isCustomer)
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 3.2,
-                  child: OSMFlutter(
-                    controller: controller.mapController,
-                    mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                    osmOption: OSMOption(
-                      isPicker: true,
-                      userLocationMarker: UserLocationMaker(
-                        personMarker: MarkerIcon(
-                          icon: Icon(Icons.person, color: cs.primary, size: 40),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height / 3.2,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(32),
+                      child: OSMFlutter(
+                        controller: controller.mapController,
+                        mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+                        osmOption: OSMOption(
+                          isPicker: true,
+                          userLocationMarker: UserLocationMaker(
+                            personMarker: MarkerIcon(
+                              icon: Icon(Icons.person, color: cs.primary, size: 40),
+                            ),
+                            directionArrowMarker: MarkerIcon(
+                              icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                            ),
+                          ),
+                          zoomOption: const ZoomOption(
+                            initZoom: 17,
+                          ),
                         ),
-                        directionArrowMarker: MarkerIcon(
-                          icon: Icon(Icons.location_history, color: cs.primary, size: 40),
-                        ),
-                      ),
-                      zoomOption: const ZoomOption(
-                        initZoom: 16,
                       ),
                     ),
                   ),
@@ -119,75 +125,6 @@ class OrderView extends StatelessWidget {
     PROCESSING = 'processing'
     DONE = 'done'
                */
-              if (isCustomer)
-                EasyStepper(
-                  activeStep: 0,
-                  activeStepTextColor: Colors.black87,
-                  finishedStepTextColor: Colors.black87,
-                  internalPadding: 0,
-                  showLoadingAnimation: false,
-                  stepRadius: 8,
-                  showStepBorder: false,
-                  steps: [
-                    EasyStep(
-                      customStep: CircleAvatar(
-                        radius: 8,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 7,
-                          backgroundColor: 0 >= 0 ? Colors.orange : Colors.white,
-                        ),
-                      ),
-                      title: 'Waiting',
-                    ),
-                    EasyStep(
-                      customStep: CircleAvatar(
-                        radius: 8,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 7,
-                          backgroundColor: 0 >= 1 ? Colors.orange : Colors.white,
-                        ),
-                      ),
-                      title: 'Order Received',
-                      topTitle: true,
-                    ),
-                    EasyStep(
-                      customStep: CircleAvatar(
-                        radius: 8,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 7,
-                          backgroundColor: 0 >= 2 ? Colors.orange : Colors.white,
-                        ),
-                      ),
-                      title: 'Preparing',
-                    ),
-                    EasyStep(
-                      customStep: CircleAvatar(
-                        radius: 8,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 7,
-                          backgroundColor: 0 >= 3 ? Colors.orange : Colors.white,
-                        ),
-                      ),
-                      title: 'On Way',
-                      topTitle: true,
-                    ),
-                    EasyStep(
-                      customStep: CircleAvatar(
-                        radius: 8,
-                        backgroundColor: Colors.white,
-                        child: CircleAvatar(
-                          radius: 7,
-                          backgroundColor: 0 >= 4 ? Colors.orange : Colors.white,
-                        ),
-                      ),
-                      title: 'Delivered',
-                    ),
-                  ],
-                ),
               if (!isCustomer)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -209,6 +146,31 @@ class OrderView extends StatelessWidget {
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   children: [
+                    if (isCustomer)
+                      EasyStepper(
+                        activeStep: controller.statusIndex,
+                        activeStepTextColor: cs.primary,
+                        finishedStepTextColor: cs.onSurface,
+                        internalPadding: 8,
+                        showLoadingAnimation: false,
+                        stepRadius: 8,
+                        showStepBorder: false,
+                        steps: List.generate(
+                          controller.statuses.length,
+                          (i) => EasyStep(
+                            customStep: CircleAvatar(
+                              radius: 8,
+                              backgroundColor: cs.primary,
+                              child: CircleAvatar(
+                                radius: 7,
+                                backgroundColor: controller.statusIndex >= i ? cs.primary : cs.onSurface,
+                              ),
+                            ),
+                            title: controller.statuses[i].tr,
+                            topTitle: i % 2 == 0,
+                          ),
+                        ),
+                      ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
@@ -221,7 +183,7 @@ class OrderView extends StatelessWidget {
                       padding: const EdgeInsets.all(4.0),
                       child: Text(
                         order.description,
-                        style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,
                       ),

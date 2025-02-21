@@ -232,8 +232,12 @@ class RemoteServices {
     return vehicleModelFromJson(json);
   }
 
-  static Future<List<OrderModel>?> fetchCustomerOrders(String type) async {
-    String? json = await api.getRequest("customer_order/?&order_status=$type&page=1", auth: true);
+  static Future<List<OrderModel>?> fetchCustomerOrders(List<String> types) async {
+    String addedTypes = "";
+    for (String type in types) {
+      addedTypes += "&order_status=$type";
+    }
+    String? json = await api.getRequest("customer_order/?$addedTypes&page=1", auth: true);
     if (json == null) return null;
     return orderModelFromJson(json);
   }

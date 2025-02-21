@@ -116,6 +116,13 @@ class MyLocale extends Translations {
           "to": "to",
           "address": "address",
           "covered vehicle is required": "covered vehicle is required",
+          "weight": "weight",
+          "draft": "draft",
+          "available": "available",
+          "pending": "pending",
+          "approved": "approved",
+          "processing": "processing",
+          "done": "done",
         },
         "ar": {
           "Arabic": "العربية",
@@ -229,6 +236,13 @@ class MyLocale extends Translations {
           "to": "إلى",
           "address": "العنوان",
           "covered vehicle is required": "يجب أن تكون السيارة بغطاء",
+          "weight": "الوزن",
+          "draft": "مسودة",
+          "available": "متاح",
+          "pending": "في الانتظار",
+          "approved": "مقبول",
+          "processing": "جاري",
+          "done": "منتهي",
         },
       };
 }
