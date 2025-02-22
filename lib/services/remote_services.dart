@@ -317,4 +317,26 @@ class RemoteServices {
         await api.requestWithFiles("auth/profile/", images, body, auth: true, utf8Decode: false, methodType: "PUT");
     return json != null;
   }
+
+  static Future<bool> driverConfirmOrder(
+    int orderID,
+    int paymentID,
+    String fullName,
+    String accountDetails,
+    String phoneNumber,
+  ) async {
+    String? json = await api.postRequest(
+      "driver_order/$orderID/confirm/",
+      {
+        "payment_method": {
+          "order_payment_id": paymentID,
+          "full_name": fullName,
+          "account_details": accountDetails,
+          "phone_number": phoneNumber,
+        }
+      },
+      auth: true,
+    );
+    return json != null;
+  }
 }

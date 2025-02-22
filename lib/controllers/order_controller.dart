@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:shipment/models/order_model.dart';
+import 'package:flutter/material.dart';
+
+import '../services/remote_services.dart';
 
 class OrderController extends GetxController {
   final OrderModel order;
@@ -9,6 +14,7 @@ class OrderController extends GetxController {
   @override
   void onInit() {
     setStatusIndex();
+    selectedPayment = order.paymentMethods[0];
     super.onInit();
   }
 
@@ -27,4 +33,54 @@ class OrderController extends GetxController {
   }
 
   List<String> statuses = ["available", "pending", "approved", "processing", "done"];
+
+  late PaymentMethod selectedPayment;
+
+  void selectPayment(PaymentMethod payment) {
+    selectedPayment = payment;
+    update();
+  }
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool buttonPressed = false;
+
+  TextEditingController fullName = TextEditingController();
+  TextEditingController accountDetails = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
+
+  bool _isLoadingSubmit = false;
+  bool get isLoadingSubmit => _isLoadingSubmit;
+  void toggleLoadingSubmit(bool value) {
+    _isLoadingSubmit = value;
+    update();
+  }
+
+  /*
+  bank account -> full name + account details
+  money transfer -> full name + phone num
+  */
+
+  void submit() async {
+    if (isLoadingSubmit) return;
+    buttonPressed = true;
+    bool valid = formKey.currentState!.validate();
+    if (!valid) return;
+    toggleLoadingSubmit(true);
+    bool success = await RemoteServices.driverConfirmOrder(
+      order.id,
+      selectedPayment.id!,
+      fullName.text,
+      accountDetails.text,
+      phoneNumber.text,
+    );
+    if (success) {
+      Get.back();
+      Get.showSnackbar(GetSnackBar(
+        message: "the car was added successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      //go back and refresh
+    }
+    toggleLoadingSubmit(false);
+  }
 }
