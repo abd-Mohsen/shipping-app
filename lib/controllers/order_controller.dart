@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
+import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,8 @@ import '../services/remote_services.dart';
 
 class OrderController extends GetxController {
   final OrderModel order;
-  OrderController({required this.order});
+  final DriverHomeController? driverHomeController; // handle company and customer case
+  OrderController({required this.order, this.driverHomeController});
 
   @override
   void onInit() {
@@ -60,7 +60,22 @@ class OrderController extends GetxController {
   money transfer -> full name + phone num
   */
 
-  void submit() async {
+  void acceptOrder() async {
+    if (isLoadingSubmit) return;
+    toggleLoadingSubmit(true);
+    bool success = await RemoteServices.driverAcceptOrder(order.id);
+    if (success) {
+      Get.back();
+      driverHomeController!.refreshExploreOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "request was submitted, waiting for response".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingSubmit(false);
+  }
+
+  void confirmOrder() async {
     if (isLoadingSubmit) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
@@ -75,11 +90,11 @@ class OrderController extends GetxController {
     );
     if (success) {
       Get.back();
+      //todo: go back and refresh
       Get.showSnackbar(GetSnackBar(
         message: "the car was added successfully".tr,
         duration: const Duration(milliseconds: 2500),
       ));
-      //go back and refresh
     }
     toggleLoadingSubmit(false);
   }

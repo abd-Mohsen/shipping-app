@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
+import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/components/custom_button.dart';
@@ -31,7 +32,8 @@ class OrderView extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     late CustomerHomeController cHC;
-    if (isCustomer) cHC = Get.find();
+    late DriverHomeController dHC;
+    isCustomer ? cHC = Get.find() : dHC = Get.find();
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -88,7 +90,7 @@ class OrderView extends StatelessWidget {
         ],
       ),
       body: GetBuilder<OrderController>(
-        init: OrderController(order: order),
+        init: OrderController(order: order, driverHomeController: dHC),
         builder: (controller) {
           return Column(
             children: [
@@ -133,129 +135,158 @@ class OrderView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                   child: CustomButton(
                     onTap: () {
-                      Get.bottomSheet(
-                        GetBuilder<OrderController>(
-                          builder: (controller) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                              decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                  topLeft: Radius.circular(20),
-                                ),
-                                color: cs.surface,
-                              ),
-                              //height: MediaQuery.of(context).size.height / 1.5,
-                              child: Form(
-                                key: controller.formKey,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Text(
-                                        "select payment method",
-                                        style:
-                                            tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Scrollbar(
-                                        child: ListView.builder(
-                                          itemCount: order.paymentMethods.length,
-                                          itemBuilder: (context, i) => RadioListTile(
-                                            title: Text(
-                                              order.paymentMethods[i].payment.methodName,
-                                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                            ),
-                                            value: order.paymentMethods[i],
-                                            groupValue: controller.selectedPayment,
-                                            onChanged: (v) {
-                                              controller.selectPayment(v!);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: ["bank_account", "money_transfer"]
-                                          .contains(controller.selectedPayment.payment.methodName),
-                                      child: InputField(
-                                        controller: controller.fullName,
-                                        label: "full name".tr,
-                                        keyboardType: TextInputType.text,
-                                        textInputAction: TextInputAction.next,
-                                        prefixIcon: Icons.person,
-                                        validator: (val) {
-                                          if (!["bank_account", "money_transfer"]
-                                              .contains(controller.selectedPayment.payment.methodName)) return null;
-                                          return validateInput(controller.accountDetails.text, 0, 100, "");
-                                        },
-                                        onChanged: (val) {
-                                          if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                                        },
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: ["bank_account"].contains(controller.selectedPayment.payment.methodName),
-                                      child: InputField(
-                                        controller: controller.accountDetails,
-                                        label: "account details".tr,
-                                        keyboardType: TextInputType.text,
-                                        textInputAction: TextInputAction.next,
-                                        prefixIcon: Icons.short_text_outlined,
-                                        validator: (val) {
-                                          if (!["bank_account"].contains(controller.selectedPayment.payment.methodName))
-                                            return null;
-                                          return validateInput(controller.accountDetails.text, 0, 100, "");
-                                        },
-                                        onChanged: (val) {
-                                          if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                                        },
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible:
-                                          ["money_transfer"].contains(controller.selectedPayment.payment.methodName),
-                                      child: InputField(
-                                        controller: controller.phoneNumber,
-                                        label: "phone number".tr,
-                                        keyboardType: TextInputType.number,
-                                        textInputAction: TextInputAction.next,
-                                        prefixIcon: Icons.phone_android,
-                                        validator: (val) {
-                                          if (!["money_transfer"]
-                                              .contains(controller.selectedPayment.payment.methodName)) return null;
-                                          return validateInput(controller.phoneNumber.text, 0, 15, "",
-                                              wholeNumber: true);
-                                        },
-                                        onChanged: (val) {
-                                          if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                                        },
-                                      ),
-                                    ),
-                                    CustomButton(
-                                      onTap: () {
-                                        controller.submit();
-                                      },
-                                      child: Center(
-                                        child: controller.isLoadingSubmit
-                                            ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                            : Text(
-                                                "add".tr.toUpperCase(),
-                                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                              ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                      Get.defaultDialog(
+                        title: "",
+                        content: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "accept the order?".tr,
+                            style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                          ),
+                        ),
+                        confirm: TextButton(
+                          onPressed: () {
+                            Get.back();
+                            controller.acceptOrder();
                           },
+                          child: Text(
+                            "yes",
+                            style: tt.titleMedium!.copyWith(color: Colors.red),
+                          ),
+                        ),
+                        cancel: TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: Text(
+                            "no",
+                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                          ),
                         ),
                       );
+                      // Get.bottomSheet(
+                      //   GetBuilder<OrderController>(
+                      //     builder: (controller) {
+                      //       return Container(
+                      //         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: const BorderRadius.only(
+                      //             topRight: Radius.circular(20),
+                      //             topLeft: Radius.circular(20),
+                      //           ),
+                      //           color: cs.surface,
+                      //         ),
+                      //         //height: MediaQuery.of(context).size.height / 1.5,
+                      //         child: Form(
+                      //           key: controller.formKey,
+                      //           child: Column(
+                      //             children: [
+                      //               Padding(
+                      //                 padding: const EdgeInsets.all(16.0),
+                      //                 child: Text(
+                      //                   "select payment method",
+                      //                   style:
+                      //                       tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                      //                 ),
+                      //               ),
+                      //               Expanded(
+                      //                 child: Scrollbar(
+                      //                   child: ListView.builder(
+                      //                     itemCount: order.paymentMethods.length,
+                      //                     itemBuilder: (context, i) => RadioListTile(
+                      //                       title: Text(
+                      //                         order.paymentMethods[i].payment.methodName,
+                      //                         style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                      //                       ),
+                      //                       value: order.paymentMethods[i],
+                      //                       groupValue: controller.selectedPayment,
+                      //                       onChanged: (v) {
+                      //                         controller.selectPayment(v!);
+                      //                       },
+                      //                     ),
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //               Visibility(
+                      //                 visible: ["bank_account", "money_transfer"]
+                      //                     .contains(controller.selectedPayment.payment.methodName),
+                      //                 child: InputField(
+                      //                   controller: controller.fullName,
+                      //                   label: "full name".tr,
+                      //                   keyboardType: TextInputType.text,
+                      //                   textInputAction: TextInputAction.next,
+                      //                   prefixIcon: Icons.person,
+                      //                   validator: (val) {
+                      //                     if (!["bank_account", "money_transfer"]
+                      //                         .contains(controller.selectedPayment.payment.methodName)) return null;
+                      //                     return validateInput(controller.accountDetails.text, 0, 100, "");
+                      //                   },
+                      //                   onChanged: (val) {
+                      //                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                      //                   },
+                      //                 ),
+                      //               ),
+                      //               Visibility(
+                      //                 visible: ["bank_account"].contains(controller.selectedPayment.payment.methodName),
+                      //                 child: InputField(
+                      //                   controller: controller.accountDetails,
+                      //                   label: "account details".tr,
+                      //                   keyboardType: TextInputType.text,
+                      //                   textInputAction: TextInputAction.next,
+                      //                   prefixIcon: Icons.short_text_outlined,
+                      //                   validator: (val) {
+                      //                     if (!["bank_account"].contains(controller.selectedPayment.payment.methodName))
+                      //                       return null;
+                      //                     return validateInput(controller.accountDetails.text, 0, 100, "");
+                      //                   },
+                      //                   onChanged: (val) {
+                      //                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                      //                   },
+                      //                 ),
+                      //               ),
+                      //               Visibility(
+                      //                 visible:
+                      //                     ["money_transfer"].contains(controller.selectedPayment.payment.methodName),
+                      //                 child: InputField(
+                      //                   controller: controller.phoneNumber,
+                      //                   label: "phone number".tr,
+                      //                   keyboardType: TextInputType.number,
+                      //                   textInputAction: TextInputAction.next,
+                      //                   prefixIcon: Icons.phone_android,
+                      //                   validator: (val) {
+                      //                     if (!["money_transfer"]
+                      //                         .contains(controller.selectedPayment.payment.methodName)) return null;
+                      //                     return validateInput(controller.phoneNumber.text, 0, 15, "",
+                      //                         wholeNumber: true);
+                      //                   },
+                      //                   onChanged: (val) {
+                      //                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                      //                   },
+                      //                 ),
+                      //               ),
+                      //               CustomButton(
+                      //                 onTap: () {
+                      //                   controller.confirmOrder();
+                      //                 },
+                      //                 child: Center(
+                      //                   child: controller.isLoadingSubmit
+                      //                       ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                      //                       : Text(
+                      //                           "add".tr.toUpperCase(),
+                      //                           style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                      //                         ),
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // );
                     },
                     child: Center(
-                      child: false
+                      child: controller.isLoadingSubmit
                           ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                           : Text(
                               "apply".tr.toUpperCase(),

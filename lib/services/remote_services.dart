@@ -318,6 +318,11 @@ class RemoteServices {
     return json != null;
   }
 
+  static Future<bool> driverAcceptOrder(int orderID) async {
+    String? json = await api.postRequest("driver_order/$orderID/accept/", {}, auth: true);
+    return json != null;
+  }
+
   static Future<bool> driverConfirmOrder(
     int orderID,
     int paymentID,
