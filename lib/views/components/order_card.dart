@@ -28,8 +28,8 @@ class OrderCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
           border: Border.all(
-            color: cs.onSurface,
-            width: 0.5,
+            color: order.status == "processing" ? cs.primary : cs.onSurface,
+            width: order.status == "processing" ? 1.5 : 0.5,
           ),
           borderRadius: BorderRadius.circular(20),
         ),
@@ -79,12 +79,24 @@ class OrderCard extends StatelessWidget {
                 ),
               ],
             ),
-            //if (order.status == "draft")
-            Icon(
-              Icons.access_time_rounded,
-              color: cs.onSurface,
-              size: 25,
-            ),
+            if (order.status == "pending" && isCustomer)
+              Icon(
+                Icons.access_time_rounded,
+                color: cs.onSurface,
+                size: 25,
+              ),
+            if (order.status == "approved" && !isCustomer)
+              Icon(
+                Icons.access_time_rounded,
+                color: cs.onSurface,
+                size: 25,
+              ),
+            if (order.status == "done")
+              Icon(
+                Icons.task_alt,
+                color: cs.onSurface,
+                size: 25,
+              ),
           ],
         ),
       ),

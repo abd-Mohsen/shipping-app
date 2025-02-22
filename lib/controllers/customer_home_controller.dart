@@ -26,7 +26,7 @@ class CustomerHomeController extends GetxController {
   void getOrders() async {
     //todo:pagination
     toggleLoading(true);
-    List<OrderModel> newItems = await RemoteServices.fetchCustomerOrders(["available", "draft"]) ?? [];
+    List<OrderModel> newItems = await RemoteServices.fetchCustomerOrders(["available", "draft", "pending"]) ?? [];
     myOrders.addAll(newItems);
     toggleLoading(false);
   }

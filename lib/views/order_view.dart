@@ -17,7 +17,7 @@ import 'components/input_field.dart';
 class OrderView extends StatelessWidget {
   //todo: make it different depending on status, and on wither if the user is driver or customer
   //todo: improve (use primary containers)
-  //todo: edit and delete
+  //todo: edit and delete (hide if not draft or available (ask) )
   //todo: add payment methods, driver details and status
   final OrderModel order;
   final bool isCustomer;
@@ -90,10 +90,11 @@ class OrderView extends StatelessWidget {
         ],
       ),
       body: GetBuilder<OrderController>(
-        init: OrderController(order: order, driverHomeController: dHC),
+        init: isCustomer ? OrderController(order: order) : OrderController(order: order, driverHomeController: dHC),
         builder: (controller) {
           return Column(
             children: [
+              // todo add a window to confirm order (make the notification enter to this page)
               if (isCustomer)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
