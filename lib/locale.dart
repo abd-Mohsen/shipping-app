@@ -123,6 +123,10 @@ class MyLocale extends Translations {
           "approved": "approved",
           "processing": "processing",
           "done": "done",
+          "wants to take this order": "wants to take this order",
+          "accept": "accept",
+          "refuse": "refuse",
+          "view order": "view order",
         },
         "ar": {
           "Arabic": "العربية",
@@ -243,6 +247,10 @@ class MyLocale extends Translations {
           "approved": "مقبول",
           "processing": "جاري",
           "done": "منتهي",
+          "wants to take this order": "يريد استلام هذا الطلب",
+          "accept": "قبول",
+          "refuse": "رفض",
+          "view order": "عرض الطلبية",
         },
       };
 }

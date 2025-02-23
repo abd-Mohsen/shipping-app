@@ -40,19 +40,19 @@ class OrderView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: cs.primary,
         title: Text(
-          'view order'.toUpperCase(),
+          'view order'.tr.toUpperCase(),
           style: tt.titleMedium!.copyWith(color: cs.onPrimary),
         ),
         centerTitle: true,
         actions: [
-          if (isCustomer)
+          if (isCustomer && ["draft", "available"].contains(order.status))
             IconButton(
               onPressed: () {
                 Get.to(() => EditOrderView(order: order));
               },
               icon: Icon(Icons.edit),
             ),
-          if (isCustomer)
+          if (isCustomer && ["draft", "available"].contains(order.status))
             IconButton(
               onPressed: () {
                 Get.defaultDialog(
@@ -90,11 +90,124 @@ class OrderView extends StatelessWidget {
         ],
       ),
       body: GetBuilder<OrderController>(
-        init: isCustomer ? OrderController(order: order) : OrderController(order: order, driverHomeController: dHC),
+        init: isCustomer
+            ? OrderController(order: order, customerHomeController: cHC)
+            : OrderController(order: order, driverHomeController: dHC),
         builder: (controller) {
           return Column(
             children: [
               // todo add a window to confirm order (make the notification enter to this page)
+              if (isCustomer && order.status == "pending")
+                Padding(
+                  padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
+                  child: ListTile(
+                    title: Text(
+                      "${order.driver!.name} ${"wants to take this order".tr}",
+                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Get.defaultDialog(
+                                title: "",
+                                content: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Text(
+                                    "accept the order?".tr,
+                                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                                  ),
+                                ),
+                                confirm: TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                    controller.acceptOrderCustomer();
+                                  },
+                                  child: Text(
+                                    "yes",
+                                    style: tt.titleMedium!.copyWith(color: Colors.red),
+                                  ),
+                                ),
+                                cancel: TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    "no",
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                  ),
+                                ),
+                              );
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all<Color>(Colors.green.shade500),
+                            ),
+                            child: !controller.isLoadingSubmit
+                                ? Text(
+                                    "accept".tr,
+                                    style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                  )
+                                : SpinKitThreeBounce(
+                                    color: cs.onPrimary,
+                                    size: 20,
+                                  ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Get.defaultDialog(
+                                title: "",
+                                content: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Text(
+                                    "refuse the order?".tr,
+                                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                                  ),
+                                ),
+                                confirm: TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                    //refuse with loading
+                                    //todo: don't let user click either buttons if one is loading
+                                  },
+                                  child: Text(
+                                    "yes",
+                                    style: tt.titleMedium!.copyWith(color: Colors.red),
+                                  ),
+                                ),
+                                cancel: TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    "no",
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                  ),
+                                ),
+                              );
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStateProperty.all<Color>(Colors.redAccent),
+                            ),
+                            child: true
+                                ? Text(
+                                    "refuse".tr,
+                                    style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                  )
+                                : SpinKitThreeBounce(
+                                    color: cs.onPrimary,
+                                    size: 20,
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               if (isCustomer)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -116,7 +229,7 @@ class OrderView extends StatelessWidget {
                             ),
                           ),
                           zoomOption: const ZoomOption(
-                            initZoom: 17,
+                            initZoom: 17.65,
                           ),
                         ),
                       ),
@@ -148,7 +261,7 @@ class OrderView extends StatelessWidget {
                         confirm: TextButton(
                           onPressed: () {
                             Get.back();
-                            controller.acceptOrder();
+                            controller.acceptOrderDriver();
                           },
                           child: Text(
                             "yes",

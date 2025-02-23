@@ -1,5 +1,6 @@
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
+import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,8 @@ import '../services/remote_services.dart';
 class OrderController extends GetxController {
   final OrderModel order;
   final DriverHomeController? driverHomeController; // handle company and customer case
-  OrderController({required this.order, this.driverHomeController});
+  final CustomerHomeController? customerHomeController;
+  OrderController({required this.order, this.driverHomeController, this.customerHomeController});
 
   @override
   void onInit() {
@@ -55,18 +57,40 @@ class OrderController extends GetxController {
     update();
   }
 
+  bool _isLoadingRefuse = false;
+  bool get isLoadingRefuse => _isLoadingRefuse;
+  void toggleLoadingRefuse(bool value) {
+    _isLoadingRefuse = value;
+    update();
+  }
+
   /*
   bank account -> full name + account details
   money transfer -> full name + phone num
   */
 
-  void acceptOrder() async {
+  void acceptOrderDriver() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.driverAcceptOrder(order.id);
     if (success) {
       Get.back();
       driverHomeController!.refreshExploreOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "request was submitted, waiting for response".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingSubmit(false);
+  }
+
+  void acceptOrderCustomer() async {
+    if (isLoadingSubmit) return;
+    toggleLoadingSubmit(true);
+    bool success = await RemoteServices.customerAcceptOrder(order.id);
+    if (success) {
+      Get.back();
+      customerHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
         duration: const Duration(milliseconds: 2500),

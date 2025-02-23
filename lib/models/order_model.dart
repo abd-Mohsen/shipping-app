@@ -11,7 +11,7 @@ String orderModelToJson(List<OrderModel> data) => json.encode(List<dynamic>.from
 class OrderModel {
   final int id;
   final OrderOwner orderOwner;
-  final dynamic driver;
+  final OrderOwner? driver;
   final VehicleTypeModel typeVehicle;
   final OrderLocation orderLocation;
   final String description;
@@ -50,7 +50,7 @@ class OrderModel {
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         id: json["id"],
         orderOwner: OrderOwner.fromJson(json["order_owner"]),
-        driver: json["driver"],
+        driver: OrderOwner.fromJson(json["driver"]),
         typeVehicle: VehicleTypeModel.fromJson(json["type_vehicle"]),
         orderLocation: OrderLocation.fromJson(json["order_location"]),
         description: json["discription"],
