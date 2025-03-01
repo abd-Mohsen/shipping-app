@@ -16,33 +16,36 @@ class DriverHomeTab extends StatelessWidget {
 
     return GetBuilder<DriverHomeController>(
       builder: (controller) {
-        return controller.isLoadingCurrent
-            ? SpinKitSquareCircle(color: cs.primary)
-            : RefreshIndicator(
-                onRefresh: controller.refreshCurrOrders,
-                child: controller.currOrders.isEmpty
-                    ? Center(
-                        child: ListView(
-                          //mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Lottie.asset("assets/animations/simple truck.json", height: 200),
-                            Padding(
-                              padding: const EdgeInsets.all(32),
-                              child: Center(
-                                child: Text(
-                                  "no ongoing orders, pull down to refresh".tr,
-                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          child: controller.isLoadingCurrent
+              ? SpinKitSquareCircle(color: cs.primary)
+              : RefreshIndicator(
+                  onRefresh: controller.refreshCurrOrders,
+                  child: controller.currOrders.isEmpty
+                      ? Center(
+                          child: ListView(
+                            //mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset("assets/animations/simple truck.json", height: 200),
+                              Padding(
+                                padding: const EdgeInsets.all(32),
+                                child: Center(
+                                  child: Text(
+                                    "no ongoing orders, pull down to refresh".tr,
+                                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: controller.currOrders.length,
+                          itemBuilder: (context, i) => OrderCard(order: controller.currOrders[i], isCustomer: false),
                         ),
-                      )
-                    : ListView.builder(
-                        itemCount: controller.currOrders.length,
-                        itemBuilder: (context, i) => OrderCard(order: controller.currOrders[i], isCustomer: false),
-                      ),
-              );
+                ),
+        );
       },
     );
   }

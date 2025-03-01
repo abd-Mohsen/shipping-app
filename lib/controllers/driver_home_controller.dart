@@ -103,7 +103,7 @@ class DriverHomeController extends GetxController {
     //todo: implement pagination
     if (selectedGovernorate == null) return;
     toggleLoadingExplore(true);
-    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(selectedGovernorate!.id, "available") ?? [];
+    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(selectedGovernorate!.id, ["available"]) ?? [];
     exploreOrders.addAll(newItems);
     toggleLoadingExplore(false);
   }
@@ -111,7 +111,7 @@ class DriverHomeController extends GetxController {
   void getCurrentOrders() async {
     //todo: implement pagination
     toggleLoadingCurrent(true);
-    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(null, "processing") ?? [];
+    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(null, ["processing", "pending"]) ?? [];
     currOrders.addAll(newItems);
     toggleLoadingCurrent(false);
     print(currOrders.length);
@@ -120,7 +120,7 @@ class DriverHomeController extends GetxController {
   void getHistoryOrders() async {
     //todo: implement pagination
     toggleLoadingHistory(true);
-    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(null, "done") ?? [];
+    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(null, ["done"]) ?? [];
     historyOrders.addAll(newItems);
     toggleLoadingHistory(false);
   }

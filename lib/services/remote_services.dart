@@ -258,9 +258,13 @@ class RemoteServices {
     return governorateModelFromJson(json);
   }
 
-  static Future<List<OrderModel>?> fetchDriverOrders(int? governorateID, String type) async {
+  static Future<List<OrderModel>?> fetchDriverOrders(int? governorateID, List<String> types) async {
+    String addedTypes = "";
+    for (String type in types) {
+      addedTypes += "&order_status=$type";
+    }
     String? json = await api.getRequest(
-      "driver_order/?${governorateID == null ? "" : "order_location=$governorateID"}&order_status=$type&page=1",
+      "driver_order/?${governorateID == null ? "" : "order_location=$governorateID"}&$addedTypes&page=1",
       auth: true,
     );
     if (json == null) return null;

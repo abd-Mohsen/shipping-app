@@ -84,7 +84,7 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  void acceptOrderCustomer() async {
+  void confirmOrderCustomer() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.customerAcceptOrder(order.id);
@@ -99,7 +99,7 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  void confirmOrder() async {
+  void confirmOrderDriver() async {
     if (isLoadingSubmit) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
