@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/location_model.dart';
+import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
@@ -352,5 +353,11 @@ class RemoteServices {
       auth: true,
     );
     return json != null;
+  }
+
+  static Future<List<MiniOrderModel>?> fetchDriverCurrOrders() async {
+    String? json = await api.getRequest("cache_order_data/", auth: true);
+    if (json == null) return null;
+    return miniOrderModelFromJson(json);
   }
 }

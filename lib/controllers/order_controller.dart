@@ -2,6 +2,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
+import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +63,23 @@ class OrderController extends GetxController {
   void toggleLoadingRefuse(bool value) {
     _isLoadingRefuse = value;
     update();
+  }
+
+  bool _isLoadingCurr = false;
+  bool get isLoadingCurr => _isLoadingCurr;
+  void toggleLoadingCurr(bool value) {
+    _isLoadingCurr = value;
+    update();
+  }
+
+  List<MiniOrderModel> currOrders = [];
+
+  void getCurrOrders() async {
+    toggleLoadingCurr(true);
+    currOrders.clear();
+    List<MiniOrderModel> newItems = await RemoteServices.fetchDriverCurrOrders() ?? [];
+    currOrders.addAll(newItems);
+    toggleLoadingCurr(false);
   }
 
   /*

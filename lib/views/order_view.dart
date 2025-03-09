@@ -9,6 +9,7 @@ import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/components/custom_button.dart';
+import 'package:shipment/views/components/mini_order_card.dart';
 import 'package:shipment/views/edit_order_view.dart';
 
 import 'components/auth_field.dart';
@@ -477,35 +478,68 @@ class OrderView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                   child: CustomButton(
                     onTap: () {
-                      //todo: show current orders first
-                      Get.defaultDialog(
-                        title: "",
-                        content: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            "accept the order?".tr,
-                            style: tt.titleLarge!.copyWith(color: cs.onSurface),
-                          ),
-                        ),
-                        confirm: TextButton(
-                          onPressed: () {
-                            Get.back();
-                            controller.acceptOrderDriver();
-                          },
-                          child: Text(
-                            "yes",
-                            style: tt.titleMedium!.copyWith(color: Colors.red),
-                          ),
-                        ),
-                        cancel: TextButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          child: Text(
-                            "no",
-                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                          ),
-                        ),
+                      controller.getCurrOrders();
+                      showDialog(
+                        context: context,
+                        builder: (context) => GetBuilder<OrderController>(builder: (controller) {
+                          return AlertDialog(
+                            title: Text(
+                              "accept the order?".tr,
+                              style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                            ),
+                            content: controller.isLoadingCurr
+                                ? SpinKitSquareCircle(color: cs.primary, size: 26)
+                                : controller.currOrders.isEmpty
+                                    ? null
+                                    : Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context).size.height / 2,
+                                          width: MediaQuery.of(context).size.width / 1.5,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "you currently have these orders".tr,
+                                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: ListView.builder(
+                                                  itemCount: controller.currOrders.length,
+                                                  itemBuilder: (context, i) => MiniOrderCard(
+                                                    order: controller.currOrders[i],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                  controller.acceptOrderDriver();
+                                },
+                                child: Text(
+                                  "yes",
+                                  style: tt.titleMedium!.copyWith(color: Colors.red),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Text(
+                                  "no",
+                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
                       );
                     },
                     child: Center(
