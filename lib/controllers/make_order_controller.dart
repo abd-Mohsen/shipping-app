@@ -81,19 +81,34 @@ class MakeOrderController extends GetxController {
   LocationModel? sourceLocation;
   LocationModel? targetLocation;
 
-  void calculateStartAddress() async {
-    // todo: add loading indicator
-    if (startPosition == null) return;
-    sourceLocation = await RemoteServices.getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
-    print(sourceLocation?.addressEncoder().toJson());
+  bool _isLoadingSelect1 = false;
+  bool get isLoadingSelect1 => _isLoadingSelect1;
+  void toggleLoadingSelect1(bool value) {
+    _isLoadingSelect1 = value;
     update();
   }
 
+  bool _isLoadingSelect2 = false;
+  bool get isLoadingSelect2 => _isLoadingSelect2;
+  void toggleLoadingSelect2(bool value) {
+    _isLoadingSelect2 = value;
+    update();
+  }
+
+  void calculateStartAddress() async {
+    toggleLoadingSelect1(true);
+    if (startPosition == null) return;
+    sourceLocation = await RemoteServices.getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
+    print(sourceLocation?.addressEncoder().toJson());
+    toggleLoadingSelect1(false);
+  }
+
   void calculateTargetAddress() async {
+    toggleLoadingSelect2(true);
     if (endPosition == null) return;
     targetLocation = await RemoteServices.getAddressFromLatLng(endPosition!.latitude, endPosition!.longitude);
     print(targetLocation?.addressEncoder().toJson());
-    update();
+    toggleLoadingSelect2(false);
   }
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();

@@ -7,6 +7,7 @@ class MapSelector extends StatelessWidget {
   final MapController mapController;
   final bool start;
   final String address;
+  final bool isLoading;
   final void Function() onClose;
   const MapSelector({
     super.key,
@@ -14,6 +15,7 @@ class MapSelector extends StatelessWidget {
     required this.start,
     required this.address,
     required this.onClose,
+    required this.isLoading,
   });
 
   @override
@@ -59,7 +61,7 @@ class MapSelector extends StatelessWidget {
                 color: cs.onSurface,
                 width: 0.5,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(32),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -78,21 +80,23 @@ class MapSelector extends StatelessWidget {
                       style: tt.titleMedium!.copyWith(color: cs.onSurface),
                     ),
                     SizedBox(height: 12),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.6,
-                      child: Directionality(
-                        textDirection: (address == "select location") ? TextDirection.ltr : TextDirection.rtl,
-                        child: Text(
-                          address,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: tt.titleSmall!.copyWith(
-                            color: address == "select location".tr ? cs.primary : cs.onSurface.withOpacity(0.5),
-                            fontWeight: address == "select location".tr ? FontWeight.bold : FontWeight.normal,
+                    isLoading
+                        ? SpinKitThreeBounce(color: cs.primary, size: 22)
+                        : SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.6,
+                            child: Directionality(
+                              textDirection: (address == "select location") ? TextDirection.ltr : TextDirection.rtl,
+                              child: Text(
+                                address,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: tt.titleSmall!.copyWith(
+                                  color: address == "select location".tr ? cs.primary : cs.onSurface.withOpacity(0.5),
+                                  fontWeight: address == "select location".tr ? FontWeight.bold : FontWeight.normal,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                     //SizedBox(height: 4),
                   ],
                 ),

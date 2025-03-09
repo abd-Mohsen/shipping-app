@@ -477,6 +477,7 @@ class OrderView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                   child: CustomButton(
                     onTap: () {
+                      //todo: show current orders first
                       Get.defaultDialog(
                         title: "",
                         content: Padding(
