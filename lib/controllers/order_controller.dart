@@ -132,7 +132,8 @@ class OrderController extends GetxController {
     );
     if (success) {
       Get.back();
-      //todo: go back and refresh
+      Get.back();
+      driverHomeController!.refreshCurrOrders();
       Get.showSnackbar(GetSnackBar(
         message: "the car was added successfully".tr,
         duration: const Duration(milliseconds: 2500),

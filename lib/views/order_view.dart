@@ -97,8 +97,9 @@ class OrderView extends StatelessWidget {
         builder: (controller) {
           return Column(
             children: [
-              // todo add a window to confirm order (make the notification enter to this page)
-              if (isCustomer && order.status == "pending")
+              // todo (make the notification enter to this page)
+              // todo make a button to start the trip
+              if (isCustomer && order.status == "pending" && !order.ownerApproved)
                 Padding(
                   padding: const EdgeInsets.only(top: 16, left: 12, right: 12),
                   child: ListTile(
@@ -218,7 +219,7 @@ class OrderView extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (!isCustomer && order.status == "pending" && true) //todo: variable to tell if its confirmed
+              if (!isCustomer && order.status == "pending" && order.ownerApproved && !order.driverApproved)
                 Padding(
                   padding: const EdgeInsets.only(top: 16, left: 12, right: 12, bottom: 8),
                   child: ListTile(
@@ -556,7 +557,7 @@ class OrderView extends StatelessWidget {
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   children: [
-                    if (isCustomer)
+                    if (isCustomer || (order.status != "available"))
                       EasyStepper(
                         activeStep: controller.statusIndex,
                         activeStepTextColor: cs.primary,

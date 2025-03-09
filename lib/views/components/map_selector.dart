@@ -27,7 +27,7 @@ class MapSelector extends StatelessWidget {
       child: Material(
         elevation: 8,
         color: cs.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(32),
         child: GestureDetector(
           onTap: () {
             //todo: allow to choose from my addresses first

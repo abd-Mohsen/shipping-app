@@ -26,6 +26,9 @@ class OrderModel {
   final List<PaymentMethod> paymentMethods;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  final bool ownerApproved;
+  final bool driverApproved;
+  //"owner_is_approved":false,"driver_is_approved":false
 
   OrderModel({
     required this.id,
@@ -45,6 +48,8 @@ class OrderModel {
     required this.paymentMethods,
     required this.createdAt,
     required this.updatedAt,
+    required this.ownerApproved,
+    required this.driverApproved,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
@@ -65,6 +70,8 @@ class OrderModel {
         paymentMethods: List<PaymentMethod>.from(json["payment_methods"].map((x) => PaymentMethod.fromJson(x))),
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        ownerApproved: json["owner_is_approved"],
+        driverApproved: json["driver_is_approved"],
       );
 
   Map<String, dynamic> toJson() => {
