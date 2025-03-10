@@ -127,6 +127,8 @@ class MyLocale extends Translations {
           "accept": "accept",
           "refuse": "refuse",
           "view order": "view order",
+          "driver info": "driver info",
+          "owner info": "customer info",
         },
         "ar": {
           "Arabic": "العربية",
@@ -251,6 +253,8 @@ class MyLocale extends Translations {
           "accept": "قبول",
           "refuse": "رفض",
           "view order": "عرض الطلبية",
+          "driver info": "بيانات السائق",
+          "owner info": "بيانات صاحب الطلب",
         },
       };
 }

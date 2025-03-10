@@ -667,7 +667,7 @@ class OrderView extends StatelessWidget {
                             ),
                             const SizedBox(width: 16),
                             Text(
-                              order.orderOwner!.name,
+                              order.orderOwner.name,
                               style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
                             ),
                           ],
@@ -759,61 +759,110 @@ class OrderView extends StatelessWidget {
                         ),
                       ),
                     ),
-
-                    // if (isCustomer)
-                    //   ListTile(
-                    //     //leading: Icon(Icons.date_range),
-                    //     title: Text(
-                    //       "date",
-                    //       style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 1,
-                    //     ),
-                    //     subtitle: Text(
-                    //       " ${Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y")}"
-                    //       "  ${Jiffy.parseFromDateTime(order.dateTime).jm}",
-                    //       style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 3,
-                    //     ),
-                    //   ),
-                    // if (isCustomer)
-                    //   ListTile(
-                    //     leading: Icon(
-                    //       Icons.monetization_on,
-                    //     ),
-                    //     title: Text(
-                    //       "expected price",
-                    //       style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 1,
-                    //     ),
-                    //     subtitle: Text(
-                    //       order.price,
-                    //       style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 1,
-                    //     ),
-                    //   ),//
-                    // if (isCustomer)
-                    //   ListTile(
-                    //     leading: Icon(
-                    //       Icons.task_alt,
-                    //       color: Colors.yellowAccent,
-                    //     ),
-                    //     title: Text(
-                    //       "status",
-                    //       style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 1,
-                    //     ),
-                    //     subtitle: Text(
-                    //       order.status,
-                    //       style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 1,
-                    //     ),
-                    //   ),
+                    if (isCustomer && order.driver!.name.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Card(
+                          color: cs.secondaryContainer,
+                          elevation: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.person, color: cs.primary),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      "driver info".tr,
+                                      style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.7,
+                                    child: Text(
+                                      order.driver!.name,
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.7,
+                                    child: Text(
+                                      order.driver!.phoneNumber.toString(),
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (!isCustomer && order.status != "available")
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: Card(
+                          color: cs.secondaryContainer,
+                          elevation: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.person, color: cs.primary),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      "owner info".tr,
+                                      style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.7,
+                                    child: Text(
+                                      order.orderOwner.name,
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 4),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.7,
+                                    child: Text(
+                                      order.orderOwner.phoneNumber.toString(),
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 3,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     const SizedBox(height: 12),
                     Card(
                       color: cs.secondaryContainer,
