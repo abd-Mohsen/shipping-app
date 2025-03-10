@@ -99,6 +99,7 @@ class OrderView extends StatelessWidget {
             children: [
               // todo (make the notification enter to this page)
               // todo make a button to start the trip
+              // todo show driver and customer info after accepting
               if (isCustomer && order.status == "pending" && !order.ownerApproved)
                 Padding(
                   padding: const EdgeInsets.only(top: 16, left: 12, right: 12),

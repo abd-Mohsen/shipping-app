@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/locale_controller.dart';
+import 'package:shipment/views/components/custom_dropdown.dart';
 import 'package:shipment/views/components/order_card.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/my_addresses_view.dart';
@@ -47,36 +48,59 @@ class CustomerHomeView extends StatelessWidget {
         body: GetBuilder<CustomerHomeController>(
           //init: HomeController(),
           builder: (controller) {
-            if (controller.isLoading) return SpinKitSquareCircle(color: cs.primary);
-            //todo: show animations if no curr order, and filter orders
-            return RefreshIndicator(
-              onRefresh: controller.refreshOrders,
-              child: controller.myOrders.isEmpty
-                  ? Center(
-                      child: ListView(
-                        //mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Lottie.asset("assets/animations/simple truck.json", height: 200),
-                          Padding(
-                            padding: const EdgeInsets.all(32),
-                            child: Center(
-                              child: Text(
-                                "no ongoing orders, pull down to refresh".tr,
-                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      itemCount: controller.myOrders.length,
-                      itemBuilder: (context, i) => OrderCard(
-                        order: controller.myOrders[i],
-                        isCustomer: true,
-                      ),
-                    ),
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: CustomDropdown(
+                    title: "order type",
+                    items: controller.orderTypes,
+                    onSelect: (String? type) {
+                      controller.setOrderType(type);
+                    },
+                    selectedValue: controller.selectedOrderType,
+                    icon: Icons.filter_list,
+                  ),
+                ),
+                Expanded(
+                  child: controller.isLoading
+                      ? SpinKitSquareCircle(color: cs.primary)
+                      : RefreshIndicator(
+                          onRefresh: controller.refreshOrders,
+                          child: controller.myOrders.isEmpty
+                              ? Center(
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    //mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                      Padding(
+                                        padding: const EdgeInsets.all(4),
+                                        child: Center(
+                                          child: Text(
+                                            "no orders, pull down to refresh".tr,
+                                            style: tt.titleSmall!.copyWith(
+                                              color: cs.onSurface,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 72),
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  itemCount: controller.myOrders.length,
+                                  itemBuilder: (context, i) => OrderCard(
+                                    order: controller.myOrders[i],
+                                    isCustomer: true,
+                                  ),
+                                ),
+                        ),
+                ),
+              ],
             );
           },
         ),
@@ -129,11 +153,11 @@ class CustomerHomeView extends StatelessWidget {
                                               style: tt.headlineSmall,
                                               overflow: TextOverflow.ellipsis,
                                             ),
-                                            Text(
-                                              "@${con.currentUser!.firstName}",
-                                              style: tt.labelMedium,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                            // Text(
+                                            //   "@${con.currentUser!.firstName}",
+                                            //   style: tt.labelMedium,
+                                            //   overflow: TextOverflow.ellipsis,
+                                            // ),
                                           ],
                                         ),
                                         accountEmail: Text(

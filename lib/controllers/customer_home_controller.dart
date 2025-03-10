@@ -23,11 +23,25 @@ class CustomerHomeController extends GetxController {
 
   List<OrderModel> myOrders = [];
 
+  List<String> orderTypes = ["not taken", "taken", "current", "finished"];
+
+  String selectedOrderType = "not taken";
+
+  void setOrderType(String? type) {
+    if (type == null) return;
+    selectedOrderType = type;
+    refreshOrders();
+  }
+
   void getOrders() async {
     //todo:pagination
     toggleLoading(true);
-    List<OrderModel> newItems =
-        await RemoteServices.fetchCustomerOrders(["available", "draft", "pending", "approved"]) ?? [];
+    List<String> typesToFetch = [];
+    if (selectedOrderType == "not taken") typesToFetch = ["available", "draft"];
+    if (selectedOrderType == "taken") typesToFetch = ["pending", "approved"];
+    if (selectedOrderType == "current") typesToFetch = ["processing"];
+    if (selectedOrderType == "finished") typesToFetch = ["done"];
+    List<OrderModel> newItems = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
     myOrders.addAll(newItems);
     toggleLoading(false);
   }
@@ -90,63 +104,6 @@ class CustomerHomeController extends GetxController {
   }
 
   Position? position;
-
-  // Future<void> getLocation(context) async {
-  //   ColorScheme cs = Theme.of(context).colorScheme;
-  //   toggleLoading(true);
-  //   LocationPermission permission;
-  //
-  //   if (!await Geolocator.isLocationServiceEnabled()) {
-  //     toggleLoading(false);
-  //     Get.defaultDialog(
-  //       title: "",
-  //       content: Column(
-  //         children: [
-  //           const Icon(
-  //             Icons.location_on,
-  //             size: 80,
-  //           ),
-  //           Text(
-  //             "من فضلك قم بتشغيل خدمة تحديد الموقع أولاً",
-  //             style: TextStyle(fontSize: 24, color: cs.onSurface),
-  //             textAlign: TextAlign.center,
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //   }
-  //
-  //   permission = await Geolocator.checkPermission();
-  //
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       toggleLoading(false);
-  //       Get.showSnackbar(const GetSnackBar(
-  //         message: "تم رفض صلاحية الموقع, لا يمكن تحديد موقعك الحالي",
-  //         duration: Duration(milliseconds: 1500),
-  //       ));
-  //     }
-  //   }
-  //
-  //   if (permission == LocationPermission.deniedForever) {
-  //     toggleLoading(false);
-  //     Get.showSnackbar(const GetSnackBar(
-  //       message: "تم رفض صلاحية الموقع, يجب اعطاء صلاحية من اعدادات التطبيق",
-  //       duration: Duration(milliseconds: 1500),
-  //     ));
-  //   }
-  //   try {
-  //     position = await Geolocator.getCurrentPosition().timeout(kTimeOutDuration);
-  //   } on TimeoutException {
-  //     Get.showSnackbar(kTimeOutSnackBar());
-  //     toggleLoading(false);
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  //   print('${position!.longitude} ${position!.latitude}');
-  //   toggleLoading(false);
-  // }
 
   void logout() async {
     if (await RemoteServices.logout()) {
