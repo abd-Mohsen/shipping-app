@@ -88,6 +88,7 @@ class CompleteAccountController extends GetxController {
   }
 
   Future<XFile?> downloadImage(String imageUrl) async {
+    //todo: images not right from server (invalid data)
     try {
       // Download the image
       final response = await http.get(Uri.parse(imageUrl));

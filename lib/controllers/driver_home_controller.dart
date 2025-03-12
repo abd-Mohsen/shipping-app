@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/complete_account_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
+import 'package:web_socket_channel/io.dart';
 import '../constants.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../models/user_model.dart';
@@ -23,7 +26,7 @@ class DriverHomeController extends GetxController {
     getGovernorates();
     getCurrentOrders();
     getHistoryOrders();
-    _connectSocket();
+    _connectNotificationSocket();
     super.onInit();
   }
 
@@ -110,6 +113,7 @@ class DriverHomeController extends GetxController {
     toggleLoadingExplore(false);
   }
 
+  int trackingID = 0;
   void getCurrentOrders() async {
     //todo: implement pagination
     toggleLoadingCurrent(true);
@@ -117,7 +121,11 @@ class DriverHomeController extends GetxController {
         await RemoteServices.fetchDriverOrders(null, ["processing", "pending", "approved"]) ?? [];
     currOrders.addAll(newItems);
     toggleLoadingCurrent(false);
-    print(currOrders.length);
+    //
+    trackingID = currOrders.where((order) => order.status == "approved").first.id;
+    print("tracking order with ID ${trackingID.toString()}");
+    _connectTrackingSocket();
+    //
   }
 
   void getHistoryOrders() async {
@@ -240,44 +248,52 @@ class DriverHomeController extends GetxController {
     }
   }
 
-  late IO.Socket socket;
+  //-----------------------------------Real Time-------------------------------------------
 
-  void _connectSocket() {
-    // Construct Socket.IO URL
-    final protocol = "wss";
-    final host = "shipping.adadevs.com";
-    //final host = Uri.base.host;
-    final port = Uri.base.port == 0 ? 8000 : Uri.base.port;
+  void _connectNotificationSocket() async {
+    String socketUrl = 'wss://shipping.adadevs.com/ws/notifications/';
 
-    String socketUrl = '$protocol://$host/ws/location-tracking/';
-    //socketUrl = '$protocol://$host:443';
-
-    socket = IO.io(
+    final websocket = await WebSocket.connect(
       socketUrl,
-      IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
-        {
-          'Token': _getStorage.read("token"),
-        },
-      ).build(),
+      protocols: ['Token', _getStorage.read("token")],
     );
 
-    socket.onConnect((_) {
-      print('Connected to Socket.IO server');
-      _startSendingLocation();
-    });
+    websocket.listen(
+      (message) {
+        print('Message from server: $message');
+      },
+      onDone: () {
+        print('WebSocket connection closed');
+      },
+      onError: (error) {
+        print('WebSocket error: $error');
+      },
+    );
+  }
 
-    socket.onDisconnect((_) {
-      print('Disconnected from Socket.IO server');
-    });
+  late WebSocket websocket;
 
-    socket.onError((error) {
-      print('Socket.IO error: $error');
-      print(socketUrl);
-    });
+  void _connectTrackingSocket() async {
+    String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/$trackingID';
 
-    socket.on('fromServer', (data) {
-      print('Message from server: $data');
-    });
+    websocket = await WebSocket.connect(
+      socketUrl,
+      protocols: ['Token', _getStorage.read("token")],
+    );
+
+    _startSendingLocation();
+
+    websocket.listen(
+      (message) {
+        print('Message from server: $message');
+      },
+      onDone: () {
+        print('WebSocket connection closed');
+      },
+      onError: (error) {
+        print('WebSocket error: $error');
+      },
+    );
   }
 
   void _startSendingLocation() async {
@@ -301,18 +317,20 @@ class DriverHomeController extends GetxController {
 
     // Send location every 2 seconds
     Geolocator.getPositionStream().listen((Position position) {
-      if (socket.connected) {
-        socket.emit('location', {
-          'latitude': position.latitude,
-          'longitude': position.longitude,
-        });
-      }
+      Map pos = {
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+      };
+      print(pos);
+      websocket.add(
+        jsonEncode(pos),
+      );
     });
   }
 
   @override
   void onClose() {
-    socket.disconnect();
+    //
     super.dispose();
   }
 }

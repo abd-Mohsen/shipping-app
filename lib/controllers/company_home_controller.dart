@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
+import '../views/otp_view.dart';
 import 'login_controller.dart';
 import 'package:flutter/material.dart';
+
+import 'otp_controller.dart';
 
 class CompanyHomeController extends GetxController {
   @override
@@ -46,9 +49,10 @@ class CompanyHomeController extends GetxController {
     //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
     // }
     //todo: handle the case of: no car, no license and no verified phone
-    // else if (_currentUser != null && !_currentUser!.isVerified) {
-    //   Get.to(() => const OTPView(source: "register"));
-    // }
+    if (!_currentUser!.isVerified) {
+      Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
+      Get.to(() => const OTPView(source: "register"));
+    }
     toggleLoadingUser(false);
   }
 

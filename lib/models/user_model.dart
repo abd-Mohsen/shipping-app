@@ -6,6 +6,7 @@ List<UserModel> userModelFromJson(String str) =>
 String userModelToJson(List<UserModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class UserModel {
+  final int id;
   final String firstName;
   final String lastName;
   final String phoneNumber;
@@ -15,6 +16,7 @@ class UserModel {
   final CompanyInfo? companyInfo;
 
   UserModel({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
@@ -25,6 +27,7 @@ class UserModel {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+        id: json["id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
         phoneNumber: json["phone_number"],
@@ -35,6 +38,7 @@ class UserModel {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "first_name": firstName,
         "last_name": lastName,
         "phone_number": phoneNumber,
