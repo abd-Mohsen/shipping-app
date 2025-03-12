@@ -21,19 +21,22 @@ class DriverHistoryTab extends StatelessWidget {
             : RefreshIndicator(
                 onRefresh: controller.refreshHistoryOrders,
                 child: controller.historyOrders.isEmpty
-                    ? ListView(
-                        children: [
-                          Lottie.asset("assets/animations/timer.json", height: 200),
-                          Padding(
-                            padding: const EdgeInsets.all(32),
-                            child: Center(
-                              child: Text(
-                                "no history, pull down to refresh".tr,
-                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                    ? Center(
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            Lottie.asset("assets/animations/timer.json", height: 200),
+                            Padding(
+                              padding: const EdgeInsets.all(32),
+                              child: Center(
+                                child: Text(
+                                  "no history, pull down to refresh".tr,
+                                  style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                     : ListView.builder(
                         itemCount: controller.historyOrders.length,

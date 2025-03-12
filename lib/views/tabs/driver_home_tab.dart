@@ -17,7 +17,7 @@ class DriverHomeTab extends StatelessWidget {
     return GetBuilder<DriverHomeController>(
       builder: (controller) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
           child: controller.isLoadingCurrent
               ? SpinKitSquareCircle(color: cs.primary)
               : RefreshIndicator(
@@ -25,7 +25,7 @@ class DriverHomeTab extends StatelessWidget {
                   child: controller.currOrders.isEmpty
                       ? Center(
                           child: ListView(
-                            //mainAxisAlignment: MainAxisAlignment.center,
+                            shrinkWrap: true,
                             children: [
                               Lottie.asset("assets/animations/simple truck.json", height: 200),
                               Padding(
@@ -33,7 +33,7 @@ class DriverHomeTab extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     "no ongoing orders, pull down to refresh".tr,
-                                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                    style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),

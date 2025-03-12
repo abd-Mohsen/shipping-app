@@ -145,20 +145,10 @@ class CustomerHomeView extends StatelessWidget {
                                     children: [
                                       UserAccountsDrawerHeader(
                                         //showing old data or not showing at all, add loading (is it solved?)
-                                        accountName: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
-                                              style: tt.headlineSmall,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            // Text(
-                                            //   "@${con.currentUser!.firstName}",
-                                            //   style: tt.labelMedium,
-                                            //   overflow: TextOverflow.ellipsis,
-                                            // ),
-                                          ],
+                                        accountName: Text(
+                                          "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
+                                          style: tt.headlineSmall,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                         accountEmail: Text(
                                           con.currentUser!.phoneNumber,

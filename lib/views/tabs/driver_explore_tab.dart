@@ -123,19 +123,22 @@ class DriverExploreTab extends StatelessWidget {
                 : RefreshIndicator(
                     onRefresh: controller.refreshExploreOrders,
                     child: controller.exploreOrders.isEmpty
-                        ? ListView(
-                            children: [
-                              Lottie.asset("assets/animations/search.json", height: 300),
-                              Padding(
-                                padding: const EdgeInsets.all(24),
-                                child: Center(
-                                  child: Text(
-                                    "no data, pull down to refresh".tr,
-                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                        ? Center(
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                Lottie.asset("assets/animations/search.json", height: 300),
+                                Padding(
+                                  padding: const EdgeInsets.all(24),
+                                  child: Center(
+                                    child: Text(
+                                      "no data, pull down to refresh".tr,
+                                      style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           )
                         : ListView.builder(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

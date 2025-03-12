@@ -1,11 +1,12 @@
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:flutter/material.dart';
-
 import '../services/remote_services.dart';
 
 class OrderController extends GetxController {
@@ -20,6 +21,8 @@ class OrderController extends GetxController {
     selectedPayment = order.paymentMethods[0];
     super.onInit();
   }
+
+  GetStorage _getStorage = GetStorage();
 
   MapController mapController = MapController(
     initMapWithUserPosition: const UserTrackingOption(

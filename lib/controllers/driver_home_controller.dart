@@ -8,6 +8,7 @@ import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/complete_account_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import '../constants.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
@@ -22,6 +23,7 @@ class DriverHomeController extends GetxController {
     getGovernorates();
     getCurrentOrders();
     getHistoryOrders();
+    _connectSocket();
     super.onInit();
   }
 
@@ -236,5 +238,81 @@ class DriverHomeController extends GetxController {
       Get.put(LoginController());
       Get.offAll(() => const LoginView());
     }
+  }
+
+  late IO.Socket socket;
+
+  void _connectSocket() {
+    // Construct Socket.IO URL
+    final protocol = "wss";
+    final host = "shipping.adadevs.com";
+    //final host = Uri.base.host;
+    final port = Uri.base.port == 0 ? 8000 : Uri.base.port;
+
+    String socketUrl = '$protocol://$host/ws/location-tracking/';
+    //socketUrl = '$protocol://$host:443';
+
+    socket = IO.io(
+      socketUrl,
+      IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
+        {
+          'Token': _getStorage.read("token"),
+        },
+      ).build(),
+    );
+
+    socket.onConnect((_) {
+      print('Connected to Socket.IO server');
+      _startSendingLocation();
+    });
+
+    socket.onDisconnect((_) {
+      print('Disconnected from Socket.IO server');
+    });
+
+    socket.onError((error) {
+      print('Socket.IO error: $error');
+      print(socketUrl);
+    });
+
+    socket.on('fromServer', (data) {
+      print('Message from server: $data');
+    });
+  }
+
+  void _startSendingLocation() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      print("Location services are disabled.");
+      return;
+    }
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print("Location permissions are denied.");
+        return;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      print("Location permissions are permanently denied.");
+      return;
+    }
+
+    // Send location every 2 seconds
+    Geolocator.getPositionStream().listen((Position position) {
+      if (socket.connected) {
+        socket.emit('location', {
+          'latitude': position.latitude,
+          'longitude': position.longitude,
+        });
+      }
+    });
+  }
+
+  @override
+  void onClose() {
+    socket.disconnect();
+    super.dispose();
   }
 }
