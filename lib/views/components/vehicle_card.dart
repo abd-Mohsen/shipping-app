@@ -132,6 +132,7 @@ class VehicleCard extends StatelessWidget {
             ),
           ),
           Image.network(
+            //todo: 404 error from server
             "$kHostIP/ar${vehicle.registrationPhoto}",
             headers: const {"Keep-Alive": "timeout=5, max=1000"},
             loadingBuilder: (context, child, loadingProgress) {
