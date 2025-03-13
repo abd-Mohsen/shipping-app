@@ -1,5 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
@@ -19,17 +20,11 @@ class OrderController extends GetxController {
   void onInit() {
     setStatusIndex();
     selectedPayment = order.paymentMethods[0];
+    _connectTrackingSocket();
     super.onInit();
   }
 
-  GetStorage _getStorage = GetStorage();
-
-  MapController mapController = MapController(
-    initMapWithUserPosition: const UserTrackingOption(
-      enableTracking: true,
-      unFollowUser: true,
-    ),
-  );
+  final GetStorage _getStorage = GetStorage();
 
   int statusIndex = 0;
 
@@ -143,5 +138,52 @@ class OrderController extends GetxController {
       ));
     }
     toggleLoadingSubmit(false);
+  }
+
+  //--------------------------------------Real time-----------------------------------
+
+  MapController mapController = MapController.withPosition(
+    initPosition: GeoPoint(
+      latitude: 12.456789,
+      longitude: 8.4737324,
+    ),
+  );
+
+  late WebSocket websocket;
+  bool isTracking = false;
+  double currLatitude = 0;
+  double currLongitude = 0;
+
+  void _connectTrackingSocket() async {
+    String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/${order.id}';
+
+    websocket = await WebSocket.connect(
+      socketUrl,
+      protocols: ['Token', _getStorage.read("token")],
+    );
+
+    websocket.listen(
+      (message) {
+        //print('Message from server: $message');
+        updateMap(message);
+      },
+      onError: (error) {
+        print('WebSocket error: $error');
+      },
+    );
+  }
+
+  void updateMap(message) {
+    if (!isTracking) {
+      isTracking = true; //todo: showing even if there is no data (only connected)
+      update();
+    }
+    message = jsonDecode(message);
+    print("${message["latitude"]}, ${message["longitude"]}");
+    currLatitude = message["latitude"];
+    currLongitude = message["longitude"];
+    mapController.moveTo(
+      GeoPoint(latitude: currLatitude, longitude: currLongitude),
+    );
   }
 }

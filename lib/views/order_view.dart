@@ -439,7 +439,7 @@ class OrderView extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (isCustomer)
+              if (isCustomer && controller.isTracking)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: SizedBox(
