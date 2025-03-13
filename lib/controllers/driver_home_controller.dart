@@ -311,22 +311,30 @@ class DriverHomeController extends GetxController {
       return;
     }
 
-    // Send location every 2 seconds
-    Geolocator.getPositionStream().listen((Position position) {
-      Map pos = {
-        'latitude': position.latitude,
-        'longitude': position.longitude,
-      };
-      print(pos);
-      websocket.add(
-        jsonEncode(pos),
-      );
-    });
+    const locationSettings = LocationSettings(
+      accuracy: LocationAccuracy.bestForNavigation,
+      distanceFilter: 5,
+      timeLimit: null,
+    ); //todo: find a way to make it slower
+
+    Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+      (Position position) {
+        Map pos = {
+          'latitude': position.latitude,
+          'longitude': position.longitude,
+        };
+        print(pos);
+        websocket.add(
+          jsonEncode(pos),
+        );
+      },
+      cancelOnError: false, // Continue listening even if an error occurs
+    );
   }
 
   @override
   void onClose() {
-    //
+    websocket.close();
     super.dispose();
   }
 }

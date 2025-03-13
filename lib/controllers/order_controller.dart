@@ -151,8 +151,7 @@ class OrderController extends GetxController {
 
   late WebSocket websocket;
   bool isTracking = false;
-  double currLatitude = 0;
-  double currLongitude = 0;
+  GeoPoint? currPosition;
 
   void _connectTrackingSocket() async {
     String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/${order.id}';
@@ -173,17 +172,25 @@ class OrderController extends GetxController {
     );
   }
 
-  void updateMap(message) {
+  Future updateMap(message) async {
     if (!isTracking) {
-      isTracking = true; //todo: showing even if there is no data (only connected)
+      isTracking = true;
       update();
     }
     message = jsonDecode(message);
     print("${message["latitude"]}, ${message["longitude"]}");
-    currLatitude = message["latitude"];
-    currLongitude = message["longitude"];
-    mapController.moveTo(
-      GeoPoint(latitude: currLatitude, longitude: currLongitude),
+    if (currPosition != null) mapController.removeMarker(currPosition!);
+    currPosition = GeoPoint(latitude: message["latitude"], longitude: message["longitude"]);
+    mapController.addMarker(
+      currPosition!,
+      markerIcon: const MarkerIcon(
+        icon: Icon(
+          Icons.local_shipping,
+          color: Colors.red,
+          size: 30,
+        ),
+      ),
     );
+    mapController.moveTo(currPosition!);
   }
 }

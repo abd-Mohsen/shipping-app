@@ -450,7 +450,7 @@ class OrderView extends StatelessWidget {
                         controller: controller.mapController,
                         mapIsLoading: SpinKitFoldingCube(color: cs.primary),
                         osmOption: OSMOption(
-                          isPicker: true,
+                          isPicker: false,
                           userLocationMarker: UserLocationMaker(
                             personMarker: MarkerIcon(
                               icon: Icon(Icons.person, color: cs.primary, size: 40),
