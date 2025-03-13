@@ -148,7 +148,7 @@ class DriverHomeController extends GetxController {
     getHistoryOrders();
   }
 
-  void getCurrentUser() async {
+  Future<void> getCurrentUser({bool refresh = false}) async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
     //todo: dont let user do anything before user is loaded
@@ -158,7 +158,7 @@ class DriverHomeController extends GetxController {
     /*
       'Pending', 'Verified', 'Refused', 'No_Input',
     */
-    if (_currentUser != null) {
+    if (!refresh && _currentUser != null) {
       if (_currentUser!.driverInfo!.vehicleStatus == "No_Input") {
         //todo: handle the cars case
         Get.to(() => const MyVehiclesView());
@@ -166,7 +166,7 @@ class DriverHomeController extends GetxController {
       if (_currentUser!.driverInfo!.idStatus.toLowerCase() != "verified" ||
           _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
         CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
-        Get.to(CompleteAccountView(user: _currentUser!));
+        Get.to(const CompleteAccountView());
       }
       if (!_currentUser!.isVerified) {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));

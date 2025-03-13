@@ -32,11 +32,15 @@ class CompleteAccountController extends GetxController {
   XFile? dLicenseFront;
   XFile? dLicenseRear;
 
+  String idStatus = "x";
+  String licenseStatus = "x";
+
   Future<void> prepopulateImages() async {
     toggleLoadingImages(true);
-    homeController.getCurrentUser();
-    if (homeController.currentUser.driverInfo!.idStatus.toLowerCase() != "verified" &&
-        homeController.currentUser.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+    await homeController.getCurrentUser(refresh: true); //todo add refresh parameter in other controllers
+    idStatus = homeController.currentUser.driverInfo!.idStatus;
+    licenseStatus = homeController.currentUser.driverInfo!.licenseStatus;
+    if (idStatus.toLowerCase() == "verified" && licenseStatus.toLowerCase() == "verified") {
       Get.back();
       Get.showSnackbar(GetSnackBar(
         message: "updated successfully".tr,

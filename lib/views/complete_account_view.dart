@@ -7,8 +7,7 @@ import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/id_image_selector.dart';
 
 class CompleteAccountView extends StatelessWidget {
-  final UserModel user;
-  const CompleteAccountView({super.key, required this.user});
+  const CompleteAccountView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +73,8 @@ class CompleteAccountView extends StatelessWidget {
               onPressed: () {
                 Get.defaultDialog(
                   title: "help".tr,
-                  titlePadding: EdgeInsets.only(top: 16),
+                  titleStyle: tt.titleLarge!.copyWith(color: cs.onSurface),
+                  titlePadding: const EdgeInsets.only(top: 20),
                   content: Column(
                     children: [
                       ListTile(
@@ -139,7 +139,7 @@ class CompleteAccountView extends StatelessWidget {
                           onTapGallery: () {
                             controller.pickImage("ID (front)".tr, "gallery");
                           },
-                          uploadStatus: user.driverInfo!.idStatus,
+                          uploadStatus: controller.idStatus,
                         ),
                         IdImageSelector(
                           title: "ID (rear)".tr,
@@ -151,7 +151,7 @@ class CompleteAccountView extends StatelessWidget {
                           onTapGallery: () {
                             controller.pickImage("ID (rear)".tr, "gallery");
                           },
-                          uploadStatus: user.driverInfo!.idStatus,
+                          uploadStatus: controller.idStatus,
                         ),
                         IdImageSelector(
                           title: "driving license (front)".tr,
@@ -163,7 +163,7 @@ class CompleteAccountView extends StatelessWidget {
                           onTapGallery: () {
                             controller.pickImage("driving license (front)".tr, "gallery");
                           },
-                          uploadStatus: user.driverInfo!.licenseStatus,
+                          uploadStatus: controller.licenseStatus,
                         ),
                         IdImageSelector(
                           title: "driving license (rear)".tr,
@@ -175,7 +175,7 @@ class CompleteAccountView extends StatelessWidget {
                           onTapGallery: () {
                             controller.pickImage("driving license (rear)".tr, "gallery");
                           },
-                          uploadStatus: user.driverInfo!.licenseStatus,
+                          uploadStatus: controller.licenseStatus,
                         ),
                         const SizedBox(height: 12),
                         CustomButton(
