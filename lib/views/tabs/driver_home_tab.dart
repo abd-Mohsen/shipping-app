@@ -14,6 +14,7 @@ class DriverHomeTab extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
+    //todo: add something like svg image or text "here is your running orders"
     return GetBuilder<DriverHomeController>(
       builder: (controller) {
         return Padding(
@@ -34,6 +35,7 @@ class DriverHomeTab extends StatelessWidget {
                                   child: Text(
                                     "no ongoing orders, pull down to refresh".tr,
                                     style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),

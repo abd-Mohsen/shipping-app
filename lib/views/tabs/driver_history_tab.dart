@@ -32,6 +32,7 @@ class DriverHistoryTab extends StatelessWidget {
                                 child: Text(
                                   "no history, pull down to refresh".tr,
                                   style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),

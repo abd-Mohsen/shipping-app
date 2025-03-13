@@ -18,8 +18,8 @@ import 'login_controller.dart';
 class CompleteAccountController extends GetxController {
   final GetStorage _getStorage = GetStorage();
 
-  UserModel user;
-  CompleteAccountController({required this.user});
+  dynamic homeController;
+  CompleteAccountController({required this.homeController});
 
   @override
   onInit() async {
@@ -34,10 +34,21 @@ class CompleteAccountController extends GetxController {
 
   Future<void> prepopulateImages() async {
     toggleLoadingImages(true);
-    idFront = await downloadImage("$kHostIP/en${user.driverInfo!.idPhotoFront}");
-    idRear = await downloadImage("$kHostIP/en${user.driverInfo!.idPhotoRare}");
-    dLicenseFront = await downloadImage("$kHostIP/en${user.driverInfo!.drivingLicensePhotoFront}");
-    dLicenseRear = await downloadImage("$kHostIP/en${user.driverInfo!.drivingLicensePhotoRare}");
+    homeController.getCurrentUser();
+    if (homeController.currentUser.driverInfo!.idStatus.toLowerCase() != "verified" &&
+        homeController.currentUser.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+      Get.back();
+      Get.showSnackbar(GetSnackBar(
+        message: "updated successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
+      ));
+    }
+    idFront = await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.idPhotoFront}");
+    idRear = await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.idPhotoRare}");
+    dLicenseFront =
+        await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.drivingLicensePhotoFront}");
+    dLicenseRear = await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.drivingLicensePhotoRare}");
     toggleLoadingImages(false);
   }
 
@@ -134,7 +145,7 @@ class CompleteAccountController extends GetxController {
       Get.showSnackbar(GetSnackBar(
         message: "updated successfully".tr,
         duration: const Duration(milliseconds: 2500),
-        backgroundColor: Colors.green,
+        //backgroundColor: Colors.green,
       ));
     }
     toggleLoading(false);

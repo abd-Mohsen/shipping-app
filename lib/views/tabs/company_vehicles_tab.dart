@@ -62,8 +62,11 @@ class CompanyVehiclesTab extends StatelessWidget {
                                       child: Center(
                                         child: Text(
                                           "no vehicles, pull down to refresh".tr,
-                                          style:
-                                              tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                          style: tt.titleSmall!.copyWith(
+                                            color: cs.onSurface,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),

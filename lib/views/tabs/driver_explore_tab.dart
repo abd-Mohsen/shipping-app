@@ -134,6 +134,7 @@ class DriverExploreTab extends StatelessWidget {
                                     child: Text(
                                       "no data, pull down to refresh".tr,
                                       style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ),

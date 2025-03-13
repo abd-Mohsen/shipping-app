@@ -83,6 +83,7 @@ class CustomerHomeView extends StatelessWidget {
                                               color: cs.onSurface,
                                               fontWeight: FontWeight.bold,
                                             ),
+                                            textAlign: TextAlign.center,
                                           ),
                                         ),
                                       ),

@@ -23,81 +23,89 @@ class OrderCard extends StatelessWidget {
       onTap: () {
         Get.to(() => OrderView(order: order, isCustomer: isCustomer));
       },
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: order.status == "processing" ? cs.primary : cs.onSurface,
-            width: order.status == "processing" ? 1.5 : 0.5,
-          ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Material(
           borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(
-              Icons.local_shipping,
-              color: cs.primary,
-              size: 35,
+          elevation: 3,
+          color: cs.surface,
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: order.status == "processing" ? cs.primary : cs.onSurface,
+                width: order.status == "processing" ? 1.5 : 0.5,
+              ),
+              borderRadius: BorderRadius.circular(20),
             ),
-            const SizedBox(width: 24),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: Text(
-                    order.description,
-                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                  ),
+                const SizedBox(width: 8),
+                Icon(
+                  Icons.local_shipping,
+                  color: cs.primary,
+                  size: 35,
                 ),
-                SizedBox(height: 12),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.6,
-                  child: Text(
-                    "${order.startPoint.name} - ${order.endPoint.name}",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: tt.titleSmall!.copyWith(
-                      color: cs.onSurface.withOpacity(0.5),
+                const SizedBox(width: 24),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: Text(
+                        order.description,
+                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 12),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.6,
+                      child: Text(
+                        "${order.startPoint.name} - ${order.endPoint.name}",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: tt.titleSmall!.copyWith(
+                          color: cs.onSurface.withOpacity(0.5),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      child: Text(
+                        " ${Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y")}"
+                        "  ${Jiffy.parseFromDateTime(order.dateTime).jm}",
+                        style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(height: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  child: Text(
-                    " ${Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y")}"
-                    "  ${Jiffy.parseFromDateTime(order.dateTime).jm}",
-                    style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.8)),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                if (order.status == "pending" && isCustomer)
+                  Icon(
+                    Icons.access_time_rounded,
+                    color: cs.onSurface,
+                    size: 25,
                   ),
-                ),
+                if (order.status == "approved" && !isCustomer)
+                  Icon(
+                    Icons.access_time_rounded,
+                    color: cs.onSurface,
+                    size: 25,
+                  ),
+                if (order.status == "done")
+                  Icon(
+                    Icons.task_alt,
+                    color: cs.onSurface,
+                    size: 25,
+                  ),
               ],
             ),
-            if (order.status == "pending" && isCustomer)
-              Icon(
-                Icons.access_time_rounded,
-                color: cs.onSurface,
-                size: 25,
-              ),
-            if (order.status == "approved" && !isCustomer)
-              Icon(
-                Icons.access_time_rounded,
-                color: cs.onSurface,
-                size: 25,
-              ),
-            if (order.status == "done")
-              Icon(
-                Icons.task_alt,
-                color: cs.onSurface,
-                size: 25,
-              ),
-          ],
+          ),
         ),
       ),
     );

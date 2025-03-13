@@ -14,7 +14,8 @@ class CompleteAccountView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    CompleteAccountController cAC = Get.put(CompleteAccountController(user: user));
+
+    CompleteAccountController cAC = Get.find();
 
     return PopScope(
       canPop: false,
@@ -58,18 +59,61 @@ class CompleteAccountView extends StatelessWidget {
             style: tt.titleMedium!.copyWith(color: cs.onPrimary),
           ),
           //centerTitle: true,
-          leading: const Icon(Icons.arrow_back),
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {
-          //       cAC.logout();
-          //     },
-          //     icon: Icon(
-          //       Icons.logout,
-          //       color: cs.onPrimary,
-          //     ),
-          //   )
-          // ],
+          leading: null,
+          actions: [
+            // IconButton(
+            //   onPressed: () {
+            //     cAC.logout();
+            //   },
+            //   icon: Icon(
+            //     Icons.logout,
+            //     color: cs.onPrimary,
+            //   ),
+            // ),
+            IconButton(
+              onPressed: () {
+                Get.defaultDialog(
+                  title: "help".tr,
+                  titlePadding: EdgeInsets.only(top: 16),
+                  content: Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.watch_later_outlined, color: cs.onSurface),
+                        title: Text(
+                          "pending, wait for response".tr,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                        ),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.task_alt, color: Colors.green),
+                        title: Text(
+                          "accepted, no need to change".tr,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                        ),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.close, color: Colors.red),
+                        title: Text(
+                          "refused, upload another image then submit".tr,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.info_outline,
+                color: cs.onPrimary,
+              ),
+            ),
+          ],
         ),
         body: GetBuilder<CompleteAccountController>(
           builder: (controller) {
@@ -78,7 +122,7 @@ class CompleteAccountView extends StatelessWidget {
                 : RefreshIndicator(
                     onRefresh: controller.prepopulateImages,
                     child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                       children: [
                         Text(
                           "complete info text".tr,

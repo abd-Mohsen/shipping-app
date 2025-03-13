@@ -12,6 +12,7 @@ import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
 import '../views/otp_view.dart';
+import 'complete_account_controller.dart';
 import 'login_controller.dart';
 import 'otp_controller.dart';
 
@@ -164,6 +165,7 @@ class DriverHomeController extends GetxController {
       }
       if (_currentUser!.driverInfo!.idStatus.toLowerCase() != "verified" ||
           _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+        CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
         Get.to(CompleteAccountView(user: _currentUser!));
       }
       if (!_currentUser!.isVerified) {
@@ -174,65 +176,6 @@ class DriverHomeController extends GetxController {
 
     toggleLoadingUser(false);
   }
-
-  // Position? position;
-  //
-  // Future<void> getLocation(context) async {
-  //   ColorScheme cs = Theme.of(context).colorScheme;
-  //   toggleLoading(true);
-  //   LocationPermission permission;
-  //
-  //   if (!await Geolocator.isLocationServiceEnabled()) {
-  //     toggleLoading(false);
-  //     Get.defaultDialog(
-  //       title: "",
-  //       content: Column(
-  //         children: [
-  //           const Icon(
-  //             Icons.location_on,
-  //             size: 80,
-  //           ),
-  //           Text(
-  //             "من فضلك قم بتشغيل خدمة تحديد الموقع أولاً",
-  //             style: TextStyle(fontSize: 24, color: cs.onSurface),
-  //             textAlign: TextAlign.center,
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //   }
-  //
-  //   permission = await Geolocator.checkPermission();
-  //
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       toggleLoading(false);
-  //       Get.showSnackbar(const GetSnackBar(
-  //         message: "تم رفض صلاحية الموقع, لا يمكن تحديد موقعك الحالي",
-  //         duration: Duration(milliseconds: 1500),
-  //       ));
-  //     }
-  //   }
-  //
-  //   if (permission == LocationPermission.deniedForever) {
-  //     toggleLoading(false);
-  //     Get.showSnackbar(const GetSnackBar(
-  //       message: "تم رفض صلاحية الموقع, يجب اعطاء صلاحية من اعدادات التطبيق",
-  //       duration: Duration(milliseconds: 1500),
-  //     ));
-  //   }
-  //   try {
-  //     position = await Geolocator.getCurrentPosition().timeout(kTimeOutDuration);
-  //   } on TimeoutException {
-  //     Get.showSnackbar(kTimeOutSnackBar());
-  //     toggleLoading(false);
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  //   print('${position!.longitude} ${position!.latitude}');
-  //   toggleLoading(false);
-  // }
 
   void logout() async {
     //todo: add loading to prevent spam
@@ -270,6 +213,8 @@ class DriverHomeController extends GetxController {
   late WebSocket websocket;
 
   void _connectTrackingSocket() async {
+    //todo: only works when device is on
+    //todo: location service must be on when entering the app
     String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/$trackingID';
 
     websocket = await WebSocket.connect(

@@ -20,7 +20,7 @@ class OrderController extends GetxController {
   void onInit() {
     setStatusIndex();
     selectedPayment = order.paymentMethods[0];
-    _connectTrackingSocket();
+    if (customerHomeController != null && ["approved", "processing"].contains(order.status)) _connectTrackingSocket();
     super.onInit();
   }
 
