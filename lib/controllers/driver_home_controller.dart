@@ -8,6 +8,7 @@ import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/complete_account_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
+import '../main.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
@@ -189,6 +190,8 @@ class DriverHomeController extends GetxController {
 
   //-----------------------------------Real Time-------------------------------------------
 
+  int notificationID = 0;
+
   void _connectNotificationSocket() async {
     String socketUrl = 'wss://shipping.adadevs.com/ws/notifications/';
 
@@ -200,6 +203,13 @@ class DriverHomeController extends GetxController {
     websocket.listen(
       (message) {
         print('Message from server: $message');
+        message = jsonDecode(message);
+        notificationService.showNotification(
+          id: notificationID,
+          title: message["type"] + notificationID.toString(),
+          body: message["text"],
+        );
+        notificationID++;
       },
       onDone: () {
         print('WebSocket connection closed');

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/services/notifications_service.dart';
 import 'package:shipment/services/screen_service.dart';
 import 'package:shipment/themes.dart';
 import 'package:shipment/views/redirect_page.dart';
@@ -10,10 +11,12 @@ import 'controllers/theme_controller.dart';
 import 'locale.dart';
 
 final Api api = Api();
+final NotificationService notificationService = NotificationService();
 
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
+  notificationService.initNotification();
   await Get.putAsync(() => ScreenService().init());
   runApp(const MyApp());
 }
