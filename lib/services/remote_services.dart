@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/mini_order_model.dart';
@@ -359,5 +360,16 @@ class RemoteServices {
     String? json = await api.getRequest("cache_order_data/", auth: true);
     if (json == null) return null;
     return miniOrderModelFromJson(json);
+  }
+
+  static Future<List<EmployeeModel>?> fetchMyEmployees() async {
+    String? json = await api.getRequest("employees/", auth: true);
+    if (json == null) return null;
+    return employeeModelFromJson(json);
+  }
+
+  static Future<bool> deleteEmployee(int id) async {
+    bool json = await api.deleteRequest("employees/$id/", auth: true);
+    return json;
   }
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 
-class CompanyHomeTab extends StatelessWidget {
-  const CompanyHomeTab({super.key});
+class CompanyStatsTab extends StatelessWidget {
+  const CompanyStatsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +16,11 @@ class CompanyHomeTab extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-              child: Text(
-            "company home",
-            style: tt.titleMedium!.copyWith(color: cs.onSurface),
-          )),
+            child: Text(
+              "company stats",
+              style: tt.titleMedium!.copyWith(color: cs.onSurface),
+            ),
+          ),
         ),
       ],
     );

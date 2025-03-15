@@ -73,6 +73,7 @@ class RegisterController extends GetxController {
   XFile? dLicenseRear;
 
   Future pickImage(String selectedImage, String source) async {
+    //todo: check if image is less than 5mb (code from deepseek)
     XFile? pickedImage = await ImagePicker().pickImage(
       source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
     );

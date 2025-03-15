@@ -1,5 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
+import 'package:shipment/models/employee_model.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
@@ -13,6 +14,7 @@ class CompanyHomeController extends GetxController {
   @override
   onInit() {
     getCurrentUser();
+    getMyEmployees();
     super.onInit();
   }
 
@@ -48,6 +50,13 @@ class CompanyHomeController extends GetxController {
     // if (_currentUser!.driverInfo != null && !_currentUser!.driverInfo!.isVerifiedId) {
     //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
     // }
+
+    // {
+    //   canNavigate = false;
+    //   tabIndex = 0; // car tab
+    //   update();
+    // }
+
     //todo: handle the case of: no car, no license and no verified phone
     if (!_currentUser!.isVerified) {
       Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
@@ -104,5 +113,39 @@ class CompanyHomeController extends GetxController {
     toggleLoadingEmployeesAdd(false);
   }
 
-  //------------------vehicles-----------------------
+  final List myEmployees = [];
+
+  void getMyEmployees() async {
+    toggleLoadingEmployees(true);
+    List<EmployeeModel> newItems = await RemoteServices.fetchMyEmployees() ?? [];
+    myEmployees.addAll(newItems);
+    toggleLoadingEmployees(false);
+  }
+
+  Future<void> refreshMyEmployees() async {
+    myEmployees.clear();
+    getMyEmployees();
+  }
+
+  void deleteEmployee(int id) async {
+    bool res = await RemoteServices.deleteEmployee(id);
+    if (res) {
+      myEmployees.removeWhere((employee) => employee.id == id);
+      update();
+    }
+  }
+
+  //------------------bottom bar-----------------------
+
+  int tabIndex = 1;
+  bool canNavigate = true;
+
+  void changeTab(int i) {
+    if (!canNavigate) {
+      //show msg: you must have an accepted car in order to use the app
+      return;
+    }
+    tabIndex = i;
+    update();
+  }
 }

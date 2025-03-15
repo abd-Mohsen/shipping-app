@@ -191,6 +191,7 @@ class DriverHomeController extends GetxController {
   //-----------------------------------Real Time-------------------------------------------
 
   int notificationID = 0;
+  //todo: move to notification controller
 
   void _connectNotificationSocket() async {
     String socketUrl = 'wss://shipping.adadevs.com/ws/notifications/';

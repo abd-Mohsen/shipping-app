@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
-import 'package:shipment/controllers/home_navigation_controller.dart';
-import 'package:shipment/views/my_vehicles_view.dart';
 import 'package:shipment/views/tabs/company_employees_tab.dart';
-import 'package:shipment/views/tabs/company_home_tab.dart';
+import 'package:shipment/views/tabs/company_orders_tab.dart';
+import 'package:shipment/views/tabs/company_stats_tab.dart';
 import 'package:shipment/views/tabs/company_vehicles_tab.dart';
 import '../constants.dart';
 import '../controllers/locale_controller.dart';
@@ -25,7 +24,8 @@ class CompanyHomeView extends StatelessWidget {
 
     List<Widget> tabs = [
       const CompanyVehiclesTab(),
-      const CompanyHomeTab(),
+      const CompanyStatsTab(),
+      const CompanyOrdersTab(),
       const CompanyEmployeesTab(),
     ];
 
@@ -37,17 +37,20 @@ class CompanyHomeView extends StatelessWidget {
         }
         Get.dialog(kCloseAppDialog());
       },
-      child: GetBuilder<HomeNavigationController>(
-        init: HomeNavigationController(),
+      child: GetBuilder<CompanyHomeController>(
         builder: (controller) {
           return Scaffold(
             bottomNavigationBar: NavigationBar(
               destinations: [
                 NavigationDestination(icon: Icon(Icons.directions_car), label: "vehicles".tr),
                 NavigationDestination(icon: Icon(Icons.home_rounded), label: "home".tr),
+                NavigationDestination(icon: Icon(Icons.list), label: "orders".tr),
                 NavigationDestination(icon: Icon(Icons.manage_accounts), label: "employees".tr),
               ],
-              backgroundColor: cs.primary,
+              height: MediaQuery.of(context).size.height / 11,
+              backgroundColor: Get.isDarkMode ? Color(0xff1e244f) : Color(0xffefefef),
+              indicatorColor: cs.primary,
+              elevation: 5,
               onDestinationSelected: (i) {
                 controller.changeTab(i);
               },
@@ -63,8 +66,8 @@ class CompanyHomeView extends StatelessWidget {
             ),
             backgroundColor: cs.surface,
             body: IndexedStack(
-              children: tabs,
               index: controller.tabIndex,
+              children: tabs,
             ),
             drawer: Drawer(
               backgroundColor: cs.surface,

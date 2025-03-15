@@ -9,6 +9,7 @@ import 'auth_field.dart';
 class AddEmployeeSheet extends StatelessWidget {
   const AddEmployeeSheet({super.key});
 
+  //todo: validation here is f'ed up
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
