@@ -46,6 +46,7 @@ class CompanyHomeView extends StatelessWidget {
                 NavigationDestination(icon: Icon(Icons.home_rounded), label: "home".tr),
                 NavigationDestination(icon: Icon(Icons.list), label: "orders".tr),
                 NavigationDestination(icon: Icon(Icons.manage_accounts), label: "employees".tr),
+                //todo: tab to explore new orders, and tab for curr orders
               ],
               height: MediaQuery.of(context).size.height / 11,
               backgroundColor: Get.isDarkMode ? Color(0xff1e244f) : Color(0xffefefef),

@@ -15,6 +15,7 @@ class DriverHomeTab extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     //todo: add something like svg image or text "here is your running orders"
+    //todo: show processing orders first
     return GetBuilder<DriverHomeController>(
       builder: (controller) {
         return Padding(

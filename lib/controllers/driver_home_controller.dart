@@ -114,6 +114,7 @@ class DriverHomeController extends GetxController {
   int trackingID = 0;
   void getCurrentOrders() async {
     //todo: implement pagination
+    //todo: current running order must appear first (separate them)
     toggleLoadingCurrent(true);
     List<OrderModel> newItems =
         await RemoteServices.fetchDriverOrders(null, ["processing", "pending", "approved"]) ?? [];

@@ -372,4 +372,17 @@ class RemoteServices {
     bool json = await api.deleteRequest("employees/$id/", auth: true);
     return json;
   }
+
+  static Future<List<OrderModel>?> fetchCompanyOrders(int? governorateID, List<String> types) async {
+    String addedTypes = "";
+    for (String type in types) {
+      addedTypes += "&order_status=$type";
+    }
+    String? json = await api.getRequest(
+      "company_order/?${governorateID == null ? "" : "order_location=$governorateID"}&$addedTypes&page=1",
+      auth: true,
+    );
+    if (json == null) return null;
+    return orderModelFromJson(json);
+  }
 }

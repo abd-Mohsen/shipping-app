@@ -1,6 +1,8 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:shipment/models/employee_model.dart';
+import '../models/governorate_model.dart';
+import '../models/order_model.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
@@ -15,6 +17,7 @@ class CompanyHomeController extends GetxController {
   onInit() {
     getCurrentUser();
     getMyEmployees();
+    getGovernorates();
     super.onInit();
   }
 
@@ -147,5 +150,53 @@ class CompanyHomeController extends GetxController {
     }
     tabIndex = i;
     update();
+  }
+
+  //---------------------------------------explore orders-------------------------
+
+  List<GovernorateModel> governorates = [];
+  GovernorateModel? selectedGovernorate;
+
+  List<OrderModel> exploreOrders = [];
+
+  bool _isLoadingExplore = false;
+  bool get isLoadingExplore => _isLoadingExplore;
+  void toggleLoadingExplore(bool value) {
+    _isLoadingExplore = value;
+    update();
+  }
+
+  bool _isLoadingGovernorates = false;
+  bool get isLoadingGovernorates => _isLoadingGovernorates;
+  void toggleLoadingGovernorate(bool value) {
+    _isLoadingGovernorates = value;
+    update();
+  }
+
+  void setGovernorate(GovernorateModel? governorate) {
+    selectedGovernorate = governorate;
+    refreshExploreOrders();
+  }
+
+  Future<void> refreshExploreOrders() async {
+    exploreOrders.clear();
+    getExploreOrders();
+  }
+
+  void getGovernorates() async {
+    toggleLoadingGovernorate(true);
+    List<GovernorateModel> newItems = await RemoteServices.fetchGovernorates() ?? [];
+    governorates.addAll(newItems);
+    if (newItems.isNotEmpty) setGovernorate(governorates[1]);
+    toggleLoadingGovernorate(false);
+  }
+
+  void getExploreOrders() async {
+    //todo: implement pagination
+    if (selectedGovernorate == null) return;
+    toggleLoadingExplore(true);
+    List<OrderModel> newItems = await RemoteServices.fetchCompanyOrders(selectedGovernorate!.id, ["available"]) ?? [];
+    exploreOrders.addAll(newItems);
+    toggleLoadingExplore(false);
   }
 }
