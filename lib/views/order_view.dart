@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
@@ -32,9 +34,15 @@ class OrderView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
+    bool isCompany = GetStorage().read("role") == "company";
     late CustomerHomeController cHC;
     late DriverHomeController dHC;
-    isCustomer ? cHC = Get.find() : dHC = Get.find();
+    late CompanyHomeController cHC2;
+    isCustomer
+        ? cHC = Get.find()
+        : isCompany
+            ? cHC2 = Get.find()
+            : dHC = Get.find();
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -93,7 +101,9 @@ class OrderView extends StatelessWidget {
       body: GetBuilder<OrderController>(
         init: isCustomer
             ? OrderController(order: order, customerHomeController: cHC)
-            : OrderController(order: order, driverHomeController: dHC),
+            : isCompany
+                ? OrderController(order: order, companyHomeController: cHC2)
+                : OrderController(order: order, driverHomeController: dHC),
         builder: (controller) {
           return Column(
             children: [

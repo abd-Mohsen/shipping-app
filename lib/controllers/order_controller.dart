@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/models/mini_order_model.dart';
@@ -14,7 +15,13 @@ class OrderController extends GetxController {
   final OrderModel order;
   final DriverHomeController? driverHomeController; // handle company and customer case
   final CustomerHomeController? customerHomeController;
-  OrderController({required this.order, this.driverHomeController, this.customerHomeController});
+  final CompanyHomeController? companyHomeController;
+  OrderController({
+    required this.order,
+    this.driverHomeController,
+    this.customerHomeController,
+    this.companyHomeController,
+  });
 
   @override
   void onInit() {
@@ -88,7 +95,7 @@ class OrderController extends GetxController {
   void acceptOrderDriver() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.driverAcceptOrder(order.id);
+    bool success = await RemoteServices.driverAcceptOrder(order.id); //todo: do for company and employee
     if (success) {
       Get.back();
       driverHomeController!.refreshExploreOrders();
