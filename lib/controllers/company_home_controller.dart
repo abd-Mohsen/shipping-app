@@ -199,4 +199,12 @@ class CompanyHomeController extends GetxController {
     exploreOrders.addAll(newItems);
     toggleLoadingExplore(false);
   }
+
+  //--------------------------------------------stats-------------------------------------
+  bool _isLoadingStats = false;
+  bool get isLoadingStats => _isLoadingStats;
+  void toggleLoadingStats(bool value) {
+    _isLoadingStats = value;
+    update();
+  }
 }
