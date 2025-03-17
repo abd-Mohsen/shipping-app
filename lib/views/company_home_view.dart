@@ -52,7 +52,7 @@ class CompanyHomeView extends StatelessWidget {
               height: MediaQuery.of(context).size.height / 11,
               backgroundColor: Get.isDarkMode ? Color(0xff1e244f) : Color(0xffefefef),
               indicatorColor: cs.primary,
-              elevation: 5,
+              elevation: 10,
               onDestinationSelected: (i) {
                 controller.changeTab(i);
               },
@@ -62,7 +62,7 @@ class CompanyHomeView extends StatelessWidget {
               backgroundColor: cs.primary,
               title: Text(
                 'company'.toUpperCase(),
-                style: tt.headlineSmall!.copyWith(letterSpacing: 2, color: cs.onPrimary),
+                style: tt.titleLarge!.copyWith(letterSpacing: 2, color: cs.onPrimary),
               ),
               centerTitle: true,
             ),

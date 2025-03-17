@@ -346,6 +346,7 @@ class OrderView extends StatelessWidget {
                                               visible: ["money_transfer"]
                                                   .contains(controller.selectedPayment.payment.methodName),
                                               child: InputField(
+                                                //todo: recommend old phone numbers
                                                 controller: controller.phoneNumber,
                                                 label: "phone number".tr,
                                                 keyboardType: TextInputType.number,

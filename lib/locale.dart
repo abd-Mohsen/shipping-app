@@ -129,6 +129,9 @@ class MyLocale extends Translations {
           "view order": "view order",
           "driver info": "driver info",
           "owner info": "customer info",
+          "available drivers": "available drivers",
+          "available vehicles": "available vehicles",
+          "running orders": "running orders",
         },
         "ar": {
           "Arabic": "العربية",
@@ -255,6 +258,9 @@ class MyLocale extends Translations {
           "view order": "عرض الطلبية",
           "driver info": "بيانات السائق",
           "owner info": "بيانات صاحب الطلب",
+          "available drivers": "السائقون المتاحون",
+          "available vehicles": "المركبات المتاحة",
+          "running orders": "الطلبات الجارية",
         },
       };
 }
