@@ -9,6 +9,7 @@ import 'api.dart';
 import 'package:get/get.dart';
 import 'controllers/locale_controller.dart';
 import 'controllers/theme_controller.dart';
+import 'firebase_options.dart';
 import 'locale.dart';
 
 final Api api = Api();
@@ -17,8 +18,10 @@ final NotificationService notificationService = NotificationService();
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  final FirebaseApp app = Firebase.app();
+  print('Firebase app name: ${app.name}');
+  print('Firebase app options: ${app.options}');
   notificationService.initNotification();
   await Get.putAsync(() => ScreenService().init());
   runApp(const MyApp());

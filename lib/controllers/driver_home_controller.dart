@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,10 +22,12 @@ class DriverHomeController extends GetxController {
   @override
   onInit() {
     getCurrentUser();
-    getGovernorates();
-    getCurrentOrders();
-    getHistoryOrders();
+    // getGovernorates();
+    // getCurrentOrders();
+    // getHistoryOrders();
     //_connectNotificationSocket();
+    requestPermissionFCM();
+    getFCMToken();
     super.onInit();
   }
 
@@ -293,5 +296,24 @@ class DriverHomeController extends GetxController {
   void onClose() {
     websocket.close();
     super.dispose();
+  }
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+  Future<void> requestPermissionFCM() async {
+    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print('User granted permission');
+    }
+  }
+
+  Future<String?> getFCMToken() async {
+    String? token = await _firebaseMessaging.getToken();
+    print('FCM Token: $token');
+    return token;
   }
 }
