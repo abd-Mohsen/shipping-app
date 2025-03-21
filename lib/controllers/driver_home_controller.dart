@@ -24,7 +24,7 @@ class DriverHomeController extends GetxController {
     getGovernorates();
     getCurrentOrders();
     getHistoryOrders();
-    _connectNotificationSocket();
+    //_connectNotificationSocket();
     super.onInit();
   }
 

@@ -385,4 +385,15 @@ class RemoteServices {
     if (json == null) return null;
     return orderModelFromJson(json);
   }
+
+  static Future<bool> subscribeOneSignal(String playerID) async {
+    String? json = await api.postRequest(
+      "register-device-onesignal/",
+      {"player_id": playerID},
+      auth: true,
+    );
+    return json != null;
+  }
+
+  //stats (filter)
 }

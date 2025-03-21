@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "230095641691",
+    "project_id": "shippingsys",
+    "storage_bucket": "shippingsys.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230095641691:android:7e0d58c55d3700e559f37e",
+        "android_client_info": {
+          "package_name": "shippingsys.adadevs.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6uZA_HimDgTB3HR_JzSATXcJE7Pa7aoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

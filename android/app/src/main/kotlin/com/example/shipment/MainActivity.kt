@@ -1,4 +1,4 @@
-package com.example.shipment
+package shippingsys.adadevs.com
 
 import io.flutter.embedding.android.FlutterActivity
 

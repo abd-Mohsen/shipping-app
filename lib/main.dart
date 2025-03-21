@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/services/notifications_service.dart';
@@ -16,6 +17,8 @@ final NotificationService notificationService = NotificationService();
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   notificationService.initNotification();
   await Get.putAsync(() => ScreenService().init());
   runApp(const MyApp());
