@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
+import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/views/edit_profile_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import 'package:shipment/views/tabs/driver_explore_tab.dart';
@@ -20,6 +21,7 @@ class DriverHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
+    NotificationsController nC = Get.put(NotificationsController());
     DriverHomeController hC = Get.put(DriverHomeController());
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,7 +8,6 @@ import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/complete_account_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
-import '../main.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
@@ -22,13 +20,9 @@ class DriverHomeController extends GetxController {
   @override
   onInit() {
     getCurrentUser();
-    // getGovernorates();
-    // getCurrentOrders();
-    // getHistoryOrders();
-    _connectNotificationSocket();
-    requestPermissionFCM();
-    getFCMToken();
-    setupFCMListeners();
+    getGovernorates();
+    getCurrentOrders();
+    getHistoryOrders();
     super.onInit();
   }
 
@@ -195,37 +189,6 @@ class DriverHomeController extends GetxController {
 
   //-----------------------------------Real Time-------------------------------------------
 
-  int notificationID = 0;
-  //todo: move to notification controller
-
-  void _connectNotificationSocket() async {
-    String socketUrl = 'wss://shipping.adadevs.com/ws/notifications/';
-
-    final websocket = await WebSocket.connect(
-      socketUrl,
-      protocols: ['Token', _getStorage.read("token")],
-    );
-
-    websocket.listen(
-      (message) {
-        print('Message from server: $message');
-        message = jsonDecode(message);
-        notificationService.showNotification(
-          id: notificationID,
-          title: message["type"] + notificationID.toString(),
-          body: message["text"],
-        );
-        notificationID++;
-      },
-      onDone: () {
-        print('WebSocket connection closed');
-      },
-      onError: (error) {
-        print('WebSocket error: $error');
-      },
-    );
-  }
-
   late WebSocket websocket;
 
   void _connectTrackingSocket() async {
@@ -297,40 +260,5 @@ class DriverHomeController extends GetxController {
   void onClose() {
     websocket.close();
     super.dispose();
-  }
-
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
-  Future<void> requestPermissionFCM() async {
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
-    }
-  }
-
-  Future<String?> getFCMToken() async {
-    String? token = await _firebaseMessaging.getToken();
-    print('FCM Token: $token');
-    return token;
-  }
-
-  void setupFCMListeners() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // print('Received notification: ${message.notification?.title}');
-      // print('Body: ${message.notification?.body}');
-      notificationService.showNotification(
-        id: notificationID,
-        title: message.notification?.title,
-        body: message.notification?.body,
-      );
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('Notification opened: ${message.notification?.title}');
-    });
   }
 }

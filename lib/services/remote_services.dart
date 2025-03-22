@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:shipment/constants.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/governorate_model.dart';
@@ -386,11 +387,12 @@ class RemoteServices {
     return orderModelFromJson(json);
   }
 
-  static Future<bool> subscribeOneSignal(String playerID) async {
+  static Future<bool> subscribeFCM(String deviceToken) async {
     String? json = await api.postRequest(
-      "register-device-onesignal/",
-      {"player_id": playerID},
+      "$kHostIP/en/register-device/",
+      {"token": deviceToken},
       auth: true,
+      toMyServer: false,
     );
     return json != null;
   }
