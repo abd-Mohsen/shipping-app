@@ -25,9 +25,10 @@ class DriverHomeController extends GetxController {
     // getGovernorates();
     // getCurrentOrders();
     // getHistoryOrders();
-    //_connectNotificationSocket();
+    _connectNotificationSocket();
     requestPermissionFCM();
     getFCMToken();
+    setupFCMListeners();
     super.onInit();
   }
 
@@ -315,5 +316,21 @@ class DriverHomeController extends GetxController {
     String? token = await _firebaseMessaging.getToken();
     print('FCM Token: $token');
     return token;
+  }
+
+  void setupFCMListeners() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // print('Received notification: ${message.notification?.title}');
+      // print('Body: ${message.notification?.body}');
+      notificationService.showNotification(
+        id: notificationID,
+        title: message.notification?.title,
+        body: message.notification?.body,
+      );
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('Notification opened: ${message.notification?.title}');
+    });
   }
 }
