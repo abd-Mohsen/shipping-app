@@ -4,7 +4,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
-import 'dart:math';
 
 class CompanyStatsTab extends StatelessWidget {
   const CompanyStatsTab({super.key});
@@ -27,11 +26,11 @@ class CompanyStatsTab extends StatelessWidget {
                         children: [
                           Lottie.asset("assets/animations/stats3.json", height: 200),
                           Padding(
-                            padding: const EdgeInsets.all(32),
+                            padding: const EdgeInsets.symmetric(horizontal: 32),
                             child: Center(
                               child: Text(
                                 "no data, pull down to refresh".tr,
-                                style: tt.titleSmall!.copyWith(
+                                style: tt.titleMedium!.copyWith(
                                   color: cs.onSurface,
                                   fontWeight: FontWeight.bold,
                                 ),

@@ -132,6 +132,13 @@ class MyLocale extends Translations {
           "available drivers": "available drivers",
           "available vehicles": "available vehicles",
           "running orders": "running orders",
+          "no data, pull down to refresh": "no data, pull down to refresh",
+          "vehicles": "vehicles",
+          "orders": "orders",
+          "home": "home",
+          "employees": "employees",
+          "history": "history",
+          "explore": "explore",
         },
         "ar": {
           "Arabic": "العربية",
@@ -261,6 +268,13 @@ class MyLocale extends Translations {
           "available drivers": "السائقون المتاحون",
           "available vehicles": "المركبات المتاحة",
           "running orders": "الطلبات الجارية",
+          "no data, pull down to refresh": "لا يوجد بيانات, اسحب للتحديث",
+          "vehicles": "المركبات",
+          "orders": "الطلبيات",
+          "home": "الرئيسية",
+          "employees": "السائقين",
+          "history": "السجل",
+          "explore": "تصفح",
         },
       };
 }

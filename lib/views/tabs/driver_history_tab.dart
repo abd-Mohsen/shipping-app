@@ -27,11 +27,11 @@ class DriverHistoryTab extends StatelessWidget {
                           children: [
                             Lottie.asset("assets/animations/timer.json", height: 200),
                             Padding(
-                              padding: const EdgeInsets.all(32),
+                              padding: const EdgeInsets.symmetric(horizontal: 32),
                               child: Center(
                                 child: Text(
-                                  "no history, pull down to refresh".tr,
-                                  style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                  "no data, pull down to refresh".tr,
+                                  style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.center,
                                 ),
                               ),

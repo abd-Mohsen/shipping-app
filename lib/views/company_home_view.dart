@@ -51,8 +51,8 @@ class CompanyHomeView extends StatelessWidget {
                 //todo: tab to explore new orders, and tab for curr orders
               ],
               height: MediaQuery.of(context).size.height / 11,
-              backgroundColor: Get.isDarkMode ? Color(0xff1e244f) : Color(0xffefefef),
-              indicatorColor: cs.primary,
+              backgroundColor: Get.isDarkMode ? cs.primary : Color(0xffefefef),
+              indicatorColor: Get.isDarkMode ? cs.surface : cs.primary,
               elevation: 10,
               onDestinationSelected: (i) {
                 controller.changeTab(i);

@@ -56,13 +56,13 @@ class CompanyEmployeesTab extends StatelessWidget {
                                   shrinkWrap: true,
                                   children: [
                                     //todo: other animation
-                                    Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                    Lottie.asset("assets/animations/driver.json", height: 200),
                                     Padding(
                                       padding: const EdgeInsets.all(32),
                                       child: Center(
                                         child: Text(
-                                          "no employees, pull down to refresh".tr,
-                                          style: tt.titleSmall!.copyWith(
+                                          "no data, pull down to refresh".tr,
+                                          style: tt.titleMedium!.copyWith(
                                             color: cs.onSurface,
                                             fontWeight: FontWeight.bold,
                                           ),

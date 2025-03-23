@@ -15,7 +15,7 @@ class DriverHomeTab extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     //todo: add something like svg image or text "here is your running orders"
-    //todo: show processing orders first
+    //todo: show processing orders first (label them)
     return GetBuilder<DriverHomeController>(
       builder: (controller) {
         return Padding(
@@ -31,11 +31,11 @@ class DriverHomeTab extends StatelessWidget {
                             children: [
                               Lottie.asset("assets/animations/simple truck.json", height: 200),
                               Padding(
-                                padding: const EdgeInsets.all(32),
+                                padding: const EdgeInsets.symmetric(horizontal: 32),
                                 child: Center(
                                   child: Text(
-                                    "no ongoing orders, pull down to refresh".tr,
-                                    style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                    "no data, pull down to refresh".tr,
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),

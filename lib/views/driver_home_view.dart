@@ -49,11 +49,11 @@ class DriverHomeView extends StatelessWidget {
               destinations: [
                 NavigationDestination(icon: Icon(Icons.history), label: "history".tr),
                 NavigationDestination(icon: Icon(Icons.home_rounded), label: "home".tr),
-                NavigationDestination(icon: Icon(Icons.list), label: "explore".tr),
+                NavigationDestination(icon: Icon(Icons.search), label: "explore".tr),
               ],
               height: MediaQuery.of(context).size.height / 11,
-              backgroundColor: Get.isDarkMode ? Color(0xff1e244f) : Color(0xffefefef),
-              indicatorColor: cs.primary,
+              backgroundColor: Get.isDarkMode ? cs.primary : Color(0xffededed),
+              indicatorColor: Get.isDarkMode ? cs.surface : cs.primary,
               elevation: 5,
               onDestinationSelected: (i) {
                 controller.changeTab(i);
