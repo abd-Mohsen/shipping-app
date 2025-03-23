@@ -14,12 +14,11 @@ class DriverHomeTab extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    //todo: add something like svg image or text "here is your running orders"
     //todo: show processing orders first (label them)
     return GetBuilder<DriverHomeController>(
       builder: (controller) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          padding: const EdgeInsets.only(left: 12, right: 12, top: 0),
           child: controller.isLoadingCurrent
               ? SpinKitSquareCircle(color: cs.primary)
               : RefreshIndicator(
@@ -45,8 +44,15 @@ class DriverHomeTab extends StatelessWidget {
                         )
                       : ListView.builder(
                           itemCount: controller.currOrders.length,
-                          itemBuilder: (context, i) => OrderCard(order: controller.currOrders[i], isCustomer: false),
-                        ),
+                          itemBuilder: (context, i) {
+                            if (i == 0) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: Center(child: Lottie.asset("assets/animations/driver2.json", height: 200)),
+                              );
+                            }
+                            return OrderCard(order: controller.currOrders[i - 1], isCustomer: false);
+                          }),
                 ),
         );
       },

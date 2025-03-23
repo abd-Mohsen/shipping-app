@@ -55,7 +55,6 @@ class CompanyEmployeesTab extends StatelessWidget {
                                 child: ListView(
                                   shrinkWrap: true,
                                   children: [
-                                    //todo: other animation
                                     Lottie.asset("assets/animations/driver.json", height: 200),
                                     Padding(
                                       padding: const EdgeInsets.all(32),
