@@ -565,6 +565,61 @@ class OrderView extends StatelessWidget {
                     ),
                   ),
                 ),
+              if (!isCustomer && order.status == "approved" && order.driverApproved)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                  child: CustomButton(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => GetBuilder<OrderController>(builder: (controller) {
+                          return AlertDialog(
+                            title: Text(
+                              "begin the order?".tr,
+                              style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                            ),
+                            content: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                "customer will track your progress",
+                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                  //controller.acceptOrderDriver();
+                                },
+                                child: Text(
+                                  "yes",
+                                  style: tt.titleMedium!.copyWith(color: Colors.red),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Text(
+                                  "no",
+                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
+                      );
+                    },
+                    child: Center(
+                      child: controller.isLoadingSubmit
+                          ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                          : Text(
+                              "begin".tr.toUpperCase(),
+                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                            ),
+                    ),
+                  ),
+                ),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),

@@ -82,6 +82,7 @@ class NotificationsController extends GetxController {
 
   void setupFCMListeners() {
     //todo: notification from here and websocket are appearing together when listening here
+    //todo: notifications from here appears without badge when app is close
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // print('Received notification: ${message.notification?.title}');
       // print('Body: ${message.notification?.body}');
