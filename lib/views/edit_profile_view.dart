@@ -55,6 +55,7 @@ class EditProfileView extends StatelessWidget {
                   onChanged: (val) {
                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
                   },
+                  floatingLabelBehavior: FloatingLabelBehavior.auto,
                 ),
                 InputField(
                   controller: controller.lastName,
@@ -68,6 +69,7 @@ class EditProfileView extends StatelessWidget {
                   onChanged: (val) {
                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
                   },
+                  floatingLabelBehavior: FloatingLabelBehavior.auto,
                 ),
                 Visibility(
                   visible: user.role.type == "company",
@@ -83,6 +85,7 @@ class EditProfileView extends StatelessWidget {
                     onChanged: (val) {
                       if (controller.buttonPressed) controller.formKey.currentState!.validate();
                     },
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
                   ),
                 ),
                 CustomButton(

@@ -10,6 +10,7 @@ import '../constants.dart';
 import '../controllers/locale_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
+import 'edit_profile_view.dart';
 
 class CompanyHomeView extends StatelessWidget {
   const CompanyHomeView({super.key});
@@ -116,6 +117,13 @@ class CompanyHomeView extends StatelessWidget {
                         }),
                         //todo: add language and other widgets, and unify the drawer if possible
                         //todo: redirect if not verified or have no car
+                        ListTile(
+                          leading: const Icon(Icons.manage_accounts),
+                          title: Text("edit profile".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                          onTap: () {
+                            Get.to(EditProfileView(user: controller.currentUser!, homeController: cHC));
+                          },
+                        ),
                         ListTile(
                           leading: const Icon(Icons.dark_mode_outlined),
                           title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),

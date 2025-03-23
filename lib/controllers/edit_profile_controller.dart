@@ -13,6 +13,7 @@ class EditProfileController extends GetxController {
   void onInit() {
     firstName.text = user.firstName;
     lastName.text = user.lastName;
+    if (user.role.type == "company") companyName.text = user.companyInfo!.name;
     super.onInit();
   }
 

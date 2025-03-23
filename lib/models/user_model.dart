@@ -34,7 +34,7 @@ class UserModel {
         role: Role.fromJson(json["role"]),
         isVerified: json["is_verified"],
         driverInfo: json["driver_info"] == null ? null : DriverInfo.fromJson(json["driver_info"]),
-        companyInfo: json["customer_info"] == null ? null : CompanyInfo.fromJson(json["company_info"]),
+        companyInfo: json["company_info"] == null ? null : CompanyInfo.fromJson(json["company_info"]),
       );
 
   Map<String, dynamic> toJson() => {

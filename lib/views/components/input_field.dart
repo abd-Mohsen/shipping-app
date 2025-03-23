@@ -14,6 +14,7 @@ class InputField extends StatelessWidget {
     required this.onChanged,
     this.minLines,
     this.maxLines,
+    this.floatingLabelBehavior,
   });
 
   final TextEditingController controller;
@@ -27,6 +28,7 @@ class InputField extends StatelessWidget {
   final Widget? suffixIcon;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
+  final FloatingLabelBehavior? floatingLabelBehavior;
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +73,10 @@ class InputField extends StatelessWidget {
             borderSide: BorderSide(width: 1.5, color: Colors.red),
           ),
           //hintText: "password".tr,
-          hintText: label,
-          hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+          labelText: label,
+          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+          // hintText: label,
+          // hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
           prefixIcon: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Icon(
@@ -82,7 +86,7 @@ class InputField extends StatelessWidget {
             ),
           ),
           suffixIcon: suffixIcon,
-          floatingLabelBehavior: FloatingLabelBehavior.never,
+          floatingLabelBehavior: floatingLabelBehavior ?? FloatingLabelBehavior.never,
         ),
         style: tt.titleSmall!.copyWith(color: cs.onSurface),
         validator: validator,
