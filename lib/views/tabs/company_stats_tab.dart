@@ -25,12 +25,12 @@ class CompanyStatsTab extends StatelessWidget {
                       child: ListView(
                         shrinkWrap: true,
                         children: [
-                          Lottie.asset("assets/animations/stats.json", height: 200),
+                          Lottie.asset("assets/animations/stats3.json", height: 200),
                           Padding(
                             padding: const EdgeInsets.all(32),
                             child: Center(
                               child: Text(
-                                "no vehicles, pull down to refresh".tr,
+                                "no data, pull down to refresh".tr,
                                 style: tt.titleSmall!.copyWith(
                                   color: cs.onSurface,
                                   fontWeight: FontWeight.bold,

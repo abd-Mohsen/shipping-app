@@ -104,9 +104,10 @@ class CompanyHomeView extends StatelessWidget {
                                   : UserAccountsDrawerHeader(
                                       //showing old data or not showing at all, add loading (is it solved?)
                                       accountName: Text(
-                                        "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
-                                        style: tt.headlineSmall,
+                                        "${con.currentUser!.firstName} ${con.currentUser!.lastName}  @  ${con.currentUser!.companyInfo!.name}",
+                                        style: tt.titleMedium,
                                         overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
                                       ),
                                       accountEmail: Text(
                                         con.currentUser!.phoneNumber,
