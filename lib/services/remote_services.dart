@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/location_model.dart';
@@ -397,5 +398,11 @@ class RemoteServices {
     return json != null;
   }
 
-  //stats (filter)
+  static Future<CompanyStatsModel?> fetchCompanyStats() async {
+    //todo: filter
+    String? json =
+        await api.getRequest("statistic/?days=100&order_status=approved&order_status=processing", auth: true);
+    if (json == null) return null;
+    return CompanyStatsModel.fromJson(jsonDecode(json));
+  }
 }

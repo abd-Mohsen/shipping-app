@@ -1,5 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
+import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import '../models/governorate_model.dart';
 import '../models/order_model.dart';
@@ -18,6 +19,7 @@ class CompanyHomeController extends GetxController {
     getCurrentUser();
     getMyEmployees();
     getGovernorates();
+    getCompanyStats();
     super.onInit();
   }
 
@@ -50,21 +52,24 @@ class CompanyHomeController extends GetxController {
   void getCurrentUser() async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
-    // if (_currentUser!.driverInfo != null && !_currentUser!.driverInfo!.isVerifiedId) {
-    //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
-    // }
+    if (_currentUser != null) {
+      // if (_currentUser!.driverInfo != null && !_currentUser!.driverInfo!.isVerifiedId) {
+      //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
+      // }
 
-    // {
-    //   canNavigate = false;
-    //   tabIndex = 0; // car tab
-    //   update();
-    // }
+      // {
+      //   canNavigate = false;
+      //   tabIndex = 0; // car tab
+      //   update();
+      // }
 
-    //todo: handle the case of: no car, no license and no verified phone
-    if (!_currentUser!.isVerified) {
-      Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
-      Get.to(() => const OTPView(source: "register"));
+      //todo: handle the case of: no car, no license and no verified phone
+      if (!_currentUser!.isVerified) {
+        Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
+        Get.to(() => const OTPView(source: "register"));
+      }
     }
+
     toggleLoadingUser(false);
   }
 
@@ -206,5 +211,15 @@ class CompanyHomeController extends GetxController {
   void toggleLoadingStats(bool value) {
     _isLoadingStats = value;
     update();
+  }
+
+  CompanyStatsModel? companyStats;
+
+  Future<void> getCompanyStats() async {
+    toggleLoadingStats(true);
+    companyStats = await RemoteServices.fetchCompanyStats();
+    //todo: filter
+    //todo: fill all data (after backend provide them)
+    toggleLoadingStats(false);
   }
 }
