@@ -272,27 +272,33 @@ class RegisterView extends StatelessWidget {
                               },
                             ),
                           ),
-                          IdImageSelector(
-                            title: "ID (front)".tr,
-                            isSubmitted: controller.idFront != null,
-                            image: controller.idFront,
-                            onTapCamera: () {
-                              controller.pickImage("ID (front)".tr, "camera");
-                            },
-                            onTapGallery: () {
-                              controller.pickImage("ID (front)".tr, "gallery");
-                            },
+                          Visibility(
+                            visible: controller.roles[controller.roleIndex] != "customer",
+                            child: IdImageSelector(
+                              title: "ID (front)".tr,
+                              isSubmitted: controller.idFront != null,
+                              image: controller.idFront,
+                              onTapCamera: () {
+                                controller.pickImage("ID (front)".tr, "camera");
+                              },
+                              onTapGallery: () {
+                                controller.pickImage("ID (front)".tr, "gallery");
+                              },
+                            ),
                           ),
-                          IdImageSelector(
-                            title: "ID (rear)".tr,
-                            isSubmitted: controller.idRear != null,
-                            image: controller.idRear,
-                            onTapCamera: () {
-                              controller.pickImage("ID (rear)".tr, "camera");
-                            },
-                            onTapGallery: () {
-                              controller.pickImage("ID (rear)".tr, "gallery");
-                            },
+                          Visibility(
+                            visible: controller.roles[controller.roleIndex] != "customer",
+                            child: IdImageSelector(
+                              title: "ID (rear)".tr,
+                              isSubmitted: controller.idRear != null,
+                              image: controller.idRear,
+                              onTapCamera: () {
+                                controller.pickImage("ID (rear)".tr, "camera");
+                              },
+                              onTapGallery: () {
+                                controller.pickImage("ID (rear)".tr, "gallery");
+                              },
+                            ),
                           ),
                           Visibility(
                             visible: ["driver", "employee"].contains(controller.roles[controller.roleIndex]),
