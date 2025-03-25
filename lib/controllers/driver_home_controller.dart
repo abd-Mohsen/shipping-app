@@ -119,7 +119,7 @@ class DriverHomeController extends GetxController {
     currOrders.addAll(newItems);
     toggleLoadingCurrent(false);
     //
-    trackingID = currOrders.where((order) => order.status == "approved").first.id;
+    if (currOrders.isNotEmpty) trackingID = currOrders.where((order) => order.status == "approved").first.id;
     print("tracking order with ID ${trackingID.toString()}");
     _connectTrackingSocket();
     //
@@ -193,7 +193,7 @@ class DriverHomeController extends GetxController {
 
   void _connectTrackingSocket() async {
     //todo: only works when device is on
-    //todo: location service must be on when entering the app
+    //todo: location service must be on when entering the app (force driver)
     String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/$trackingID';
 
     websocket = await WebSocket.connect(

@@ -405,4 +405,9 @@ class RemoteServices {
     if (json == null) return null;
     return CompanyStatsModel.fromJson(jsonDecode(json));
   }
+
+  static Future<bool> driverBeginOrder(int orderID) async {
+    String? json = await api.postRequest("driver_order/$orderID/start/", {}, auth: true);
+    return json != null;
+  }
 }

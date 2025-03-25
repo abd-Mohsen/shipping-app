@@ -43,7 +43,7 @@ class DriverHomeTab extends StatelessWidget {
                           ),
                         )
                       : ListView.builder(
-                          itemCount: controller.currOrders.length,
+                          itemCount: controller.currOrders.length + 2,
                           itemBuilder: (context, i) {
                             if (i == 0) {
                               return Padding(
@@ -51,7 +51,24 @@ class DriverHomeTab extends StatelessWidget {
                                 child: Center(child: Lottie.asset("assets/animations/driver2.json", height: 200)),
                               );
                             }
-                            return OrderCard(order: controller.currOrders[i - 1], isCustomer: false);
+                            if (i == 1) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.circle, size: 13, color: cs.onSurface),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      "my current orders".tr,
+                                      style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                            return OrderCard(order: controller.currOrders[i - 2], isCustomer: false);
                           }),
                 ),
         );

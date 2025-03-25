@@ -139,6 +139,10 @@ class MyLocale extends Translations {
           "employees": "employees",
           "history": "history",
           "explore": "explore",
+          "my current orders": "my current orders",
+          "show orders in governorate:": "show orders in governorate:",
+          "apply": "apply",
+          "begin": "begin",
         },
         "ar": {
           "Arabic": "العربية",
@@ -275,6 +279,10 @@ class MyLocale extends Translations {
           "employees": "السائقين",
           "history": "السجل",
           "explore": "تصفح",
+          "my current orders": "طلبياتي الحالية",
+          "show orders in governorate:": "عرض الطلبيات في المحافظة:",
+          "apply": "تقديم طلب",
+          "begin": "البدء"
         },
       };
 }

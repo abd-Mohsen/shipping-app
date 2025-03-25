@@ -147,6 +147,21 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
+  void beginOrderDriver() async {
+    if (isLoadingSubmit) return;
+    toggleLoadingSubmit(true);
+    bool success = await RemoteServices.driverBeginOrder(order.id); //todo: do for company and employee
+    if (success) {
+      Get.back(); //todo: if user clicks and return before processing, app closes
+      driverHomeController!.refreshExploreOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "shipping started, user can track your location".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingSubmit(false);
+  }
+
   //--------------------------------------Real time-----------------------------------
 
   MapController mapController = MapController.withPosition(

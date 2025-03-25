@@ -36,7 +36,7 @@ class CustomerHomeView extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: cs.primary,
           title: Text(
-            'customer'.toUpperCase(),
+            'customer'.toUpperCase(), //todo: put something else here for al home pages
             style: tt.headlineSmall!.copyWith(letterSpacing: 2, color: cs.onPrimary),
           ),
           centerTitle: true,
@@ -179,40 +179,40 @@ class CustomerHomeView extends StatelessWidget {
                         },
                       ),
                     ),
-                    ListTile(
-                      leading: Icon(
-                        Icons.language,
-                        color: cs.onSurface,
-                      ),
-                      title: DropdownButton(
-                        elevation: 10,
-                        iconEnabledColor: cs.onSurface,
-                        dropdownColor: Colors.grey[300],
-                        hint: Text(
-                          lC.getCurrentLanguageLabel(),
-                          style: tt.labelLarge!.copyWith(color: cs.onSurface),
-                        ),
-                        items: [
-                          DropdownMenuItem(
-                            value: "ar",
-                            child: Text(
-                              "Arabic".tr,
-                              style: tt.labelLarge!.copyWith(color: Colors.black),
-                            ),
-                          ),
-                          DropdownMenuItem(
-                            value: "en",
-                            child: Text(
-                              "English".tr,
-                              style: tt.labelLarge!.copyWith(color: Colors.black),
-                            ),
-                          ),
-                        ],
-                        onChanged: (val) {
-                          lC.updateLocale(val!);
-                        },
-                      ),
-                    ),
+                    // ListTile(
+                    //   leading: Icon(
+                    //     Icons.language,
+                    //     color: cs.onSurface,
+                    //   ),
+                    //   title: DropdownButton(
+                    //     elevation: 10,
+                    //     iconEnabledColor: cs.onSurface,
+                    //     dropdownColor: Colors.grey[300],
+                    //     hint: Text(
+                    //       lC.getCurrentLanguageLabel(),
+                    //       style: tt.labelLarge!.copyWith(color: cs.onSurface),
+                    //     ),
+                    //     items: [
+                    //       DropdownMenuItem(
+                    //         value: "ar",
+                    //         child: Text(
+                    //           "Arabic".tr,
+                    //           style: tt.labelLarge!.copyWith(color: Colors.black),
+                    //         ),
+                    //       ),
+                    //       DropdownMenuItem(
+                    //         value: "en",
+                    //         child: Text(
+                    //           "English".tr,
+                    //           style: tt.labelLarge!.copyWith(color: Colors.black),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //     onChanged: (val) {
+                    //       lC.updateLocale(val!);
+                    //     },
+                    //   ),
+                    // ),
                     ListTile(
                       leading: const Icon(Icons.maps_home_work_outlined),
                       title: Text("My Addresses".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),

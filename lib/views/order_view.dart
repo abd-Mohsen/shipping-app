@@ -486,144 +486,144 @@ class OrderView extends StatelessWidget {
     PROCESSING = 'processing'
     DONE = 'done'
                */
-              if (!isCustomer && order.status == "available")
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                  child: CustomButton(
-                    onTap: () {
-                      controller.getCurrOrders();
-                      showDialog(
-                        context: context,
-                        builder: (context) => GetBuilder<OrderController>(builder: (controller) {
-                          return AlertDialog(
-                            title: Text(
-                              "accept the order?".tr,
-                              style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                            ),
-                            content: controller.isLoadingCurr
-                                ? SpinKitSquareCircle(color: cs.primary, size: 26)
-                                : controller.currOrders.isEmpty
-                                    ? null
-                                    : Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: SizedBox(
-                                          height: MediaQuery.of(context).size.height / 2,
-                                          width: MediaQuery.of(context).size.width / 1.5,
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "you currently have these orders".tr,
-                                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: ListView.builder(
-                                                  itemCount: controller.currOrders.length,
-                                                  itemBuilder: (context, i) => MiniOrderCard(
-                                                    order: controller.currOrders[i],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                  controller.acceptOrderDriver();
-                                },
-                                child: Text(
-                                  "yes",
-                                  style: tt.titleMedium!.copyWith(color: Colors.red),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: Text(
-                                  "no",
-                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
-                      );
-                    },
-                    child: Center(
-                      child: controller.isLoadingSubmit
-                          ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                          : Text(
-                              "apply".tr.toUpperCase(),
-                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                            ),
-                    ),
-                  ),
-                ),
-              if (!isCustomer && order.status == "approved" && order.driverApproved)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                  child: CustomButton(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => GetBuilder<OrderController>(builder: (controller) {
-                          return AlertDialog(
-                            title: Text(
-                              "begin the order?".tr,
-                              style: tt.titleLarge!.copyWith(color: cs.onSurface),
-                            ),
-                            content: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text(
-                                "customer will track your progress",
-                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                  //controller.acceptOrderDriver();
-                                },
-                                child: Text(
-                                  "yes",
-                                  style: tt.titleMedium!.copyWith(color: Colors.red),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: Text(
-                                  "no",
-                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
-                      );
-                    },
-                    child: Center(
-                      child: controller.isLoadingSubmit
-                          ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                          : Text(
-                              "begin".tr.toUpperCase(),
-                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                            ),
-                    ),
-                  ),
-                ),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   children: [
+                    if (!isCustomer && order.status == "available")
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                        child: CustomButton(
+                          onTap: () {
+                            controller.getCurrOrders();
+                            showDialog(
+                              context: context,
+                              builder: (context) => GetBuilder<OrderController>(builder: (controller) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "accept the order?".tr,
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                  ),
+                                  content: controller.isLoadingCurr
+                                      ? SpinKitSquareCircle(color: cs.primary, size: 26)
+                                      : controller.currOrders.isEmpty
+                                          ? null
+                                          : Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: SizedBox(
+                                                height: MediaQuery.of(context).size.height / 2,
+                                                width: MediaQuery.of(context).size.width / 1.5,
+                                                child: Column(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Text(
+                                                        "you currently have these orders".tr,
+                                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: ListView.builder(
+                                                        itemCount: controller.currOrders.length,
+                                                        itemBuilder: (context, i) => MiniOrderCard(
+                                                          order: controller.currOrders[i],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                        controller.acceptOrderDriver();
+                                      },
+                                      child: Text(
+                                        "yes",
+                                        style: tt.titleMedium!.copyWith(color: Colors.red),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Text(
+                                        "no",
+                                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+                            );
+                          },
+                          child: Center(
+                            child: controller.isLoadingSubmit
+                                ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                : Text(
+                                    "apply".tr.toUpperCase(),
+                                    style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                  ),
+                          ),
+                        ),
+                      ),
+                    if (!isCustomer && order.status == "approved" && order.driverApproved)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                        child: CustomButton(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => GetBuilder<OrderController>(builder: (controller) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "begin the order?".tr,
+                                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                                  ),
+                                  content: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      "customer will track your progress",
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                        controller.beginOrderDriver();
+                                      },
+                                      child: Text(
+                                        "yes",
+                                        style: tt.titleMedium!.copyWith(color: Colors.red),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Text(
+                                        "no",
+                                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+                            );
+                          },
+                          child: Center(
+                            child: controller.isLoadingSubmit
+                                ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                : Text(
+                                    "begin".tr.toUpperCase(),
+                                    style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                  ),
+                          ),
+                        ),
+                      ),
                     if (isCustomer || (order.status != "available"))
                       EasyStepper(
                         activeStep: controller.statusIndex,

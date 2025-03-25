@@ -141,40 +141,40 @@ class DriverHomeView extends StatelessWidget {
                             },
                           ),
                         ),
-                        ListTile(
-                          leading: Icon(
-                            Icons.language,
-                            color: cs.onSurface,
-                          ),
-                          title: DropdownButton(
-                            elevation: 10,
-                            iconEnabledColor: cs.onSurface,
-                            dropdownColor: Colors.grey[300],
-                            hint: Text(
-                              lC.getCurrentLanguageLabel(),
-                              style: tt.labelLarge!.copyWith(color: cs.onSurface),
-                            ),
-                            items: [
-                              DropdownMenuItem(
-                                value: "ar",
-                                child: Text(
-                                  "Arabic".tr,
-                                  style: tt.labelLarge!.copyWith(color: Colors.black),
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: "en",
-                                child: Text(
-                                  "English".tr,
-                                  style: tt.labelLarge!.copyWith(color: Colors.black),
-                                ),
-                              ),
-                            ],
-                            onChanged: (val) {
-                              lC.updateLocale(val!);
-                            },
-                          ),
-                        ),
+                        // ListTile(
+                        //   leading: Icon(
+                        //     Icons.language,
+                        //     color: cs.onSurface,
+                        //   ),
+                        //   title: DropdownButton(
+                        //     elevation: 10,
+                        //     iconEnabledColor: cs.onSurface,
+                        //     dropdownColor: Colors.grey[300],
+                        //     hint: Text(
+                        //       lC.getCurrentLanguageLabel(),
+                        //       style: tt.labelLarge!.copyWith(color: cs.onSurface),
+                        //     ),
+                        //     items: [
+                        //       DropdownMenuItem(
+                        //         value: "ar",
+                        //         child: Text(
+                        //           "Arabic".tr,
+                        //           style: tt.labelLarge!.copyWith(color: Colors.black),
+                        //         ),
+                        //       ),
+                        //       DropdownMenuItem(
+                        //         value: "en",
+                        //         child: Text(
+                        //           "English".tr,
+                        //           style: tt.labelLarge!.copyWith(color: Colors.black),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //     onChanged: (val) {
+                        //       lC.updateLocale(val!);
+                        //     },
+                        //   ),
+                        // ),
                         ListTile(
                           leading: const Icon(Icons.local_shipping_outlined),
                           title: Text("my vehicles".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
