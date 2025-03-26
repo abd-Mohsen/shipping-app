@@ -31,173 +31,197 @@ class CompanyHomeView extends StatelessWidget {
     ];
 
     //todo: make it tab for orders tab
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) async {
-        if (didPop) {
-          return;
-        }
-        Get.dialog(kCloseAppDialog());
-      },
-      child: GetBuilder<CompanyHomeController>(
-        builder: (controller) {
-          return Scaffold(
-            bottomNavigationBar: NavigationBar(
-              destinations: [
-                NavigationDestination(icon: Icon(Icons.directions_car), label: "vehicles".tr),
-                NavigationDestination(icon: Icon(Icons.home_rounded), label: "home".tr),
-                NavigationDestination(icon: Icon(Icons.list), label: "orders".tr),
-                NavigationDestination(icon: Icon(Icons.manage_accounts), label: "employees".tr),
-                //todo: tab to explore new orders, and tab for curr orders
-              ],
-              height: MediaQuery.of(context).size.height / 11,
-              backgroundColor: Get.isDarkMode ? cs.primary : Color(0xffefefef),
-              indicatorColor: Get.isDarkMode ? cs.surface : cs.primary,
-              elevation: 10,
-              onDestinationSelected: (i) {
-                controller.changeTab(i);
-              },
-              selectedIndex: controller.tabIndex,
-            ),
-            appBar: AppBar(
-              backgroundColor: cs.primary,
-              title: Text(
-                'company'.toUpperCase(),
-                style: tt.titleLarge!.copyWith(letterSpacing: 2, color: cs.onPrimary),
+    return DefaultTabController(
+      length: 1,
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop) {
+            return;
+          }
+          Get.dialog(kCloseAppDialog());
+        },
+        child: GetBuilder<CompanyHomeController>(
+          builder: (controller) {
+            return Scaffold(
+              bottomNavigationBar: NavigationBar(
+                destinations: [
+                  NavigationDestination(icon: Icon(Icons.directions_car), label: "vehicles".tr),
+                  NavigationDestination(icon: Icon(Icons.home_rounded), label: "home".tr),
+                  NavigationDestination(icon: Icon(Icons.list), label: "orders".tr),
+                  NavigationDestination(icon: Icon(Icons.manage_accounts), label: "employees".tr),
+                  //todo: tab to explore new orders, and tab for curr orders
+                ],
+                height: MediaQuery.of(context).size.height / 11,
+                backgroundColor: Get.isDarkMode ? cs.primary : Color(0xffefefef),
+                indicatorColor: Get.isDarkMode ? cs.surface : cs.primary,
+                elevation: 10,
+                onDestinationSelected: (i) {
+                  controller.changeTab(i);
+                },
+                selectedIndex: controller.tabIndex,
               ),
-              centerTitle: true,
-            ),
-            backgroundColor: cs.surface,
-            body: IndexedStack(
-              index: controller.tabIndex,
-              children: tabs,
-            ),
-            drawer: Drawer(
+              appBar: AppBar(
+                backgroundColor: cs.primary,
+                title: Text(
+                  'company'.toUpperCase(),
+                  style: tt.titleLarge!.copyWith(letterSpacing: 2, color: cs.onPrimary),
+                ),
+                centerTitle: true,
+                bottom: controller.tabIndex == 2
+                    ? TabBar(
+                        indicatorColor: cs.onPrimary,
+                        indicatorWeight: 4,
+                        tabs: [
+                          Tab(
+                            icon: Icon(
+                              Icons.search,
+                              color: cs.onPrimary,
+                              size: 25,
+                            ),
+                            child: Text(
+                              "explore".tr,
+                              style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      )
+                    : null,
+              ),
               backgroundColor: cs.surface,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        GetBuilder<CompanyHomeController>(builder: (con) {
-                          return con.isLoadingUser
-                              ? Padding(
-                                  padding: const EdgeInsets.all(24),
-                                  child: SpinKitPianoWave(color: cs.primary),
-                                )
-                              : con.currentUser == null
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          con.getCurrentUser();
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+              body: IndexedStack(
+                index: controller.tabIndex,
+                children: tabs,
+              ),
+              drawer: Drawer(
+                backgroundColor: cs.surface,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        children: [
+                          GetBuilder<CompanyHomeController>(builder: (con) {
+                            return con.isLoadingUser
+                                ? Padding(
+                                    padding: const EdgeInsets.all(24),
+                                    child: SpinKitPianoWave(color: cs.primary),
+                                  )
+                                : con.currentUser == null
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            con.getCurrentUser();
+                                          },
+                                          style: ButtonStyle(
+                                            backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
+                                          ),
+                                          child: Text(
+                                            'خطأ, انقر للتحديث',
+                                            style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                          ),
                                         ),
-                                        child: Text(
-                                          'خطأ, انقر للتحديث',
-                                          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                      )
+                                    : UserAccountsDrawerHeader(
+                                        //showing old data or not showing at all, add loading (is it solved?)
+                                        accountName: Text(
+                                          "${con.currentUser!.firstName} ${con.currentUser!.lastName}  @  ${con.currentUser!.companyInfo!.name}",
+                                          style: tt.titleMedium,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
                                         ),
-                                      ),
-                                    )
-                                  : UserAccountsDrawerHeader(
-                                      //showing old data or not showing at all, add loading (is it solved?)
-                                      accountName: Text(
-                                        "${con.currentUser!.firstName} ${con.currentUser!.lastName}  @  ${con.currentUser!.companyInfo!.name}",
-                                        style: tt.titleMedium,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
-                                      accountEmail: Text(
-                                        con.currentUser!.phoneNumber,
-                                        style: tt.titleMedium,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    );
-                        }),
-                        //todo: add language and other widgets, and unify the drawer if possible
-                        //todo: redirect if not verified or have no car
-                        ListTile(
-                          leading: const Icon(Icons.manage_accounts),
-                          title: Text("edit profile".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                          onTap: () {
-                            Get.to(EditProfileView(user: controller.currentUser!, homeController: cHC));
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.dark_mode_outlined),
-                          title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                          trailing: Switch(
-                            value: tC.switchValue,
-                            onChanged: (bool value) {
-                              tC.updateTheme(value);
+                                        accountEmail: Text(
+                                          con.currentUser!.phoneNumber,
+                                          style: tt.titleMedium,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      );
+                          }),
+                          //todo: add language and other widgets, and unify the drawer if possible
+                          //todo: redirect if not verified or have no car
+                          ListTile(
+                            leading: const Icon(Icons.manage_accounts),
+                            title: Text("edit profile".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                            onTap: () {
+                              Get.to(EditProfileView(user: controller.currentUser!, homeController: cHC));
                             },
                           ),
-                        ),
-                        // ListTile(
-                        //   leading: Icon(
-                        //     Icons.language,
-                        //     color: cs.onSurface,
-                        //   ),
-                        //   title: DropdownButton(
-                        //     elevation: 10,
-                        //     iconEnabledColor: cs.onSurface,
-                        //     dropdownColor: Colors.grey[300],
-                        //     hint: Text(
-                        //       lC.getCurrentLanguageLabel(),
-                        //       style: tt.labelLarge!.copyWith(color: cs.onSurface),
-                        //     ),
-                        //     items: [
-                        //       DropdownMenuItem(
-                        //         value: "ar",
-                        //         child: Text(
-                        //           "Arabic".tr,
-                        //           style: tt.labelLarge!.copyWith(color: Colors.black),
-                        //         ),
-                        //       ),
-                        //       DropdownMenuItem(
-                        //         value: "en",
-                        //         child: Text(
-                        //           "English".tr,
-                        //           style: tt.labelLarge!.copyWith(color: Colors.black),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //     onChanged: (val) {
-                        //       lC.updateLocale(val!);
-                        //     },
-                        //   ),
-                        // ),
-                        ListTile(
-                          leading: const Icon(Icons.info_outline),
-                          title: Text("About app".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                          onTap: () {
-                            Get.to(const AboutUsPage());
-                          },
-                        ),
-                        ListTile(
-                          leading: Icon(Icons.logout, color: cs.error),
-                          title: Text("logout".tr, style: tt.titleSmall!.copyWith(color: cs.error)),
-                          onTap: () {
-                            cHC.logout();
-                          },
-                        ),
-                      ],
+                          ListTile(
+                            leading: const Icon(Icons.dark_mode_outlined),
+                            title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                            trailing: Switch(
+                              value: tC.switchValue,
+                              onChanged: (bool value) {
+                                tC.updateTheme(value);
+                              },
+                            ),
+                          ),
+                          // ListTile(
+                          //   leading: Icon(
+                          //     Icons.language,
+                          //     color: cs.onSurface,
+                          //   ),
+                          //   title: DropdownButton(
+                          //     elevation: 10,
+                          //     iconEnabledColor: cs.onSurface,
+                          //     dropdownColor: Colors.grey[300],
+                          //     hint: Text(
+                          //       lC.getCurrentLanguageLabel(),
+                          //       style: tt.labelLarge!.copyWith(color: cs.onSurface),
+                          //     ),
+                          //     items: [
+                          //       DropdownMenuItem(
+                          //         value: "ar",
+                          //         child: Text(
+                          //           "Arabic".tr,
+                          //           style: tt.labelLarge!.copyWith(color: Colors.black),
+                          //         ),
+                          //       ),
+                          //       DropdownMenuItem(
+                          //         value: "en",
+                          //         child: Text(
+                          //           "English".tr,
+                          //           style: tt.labelLarge!.copyWith(color: Colors.black),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //     onChanged: (val) {
+                          //       lC.updateLocale(val!);
+                          //     },
+                          //   ),
+                          // ),
+                          ListTile(
+                            leading: const Icon(Icons.info_outline),
+                            title: Text("About app".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                            onTap: () {
+                              Get.to(const AboutUsPage());
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.logout, color: cs.error),
+                            title: Text("logout".tr, style: tt.titleSmall!.copyWith(color: cs.error)),
+                            onTap: () {
+                              cHC.logout();
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    child: Text(
-                      '® جميع الحقوق محفوظة',
-                      style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Text(
+                        '® جميع الحقوق محفوظة',
+                        style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

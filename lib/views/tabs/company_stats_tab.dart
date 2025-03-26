@@ -125,7 +125,7 @@ class CompanyStatsTab extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 32),
+                              const SizedBox(height: 40),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0, right: 20),
                                 child: SizedBox(
@@ -199,7 +199,7 @@ class CompanyStatsTab extends StatelessWidget {
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                "orders taken last week",
+                                "orders taken last week".tr,
                                 style: tt.titleMedium!.copyWith(color: cs.onSurface),
                               ),
                               const SizedBox(height: 72),

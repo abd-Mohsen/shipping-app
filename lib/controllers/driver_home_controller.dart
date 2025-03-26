@@ -155,6 +155,7 @@ class DriverHomeController extends GetxController {
     //todo: show (complete account) page to change id and license if not verified
     //todo: dont let user logout if user is loading (it may redirect after logout)
     //todo: do the same for customer and company
+    //todo: edit to handle all cases of employee
     /*
       'Pending', 'Verified', 'Refused', 'No_Input',
     */
@@ -259,6 +260,7 @@ class DriverHomeController extends GetxController {
   @override
   void onClose() {
     websocket.close();
+    // todo: not closing socket
     super.dispose();
   }
 }

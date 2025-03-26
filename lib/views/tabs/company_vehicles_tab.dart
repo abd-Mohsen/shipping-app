@@ -23,24 +23,27 @@ class CompanyVehiclesTab extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: Column(
         children: [
-          CustomButton(
-            onTap: () {
-              showModalBottomSheet(
-                isScrollControlled: true,
-                context: context,
-                enableDrag: false,
-                builder: (BuildContext context) => Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom, // Adjusts for keyboard
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomButton(
+              onTap: () {
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  enableDrag: false,
+                  builder: (BuildContext context) => Padding(
+                    padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom, // Adjusts for keyboard
+                    ),
+                    child: const AddVehicleSheet(),
                   ),
-                  child: const AddVehicleSheet(),
+                );
+              },
+              child: Center(
+                child: Text(
+                  "add vehicle".tr.toUpperCase(),
+                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                 ),
-              );
-            },
-            child: Center(
-              child: Text(
-                "add vehicle".tr.toUpperCase(),
-                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
               ),
             ),
           ),

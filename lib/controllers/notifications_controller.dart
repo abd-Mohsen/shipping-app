@@ -13,7 +13,7 @@ class NotificationsController extends GetxController {
     requestPermissionFCM();
     getFCMToken();
     setupFCMListeners();
-    _connectNotificationSocket();
+    //_connectNotificationSocket();
     super.onInit();
   }
 

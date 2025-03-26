@@ -143,6 +143,14 @@ class MyLocale extends Translations {
           "show orders in governorate:": "show orders in governorate:",
           "apply": "apply",
           "begin": "begin",
+          "employee": "employee",
+          "registration code": "registration code",
+          "the company must send this code to your phone number": "the company must send this code to your phone "
+              "number",
+          "note": "note",
+          "add employee": "add employee",
+          "add vehicle": "add vehicle",
+          "orders taken last week": "orders taken last week",
         },
         "ar": {
           "Arabic": "العربية",
@@ -282,7 +290,14 @@ class MyLocale extends Translations {
           "my current orders": "طلبياتي الحالية",
           "show orders in governorate:": "عرض الطلبيات في المحافظة:",
           "apply": "تقديم طلب",
-          "begin": "البدء"
+          "begin": "البدء",
+          "employee": "سائق شركة",
+          "registration code": "رمز التسجيل",
+          "the company must send this code to your phone number": "رمز يصلك كرسالة sms بعد تسجيلك من قبل الشركة",
+          "note": "ملاحظة",
+          "add employee": "إضافة سائق جديد",
+          "add vehicle": "إضافة سيارة جديدة",
+          "orders taken last week": "الطلبيات اخر سبعة أيام",
         },
       };
 }
