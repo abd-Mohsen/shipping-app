@@ -112,16 +112,16 @@ class DriverHomeController extends GetxController {
   int trackingID = 0;
   void getCurrentOrders() async {
     //todo: implement pagination
-    //todo: current running order must appear first (separate them)
+    //todo: processing order must appear first
     toggleLoadingCurrent(true);
     List<OrderModel> newItems =
         await RemoteServices.fetchDriverOrders(null, ["processing", "pending", "approved"]) ?? [];
     currOrders.addAll(newItems);
     toggleLoadingCurrent(false);
     //
-    if (currOrders.isNotEmpty) trackingID = currOrders.where((order) => order.status == "approved").first.id;
+    if (currOrders.isNotEmpty) trackingID = currOrders.where((order) => order.status == "processing").first.id;
     print("tracking order with ID ${trackingID.toString()}");
-    _connectTrackingSocket();
+    if (trackingID != 0) _connectTrackingSocket();
     //
   }
 
@@ -160,7 +160,7 @@ class DriverHomeController extends GetxController {
       'Pending', 'Verified', 'Refused', 'No_Input',
     */
     if (!refresh && _currentUser != null) {
-      if (_currentUser!.driverInfo!.vehicleStatus == "No_Input") {
+      if (_currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
         //todo: handle the cars case
         Get.to(() => const MyVehiclesView());
       }
@@ -191,31 +191,6 @@ class DriverHomeController extends GetxController {
   //-----------------------------------Real Time-------------------------------------------
 
   late WebSocket websocket;
-
-  void _connectTrackingSocket() async {
-    //todo: only works when device is on
-    //todo: location service must be on when entering the app (force driver)
-    String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/$trackingID';
-
-    websocket = await WebSocket.connect(
-      socketUrl,
-      protocols: ['Token', _getStorage.read("token")],
-    );
-
-    _startSendingLocation();
-
-    websocket.listen(
-      (message) {
-        print('Message from server: $message');
-      },
-      onDone: () {
-        print('WebSocket connection closed');
-      },
-      onError: (error) {
-        print('WebSocket error: $error');
-      },
-    );
-  }
 
   void _startSendingLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -257,10 +232,62 @@ class DriverHomeController extends GetxController {
     );
   }
 
+  bool _shouldReconnect = true;
+  final Duration _initialReconnectDelay = Duration(seconds: 5);
+
+  void _connectTrackingSocket() async {
+    while (_shouldReconnect) {
+      try {
+        String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/$trackingID';
+
+        websocket = await WebSocket.connect(
+          socketUrl,
+          protocols: ['Token', _getStorage.read("token")],
+        ).timeout(const Duration(seconds: 10));
+
+        _startSendingLocation();
+
+        websocket.listen(
+          (message) {
+            print('Message from server: $message');
+          },
+          onDone: () {
+            print('WebSocket connection closed');
+            if (_shouldReconnect) {
+              _scheduleReconnect();
+            }
+          },
+          onError: (error) {
+            print('WebSocket error: $error');
+            if (_shouldReconnect) {
+              _scheduleReconnect();
+            }
+          },
+        );
+
+        break; // Exit the loop if connection succeeds
+      } catch (e) {
+        print('Connection attempt failed: $e');
+        await Future.delayed(_initialReconnectDelay);
+      }
+    }
+  }
+
+  void _scheduleReconnect() {
+    if (!_shouldReconnect) return;
+
+    Future.delayed(_initialReconnectDelay, () {
+      _connectTrackingSocket();
+    });
+  }
+
   @override
   void onClose() {
+    _shouldReconnect = false;
     websocket.close();
     // todo: not closing socket
+    // todo: when i hot reload the tracking does not reconnect
+    // todo: shit is getting out of hand, multiple channels are opened (_startSendingLocation is called multiple times)
     super.dispose();
   }
 }

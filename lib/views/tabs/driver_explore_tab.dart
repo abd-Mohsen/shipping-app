@@ -22,7 +22,10 @@ class DriverExploreTab extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: controller.isLoadingGovernorates
-                ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: SpinKitThreeBounce(color: cs.primary, size: 20),
+                  )
                 : controller.selectedGovernorate == null
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),

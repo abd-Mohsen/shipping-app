@@ -410,4 +410,9 @@ class RemoteServices {
     String? json = await api.postRequest("driver_order/$orderID/start/", {}, auth: true);
     return json != null;
   }
+
+  static Future<bool> driverFinishOrder(int orderID) async {
+    String? json = await api.postRequest("driver_order/$orderID/finish/", {}, auth: true);
+    return json != null;
+  }
 }

@@ -25,7 +25,7 @@ class VehicleCard extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.directions_car_filled,
-          color: vehicle.registrationStatus == "Verified" ? Colors.green : cs.primary,
+          color: vehicle.registrationStatus.toLowerCase() == "verified" ? Colors.green : cs.primary,
           size: 35,
         ),
         title: Padding(

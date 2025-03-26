@@ -624,6 +624,61 @@ class OrderView extends StatelessWidget {
                           ),
                         ),
                       ),
+                    if (!isCustomer && order.status == "processing")
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                        child: CustomButton(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => GetBuilder<OrderController>(builder: (controller) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "finish the order?".tr,
+                                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                                  ),
+                                  content: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      "press yes if you reached your destination".tr,
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                    ),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                        controller.finishOrderDriver(); //todo: test this
+                                      },
+                                      child: Text(
+                                        "yes",
+                                        style: tt.titleMedium!.copyWith(color: Colors.red),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Text(
+                                        "no",
+                                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+                            );
+                          },
+                          child: Center(
+                            child: controller.isLoadingSubmit
+                                ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                : Text(
+                                    "finish".tr.toUpperCase(),
+                                    style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                  ),
+                          ),
+                        ),
+                      ),
                     if (isCustomer || (order.status != "available"))
                       EasyStepper(
                         activeStep: controller.statusIndex,

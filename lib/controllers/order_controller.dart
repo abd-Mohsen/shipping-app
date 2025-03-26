@@ -27,7 +27,8 @@ class OrderController extends GetxController {
   void onInit() {
     setStatusIndex();
     selectedPayment = order.paymentMethods[0];
-    if (customerHomeController != null && ["approved", "processing"].contains(order.status)) _connectTrackingSocket();
+    //todo: draw path
+    if (customerHomeController != null && ["processing"].contains(order.status)) _connectTrackingSocket();
     super.onInit();
   }
 
@@ -151,6 +152,21 @@ class OrderController extends GetxController {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.driverBeginOrder(order.id); //todo: do for company and employee
+    if (success) {
+      Get.back(); //todo: if user clicks and return before processing, app closes
+      driverHomeController!.refreshExploreOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "shipping started, user can track your location".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingSubmit(false);
+  }
+
+  void finishOrderDriver() async {
+    if (isLoadingSubmit) return;
+    toggleLoadingSubmit(true);
+    bool success = await RemoteServices.driverFinishOrder(order.id); //todo: do for company and employee
     if (success) {
       Get.back(); //todo: if user clicks and return before processing, app closes
       driverHomeController!.refreshExploreOrders();
