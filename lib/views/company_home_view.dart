@@ -32,7 +32,7 @@ class CompanyHomeView extends StatelessWidget {
 
     //todo: make it tab for orders tab
     return DefaultTabController(
-      length: 1,
+      length: 2,
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, result) async {
@@ -73,6 +73,19 @@ class CompanyHomeView extends StatelessWidget {
                         indicatorColor: cs.onPrimary,
                         indicatorWeight: 4,
                         tabs: [
+                          Tab(
+                            icon: Icon(
+                              Icons.history,
+                              color: cs.onPrimary,
+                              size: 25,
+                            ),
+                            child: Text(
+                              "history".tr,
+                              style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                           Tab(
                             icon: Icon(
                               Icons.search,

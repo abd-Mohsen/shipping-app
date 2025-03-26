@@ -163,6 +163,7 @@ class CompanyHomeController extends GetxController {
   GovernorateModel? selectedGovernorate;
 
   List<OrderModel> exploreOrders = [];
+  List<OrderModel> historyOrders = [];
 
   bool _isLoadingExplore = false;
   bool get isLoadingExplore => _isLoadingExplore;
@@ -203,6 +204,26 @@ class CompanyHomeController extends GetxController {
     List<OrderModel> newItems = await RemoteServices.fetchCompanyOrders(selectedGovernorate!.id, ["available"]) ?? [];
     exploreOrders.addAll(newItems);
     toggleLoadingExplore(false);
+  }
+
+  bool _isLoadingHistory = false;
+  bool get isLoadingHistory => _isLoadingHistory;
+  void toggleLoadingHistory(bool value) {
+    _isLoadingHistory = value;
+    update();
+  }
+
+  Future<void> refreshHistoryOrders() async {
+    historyOrders.clear();
+    getHistoryOrders();
+  }
+
+  void getHistoryOrders() async {
+    //todo: implement pagination
+    toggleLoadingHistory(true);
+    List<OrderModel> newItems = await RemoteServices.fetchCompanyOrders(null, ["done"]) ?? [];
+    historyOrders.addAll(newItems);
+    toggleLoadingHistory(false);
   }
 
   //--------------------------------------------stats-------------------------------------

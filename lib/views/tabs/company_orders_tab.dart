@@ -21,6 +21,36 @@ class CompanyOrdersTab extends StatelessWidget {
       builder: (controller) {
         return TabBarView(
           children: [
+            //history
+            controller.isLoadingHistory
+                ? SpinKitSquareCircle(color: cs.primary)
+                : RefreshIndicator(
+                    onRefresh: controller.refreshHistoryOrders,
+                    child: controller.historyOrders.isEmpty
+                        ? Center(
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                Lottie.asset("assets/animations/timer.json", height: 200),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                                  child: Center(
+                                    child: Text(
+                                      "no data, pull down to refresh".tr,
+                                      style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : ListView.builder(
+                            itemCount: controller.historyOrders.length,
+                            itemBuilder: (context, i) =>
+                                OrderCard(order: controller.historyOrders[i], isCustomer: false),
+                          ),
+                  ),
             //explore
             Column(
               children: [
