@@ -415,4 +415,30 @@ class RemoteServices {
     String? json = await api.postRequest("driver_order/$orderID/finish/", {}, auth: true);
     return json != null;
   }
+
+  static Future<bool> companyAcceptOrder(int orderID, int employeeID, int vehicleID) async {
+    String? json = await api.postRequest(
+      "company_order/$orderID/accept/",
+      {
+        "vehicle": vehicleID,
+        "driver": employeeID,
+      },
+      auth: true,
+    );
+    return json != null;
+  }
+
+  //
+
+  static Future<Map<String, List>?> fetchAvailableVehiclesAndEmployees() async {
+    String? json = await api.getRequest("get_avaliable_employees_vehicles/", auth: true);
+    if (json == null) return null;
+    Map decodedJson = jsonDecode(json);
+    List availableVehicles = vehicleModelFromJson(jsonEncode(decodedJson["vehicles"]));
+    List availableEmployees = employeeModelFromJson(jsonEncode(decodedJson["employees"]));
+    return {
+      "vehicles": availableVehicles,
+      "employees": availableEmployees,
+    };
+  }
 }

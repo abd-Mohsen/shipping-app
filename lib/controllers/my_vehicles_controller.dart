@@ -27,8 +27,8 @@ class MyVehiclesController extends GetxController {
   TextEditingController vehicleOwner = TextEditingController();
 
   VehicleTypeModel? selectedVehicleType;
-  void selectVehicleType(VehicleTypeModel? user) {
-    selectedVehicleType = user;
+  void selectVehicleType(VehicleTypeModel? v) {
+    selectedVehicleType = v;
     update();
   }
 

@@ -117,26 +117,26 @@ class CompanyInfo {
   final String name;
   final int membersNum;
   final int vehicleNum;
-  final List<UserModel> employees;
+  //final List<UserModel> employees;
 
   CompanyInfo({
     required this.name,
     required this.membersNum,
     required this.vehicleNum,
-    required this.employees,
+    //required this.employees,
   });
 
   factory CompanyInfo.fromJson(Map<String, dynamic> json) => CompanyInfo(
         name: json["name"],
         membersNum: json["members_num"],
         vehicleNum: json["vehicle_num"],
-        employees: List<UserModel>.from(json["employees"].map((x) => UserModel.fromJson(x))),
+        //employees: List<UserModel>.from(json["employees"].map((x) => UserModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "members_num": membersNum,
         "vehicle_num": vehicleNum,
-        "employees": List<dynamic>.from(employees.map((x) => x.toJson())),
+        //"employees": List<dynamic>.from(employees.map((x) => x.toJson())),
       };
 }

@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
@@ -9,7 +10,9 @@ import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
+import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/order_model.dart';
+import 'package:shipment/models/vehicle_model.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/mini_order_card.dart';
 import 'package:shipment/views/edit_order_view.dart';
@@ -478,14 +481,7 @@ class OrderView extends StatelessWidget {
                     ),
                   ),
                 ),
-              /*
-              DRAFT = 'draft'
-    AVAILABLE = 'available'
-    PENDING = 'pending'
-    APPROVED = 'approved'
-    PROCESSING = 'processing'
-    DONE = 'done'
-               */
+
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -495,69 +491,284 @@ class OrderView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                         child: CustomButton(
                           onTap: () {
-                            controller.getCurrOrders();
-                            showDialog(
-                              context: context,
-                              builder: (context) => GetBuilder<OrderController>(builder: (controller) {
-                                return AlertDialog(
-                                  title: Text(
-                                    "accept the order?".tr,
-                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                  ),
-                                  content: controller.isLoadingCurr
-                                      ? SpinKitSquareCircle(color: cs.primary, size: 26)
-                                      : controller.currOrders.isEmpty
-                                          ? null
-                                          : Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                              child: SizedBox(
-                                                height: MediaQuery.of(context).size.height / 2,
-                                                width: MediaQuery.of(context).size.width / 1.5,
-                                                child: Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        "you currently have these orders".tr,
-                                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: ListView.builder(
-                                                        itemCount: controller.currOrders.length,
-                                                        itemBuilder: (context, i) => MiniOrderCard(
-                                                          order: controller.currOrders[i],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                            if (isCompany) {
+                              Get.bottomSheet(
+                                GetBuilder<OrderController>(
+                                  builder: (controller) {
+                                    return Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                          topRight: Radius.circular(20),
+                                          topLeft: Radius.circular(20),
+                                        ),
+                                        color: cs.surface,
+                                      ),
+                                      height: MediaQuery.of(context).size.height / 3,
+                                      child: Form(
+                                        key: controller.formKey,
+                                        child: ListView(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(16.0),
+                                              child: Text(
+                                                "select vehicle and driver",
+                                                style: tt.titleMedium!
+                                                    .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                               ),
                                             ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                        controller.acceptOrderDriver();
-                                      },
-                                      child: Text(
-                                        "yes",
-                                        style: tt.titleMedium!.copyWith(color: Colors.red),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 12),
+                                              child: controller.isLoadingVehicles
+                                                  ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                                                  : Column(
+                                                      children: [
+                                                        DropdownSearch<VehicleModel>(
+                                                          validator: (type) {
+                                                            if (type == null) return "you must select employee".tr;
+                                                            return null;
+                                                          },
+                                                          compareFn: (type1, type2) => type1.id == type2.id,
+                                                          popupProps: PopupProps.menu(
+                                                            showSearchBox: false,
+                                                            menuProps: MenuProps(
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                            searchFieldProps: TextFieldProps(
+                                                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                              decoration: InputDecoration(
+                                                                fillColor: Colors.white70,
+                                                                hintText: "vehicle".tr,
+                                                                prefix: Padding(
+                                                                  padding: const EdgeInsets.all(4),
+                                                                  child: Icon(Icons.search, color: cs.onSurface),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          decoratorProps: DropDownDecoratorProps(
+                                                            baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                            decoration: InputDecoration(
+                                                              prefixIcon: const Padding(
+                                                                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                                                child: Icon(Icons.local_shipping),
+                                                              ),
+                                                              labelText: "required vehicle".tr,
+                                                              labelStyle: tt.titleSmall!
+                                                                  .copyWith(color: cs.onSurface.withOpacity(0.7)),
+                                                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                                                              enabledBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(32),
+                                                                borderSide: BorderSide(
+                                                                  width: .5,
+                                                                  color: cs.onSurface,
+                                                                ),
+                                                              ),
+                                                              focusedBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(32),
+                                                                borderSide: BorderSide(
+                                                                  width: 0.5,
+                                                                  color: cs.onSurface,
+                                                                ),
+                                                              ),
+                                                              errorBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(32),
+                                                                borderSide: BorderSide(
+                                                                  width: 0.5,
+                                                                  color: cs.error,
+                                                                ),
+                                                              ),
+                                                              focusedErrorBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(32),
+                                                                borderSide: BorderSide(
+                                                                  width: 1,
+                                                                  color: cs.error,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          items: (filter, infiniteScrollProps) =>
+                                                              controller.availableVehicles,
+                                                          itemAsString: (VehicleModel v) => v.licensePlate,
+                                                          onChanged: (VehicleModel? v) async {
+                                                            controller.selectVehicle(v);
+                                                            await Future.delayed(const Duration(milliseconds: 1000));
+                                                            if (controller.buttonPressed) {
+                                                              controller.formKey.currentState!.validate();
+                                                            }
+                                                          },
+                                                          //enabled: !con.enabled,
+                                                        ),
+                                                        const SizedBox(height: 12),
+                                                        DropdownSearch<EmployeeModel>(
+                                                          validator: (type) {
+                                                            if (type == null) return "you must select an employee".tr;
+                                                            return null;
+                                                          },
+                                                          compareFn: (type1, type2) => type1.id == type2.id,
+                                                          popupProps: PopupProps.menu(
+                                                            showSearchBox: false,
+                                                            menuProps: MenuProps(
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(20),
+                                                              ),
+                                                            ),
+                                                            searchFieldProps: TextFieldProps(
+                                                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                              decoration: InputDecoration(
+                                                                fillColor: Colors.white70,
+                                                                hintText: "employee".tr,
+                                                                prefix: Padding(
+                                                                  padding: const EdgeInsets.all(4),
+                                                                  child: Icon(Icons.search, color: cs.onSurface),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          decoratorProps: DropDownDecoratorProps(
+                                                            baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                            decoration: InputDecoration(
+                                                              prefixIcon: const Padding(
+                                                                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                                                child: Icon(Icons.person),
+                                                              ),
+                                                              labelText: "required employee".tr,
+                                                              labelStyle: tt.titleSmall!
+                                                                  .copyWith(color: cs.onSurface.withOpacity(0.7)),
+                                                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                                                              enabledBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(32),
+                                                                borderSide: BorderSide(
+                                                                  width: .5,
+                                                                  color: cs.onSurface,
+                                                                ),
+                                                              ),
+                                                              focusedBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(32),
+                                                                borderSide: BorderSide(
+                                                                  width: 0.5,
+                                                                  color: cs.onSurface,
+                                                                ),
+                                                              ),
+                                                              errorBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(32),
+                                                                borderSide: BorderSide(
+                                                                  width: 0.5,
+                                                                  color: cs.error,
+                                                                ),
+                                                              ),
+                                                              focusedErrorBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(32),
+                                                                borderSide: BorderSide(
+                                                                  width: 1,
+                                                                  color: cs.error,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          items: (filter, infiniteScrollProps) =>
+                                                              controller.availableEmployees,
+                                                          itemAsString: (EmployeeModel e) =>
+                                                              "${e.user.firstName} ${e.user.lastName}",
+                                                          onChanged: (EmployeeModel? e) async {
+                                                            controller.selectEmployee(e);
+                                                            await Future.delayed(const Duration(milliseconds: 1000));
+                                                            if (controller.buttonPressed) {
+                                                              controller.formKey.currentState!.validate();
+                                                            }
+                                                          },
+                                                          //enabled: !con.enabled,
+                                                        ),
+                                                      ],
+                                                    ),
+                                            ),
+                                            CustomButton(
+                                              onTap: () {
+                                                controller.acceptOrderCompany();
+                                              },
+                                              child: Center(
+                                                child: controller.isLoadingSubmit
+                                                    ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                                    : Text(
+                                                        "add".tr.toUpperCase(),
+                                                        style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                                      ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
+                                    );
+                                  },
+                                ),
+                              );
+                            } else {
+                              controller.getCurrOrders();
+                              showDialog(
+                                context: context,
+                                builder: (context) => GetBuilder<OrderController>(builder: (controller) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      "accept the order?".tr,
+                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                     ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        "no",
-                                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                    content: controller.isLoadingCurr
+                                        ? SpinKitSquareCircle(color: cs.primary, size: 26)
+                                        : controller.currOrders.isEmpty
+                                            ? null
+                                            : Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                child: SizedBox(
+                                                  height: MediaQuery.of(context).size.height / 2,
+                                                  width: MediaQuery.of(context).size.width / 1.5,
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Text(
+                                                          "you currently have these orders".tr,
+                                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: ListView.builder(
+                                                          itemCount: controller.currOrders.length,
+                                                          itemBuilder: (context, i) => MiniOrderCard(
+                                                            order: controller.currOrders[i],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Get.back();
+                                          controller.acceptOrderDriver();
+                                        },
+                                        child: Text(
+                                          "yes",
+                                          style: tt.titleMedium!.copyWith(color: Colors.red),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                );
-                              }),
-                            );
+                                      TextButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        child: Text(
+                                          "no",
+                                          style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }),
+                              );
+                            }
                           },
                           child: Center(
                             child: controller.isLoadingSubmit
@@ -648,7 +859,7 @@ class OrderView extends StatelessWidget {
                                     TextButton(
                                       onPressed: () {
                                         Get.back();
-                                        controller.finishOrderDriver(); //todo: test this
+                                        controller.finishOrderDriver();
                                       },
                                       child: Text(
                                         "yes",

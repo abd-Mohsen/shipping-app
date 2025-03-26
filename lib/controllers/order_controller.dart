@@ -6,9 +6,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
+import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:flutter/material.dart';
+import 'package:shipment/models/vehicle_model.dart';
 import '../services/remote_services.dart';
 
 class OrderController extends GetxController {
@@ -26,6 +28,7 @@ class OrderController extends GetxController {
   @override
   void onInit() {
     setStatusIndex();
+    if (companyHomeController != null) getAvailableVehiclesAndEmployees();
     selectedPayment = order.paymentMethods[0];
     //todo: draw path
     if (customerHomeController != null && ["processing"].contains(order.status)) _connectTrackingSocket();
@@ -163,6 +166,7 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
+  //todo: not working from backend
   void finishOrderDriver() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
@@ -176,6 +180,62 @@ class OrderController extends GetxController {
       ));
     }
     toggleLoadingSubmit(false);
+  }
+
+  void acceptOrderCompany() async {
+    if (isLoadingSubmit) return;
+    buttonPressed = true;
+    bool valid = formKey.currentState!.validate();
+    if (!valid) return;
+    toggleLoadingSubmit(true);
+    bool success = await RemoteServices.companyAcceptOrder(order.id, selectedEmployee!.id, selectedVehicle!.id);
+    //todo: do for company and employee
+    if (success) {
+      Get.back();
+      driverHomeController!.refreshExploreOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "request was submitted, waiting for response".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingSubmit(false);
+  }
+
+  //-------------------------------------vehicle and employees-----------------------
+
+  List<VehicleModel> availableVehicles = [];
+  List<EmployeeModel> availableEmployees = [];
+
+  bool _isLoadingVehicles = false;
+  bool get isLoadingVehicles => _isLoadingVehicles;
+  void toggleLoadingVehicles(bool value) {
+    _isLoadingVehicles = value;
+    update();
+  }
+
+  VehicleModel? selectedVehicle;
+  void selectVehicle(VehicleModel? v) {
+    selectedVehicle = v;
+    update();
+  }
+
+  EmployeeModel? selectedEmployee;
+  void selectEmployee(EmployeeModel? e) {
+    selectedEmployee = e;
+    update();
+  }
+
+  Future<void> getAvailableVehiclesAndEmployees() async {
+    toggleLoadingVehicles(true);
+    Map<String, List>? res = await RemoteServices.fetchAvailableVehiclesAndEmployees();
+    if (res == null) {
+      toggleLoadingVehicles(false);
+      return;
+    }
+    availableVehicles = res["vehicles"]! as List<VehicleModel>;
+    availableEmployees = res["employees"]! as List<EmployeeModel>;
+
+    toggleLoadingVehicles(false);
   }
 
   //--------------------------------------Real time-----------------------------------
