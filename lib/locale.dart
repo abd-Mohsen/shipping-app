@@ -151,6 +151,7 @@ class MyLocale extends Translations {
           "add employee": "add employee",
           "add vehicle": "add vehicle",
           "orders taken last week": "orders taken last week",
+          "current": "current",
         },
         "ar": {
           "Arabic": "العربية",
@@ -286,7 +287,7 @@ class MyLocale extends Translations {
           "home": "الرئيسية",
           "employees": "السائقين",
           "history": "السجل",
-          "explore": "تصفح",
+          "explore": "تصفح جديد",
           "my current orders": "طلبياتي الحالية",
           "show orders in governorate:": "عرض الطلبيات في المحافظة:",
           "apply": "تقديم طلب",
@@ -298,6 +299,7 @@ class MyLocale extends Translations {
           "add employee": "إضافة سائق جديد",
           "add vehicle": "إضافة سيارة جديدة",
           "orders taken last week": "الطلبيات اخر سبعة أيام",
+          "current": "الجارية",
         },
       };
 }

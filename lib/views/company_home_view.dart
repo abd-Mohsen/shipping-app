@@ -32,7 +32,8 @@ class CompanyHomeView extends StatelessWidget {
 
     //todo: make it tab for orders tab
     return DefaultTabController(
-      length: 2,
+      length: 3,
+      initialIndex: 1,
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, result) async {
@@ -81,6 +82,19 @@ class CompanyHomeView extends StatelessWidget {
                             ),
                             child: Text(
                               "history".tr,
+                              style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Tab(
+                            icon: Icon(
+                              Icons.checklist_outlined,
+                              color: cs.onPrimary,
+                              size: 25,
+                            ),
+                            child: Text(
+                              "current".tr,
                               style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

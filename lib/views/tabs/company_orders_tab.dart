@@ -51,13 +51,70 @@ class CompanyOrdersTab extends StatelessWidget {
                                 OrderCard(order: controller.historyOrders[i], isCustomer: false),
                           ),
                   ),
+            //curr
+            controller.isLoadingCurrent
+                ? SpinKitSquareCircle(color: cs.primary)
+                : RefreshIndicator(
+                    onRefresh: controller.refreshCurrOrders,
+                    child: controller.currOrders.isEmpty
+                        ? Center(
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                                  child: Center(
+                                    child: Text(
+                                      "no data, pull down to refresh".tr,
+                                      style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : ListView.builder(
+                            itemCount: controller.currOrders.length + 2,
+                            itemBuilder: (context, i) {
+                              if (i == 0) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: Center(child: Lottie.asset("assets/animations/driver2.json", height: 200)),
+                                );
+                              }
+                              if (i == 1) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.circle, size: 13, color: cs.onSurface),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        "my current orders".tr,
+                                        style:
+                                            tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                              return OrderCard(order: controller.currOrders[i - 2], isCustomer: false);
+                            }),
+                  ),
             //explore
             Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: controller.isLoadingGovernorates
-                      ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: SpinKitThreeBounce(color: cs.primary, size: 20),
+                        )
                       : controller.selectedGovernorate == null
                           ? Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),

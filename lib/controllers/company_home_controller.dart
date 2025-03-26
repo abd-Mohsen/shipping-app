@@ -19,6 +19,8 @@ class CompanyHomeController extends GetxController {
     getCurrentUser();
     getMyEmployees();
     getGovernorates();
+    getHistoryOrders();
+    getCurrentOrders();
     getCompanyStats();
     super.onInit();
   }
@@ -163,6 +165,7 @@ class CompanyHomeController extends GetxController {
   GovernorateModel? selectedGovernorate;
 
   List<OrderModel> exploreOrders = [];
+  List<OrderModel> currOrders = [];
   List<OrderModel> historyOrders = [];
 
   bool _isLoadingExplore = false;
@@ -224,6 +227,28 @@ class CompanyHomeController extends GetxController {
     List<OrderModel> newItems = await RemoteServices.fetchCompanyOrders(null, ["done"]) ?? [];
     historyOrders.addAll(newItems);
     toggleLoadingHistory(false);
+  }
+
+  bool _isLoadingCurrent = false;
+  bool get isLoadingCurrent => _isLoadingCurrent;
+  void toggleLoadingCurrent(bool value) {
+    _isLoadingCurrent = value;
+    update();
+  }
+
+  Future<void> refreshCurrOrders() async {
+    currOrders.clear();
+    getCurrentOrders();
+  }
+
+  void getCurrentOrders() async {
+    //todo: implement pagination
+    //todo: current running order must appear first (separate them)
+    toggleLoadingCurrent(true);
+    List<OrderModel> newItems =
+        await RemoteServices.fetchCompanyOrders(null, ["processing", "pending", "approved"]) ?? [];
+    currOrders.addAll(newItems);
+    toggleLoadingCurrent(false);
   }
 
   //--------------------------------------------stats-------------------------------------
