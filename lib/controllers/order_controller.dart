@@ -173,9 +173,9 @@ class OrderController extends GetxController {
     bool success = await RemoteServices.driverFinishOrder(order.id); //todo: do for company and employee
     if (success) {
       Get.back(); //todo: if user clicks and return before processing, app closes
-      driverHomeController!.refreshExploreOrders();
+      driverHomeController!.refreshCurrOrders();
       Get.showSnackbar(GetSnackBar(
-        message: "shipping started, user can track your location".tr,
+        message: "ordered delivered".tr,
         duration: const Duration(milliseconds: 2500),
       ));
     }

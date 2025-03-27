@@ -10,6 +10,7 @@ import 'constants.dart';
 //todo (later): show different snackbar if there is a server error "5--"
 //todo (later): show different snackbar if there is a user error "422" (register and login), show msg from backend
 //todo (later): replace ugly dialogs with snackbars
+//todo: when multiple requests are made when entering the app, session expire dialog can appear many times
 class Api {
   var client = http.Client();
   final String _hostIP = "$kHostIP/en/api";
