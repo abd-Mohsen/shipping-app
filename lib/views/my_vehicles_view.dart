@@ -24,16 +24,23 @@ class MyVehiclesView extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            enableDrag: false,
-            builder: (BuildContext context) => AddVehicleSheet(),
+      floatingActionButton: GetBuilder<MyVehiclesController>(
+        builder: (controller) {
+          return Visibility(
+            visible: controller.myVehicles.isEmpty,
+            child: FloatingActionButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  enableDrag: false,
+                  builder: (BuildContext context) => AddVehicleSheet(),
+                );
+              },
+              foregroundColor: cs.onPrimary,
+              child: Icon(Icons.add, color: cs.onPrimary),
+            ),
           );
         },
-        foregroundColor: cs.onPrimary,
-        child: Icon(Icons.add, color: cs.onPrimary),
       ),
       body: GetBuilder<MyVehiclesController>(
         builder: (controller) {

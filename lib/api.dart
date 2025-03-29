@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
@@ -95,6 +96,7 @@ class Api {
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return null;
       }
+      handleError(response.statusCode, responseBody);
       return (response.statusCode == 200 || response.statusCode == 201) ? responseBody : null;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
@@ -239,7 +241,7 @@ class Api {
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return null;
       }
-
+      handleError(response.statusCode, responseBody);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return responseBody;
       }
@@ -258,4 +260,39 @@ class Api {
       return null;
     }
   }
+}
+
+void handleError(int statusCode, String json) {
+  if (statusCode < 400 || statusCode >= 500) return; //check if this is integer division
+  Map<String, dynamic> response = jsonDecode(json);
+  String title = "";
+  String content = "";
+  if (response.containsKey("error")) {
+    title = "error";
+    content = response["error"];
+  } else {
+    title = response.keys.first;
+    content = response.values.first.first;
+  }
+
+  Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text(title.tr, style: TextStyle(color: Colors.black)),
+        content: Text(content.tr, style: TextStyle(color: Colors.black)),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text(
+              "ok",
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        ],
+      ),
+      barrierDismissible: false);
+
+  // {"phone_number":["This field must be unique."]}
 }

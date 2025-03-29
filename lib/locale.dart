@@ -152,6 +152,10 @@ class MyLocale extends Translations {
           "add vehicle": "add vehicle",
           "orders taken last week": "orders taken last week",
           "current": "current",
+          "phone_number": "phone number",
+          "user_name": "user name",
+          "This field must be unique.": "This field must be unique.",
+          "ok": "ok",
         },
         "ar": {
           "Arabic": "العربية",
@@ -300,6 +304,10 @@ class MyLocale extends Translations {
           "add vehicle": "إضافة سيارة جديدة",
           "orders taken last week": "الطلبيات اخر سبعة أيام",
           "current": "الجارية",
+          "phone_number": "رقم الهاتف",
+          "user_name": "اسم المستخدم",
+          "This field must be unique.": "هذه القيمة مستخدمة سابقا",
+          "ok": "ok",
         },
       };
 }
