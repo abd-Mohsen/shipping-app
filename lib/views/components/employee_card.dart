@@ -71,7 +71,7 @@ class EmployeeCard extends StatelessWidget {
               ),
             ),
             subtitle: Text(
-              employee.user.role.name,
+              employee.roleInCompany.type,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: tt.titleSmall!.copyWith(

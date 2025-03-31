@@ -9,12 +9,10 @@ import 'package:get/get.dart';
 import 'constants.dart';
 
 //todo (later): show different snackbar if there is a server error "5--"
-//todo (later): show different snackbar if there is a user error "422" (register and login), show msg from backend
-//todo (later): replace ugly dialogs with snackbars
 //todo: when multiple requests are made when entering the app, session expire dialog can appear many times
 class Api {
   var client = http.Client();
-  final String _hostIP = "$kHostIP/en/api";
+  final String _hostIP = "$kHostIP/ar/api";
   final _getStorage = GetStorage();
   String get accessToken => _getStorage.read("token");
 
@@ -51,6 +49,8 @@ class Api {
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return null;
       }
+
+      handleError(response.statusCode, responseBody);
       return response.statusCode == 200 ? responseBody : null;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
@@ -141,6 +141,7 @@ class Api {
       String responseBody = utf8.decode(latin1.encode(response.body));
       print(responseBody + "===========" + response.statusCode.toString());
 
+      handleError(response.statusCode, responseBody);
       return (response.statusCode == 200 || response.statusCode == 201) ? responseBody : null;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
@@ -175,6 +176,8 @@ class Api {
         return false;
       }
       print("${response.body}===========${response.statusCode}");
+
+      handleError(response.statusCode, response.body);
       return response.statusCode == 204 || response.statusCode == 200;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();

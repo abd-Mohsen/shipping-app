@@ -161,8 +161,8 @@ class DriverHomeController extends GetxController {
     */
     if (!refresh && _currentUser != null) {
       if (_currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
-        //todo: handle the cars case
         Get.to(() => const MyVehiclesView());
+        //todo: just show a snack bar "you need to add a car"
       }
       if (_currentUser!.driverInfo!.idStatus.toLowerCase() != "verified" ||
           _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
