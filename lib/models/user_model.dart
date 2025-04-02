@@ -12,6 +12,9 @@ class UserModel {
   final String phoneNumber;
   final Role role;
   final bool isVerified;
+  final String? idPhotoFront;
+  final String idStatus;
+  final String? idPhotoRare;
   final DriverInfo? driverInfo;
   final CompanyInfo? companyInfo;
 
@@ -24,6 +27,9 @@ class UserModel {
     required this.isVerified,
     required this.driverInfo,
     required this.companyInfo,
+    required this.idPhotoFront,
+    required this.idPhotoRare,
+    required this.idStatus,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -31,6 +37,9 @@ class UserModel {
         firstName: json["first_name"],
         lastName: json["last_name"],
         phoneNumber: json["phone_number"],
+        idPhotoFront: json["ID_photo_front"],
+        idPhotoRare: json["ID_photo_rare"],
+        idStatus: json["ID_status"],
         role: Role.fromJson(json["role"]),
         isVerified: json["is_verified"],
         driverInfo: json["driver_info"] == null ? null : DriverInfo.fromJson(json["driver_info"]),
@@ -52,20 +61,14 @@ class UserModel {
 class DriverInfo {
   final String? drivingLicensePhotoFront;
   final String? drivingLicensePhotoRare;
-  final String? idPhotoFront;
-  final String? idPhotoRare;
   final String licenseStatus;
-  final String idStatus;
   final String vehicleStatus;
   final bool inCompany;
 
   DriverInfo({
     required this.drivingLicensePhotoFront,
     required this.drivingLicensePhotoRare,
-    required this.idPhotoFront,
-    required this.idPhotoRare,
     required this.licenseStatus,
-    required this.idStatus,
     required this.vehicleStatus,
     required this.inCompany,
   });
@@ -73,10 +76,7 @@ class DriverInfo {
   factory DriverInfo.fromJson(Map<String, dynamic> json) => DriverInfo(
         drivingLicensePhotoFront: json["driving_license_photo_front"],
         drivingLicensePhotoRare: json["driving_license_photo_rare"],
-        idPhotoFront: json["ID_photo_front"],
-        idPhotoRare: json["ID_photo_rare"],
         licenseStatus: json["license_status"],
-        idStatus: json["ID_status"],
         vehicleStatus: json["vehicle_status"],
         inCompany: json["in_company"],
       );
@@ -84,10 +84,7 @@ class DriverInfo {
   Map<String, dynamic> toJson() => {
         "driving_license_photo_front": drivingLicensePhotoFront,
         "driving_license_photo_rare": drivingLicensePhotoRare,
-        "ID_photo_front": idPhotoFront,
-        "ID_photo_rare": idPhotoRare,
         "license_status": licenseStatus,
-        "ID_status": idStatus,
         "vehicle_status": vehicleStatus,
         "in_company": inCompany,
       };

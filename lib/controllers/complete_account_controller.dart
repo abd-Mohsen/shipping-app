@@ -38,7 +38,7 @@ class CompleteAccountController extends GetxController {
   Future<void> prepopulateImages() async {
     toggleLoadingImages(true);
     await homeController.getCurrentUser(refresh: true); //todo add refresh parameter in other controllers
-    idStatus = homeController.currentUser.driverInfo!.idStatus;
+    idStatus = homeController.currentUser.idStatus;
     licenseStatus = homeController.currentUser.driverInfo!.licenseStatus;
     if (idStatus.toLowerCase() == "verified" && licenseStatus.toLowerCase() == "verified") {
       Get.back();
@@ -48,8 +48,8 @@ class CompleteAccountController extends GetxController {
         backgroundColor: Colors.green,
       ));
     }
-    idFront = await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.idPhotoFront}");
-    idRear = await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.idPhotoRare}");
+    idFront = await downloadImage("$kHostIP/en${homeController.currentUser.idPhotoFront}");
+    idRear = await downloadImage("$kHostIP/en${homeController.currentUser.idPhotoRare}");
     dLicenseFront =
         await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.drivingLicensePhotoFront}");
     dLicenseRear = await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.drivingLicensePhotoRare}");

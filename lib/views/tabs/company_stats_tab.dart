@@ -56,13 +56,13 @@ class CompanyStatsTab extends StatelessWidget {
                                 ),
                                 title: Text(
                                   "available drivers".tr,
-                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                 ),
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
                                     "0",
-                                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -82,13 +82,13 @@ class CompanyStatsTab extends StatelessWidget {
                                 ),
                                 title: Text(
                                   "available vehicles".tr,
-                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                 ),
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
                                     "1",
-                                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
                                 shape: RoundedRectangleBorder(
@@ -108,13 +108,13 @@ class CompanyStatsTab extends StatelessWidget {
                                 ),
                                 title: Text(
                                   "running orders".tr,
-                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                 ),
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
                                     "2",
-                                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
                                 shape: RoundedRectangleBorder(

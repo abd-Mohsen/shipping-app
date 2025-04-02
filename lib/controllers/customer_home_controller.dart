@@ -40,7 +40,7 @@ class CustomerHomeController extends GetxController {
     if (selectedOrderType == "not taken") typesToFetch = ["available", "draft"];
     if (selectedOrderType == "taken") typesToFetch = ["pending", "approved"];
     if (selectedOrderType == "current") typesToFetch = ["processing"];
-    if (selectedOrderType == "finished") typesToFetch = ["done"];
+    if (selectedOrderType == "finished") typesToFetch = ["done"]; //todo: not returning?
     List<OrderModel> newItems = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
     myOrders.addAll(newItems);
     toggleLoading(false);

@@ -20,6 +20,7 @@ class DriverHomeController extends GetxController {
   @override
   onInit() {
     getCurrentUser();
+    //todo: dont show error msgs for below requests
     getGovernorates();
     getCurrentOrders();
     getHistoryOrders();
@@ -164,7 +165,7 @@ class DriverHomeController extends GetxController {
         Get.to(() => const MyVehiclesView());
         //todo: just show a snack bar "you need to add a car"
       }
-      if (_currentUser!.driverInfo!.idStatus.toLowerCase() != "verified" ||
+      if (_currentUser!.idStatus.toLowerCase() != "verified" ||
           _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
         CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
         Get.to(const CompleteAccountView());

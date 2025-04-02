@@ -256,6 +256,7 @@ class MakeOrderController extends GetxController {
       "type_vehicle": selectedVehicleType?.id,
       "start_point": [sourceLocation!.addressEncoder().toJson()],
       "end_point": [targetLocation!.addressEncoder().toJson()],
+      //todo: add lat, long here and in order model and in mu-addresses
       "weight": weight.text,
       "price": int.parse(price.text),
       "DateTime": desiredDate.toIso8601String(),
