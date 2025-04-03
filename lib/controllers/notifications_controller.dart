@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/models/notification_model.dart';
 import '../main.dart';
 import '../services/remote_services.dart';
 import '../views/redirect_page.dart';
@@ -10,9 +11,12 @@ import '../views/redirect_page.dart';
 class NotificationsController extends GetxController {
   @override
   onInit() {
+    _isLoading = false;
+    allNotifications.clear();
     requestPermissionFCM();
     getFCMToken();
     setupFCMListeners();
+    getNotifications();
     //_connectNotificationSocket();
     super.onInit();
   }
@@ -97,5 +101,30 @@ class NotificationsController extends GetxController {
       print('Notification opened: ${message.notification?.title}');
       Get.offAll(() => const RedirectPage());
     });
+  }
+
+  //-------------------------notifications page--------------------------------
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  void toggleLoading(bool value) {
+    _isLoading = value;
+    update();
+  }
+
+  List<NotificationModel> allNotifications = [];
+
+  void getNotifications() async {
+    toggleLoading(true);
+    //todo
+    // currOrders.clear();
+    // List<MiniOrderModel> newItems = await RemoteServices.fetchDriverCurrOrders() ?? [];
+    // currOrders.addAll(newItems);
+    toggleLoading(false);
+  }
+
+  Future<void> refreshNotifications() async {
+    allNotifications.clear();
+    getNotifications();
   }
 }

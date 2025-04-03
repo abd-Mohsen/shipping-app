@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
+import 'package:shipment/controllers/notifications_controller.dart';
+import 'package:shipment/views/notifications_view.dart';
 import 'package:shipment/views/tabs/company_employees_tab.dart';
 import 'package:shipment/views/tabs/company_orders_tab.dart';
 import 'package:shipment/views/tabs/company_stats_tab.dart';
@@ -19,6 +21,7 @@ class CompanyHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
     CompanyHomeController cHC = Get.put(CompanyHomeController());
+    NotificationsController nC = Get.put(NotificationsController());
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
@@ -69,6 +72,22 @@ class CompanyHomeView extends StatelessWidget {
                   style: tt.titleLarge!.copyWith(letterSpacing: 2, color: cs.onPrimary),
                 ),
                 centerTitle: true,
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      Get.to(() => const NotificationsView());
+                    },
+                    icon: Badge(
+                      smallSize: 10,
+                      backgroundColor: Colors.lightGreenAccent,
+                      alignment: Alignment.topRight,
+                      child: Icon(
+                        Icons.notifications,
+                        color: cs.onPrimary,
+                      ),
+                    ),
+                  )
+                ],
                 bottom: controller.tabIndex == 2
                     ? TabBar(
                         indicatorColor: cs.onPrimary,
