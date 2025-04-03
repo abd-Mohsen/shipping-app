@@ -29,8 +29,8 @@ class OrderController extends GetxController {
 
   @override
   void onInit() async {
-    isEmployee = await _getStorage.read("role") == "company_employee";
     setStatusIndex();
+    isEmployee = await _getStorage.read("role") == "company_employee";
     if (companyHomeController != null) getAvailableVehiclesAndEmployees();
     selectedPayment = order.paymentMethods[0];
     //todo: draw path
@@ -210,6 +210,8 @@ class OrderController extends GetxController {
     }
     toggleLoadingSubmit(false);
   }
+
+  //todo: accept order company & edit vehicle & notifications page
 
   //-------------------------------------vehicle and employees-----------------------
 

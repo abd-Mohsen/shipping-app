@@ -25,7 +25,7 @@ class EditProfileView extends StatelessWidget {
         backgroundColor: cs.primary,
         title: Text(
           'edit profile'.tr,
-          style: tt.headlineSmall!.copyWith(color: cs.onPrimary),
+          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
         ),
         centerTitle: true,
         actions: [

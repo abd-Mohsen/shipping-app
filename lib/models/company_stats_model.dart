@@ -12,8 +12,8 @@ class CompanyStatsModel {
   final List<OrdersPerCity> ordersPerCity;
   final Map<String, dynamic> lastWeekOrders;
   final int processingOrder;
-  final int availableDrivers; // todo: make int
-  final int availableVehicle; //todo: make int
+  final int availableDrivers;
+  final int availableVehicle;
 
   CompanyStatsModel({
     required this.companyName,

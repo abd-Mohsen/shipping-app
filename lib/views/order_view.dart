@@ -64,7 +64,7 @@ class OrderView extends StatelessWidget {
               onPressed: () {
                 Get.to(() => EditOrderView(order: order));
               },
-              icon: Icon(Icons.edit),
+              icon: order.dateTime.isBefore(DateTime.now()) ? Badge(child: Icon(Icons.edit)) : Icon(Icons.edit),
             ),
           if (isCustomer && ["draft", "available"].contains(order.status))
             IconButton(
@@ -84,7 +84,7 @@ class OrderView extends StatelessWidget {
                       cHC.deleteOrder(order.id);
                     },
                     child: Text(
-                      "yes",
+                      "yes".tr,
                       style: tt.titleMedium!.copyWith(color: Colors.red),
                     ),
                   ),
@@ -93,7 +93,7 @@ class OrderView extends StatelessWidget {
                       Get.back();
                     },
                     child: Text(
-                      "no",
+                      "no".tr,
                       style: tt.titleMedium!.copyWith(color: cs.onSurface),
                     ),
                   ),
@@ -117,11 +117,11 @@ class OrderView extends StatelessWidget {
               // todo show driver and customer info after accepting
               if (isCustomer && order.status == "pending" && !order.ownerApproved)
                 Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 12, right: 12),
+                  padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
                   child: ListTile(
                     contentPadding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
+                      borderRadius: BorderRadius.circular(40),
                       side: BorderSide(
                         color: cs.onSurface,
                       ),
@@ -132,6 +132,7 @@ class OrderView extends StatelessWidget {
                         style: tt.titleSmall!.copyWith(color: cs.onSurface),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     subtitle: Padding(
@@ -156,7 +157,7 @@ class OrderView extends StatelessWidget {
                                     controller.confirmOrderCustomer();
                                   },
                                   child: Text(
-                                    "yes",
+                                    "yes".tr,
                                     style: tt.titleMedium!.copyWith(color: Colors.red),
                                   ),
                                 ),
@@ -165,7 +166,7 @@ class OrderView extends StatelessWidget {
                                     Get.back();
                                   },
                                   child: Text(
-                                    "no",
+                                    "no".tr,
                                     style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
@@ -202,7 +203,7 @@ class OrderView extends StatelessWidget {
                                     //todo: don't let user click either buttons if one is loading
                                   },
                                   child: Text(
-                                    "yes",
+                                    "yes".tr,
                                     style: tt.titleMedium!.copyWith(color: Colors.red),
                                   ),
                                 ),
@@ -211,7 +212,7 @@ class OrderView extends StatelessWidget {
                                     Get.back();
                                   },
                                   child: Text(
-                                    "no",
+                                    "no".tr,
                                     style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
@@ -237,9 +238,9 @@ class OrderView extends StatelessWidget {
                 ),
               if (!isCustomer && order.status == "pending" && order.ownerApproved && !order.driverApproved)
                 Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 12, right: 12, bottom: 8),
+                  padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
                   child: ListTile(
-                    contentPadding: const EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 12),
+                    contentPadding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32),
                       side: BorderSide(
@@ -282,7 +283,7 @@ class OrderView extends StatelessWidget {
                                             Padding(
                                               padding: const EdgeInsets.all(16.0),
                                               child: Text(
-                                                "select payment method",
+                                                "select payment method".tr,
                                                 style: tt.titleMedium!
                                                     .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                               ),
@@ -422,7 +423,7 @@ class OrderView extends StatelessWidget {
                                     //todo: don't let user click either buttons if one is loading
                                   },
                                   child: Text(
-                                    "yes",
+                                    "yes".tr,
                                     style: tt.titleMedium!.copyWith(color: Colors.red),
                                   ),
                                 ),
@@ -431,7 +432,7 @@ class OrderView extends StatelessWidget {
                                     Get.back();
                                   },
                                   child: Text(
-                                    "no",
+                                    "no".tr,
                                     style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
@@ -754,7 +755,7 @@ class OrderView extends StatelessWidget {
                                           controller.acceptOrderDriver();
                                         },
                                         child: Text(
-                                          "yes",
+                                          "yes".tr,
                                           style: tt.titleMedium!.copyWith(color: Colors.red),
                                         ),
                                       ),
@@ -763,7 +764,7 @@ class OrderView extends StatelessWidget {
                                           Get.back();
                                         },
                                         child: Text(
-                                          "no",
+                                          "no".tr,
                                           style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                         ),
                                       ),
@@ -810,7 +811,7 @@ class OrderView extends StatelessWidget {
                                         controller.beginOrderDriver();
                                       },
                                       child: Text(
-                                        "yes",
+                                        "yes".tr,
                                         style: tt.titleMedium!.copyWith(color: Colors.red),
                                       ),
                                     ),
@@ -819,7 +820,7 @@ class OrderView extends StatelessWidget {
                                         Get.back();
                                       },
                                       child: Text(
-                                        "no",
+                                        "no".tr,
                                         style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                       ),
                                     ),
@@ -865,7 +866,7 @@ class OrderView extends StatelessWidget {
                                         controller.finishOrderDriver();
                                       },
                                       child: Text(
-                                        "yes",
+                                        "yes".tr,
                                         style: tt.titleMedium!.copyWith(color: Colors.red),
                                       ),
                                     ),
@@ -874,7 +875,7 @@ class OrderView extends StatelessWidget {
                                         Get.back();
                                       },
                                       child: Text(
-                                        "no",
+                                        "no".tr,
                                         style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                       ),
                                     ),

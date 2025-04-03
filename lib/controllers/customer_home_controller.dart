@@ -23,9 +23,9 @@ class CustomerHomeController extends GetxController {
 
   List<OrderModel> myOrders = [];
 
-  List<String> orderTypes = ["not taken", "taken", "current", "finished"];
+  List<String> orderTypes = ["not taken".tr, "taken".tr, "current".tr, "finished".tr];
 
-  String selectedOrderType = "not taken";
+  String selectedOrderType = "current".tr;
 
   void setOrderType(String? type) {
     if (type == null) return;
@@ -37,10 +37,10 @@ class CustomerHomeController extends GetxController {
     //todo:pagination
     toggleLoading(true);
     List<String> typesToFetch = [];
-    if (selectedOrderType == "not taken") typesToFetch = ["available", "draft"];
-    if (selectedOrderType == "taken") typesToFetch = ["pending", "approved"];
-    if (selectedOrderType == "current") typesToFetch = ["processing"];
-    if (selectedOrderType == "finished") typesToFetch = ["done"]; //todo: not returning?
+    if (selectedOrderType == "not taken".tr) typesToFetch = ["available", "draft"];
+    if (selectedOrderType == "taken".tr) typesToFetch = ["pending", "approved"];
+    if (selectedOrderType == "current".tr) typesToFetch = ["processing"];
+    if (selectedOrderType == "finished".tr) typesToFetch = ["done"]; //todo: not returning?
     List<OrderModel> newItems = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
     myOrders.addAll(newItems);
     toggleLoading(false);

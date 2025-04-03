@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:popover/popover.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/order_view.dart';
@@ -14,7 +15,6 @@ class OrderCard extends StatelessWidget {
     required this.isCustomer,
   });
 
-  //todo: make date red if its close or finished
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
@@ -61,7 +61,7 @@ class OrderCard extends StatelessWidget {
                         maxLines: 2,
                       ),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.6,
                       child: Text(
@@ -73,16 +73,47 @@ class OrderCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2.5,
-                      child: Text(
-                        " ${Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y")}"
-                        "  ${Jiffy.parseFromDateTime(order.dateTime).jm}",
-                        style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.8)),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          child: Text(
+                            " ${Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y")}"
+                            "  ${Jiffy.parseFromDateTime(order.dateTime).jm}",
+                            style: tt.titleSmall!.copyWith(
+                              color:
+                                  order.dateTime.isBefore(DateTime.now()) && !["draft", "done"].contains(order.status)
+                                      ? cs.error
+                                      : cs.onSurface.withOpacity(0.8),
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Visibility(
+                          visible: order.dateTime.isBefore(DateTime.now()) && !["draft", "done"].contains(order.status),
+                          child: GestureDetector(
+                            onTap: () {
+                              showPopover(
+                                context: context,
+                                backgroundColor: cs.surface,
+                                bodyBuilder: (context) => Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                                  child: Text(
+                                    "order was not accepted in time".tr,
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Icon(Icons.info, color: cs.error, size: 20),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

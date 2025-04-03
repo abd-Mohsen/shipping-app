@@ -53,7 +53,7 @@ class CustomerHomeView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: CustomDropdown(
-                    title: "order type",
+                    title: "order type".tr,
                     items: controller.orderTypes,
                     onSelect: (String? type) {
                       controller.setOrderType(type);
@@ -78,7 +78,7 @@ class CustomerHomeView extends StatelessWidget {
                                         padding: const EdgeInsets.all(4),
                                         child: Center(
                                           child: Text(
-                                            "no orders, pull down to refresh".tr,
+                                            "no data, pull down to refresh".tr,
                                             style: tt.titleSmall!.copyWith(
                                               color: cs.onSurface,
                                               fontWeight: FontWeight.bold,
