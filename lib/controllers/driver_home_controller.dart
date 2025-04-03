@@ -31,7 +31,7 @@ class DriverHomeController extends GetxController {
 
   final GetStorage _getStorage = GetStorage();
 
-  late bool isEmployee;
+  bool isEmployee = false;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -171,7 +171,10 @@ class DriverHomeController extends GetxController {
     if (!refresh && _currentUser != null) {
       if (!isEmployee && _currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
         Get.to(() => const MyVehiclesView());
-        //todo: just show a snack bar "you need to add a car"
+        Get.showSnackbar(GetSnackBar(
+          message: "you need to add a car to use the app".tr,
+          duration: const Duration(milliseconds: 6000),
+        ));
       }
       if (_currentUser!.idStatus.toLowerCase() != "verified" ||
           _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {

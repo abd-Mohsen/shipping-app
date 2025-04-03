@@ -14,6 +14,7 @@ import '../constants.dart';
 import '../controllers/locale_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
+import 'notifications_view.dart';
 
 class DriverHomeView extends StatelessWidget {
   const DriverHomeView({super.key});
@@ -66,6 +67,22 @@ class DriverHomeView extends StatelessWidget {
                 'driver'.toUpperCase(),
                 style: tt.headlineSmall!.copyWith(letterSpacing: 2, color: cs.onPrimary),
               ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Get.to(() => const NotificationsView());
+                  },
+                  icon: Badge(
+                    smallSize: 10,
+                    backgroundColor: Colors.lightGreenAccent,
+                    alignment: Alignment.topRight,
+                    child: Icon(
+                      Icons.notifications,
+                      color: cs.onPrimary,
+                    ),
+                  ),
+                )
+              ],
               centerTitle: true,
             ),
             backgroundColor: cs.surface,
@@ -117,15 +134,14 @@ class DriverHomeView extends StatelessWidget {
                                             style: tt.titleMedium,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          currentAccountPicture: Visibility(
-                                            visible: hC.isEmployee,
-                                            child: Text(
-                                              con.currentUser!.companyInfo!.name,
-                                              style: tt.titleMedium,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.start,
-                                            ),
-                                          ),
+                                          currentAccountPicture: hC.isEmployee
+                                              ? Text(
+                                                  con.currentUser!.companyInfo!.name,
+                                                  style: tt.titleMedium,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.start,
+                                                )
+                                              : null,
                                           currentAccountPictureSize: Size.square(MediaQuery.of(context).size.width / 2),
                                         ),
                                         ListTile(

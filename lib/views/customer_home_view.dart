@@ -9,9 +9,11 @@ import 'package:shipment/views/components/order_card.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/my_addresses_view.dart';
 import '../constants.dart';
+import '../controllers/notifications_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
 import 'edit_profile_view.dart';
+import 'notifications_view.dart';
 
 class CustomerHomeView extends StatelessWidget {
   const CustomerHomeView({super.key});
@@ -20,6 +22,7 @@ class CustomerHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
     CustomerHomeController hC = Get.put(CustomerHomeController());
+    NotificationsController nC = Get.put(NotificationsController());
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
@@ -41,7 +44,20 @@ class CustomerHomeView extends StatelessWidget {
           ),
           centerTitle: true,
           actions: [
-            //
+            IconButton(
+              onPressed: () {
+                Get.to(() => const NotificationsView());
+              },
+              icon: Badge(
+                smallSize: 10,
+                backgroundColor: Colors.lightGreenAccent,
+                alignment: Alignment.topRight,
+                child: Icon(
+                  Icons.notifications,
+                  color: cs.onPrimary,
+                ),
+              ),
+            )
           ],
         ),
         backgroundColor: cs.surface,
