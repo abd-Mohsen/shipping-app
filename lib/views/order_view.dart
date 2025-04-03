@@ -373,7 +373,9 @@ class OrderView extends StatelessWidget {
                                             ),
                                             CustomButton(
                                               onTap: () {
-                                                controller.confirmOrderDriver();
+                                                isCompany
+                                                    ? controller.confirmOrderCompany()
+                                                    : controller.confirmOrderDriver();
                                               },
                                               child: Center(
                                                 child: controller.isLoadingSubmit

@@ -151,7 +151,7 @@ class OrderController extends GetxController {
       if (Get.routing.current == "/OrderView") Get.back();
       driverHomeController!.refreshCurrOrders();
       Get.showSnackbar(GetSnackBar(
-        message: "the car was added successfully".tr,
+        message: "success".tr,
         duration: const Duration(milliseconds: 2500),
       ));
     }
@@ -211,7 +211,32 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  //todo: accept order company & edit vehicle & notifications page
+  void confirmOrderCompany() async {
+    if (isLoadingSubmit) return;
+    buttonPressed = true;
+    bool valid = formKey.currentState!.validate();
+    if (!valid) return;
+    toggleLoadingSubmit(true);
+    bool success = await RemoteServices.companyConfirmOrder(
+      order.id,
+      selectedPayment.id!,
+      fullName.text,
+      accountDetails.text,
+      phoneNumber.text,
+    );
+    if (success) {
+      Get.back();
+      if (Get.routing.current == "/OrderView") Get.back();
+      companyHomeController!.refreshCurrOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "success".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingSubmit(false);
+  }
+
+  //todo: begin and finish company order company & edit vehicle & notifications page
 
   //-------------------------------------vehicle and employees-----------------------
 

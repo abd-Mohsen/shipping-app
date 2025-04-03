@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/company_stats_model.dart';
@@ -440,5 +438,27 @@ class RemoteServices {
       "vehicles": availableVehicles,
       "employees": availableEmployees,
     };
+  }
+
+  static Future<bool> companyConfirmOrder(
+    int orderID,
+    int paymentID,
+    String fullName,
+    String accountDetails,
+    String phoneNumber,
+  ) async {
+    String? json = await api.postRequest(
+      "company_order/$orderID/confirm/",
+      {
+        "payment_method": {
+          "order_payment_id": paymentID,
+          "full_name": fullName,
+          "account_details": accountDetails,
+          "phone_number": phoneNumber,
+        }
+      },
+      auth: true,
+    );
+    return json != null;
   }
 }
