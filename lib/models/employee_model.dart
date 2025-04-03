@@ -13,6 +13,7 @@ class EmployeeModel {
   final UserModel user;
   final DriverInfo? driver;
   final Role roleInCompany;
+  final DateTime joinDate;
 
   EmployeeModel({
     required this.id,
@@ -20,6 +21,7 @@ class EmployeeModel {
     required this.user,
     required this.driver,
     required this.roleInCompany,
+    required this.joinDate,
   });
 
   factory EmployeeModel.fromJson(Map<String, dynamic> json) => EmployeeModel(
@@ -28,6 +30,7 @@ class EmployeeModel {
         user: UserModel.fromJson(json["user"]),
         driver: json["driver"] == null ? null : DriverInfo.fromJson(json["driver"]),
         roleInCompany: Role.fromJson(json["role"]),
+        joinDate: DateTime.parse(json["created_at"]),
       );
 
   Map<String, dynamic> toJson() => {

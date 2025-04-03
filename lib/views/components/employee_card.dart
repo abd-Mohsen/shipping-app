@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shipment/models/employee_model.dart';
 
 class EmployeeCard extends StatelessWidget {
@@ -97,26 +98,24 @@ class EmployeeCard extends StatelessWidget {
               ),
             ),
           ),
-          //todo: join date
-          // ListTile(
-          //   title: Text(
-          //     "creation date".tr,
-          //     maxLines: 2,
-          //     overflow: TextOverflow.ellipsis,
-          //     style: tt.titleMedium!.copyWith(
-          //       color: cs.onSurface.withOpacity(1),
-          //     ),
-          //   ),
-          //   subtitle: Text(
-          //     " ${Jiffy.parseFromDateTime(employee.user.).format(pattern: "d / M / y")}"
-          //     "  ${Jiffy.parseFromDateTime(vehicle.createdAt).jm}",
-          //     maxLines: 2,
-          //     overflow: TextOverflow.ellipsis,
-          //     style: tt.titleSmall!.copyWith(
-          //       color: cs.onSurface.withOpacity(0.5),
-          //     ),
-          //   ),
-          // ),
+          ListTile(
+            title: Text(
+              "join date".tr,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: tt.titleMedium!.copyWith(
+                color: cs.onSurface.withOpacity(1),
+              ),
+            ),
+            subtitle: Text(
+              " ${Jiffy.parseFromDateTime(employee.joinDate).format(pattern: "d / M / y")}",
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: tt.titleSmall!.copyWith(
+                color: cs.onSurface.withOpacity(0.5),
+              ),
+            ),
+          ),
           ListTile(
             onTap: onDelete,
             title: Text(
@@ -129,6 +128,7 @@ class EmployeeCard extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
           ),
+          const SizedBox(height: 12),
         ],
       ),
     );
