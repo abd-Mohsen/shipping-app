@@ -72,7 +72,7 @@ class CompleteAccountView extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Get.defaultDialog(
-                  title: "help".tr,
+                  title: "help".tr, //todo localize this dialog
                   titleStyle: tt.titleLarge!.copyWith(color: cs.onSurface),
                   titlePadding: const EdgeInsets.only(top: 20),
                   content: Column(

@@ -117,6 +117,16 @@ class DriverHomeView extends StatelessWidget {
                                             style: tt.titleMedium,
                                             overflow: TextOverflow.ellipsis,
                                           ),
+                                          currentAccountPicture: Visibility(
+                                            visible: hC.isEmployee,
+                                            child: Text(
+                                              con.currentUser!.companyInfo!.name,
+                                              style: tt.titleMedium,
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.start,
+                                            ),
+                                          ),
+                                          currentAccountPictureSize: Size.square(MediaQuery.of(context).size.width / 2),
                                         ),
                                         ListTile(
                                           leading: const Icon(Icons.manage_accounts),
@@ -175,12 +185,15 @@ class DriverHomeView extends StatelessWidget {
                         //     },
                         //   ),
                         // ),
-                        ListTile(
-                          leading: const Icon(Icons.local_shipping_outlined),
-                          title: Text("my vehicles".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                          onTap: () {
-                            Get.to(() => const MyVehiclesView());
-                          },
+                        Visibility(
+                          visible: !hC.isEmployee,
+                          child: ListTile(
+                            leading: const Icon(Icons.local_shipping_outlined),
+                            title: Text("my vehicles".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                            onTap: () {
+                              Get.to(() => const MyVehiclesView());
+                            },
+                          ),
                         ),
                         ListTile(
                           leading: const Icon(Icons.info_outline),

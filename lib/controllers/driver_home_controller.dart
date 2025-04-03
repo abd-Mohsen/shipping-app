@@ -18,7 +18,9 @@ import 'otp_controller.dart';
 
 class DriverHomeController extends GetxController {
   @override
-  onInit() {
+  onInit() async {
+    isEmployee = await _getStorage.read("role") == "company_employee";
+    print(isEmployee ? "an employee" : "not employee");
     getCurrentUser();
     //todo: dont show error msgs for below requests
     getGovernorates();
@@ -28,6 +30,8 @@ class DriverHomeController extends GetxController {
   }
 
   final GetStorage _getStorage = GetStorage();
+
+  late bool isEmployee;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -105,7 +109,9 @@ class DriverHomeController extends GetxController {
     //todo: implement pagination
     if (selectedGovernorate == null) return;
     toggleLoadingExplore(true);
-    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(selectedGovernorate!.id, ["available"]) ?? [];
+    List<OrderModel> newItems = isEmployee
+        ? await RemoteServices.fetchCompanyOrders(selectedGovernorate!.id, ["available"]) ?? []
+        : await RemoteServices.fetchDriverOrders(selectedGovernorate!.id, ["available"]) ?? [];
     exploreOrders.addAll(newItems);
     toggleLoadingExplore(false);
   }
@@ -115,8 +121,9 @@ class DriverHomeController extends GetxController {
     //todo: implement pagination
     //todo: processing order must appear first
     toggleLoadingCurrent(true);
-    List<OrderModel> newItems =
-        await RemoteServices.fetchDriverOrders(null, ["processing", "pending", "approved"]) ?? [];
+    List<OrderModel> newItems = isEmployee
+        ? await RemoteServices.fetchCompanyOrders(null, ["processing", "pending", "approved"]) ?? []
+        : await RemoteServices.fetchDriverOrders(null, ["processing", "pending", "approved"]) ?? [];
     currOrders.addAll(newItems);
     toggleLoadingCurrent(false);
     //
@@ -129,7 +136,9 @@ class DriverHomeController extends GetxController {
   void getHistoryOrders() async {
     //todo: implement pagination
     toggleLoadingHistory(true);
-    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(null, ["done"]) ?? [];
+    List<OrderModel> newItems = isEmployee
+        ? await RemoteServices.fetchCompanyOrders(null, ["done"]) ?? []
+        : await RemoteServices.fetchDriverOrders(null, ["done"]) ?? [];
     historyOrders.addAll(newItems);
     toggleLoadingHistory(false);
   }
@@ -154,14 +163,13 @@ class DriverHomeController extends GetxController {
     _currentUser = await RemoteServices.fetchCurrentUser();
     //todo: dont let user do anything before user is loaded
     //todo: show (complete account) page to change id and license if not verified
-    //todo: dont let user logout if user is loading (it may redirect after logout)
+    //todo: dont let user logout if user is loading (it may redirect after logout) do for all roles
     //todo: do the same for customer and company
-    //todo: edit to handle all cases of employee
     /*
       'Pending', 'Verified', 'Refused', 'No_Input',
     */
     if (!refresh && _currentUser != null) {
-      if (_currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
+      if (!isEmployee && _currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
         Get.to(() => const MyVehiclesView());
         //todo: just show a snack bar "you need to add a car"
       }
