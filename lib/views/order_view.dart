@@ -37,7 +37,9 @@ class OrderView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    bool isCompany = GetStorage().read("role") == "company";
+    GetStorage getStorage = GetStorage();
+    bool isCompany = getStorage.read("role") == "company";
+    bool isEmployee = getStorage.read("role") == "company_employee";
     late CustomerHomeController cHC;
     late DriverHomeController dHC;
     late CompanyHomeController cHC2;
@@ -491,7 +493,7 @@ class OrderView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                         child: CustomButton(
                           onTap: () {
-                            if (isCompany) {
+                            if (isCompany || isEmployee) {
                               Get.bottomSheet(
                                 GetBuilder<OrderController>(
                                   builder: (controller) {
@@ -525,7 +527,7 @@ class OrderView extends StatelessWidget {
                                                       children: [
                                                         DropdownSearch<VehicleModel>(
                                                           validator: (type) {
-                                                            if (type == null) return "you must select employee".tr;
+                                                            if (type == null) return "you must select vehicle".tr;
                                                             return null;
                                                           },
                                                           compareFn: (type1, type2) => type1.id == type2.id,
@@ -602,85 +604,86 @@ class OrderView extends StatelessWidget {
                                                           //enabled: !con.enabled,
                                                         ),
                                                         const SizedBox(height: 12),
-                                                        DropdownSearch<EmployeeModel>(
-                                                          validator: (type) {
-                                                            if (type == null) return "you must select an employee".tr;
-                                                            return null;
-                                                          },
-                                                          compareFn: (type1, type2) => type1.id == type2.id,
-                                                          popupProps: PopupProps.menu(
-                                                            showSearchBox: false,
-                                                            menuProps: MenuProps(
-                                                              shape: RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.circular(20),
+                                                        if (isCompany)
+                                                          DropdownSearch<EmployeeModel>(
+                                                            validator: (type) {
+                                                              if (type == null) return "you must select an employee".tr;
+                                                              return null;
+                                                            },
+                                                            compareFn: (type1, type2) => type1.id == type2.id,
+                                                            popupProps: PopupProps.menu(
+                                                              showSearchBox: false,
+                                                              menuProps: MenuProps(
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(20),
+                                                                ),
+                                                              ),
+                                                              searchFieldProps: TextFieldProps(
+                                                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                                decoration: InputDecoration(
+                                                                  fillColor: Colors.white70,
+                                                                  hintText: "employee".tr,
+                                                                  prefix: Padding(
+                                                                    padding: const EdgeInsets.all(4),
+                                                                    child: Icon(Icons.search, color: cs.onSurface),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
-                                                            searchFieldProps: TextFieldProps(
-                                                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                            decoratorProps: DropDownDecoratorProps(
+                                                              baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
                                                               decoration: InputDecoration(
-                                                                fillColor: Colors.white70,
-                                                                hintText: "employee".tr,
-                                                                prefix: Padding(
-                                                                  padding: const EdgeInsets.all(4),
-                                                                  child: Icon(Icons.search, color: cs.onSurface),
+                                                                prefixIcon: const Padding(
+                                                                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                                                  child: Icon(Icons.person),
+                                                                ),
+                                                                labelText: "required employee".tr,
+                                                                labelStyle: tt.titleSmall!
+                                                                    .copyWith(color: cs.onSurface.withOpacity(0.7)),
+                                                                floatingLabelBehavior: FloatingLabelBehavior.never,
+                                                                enabledBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(32),
+                                                                  borderSide: BorderSide(
+                                                                    width: .5,
+                                                                    color: cs.onSurface,
+                                                                  ),
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(32),
+                                                                  borderSide: BorderSide(
+                                                                    width: 0.5,
+                                                                    color: cs.onSurface,
+                                                                  ),
+                                                                ),
+                                                                errorBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(32),
+                                                                  borderSide: BorderSide(
+                                                                    width: 0.5,
+                                                                    color: cs.error,
+                                                                  ),
+                                                                ),
+                                                                focusedErrorBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(32),
+                                                                  borderSide: BorderSide(
+                                                                    width: 1,
+                                                                    color: cs.error,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
+                                                            items: (filter, infiniteScrollProps) =>
+                                                                controller.availableEmployees,
+                                                            itemAsString: (EmployeeModel e) =>
+                                                                "${e.user.firstName} ${e.user.lastName}",
+                                                            onChanged: (EmployeeModel? e) async {
+                                                              controller.selectEmployee(e);
+                                                              await Future.delayed(const Duration(milliseconds: 1000));
+                                                              if (controller.buttonPressed) {
+                                                                controller.formKey.currentState!.validate();
+                                                              }
+                                                            },
+                                                            //enabled: !con.enabled,
                                                           ),
-                                                          decoratorProps: DropDownDecoratorProps(
-                                                            baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                            decoration: InputDecoration(
-                                                              prefixIcon: const Padding(
-                                                                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                                                child: Icon(Icons.person),
-                                                              ),
-                                                              labelText: "required employee".tr,
-                                                              labelStyle: tt.titleSmall!
-                                                                  .copyWith(color: cs.onSurface.withOpacity(0.7)),
-                                                              floatingLabelBehavior: FloatingLabelBehavior.never,
-                                                              enabledBorder: OutlineInputBorder(
-                                                                borderRadius: BorderRadius.circular(32),
-                                                                borderSide: BorderSide(
-                                                                  width: .5,
-                                                                  color: cs.onSurface,
-                                                                ),
-                                                              ),
-                                                              focusedBorder: OutlineInputBorder(
-                                                                borderRadius: BorderRadius.circular(32),
-                                                                borderSide: BorderSide(
-                                                                  width: 0.5,
-                                                                  color: cs.onSurface,
-                                                                ),
-                                                              ),
-                                                              errorBorder: OutlineInputBorder(
-                                                                borderRadius: BorderRadius.circular(32),
-                                                                borderSide: BorderSide(
-                                                                  width: 0.5,
-                                                                  color: cs.error,
-                                                                ),
-                                                              ),
-                                                              focusedErrorBorder: OutlineInputBorder(
-                                                                borderRadius: BorderRadius.circular(32),
-                                                                borderSide: BorderSide(
-                                                                  width: 1,
-                                                                  color: cs.error,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          items: (filter, infiniteScrollProps) =>
-                                                              controller.availableEmployees,
-                                                          itemAsString: (EmployeeModel e) =>
-                                                              "${e.user.firstName} ${e.user.lastName}",
-                                                          onChanged: (EmployeeModel? e) async {
-                                                            controller.selectEmployee(e);
-                                                            await Future.delayed(const Duration(milliseconds: 1000));
-                                                            if (controller.buttonPressed) {
-                                                              controller.formKey.currentState!.validate();
-                                                            }
-                                                          },
-                                                          //enabled: !con.enabled,
-                                                        ),
                                                       ],
                                                     ),
                                             ),

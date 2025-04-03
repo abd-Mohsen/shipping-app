@@ -284,7 +284,7 @@ class MyLocale extends Translations {
           "owner info": "بيانات صاحب الطلب",
           "available drivers": "السائقون المتاحون",
           "available vehicles": "المركبات المتاحة",
-          "running orders": "الطلبات الجارية",
+          "running orders": "الطلبيات الجارية",
           "no data, pull down to refresh": "لا يوجد بيانات, اسحب للتحديث",
           "vehicles": "المركبات",
           "orders": "الطلبيات",

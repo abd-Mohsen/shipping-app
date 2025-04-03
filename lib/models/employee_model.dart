@@ -11,12 +11,14 @@ class EmployeeModel {
   final int id;
   final bool isAvailable;
   final UserModel user;
+  final DriverInfo? driver;
   final Role roleInCompany;
 
   EmployeeModel({
     required this.id,
     required this.isAvailable,
     required this.user,
+    required this.driver,
     required this.roleInCompany,
   });
 
@@ -24,6 +26,7 @@ class EmployeeModel {
         id: json["id"],
         isAvailable: json["is_available"],
         user: UserModel.fromJson(json["user"]),
+        driver: json["driver"] == null ? null : DriverInfo.fromJson(json["driver"]),
         roleInCompany: Role.fromJson(json["role"]),
       );
 
@@ -52,5 +55,40 @@ class Role {
   Map<String, dynamic> toJson() => {
         "type": type,
         "name": name,
+      };
+}
+
+class DriverInfo {
+  final int? id;
+  final String? drivingLicensePhotoFront;
+  final String? drivingLicensePhotoRare;
+  final String licenseStatus;
+  final String vehicleStatus;
+  final bool inCompany;
+
+  DriverInfo({
+    this.id,
+    required this.drivingLicensePhotoFront,
+    required this.drivingLicensePhotoRare,
+    required this.licenseStatus,
+    required this.vehicleStatus,
+    required this.inCompany,
+  });
+
+  factory DriverInfo.fromJson(Map<String, dynamic> json) => DriverInfo(
+        id: json["id"],
+        drivingLicensePhotoFront: json["driving_license_photo_front"],
+        drivingLicensePhotoRare: json["driving_license_photo_rare"],
+        licenseStatus: json["license_status"],
+        vehicleStatus: json["vehicle_status"],
+        inCompany: json["in_company"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "driving_license_photo_front": drivingLicensePhotoFront,
+        "driving_license_photo_rare": drivingLicensePhotoRare,
+        "license_status": licenseStatus,
+        "vehicle_status": vehicleStatus,
+        "in_company": inCompany,
       };
 }

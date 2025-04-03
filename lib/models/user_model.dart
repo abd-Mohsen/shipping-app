@@ -59,6 +59,7 @@ class UserModel {
 }
 
 class DriverInfo {
+  final int? id;
   final String? drivingLicensePhotoFront;
   final String? drivingLicensePhotoRare;
   final String licenseStatus;
@@ -66,6 +67,7 @@ class DriverInfo {
   final bool inCompany;
 
   DriverInfo({
+    this.id,
     required this.drivingLicensePhotoFront,
     required this.drivingLicensePhotoRare,
     required this.licenseStatus,
@@ -74,6 +76,7 @@ class DriverInfo {
   });
 
   factory DriverInfo.fromJson(Map<String, dynamic> json) => DriverInfo(
+        id: json["id"],
         drivingLicensePhotoFront: json["driving_license_photo_front"],
         drivingLicensePhotoRare: json["driving_license_photo_rare"],
         licenseStatus: json["license_status"],

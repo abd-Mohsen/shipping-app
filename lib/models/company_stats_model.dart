@@ -12,8 +12,8 @@ class CompanyStatsModel {
   final List<OrdersPerCity> ordersPerCity;
   final Map<String, dynamic> lastWeekOrders;
   final int processingOrder;
-  final String availableDriver; // todo: make int
-  final String availableVehicle; //todo: make int
+  final int availableDrivers; // todo: make int
+  final int availableVehicle; //todo: make int
 
   CompanyStatsModel({
     required this.companyName,
@@ -23,7 +23,7 @@ class CompanyStatsModel {
     required this.ordersPerCity,
     required this.lastWeekOrders,
     required this.processingOrder,
-    required this.availableDriver,
+    required this.availableDrivers,
     required this.availableVehicle,
   });
 
@@ -35,8 +35,8 @@ class CompanyStatsModel {
         ordersPerCity: List<OrdersPerCity>.from(json["orders_per_city"].map((x) => OrdersPerCity.fromJson(x))),
         lastWeekOrders: json["last_week_orders"],
         processingOrder: json["processing_order"],
-        availableDriver: json["available_driver"],
-        availableVehicle: json["available_vehicle"],
+        availableDrivers: json["available_drivers_length"],
+        availableVehicle: json["available_vehicles_length"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,7 +47,7 @@ class CompanyStatsModel {
         "orders_per_city": List<dynamic>.from(ordersPerCity.map((x) => x.toJson())),
         "last_week_orders": lastWeekOrders,
         "processing_order": processingOrder,
-        "available_driver": availableDriver,
+        "available_driver": availableDrivers,
         "available_vehicle": availableVehicle,
       };
 }

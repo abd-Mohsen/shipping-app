@@ -14,6 +14,7 @@ class OrderCard extends StatelessWidget {
     required this.isCustomer,
   });
 
+  //todo: make date red if its close or finished
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;

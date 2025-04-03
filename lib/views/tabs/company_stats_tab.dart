@@ -61,7 +61,7 @@ class CompanyStatsTab extends StatelessWidget {
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
-                                    "0",
+                                    controller.companyStats!.availableDrivers.toString(),
                                     style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
@@ -87,7 +87,7 @@ class CompanyStatsTab extends StatelessWidget {
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
-                                    "1",
+                                    controller.companyStats!.availableVehicle.toString(),
                                     style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
@@ -113,7 +113,7 @@ class CompanyStatsTab extends StatelessWidget {
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
-                                    "2",
+                                    controller.companyStats!.processingOrder.toString(),
                                     style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
