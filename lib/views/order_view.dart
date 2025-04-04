@@ -787,7 +787,8 @@ class OrderView extends StatelessWidget {
                           ),
                         ),
                       ),
-                    if (!isCustomer && order.status == "approved" && order.driverApproved)
+                    //todo: show the name of the driver ("driver" didnt start the order yet)
+                    if (!isCustomer && !isCompany && order.status == "approved" && order.driverApproved)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                         child: CustomButton(
@@ -803,7 +804,7 @@ class OrderView extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                     child: Text(
-                                      "customer will track your progress",
+                                      "customer will track driver's progress".tr,
                                       style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                     ),
                                   ),

@@ -105,7 +105,7 @@ class OrderController extends GetxController {
   void acceptOrderDriver() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.driverAcceptOrder(order.id); //todo: do for company and employee
+    bool success = await RemoteServices.driverAcceptOrder(order.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       driverHomeController!.refreshExploreOrders();
@@ -161,7 +161,7 @@ class OrderController extends GetxController {
   void beginOrderDriver() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.driverBeginOrder(order.id); //todo: do for company and employee
+    bool success = await RemoteServices.driverBeginOrder(order.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       driverHomeController!.refreshCurrOrders();
@@ -236,7 +236,7 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  //todo: begin and finish company order company & edit vehicle & notifications page
+  //todo: begin and finish employee order company & edit vehicle & notifications page
 
   //-------------------------------------vehicle and employees-----------------------
 

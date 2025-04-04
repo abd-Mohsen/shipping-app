@@ -461,4 +461,9 @@ class RemoteServices {
     );
     return json != null;
   }
+
+  static Future<bool> companyBeginOrder(int orderID) async {
+    String? json = await api.postRequest("company_order/$orderID/start/", {}, auth: true);
+    return json != null;
+  }
 }

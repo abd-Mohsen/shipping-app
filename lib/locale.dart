@@ -180,6 +180,11 @@ class MyLocale extends Translations {
           "full name": "full name",
           "account details": "account details",
           "phone number": "phone number",
+          "begin the order?": "begin the order?",
+          "customer will track driver's progress": "customer will track driver's progress",
+          "customer will track your progress": "customer will track your progress",
+          "order was not accepted in time": "order was not accepted in time",
+          "join date": "join date",
         },
         "ar": {
           "Arabic": "العربية",
@@ -356,6 +361,11 @@ class MyLocale extends Translations {
           "full name": "الاسم الكامل",
           "account details": "تفاصيل الحساب",
           "phone number": "رقم الهاتف",
+          "begin the order?": "هل تريد بدء التوصيل",
+          "customer will track driver's progress": "الزبون سيتمكن من تتبع تقدم السائق على الخريطة",
+          "customer will track your progress": "الزبون سيتمكن من تتبع تقدمك على الخريطة",
+          "order was not accepted in time": "مضى وقت تسليم الطلبية",
+          "join date": "تاريخ الانضمام",
         },
       };
 }
