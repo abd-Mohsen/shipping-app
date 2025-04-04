@@ -22,7 +22,7 @@ class DriverHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
-    NotificationsController nC = Get.put(NotificationsController());
+    Get.put(NotificationsController());
     DriverHomeController hC = Get.put(DriverHomeController());
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
@@ -68,20 +68,22 @@ class DriverHomeView extends StatelessWidget {
                 style: tt.headlineSmall!.copyWith(letterSpacing: 2, color: cs.onPrimary),
               ),
               actions: [
-                IconButton(
-                  onPressed: () {
-                    Get.to(() => const NotificationsView());
-                  },
-                  icon: Badge(
-                    smallSize: 10,
-                    backgroundColor: Colors.lightGreenAccent,
-                    alignment: Alignment.topRight,
-                    child: Icon(
-                      Icons.notifications,
-                      color: cs.onPrimary,
+                GetBuilder<NotificationsController>(builder: (controller) {
+                  return IconButton(
+                    onPressed: () {
+                      Get.to(() => const NotificationsView());
+                    },
+                    icon: Badge(
+                      smallSize: 10,
+                      backgroundColor: const Color(0xff00ff00),
+                      alignment: Alignment.topRight,
+                      child: Icon(
+                        Icons.notifications,
+                        color: cs.onPrimary,
+                      ),
                     ),
-                  ),
-                )
+                  );
+                })
               ],
               centerTitle: true,
             ),

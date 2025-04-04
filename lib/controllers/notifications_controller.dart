@@ -117,6 +117,7 @@ class NotificationsController extends GetxController {
   void getNotifications() async {
     toggleLoading(true);
     //todo with pagination
+    //todo refresh when new notification
     // currOrders.clear();
     // List<MiniOrderModel> newItems = await RemoteServices.fetchDriverCurrOrders() ?? [];
     // currOrders.addAll(newItems);

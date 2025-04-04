@@ -199,7 +199,7 @@ class CompanyStatsTab extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 12),
+                              const SizedBox(height: 4),
                               Text(
                                 "orders taken last week".tr,
                                 style: tt.titleMedium!.copyWith(color: cs.onSurface),
@@ -267,13 +267,14 @@ class CompanyStatsTab extends StatelessWidget {
                                 initialAngleInDegree: 0,
                                 chartType: ChartType.disc,
                                 ringStrokeWidth: 32,
-                                centerText: "governorates".tr,
+                                centerText: "نسبة الطلبيات \n في المحافظات".tr,
+                                centerTextStyle: tt.labelMedium!.copyWith(color: Colors.black),
                                 legendOptions: LegendOptions(
                                   showLegendsInRow: false,
                                   legendPosition: LegendPosition.bottom,
                                   //showLegends: false,
                                   //legendShape: _BoxShape.circle,
-                                  legendTextStyle: tt.titleMedium!,
+                                  legendTextStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
                                 ),
                                 chartValuesOptions: const ChartValuesOptions(
                                   showChartValueBackground: true,

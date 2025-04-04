@@ -21,7 +21,7 @@ class CompanyHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
     CompanyHomeController cHC = Get.put(CompanyHomeController());
-    NotificationsController nC = Get.put(NotificationsController());
+    Get.put(NotificationsController());
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
@@ -67,30 +67,40 @@ class CompanyHomeView extends StatelessWidget {
               ),
               appBar: AppBar(
                 backgroundColor: cs.primary,
-                title: Text(
-                  'company'.toUpperCase(),
-                  style: tt.titleLarge!.copyWith(letterSpacing: 2, color: cs.onPrimary),
+                title: GetBuilder<CompanyHomeController>(
+                  builder: (controller) {
+                    return Text(
+                      controller.isLoadingUser || controller.currentUser == null
+                          ? 'company'.toUpperCase()
+                          : controller.currentUser!.companyInfo!.name,
+                      style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  },
                 ),
                 centerTitle: true,
                 actions: [
-                  IconButton(
-                    onPressed: () {
-                      Get.to(() => const NotificationsView());
-                    },
-                    icon: Badge(
-                      smallSize: 10,
-                      backgroundColor: Colors.lightGreenAccent,
-                      alignment: Alignment.topRight,
-                      child: Icon(
-                        Icons.notifications,
-                        color: cs.onPrimary,
+                  GetBuilder<NotificationsController>(builder: (controller) {
+                    return IconButton(
+                      onPressed: () {
+                        Get.to(() => const NotificationsView());
+                      },
+                      icon: Badge(
+                        smallSize: 10,
+                        backgroundColor: const Color(0xff00ff00),
+                        alignment: Alignment.topRight,
+                        child: Icon(
+                          Icons.notifications,
+                          color: cs.onPrimary,
+                        ),
                       ),
-                    ),
-                  )
+                    );
+                  })
                 ],
                 bottom: controller.tabIndex == 2
                     ? TabBar(
-                        indicatorColor: cs.onPrimary,
+                        indicatorColor: Color(0xff7fff00),
                         indicatorWeight: 4,
                         tabs: [
                           Tab(
@@ -173,7 +183,7 @@ class CompanyHomeView extends StatelessWidget {
                                     : UserAccountsDrawerHeader(
                                         //showing old data or not showing at all, add loading (is it solved?)
                                         accountName: Text(
-                                          "${con.currentUser!.firstName} ${con.currentUser!.lastName}  @  ${con.currentUser!.companyInfo!.name}",
+                                          "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
                                           style: tt.titleMedium,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,

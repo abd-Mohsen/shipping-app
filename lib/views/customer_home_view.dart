@@ -22,7 +22,7 @@ class CustomerHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
     CustomerHomeController hC = Get.put(CustomerHomeController());
-    NotificationsController nC = Get.put(NotificationsController());
+    Get.put(NotificationsController());
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
@@ -44,20 +44,22 @@ class CustomerHomeView extends StatelessWidget {
           ),
           centerTitle: true,
           actions: [
-            IconButton(
-              onPressed: () {
-                Get.to(() => const NotificationsView());
-              },
-              icon: Badge(
-                smallSize: 10,
-                backgroundColor: Colors.lightGreenAccent,
-                alignment: Alignment.topRight,
-                child: Icon(
-                  Icons.notifications,
-                  color: cs.onPrimary,
+            GetBuilder<NotificationsController>(builder: (controller) {
+              return IconButton(
+                onPressed: () {
+                  Get.to(() => const NotificationsView());
+                },
+                icon: Badge(
+                  smallSize: 10,
+                  backgroundColor: const Color(0xff00ff00),
+                  alignment: Alignment.topRight,
+                  child: Icon(
+                    Icons.notifications,
+                    color: cs.onPrimary,
+                  ),
                 ),
-              ),
-            )
+              );
+            })
           ],
         ),
         backgroundColor: cs.surface,

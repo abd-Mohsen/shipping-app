@@ -25,6 +25,7 @@ class OrderView extends StatelessWidget {
   //todo: improve (use primary containers)
   //todo: edit and delete (hide if not draft or available (ask) )
   //todo: add payment methods, driver details and status
+  //todo: show vehicle type and plate
   final OrderModel order;
   final bool isCustomer;
   const OrderView({

@@ -8,6 +8,7 @@ class EditProfileController extends GetxController {
   //todo implement for all roles
   //todo add delete profile
   //todo add images
+  //todo add change password
 
   @override
   void onInit() {
