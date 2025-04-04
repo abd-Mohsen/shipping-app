@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
+import 'package:pie_chart/pie_chart.dart' as pie;
 
 class CompanyStatsTab extends StatelessWidget {
   const CompanyStatsTab({super.key});
@@ -203,43 +205,87 @@ class CompanyStatsTab extends StatelessWidget {
                                 style: tt.titleMedium!.copyWith(color: cs.onSurface),
                               ),
                               const SizedBox(height: 72),
-                              Visibility(
-                                visible: controller.companyStats!.ordersPerCity.isNotEmpty,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: MediaQuery.of(context).size.width / 1.2,
-                                      child: PieChart(
-                                        PieChartData(
-                                          borderData: FlBorderData(show: false),
-                                          //centerSpaceRadius: 0,
-                                          sectionsSpace: 0,
-                                          sections: controller.companyStats!.ordersPerCity
-                                              .map(
-                                                (city) => PieChartSectionData(
-                                                  value: city.orderCount.toDouble(),
-                                                  title: city.orderLocationName,
-                                                  titleStyle: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                                  gradient: LinearGradient(
-                                                    colors: [cs.primary, cs.surface],
-                                                    stops: [0.4, 1],
-                                                  ),
-                                                  showTitle: true,
-                                                  radius: 100,
-                                                ),
-                                              )
-                                              .toList(),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      "orders by governorate",
-                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                    ),
-                                  ],
+                              // Visibility(
+                              //   visible: controller.companyStats!.ordersPerCity.isNotEmpty,
+                              //   child: Column(
+                              //     children: [
+                              //       SizedBox(
+                              //         height: MediaQuery.of(context).size.width / 1.2,
+                              //         child: PieChart(
+                              //           PieChartData(
+                              //             borderData: FlBorderData(show: false),
+                              //             //centerSpaceRadius: 0,
+                              //             sectionsSpace: 0,
+                              //             sections: controller.companyStats!.ordersPerCity
+                              //                 .map(
+                              //                   (city) => PieChartSectionData(
+                              //                     value: city.orderCount.toDouble(),
+                              //                     title: city.orderLocationName + "\n ${city.orderCount.toDouble()}",
+                              //                     titleStyle: tt.labelMedium!.copyWith(color: cs.onSurface),
+                              //                     // gradient: LinearGradient(
+                              //                     //   colors: [cs.primary, cs.surface],
+                              //                     //   stops: [0.1, 1],
+                              //                     // ),
+                              //                     color: cs.primary,
+                              //                     showTitle: true,
+                              //                     radius: 100,
+                              //                   ),
+                              //                 )
+                              //                 .toList(),
+                              //           ),
+                              //         ),
+                              //       ),
+                              //       const SizedBox(height: 16),
+                              //       Text(
+                              //         "orders by governorate",
+                              //         style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              pie.PieChart(
+                                dataMap: controller.companyStats!.decodedOrdersPerCity(),
+                                animationDuration: Duration(milliseconds: 800),
+                                chartLegendSpacing: 32,
+                                chartRadius: MediaQuery.of(context).size.width / 1.5,
+                                colorList: [
+                                  const Color(0xfffdcb6e), // Yellow
+                                  const Color(0xffe17055), // Orange
+                                  const Color(0xffd63031), // Red
+                                  const Color(0xffe84393), // Pink
+                                  const Color(0xff6c5ce7), // Purple
+                                  const Color(0xff0984e3), // Blue
+                                  const Color(0xff00cec9), // Teal
+                                  const Color(0xff00b894), // Green
+                                  const Color(0xff55efc4), // Mint
+                                  const Color(0xff74b9ff), // Light Blue
+                                  const Color(0xffa29bfe), // Lavender
+                                  const Color(0xffdfe6e9), // Light Gray
+                                  const Color(0xff636e72), // Dark Gray
+                                  const Color(0xff2d3436) // Almost Black
+                                ],
+                                initialAngleInDegree: 0,
+                                chartType: ChartType.disc,
+                                ringStrokeWidth: 32,
+                                centerText: "governorates".tr,
+                                legendOptions: LegendOptions(
+                                  showLegendsInRow: false,
+                                  legendPosition: LegendPosition.bottom,
+                                  //showLegends: false,
+                                  //legendShape: _BoxShape.circle,
+                                  legendTextStyle: tt.titleMedium!,
                                 ),
-                              ),
+                                chartValuesOptions: const ChartValuesOptions(
+                                  showChartValueBackground: true,
+                                  showChartValues: true,
+                                  showChartValuesInPercentage: true,
+                                  showChartValuesOutside: false,
+                                  decimalPlaces: 1,
+                                ),
+
+                                // gradientList: ---To add gradient colors---
+                                // emptyColorGradient: ---Empty Color gradient---
+                              )
                             ],
                           ),
                         ),

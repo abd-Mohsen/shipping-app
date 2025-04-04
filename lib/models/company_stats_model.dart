@@ -39,6 +39,16 @@ class CompanyStatsModel {
         availableVehicle: json["available_vehicles_length"],
       );
 
+  Map<String, double> decodedOrdersPerCity() {
+    Map<String, double> res = {};
+
+    for (OrdersPerCity ordersPerCity in ordersPerCity) {
+      res[ordersPerCity.orderLocationName] = ordersPerCity.orderCount.toDouble();
+    }
+
+    return res;
+  }
+
   Map<String, dynamic> toJson() => {
         "company_name": companyName,
         "total_employees": totalEmployees,
@@ -51,46 +61,6 @@ class CompanyStatsModel {
         "available_vehicle": availableVehicle,
       };
 }
-
-// class LastWeekOrders {
-//   final int monday;
-//   final int tuesday;
-//   final int wednesday;
-//   final int thursday;
-//   final int friday;
-//   final int saturday;
-//   final int sunday;
-//
-//   LastWeekOrders({
-//     required this.monday,
-//     required this.tuesday,
-//     required this.wednesday,
-//     required this.thursday,
-//     required this.friday,
-//     required this.saturday,
-//     required this.sunday,
-//   });
-//
-//   factory LastWeekOrders.fromJson(Map<String, dynamic> json) => LastWeekOrders(
-//         monday: json["Monday"],
-//         tuesday: json["Tuesday"],
-//         wednesday: json["Wednesday"],
-//         thursday: json["Thursday"],
-//         friday: json["Friday"],
-//         saturday: json["Saturday"],
-//         sunday: json["Sunday"],
-//       );
-//
-//   Map<String, dynamic> toJson() => {
-//         "Monday": monday,
-//         "Tuesday": tuesday,
-//         "Wednesday": wednesday,
-//         "Thursday": thursday,
-//         "Friday": friday,
-//         "Saturday": saturday,
-//         "Sunday": sunday,
-//       };
-// }
 
 class OrdersPerCity {
   final String orderLocationName;
