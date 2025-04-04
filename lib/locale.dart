@@ -185,6 +185,9 @@ class MyLocale extends Translations {
           "customer will track your progress": "customer will track your progress",
           "order was not accepted in time": "order was not accepted in time",
           "join date": "join date",
+          "you currently have these orders": "you currently have these orders",
+          "my vehicles": "my vehicles",
+          "edit order": "edit order",
         },
         "ar": {
           "Arabic": "العربية",
@@ -366,6 +369,9 @@ class MyLocale extends Translations {
           "customer will track your progress": "الزبون سيتمكن من تتبع تقدمك على الخريطة",
           "order was not accepted in time": "مضى وقت تسليم الطلبية",
           "join date": "تاريخ الانضمام",
+          "you currently have these orders": "لديك هذه الطلبات الغير منتهية بعد",
+          "my vehicles": "مركباتي",
+          "edit order": "تعديل الطلبية",
         },
       };
 }

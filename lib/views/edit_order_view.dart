@@ -281,7 +281,14 @@ class EditOrderView extends StatelessWidget {
                           },
                         ),
                 ),
-                DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
+                order.dateTime.isBefore(DateTime.now())
+                    ? Badge(
+                        smallSize: 10,
+                        backgroundColor: const Color(0xff00ff00),
+                        alignment: Alignment.centerRight,
+                        child: DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
+                      )
+                    : DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
                 TimeSelector(time: controller.selectedTime, selectTimeCallback: controller.setTime),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
