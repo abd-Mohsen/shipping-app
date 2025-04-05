@@ -206,7 +206,7 @@ class OrderView extends StatelessWidget {
                                 confirm: TextButton(
                                   onPressed: () {
                                     Get.back();
-                                    //refuse with loading
+                                    controller.refuseOrderCustomer();
                                     //todo: don't let user click either buttons if one is loading
                                   },
                                   child: Text(
@@ -228,7 +228,7 @@ class OrderView extends StatelessWidget {
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all<Color>(Colors.redAccent),
                             ),
-                            child: true
+                            child: !controller.isLoadingSubmit
                                 ? Text(
                                     "refuse".tr,
                                     style: tt.titleSmall!.copyWith(color: cs.onPrimary),

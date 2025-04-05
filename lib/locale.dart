@@ -189,6 +189,7 @@ class MyLocale extends Translations {
           "my vehicles": "my vehicles",
           "edit order": "edit order",
           "my notifications": "my notifications",
+          "you need to add a car to use the app": "you need to add a car to use the app",
         },
         "ar": {
           "Arabic": "العربية",
@@ -347,7 +348,7 @@ class MyLocale extends Translations {
           "select time": "اختر الساعة",
           "desired day": "اليوم المطلوب",
           "desired time": "الساعة المطلوبة",
-          "order type": "نوع الطلب",
+          "order type": "نوع الطلبية",
           "taken": "مأخوذ",
           "not taken": "غير مأخوذ",
           "finished": "منتهي",
@@ -374,6 +375,7 @@ class MyLocale extends Translations {
           "my vehicles": "مركباتي",
           "edit order": "تعديل الطلبية",
           "my notifications": "الاشعارات",
+          "you need to add a car to use the app": "يجب أن تضيف سيارتك لتستخدم التطبيق",
         },
       };
 }

@@ -133,6 +133,21 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
+  void refuseOrderCustomer() async {
+    if (isLoadingSubmit) return;
+    toggleLoadingSubmit(true);
+    bool success = await RemoteServices.customerRefuseOrder(order.id);
+    if (success) {
+      if (Get.routing.current == "/OrderView") Get.back();
+      customerHomeController!.refreshOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "request was submitted, waiting for response".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingSubmit(false);
+  }
+
   void confirmOrderDriver() async {
     if (isLoadingSubmit) return;
     buttonPressed = true;

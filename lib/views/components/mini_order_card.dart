@@ -4,6 +4,7 @@ import 'package:shipment/models/mini_order_model.dart';
 
 class MiniOrderCard extends StatelessWidget {
   final MiniOrderModel order;
+  //todo show other details like description and employee
 
   const MiniOrderCard({
     super.key,

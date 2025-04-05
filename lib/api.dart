@@ -273,6 +273,9 @@ void handleError(int statusCode, String json) {
   if (response.containsKey("error")) {
     title = "error";
     content = response["error"];
+  } else if (response.containsKey("message")) {
+    title = "error";
+    content = response["message"];
   } else {
     title = response.keys.first;
     content = response.values.first.first;
