@@ -188,6 +188,7 @@ class MyLocale extends Translations {
           "you currently have these orders": "you currently have these orders",
           "my vehicles": "my vehicles",
           "edit order": "edit order",
+          "my notifications": "my notifications",
         },
         "ar": {
           "Arabic": "العربية",
@@ -372,6 +373,7 @@ class MyLocale extends Translations {
           "you currently have these orders": "لديك هذه الطلبات الغير منتهية بعد",
           "my vehicles": "مركباتي",
           "edit order": "تعديل الطلبية",
+          "my notifications": "الاشعارات",
         },
       };
 }

@@ -66,12 +66,12 @@ class OrderView extends StatelessWidget {
                 Get.to(() => EditOrderView(order: order));
               },
               icon: order.dateTime.isBefore(DateTime.now())
-                  ? Badge(
+                  ? const Badge(
                       smallSize: 10,
-                      backgroundColor: const Color(0xff00ff00),
+                      backgroundColor: Color(0xff00ff00),
                       child: Icon(Icons.edit),
                     )
-                  : Icon(Icons.edit),
+                  : const Icon(Icons.edit),
             ),
           if (isCustomer && ["draft", "available"].contains(order.status))
             IconButton(
