@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
+import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
@@ -81,6 +82,9 @@ class MakeOrderController extends GetxController {
   LocationModel? sourceLocation;
   LocationModel? targetLocation;
 
+  AddressModel? sourceAddress;
+  AddressModel? targetAddress;
+
   bool _isLoadingSelect1 = false;
   bool get isLoadingSelect1 => _isLoadingSelect1;
   void toggleLoadingSelect1(bool value) {
@@ -97,18 +101,36 @@ class MakeOrderController extends GetxController {
 
   void calculateStartAddress() async {
     toggleLoadingSelect1(true);
-    if (startPosition == null) return;
-    sourceLocation = await RemoteServices.getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
-    print(sourceLocation?.addressEncoder().toJson());
+    if (startPosition != null) {
+      sourceLocation = await RemoteServices.getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
+      if (sourceLocation != null) sourceAddress = sourceLocation!.addressEncoder();
+    }
     toggleLoadingSelect1(false);
   }
 
   void calculateTargetAddress() async {
     toggleLoadingSelect2(true);
-    if (endPosition == null) return;
-    targetLocation = await RemoteServices.getAddressFromLatLng(endPosition!.latitude, endPosition!.longitude);
-    print(targetLocation?.addressEncoder().toJson());
+    if (endPosition != null) {
+      targetLocation = await RemoteServices.getAddressFromLatLng(endPosition!.latitude, endPosition!.longitude);
+      if (targetLocation != null) targetAddress = targetLocation!.addressEncoder();
+    }
     toggleLoadingSelect2(false);
+  }
+
+  void selectStartAddress(AddressModel address) {
+    Get.back();
+    Get.back();
+    // if (Get.routing.current != "/MakeOrderView") Get.back();
+    sourceAddress = address;
+    update();
+  }
+
+  void selectEndAddress(AddressModel address) {
+    Get.back();
+    Get.back();
+    // if (Get.routing.current != "/MakeOrderView") Get.back();
+    targetAddress = address;
+    update();
   }
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -212,7 +234,7 @@ class MakeOrderController extends GetxController {
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
-    if (sourceLocation == null || targetLocation == null) {
+    if (sourceAddress == null || targetAddress == null) {
       Get.showSnackbar(GetSnackBar(
         message: "pick positions first".tr,
         duration: const Duration(milliseconds: 2500),
@@ -220,7 +242,8 @@ class MakeOrderController extends GetxController {
       return;
     }
     List<String> syriaNames = ["sy", "syria", "سوريا"];
-    if (!syriaNames.contains(sourceLocation!.country) || !syriaNames.contains(targetLocation!.country)) {
+    if ((sourceLocation != null && !syriaNames.contains(sourceLocation!.country)) ||
+        (targetLocation != null && !syriaNames.contains(targetLocation!.country))) {
       Get.showSnackbar(GetSnackBar(
         message: "pick a position in syria".tr,
         duration: const Duration(milliseconds: 2500),
@@ -254,13 +277,13 @@ class MakeOrderController extends GetxController {
     Map<String, dynamic> order = {
       "discription": description.text,
       "type_vehicle": selectedVehicleType?.id,
-      "start_point": [sourceLocation!.addressEncoder().toJson()],
-      "end_point": [targetLocation!.addressEncoder().toJson()],
+      "start_point": [sourceAddress!.toJson()],
+      "end_point": [targetAddress!.toJson()],
       //todo: add lat, long here and in order model and in my-addresses and in edit address
-      "start_latitude": startPosition!.latitude,
-      "start_longitude": startPosition!.longitude,
-      "end_latitude": endPosition!.latitude,
-      "end_longitude": endPosition!.longitude,
+      "start_latitude": startPosition?.latitude ?? 0, //TODO: when selecting existing order, i cant get this
+      "start_longitude": startPosition?.longitude ?? 0,
+      "end_latitude": endPosition?.latitude ?? 0,
+      "end_longitude": endPosition?.longitude ?? 0,
       "weight": weight.text,
       "price": int.parse(price.text),
       "DateTime": desiredDate.toIso8601String(),

@@ -4,8 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:shipment/models/address_model.dart';
 import '../models/location_model.dart';
 import '../services/remote_services.dart';
+import 'edit_order_controller.dart';
+import 'make_order_controller.dart';
 
 class MyAddressesController extends GetxController {
+  late MakeOrderController? makeOrderController;
+  late EditOrderController? editOrderController;
+
+  MyAddressesController({this.makeOrderController, this.editOrderController});
+
+  bool get selectionMode => makeOrderController != null || editOrderController != null;
+
   @override
   void onInit() {
     getMyAddresses();

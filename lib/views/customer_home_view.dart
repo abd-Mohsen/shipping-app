@@ -39,8 +39,8 @@ class CustomerHomeView extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: cs.primary,
           title: Text(
-            'customer'.toUpperCase(), //todo: put something else here for al home pages
-            style: tt.headlineSmall!.copyWith(letterSpacing: 2, color: cs.onPrimary),
+            'my orders'.tr, //todo: put something else here for al home pages
+            style: tt.titleMedium!.copyWith(letterSpacing: 2, color: cs.onPrimary),
           ),
           centerTitle: true,
           actions: [
@@ -97,7 +97,7 @@ class CustomerHomeView extends StatelessWidget {
                                         child: Center(
                                           child: Text(
                                             "no data, pull down to refresh".tr,
-                                            style: tt.titleSmall!.copyWith(
+                                            style: tt.titleMedium!.copyWith(
                                               color: cs.onSurface,
                                               fontWeight: FontWeight.bold,
                                             ),

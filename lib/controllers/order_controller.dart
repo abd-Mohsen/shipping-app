@@ -46,10 +46,14 @@ class OrderController extends GetxController {
 
   void setStatusIndex() {
     if (order.status == "draft") return;
+    if (order.status == "cancelled") {
+      statuses.removeLast();
+      statuses.add("cancelled");
+    }
     statusIndex = statuses.indexOf(order.status);
   }
 
-  List<String> statuses = ["available", "pending", "approved", "processing", "done"];
+  List<String> statuses = ["available", "pending", "approved", "processing", "done"]; //todo there is cancelled
 
   late PaymentMethod selectedPayment;
 

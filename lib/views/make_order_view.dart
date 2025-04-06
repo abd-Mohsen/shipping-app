@@ -52,21 +52,25 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 MapSelector(
                   mapController: controller.mapController1,
+                  makeOrderController: mOC,
                   start: true,
-                  address: controller.sourceLocation?.addressEncoder().toString() ?? "select location".tr,
+                  address: controller.sourceAddress?.toString() ?? "select location".tr,
                   onClose: () {
                     controller.calculateStartAddress();
                   },
                   isLoading: controller.isLoadingSelect1,
+                  source: "make",
                 ),
                 MapSelector(
                   mapController: controller.mapController2,
+                  makeOrderController: mOC,
                   start: false,
-                  address: controller.targetLocation?.addressEncoder().toString() ?? "select location".tr,
+                  address: controller.targetAddress?.toString() ?? "select location".tr,
                   onClose: () {
                     controller.calculateTargetAddress();
                   },
                   isLoading: controller.isLoadingSelect2,
+                  source: "make",
                 ),
                 SizedBox(height: 8),
                 InputField(

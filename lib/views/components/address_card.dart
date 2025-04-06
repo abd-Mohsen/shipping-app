@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:shipment/constants.dart';
 import 'package:shipment/models/address_model.dart';
-import 'package:shipment/models/vehicle_model.dart';
 
 class AddressCard extends StatelessWidget {
   final AddressModel address;
+  final bool selectMode;
   final void Function() onDelete;
+  final void Function()? onSelect;
 
   const AddressCard({
     super.key,
     required this.address,
+    required this.selectMode,
     required this.onDelete,
+    this.onSelect,
   });
 
   @override
@@ -24,6 +23,7 @@ class AddressCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
+        onTap: onSelect,
         leading: Icon(
           Icons.location_pin,
           color: cs.primary,
@@ -45,14 +45,16 @@ class AddressCard extends StatelessWidget {
             width: 1,
           ),
         ),
-        trailing: IconButton(
-          onPressed: onDelete,
-          icon: const Icon(
-            Icons.delete,
-            color: Colors.red,
-            size: 25,
-          ),
-        ),
+        trailing: selectMode
+            ? null
+            : IconButton(
+                onPressed: onDelete,
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: 25,
+                ),
+              ),
       ),
     );
   }

@@ -11,8 +11,6 @@ import '../views/redirect_page.dart';
 class NotificationsController extends GetxController {
   @override
   onInit() {
-    _isLoading = false;
-    allNotifications.clear();
     requestPermissionFCM();
     getFCMToken();
     setupFCMListeners();
@@ -85,11 +83,10 @@ class NotificationsController extends GetxController {
   }
 
   void setupFCMListeners() {
-    //todo: notification from here and websocket are appearing together when listening here
     //todo: notifications from here appears without badge when app is close
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // print('Received notification: ${message.notification?.title}');
-      // print('Body: ${message.notification?.body}');
+      print('Received notification: ${message.notification?.title}');
+      print('Body: ${message.notification?.body}');
       notificationService.showNotification(
         id: notificationID,
         title: message.notification?.title,

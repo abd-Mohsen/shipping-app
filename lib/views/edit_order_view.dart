@@ -58,6 +58,7 @@ class EditOrderView extends StatelessWidget {
                     controller.calculateStartAddress();
                   },
                   isLoading: controller.isLoadingSelect1,
+                  source: "edit",
                 ),
                 MapSelector(
                   mapController: controller.mapController2,
@@ -67,6 +68,7 @@ class EditOrderView extends StatelessWidget {
                     controller.calculateTargetAddress();
                   },
                   isLoading: controller.isLoadingSelect2,
+                  source: "edit",
                 ),
                 SizedBox(height: 8),
                 InputField(

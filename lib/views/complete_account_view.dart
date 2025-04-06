@@ -18,6 +18,7 @@ class CompleteAccountView extends StatelessWidget {
 
     return PopScope(
       canPop: false,
+      // todo fix deprecated code
       onPopInvoked: (bool didPop) {
         if (didPop) {
           return;
