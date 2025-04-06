@@ -48,11 +48,10 @@ class CompleteAccountController extends GetxController {
         backgroundColor: Colors.green,
       ));
     }
-    idFront = await downloadImage("$kHostIP/en${homeController.currentUser.idPhotoFront}");
-    idRear = await downloadImage("$kHostIP/en${homeController.currentUser.idPhotoRare}");
-    dLicenseFront =
-        await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.drivingLicensePhotoFront}");
-    dLicenseRear = await downloadImage("$kHostIP/en${homeController.currentUser.driverInfo!.drivingLicensePhotoRare}");
+    idFront = await downloadImage("$kHostIP${homeController.currentUser.idPhotoFront}");
+    idRear = await downloadImage("$kHostIP${homeController.currentUser.idPhotoRare}");
+    dLicenseFront = await downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoFront}");
+    dLicenseRear = await downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoRare}");
     toggleLoadingImages(false);
   }
 

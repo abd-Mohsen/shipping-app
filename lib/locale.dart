@@ -190,6 +190,16 @@ class MyLocale extends Translations {
           "edit order": "edit order",
           "my notifications": "my notifications",
           "you need to add a car to use the app": "you need to add a car to use the app",
+          "submit": "submit",
+          "help": "help",
+          "pending, wait for response": "pending, wait for response",
+          "accepted, no need to change": "accepted, no need to change",
+          "refused, upload another image then submit": "refused, upload another image then submit",
+          "you cannot exit": "you cannot exit",
+          "you cannot use the app until your info are accepted, logout if you want":
+              "you cannot use the app until your info are accepted, logout if you want",
+          "updated successfully": "updated successfully",
+          "no new images were selected": "no new images were selected",
         },
         "ar": {
           "Arabic": "العربية",
@@ -341,7 +351,7 @@ class MyLocale extends Translations {
           "phone_number": "رقم الهاتف",
           "user_name": "اسم المستخدم",
           "This field must be unique.": "هذه القيمة مستخدمة سابقا",
-          "ok": "ok",
+          "ok": "موافق",
           "accept the order?": "هل تريد قبول الطلب؟",
           "refuse the order?": "هل تريد رفض الطلب؟",
           "select date": "اختر تاريخ",
@@ -376,6 +386,16 @@ class MyLocale extends Translations {
           "edit order": "تعديل الطلبية",
           "my notifications": "الاشعارات",
           "you need to add a car to use the app": "يجب أن تضيف سيارتك لتستخدم التطبيق",
+          "submit": "ارسال",
+          "help": "مساعدة",
+          "pending, wait for response": "في حالة الانتظار, انتظر حتى يتم التحقق منها",
+          "accepted, no need to change": "مقبولة, لا داعي لتغييرها",
+          "refused, upload another image then submit": "مرفوضة, اختر صورة جديدة ثم أرسل",
+          "you cannot exit": "لا تستطيع الرجوع",
+          "you cannot use the app until your info are accepted, logout if you want":
+              "لا تستطيع استخدام التطبيق حتى يتم قبول كل بياناتك, يمكنك تسجيل الخروج اذا أردت",
+          "updated successfully": "تم التحديث بنجاح",
+          "no new images were selected": "لم يتم اختيار صور جديدة",
         },
       };
 }

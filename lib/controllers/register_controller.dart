@@ -114,13 +114,12 @@ class RegisterController extends GetxController {
       phone.text,
       password.text,
       rePassword.text,
-      companyName.text,
-      "69",
-      otp.text,
-      idFrontFile,
-      idRearFile,
-      lFrontFile,
-      lRearFile,
+      roles[roleIndex] == "company" ? companyName.text : null,
+      roles[roleIndex] == "employee" ? otp.text : null,
+      ["driver", "employee", "company"].contains(roles[roleIndex]) ? idFrontFile : null,
+      ["driver", "employee", "company"].contains(roles[roleIndex]) ? idRearFile : null,
+      ["driver", "employee"].contains(roles[roleIndex]) ? lFrontFile : null,
+      ["driver", "employee"].contains(roles[roleIndex]) ? lRearFile : null,
     ));
     if (success) {
       Get.back();

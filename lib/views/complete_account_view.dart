@@ -30,20 +30,23 @@ class CompleteAccountView extends StatelessWidget {
               style: tt.titleLarge!.copyWith(color: cs.onSurface),
             ),
             content: Text(
-              'You cannot use the app until your info are accepted, logout if you want'.tr,
+              'you cannot use the app until your info are accepted, logout if you want'.tr,
               style: tt.titleSmall!.copyWith(color: cs.onSurface),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text(
-                  'OK',
+                  'ok'.tr,
                   style: tt.titleSmall!.copyWith(color: cs.onSurface),
                 ),
               ),
               TextButton(
                 onPressed: () => cAC.logout(),
-                child: const Text('logout'),
+                child: Text(
+                  'logout'.tr,
+                  style: tt.titleSmall!.copyWith(color: cs.error),
+                ),
               ),
             ],
           ),
@@ -72,7 +75,7 @@ class CompleteAccountView extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Get.defaultDialog(
-                  title: "help".tr, //todo localize this dialog
+                  title: "help".tr,
                   titleStyle: tt.titleLarge!.copyWith(color: cs.onSurface),
                   titlePadding: const EdgeInsets.only(top: 20),
                   content: Column(

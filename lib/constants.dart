@@ -7,6 +7,7 @@ String kHostIP = "https://shipping.adadevs.com";
 
 String kFontFamily = 'Alexandria';
 
+Duration kTimeOutDurationLong = const Duration(seconds: 60);
 Duration kTimeOutDuration = const Duration(seconds: 25);
 Duration kTimeOutDuration2 = const Duration(seconds: 15);
 Duration kTimeOutDuration3 = const Duration(seconds: 7);

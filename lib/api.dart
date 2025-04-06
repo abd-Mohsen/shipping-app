@@ -12,7 +12,7 @@ import 'constants.dart';
 //todo: when multiple requests are made when entering the app, session expire dialog can appear many times
 class Api {
   var client = http.Client();
-  final String _hostIP = "$kHostIP/ar/api";
+  final String _hostIP = "$kHostIP/en/api";
   final _getStorage = GetStorage();
   String get accessToken => _getStorage.read("token");
 
@@ -50,7 +50,7 @@ class Api {
         return null;
       }
 
-      handleError(response.statusCode, responseBody);
+      //handleError(response.statusCode, responseBody); //todo: see if you ever need it in get requests
       return response.statusCode == 200 ? responseBody : null;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
@@ -203,6 +203,7 @@ class Api {
   }) async {
     print("sending to $_hostIP/$endPoint");
     if (auth) print("Token $accessToken");
+    print(body);
     try {
       var request = http.MultipartRequest(
         methodType,
@@ -233,7 +234,7 @@ class Api {
         request.files.add(multipartFile);
       }
 
-      var response = await request.send().timeout(kTimeOutDuration);
+      var response = await request.send().timeout(kTimeOutDurationLong);
       String responseBody = await response.stream.bytesToString();
       if (utf8Decode) responseBody = utf8.decode(latin1.encode(responseBody));
       print("$responseBody===========${response.statusCode}");
