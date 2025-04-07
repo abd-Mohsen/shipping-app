@@ -425,12 +425,13 @@ class RemoteServices {
 
   //
 
-  static Future<Map<String, List>?> fetchAvailableVehiclesAndEmployees() async {
+  static Future<Map<String, List?>?> fetchAvailableVehiclesAndEmployees() async {
     String? json = await api.getRequest("get_avaliable_employees_vehicles/", auth: true);
     if (json == null) return null;
     Map decodedJson = jsonDecode(json);
     List availableVehicles = vehicleModelFromJson(jsonEncode(decodedJson["vehicles"]));
-    List availableEmployees = employeeModelFromJson(jsonEncode(decodedJson["employees"]));
+    List? availableEmployees =
+        decodedJson["employees"] == null ? null : employeeModelFromJson(jsonEncode(decodedJson["employees"]));
     return {
       "vehicles": availableVehicles,
       "employees": availableEmployees,

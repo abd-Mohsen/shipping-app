@@ -31,7 +31,7 @@ class OrderController extends GetxController {
   void onInit() async {
     setStatusIndex();
     isEmployee = await _getStorage.read("role") == "company_employee";
-    if (companyHomeController != null) getAvailableVehiclesAndEmployees();
+    if (companyHomeController != null || isEmployee) getAvailableVehiclesAndEmployees();
     selectedPayment = order.paymentMethods[0];
     //todo: draw path
     if (customerHomeController != null && ["processing"].contains(order.status)) _connectTrackingSocket();
@@ -283,13 +283,13 @@ class OrderController extends GetxController {
 
   Future<void> getAvailableVehiclesAndEmployees() async {
     toggleLoadingVehicles(true);
-    Map<String, List>? res = await RemoteServices.fetchAvailableVehiclesAndEmployees();
+    Map<String, List?>? res = await RemoteServices.fetchAvailableVehiclesAndEmployees();
     if (res == null) {
       toggleLoadingVehicles(false);
       return;
     }
     availableVehicles = res["vehicles"]! as List<VehicleModel>;
-    availableEmployees = res["employees"]! as List<EmployeeModel>;
+    if (res["employees"] != null) availableEmployees = res["employees"]! as List<EmployeeModel>;
 
     toggleLoadingVehicles(false);
   }

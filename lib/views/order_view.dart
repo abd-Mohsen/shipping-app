@@ -509,6 +509,7 @@ class OrderView extends StatelessWidget {
                                   builder: (controller) {
                                     return Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                       decoration: BoxDecoration(
                                         borderRadius: const BorderRadius.only(
                                           topRight: Radius.circular(20),
