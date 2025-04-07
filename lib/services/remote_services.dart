@@ -60,14 +60,6 @@ class RemoteServices {
     };
     String? json = await api.requestWithFiles("auth/register/", images, body, auth: false);
     if (json == null) {
-      // Get.defaultDialog(
-      //   titleStyle: const TextStyle(color: Colors.black),
-      //   middleTextStyle: const TextStyle(color: Colors.black),
-      //   backgroundColor: Colors.white,
-      //   title: "خطأ",
-      //   //todo: show the error msg from backend, from api.dart directly
-      //   middleText: "يرجى المحاولة مجدداً, قد يكون الهاتف أو اسم الحساب مستخدماً بالفعل",
-      // );
       return false;
     }
     return true;

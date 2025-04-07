@@ -14,7 +14,7 @@ class DriverHomeTab extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    //todo: show processing orders first (label them)
+    //todo: show processing orders first
     return GetBuilder<DriverHomeController>(
       builder: (controller) {
         return Padding(

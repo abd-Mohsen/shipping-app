@@ -40,8 +40,7 @@ class RegisterView extends StatelessWidget {
                       //const Spacer(),
                       Expanded(
                         flex: 3,
-                        //todo: replace png with svg to save space
-                        //todo: put arrows around the pic
+                        //todo(later): replace png with svg to save space
                         child: Hero(
                           tag: "auth_image",
                           child: Column(
@@ -93,7 +92,6 @@ class RegisterView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          //todo: add fields and hide them based on role
                           Visibility(
                             visible: controller.roles[controller.roleIndex] == "company",
                             child: AuthField(

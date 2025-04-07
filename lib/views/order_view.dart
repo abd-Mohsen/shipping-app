@@ -21,10 +21,7 @@ import 'components/auth_field.dart';
 import 'components/input_field.dart';
 
 class OrderView extends StatelessWidget {
-  //todo: make it different depending on status, and on wither if the user is driver or customer
-  //todo: improve (use primary containers)
-  //todo: edit and delete (hide if not draft or available (ask) )
-  //todo: add payment methods, driver details and status
+  //todo: show payment methods
   //todo: show vehicle type and plate
   final OrderModel order;
   final bool isCustomer;
@@ -119,9 +116,6 @@ class OrderView extends StatelessWidget {
         builder: (controller) {
           return Column(
             children: [
-              // todo (make the notification enter to this page)
-              // todo make a button to start the trip
-              // todo show driver and customer info after accepting
               if (isCustomer && order.status == "pending" && !order.ownerApproved)
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -359,7 +353,7 @@ class OrderView extends StatelessWidget {
                                               visible: ["money_transfer"]
                                                   .contains(controller.selectedPayment.payment.methodName),
                                               child: InputField(
-                                                //todo: recommend old phone numbers
+                                                //todo(later): recommend old phone numbers
                                                 controller: controller.phoneNumber,
                                                 label: "phone number".tr,
                                                 keyboardType: TextInputType.number,
@@ -492,7 +486,6 @@ class OrderView extends StatelessWidget {
                     ),
                   ),
                 ),
-
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -793,7 +786,7 @@ class OrderView extends StatelessWidget {
                           ),
                         ),
                       ),
-                    //todo: show the name of the driver ("driver" didnt start the order yet)
+                    //todo: for company: show the name of the driver ("driver" didnt start the order yet)
                     if (!isCustomer && !isCompany && order.status == "approved" && order.driverApproved)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),

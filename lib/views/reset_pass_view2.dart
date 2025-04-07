@@ -35,7 +35,7 @@ class ResetPassView2 extends StatelessWidget {
                     const Spacer(),
                     Expanded(
                       flex: 12,
-                      //todo: replace png with svg to save space
+                      //todo(later): replace png with svg to save space
                       child: Hero(
                         tag: "auth_image",
                         child: Image.asset('assets/images/password.png'),
@@ -58,7 +58,6 @@ class ResetPassView2 extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          //todo: make text obscure and add show password button
                           AuthField(
                             controller: rPC.newPassword,
                             keyboardType: TextInputType.text,

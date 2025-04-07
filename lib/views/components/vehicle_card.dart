@@ -131,9 +131,21 @@ class VehicleCard extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
           ),
+          // todo
+          // ListTile(
+          //   onTap: ,
+          //   title: Text(
+          //     "edit".tr,
+          //     maxLines: 1,
+          //     overflow: TextOverflow.ellipsis,
+          //     style: tt.titleMedium!.copyWith(
+          //       color: cs.onSurface,
+          //     ),
+          //     textAlign: TextAlign.start,
+          //   ),
+          // ),
           Image.network(
-            //todo: 404 error from server
-            "$kHostIP/ar${vehicle.registrationPhoto}",
+            "$kHostIP${vehicle.registrationPhoto}",
             headers: const {"Keep-Alive": "timeout=5, max=1000"},
             loadingBuilder: (context, child, loadingProgress) {
               if (loadingProgress == null) {

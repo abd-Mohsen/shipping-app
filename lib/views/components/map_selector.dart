@@ -42,7 +42,6 @@ class MapSelector extends StatelessWidget {
         borderRadius: BorderRadius.circular(32),
         child: GestureDetector(
           onTap: () {
-            //todo: allow to choose from my addresses first
             showModalBottomSheet(
               context: context,
               enableDrag: false,

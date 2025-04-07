@@ -36,7 +36,7 @@ class LoginView extends StatelessWidget {
                     const Spacer(),
                     Expanded(
                       flex: 16,
-                      //todo: replace png with svg to save space
+                      //todo(later): replace png with svg to save space
                       child: Hero(
                         tag: "auth_image",
                         child: Image.asset('assets/images/driver.png'),

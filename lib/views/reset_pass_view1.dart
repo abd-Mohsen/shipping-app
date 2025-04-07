@@ -34,7 +34,7 @@ class ResetPassView1 extends StatelessWidget {
                     const Spacer(),
                     Expanded(
                       flex: 12,
-                      //todo: replace png with svg to save space
+                      //todo(later): replace png with svg to save space
                       child: Hero(
                         tag: "auth_image",
                         child: Image.asset('assets/images/sms1.png'),
@@ -56,7 +56,6 @@ class ResetPassView1 extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        //todo: if phone does not exist in db, show msg
                         AuthField(
                           controller: rPC.phone,
                           keyboardType: TextInputType.phone,

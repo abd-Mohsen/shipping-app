@@ -4,7 +4,6 @@ import 'constants.dart';
 
 ///custom themes
 
-//todo: add colors for primary container
 class MyThemes {
   static ThemeData myDarkMode = ThemeData.dark().copyWith(
     splashColor: Colors.transparent,

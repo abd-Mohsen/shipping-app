@@ -33,7 +33,6 @@ class CompanyHomeView extends StatelessWidget {
       const CompanyEmployeesTab(),
     ];
 
-    //todo: make it tab for orders tab
     return DefaultTabController(
       length: 3,
       initialIndex: 1,
@@ -54,7 +53,6 @@ class CompanyHomeView extends StatelessWidget {
                   NavigationDestination(icon: Icon(Icons.home_rounded), label: "home".tr),
                   NavigationDestination(icon: Icon(Icons.list), label: "orders".tr),
                   NavigationDestination(icon: Icon(Icons.manage_accounts), label: "employees".tr),
-                  //todo: tab to explore new orders, and tab for curr orders
                 ],
                 height: MediaQuery.of(context).size.height / 11,
                 backgroundColor: Get.isDarkMode ? cs.primary : Color(0xffefefef),
@@ -195,8 +193,6 @@ class CompanyHomeView extends StatelessWidget {
                                         ),
                                       );
                           }),
-                          //todo: add language and other widgets, and unify the drawer if possible
-                          //todo: redirect if not verified or have no car
                           ListTile(
                             leading: const Icon(Icons.manage_accounts),
                             title: Text("edit profile".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),

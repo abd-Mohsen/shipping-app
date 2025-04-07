@@ -55,6 +55,7 @@ class CompanyHomeController extends GetxController {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
     if (_currentUser != null) {
+      //todo: handle this for no id (company have no license) and fix refresh user here.. copy from driver
       // if (_currentUser!.driverInfo != null && !_currentUser!.driverInfo!.isVerifiedId) {
       //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
       // }
@@ -64,8 +65,6 @@ class CompanyHomeController extends GetxController {
       //   tabIndex = 0; // car tab
       //   update();
       // }
-
-      //todo: handle the case of: no car, no license and no verified phone
       if (!_currentUser!.isVerified) {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));
@@ -265,7 +264,6 @@ class CompanyHomeController extends GetxController {
     toggleLoadingStats(true);
     companyStats = await RemoteServices.fetchCompanyStats();
     //todo: filter
-    //todo: fill all data (after backend provide them)
     toggleLoadingStats(false);
   }
 }

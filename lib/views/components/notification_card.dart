@@ -54,7 +54,7 @@ class NotificationCard extends StatelessWidget {
                         notification.title,
                         style: tt.titleMedium!.copyWith(color: cs.onSurface),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                        maxLines: 5,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -62,7 +62,7 @@ class NotificationCard extends StatelessWidget {
                       width: MediaQuery.of(context).size.width / 1.6,
                       child: Text(
                         notification.content,
-                        maxLines: 5,
+                        maxLines: 10,
                         overflow: TextOverflow.ellipsis,
                         style: tt.titleSmall!.copyWith(
                           color: cs.onSurface.withOpacity(0.5),

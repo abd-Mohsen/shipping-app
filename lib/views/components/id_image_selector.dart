@@ -120,7 +120,6 @@ class IdImageSelector extends StatelessWidget {
             ),
           );
         },
-        //todo: border not appearing in add vehicle
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(32),
           side: BorderSide(

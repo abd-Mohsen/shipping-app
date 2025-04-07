@@ -127,7 +127,6 @@ class DriverHomeView extends StatelessWidget {
                                           //showing old data or not showing at all, add loading (is it solved?)
                                           accountName: Text(
                                             "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
-                                            //todo: handle arabic UTF-8, preferably from api.dart directly
                                             style: tt.headlineSmall,
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -157,8 +156,6 @@ class DriverHomeView extends StatelessWidget {
                                       ],
                                     );
                         }),
-                        //todo: add language and other widgets, and unify the drawer if possible
-                        //todo: redirect if not verified or have no car
                         ListTile(
                           leading: const Icon(Icons.dark_mode_outlined),
                           title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),

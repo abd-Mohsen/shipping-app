@@ -80,7 +80,7 @@ class EditOrderView extends StatelessWidget {
                   textInputAction: TextInputAction.newline,
                   prefixIcon: Icons.text_snippet,
                   validator: (val) {
-                    return validateInput(controller.description.text, 10, 1000, "text"); //todo check constraints
+                    return validateInput(controller.description.text, 4, 1000, "text");
                   },
                   onChanged: (val) {
                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
@@ -106,7 +106,7 @@ class EditOrderView extends StatelessWidget {
                   textInputAction: TextInputAction.next,
                   prefixIcon: Icons.monitor_weight,
                   validator: (val) {
-                    return validateInput(controller.weight.text, 1, 100, ""); //todo check constraints
+                    return validateInput(controller.weight.text, 1, 100, "");
                   },
                   onChanged: (val) {
                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
@@ -122,10 +122,10 @@ class EditOrderView extends StatelessWidget {
                     return validateInput(
                       controller.otherInfo.text,
                       0,
-                      1000,
+                      10000,
                       "",
                       canBeEmpty: true,
-                    ); //todo check constraints
+                    );
                   },
                   onChanged: (val) {
                     if (controller.buttonPressed) controller.formKey.currentState!.validate();

@@ -13,7 +13,6 @@ import '../services/remote_services.dart';
 import '../views/login_view.dart';
 import 'login_controller.dart';
 
-//todo re check everything
 //todo: do it for other roles
 class CompleteAccountController extends GetxController {
   final GetStorage _getStorage = GetStorage();
@@ -102,7 +101,6 @@ class CompleteAccountController extends GetxController {
   }
 
   Future<XFile?> downloadImage(String imageUrl) async {
-    //todo: images not right from server (invalid data)
     try {
       // Download the image
       final response = await http.get(Uri.parse(imageUrl));

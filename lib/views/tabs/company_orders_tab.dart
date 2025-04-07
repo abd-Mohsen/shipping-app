@@ -154,7 +154,6 @@ class CompanyOrdersTab extends StatelessWidget {
                                   ),
                                 ),
                                 DropdownSearch<GovernorateModel>(
-                                  //todo: show refresh button if failed
                                   validator: (type) {
                                     if (type == null) return "you must select a governorate".tr;
                                     return null;

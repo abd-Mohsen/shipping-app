@@ -289,7 +289,7 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  //todo: begin and finish employee order & edit vehicle & notifications page & tracking path
+  //todo: begin and finish employee order & tracking path
 
   //-------------------------------------vehicle and employees-----------------------
 

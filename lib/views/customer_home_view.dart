@@ -39,7 +39,7 @@ class CustomerHomeView extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: cs.primary,
           title: Text(
-            'my orders'.tr, //todo: put something else here for al home pages
+            'my orders'.tr,
             style: tt.titleMedium!.copyWith(letterSpacing: 2, color: cs.onPrimary),
           ),
           centerTitle: true,
