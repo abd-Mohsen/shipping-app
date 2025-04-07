@@ -25,9 +25,6 @@ class OrderController extends GetxController {
     this.companyHomeController,
   });
 
-  //todo: edit to handle all cases of employee (select car when accepting an order)
-  //todo: refactor similar code
-
   @override
   void onInit() async {
     setStatusIndex();
@@ -108,7 +105,6 @@ class OrderController extends GetxController {
   */
 
   void acceptOrderDriver() async {
-    //todo refactor for employee
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.driverAcceptOrder(order.id);
@@ -214,7 +210,8 @@ class OrderController extends GetxController {
   void beginOrderDriver() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.driverBeginOrder(order.id);
+    bool success =
+        isEmployee ? await RemoteServices.companyBeginOrder(order.id) : await RemoteServices.driverBeginOrder(order.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       driverHomeController!.refreshCurrOrders();
@@ -226,11 +223,12 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  //todo: not working from backend
   void finishOrderDriver() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.driverFinishOrder(order.id); //todo: do for company and employee
+    bool success = isEmployee
+        ? await RemoteServices.companyFinishOrder(order.id)
+        : await RemoteServices.driverFinishOrder(order.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       //todo: if user clicks and return before processing, app closes (i fixed it here, fix in all the app)
@@ -250,7 +248,6 @@ class OrderController extends GetxController {
     if (!valid) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.companyAcceptOrder(order.id, selectedEmployee?.driver?.id, selectedVehicle!.id);
-    //todo: do for company and employee
     if (success) {
       Get.back();
       if (Get.routing.current == "/OrderView") Get.back();
@@ -288,8 +285,6 @@ class OrderController extends GetxController {
     }
     toggleLoadingSubmit(false);
   }
-
-  //todo: begin and finish employee order & tracking path
 
   //-------------------------------------vehicle and employees-----------------------
 

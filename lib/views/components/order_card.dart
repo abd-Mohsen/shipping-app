@@ -135,6 +135,12 @@ class OrderCard extends StatelessWidget {
                     color: cs.onSurface,
                     size: 25,
                   ),
+                if (order.status == "processing" && !isCustomer)
+                  Icon(
+                    Icons.location_searching,
+                    color: cs.primary,
+                    size: 25,
+                  ),
               ],
             ),
           ),

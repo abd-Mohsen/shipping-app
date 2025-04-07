@@ -39,8 +39,6 @@ class MyAddressesController extends GetxController {
     super.onInit();
   }
 
-  //todo: refactor the map bottomsheet to use it here to select new address
-
   MapController mapController = MapController(
     initMapWithUserPosition: const UserTrackingOption(
       enableTracking: true,

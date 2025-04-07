@@ -10,7 +10,6 @@ import '../models/vehicle_model.dart';
 import '../services/remote_services.dart';
 
 class MyVehiclesController extends GetxController {
-  //todo: dont let user get back if there is no vehicles (handel not loaded yet case)
   List<VehicleModel> myVehicles = [];
 
   @override

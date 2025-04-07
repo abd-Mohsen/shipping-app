@@ -122,7 +122,7 @@ class DriverHomeController extends GetxController {
     //todo: processing order must appear first
     toggleLoadingCurrent(true);
     List<OrderModel> newItems = isEmployee
-        ? await RemoteServices.fetchCompanyOrders(null, ["processing", "pending", "approved"]) ?? []
+        ? await RemoteServices.fetchCompanyOrders(null, ["approved"]) ?? []
         : await RemoteServices.fetchDriverOrders(null, ["processing", "pending", "approved"]) ?? [];
     currOrders.addAll(newItems);
     toggleLoadingCurrent(false);
@@ -137,11 +137,18 @@ class DriverHomeController extends GetxController {
     //todo: implement pagination
     toggleLoadingHistory(true);
     List<OrderModel> newItems = isEmployee
-        ? await RemoteServices.fetchCompanyOrders(null, ["done"]) ?? []
+        ? await RemoteServices.fetchCompanyOrders(null, ["processing"]) ?? [] //todo: make it done
         : await RemoteServices.fetchDriverOrders(null, ["done"]) ?? [];
     historyOrders.addAll(newItems);
     toggleLoadingHistory(false);
+    //
+    if (historyOrders.isNotEmpty && isEmployee)
+      trackingID = historyOrders.where((order) => order.status == "processing").first.id;
+    print("tracking order with ID ${trackingID.toString()}");
+    if (trackingID != 0) _connectTrackingSocket();
+    //
   }
+  //todo: the app is crashing sometimes when entering order page
 
   Future<void> refreshExploreOrders() async {
     exploreOrders.clear();
@@ -162,7 +169,6 @@ class DriverHomeController extends GetxController {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
     //todo: dont let user do anything before user is loaded
-    //todo: show (complete account) page to change id and license if not verified
     //todo: dont let user logout if user is loading (it may redirect after logout) do for all roles
     //todo: do the same for customer and company
     /*
@@ -250,7 +256,7 @@ class DriverHomeController extends GetxController {
   void _connectTrackingSocket() async {
     while (_shouldReconnect) {
       try {
-        String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/$trackingID';
+        String socketUrl = 'ws://shipping.adadevs.com/ws/location-tracking/$trackingID';
 
         websocket = await WebSocket.connect(
           socketUrl,

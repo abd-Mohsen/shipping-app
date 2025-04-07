@@ -52,7 +52,6 @@ class OTPController extends GetxController {
     if (!_isTimeUp || isLoading) return;
     toggleLoading(true);
     bool sent = await RemoteServices.sendOtp(phone);
-    //todo: show to many requests snack bar (from api.dart)
     if (sent) {
       timeController.restart();
       otpFieldController.clear();
@@ -82,10 +81,8 @@ class OTPController extends GetxController {
           backgroundColor: Colors.green,
         ));
       } else {
-        //todo: show a warning when exiting this page
         resetPassController!.setOtp(pin);
         resetPassController!.setResetToken(resetToken);
-        //todo: login after verifying otp
         Get.off(() => const ResetPassView2());
       }
     } else {

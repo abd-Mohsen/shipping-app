@@ -243,49 +243,52 @@ class CompanyStatsTab extends StatelessWidget {
                               //     ],
                               //   ),
                               // ),
-                              pie.PieChart(
-                                dataMap: controller.companyStats!.decodedOrdersPerCity(),
-                                animationDuration: Duration(milliseconds: 800),
-                                chartLegendSpacing: 32,
-                                chartRadius: MediaQuery.of(context).size.width / 1.5,
-                                colorList: [
-                                  const Color(0xfffdcb6e), // Yellow
-                                  const Color(0xffe17055), // Orange
-                                  const Color(0xffd63031), // Red
-                                  const Color(0xffe84393), // Pink
-                                  const Color(0xff6c5ce7), // Purple
-                                  const Color(0xff0984e3), // Blue
-                                  const Color(0xff00cec9), // Teal
-                                  const Color(0xff00b894), // Green
-                                  const Color(0xff55efc4), // Mint
-                                  const Color(0xff74b9ff), // Light Blue
-                                  const Color(0xffa29bfe), // Lavender
-                                  const Color(0xffdfe6e9), // Light Gray
-                                  const Color(0xff636e72), // Dark Gray
-                                  const Color(0xff2d3436) // Almost Black
-                                ],
-                                initialAngleInDegree: 0,
-                                chartType: ChartType.disc,
-                                ringStrokeWidth: 32,
-                                centerText: "نسبة الطلبيات \n في المحافظات".tr,
-                                centerTextStyle: tt.labelMedium!.copyWith(color: Colors.black),
-                                legendOptions: LegendOptions(
-                                  showLegendsInRow: false,
-                                  legendPosition: LegendPosition.bottom,
-                                  //showLegends: false,
-                                  //legendShape: _BoxShape.circle,
-                                  legendTextStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                ),
-                                chartValuesOptions: const ChartValuesOptions(
-                                  showChartValueBackground: true,
-                                  showChartValues: true,
-                                  showChartValuesInPercentage: true,
-                                  showChartValuesOutside: false,
-                                  decimalPlaces: 1,
-                                ),
+                              Visibility(
+                                visible: controller.companyStats!.ordersPerCity.isNotEmpty,
+                                child: pie.PieChart(
+                                  dataMap: controller.companyStats!.decodedOrdersPerCity(),
+                                  animationDuration: Duration(milliseconds: 800),
+                                  chartLegendSpacing: 32,
+                                  chartRadius: MediaQuery.of(context).size.width / 1.5,
+                                  colorList: [
+                                    const Color(0xfffdcb6e), // Yellow
+                                    const Color(0xffe17055), // Orange
+                                    const Color(0xffd63031), // Red
+                                    const Color(0xffe84393), // Pink
+                                    const Color(0xff6c5ce7), // Purple
+                                    const Color(0xff0984e3), // Blue
+                                    const Color(0xff00cec9), // Teal
+                                    const Color(0xff00b894), // Green
+                                    const Color(0xff55efc4), // Mint
+                                    const Color(0xff74b9ff), // Light Blue
+                                    const Color(0xffa29bfe), // Lavender
+                                    const Color(0xffdfe6e9), // Light Gray
+                                    const Color(0xff636e72), // Dark Gray
+                                    const Color(0xff2d3436) // Almost Black
+                                  ],
+                                  initialAngleInDegree: 0,
+                                  chartType: ChartType.disc,
+                                  ringStrokeWidth: 32,
+                                  centerText: "نسبة الطلبيات \n في المحافظات".tr,
+                                  centerTextStyle: tt.labelMedium!.copyWith(color: Colors.black),
+                                  legendOptions: LegendOptions(
+                                    showLegendsInRow: false,
+                                    legendPosition: LegendPosition.bottom,
+                                    //showLegends: false,
+                                    //legendShape: _BoxShape.circle,
+                                    legendTextStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                  ),
+                                  chartValuesOptions: const ChartValuesOptions(
+                                    showChartValueBackground: true,
+                                    showChartValues: true,
+                                    showChartValuesInPercentage: true,
+                                    showChartValuesOutside: false,
+                                    decimalPlaces: 1,
+                                  ),
 
-                                // gradientList: ---To add gradient colors---
-                                // emptyColorGradient: ---Empty Color gradient---
+                                  // gradientList: ---To add gradient colors---
+                                  // emptyColorGradient: ---Empty Color gradient---
+                                ),
                               )
                             ],
                           ),
