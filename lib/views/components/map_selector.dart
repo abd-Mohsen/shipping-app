@@ -50,12 +50,12 @@ class MapSelector extends StatelessWidget {
               builder: (context) => Container(
                 decoration: BoxDecoration(
                   color: cs.surface,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32)),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32)),
                 ),
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      padding: const EdgeInsets.only(top: 20, left: 24, right: 24),
                       child: CustomButton(
                         onTap: () {
                           Get.to(() => MyAddressesView(

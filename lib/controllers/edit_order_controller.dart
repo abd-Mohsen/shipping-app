@@ -100,18 +100,36 @@ class EditOrderController extends GetxController {
 
   void calculateStartAddress() async {
     toggleLoadingSelect1(true);
-    if (startPosition == null) return;
-    sourceLocation = await RemoteServices.getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
-    startAddress = sourceLocation?.addressEncoder();
+    if (startPosition != null) {
+      sourceLocation = await RemoteServices.getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
+      startAddress = sourceLocation?.addressEncoder();
+    }
     toggleLoadingSelect1(false);
   }
 
   void calculateTargetAddress() async {
     toggleLoadingSelect2(true);
-    if (endPosition == null) return;
-    targetLocation = await RemoteServices.getAddressFromLatLng(endPosition!.latitude, endPosition!.longitude);
-    endAddress = targetLocation?.addressEncoder();
+    if (endPosition != null) {
+      targetLocation = await RemoteServices.getAddressFromLatLng(endPosition!.latitude, endPosition!.longitude);
+      endAddress = targetLocation?.addressEncoder();
+    }
     toggleLoadingSelect2(false);
+  }
+
+  void selectStartAddress(AddressModel address) {
+    Get.back();
+    Get.back();
+    // if (Get.routing.current != "/MakeOrderView") Get.back();
+    startAddress = address;
+    update();
+  }
+
+  void selectEndAddress(AddressModel address) {
+    Get.back();
+    Get.back();
+    // if (Get.routing.current != "/MakeOrderView") Get.back();
+    endAddress = address;
+    update();
   }
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -270,7 +288,7 @@ class EditOrderController extends GetxController {
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
       "payment_methods": formatPayment(),
     };
-    print(newOrder); //todo: payments are not changing
+    print(newOrder);
 
     bool success = await RemoteServices.editOrder(newOrder, order.id);
 

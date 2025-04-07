@@ -101,7 +101,11 @@ class MyAddressesView extends StatelessWidget {
                             makeOrderController!.selectEndAddress(controller.myAddresses[i]);
                           }
                         } else if (editOrderController != null) {
-                          //todo
+                          if (isStart!) {
+                            editOrderController!.selectStartAddress(controller.myAddresses[i]);
+                          } else {
+                            editOrderController!.selectEndAddress(controller.myAddresses[i]);
+                          }
                         }
                       },
                     ),

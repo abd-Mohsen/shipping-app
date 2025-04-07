@@ -52,6 +52,7 @@ class EditOrderView extends StatelessWidget {
                 // ),
                 MapSelector(
                   mapController: controller.mapController1,
+                  editOrderController: eOC,
                   start: true,
                   address: controller.startAddress?.toString() ?? "select location".tr,
                   onClose: () {
@@ -62,6 +63,7 @@ class EditOrderView extends StatelessWidget {
                 ),
                 MapSelector(
                   mapController: controller.mapController2,
+                  editOrderController: eOC,
                   start: false,
                   address: controller.endAddress?.toString() ?? "select location".tr,
                   onClose: () {
@@ -70,7 +72,7 @@ class EditOrderView extends StatelessWidget {
                   isLoading: controller.isLoadingSelect2,
                   source: "edit",
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 InputField(
                   controller: controller.description,
                   label: "description".tr,
