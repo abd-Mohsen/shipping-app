@@ -228,7 +228,7 @@ class OrderView extends StatelessWidget {
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all<Color>(Colors.redAccent),
                             ),
-                            child: !controller.isLoadingSubmit
+                            child: !controller.isLoadingRefuse
                                 ? Text(
                                     "refuse".tr,
                                     style: tt.titleSmall!.copyWith(color: cs.onPrimary),
@@ -428,8 +428,7 @@ class OrderView extends StatelessWidget {
                                 confirm: TextButton(
                                   onPressed: () {
                                     Get.back();
-                                    //refuse with loading
-                                    //todo: don't let user click either buttons if one is loading
+                                    controller.refuseOrderDriver();
                                   },
                                   child: Text(
                                     "yes".tr,
@@ -450,7 +449,7 @@ class OrderView extends StatelessWidget {
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all<Color>(Colors.redAccent),
                             ),
-                            child: true
+                            child: !controller.isLoadingRefuse
                                 ? Text(
                                     "cancel".tr,
                                     style: tt.titleSmall!.copyWith(color: cs.onPrimary),

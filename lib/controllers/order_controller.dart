@@ -26,6 +26,7 @@ class OrderController extends GetxController {
   });
 
   //todo: edit to handle all cases of employee (select car when accepting an order)
+  //todo: refactor similar code
 
   @override
   void onInit() async {
@@ -107,6 +108,7 @@ class OrderController extends GetxController {
   */
 
   void acceptOrderDriver() async {
+    //todo refactor for employee
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.driverAcceptOrder(order.id);
@@ -138,18 +140,50 @@ class OrderController extends GetxController {
   }
 
   void refuseOrderCustomer() async {
-    if (isLoadingSubmit) return;
-    toggleLoadingSubmit(true);
+    if (isLoadingRefuse || isLoadingSubmit) return;
+    toggleLoadingRefuse(true);
     bool success = await RemoteServices.customerRefuseOrder(order.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       customerHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
-        message: "request was submitted, waiting for response".tr,
+        message: "order is cancelled".tr, //todo: if processing show: waiting for the other party to cancel
         duration: const Duration(milliseconds: 2500),
       ));
     }
-    toggleLoadingSubmit(false);
+    toggleLoadingRefuse(false);
+  }
+
+  void refuseOrderDriver() async {
+    if (isLoadingSubmit || isLoadingRefuse) return;
+    toggleLoadingRefuse(true);
+    bool success = isEmployee
+        ? await RemoteServices.companyRefuseOrder(order.id)
+        : await RemoteServices.driverRefuseOrder(order.id);
+    if (success) {
+      if (Get.routing.current == "/OrderView") Get.back();
+      driverHomeController!.refreshCurrOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "order is cancelled".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingRefuse(false);
+  }
+
+  void refuseOrderCompany() async {
+    if (isLoadingSubmit || isLoadingRefuse) return;
+    toggleLoadingRefuse(true);
+    bool success = await RemoteServices.companyRefuseOrder(order.id);
+    if (success) {
+      if (Get.routing.current == "/OrderView") Get.back();
+      companyHomeController!.refreshCurrOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "order is cancelled".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingRefuse(false);
   }
 
   void confirmOrderDriver() async {

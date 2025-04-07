@@ -474,4 +474,14 @@ class RemoteServices {
     String? json = await api.postRequest("customer_order/$orderID/cancel/", {}, auth: true);
     return json != null;
   }
+
+  static Future<bool> driverRefuseOrder(int orderID) async {
+    String? json = await api.postRequest("driver_order/$orderID/cancel/", {}, auth: true);
+    return json != null;
+  }
+
+  static Future<bool> companyRefuseOrder(int orderID) async {
+    String? json = await api.postRequest("company_order/$orderID/cancel/", {}, auth: true);
+    return json != null;
+  }
 }
