@@ -8,6 +8,7 @@ import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/mini_order_model.dart';
+import 'package:shipment/models/notification_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
@@ -483,5 +484,11 @@ class RemoteServices {
   static Future<bool> companyRefuseOrder(int orderID) async {
     String? json = await api.postRequest("company_order/$orderID/cancel/", {}, auth: true);
     return json != null;
+  }
+
+  static Future<List<NotificationModel>?> fetchNotifications({int page = 1}) async {
+    String? json = await api.getRequest("notifications/?page=$page", auth: true);
+    if (json == null) return null;
+    return notificationModelFromJson(json);
   }
 }

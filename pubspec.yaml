@@ -40,6 +40,7 @@ dependencies:
   firebase_messaging: ^15.2.4
   popover: ^0.2.8+2
   pie_chart: ^5.4.0
+  timeago: ^3.7.0
 
 
 dev_dependencies:

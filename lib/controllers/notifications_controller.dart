@@ -76,17 +76,17 @@ class NotificationsController extends GetxController {
     String? deviceToken = await _firebaseMessaging.getToken();
     print('FCM Token: $deviceToken');
     if (deviceToken != null) {
-      await RemoteServices.subscribeFCM(deviceToken); //todo: not working
-      //todo: try registering another user from same device
+      await RemoteServices.subscribeFCM(deviceToken);
     }
     return deviceToken;
   }
 
   void setupFCMListeners() {
     //todo: notifications from here appears without badge when app is close
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Received notification: ${message.notification?.title}');
-      print('Body: ${message.notification?.body}');
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      await refreshNotifications();
+      // print('Received notification: ${message.notification?.title}');
+      // print('Body: ${message.notification?.body}');
       notificationService.showNotification(
         id: notificationID,
         title: message.notification?.title,
@@ -114,10 +114,8 @@ class NotificationsController extends GetxController {
   void getNotifications() async {
     toggleLoading(true);
     //todo with pagination
-    //todo refresh when new notification
-    // currOrders.clear();
-    // List<MiniOrderModel> newItems = await RemoteServices.fetchDriverCurrOrders() ?? [];
-    // currOrders.addAll(newItems);
+    List<NotificationModel> newItems = await RemoteServices.fetchNotifications() ?? [];
+    allNotifications.addAll(newItems);
     toggleLoading(false);
   }
 

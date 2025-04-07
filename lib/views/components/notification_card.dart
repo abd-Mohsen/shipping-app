@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jiffy/jiffy.dart';
+// import 'package:jiffy/jiffy.dart';
 import 'package:shipment/models/notification_model.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationCard extends StatelessWidget {
   final NotificationModel notification;
@@ -39,85 +40,61 @@ class NotificationCard extends StatelessWidget {
               children: [
                 const SizedBox(width: 8),
                 Icon(
-                  Icons.local_shipping,
+                  Icons.notifications_active,
                   color: cs.primary,
                   size: 35,
                 ),
                 const SizedBox(width: 24),
-                // Column(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: [
-                //     SizedBox(
-                //       width: MediaQuery.of(context).size.width / 2,
-                //       child: Text(
-                //         notification.description,
-                //         style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                //         overflow: TextOverflow.ellipsis,
-                //         maxLines: 2,
-                //       ),
-                //     ),
-                //     const SizedBox(height: 12),
-                //     SizedBox(
-                //       width: MediaQuery.of(context).size.width / 1.6,
-                //       child: Text(
-                //         "${notification.startPoint.name} - ${notification.endPoint.name}",
-                //         maxLines: 2,
-                //         overflow: TextOverflow.ellipsis,
-                //         style: tt.titleSmall!.copyWith(
-                //           color: cs.onSurface.withOpacity(0.5),
-                //         ),
-                //       ),
-                //     ),
-                //     const SizedBox(height: 8),
-                //     Row(
-                //       children: [
-                //         SizedBox(
-                //           width: MediaQuery.of(context).size.width / 2.5,
-                //           child: Text(
-                //             " ${Jiffy.parseFromDateTime(notification.dateTime).format(pattern: "d / M / y")}"
-                //                 "  ${Jiffy.parseFromDateTime(notification.dateTime).jm}",
-                //             style: tt.titleSmall!.copyWith(
-                //               color:
-                //               notification.dateTime.isBefore(DateTime.now()) && !["draft", "done"].contains(notification.status)
-                //                   ? cs.error
-                //                   : cs.onSurface.withOpacity(0.8),
-                //             ),
-                //             overflow: TextOverflow.ellipsis,
-                //             maxLines: 1,
-                //           ),
-                //         ),
-                //         const SizedBox(width: 4),
-                //         Visibility(
-                //           visible: notification.dateTime.isBefore(DateTime.now()) && !["draft", "done"].contains(notification.status),
-                //           child: GestureDetector(
-                //             onTap: () {
-                //               showPopover(
-                //                 context: context,
-                //                 backgroundColor: cs.surface,
-                //                 bodyBuilder: (context) => Padding(
-                //                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                //                   child: Text(
-                //                     "order was not accepted in time".tr,
-                //                     style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                //                     overflow: TextOverflow.ellipsis,
-                //                     maxLines: 2,
-                //                   ),
-                //                 ),
-                //               );
-                //             },
-                //             child: Icon(Icons.info, color: cs.error, size: 20),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ],
-                // ),
-                // if (notification.status == "pending" && isCustomer)
-                //   Icon(
-                //     Icons.access_time_rounded,
-                //     color: cs.onSurface,
-                //     size: 25,
-                //   ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: Text(
+                        notification.title,
+                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 1.6,
+                      child: Text(
+                        notification.content,
+                        maxLines: 5,
+                        overflow: TextOverflow.ellipsis,
+                        style: tt.titleSmall!.copyWith(
+                          color: cs.onSurface.withOpacity(0.5),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    // SizedBox(
+                    //   width: MediaQuery.of(context).size.width / 2.5,
+                    //   child: Text(
+                    //     " ${Jiffy.parseFromDateTime(notification.timestamp).format(pattern: "d / M / y")}"
+                    //     "  ${Jiffy.parseFromDateTime(notification.timestamp).jm}",
+                    //     style: tt.titleSmall!.copyWith(
+                    //       color: cs.onSurface.withOpacity(0.8),
+                    //     ),
+                    //     overflow: TextOverflow.ellipsis,
+                    //     maxLines: 1,
+                    //   ),
+                    // ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      child: Text(
+                        timeago.format(notification.timestamp, locale: 'en_short'),
+                        style: tt.titleSmall!.copyWith(
+                          color: cs.onSurface.withOpacity(0.8),
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
