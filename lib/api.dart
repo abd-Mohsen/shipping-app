@@ -42,12 +42,7 @@ class Api {
       String responseBody = utf8Decode ? utf8.decode(latin1.encode(response.body)) : response.body;
       print("$responseBody =========== ${response.statusCode}");
 
-      if (canRefresh && response.statusCode == 401) {
-        _getStorage.remove("token");
-        _getStorage.remove("role");
-        Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
-        return null;
-      }
+      handleSessionExpired(response.statusCode, canRefresh);
 
       if (response.statusCode >= 500) kServerErrorSnackBar();
 
@@ -91,12 +86,9 @@ class Api {
           .timeout(kTimeOutDuration2);
       String responseBody = utf8.decode(latin1.encode(response.body));
       print("$responseBody =========== ${response.statusCode}");
-      if (canRefresh && response.statusCode == 401) {
-        _getStorage.remove("token");
-        _getStorage.remove("role");
-        Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
-        return null;
-      }
+
+      handleSessionExpired(response.statusCode, canRefresh);
+
       if (response.statusCode >= 500) kServerErrorSnackBar();
 
       handleError(response.statusCode, responseBody);
@@ -135,12 +127,9 @@ class Api {
             body: jsonEncode(body),
           )
           .timeout(kTimeOutDuration2);
-      if (canRefresh && response.statusCode == 401) {
-        _getStorage.remove("token");
-        _getStorage.remove("role");
-        Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
-        return null;
-      }
+
+      handleSessionExpired(response.statusCode, canRefresh);
+
       if (response.statusCode >= 500) kServerErrorSnackBar();
 
       String responseBody = utf8.decode(latin1.encode(response.body));
@@ -174,12 +163,8 @@ class Api {
           )
           .timeout(kTimeOutDuration2);
 
-      if (canRefresh && response.statusCode == 401) {
-        _getStorage.remove("token");
-        _getStorage.remove("role");
-        Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
-        return false;
-      }
+      handleSessionExpired(response.statusCode, canRefresh);
+
       print("${response.body}===========${response.statusCode}");
 
       if (response.statusCode >= 500) kServerErrorSnackBar();
@@ -246,12 +231,7 @@ class Api {
       if (utf8Decode) responseBody = utf8.decode(latin1.encode(responseBody));
       print("$responseBody===========${response.statusCode}");
 
-      if (canRefresh && response.statusCode == 401) {
-        _getStorage.remove("token");
-        _getStorage.remove("role");
-        Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
-        return null;
-      }
+      handleSessionExpired(response.statusCode, canRefresh);
 
       if (response.statusCode >= 500) kServerErrorSnackBar();
 
@@ -274,42 +254,50 @@ class Api {
       return null;
     }
   }
-}
 
-void handleError(int statusCode, String json) {
-  if (statusCode < 400 || statusCode >= 500) return; //check if this is integer division
-  Map<String, dynamic> response = jsonDecode(json);
-  String title = "";
-  String content = "";
-  if (response.containsKey("error")) {
-    title = "error";
-    content = response["error"];
-  } else if (response.containsKey("message")) {
-    title = "error";
-    content = response["message"];
-  } else {
-    title = response.keys.first;
-    content = response.values.first.first;
+  void handleError(int statusCode, String json) {
+    if (statusCode < 400 || statusCode >= 500) return; //check if this is integer division
+    Map<String, dynamic> response = jsonDecode(json);
+    String title = "";
+    String content = "";
+    if (response.containsKey("error")) {
+      title = "error";
+      content = response["error"];
+    } else if (response.containsKey("message")) {
+      title = "error";
+      content = response["message"];
+    } else {
+      title = response.keys.first;
+      content = response.values.first.first;
+    }
+
+    Get.dialog(
+        AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text(title.tr, style: TextStyle(color: Colors.black)),
+          content: Text(content.tr, style: TextStyle(color: Colors.black)),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text(
+                "ok",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+        barrierDismissible: false);
+
+    // {"phone_number":["This field must be unique."]}
   }
 
-  Get.dialog(
-      AlertDialog(
-        backgroundColor: Colors.white,
-        title: Text(title.tr, style: TextStyle(color: Colors.black)),
-        content: Text(content.tr, style: TextStyle(color: Colors.black)),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text(
-              "ok",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-        ],
-      ),
-      barrierDismissible: false);
-
-  // {"phone_number":["This field must be unique."]}
+  //todo: test
+  void handleSessionExpired(int statusCode, bool canRefresh) {
+    if (!canRefresh || statusCode != 401) return;
+    _getStorage.remove("token");
+    _getStorage.remove("role");
+    Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
+  }
 }
