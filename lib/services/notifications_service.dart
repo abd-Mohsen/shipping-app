@@ -10,7 +10,7 @@ class NotificationService {
   Future<void> initNotification() async {
     if (_isInitialized) return;
     _isInitialized = true;
-    const initAndroid = AndroidInitializationSettings("@drawable/ic_notification");
+    const initAndroid = AndroidInitializationSettings("ic_notification");
 
     const initIOS = DarwinInitializationSettings(
       requestAlertPermission: true,
@@ -35,6 +35,7 @@ class NotificationService {
         importance: Importance.max,
         priority: Priority.high,
         color: Color(0xffd1261b),
+        icon: "ic_notification",
       ),
       iOS: DarwinNotificationDetails(),
     );

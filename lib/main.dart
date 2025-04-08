@@ -14,6 +14,7 @@ import 'locale.dart';
 
 final Api api = Api();
 final NotificationService notificationService = NotificationService();
+//todo: additional notes
 
 void main() async {
   await GetStorage.init();
