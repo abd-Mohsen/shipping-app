@@ -8,7 +8,6 @@ import 'package:path/path.dart';
 import 'package:get/get.dart';
 import 'constants.dart';
 
-//todo (later): show different snackbar if there is a server error "5--"
 //todo: when multiple requests are made when entering the app, session expire dialog can appear many times
 class Api {
   var client = http.Client();
@@ -50,7 +49,9 @@ class Api {
         return null;
       }
 
-      //handleError(response.statusCode, responseBody); //todo: see if you ever need it in get requests
+      if (response.statusCode >= 500) kServerErrorSnackBar();
+
+      //handleError(response.statusCode, responseBody); //see if you ever need it in get requests
       return response.statusCode == 200 ? responseBody : null;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
@@ -96,6 +97,8 @@ class Api {
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return null;
       }
+      if (response.statusCode >= 500) kServerErrorSnackBar();
+
       handleError(response.statusCode, responseBody);
       return (response.statusCode == 200 || response.statusCode == 201) ? responseBody : null;
     } on TimeoutException {
@@ -138,6 +141,8 @@ class Api {
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return null;
       }
+      if (response.statusCode >= 500) kServerErrorSnackBar();
+
       String responseBody = utf8.decode(latin1.encode(response.body));
       print(responseBody + "===========" + response.statusCode.toString());
 
@@ -177,6 +182,8 @@ class Api {
       }
       print("${response.body}===========${response.statusCode}");
 
+      if (response.statusCode >= 500) kServerErrorSnackBar();
+
       handleError(response.statusCode, response.body);
       return response.statusCode == 204 || response.statusCode == 200;
     } on TimeoutException {
@@ -215,7 +222,7 @@ class Api {
         if (auth) "Authorization": "Token $accessToken",
       });
 
-      body.removeWhere((k, v) => v == ""); //todo: test if works
+      body.removeWhere((k, v) => v == "");
 
       request.fields.addAll(body);
 
@@ -245,6 +252,9 @@ class Api {
         Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
         return null;
       }
+
+      if (response.statusCode >= 500) kServerErrorSnackBar();
+
       handleError(response.statusCode, responseBody);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return responseBody;

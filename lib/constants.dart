@@ -81,6 +81,17 @@ kTimeOutSnackBar() => Get.snackbar(
       backgroundColor: Colors.red,
     );
 
+kServerErrorSnackBar() => Get.snackbar(
+      "الخادم لا يستجيب",
+      "الرجاء المحاولة لاحقاً",
+      icon: const Padding(
+        padding: EdgeInsets.only(right: 8),
+        child: Icon(Icons.storage, color: Colors.white),
+      ),
+      colorText: Colors.white,
+      backgroundColor: Colors.deepOrangeAccent,
+    );
+
 TextTheme kMyTextTheme = TextTheme(
   displayLarge: TextStyle(
     fontSize: 57,
