@@ -9,7 +9,6 @@ import 'auth_field.dart';
 class AddEmployeeSheet extends StatelessWidget {
   const AddEmployeeSheet({super.key});
 
-  //todo: validation here is f'ed up
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
@@ -18,7 +17,7 @@ class AddEmployeeSheet extends StatelessWidget {
     return GetBuilder<CompanyHomeController>(
       builder: (controller) {
         return Container(
-          height: MediaQuery.of(context).size.height / 4,
+          height: MediaQuery.of(context).size.height / 4.5,
           decoration: BoxDecoration(
             color: cs.surface,
             borderRadius: BorderRadius.circular(20),
@@ -35,7 +34,7 @@ class AddEmployeeSheet extends StatelessWidget {
                   textInputAction: TextInputAction.done,
                   prefixIcon: Icons.phone_android,
                   validator: (val) {
-                    return validateInput(controller.phone.text, 0, 12, "", wholeNumber: true);
+                    return validateInput(controller.phone.text, 10, 12, "", wholeNumber: true);
                   },
                   onChanged: (val) {
                     if (controller.employeeButtonPressed) controller.addEmployeeFormKey.currentState!.validate();

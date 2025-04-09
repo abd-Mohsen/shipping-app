@@ -110,7 +110,7 @@ String? validateInput(
 
   if (english) {
     final RegExp englishRegExp = RegExp(r'^[a-zA-Z\d_\-]+$');
-    if (!englishRegExp.hasMatch(val)) return "must be english".tr; //todo: spaces arent allowed
+    if (!englishRegExp.hasMatch(val)) return "must be english".tr;
   }
 
   if (wholeNumber) {

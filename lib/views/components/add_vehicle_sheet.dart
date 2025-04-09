@@ -135,17 +135,28 @@ class AddVehicleSheet extends StatelessWidget {
                           //enabled: !con.enabled,
                         ),
                 ),
-                //todo border is not showing in this sheet
-                IdImageSelector(
-                  title: "registration".tr,
-                  isSubmitted: controller.registration != null,
-                  image: controller.registration,
-                  onTapCamera: () {
-                    controller.pickImage("camera");
-                  },
-                  onTapGallery: () {
-                    controller.pickImage("gallery");
-                  },
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: cs.onSurface.withOpacity(0.7),
+                    ),
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: IdImageSelector(
+                      title: "registration".tr,
+                      isSubmitted: controller.registration != null,
+                      image: controller.registration,
+                      onTapCamera: () {
+                        controller.pickImage("camera");
+                      },
+                      onTapGallery: () {
+                        controller.pickImage("gallery");
+                      },
+                    ),
+                  ),
                 ),
                 CustomButton(
                   onTap: () {

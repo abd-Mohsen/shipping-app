@@ -8,7 +8,6 @@ import 'package:path/path.dart';
 import 'package:get/get.dart';
 import 'constants.dart';
 
-//todo: when multiple requests are made when entering the app, session expire dialog can appear many times
 class Api {
   var client = http.Client();
   final String _hostIP = "$kHostIP/en/api";

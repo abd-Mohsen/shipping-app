@@ -48,7 +48,7 @@ class IdImageSelector extends StatelessWidget {
             //     :
             () {
           Get.bottomSheet(
-            //todo: ask for camera and storage permission
+            //todo(later): ask for camera and storage permission
             Container(
               decoration: BoxDecoration(
                 color: cs.surface,
