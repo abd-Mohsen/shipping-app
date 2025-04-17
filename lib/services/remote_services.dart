@@ -71,16 +71,7 @@ class RemoteServices {
       "password": password,
     };
     String? json = await api.postRequest("auth/token/", body, auth: false);
-    if (json == null) {
-      // Get.defaultDialog(
-      //   titleStyle: const TextStyle(color: Colors.black),
-      //   middleTextStyle: const TextStyle(color: Colors.black),
-      //   backgroundColor: Colors.white,
-      //   title: "خطأ",
-      //   middleText: "يرجى التأكد من البيانات المدخلة و المحاولة مجدداً, قد يكون الاتصال ضعيف",
-      // );
-      return null;
-    }
+    if (json == null) return null;
     return LoginModel.fromJson(jsonDecode(json));
   }
 

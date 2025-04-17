@@ -926,7 +926,7 @@ class OrderView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
-                        order.price + " " + "SYP",
+                        order.price.toInt().toString() + " " + "SYP",
                         style: tt.headlineMedium!.copyWith(color: cs.primary, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                       ),

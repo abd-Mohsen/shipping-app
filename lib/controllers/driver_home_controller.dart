@@ -168,9 +168,7 @@ class DriverHomeController extends GetxController {
   Future<void> getCurrentUser({bool refresh = false}) async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
-    //todo: dont let user do anything before user is loaded
     //todo: dont let user logout if user is loading (it may redirect after logout) do for all roles
-    //todo: do the same for customer and company
     /*
       'Pending', 'Verified', 'Refused', 'No_Input',
     */

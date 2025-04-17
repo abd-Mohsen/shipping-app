@@ -15,6 +15,7 @@ class DriverHomeTab extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     //todo: show processing orders first
+    //todo: show something to tell if driver is sending location
     return GetBuilder<DriverHomeController>(
       builder: (controller) {
         return Padding(

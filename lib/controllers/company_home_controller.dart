@@ -6,8 +6,10 @@ import '../models/governorate_model.dart';
 import '../models/order_model.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
+import '../views/complete_account_view.dart';
 import '../views/login_view.dart';
 import '../views/otp_view.dart';
+import 'complete_account_controller.dart';
 import 'login_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -51,20 +53,17 @@ class CompanyHomeController extends GetxController {
   UserModel? _currentUser;
   UserModel? get currentUser => _currentUser;
 
-  void getCurrentUser() async {
+  void getCurrentUser({bool refresh = false}) async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
-    if (_currentUser != null) {
+    if (!refresh && _currentUser != null) {
       //todo: handle this for no id (company have no license) and fix refresh user here.. copy from driver
-      // if (_currentUser!.driverInfo != null && !_currentUser!.driverInfo!.isVerifiedId) {
-      //   Get.dialog(kActivateAccountDialog(), barrierDismissible: false);
-      // }
 
-      // {
-      //   canNavigate = false;
-      //   tabIndex = 0; // car tab
-      //   update();
-      // }
+      if (_currentUser!.idStatus.toLowerCase() != "verified" ||
+          _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+        CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
+        Get.to(const CompleteAccountView());
+      }
       if (!_currentUser!.isVerified) {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));

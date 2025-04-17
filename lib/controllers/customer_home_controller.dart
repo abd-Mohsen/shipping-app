@@ -83,10 +83,10 @@ class CustomerHomeController extends GetxController {
   UserModel? _currentUser;
   UserModel? get currentUser => _currentUser;
 
-  void getCurrentUser() async {
+  void getCurrentUser({bool refresh = false}) async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
-    if (_currentUser != null) {
+    if (!refresh && _currentUser != null) {
       if (!_currentUser!.isVerified) {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));

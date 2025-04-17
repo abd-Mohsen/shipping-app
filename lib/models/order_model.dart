@@ -18,7 +18,7 @@ class OrderModel {
   final AddressModel startPoint;
   final AddressModel endPoint;
   final String weight;
-  final String price;
+  final double price;
   final DateTime dateTime;
   final bool withCover;
   final String? otherInfo;

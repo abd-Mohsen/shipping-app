@@ -217,7 +217,7 @@ class EditOrderController extends GetxController {
     startAddress = order.startPoint;
     endAddress = order.endPoint;
     description.text = order.description;
-    price.text = order.price;
+    price.text = order.price.toString();
     weight.text = order.weight;
     otherInfo.text = order.otherInfo ?? "";
     selectedVehicleType = order.typeVehicle;
