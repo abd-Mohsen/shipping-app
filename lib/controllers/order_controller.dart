@@ -337,11 +337,11 @@ class OrderController extends GetxController {
   GeoPoint? currPosition;
 
   void _connectTrackingSocket() async {
-    String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/${order.id}';
+    String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/${order.id}?token=${_getStorage.read("token")}';
 
     websocket = await WebSocket.connect(
       socketUrl,
-      protocols: ['Token', _getStorage.read("token")],
+      //protocols: ['Token', _getStorage.read("token")],
     );
 
     websocket.listen(

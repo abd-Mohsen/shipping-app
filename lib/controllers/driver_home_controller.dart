@@ -232,6 +232,7 @@ class DriverHomeController extends GetxController {
       distanceFilter: 5,
       timeLimit: null,
     ); //todo: find a way to make it slower
+    //todo ask for location permission
 
     Geolocator.getPositionStream(locationSettings: locationSettings).listen(
       (Position position) {
@@ -251,14 +252,18 @@ class DriverHomeController extends GetxController {
   bool _shouldReconnect = true;
   final Duration _initialReconnectDelay = Duration(seconds: 5);
 
+  //todo: not working if screen is off
+  //todo: reconnect logic is still flawed
+
   void _connectTrackingSocket() async {
     while (_shouldReconnect) {
       try {
-        String socketUrl = 'ws://shipping.adadevs.com/ws/location-tracking/$trackingID';
+        String socketUrl =
+            'wss://shipping.adadevs.com/ws/location-tracking/$trackingID?token=${_getStorage.read("token")}';
 
         websocket = await WebSocket.connect(
           socketUrl,
-          protocols: ['Token', _getStorage.read("token")],
+          //protocols: ['Token', _getStorage.read("token")],
         ).timeout(const Duration(seconds: 10));
 
         _startSendingLocation();
