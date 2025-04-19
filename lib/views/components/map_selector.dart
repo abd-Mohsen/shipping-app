@@ -1,14 +1,19 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/edit_order_controller.dart';
 import 'package:shipment/controllers/make_order_controller.dart';
+import 'package:shipment/models/location_search_model.dart';
+import 'package:shipment/views/components/auth_field.dart';
 import 'package:shipment/views/my_addresses_view.dart';
 
+import '../../services/remote_services.dart';
 import 'custom_button.dart';
 
-class MapSelector extends StatelessWidget {
+class MapSelector extends StatefulWidget {
   final MakeOrderController? makeOrderController;
   final EditOrderController? editOrderController;
   final MapController mapController;
@@ -28,6 +33,47 @@ class MapSelector extends StatelessWidget {
     this.makeOrderController,
     this.editOrderController,
   });
+
+  @override
+  State<MapSelector> createState() => _MapSelectorState();
+}
+
+class _MapSelectorState extends State<MapSelector> {
+  List<LocationSearchModel> searchResults = [];
+  int resultIndex = 0;
+
+  TextEditingController searchQuery = TextEditingController();
+
+  bool isMapReady = false;
+
+  bool _isLoadingSearch = false;
+  bool get isLoadingSearch => _isLoadingSearch;
+  void toggleLoadingSearch(bool value) {
+    _isLoadingSearch = value;
+    setState(() {});
+  }
+
+  void search() async {
+    toggleLoadingSearch(true);
+    List<LocationSearchModel> newItems = await RemoteServices.getLatLngFromQuery(searchQuery.text) ?? [];
+    searchResults.addAll(newItems);
+    toggleLoadingSearch(false);
+  }
+
+  void clearSearch() {
+    searchResults.clear();
+    resultIndex = 0;
+    setState(() {});
+  }
+
+  void traverseSearchResults(bool next) {
+    resultIndex = next ? min(searchResults.length - 1, resultIndex + 1) : max(0, resultIndex - 1);
+    GeoPoint geoPoint = GeoPoint(latitude: searchResults[resultIndex].lat, longitude: searchResults[resultIndex].long);
+    widget.mapController.moveTo(geoPoint);
+    setState(() {});
+  }
+
+  //todo: buttons for traversing an to clear field
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +99,15 @@ class MapSelector extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+                    //todo add another button to select my current location (show only when map is loaded)
                     Padding(
                       padding: const EdgeInsets.only(top: 20, left: 24, right: 24),
                       child: CustomButton(
                         onTap: () {
                           Get.to(() => MyAddressesView(
-                                makeOrderController: makeOrderController,
-                                editOrderController: editOrderController,
-                                isStart: start,
+                                makeOrderController: widget.makeOrderController,
+                                editOrderController: widget.editOrderController,
+                                isStart: widget.start,
                               ));
                         },
                         child: Center(
@@ -90,29 +137,50 @@ class MapSelector extends StatelessWidget {
                     ),
                     Expanded(
                       //height: MediaQuery.of(context).size.height / 2,
-                      child: OSMFlutter(
-                        controller: mapController,
-                        mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                        osmOption: OSMOption(
-                          isPicker: true,
-                          userLocationMarker: UserLocationMaker(
-                            personMarker: MarkerIcon(
-                              icon: Icon(Icons.person, color: cs.primary, size: 40),
-                            ),
-                            directionArrowMarker: MarkerIcon(
-                              icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                      child: Stack(
+                        children: [
+                          OSMFlutter(
+                            controller: widget.mapController,
+                            mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+                            onMapIsReady: (v) {
+                              isMapReady = true;
+                              print("map is reay");
+                              setState(() {});
+                            },
+                            osmOption: OSMOption(
+                              isPicker: true,
+                              userLocationMarker: UserLocationMaker(
+                                personMarker: MarkerIcon(
+                                  icon: Icon(Icons.person, color: cs.primary, size: 40),
+                                ),
+                                directionArrowMarker: MarkerIcon(
+                                  icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                                ),
+                              ),
+                              zoomOption: const ZoomOption(
+                                initZoom: 16,
+                              ),
                             ),
                           ),
-                          zoomOption: const ZoomOption(
-                            initZoom: 16,
+                          Visibility(
+                            visible: isMapReady, //todo not rebuilding in sheet
+                            child: AuthField(
+                              controller: searchQuery,
+                              label: "search".tr,
+                              prefixIcon: Icon(Icons.search, color: cs.primary),
+                              validator: (s) {
+                                return null;
+                              },
+                              onChanged: (s) {},
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
-            ).whenComplete(onClose);
+            ).whenComplete(widget.onClose);
           },
           child: Container(
             padding: const EdgeInsets.all(12),
@@ -136,23 +204,27 @@ class MapSelector extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      start ? "starting point".tr : "destination point".tr,
+                      widget.start ? "starting point".tr : "destination point".tr,
                       style: tt.titleMedium!.copyWith(color: cs.onSurface),
                     ),
                     SizedBox(height: 12),
-                    isLoading
+                    widget.isLoading
                         ? SpinKitThreeBounce(color: cs.primary, size: 22)
                         : SizedBox(
                             width: MediaQuery.of(context).size.width / 1.6,
                             child: Directionality(
-                              textDirection: (address == "select location") ? TextDirection.ltr : TextDirection.rtl,
+                              textDirection:
+                                  (widget.address == "select location") ? TextDirection.ltr : TextDirection.rtl,
                               child: Text(
-                                address,
+                                widget.address,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: tt.titleSmall!.copyWith(
-                                  color: address == "select location".tr ? cs.primary : cs.onSurface.withOpacity(0.5),
-                                  fontWeight: address == "select location".tr ? FontWeight.bold : FontWeight.normal,
+                                  color: widget.address == "select location".tr
+                                      ? cs.primary
+                                      : cs.onSurface.withOpacity(0.5),
+                                  fontWeight:
+                                      widget.address == "select location".tr ? FontWeight.bold : FontWeight.normal,
                                 ),
                               ),
                             ),

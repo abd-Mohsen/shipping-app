@@ -7,6 +7,7 @@ import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/location_model.dart';
+import 'package:shipment/models/location_search_model.dart';
 import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/notification_model.dart';
 import 'package:shipment/models/order_model.dart';
@@ -145,6 +146,18 @@ class RemoteServices {
     return LocationModel.fromJson(data["address"]);
   }
 
+  static Future<List<LocationSearchModel>?> getLatLngFromQuery(String query) async {
+    //todo: handle errors
+    //todo: handle limits (let user navigate all results)
+    String? json = await api.getRequest(
+      'https://nominatim.openstreetmap.org/search?q=$query&format=json&countrycodes=SY&limit=5',
+      toMyServer: false,
+      utf8Decode: false,
+    );
+    if (json == null) return null;
+    return locationSearchModelFromJson(json);
+  }
+
   static Future<bool> addAddress(AddressModel address) async {
     Map<String, dynamic> body = {
       "address": [address.toJson()],
@@ -178,17 +191,7 @@ class RemoteServices {
 
   static Future<bool> makeOrder(body) async {
     String? json = await api.postRequest("customer_order/", body, auth: true);
-    if (json == null) {
-      // Get.defaultDialog(
-      //   titleStyle: const TextStyle(color: Colors.black),
-      //   middleTextStyle: const TextStyle(color: Colors.black),
-      //   backgroundColor: Colors.white,
-      //   title: "خطأ",
-      //   middleText: "يرجى التأكد من البيانات المدخلة و المحاولة مجدداً, قد يكون الاتصال ضعيف",
-      // );
-      return false;
-    }
-    return true;
+    return json != null;
   }
 
   static Future<bool> addVehicle(
@@ -256,10 +259,7 @@ class RemoteServices {
 
   static Future<bool> editOrder(body, id) async {
     String? json = await api.putRequest("customer_order/$id/", body, auth: true);
-    if (json == null) {
-      return false;
-    }
-    return true;
+    return json != null;
   }
 
   static Future<bool> addOrderPaymentMethods(body) async {
