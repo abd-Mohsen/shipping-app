@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-//todo: store lat, long somehow
 List<AddressModel> addressModelFromJson(String str) =>
     List<AddressModel>.from(json.decode(str).map((x) => AddressModel.fromJson(x)));
 

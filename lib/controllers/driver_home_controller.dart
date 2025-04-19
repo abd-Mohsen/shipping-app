@@ -22,7 +22,7 @@ class DriverHomeController extends GetxController {
     isEmployee = await _getStorage.read("role") == "company_employee";
     print(isEmployee ? "an employee" : "not employee");
     getCurrentUser();
-    //todo: dont show error msgs for below requests
+    //dont show error msgs for below requests
     getGovernorates();
     getCurrentOrders();
     getHistoryOrders();
