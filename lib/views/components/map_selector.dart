@@ -160,43 +160,82 @@ class _MapSelectorState extends State<MapSelector> {
                                     ),
                                   ),
                                 ),
-                                Visibility(
-                                  visible: controller.isMapReady,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: AuthField(
-                                          controller: controller.searchQuery,
-                                          label: "search".tr,
-                                          prefixIcon: Icon(Icons.search, color: cs.primary),
-                                          validator: (s) {
-                                            return null;
-                                          },
-                                          onChanged: (s) {},
-                                        ),
+                                Column(
+                                  children: [
+                                    Visibility(
+                                      visible: controller.isMapReady,
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                                              child: AuthField(
+                                                controller: controller.searchQuery,
+                                                label: "search".tr,
+                                                prefixIcon: Icon(Icons.search, color: cs.primary),
+                                                validator: (s) {
+                                                  return null;
+                                                },
+                                                onChanged: (s) {},
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 12, right: 4, left: 4),
+                                            child: CircleAvatar(
+                                              child: controller.isLoadingSearch
+                                                  ? SpinKitFoldingCube(
+                                                      color: cs.onPrimary,
+                                                      size: 15,
+                                                    )
+                                                  : IconButton(
+                                                      onPressed: () {
+                                                        controller.search();
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.search,
+                                                        color: cs.onPrimary,
+                                                      ),
+                                                    ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 12, right: 4, left: 4),
-                                        child: CircleAvatar(
-                                          child: controller.isLoadingSearch
-                                              ? SpinKitFoldingCube(
-                                                  color: cs.onPrimary,
-                                                  size: 15,
-                                                )
-                                              : IconButton(
-                                                  onPressed: () {
-                                                    controller.search();
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.search,
-                                                    color: cs.onPrimary,
+                                    ),
+                                    Visibility(
+                                      visible: controller.isMapReady && controller.searchResults.isNotEmpty,
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                              child: Material(
+                                                elevation: 10,
+                                                borderRadius: BorderRadius.circular(24),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: cs.surface,
+                                                    borderRadius: BorderRadius.circular(24),
+                                                  ),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                  child: Text(
+                                                    controller.resultIndex == -1
+                                                        ? ""
+                                                        : controller.searchResults[controller.resultIndex].displayName,
+                                                    style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                    maxLines: 2,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
-                                        ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
