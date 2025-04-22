@@ -232,6 +232,41 @@ class _MapSelectorState extends State<MapSelector> {
                                               ),
                                             ),
                                           ),
+                                          Card(
+                                            elevation: 10,
+                                            color: cs.surface,
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    controller.traverseSearchResults(false);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.arrow_left_outlined,
+                                                    color: controller.resultIndex == 0
+                                                        ? cs.onSurface.withOpacity(0.6)
+                                                        : cs.primary,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${controller.resultIndex + 1} / ${controller.searchResults.length}",
+                                                  style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    controller.traverseSearchResults(true);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.arrow_right_outlined,
+                                                    color: controller.resultIndex == controller.searchResults.length - 1
+                                                        ? cs.onSurface.withOpacity(0.6)
+                                                        : cs.primary,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
