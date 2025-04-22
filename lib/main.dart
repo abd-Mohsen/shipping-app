@@ -20,7 +20,7 @@ final NotificationService notificationService = NotificationService();
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); //todo: not working after editing
   final FirebaseApp app = Firebase.app();
   print('Firebase app name: ${app.name}');
   print('Firebase app options: ${app.options}');

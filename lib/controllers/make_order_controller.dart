@@ -61,14 +61,14 @@ class MakeOrderController extends GetxController {
 
   MapController mapController1 = MapController(
     initMapWithUserPosition: const UserTrackingOption(
-      enableTracking: true,
+      enableTracking: false,
       unFollowUser: true,
     ),
   );
 
   MapController mapController2 = MapController(
     initMapWithUserPosition: const UserTrackingOption(
-      enableTracking: true,
+      enableTracking: false,
       unFollowUser: true,
     ),
   );
