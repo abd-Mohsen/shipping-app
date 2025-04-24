@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shipment/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
@@ -13,7 +12,7 @@ import '../services/remote_services.dart';
 import '../views/login_view.dart';
 import 'login_controller.dart';
 
-//todo: do it for other roles
+//todo: re test for all roles
 class CompleteAccountController extends GetxController {
   final GetStorage _getStorage = GetStorage();
 
@@ -36,9 +35,11 @@ class CompleteAccountController extends GetxController {
 
   Future<void> prepopulateImages() async {
     toggleLoadingImages(true);
-    await homeController.getCurrentUser(refresh: true); //todo add refresh parameter in other controllers
+    await homeController.getCurrentUser(refresh: true);
     idStatus = homeController.currentUser.idStatus;
-    licenseStatus = homeController.currentUser.driverInfo!.licenseStatus;
+    licenseStatus = ["company", "customer"].contains(homeController.currentUser.role.type)
+        ? "verified"
+        : homeController.currentUser.driverInfo!.licenseStatus;
     if (idStatus.toLowerCase() == "verified" && licenseStatus.toLowerCase() == "verified") {
       Get.back();
       Get.showSnackbar(GetSnackBar(
@@ -49,8 +50,11 @@ class CompleteAccountController extends GetxController {
     }
     idFront = await downloadImage("$kHostIP${homeController.currentUser.idPhotoFront}");
     idRear = await downloadImage("$kHostIP${homeController.currentUser.idPhotoRare}");
-    dLicenseFront = await downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoFront}");
-    dLicenseRear = await downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoRare}");
+    bool isDriver = !["company", "customer"].contains(homeController.currentUser.role.type);
+    if (isDriver) {
+      dLicenseFront = await downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoFront}");
+      dLicenseRear = await downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoRare}");
+    }
     toggleLoadingImages(false);
   }
 
@@ -101,6 +105,7 @@ class CompleteAccountController extends GetxController {
   }
 
   Future<XFile?> downloadImage(String imageUrl) async {
+    if (imageUrl.endsWith("null")) return null;
     try {
       // Download the image
       final response = await http.get(Uri.parse(imageUrl));

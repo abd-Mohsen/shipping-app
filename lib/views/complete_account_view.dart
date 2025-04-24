@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/complete_account_controller.dart';
-import 'package:shipment/models/user_model.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/id_image_selector.dart';
 
@@ -15,6 +15,9 @@ class CompleteAccountView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     CompleteAccountController cAC = Get.find();
+
+    GetStorage getStorage = GetStorage();
+    bool isDriver = !["company", "customer"].contains(getStorage.read("role"));
 
     return PopScope(
       canPop: false,
@@ -157,30 +160,32 @@ class CompleteAccountView extends StatelessWidget {
                           },
                           uploadStatus: controller.idStatus,
                         ),
-                        IdImageSelector(
-                          title: "driving license (front)".tr,
-                          isSubmitted: controller.dLicenseFront != null,
-                          image: controller.dLicenseFront,
-                          onTapCamera: () {
-                            controller.pickImage("driving license (front)".tr, "camera");
-                          },
-                          onTapGallery: () {
-                            controller.pickImage("driving license (front)".tr, "gallery");
-                          },
-                          uploadStatus: controller.licenseStatus,
-                        ),
-                        IdImageSelector(
-                          title: "driving license (rear)".tr,
-                          isSubmitted: controller.dLicenseRear != null,
-                          image: controller.dLicenseRear,
-                          onTapCamera: () {
-                            controller.pickImage("driving license (rear)".tr, "camera");
-                          },
-                          onTapGallery: () {
-                            controller.pickImage("driving license (rear)".tr, "gallery");
-                          },
-                          uploadStatus: controller.licenseStatus,
-                        ),
+                        if (isDriver)
+                          IdImageSelector(
+                            title: "driving license (front)".tr,
+                            isSubmitted: controller.dLicenseFront != null,
+                            image: controller.dLicenseFront,
+                            onTapCamera: () {
+                              controller.pickImage("driving license (front)".tr, "camera");
+                            },
+                            onTapGallery: () {
+                              controller.pickImage("driving license (front)".tr, "gallery");
+                            },
+                            uploadStatus: controller.licenseStatus,
+                          ),
+                        if (isDriver)
+                          IdImageSelector(
+                            title: "driving license (rear)".tr,
+                            isSubmitted: controller.dLicenseRear != null,
+                            image: controller.dLicenseRear,
+                            onTapCamera: () {
+                              controller.pickImage("driving license (rear)".tr, "camera");
+                            },
+                            onTapGallery: () {
+                              controller.pickImage("driving license (rear)".tr, "gallery");
+                            },
+                            uploadStatus: controller.licenseStatus,
+                          ),
                         const SizedBox(height: 12),
                         CustomButton(
                           onTap: () {

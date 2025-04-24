@@ -57,10 +57,7 @@ class CompanyHomeController extends GetxController {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
     if (!refresh && _currentUser != null) {
-      //todo: handle this for no id (company have no license) and fix refresh user here.. copy from driver
-
-      if (_currentUser!.idStatus.toLowerCase() != "verified" ||
-          _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+      if (_currentUser!.idStatus.toLowerCase() != "verified") {
         CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
         Get.to(const CompleteAccountView());
       }
@@ -265,4 +262,6 @@ class CompanyHomeController extends GetxController {
     //todo: filter
     toggleLoadingStats(false);
   }
+
+  //todo: export excel
 }
