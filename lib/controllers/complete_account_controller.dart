@@ -70,6 +70,18 @@ class CompleteAccountController extends GetxController {
 
     if (pickedImage == null) return;
 
+    final fileSize = await pickedImage.length();
+
+    final fileSizeInMB = fileSize / (1024 * 1024);
+    if (fileSizeInMB > 5) {
+      Get.showSnackbar(GetSnackBar(
+        message: 'Image is larger than 5 MB'.tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      print('Image is too large (${fileSizeInMB.toStringAsFixed(1)} MB)');
+      return;
+    }
+
     if (selectedImage == "ID (front)".tr) {
       idFront = pickedImage;
       id1Changed = true;

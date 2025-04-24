@@ -37,6 +37,21 @@ class MyVehiclesController extends GetxController {
     XFile? pickedImage = await ImagePicker().pickImage(
       source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
     );
+
+    if (pickedImage == null) return;
+
+    final fileSize = await pickedImage.length();
+
+    final fileSizeInMB = fileSize / (1024 * 1024);
+    if (fileSizeInMB > 5) {
+      Get.showSnackbar(GetSnackBar(
+        message: 'Image is larger than 5 MB'.tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      print('Image is too large (${fileSizeInMB.toStringAsFixed(1)} MB)');
+      return;
+    }
+
     registration = pickedImage;
     update();
     Get.back();
