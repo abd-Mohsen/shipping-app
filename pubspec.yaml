@@ -41,6 +41,8 @@ dependencies:
   popover: ^0.2.8+2
   pie_chart: ^5.4.0
   timeago: ^3.7.0
+#  image: ^4.3.0
+  flutter_image_compress: ^2.4.0
 
 
 dev_dependencies:

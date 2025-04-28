@@ -7,6 +7,7 @@ import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:flutter/material.dart';
 
 import '../models/vehicle_model.dart';
+import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
 
 class MyVehiclesController extends GetxController {
@@ -40,17 +41,7 @@ class MyVehiclesController extends GetxController {
 
     if (pickedImage == null) return;
 
-    final fileSize = await pickedImage.length();
-
-    final fileSizeInMB = fileSize / (1024 * 1024);
-    if (fileSizeInMB > 5) {
-      Get.showSnackbar(GetSnackBar(
-        message: 'Image is larger than 5 MB'.tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
-      print('Image is too large (${fileSizeInMB.toStringAsFixed(1)} MB)');
-      return;
-    }
+    pickedImage = await CompressImageService().compressImage(pickedImage);
 
     registration = pickedImage;
     update();

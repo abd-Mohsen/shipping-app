@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../models/user_model.dart';
+import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
 
 class RegisterController extends GetxController {
@@ -73,24 +74,13 @@ class RegisterController extends GetxController {
   XFile? dLicenseRear;
 
   Future pickImage(String selectedImage, String source) async {
-    //todo: check if image is less than 5mb (code from deepseek) (do for all the app)
     XFile? pickedImage = await ImagePicker().pickImage(
       source: source == "camera" ? ImageSource.camera : ImageSource.gallery,
     );
 
     if (pickedImage == null) return;
 
-    final fileSize = await pickedImage.length();
-
-    final fileSizeInMB = fileSize / (1024 * 1024);
-    if (fileSizeInMB > 5) {
-      Get.showSnackbar(GetSnackBar(
-        message: 'Image is larger than 5 MB'.tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
-      print('Image is too large (${fileSizeInMB.toStringAsFixed(1)} MB)');
-      return;
-    }
+    pickedImage = await CompressImageService().compressImage(pickedImage);
 
     if (selectedImage == "ID (front)".tr) idFront = pickedImage;
     if (selectedImage == "ID (rear)".tr) idRear = pickedImage;

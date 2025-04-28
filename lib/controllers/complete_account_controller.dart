@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shipment/services/compress_image_service.dart';
 
 import '../constants.dart';
 import '../services/remote_services.dart';
@@ -70,17 +71,7 @@ class CompleteAccountController extends GetxController {
 
     if (pickedImage == null) return;
 
-    final fileSize = await pickedImage.length();
-
-    final fileSizeInMB = fileSize / (1024 * 1024);
-    if (fileSizeInMB > 5) {
-      Get.showSnackbar(GetSnackBar(
-        message: 'Image is larger than 5 MB'.tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
-      print('Image is too large (${fileSizeInMB.toStringAsFixed(1)} MB)');
-      return;
-    }
+    pickedImage = await CompressImageService().compressImage(pickedImage);
 
     if (selectedImage == "ID (front)".tr) {
       idFront = pickedImage;
