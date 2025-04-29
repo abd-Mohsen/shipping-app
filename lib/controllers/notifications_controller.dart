@@ -16,7 +16,7 @@ class NotificationsController extends GetxController {
     getFCMToken();
     setupFCMListeners();
     getNotifications();
-    //_connectNotificationSocket();
+    _connectNotificationSocket();
     super.onInit();
   }
 
@@ -33,12 +33,12 @@ class NotificationsController extends GetxController {
   bool newNotifications = true;
 
   void _connectNotificationSocket() async {
-    String socketUrl = 'wss://shipping.adadevs.com/ws/notifications/';
+    String socketUrl = 'wss://shipping.adadevs.com/ws/connected_users/?token=${_getStorage.read("token")}';
 
     final websocket = await WebSocket.connect(
       socketUrl,
-      protocols: ['Token', _getStorage.read("token")],
-    );
+      //protocols: ['Token', _getStorage.read("token")],
+    ).timeout(const Duration(seconds: 10));
 
     websocket.listen(
       (message) {

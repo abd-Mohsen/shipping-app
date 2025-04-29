@@ -129,6 +129,34 @@ class CompanyStatsTab extends StatelessWidget {
                               ),
                               const SizedBox(height: 40),
                               Padding(
+                                padding: const EdgeInsets.only(bottom: 32),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    controller.export();
+                                  },
+                                  child: IntrinsicWidth(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF1E7045),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: GetBuilder<CompanyHomeController>(
+                                            builder: (con) {
+                                              return false
+                                                  ? SpinKitThreeBounce(color: Colors.white, size: 25)
+                                                  : Text("تصدير ملف إكسل");
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
                                 padding: const EdgeInsets.only(top: 8.0, right: 20),
                                 child: SizedBox(
                                   height: 300,
