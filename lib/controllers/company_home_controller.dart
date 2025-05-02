@@ -269,12 +269,15 @@ class CompanyHomeController extends GetxController {
     toggleLoadingStats(false);
   }
 
-  //todo: export excel
+  TextEditingController fileName = TextEditingController();
+  GlobalKey<FormState> exportFileFormKey = GlobalKey<FormState>();
+
+  //todo: fix layout
   Future<void> export() async {
     // buttonPressed = true;
-    // bool isValid = dataFormKey.currentState!.validate();
-    // if (!isValid) return;
-    if (currentUser == null) return;
+    bool isValid = exportFileFormKey.currentState!.validate();
+    if (!isValid) return;
+    if (companyStats == null) return;
 
     PermissionStatus status = await Permission.storage.status;
     if (!status.isGranted) {
@@ -294,11 +297,11 @@ class CompanyHomeController extends GetxController {
     excel.delete('Sheet1');
     sheet.isRTL = true;
 
-    String date = "${Jiffy.parseFromDateTime(DateTime.now()).format(pattern: "d M y")}  "
+    String date = "${Jiffy.parseFromDateTime(DateTime.now()).format(pattern: "d/M/y")}  "
         "${Jiffy.parseFromDateTime(DateTime.now()).jms}";
 
     // Add metadata
-    sheet.appendRow([TextCellValue('اسم الشركة'), TextCellValue(currentUser!.companyInfo!.name)]);
+    sheet.appendRow([TextCellValue('اسم الشركة'), TextCellValue(companyStats!.companyName)]);
     sheet.appendRow(
       [
         TextCellValue('تاريخ'),
@@ -367,7 +370,7 @@ class CompanyHomeController extends GetxController {
     List<int>? fileBytes = excel.save();
     //var directory = await DownloadsPathProvider.downloadsDirectory;
 
-    File(join('/storage/emulated/0/Download/x.xlsx')) //todo: let user enter file name
+    File(join('/storage/emulated/0/Download/${fileName.text}.xlsx'))
       ..createSync(recursive: true)
       ..writeAsBytesSync(fileBytes!);
     Get.showSnackbar(const GetSnackBar(

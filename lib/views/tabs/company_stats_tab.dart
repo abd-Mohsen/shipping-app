@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:pie_chart/pie_chart.dart' as pie;
+import 'package:shipment/views/components/export_file_sheet.dart';
 
 class CompanyStatsTab extends StatelessWidget {
   const CompanyStatsTab({super.key});
@@ -132,7 +133,17 @@ class CompanyStatsTab extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: 32),
                                 child: GestureDetector(
                                   onTap: () {
-                                    controller.export();
+                                    showModalBottomSheet(
+                                      isScrollControlled: true,
+                                      context: context,
+                                      enableDrag: false,
+                                      builder: (BuildContext context) => Padding(
+                                        padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom, // Adjusts for keyboard
+                                        ),
+                                        child: const ExportFileSheet(),
+                                      ),
+                                    );
                                   },
                                   child: IntrinsicWidth(
                                     child: Container(
