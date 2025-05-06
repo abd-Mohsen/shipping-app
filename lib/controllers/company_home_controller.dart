@@ -272,13 +272,12 @@ class CompanyHomeController extends GetxController {
   TextEditingController fileName = TextEditingController();
   GlobalKey<FormState> exportFileFormKey = GlobalKey<FormState>();
 
-  //todo: fix layout
   Future<void> export() async {
-    // buttonPressed = true;
     bool isValid = exportFileFormKey.currentState!.validate();
     if (!isValid) return;
     if (companyStats == null) return;
 
+    // checking permission
     PermissionStatus status = await Permission.storage.status;
     if (!status.isGranted) {
       PermissionStatus newStatus = await Permission.storage.request();
@@ -290,89 +289,89 @@ class CompanyHomeController extends GetxController {
         return;
       }
     }
-    // if (!await getExportReports()) return;
+
+    // setting up the excel file
     var excel = Excel.createExcel();
-    Sheet sheet = excel['report'];
-    excel.setDefaultSheet('report');
+    Sheet sheet = excel['تقرير'];
+    excel.setDefaultSheet('تقرير');
     excel.delete('Sheet1');
     sheet.isRTL = true;
 
-    String date = "${Jiffy.parseFromDateTime(DateTime.now()).format(pattern: "d/M/y")}  "
-        "${Jiffy.parseFromDateTime(DateTime.now()).jms}";
+    // extracting date and time
+    String date = "${Jiffy.parseFromDateTime(DateTime.now()).format(pattern: "d/M/y")}";
+    String time = "${Jiffy.parseFromDateTime(DateTime.now()).jm}";
 
-    // Add metadata
-    sheet.appendRow([TextCellValue('اسم الشركة'), TextCellValue(companyStats!.companyName)]);
+    // adding metadata to the beginning of the sheet
+    sheet.appendRow(
+      [
+        TextCellValue('اسم الشركة'),
+        TextCellValue(companyStats!.companyName),
+      ],
+    );
     sheet.appendRow(
       [
         TextCellValue('تاريخ'),
         TextCellValue(date),
       ],
     );
+    sheet.appendRow(
+      [
+        TextCellValue('الساعة'),
+        TextCellValue(time),
+      ],
+    );
     sheet.appendRow([TextCellValue('')]);
+    sheet.appendRow([TextCellValue('')]);
+
+    // adding last 7 days orders data
+    sheet.appendRow([TextCellValue('الطلبيات المأخوذة في الاسبوع الاخير')]);
     sheet.appendRow([
-      TextCellValue('#'),
-      // TextCellValue('اسم'),
-      // TextCellValue('نوع'),
-      // TextCellValue('حجم'),
-      // TextCellValue('الحي'),
-      // TextCellValue('الشارع'),
-      // TextCellValue('موبايل'),
-      // TextCellValue('أرضي'),
-      // TextCellValue('تواجد'),
-      // TextCellValue('حركة المنتج'),
-      // TextCellValue('ملاحظات الزبون'),
+      TextCellValue('التاريخ'),
+      TextCellValue('اليوم'),
+      TextCellValue('الطلبيات'),
     ]);
-
-    // Add the header row with merged cells
-    // sheet.merge(CellIndex.indexByString("A1"), CellIndex.indexByString("A2")); // Merge for "#"
-    // sheet.merge(CellIndex.indexByString("B1"), CellIndex.indexByString("B2")); // Merge for "اسم النقطة"
-    // sheet.merge(CellIndex.indexByString("C1"), CellIndex.indexByString("C2")); // Merge for "نوع النقطة"
-    // sheet.merge(CellIndex.indexByString("D1"), CellIndex.indexByString("D2")); // Merge for "حجم النقطة"
-    // sheet.merge(CellIndex.indexByString("E1"), CellIndex.indexByString("G1")); // Merge for "العنوان"
-    // sheet.merge(CellIndex.indexByString("H1"), CellIndex.indexByString("I1")); // Merge for "تلفون"
-    // sheet.merge(CellIndex.indexByString("J1"), CellIndex.indexByString("J2")); // Merge for "التواجد"
-    // sheet.merge(CellIndex.indexByString("K1"), CellIndex.indexByString("K2")); // Merge for "حركة المنتج"
-    // sheet.merge(CellIndex.indexByString("L1"), CellIndex.indexByString("L2")); // Merge for ملاحظات الزبون
-
-    // Add the header text
-    // sheet.cell(CellIndex.indexByString("A1")).value = TextCellValue("#");
-    // sheet.cell(CellIndex.indexByString("B1")).value = TextCellValue("اسم النقطة");
-    // sheet.cell(CellIndex.indexByString("C1")).value = TextCellValue("نوع النقطة");
-    // sheet.cell(CellIndex.indexByString("D1")).value = TextCellValue("حجم النقطة");
-    // sheet.cell(CellIndex.indexByString("E1")).value = TextCellValue("العنوان");
-    // sheet.cell(CellIndex.indexByString("E2")).value = TextCellValue("الحي");
-    // sheet.cell(CellIndex.indexByString("F2")).value = TextCellValue("الشارع");
-    // sheet.cell(CellIndex.indexByString("G2")).value = TextCellValue("موبايل");
-    // sheet.cell(CellIndex.indexByString("H1")).value = TextCellValue("تلفون");
-    // sheet.cell(CellIndex.indexByString("H2")).value = TextCellValue("موبايل");
-    // sheet.cell(CellIndex.indexByString("I2")).value = TextCellValue("ارضي");
-    // sheet.cell(CellIndex.indexByString("J1")).value = TextCellValue("التواجد");
-    // sheet.cell(CellIndex.indexByString("K1")).value = TextCellValue("حركة المنتج");
-    // sheet.cell(CellIndex.indexByString("L1")).value = TextCellValue("ملاحظات الزبون");
-
+    int dayOffset = 6;
     for (MapEntry<String, dynamic> pair in companyStats!.lastWeekOrders.entries) {
       sheet.appendRow([
-        // TextCellValue((i + 1).toString()),
-        // TextCellValue(report.title),
-        // TextCellValue(report.type),
-        // TextCellValue(report.size),
-        // TextCellValue(report.neighborhood),
-        // TextCellValue(report.street),
-        // TextCellValue(report.mobile),
-        // TextCellValue(report.landline),
-        // TextCellValue(report.availability! ? "نعم" : "لا"),
-        // TextCellValue(report.status ?? ""),
-        // TextCellValue(report.notes ?? ""),
+        TextCellValue("${Jiffy.parseFromDateTime(DateTime.now()).subtract(days: dayOffset).format(pattern: "d/M/y")}"),
+        TextCellValue(pair.key),
+        TextCellValue(pair.value.toString()),
+      ]);
+      dayOffset--;
+    }
+    sheet.appendRow([TextCellValue('')]);
+    sheet.appendRow([TextCellValue('')]);
+
+    // adding governorates orders data
+    sheet.appendRow([TextCellValue('الطلبيات في كل محافظة')]);
+    sheet.appendRow([
+      TextCellValue('المحافظة'),
+      TextCellValue('الطلبيات'),
+    ]);
+    for (OrdersPerCity city in companyStats!.ordersPerCity) {
+      sheet.appendRow([
+        TextCellValue(city.orderLocationName),
+        TextCellValue(city.orderCount.toString()),
       ]);
     }
 
-    // Save the Excel file
-    List<int>? fileBytes = excel.save();
-    //var directory = await DownloadsPathProvider.downloadsDirectory;
+    // Save the file
+    try {
+      List<int>? fileBytes = excel.save();
+      //var directory = await DownloadsPathProvider.downloadsDirectory;
 
-    File(join('/storage/emulated/0/Download/${fileName.text}.xlsx'))
-      ..createSync(recursive: true)
-      ..writeAsBytesSync(fileBytes!);
+      File(join('/storage/emulated/0/Download/${fileName.text}.xlsx'))
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(fileBytes!);
+    } catch (e) {
+      Get.showSnackbar(const GetSnackBar(
+        message: "خطأ في التخزين تأكد من الاسم",
+        duration: Duration(milliseconds: 2500),
+        backgroundColor: Colors.red,
+      ));
+      return;
+    }
+    Get.back();
     Get.showSnackbar(const GetSnackBar(
       message: "تم التخزين في مجلد التنزيلات",
       duration: Duration(milliseconds: 2500),
