@@ -78,7 +78,7 @@ class CompanyHomeController extends GetxController {
   }
 
   void logout() async {
-    if (await RemoteServices.logout()) {
+    if (currentUser != null && await RemoteServices.logout()) {
       _getStorage.remove("token");
       _getStorage.remove("role");
       Get.put(LoginController());

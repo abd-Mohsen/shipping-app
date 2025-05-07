@@ -168,7 +168,6 @@ class DriverHomeController extends GetxController {
   Future<void> getCurrentUser({bool refresh = false}) async {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
-    //todo: dont let user logout if user is loading (it may redirect after logout) do for all roles
     /*
       'Pending', 'Verified', 'Refused', 'No_Input',
     */
@@ -195,8 +194,7 @@ class DriverHomeController extends GetxController {
   }
 
   void logout() async {
-    //todo: add loading to prevent spam
-    if (await RemoteServices.logout()) {
+    if (currentUser != null && await RemoteServices.logout()) {
       _getStorage.remove("token");
       _getStorage.remove("role");
       Get.put(LoginController());
@@ -264,6 +262,10 @@ class DriverHomeController extends GetxController {
         websocket = await WebSocket.connect(
           socketUrl,
           //protocols: ['Token', _getStorage.read("token")],
+          // headers: {
+          //   "Upgrade": "websocket",
+          //   "Connection": "upgrade",
+          // },
         ).timeout(const Duration(seconds: 10));
 
         _startSendingLocation();
