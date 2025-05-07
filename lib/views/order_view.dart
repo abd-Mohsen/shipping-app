@@ -23,6 +23,7 @@ import 'components/input_field.dart';
 class OrderView extends StatelessWidget {
   //todo: show payment methods
   //todo: show vehicle type and plate
+  //todo: show rate box for customer when status is done (and if not rated before)
   final OrderModel order;
   final bool isCustomer;
   const OrderView({

@@ -4,8 +4,9 @@ import 'package:excel/excel.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import '../models/governorate_model.dart';
@@ -355,14 +356,14 @@ class CompanyHomeController extends GetxController {
       ]);
     }
 
-    // Save the file
+    // share the file
     try {
       List<int>? fileBytes = excel.save();
-      //var directory = await DownloadsPathProvider.downloadsDirectory;
+      final tempDir = await getTemporaryDirectory();
+      String path = "${tempDir.path}/${fileName.text}.xlsx";
+      File(path).writeAsBytesSync(fileBytes!);
 
-      File(join('/storage/emulated/0/Download/${fileName.text}.xlsx'))
-        ..createSync(recursive: true)
-        ..writeAsBytesSync(fileBytes!);
+      await Share.shareXFiles([XFile(path)]);
     } catch (e) {
       Get.showSnackbar(const GetSnackBar(
         message: "خطأ في التخزين تأكد من الاسم",
@@ -372,11 +373,5 @@ class CompanyHomeController extends GetxController {
       return;
     }
     Get.back();
-    Get.showSnackbar(const GetSnackBar(
-      message: "تم التخزين في مجلد التنزيلات",
-      duration: Duration(milliseconds: 2500),
-      backgroundColor: Colors.green,
-    ));
-    //todo (later): instead of saving, share the file
   }
 }

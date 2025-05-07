@@ -22,35 +22,39 @@ class CompanyOrdersTab extends StatelessWidget {
         return TabBarView(
           children: [
             //history
-            controller.isLoadingHistory
-                ? SpinKitSquareCircle(color: cs.primary)
-                : RefreshIndicator(
-                    onRefresh: controller.refreshHistoryOrders,
-                    child: controller.historyOrders.isEmpty
-                        ? Center(
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: [
-                                Lottie.asset("assets/animations/timer.json", height: 200),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                                  child: Center(
-                                    child: Text(
-                                      "no data, pull down to refresh".tr,
-                                      style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
+              child: controller.isLoadingHistory
+                  ? SpinKitSquareCircle(color: cs.primary)
+                  : RefreshIndicator(
+                      onRefresh: controller.refreshHistoryOrders,
+                      child: controller.historyOrders.isEmpty
+                          ? Center(
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  Lottie.asset("assets/animations/timer.json", height: 200),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                                    child: Center(
+                                      child: Text(
+                                        "no data, pull down to refresh".tr,
+                                        style:
+                                            tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: controller.historyOrders.length,
+                              itemBuilder: (context, i) =>
+                                  OrderCard(order: controller.historyOrders[i], isCustomer: false),
                             ),
-                          )
-                        : ListView.builder(
-                            itemCount: controller.historyOrders.length,
-                            itemBuilder: (context, i) =>
-                                OrderCard(order: controller.historyOrders[i], isCustomer: false),
-                          ),
-                  ),
+                    ),
+            ),
             //curr
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
