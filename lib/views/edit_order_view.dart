@@ -73,66 +73,8 @@ class EditOrderView extends StatelessWidget {
                   source: "edit",
                 ),
                 const SizedBox(height: 8),
-                InputField(
-                  controller: controller.description,
-                  label: "description".tr,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                  prefixIcon: Icons.text_snippet,
-                  validator: (val) {
-                    return validateInput(controller.description.text, 4, 1000, "text");
-                  },
-                  onChanged: (val) {
-                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                  },
-                ),
-                InputField(
-                  controller: controller.price,
-                  label: "expected price".tr,
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  prefixIcon: Icons.attach_money,
-                  validator: (val) {
-                    return validateInput(controller.price.text, 1, 10, "", wholeNumber: true); //todo check constraints
-                  },
-                  onChanged: (val) {
-                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                  },
-                ),
-                InputField(
-                  controller: controller.weight,
-                  label: "weight with unit".tr,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  prefixIcon: Icons.monitor_weight,
-                  validator: (val) {
-                    return validateInput(controller.weight.text, 1, 100, "");
-                  },
-                  onChanged: (val) {
-                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                  },
-                ),
-                InputField(
-                  controller: controller.otherInfo,
-                  label: "other info (optional)".tr,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                  prefixIcon: Icons.note,
-                  validator: (val) {
-                    return validateInput(
-                      controller.otherInfo.text,
-                      0,
-                      10000,
-                      "",
-                      canBeEmpty: true,
-                    );
-                  },
-                  onChanged: (val) {
-                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                  },
-                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: controller.isLoadingVehicle
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : DropdownSearch<VehicleTypeModel>(
@@ -211,8 +153,47 @@ class EditOrderView extends StatelessWidget {
                           //enabled: !con.enabled,
                         ),
                 ),
+                InputField(
+                  controller: controller.description,
+                  label: "description".tr,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
+                  prefixIcon: Icons.text_snippet,
+                  validator: (val) {
+                    return validateInput(controller.description.text, 4, 1000, "text");
+                  },
+                  onChanged: (val) {
+                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                  },
+                ),
+                InputField(
+                  controller: controller.weight,
+                  label: "weight with unit".tr,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  prefixIcon: Icons.monitor_weight,
+                  validator: (val) {
+                    return validateInput(controller.weight.text, 1, 100, "");
+                  },
+                  onChanged: (val) {
+                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                  },
+                ),
+                InputField(
+                  controller: controller.price,
+                  label: "expected price".tr,
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  prefixIcon: Icons.attach_money,
+                  validator: (val) {
+                    return validateInput(controller.price.text, 1, 10, "", wholeNumber: true); //todo check constraints
+                  },
+                  onChanged: (val) {
+                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                  },
+                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: controller.isLoadingPayment //todo: load again after failing, do it also in vehicle type
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : MultiDropdown<PaymentMethodModel>(
@@ -285,6 +266,25 @@ class EditOrderView extends StatelessWidget {
                           },
                         ),
                 ),
+                InputField(
+                  controller: controller.otherInfo,
+                  label: "other info (optional)".tr,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
+                  prefixIcon: Icons.note,
+                  validator: (val) {
+                    return validateInput(
+                      controller.otherInfo.text,
+                      0,
+                      10000,
+                      "",
+                      canBeEmpty: true,
+                    );
+                  },
+                  onChanged: (val) {
+                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                  },
+                ),
                 order.dateTime.isBefore(DateTime.now())
                     ? Badge(
                         smallSize: 10,
@@ -294,30 +294,59 @@ class EditOrderView extends StatelessWidget {
                       )
                     : DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
                 TimeSelector(time: controller.selectedTime, selectTimeCallback: controller.setTime),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: CheckboxListTile(
-                    value: controller.coveredCar,
-                    onChanged: (val) {
-                      controller.toggleCoveredCar();
-                    },
-                    title: Text(
-                      "covered car required".tr,
+                ExpansionTile(
+                  title: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: Text(
+                      "extra options".tr,
                       style: tt.titleSmall!.copyWith(color: cs.onSurface),
                     ),
-                    secondary: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Icon(
-                        CupertinoIcons.car,
-                        color: cs.onSurface,
-                        size: 22,
+                  ),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: CheckboxListTile(
+                        value: controller.coveredCar,
+                        onChanged: (val) {
+                          controller.toggleCoveredCar();
+                        },
+                        title: Text(
+                          "covered car required".tr,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                        ),
+                        secondary: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Icon(
+                            CupertinoIcons.car,
+                            color: cs.onSurface,
+                            size: 22,
+                          ),
+                        ),
                       ),
                     ),
-                    // shape: RoundedRectangleBorder(
-                    //   side: BorderSide(width: 1.5, color: cs.onSurface),
-                    //   borderRadius: BorderRadius.circular(32),
-                    // ),
-                  ),
+                    //todo: بكرات تحزيم
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: CheckboxListTile(
+                        value: controller.coveredCar,
+                        onChanged: (val) {
+                          controller.toggleCoveredCar();
+                        },
+                        title: Text(
+                          "cables required".tr,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                        ),
+                        secondary: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Icon(
+                            CupertinoIcons.car,
+                            color: cs.onSurface,
+                            size: 22,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 CustomButton(
                   onTap: () {

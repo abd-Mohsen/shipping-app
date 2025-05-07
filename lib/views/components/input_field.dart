@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//todo: try to decrease field height
 class InputField extends StatelessWidget {
   const InputField({
     super.key,
@@ -43,7 +44,7 @@ class InputField extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextFormField(
         controller: controller,
         textInputAction: textInputAction,
