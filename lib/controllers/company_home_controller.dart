@@ -266,7 +266,7 @@ class CompanyHomeController extends GetxController {
   Future<void> getCompanyStats() async {
     toggleLoadingStats(true);
     companyStats = await RemoteServices.fetchCompanyStats();
-    //todo: filter
+    //todo(later): filter
     toggleLoadingStats(false);
   }
 

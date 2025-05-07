@@ -65,6 +65,9 @@ class CompanyHomeView extends StatelessWidget {
               ),
               appBar: AppBar(
                 backgroundColor: cs.primary,
+                iconTheme: IconThemeData(
+                  color: cs.onPrimary,
+                ),
                 title: GetBuilder<CompanyHomeController>(
                   builder: (controller) {
                     return Text(

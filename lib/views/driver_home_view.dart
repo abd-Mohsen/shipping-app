@@ -63,6 +63,9 @@ class DriverHomeView extends StatelessWidget {
             ),
             appBar: AppBar(
               backgroundColor: cs.primary,
+              iconTheme: IconThemeData(
+                color: cs.onPrimary,
+              ),
               title: Text(
                 'driver'.toUpperCase(),
                 style: tt.headlineSmall!.copyWith(letterSpacing: 2, color: cs.onPrimary),

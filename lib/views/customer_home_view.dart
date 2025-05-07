@@ -38,6 +38,9 @@ class CustomerHomeView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: cs.primary,
+          iconTheme: IconThemeData(
+            color: cs.onPrimary,
+          ),
           title: Text(
             'my orders'.tr,
             style: tt.titleMedium!.copyWith(letterSpacing: 2, color: cs.onPrimary),
