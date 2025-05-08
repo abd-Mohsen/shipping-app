@@ -33,7 +33,7 @@ class NotificationsController extends GetxController {
   bool newNotifications = true;
 
   void _connectNotificationSocket() async {
-    String socketUrl = 'wss://shipping.adadevs.com/ws/connected_users/?token=${_getStorage.read("token")}';
+    String socketUrl = 'wss://shipping.adadevs.com/ws/connected-users/?token=${_getStorage.read("token")}';
 
     final websocket = await WebSocket.connect(
       socketUrl,

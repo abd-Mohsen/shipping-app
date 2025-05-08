@@ -10,8 +10,6 @@ import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:shipment/services/remote_services.dart';
 
 class MakeOrderController extends GetxController {
-  //todo: add location permission if not added automatically (check when entering the app)
-
   CustomerHomeController customerHomeController;
   MakeOrderController({required this.customerHomeController});
 

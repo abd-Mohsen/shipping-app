@@ -230,7 +230,6 @@ class EditOrderController extends GetxController {
     update();
   }
 
-  //todo: test
   void editOrder() async {
     if (isLoading || isLoadingVehicle || isLoadingPayment) return;
     buttonPressed = true;

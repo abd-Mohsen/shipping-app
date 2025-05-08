@@ -104,8 +104,17 @@ class RegisterController extends GetxController {
     buttonPressed = true;
     bool isValid = registerFormKey.currentState!.validate();
     if (!isValid) return;
+    if (((roles[roleIndex] == "employee" || roles[roleIndex] == "driver") &&
+            (idFront == null || idRear == null || dLicenseFront == null || dLicenseRear == null)) ||
+        (roles[roleIndex] == "company" && (idFront == null || idRear == null))) {
+      Get.showSnackbar(GetSnackBar(
+        message: "fill all images first".tr,
+        duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.red,
+      ));
+      return;
+    }
     toggleLoadingRegister(true);
-    //todo validate images
     File? idFrontFile = idFront == null ? null : File(idFront!.path);
     File? idRearFile = idRear == null ? null : File(idRear!.path);
     File? lFrontFile = dLicenseFront == null ? null : File(dLicenseFront!.path);

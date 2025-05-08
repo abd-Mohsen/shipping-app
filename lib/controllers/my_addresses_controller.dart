@@ -87,7 +87,6 @@ class MyAddressesController extends GetxController {
   }
 
   void deleteAddress(int id) async {
-    //todo: backend is not returning id, fix
     bool res = await RemoteServices.deleteAddress(id);
     if (res) {
       myAddresses.removeWhere((address) => address.id == id);

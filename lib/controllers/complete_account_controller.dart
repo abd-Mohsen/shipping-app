@@ -161,7 +161,6 @@ class CompleteAccountController extends GetxController {
   }
 
   void logout() async {
-    //todo: add loading to prevent spam
     if (await RemoteServices.logout()) {
       _getStorage.remove("token");
       _getStorage.remove("role");
