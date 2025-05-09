@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
@@ -11,6 +12,7 @@ import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shipment/models/vehicle_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../services/remote_services.dart';
 
 class OrderController extends GetxController {
@@ -375,5 +377,12 @@ class OrderController extends GetxController {
       ),
     );
     mapController.moveTo(currPosition!);
+  }
+
+  Future<void> callDirect(String number) async {
+    bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+    if (res != true) {
+      print("failed");
+    }
   }
 }

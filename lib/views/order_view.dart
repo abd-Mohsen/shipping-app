@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -47,6 +48,43 @@ class OrderView extends StatelessWidget {
         : isCompany
             ? cHC2 = Get.find()
             : dHC = Get.find();
+    OrderController oC = Get.put(isCustomer
+        ? OrderController(order: order, customerHomeController: cHC)
+        : isCompany
+            ? OrderController(order: order, companyHomeController: cHC2)
+            : OrderController(order: order, driverHomeController: dHC));
+
+    callDialog() => Get.defaultDialog(
+          title: "",
+          content: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              "wanna call?".tr,
+              style: tt.titleLarge!.copyWith(color: cs.onSurface),
+            ),
+          ),
+          confirm: TextButton(
+            onPressed: () {
+              Get.back();
+              oC.callDirect(
+                isCustomer ? order.driver!.phoneNumber.toString() : order.orderOwner.phoneNumber.toString(),
+              );
+            },
+            child: Text(
+              "yes".tr,
+              style: tt.titleMedium!.copyWith(color: Colors.red),
+            ),
+          ),
+          cancel: TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text(
+              "no".tr,
+              style: tt.titleMedium!.copyWith(color: cs.onSurface),
+            ),
+          ),
+        );
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -109,11 +147,6 @@ class OrderView extends StatelessWidget {
         ],
       ),
       body: GetBuilder<OrderController>(
-        init: isCustomer
-            ? OrderController(order: order, customerHomeController: cHC)
-            : isCompany
-                ? OrderController(order: order, companyHomeController: cHC2)
-                : OrderController(order: order, driverHomeController: dHC),
         builder: (controller) {
           return Column(
             children: [
@@ -1137,11 +1170,19 @@ class OrderView extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 4),
                                   child: SizedBox(
                                     width: MediaQuery.of(context).size.width / 1.7,
-                                    child: Text(
-                                      order.driver!.phoneNumber.toString(),
-                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 3,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        callDialog();
+                                      },
+                                      child: Text(
+                                        order.driver!.phoneNumber.toString(),
+                                        style: tt.titleSmall!.copyWith(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -1189,11 +1230,19 @@ class OrderView extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 4),
                                   child: SizedBox(
                                     width: MediaQuery.of(context).size.width / 1.7,
-                                    child: Text(
-                                      order.orderOwner.phoneNumber.toString(),
-                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 3,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        callDialog();
+                                      },
+                                      child: Text(
+                                        order.orderOwner.phoneNumber.toString(),
+                                        style: tt.titleSmall!.copyWith(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
+                                      ),
                                     ),
                                   ),
                                 ),
