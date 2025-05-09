@@ -69,8 +69,6 @@ class _MapSelectorState extends State<MapSelector> {
   //   setState(() {});
   // }
 
-  //todo: buttons for traversing an to clear field
-
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;

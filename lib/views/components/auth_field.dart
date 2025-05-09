@@ -89,7 +89,7 @@ String? validateInput(
   bool english = false,
   bool wholeNumber = false,
   int lowerRange = 0,
-  int upperRange = 10000000000,
+  int upperRange = 1000000000000000000,
 }) {
   if (val.trim().isEmpty && !canBeEmpty) return "cannot be empty".tr;
 
@@ -103,6 +103,15 @@ String? validateInput(
     final RegExp numericRegExp = RegExp(r'^[0-9]+$');
     if (!numericRegExp.hasMatch(val)) return "invalid phone".tr;
   }
+
+  if (wholeNumber) {
+    final RegExp numericRegExp = RegExp(r'^[0-9]+$');
+    if (!numericRegExp.hasMatch(val)) return "enter a whole number".tr;
+    int num = int.parse(val);
+    if (num > upperRange) return "${"cannot be greater".tr} ${"than".tr} $upperRange";
+    if (num < lowerRange) return "${"cannot be less".tr} ${"than".tr} $lowerRange";
+  }
+
   if (val.length < min) return "${"cannot be shorter".tr} ${"than".tr} $min ${"characters".tr}";
   if (val.length > max) return "${"cannot be longer".tr} ${"than".tr} $max ${"characters".tr}";
 
@@ -111,14 +120,6 @@ String? validateInput(
   if (english) {
     final RegExp englishRegExp = RegExp(r'^[a-zA-Z\d_\-]+$');
     if (!englishRegExp.hasMatch(val)) return "must be english".tr;
-  }
-
-  if (wholeNumber) {
-    final RegExp numericRegExp = RegExp(r'^[0-9]+$');
-    if (!numericRegExp.hasMatch(val)) return "enter a whole number".tr;
-    int num = int.parse(val);
-    if (num > upperRange) return "${"cannot be greater".tr} ${"than".tr} $upperRange";
-    if (num < lowerRange) return "${"cannot be less".tr} ${"than".tr} $lowerRange";
   }
 
   return null;

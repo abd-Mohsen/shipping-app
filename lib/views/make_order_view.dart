@@ -185,7 +185,7 @@ class MakeOrderView extends StatelessWidget {
                   textInputAction: TextInputAction.next,
                   prefixIcon: Icons.attach_money,
                   validator: (val) {
-                    return validateInput(controller.price.text, 1, 10, "", wholeNumber: true); //todo check constraints
+                    return validateInput(controller.price.text, 1, 18, "", wholeNumber: true);
                   },
                   onChanged: (val) {
                     if (controller.buttonPressed) controller.formKey.currentState!.validate();

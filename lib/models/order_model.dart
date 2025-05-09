@@ -28,7 +28,6 @@ class OrderModel {
   final DateTime? updatedAt;
   final bool ownerApproved;
   final bool driverApproved;
-  //"owner_is_approved":false,"driver_is_approved":false
 
   OrderModel({
     required this.id,

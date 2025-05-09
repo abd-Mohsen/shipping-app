@@ -377,7 +377,6 @@ class RemoteServices {
   }
 
   static Future<CompanyStatsModel?> fetchCompanyStats() async {
-    //todo: filter
     String? json = await api.getRequest("statistic/?days=0&order_status=approved&order_status=processing", auth: true);
     if (json == null) return null;
     return CompanyStatsModel.fromJson(jsonDecode(json));
