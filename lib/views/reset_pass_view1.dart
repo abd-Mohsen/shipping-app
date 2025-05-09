@@ -34,7 +34,6 @@ class ResetPassView1 extends StatelessWidget {
                     const Spacer(),
                     Expanded(
                       flex: 12,
-                      //todo(later): replace png with svg to save space
                       child: Hero(
                         tag: "auth_image",
                         child: Image.asset('assets/images/sms1.png'),

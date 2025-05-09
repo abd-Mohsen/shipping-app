@@ -40,7 +40,6 @@ class RegisterView extends StatelessWidget {
                       //const Spacer(),
                       Expanded(
                         flex: 3,
-                        //todo(later): replace png with svg to save space
                         child: Hero(
                           tag: "auth_image",
                           child: Column(

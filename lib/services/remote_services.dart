@@ -471,4 +471,14 @@ class RemoteServices {
     if (json == null) return null;
     return notificationModelFromJson(json);
   }
+
+  static Future<bool> changePassword(String oldPass, String newPass, String reNewPass) async {
+    Map<String, dynamic> body = {
+      "old_password": oldPass,
+      "new_password": newPass,
+      "confirm_password": reNewPass,
+    };
+    String? json = await api.postRequest("auth/change-password/", body, auth: true);
+    return json != null;
+  }
 }

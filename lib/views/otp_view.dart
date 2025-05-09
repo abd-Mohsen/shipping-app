@@ -49,7 +49,6 @@ class OTPView extends StatelessWidget {
                       const Spacer(),
                       Expanded(
                         flex: 12,
-                        //todo(later): replace png with svg to save space
                         child: Hero(
                           tag: "auth_image",
                           child: Image.asset('assets/images/sms1.png'),
@@ -75,7 +74,6 @@ class OTPView extends StatelessWidget {
                             builder: (con) => Directionality(
                               textDirection: TextDirection.ltr,
                               child: OTPTextField(
-                                //todo(later): let app focus on the first need when resending and when opening page
                                 controller: con.otpFieldController,
                                 otpFieldStyle: OtpFieldStyle(
                                   focusBorderColor: cs.primary,

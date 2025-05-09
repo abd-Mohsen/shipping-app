@@ -16,11 +16,12 @@ final Api api = Api();
 final NotificationService notificationService = NotificationService();
 //todo: additional notes
 //todo: PT report
+//todo: show payment methods (for rafed) and bills
 
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); //todo: not working after editing
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final FirebaseApp app = Firebase.app();
   print('Firebase app name: ${app.name}');
   print('Firebase app options: ${app.options}');
