@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shipment/models/employee_model.dart';
 
+//todo: toggle availability
 class EmployeeCard extends StatelessWidget {
   final EmployeeModel employee;
   final void Function() onDelete;

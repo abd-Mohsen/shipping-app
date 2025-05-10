@@ -6,6 +6,7 @@ import 'package:shipment/controllers/home_navigation_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/views/edit_profile_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
+import 'package:shipment/views/payments_view.dart';
 import 'package:shipment/views/tabs/driver_explore_tab.dart';
 import 'package:shipment/views/tabs/driver_history_tab.dart';
 import 'package:shipment/views/tabs/driver_home_tab.dart';
@@ -213,6 +214,17 @@ class DriverHomeView extends StatelessWidget {
                             },
                           ),
                         ),
+                        Visibility(
+                          visible: !hC.isEmployee,
+                          child: ListTile(
+                            leading: const Icon(Icons.money),
+                            title: Text("payment methods".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                            onTap: () {
+                              Get.to(() => const PaymentsView());
+                            },
+                          ),
+                        ),
+
                         ListTile(
                           leading: const Icon(Icons.info_outline),
                           title: Text("About app".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),

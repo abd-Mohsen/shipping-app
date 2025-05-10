@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shipment/constants.dart';
 import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/branch_model.dart';
 import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/governorate_model.dart';
@@ -480,5 +481,14 @@ class RemoteServices {
     };
     String? json = await api.postRequest("auth/change-password/", body, auth: true);
     return json != null;
+  }
+
+  static Future<List<BranchModel>?> fetchBranches() async {
+    String? json = await api.getRequest(
+      "get_branchs/",
+      auth: true,
+    );
+    if (json == null) return null;
+    return branchModelFromJson(json);
   }
 }

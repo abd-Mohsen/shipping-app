@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/views/notifications_view.dart';
+import 'package:shipment/views/payments_view.dart';
 import 'package:shipment/views/tabs/company_employees_tab.dart';
 import 'package:shipment/views/tabs/company_orders_tab.dart';
 import 'package:shipment/views/tabs/company_stats_tab.dart';
@@ -212,6 +213,13 @@ class CompanyHomeView extends StatelessWidget {
                                 tC.updateTheme(value);
                               },
                             ),
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.money),
+                            title: Text("payment methods".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                            onTap: () {
+                              Get.to(() => const PaymentsView());
+                            },
                           ),
                           // ListTile(
                           //   leading: Icon(
