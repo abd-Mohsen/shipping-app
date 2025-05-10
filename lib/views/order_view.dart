@@ -542,7 +542,7 @@ class OrderView extends StatelessWidget {
                                     backgroundColor: cs.primary,
                                     foregroundColor: cs.onPrimary,
                                     child: Icon(Icons.refresh),
-                                    radius: 20,
+                                    radius: 18,
                                   ),
                                 ),
                                 SizedBox(width: 12),
@@ -550,7 +550,7 @@ class OrderView extends StatelessWidget {
                                   //width: MediaQuery.of(context).size.width / 1.2,
                                   child: Text(
                                     "driver is probably offline, wait or refresh the map".tr,
-                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),

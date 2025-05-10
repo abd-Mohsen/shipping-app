@@ -313,7 +313,6 @@ class DriverHomeController extends GetxController {
   final Duration _initialReconnectDelay = Duration(seconds: 5);
 
   //todo: not working if screen is off
-  //todo: reconnect logic is still flawed
 
   bool _isConnecting = false;
 
@@ -390,33 +389,6 @@ class DriverHomeController extends GetxController {
     _shouldReconnect = false;
     websocket!.close();
     _locationTimer!.cancel();
-    // todo: not closing socket
-    // todo: when i hot reload the tracking does not reconnect
-    // todo: shit is getting out of hand, multiple channels are opened (_startSendingLocation is called multiple times)
     super.dispose();
-  }
-
-  void _test() async {
-    _locationTimer?.cancel();
-    int i = 0;
-    _locationTimer = Timer.periodic(Duration(seconds: 5), (timer) async {
-      // Position position = await Geolocator.getCurrentPosition(
-      //   desiredAccuracy: LocationAccuracy.bestForNavigation,
-      // );
-
-      Map pos = {
-        "latitude": Random().nextDouble(),
-        "longitude": Random().nextDouble(),
-      };
-      print(pos);
-      //websocket.add(jsonEncode(pos));
-
-      // if (websocket.readyState == WebSocket.open) {
-      //   websocket.add(jsonEncode(pos));
-      // } else {
-      // Handle reconnection
-      //_reconnectWebSocket();
-      //}
-    });
   }
 }
