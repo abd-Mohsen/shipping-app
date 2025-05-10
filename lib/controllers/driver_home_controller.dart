@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
@@ -204,6 +205,7 @@ class DriverHomeController extends GetxController {
   //-----------------------------------Real Time-------------------------------------------
 
   late WebSocket websocket;
+  Timer? _locationTimer;
 
   void _startSendingLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -228,8 +230,7 @@ class DriverHomeController extends GetxController {
       accuracy: LocationAccuracy.bestForNavigation,
       distanceFilter: 5,
       timeLimit: null,
-    ); //todo: find a way to make it slower
-    //todo ask for location permission
+    );
 
     Geolocator.getPositionStream(locationSettings: locationSettings).listen(
       (Position position) {
@@ -244,6 +245,51 @@ class DriverHomeController extends GetxController {
       },
       cancelOnError: false, // Continue listening even if an error occurs
     );
+  }
+
+  //todo ask for location permission
+  void _startPeriodicLocationUpdates() async {
+    _locationTimer?.cancel();
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      print("Location services are disabled.");
+      return;
+    }
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print("Location permissions are denied.");
+        return;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      print("Location permissions are permanently denied.");
+      return;
+    }
+
+    _locationTimer = Timer.periodic(Duration(seconds: 5), (timer) async {
+      try {
+        Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.bestForNavigation,
+        );
+
+        Map pos = {
+          'latitude': position.latitude,
+          'longitude': position.longitude,
+        };
+        print(pos);
+
+        if (websocket.readyState == WebSocket.open) {
+          websocket.add(jsonEncode(pos));
+        } else {
+          // Handle reconnection
+          //_reconnectWebSocket();
+        }
+      } catch (e) {
+        print("Error getting location: $e");
+      }
+    });
   }
 
   bool _shouldReconnect = true;
@@ -267,7 +313,8 @@ class DriverHomeController extends GetxController {
           // },
         ).timeout(const Duration(seconds: 10));
 
-        _startSendingLocation();
+        _startPeriodicLocationUpdates();
+        //_test();
 
         websocket.listen(
           (message) {
@@ -275,11 +322,13 @@ class DriverHomeController extends GetxController {
           },
           onDone: () {
             print('WebSocket connection closed');
+            _locationTimer!.cancel();
             if (_shouldReconnect) {
               _scheduleReconnect();
             }
           },
           onError: (error) {
+            _locationTimer!.cancel();
             print('WebSocket error: $error');
             if (_shouldReconnect) {
               _scheduleReconnect();
@@ -291,6 +340,7 @@ class DriverHomeController extends GetxController {
       } catch (e) {
         print('Connection attempt failed: $e');
         await Future.delayed(_initialReconnectDelay);
+        //todo: handle timeout
       }
     }
   }
@@ -311,5 +361,29 @@ class DriverHomeController extends GetxController {
     // todo: when i hot reload the tracking does not reconnect
     // todo: shit is getting out of hand, multiple channels are opened (_startSendingLocation is called multiple times)
     super.dispose();
+  }
+
+  void _test() async {
+    _locationTimer?.cancel();
+    int i = 0;
+    _locationTimer = Timer.periodic(Duration(seconds: 5), (timer) async {
+      // Position position = await Geolocator.getCurrentPosition(
+      //   desiredAccuracy: LocationAccuracy.bestForNavigation,
+      // );
+
+      Map pos = {
+        "latitude": Random().nextDouble(),
+        "longitude": Random().nextDouble(),
+      };
+      print(pos);
+      //websocket.add(jsonEncode(pos));
+
+      // if (websocket.readyState == WebSocket.open) {
+      //   websocket.add(jsonEncode(pos));
+      // } else {
+      // Handle reconnection
+      //_reconnectWebSocket();
+      //}
+    });
   }
 }

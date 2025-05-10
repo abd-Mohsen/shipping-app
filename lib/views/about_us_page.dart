@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+//todo take data from api
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
 

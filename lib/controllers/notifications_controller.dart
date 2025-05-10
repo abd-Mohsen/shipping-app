@@ -22,7 +22,7 @@ class NotificationsController extends GetxController {
 
   @override
   void onClose() {
-    //
+    //todo close online socket
     super.dispose();
   }
 
@@ -32,24 +32,25 @@ class NotificationsController extends GetxController {
 
   bool newNotifications = true;
 
+  //todo: implement reconnection logic
   void _connectNotificationSocket() async {
     String socketUrl = 'wss://shipping.adadevs.com/ws/connected-users/?token=${_getStorage.read("token")}';
 
     final websocket = await WebSocket.connect(
       socketUrl,
       //protocols: ['Token', _getStorage.read("token")],
-    ).timeout(const Duration(seconds: 10));
+    ).timeout(const Duration(seconds: 20));
 
     websocket.listen(
       (message) {
-        print('Message from server: $message');
-        message = jsonDecode(message);
-        notificationService.showNotification(
-          id: notificationID,
-          title: message["type"] + notificationID.toString(),
-          body: message["text"],
-        );
-        notificationID++;
+        // print('Message from server: $message');
+        // message = jsonDecode(message);
+        // notificationService.showNotification(
+        //   id: notificationID,
+        //   title: message["type"] + notificationID.toString(),
+        //   body: message["text"],
+        // );
+        // notificationID++;
       },
       onDone: () {
         print('WebSocket connection closed');

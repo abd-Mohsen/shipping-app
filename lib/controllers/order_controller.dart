@@ -12,7 +12,6 @@ import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shipment/models/vehicle_model.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../services/remote_services.dart';
 
 class OrderController extends GetxController {
@@ -145,7 +144,7 @@ class OrderController extends GetxController {
       if (Get.routing.current == "/OrderView") Get.back();
       customerHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
-        message: "order is cancelled".tr, //todo: if processing show: waiting for the other party to cancel
+        message: "order is cancelled".tr,
         duration: const Duration(milliseconds: 2500),
       ));
     }
