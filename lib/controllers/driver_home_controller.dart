@@ -130,7 +130,10 @@ class DriverHomeController extends GetxController {
     if (currOrders.isNotEmpty) trackingID = currOrders.where((order) => order.status == "processing").first.id;
     print("tracking order with ID ${trackingID.toString()}");
     if (trackingID != 0) {
-      if (websocket != null && websocket!.readyState == WebSocket.open) websocket!.close();
+      // _shouldReconnect = false; // Temporarily disable reconnection
+      // await websocket?.close();
+      // websocket = null;
+      // _shouldReconnect = true;
       _connectTrackingSocket();
     }
     //
@@ -160,6 +163,10 @@ class DriverHomeController extends GetxController {
 
   Future<void> refreshCurrOrders() async {
     currOrders.clear();
+    _shouldReconnect = false; // Temporarily disable reconnection
+    await websocket?.close();
+    websocket = null;
+    _shouldReconnect = true;
     getCurrentOrders();
   }
 
@@ -278,7 +285,7 @@ class DriverHomeController extends GetxController {
       return;
     }
 
-    _locationTimer = Timer.periodic(Duration(seconds: 5), (timer) async {
+    _locationTimer = Timer.periodic(Duration(seconds: 10), (timer) async {
       try {
         Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.bestForNavigation,
@@ -308,64 +315,71 @@ class DriverHomeController extends GetxController {
   //todo: not working if screen is off
   //todo: reconnect logic is still flawed
 
+  bool _isConnecting = false;
+
   void _connectTrackingSocket() async {
-    while (_shouldReconnect) {
-      try {
-        String socketUrl =
-            'wss://shipping.adadevs.com/ws/location-tracking/$trackingID?token=${_getStorage.read("token")}';
+    // Prevent multiple simultaneous connection attempts
+    if (_isConnecting || !_shouldReconnect) return;
 
-        setTrackingStatus("connecting");
-        websocket = await WebSocket.connect(
-          socketUrl,
-          //protocols: ['Token', _getStorage.read("token")],
-          // headers: {
-          //   "Upgrade": "websocket",
-          //   "Connection": "upgrade",
-          // },
-        ).timeout(const Duration(seconds: 20));
+    _isConnecting = true;
 
-        _startPeriodicLocationUpdates();
-        //_test();
-
-        websocket!.listen(
-          (message) {
-            print('Message from server: $message');
-            setTrackingStatus("tracking");
-          },
-          onDone: () {
-            print('WebSocket connection closed');
-            setTrackingStatus("disconnected");
-
-            _locationTimer!.cancel();
-            if (_shouldReconnect) {
-              _scheduleReconnect();
-            }
-          },
-          onError: (error) {
-            _locationTimer!.cancel();
-            print('WebSocket error: $error');
-            setTrackingStatus("disconnected");
-            if (_shouldReconnect) {
-              _scheduleReconnect();
-            }
-          },
-        );
-
-        break; // Exit the loop if connection succeeds
-      } catch (e) {
-        print('Connection attempt failed: $e');
-        await Future.delayed(_initialReconnectDelay);
-        if (_shouldReconnect) {
-          _scheduleReconnect();
-        }
+    try {
+      // Close existing connection if any
+      if (websocket != null && websocket!.readyState == WebSocket.open) {
+        await websocket!.close();
       }
+
+      String socketUrl =
+          'wss://shipping.adadevs.com/ws/location-tracking/$trackingID?token=${_getStorage.read("token")}';
+
+      setTrackingStatus("connecting");
+      websocket = await WebSocket.connect(
+        socketUrl,
+      ).timeout(const Duration(seconds: 20));
+
+      _startPeriodicLocationUpdates();
+
+      websocket!.listen(
+        (message) {
+          print('Message from server: $message');
+          setTrackingStatus("tracking");
+        },
+        onDone: () {
+          _cleanUpWebSocket();
+          if (_shouldReconnect) {
+            _scheduleReconnect();
+          }
+        },
+        onError: (error) {
+          _cleanUpWebSocket();
+          if (_shouldReconnect) {
+            _scheduleReconnect();
+          }
+        },
+      );
+    } catch (e) {
+      print('Connection attempt failed: $e');
+      _cleanUpWebSocket();
+      if (_shouldReconnect) {
+        _scheduleReconnect();
+      }
+    } finally {
+      _isConnecting = false;
+    }
+  }
+
+  void _cleanUpWebSocket() {
+    _locationTimer?.cancel();
+    setTrackingStatus("disconnected");
+    if (websocket != null) {
+      websocket!.close(); // Close if not already closed
+      websocket = null;
     }
   }
 
   void _scheduleReconnect() {
     if (!_shouldReconnect) return;
 
-    if (websocket!.readyState == WebSocket.open) websocket!.close();
     Future.delayed(_initialReconnectDelay, () {
       _connectTrackingSocket();
     });
