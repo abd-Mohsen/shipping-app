@@ -52,20 +52,67 @@ class DriverHomeTab extends StatelessWidget {
                               );
                             }
                             if (i == 1) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.circle, size: 13, color: cs.onSurface),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      "my current orders".tr,
-                                      style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.start,
+                              return Column(
+                                children: [
+                                  if (controller.trackingID != 0)
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 12.0),
+                                      child: Card(
+                                        color: cs.secondaryContainer,
+                                        elevation: 5,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              // GestureDetector(
+                                              //   onTap: () {
+                                              //     controller.refreshMap();
+                                              //   },
+                                              //   child: CircleAvatar(
+                                              //     backgroundColor: cs.primary,
+                                              //     foregroundColor: cs.onPrimary,
+                                              //     child: Icon(Icons.refresh),
+                                              //     radius: 20,
+                                              //   ),
+                                              // ),
+                                              Icon(Icons.location_on,
+                                                  color: controller.trackingStatus == "tracking"
+                                                      ? Colors.green
+                                                      : cs.primary),
+                                              SizedBox(width: 12),
+                                              Expanded(
+                                                //width: MediaQuery.of(context).size.width / 1.2,
+                                                child: Text(
+                                                  controller.trackingStatus.tr,
+                                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ],
-                                ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.circle, size: 13, color: cs.onSurface),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          "my current orders".tr,
+                                          style: tt.titleMedium!
+                                              .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               );
                             }
                             return OrderCard(order: controller.currOrders[i - 2], isCustomer: false);

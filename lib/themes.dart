@@ -39,7 +39,7 @@ class MyThemes {
       onBackground: Colors.black,
       surface: Colors.white,
       onSurface: Colors.black,
-      secondaryContainer: const Color(0xffefefef),
+      secondaryContainer: const Color(0xffeeeeed),
       onSecondaryContainer: Colors.black,
     ),
     textTheme: kMyTextTheme,
