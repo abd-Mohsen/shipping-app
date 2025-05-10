@@ -24,6 +24,7 @@ class OrderView extends StatelessWidget {
   //todo: show payment methods
   //todo: show vehicle type and plate
   //todo: show rate box for customer when status is done (and if not rated before)
+  //todo: show to customer: the driver is offline when there is no connection to web socket
   final OrderModel order;
   final bool isCustomer;
   const OrderView({
@@ -65,7 +66,7 @@ class OrderView extends StatelessWidget {
           confirm: TextButton(
             onPressed: () {
               Get.back();
-              oC.callDirect(
+              oC.callPhone(
                 isCustomer ? order.driver!.phoneNumber.toString() : order.orderOwner.phoneNumber.toString(),
               );
             },
@@ -490,34 +491,75 @@ class OrderView extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (isCustomer && controller.isTracking)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height / 3.2,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(32),
-                      child: OSMFlutter(
-                        controller: controller.mapController,
-                        mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                        osmOption: OSMOption(
-                          isPicker: false,
-                          userLocationMarker: UserLocationMaker(
-                            personMarker: MarkerIcon(
-                              icon: Icon(Icons.person, color: cs.primary, size: 40),
-                            ),
-                            directionArrowMarker: MarkerIcon(
-                              icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+              if (isCustomer && order.status == "processing")
+                controller.isTracking
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height / 3.2,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(32),
+                            child: OSMFlutter(
+                              controller: controller.mapController,
+                              mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+                              onMapIsReady: (v) {
+                                controller.setMapReady(v);
+                              },
+                              osmOption: OSMOption(
+                                isPicker: false,
+                                userLocationMarker: UserLocationMaker(
+                                  personMarker: MarkerIcon(
+                                    icon: Icon(Icons.person, color: cs.primary, size: 40),
+                                  ),
+                                  directionArrowMarker: MarkerIcon(
+                                    icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                                  ),
+                                ),
+                                zoomOption: const ZoomOption(
+                                  initZoom: 17.65,
+                                ),
+                              ),
                             ),
                           ),
-                          zoomOption: const ZoomOption(
-                            initZoom: 17.65,
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8),
+                        child: Card(
+                          color: cs.secondaryContainer,
+                          elevation: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    controller.refreshMap();
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundColor: cs.primary,
+                                    foregroundColor: cs.onPrimary,
+                                    child: Icon(Icons.refresh),
+                                    radius: 20,
+                                  ),
+                                ),
+                                SizedBox(width: 12),
+                                Expanded(
+                                  //width: MediaQuery.of(context).size.width / 1.2,
+                                  child: Text(
+                                    "driver is probably offline, wait or refresh the map".tr,
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),

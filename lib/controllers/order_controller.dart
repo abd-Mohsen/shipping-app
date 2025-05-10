@@ -335,9 +335,16 @@ class OrderController extends GetxController {
 
   late WebSocket websocket;
   bool isTracking = false;
+  bool isMapReady = false;
   GeoPoint? currPosition;
 
+  setMapReady(bool v) {
+    isMapReady = v;
+    update();
+  }
+
   void _connectTrackingSocket() async {
+    print("connecting to map socket");
     String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/${order.id}?token=${_getStorage.read("token")}';
 
     websocket = await WebSocket.connect(
@@ -356,6 +363,11 @@ class OrderController extends GetxController {
     );
   }
 
+  Future refreshMap() async {
+    if (websocket.readyState == WebSocket.open) websocket.close();
+    _connectTrackingSocket();
+  }
+
   Future updateMap(message) async {
     if (!isTracking) {
       isTracking = true;
@@ -365,6 +377,8 @@ class OrderController extends GetxController {
     print("${message["latitude"]}, ${message["longitude"]}");
     if (currPosition != null) mapController.removeMarker(currPosition!);
     currPosition = GeoPoint(latitude: message["latitude"], longitude: message["longitude"]);
+    mapController.moveTo(currPosition!);
+    await Future.delayed(Duration(milliseconds: 800));
     mapController.addMarker(
       currPosition!,
       markerIcon: const MarkerIcon(
@@ -375,10 +389,9 @@ class OrderController extends GetxController {
         ),
       ),
     );
-    mapController.moveTo(currPosition!);
   }
 
-  Future<void> callDirect(String number) async {
+  Future<void> callPhone(String number) async {
     bool? res = await FlutterPhoneDirectCaller.callNumber(number);
     if (res != true) {
       print("failed");

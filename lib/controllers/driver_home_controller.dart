@@ -129,7 +129,9 @@ class DriverHomeController extends GetxController {
     //
     if (currOrders.isNotEmpty) trackingID = currOrders.where((order) => order.status == "processing").first.id;
     print("tracking order with ID ${trackingID.toString()}");
-    if (trackingID != 0) _connectTrackingSocket();
+    if (trackingID != 0) {
+      _connectTrackingSocket();
+    }
     //
   }
 
@@ -278,7 +280,7 @@ class DriverHomeController extends GetxController {
           'latitude': position.latitude,
           'longitude': position.longitude,
         };
-        print(pos);
+        print("Foreground location: $pos");
 
         if (websocket.readyState == WebSocket.open) {
           websocket.add(jsonEncode(pos));
