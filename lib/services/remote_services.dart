@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shipment/constants.dart';
 import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/bank_details_model.dart';
 import 'package:shipment/models/branch_model.dart';
 import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
@@ -490,5 +491,14 @@ class RemoteServices {
     );
     if (json == null) return null;
     return branchModelFromJson(json);
+  }
+
+  static Future<List<BankDetailsModel>?> fetchBankDetails() async {
+    String? json = await api.getRequest(
+      "bank_account/",
+      auth: true,
+    );
+    if (json == null) return null;
+    return bankDetailsModelFromJson(json);
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/payments_controller.dart';
+import 'package:shipment/views/components/bank_details_card.dart';
 import 'package:shipment/views/components/branch_card.dart';
 
 class PaymentsView extends StatelessWidget {
@@ -117,7 +118,38 @@ class PaymentsView extends StatelessWidget {
                             ],
                           ),
                 //
-                Placeholder(),
+                controller.isLoadingBank
+                    ? SpinKitSquareCircle(color: cs.primary)
+                    : RefreshIndicator(
+                        onRefresh: controller.refreshBankDetails,
+                        child: controller.bankDetails.isEmpty
+                            ? Center(
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  children: [
+                                    Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                                      child: Center(
+                                        child: Text(
+                                          "no data, pull down to refresh".tr,
+                                          style: tt.titleMedium!
+                                              .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : ListView.builder(
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                                itemCount: controller.bankDetails.length,
+                                itemBuilder: (context, i) => BankDetailsCard(
+                                  bankDetails: controller.bankDetails[i],
+                                ),
+                              ),
+                      ),
               ],
             );
           },

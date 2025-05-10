@@ -217,7 +217,7 @@ class DriverHomeView extends StatelessWidget {
                         Visibility(
                           visible: !hC.isEmployee,
                           child: ListTile(
-                            leading: const Icon(Icons.money),
+                            leading: const Icon(Icons.monetization_on_outlined),
                             title: Text("payment methods".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
                             onTap: () {
                               Get.to(() => const PaymentsView());
