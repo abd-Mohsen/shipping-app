@@ -38,7 +38,7 @@ class InputField extends StatelessWidget {
 
     border() {
       return OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(32)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         borderSide: BorderSide(width: 0.5, color: cs.onSurface),
       );
     }
@@ -82,7 +82,7 @@ class InputField extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Icon(
               prefixIcon,
-              color: cs.onSurface,
+              color: cs.primary,
               size: 22,
             ),
           ),

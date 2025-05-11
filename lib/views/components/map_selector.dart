@@ -78,8 +78,8 @@ class _MapSelectorState extends State<MapSelector> {
       padding: const EdgeInsets.all(12.0),
       child: Material(
         elevation: 8,
-        color: cs.surface,
-        borderRadius: BorderRadius.circular(32),
+        color: cs.secondaryContainer,
+        borderRadius: BorderRadius.circular(10),
         child: GestureDetector(
           onTap: () {
             showModalBottomSheet(
@@ -283,10 +283,10 @@ class _MapSelectorState extends State<MapSelector> {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               border: Border.all(
-                color: cs.onSurface,
+                color: cs.secondaryContainer,
                 width: 0.5,
               ),
-              borderRadius: BorderRadius.circular(32),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,

@@ -51,80 +51,104 @@ class CompanyStatsTab extends StatelessWidget {
                           child: Column(
                             children: [
                               const SizedBox(height: 8),
-                              ListTile(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                leading: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(Icons.person, color: cs.primary, size: 40),
-                                ),
-                                title: Text(
-                                  "available drivers".tr,
-                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 4.0),
-                                  child: Text(
-                                    controller.companyStats!.availableDrivers.toString(),
-                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Material(
+                                      elevation: 5,
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: ListTile(
+                                        tileColor: cs.secondary,
+                                        contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                                        leading: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(Icons.directions_car_filled_rounded, color: cs.primary, size: 30),
+                                        ),
+                                        title: Text(
+                                          "available vehicles".tr,
+                                          style: tt.labelSmall!.copyWith(color: cs.onSurface),
+                                        ),
+                                        subtitle: Padding(
+                                          padding: const EdgeInsets.only(top: 4.0),
+                                          child: Text(
+                                            controller.companyStats!.availableVehicle.toString(),
+                                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                          ),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                          side: BorderSide(
+                                            color: cs.surface,
+                                            width: 0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(32),
-                                  side: BorderSide(
-                                    color: cs.onSurface,
-                                    width: 1,
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Material(
+                                      elevation: 5,
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: ListTile(
+                                        tileColor: cs.secondary,
+                                        contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                                        leading: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(Icons.checklist_outlined, color: cs.primary, size: 30),
+                                        ),
+                                        title: Text(
+                                          "running orders".tr,
+                                          style: tt.labelSmall!.copyWith(color: cs.onSurface),
+                                        ),
+                                        subtitle: Padding(
+                                          padding: const EdgeInsets.only(top: 4.0),
+                                          child: Text(
+                                            controller.companyStats!.processingOrder.toString(),
+                                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                          ),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                          side: BorderSide(
+                                            color: cs.surface,
+                                            width: 0,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
+
                               const SizedBox(height: 16),
-                              ListTile(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                leading: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(Icons.directions_car_filled, color: cs.primary, size: 40),
-                                ),
-                                title: Text(
-                                  "available vehicles".tr,
-                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 4.0),
-                                  child: Text(
-                                    controller.companyStats!.availableVehicle.toString(),
-                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                              Material(
+                                elevation: 5,
+                                borderRadius: BorderRadius.circular(10),
+                                child: ListTile(
+                                  tileColor: cs.secondary,
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                                  leading: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.person, color: cs.primary, size: 30),
                                   ),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(32),
-                                  side: BorderSide(
-                                    color: cs.onSurface,
-                                    width: 1,
+                                  title: Text(
+                                    "available drivers".tr,
+                                    style: tt.labelSmall!.copyWith(color: cs.onSurface),
                                   ),
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              ListTile(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                leading: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(Icons.checklist_outlined, color: cs.primary, size: 40),
-                                ),
-                                title: Text(
-                                  "running orders".tr,
-                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 4.0),
-                                  child: Text(
-                                    controller.companyStats!.processingOrder.toString(),
-                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      controller.companyStats!.availableDrivers.toString(),
+                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                    ),
                                   ),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(32),
-                                  side: BorderSide(
-                                    color: cs.onSurface,
-                                    width: 1,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: BorderSide(
+                                      color: cs.surface,
+                                      width: 0,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -177,8 +201,8 @@ class CompanyStatsTab extends StatelessWidget {
                                         border: Border(
                                           top: BorderSide.none,
                                           right: BorderSide.none,
-                                          left: BorderSide(width: 2, color: cs.onSurface),
-                                          bottom: BorderSide(width: 2, color: cs.onSurface),
+                                          left: BorderSide(width: 2, color: cs.surface),
+                                          bottom: BorderSide(width: 2, color: cs.surface),
                                         ),
                                       ),
                                       groupsSpace: 10,

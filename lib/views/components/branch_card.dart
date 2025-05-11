@@ -25,13 +25,13 @@ class BranchCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Material(
           borderRadius: BorderRadius.circular(20),
-          elevation: 3,
-          color: cs.surface,
+          elevation: 5,
+          color: cs.secondaryContainer,
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               border: Border.all(
-                color: isSelected ? cs.primary : cs.onSurface,
+                color: isSelected ? cs.primary : cs.surface,
                 width: isSelected ? 1.5 : 0.5,
               ),
               borderRadius: BorderRadius.circular(20),

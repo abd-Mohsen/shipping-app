@@ -1096,82 +1096,6 @@ class OrderView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Card(
-                      color: cs.secondaryContainer,
-                      elevation: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.location_on, color: cs.primary),
-                                const SizedBox(width: 8),
-                                Text(
-                                  "address".tr,
-                                  style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 50,
-                                    child: Text(
-                                      "from".tr,
-                                      style: tt.titleSmall!
-                                          .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width / 1.7,
-                                    child: Text(
-                                      order.startPoint.toString(),
-                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 50,
-                                    child: Text(
-                                      "to".tr,
-                                      style: tt.titleSmall!
-                                          .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width / 1.7,
-                                    child: Text(
-                                      order.endPoint.toString(),
-                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                     if (isCustomer && order.driver!.name.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 12.0),
@@ -1292,6 +1216,85 @@ class OrderView extends StatelessWidget {
                           ),
                         ),
                       ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Card(
+                        color: cs.secondaryContainer,
+                        elevation: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.location_on, color: cs.primary),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    "address".tr,
+                                    style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 50,
+                                      child: Text(
+                                        "from".tr,
+                                        style: tt.titleSmall!
+                                            .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width / 1.7,
+                                      child: Text(
+                                        order.startPoint.toString(),
+                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 50,
+                                      child: Text(
+                                        "to".tr,
+                                        style: tt.titleSmall!
+                                            .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width / 1.7,
+                                      child: Text(
+                                        order.endPoint.toString(),
+                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     Card(
                       color: cs.secondaryContainer,
