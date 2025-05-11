@@ -73,231 +73,498 @@ class MakeOrderView extends StatelessWidget {
                   source: "make",
                 ),
                 SizedBox(height: 8),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8),
+                //   child: Card(
+                //     color: cs.secondaryContainer,
+                //     elevation: 8,
+                //     child: Padding(
+                //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                //       child: Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           Padding(
+                //             padding: const EdgeInsets.symmetric(vertical: 8),
+                //             child: controller.isLoadingVehicle
+                //                 ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                //                 : DropdownSearch<VehicleTypeModel>(
+                //                     validator: (type) {
+                //                       if (type == null) return "you must select a type".tr;
+                //                       return null;
+                //                     },
+                //                     compareFn: (type1, type2) => type1.id == type2.id,
+                //                     popupProps: PopupProps.menu(
+                //                       showSearchBox: false,
+                //                       menuProps: MenuProps(
+                //                         shape: RoundedRectangleBorder(
+                //                           borderRadius: BorderRadius.circular(20),
+                //                         ),
+                //                       ),
+                //                       searchFieldProps: TextFieldProps(
+                //                         style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                //                         decoration: InputDecoration(
+                //                           fillColor: Colors.white70,
+                //                           hintText: "vehicle type".tr,
+                //                           prefix: Padding(
+                //                             padding: const EdgeInsets.all(4),
+                //                             child: Icon(Icons.search, color: cs.onSurface),
+                //                           ),
+                //                         ),
+                //                       ),
+                //                     ),
+                //                     decoratorProps: DropDownDecoratorProps(
+                //                       baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+                //                       decoration: InputDecoration(
+                //                         prefixIcon: Padding(
+                //                           padding: EdgeInsets.symmetric(horizontal: 24.0),
+                //                           child: Icon(
+                //                             Icons.fire_truck,
+                //                             color: cs.primary,
+                //                           ),
+                //                         ),
+                //                         labelText: "required vehicle type".tr,
+                //                         labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                //                         floatingLabelBehavior: FloatingLabelBehavior.never,
+                //                         enabledBorder: OutlineInputBorder(
+                //                           borderRadius: BorderRadius.circular(10),
+                //                           borderSide: BorderSide(
+                //                             width: .5,
+                //                             color: cs.onSurface,
+                //                           ),
+                //                         ),
+                //                         focusedBorder: OutlineInputBorder(
+                //                           borderRadius: BorderRadius.circular(10),
+                //                           borderSide: BorderSide(
+                //                             width: 0.5,
+                //                             color: cs.onSurface,
+                //                           ),
+                //                         ),
+                //                         errorBorder: OutlineInputBorder(
+                //                           borderRadius: BorderRadius.circular(32),
+                //                           borderSide: BorderSide(
+                //                             width: 0.5,
+                //                             color: cs.error,
+                //                           ),
+                //                         ),
+                //                         focusedErrorBorder: OutlineInputBorder(
+                //                           borderRadius: BorderRadius.circular(32),
+                //                           borderSide: BorderSide(
+                //                             width: 1,
+                //                             color: cs.error,
+                //                           ),
+                //                         ),
+                //                       ),
+                //                     ),
+                //                     items: (filter, infiniteScrollProps) => controller.vehicleTypes,
+                //                     itemAsString: (VehicleTypeModel type) => type.type,
+                //                     onChanged: (VehicleTypeModel? type) async {
+                //                       controller.selectVehicleType(type);
+                //                       await Future.delayed(const Duration(milliseconds: 1000));
+                //                       if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                //                     },
+                //                     //enabled: !con.enabled,
+                //                   ),
+                //           ),
+                //           InputField(
+                //             controller: controller.description,
+                //             label: "description".tr,
+                //             keyboardType: TextInputType.multiline,
+                //             textInputAction: TextInputAction.newline,
+                //             prefixIcon: Icons.text_snippet,
+                //             validator: (val) {
+                //               return validateInput(controller.description.text, 4, 1000, "text");
+                //             },
+                //             onChanged: (val) {
+                //               if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                //             },
+                //           ),
+                //           InputField(
+                //             controller: controller.weight,
+                //             label: "weight with unit".tr,
+                //             keyboardType: TextInputType.text,
+                //             textInputAction: TextInputAction.next,
+                //             prefixIcon: Icons.monitor_weight,
+                //             validator: (val) {
+                //               return validateInput(controller.weight.text, 1, 100, "");
+                //             },
+                //             onChanged: (val) {
+                //               if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                //             },
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8),
+                //   child: Card(
+                //     color: cs.secondaryContainer,
+                //     elevation: 8,
+                //     child: Padding(
+                //       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                //       child: Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           InputField(
+                //             controller: controller.price,
+                //             label: "expected price".tr,
+                //             keyboardType: TextInputType.number,
+                //             textInputAction: TextInputAction.next,
+                //             prefixIcon: Icons.attach_money,
+                //             validator: (val) {
+                //               return validateInput(controller.price.text, 1, 18, "", wholeNumber: true);
+                //             },
+                //             onChanged: (val) {
+                //               if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                //             },
+                //           ),
+                //           Padding(
+                //             padding: const EdgeInsets.symmetric(vertical: 8),
+                //             child:
+                //                 controller.isLoadingPayment //todo: load again after failing, do it also in vehicle type
+                //                     ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                //                     : MultiDropdown<PaymentMethodModel>(
+                //                         items: controller.paymentMethods
+                //                             .map(
+                //                               (paymentMethod) => DropdownItem(
+                //                                 label: paymentMethod.name,
+                //                                 value: paymentMethod,
+                //                               ),
+                //                             )
+                //                             .toList(),
+                //                         controller: controller.paymentMethodController,
+                //                         enabled: true,
+                //                         //searchEnabled: true,
+                //                         chipDecoration: ChipDecoration(
+                //                           backgroundColor: cs.primary,
+                //                           wrap: true,
+                //                           runSpacing: 2,
+                //                           spacing: 10,
+                //                         ),
+                //                         fieldDecoration: FieldDecoration(
+                //                           hintText: 'payment methods'.tr,
+                //                           hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                //                           prefixIcon: Padding(
+                //                             padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
+                //                             child: Icon(
+                //                               CupertinoIcons.money_dollar,
+                //                               color: cs.primary,
+                //                             ),
+                //                           ),
+                //                           showClearIcon: false,
+                //                           border: OutlineInputBorder(
+                //                             borderRadius: BorderRadius.circular(10),
+                //                             borderSide: BorderSide(color: cs.onSurface, width: 0.5),
+                //                           ),
+                //                           focusedBorder: OutlineInputBorder(
+                //                             borderRadius: BorderRadius.circular(10),
+                //                             borderSide: const BorderSide(
+                //                               color: Colors.black87,
+                //                             ),
+                //                           ),
+                //                         ),
+                //                         dropdownDecoration: DropdownDecoration(
+                //                           marginTop: 2,
+                //                           maxHeight: 500,
+                //                           header: Padding(
+                //                             padding: const EdgeInsets.all(12),
+                //                             child: Text(
+                //                               'select payment method'.tr,
+                //                               textAlign: TextAlign.start,
+                //                               style: tt.titleSmall!.copyWith(color: Colors.black),
+                //                             ),
+                //                           ),
+                //                         ),
+                //                         dropdownItemDecoration: DropdownItemDecoration(
+                //                           backgroundColor: Colors.grey.shade300,
+                //                           selectedBackgroundColor: Colors.grey.shade300,
+                //                           textColor: Colors.black87,
+                //                           selectedTextColor: Colors.black87,
+                //                           selectedIcon: Icon(Icons.check_box, color: cs.primary),
+                //                           disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
+                //                         ),
+                //                         validator: (value) {
+                //                           if (value == null || value.isEmpty) {
+                //                             return 'select payment method'.tr;
+                //                           }
+                //                           return null;
+                //                         },
+                //                         onSelectionChange: (selectedItems) {
+                //                           if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                //                           print("OnSelectionChange: $selectedItems");
+                //                           //controller.toggleFields();
+                //                         },
+                //                       ),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8),
-                  child: Card(
-                    color: cs.secondaryContainer,
-                    elevation: 8,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: controller.isLoadingVehicle
-                                ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                                : DropdownSearch<VehicleTypeModel>(
-                                    validator: (type) {
-                                      if (type == null) return "you must select a type".tr;
-                                      return null;
-                                    },
-                                    compareFn: (type1, type2) => type1.id == type2.id,
-                                    popupProps: PopupProps.menu(
-                                      showSearchBox: false,
-                                      menuProps: MenuProps(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20),
-                                        ),
-                                      ),
-                                      searchFieldProps: TextFieldProps(
-                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        decoration: InputDecoration(
-                                          fillColor: Colors.white70,
-                                          hintText: "vehicle type".tr,
-                                          prefix: Padding(
-                                            padding: const EdgeInsets.all(4),
-                                            child: Icon(Icons.search, color: cs.onSurface),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    decoratorProps: DropDownDecoratorProps(
-                                      baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                      decoration: InputDecoration(
-                                        prefixIcon: const Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                          child: Icon(Icons.fire_truck),
-                                        ),
-                                        labelText: "required vehicle type".tr,
-                                        labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(32),
-                                          borderSide: BorderSide(
-                                            width: .5,
-                                            color: cs.onSurface,
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(32),
-                                          borderSide: BorderSide(
-                                            width: 0.5,
-                                            color: cs.onSurface,
-                                          ),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(32),
-                                          borderSide: BorderSide(
-                                            width: 0.5,
-                                            color: cs.error,
-                                          ),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(32),
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: cs.error,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    items: (filter, infiniteScrollProps) => controller.vehicleTypes,
-                                    itemAsString: (VehicleTypeModel type) => type.type,
-                                    onChanged: (VehicleTypeModel? type) async {
-                                      controller.selectVehicleType(type);
-                                      await Future.delayed(const Duration(milliseconds: 1000));
-                                      if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                                    },
-                                    //enabled: !con.enabled,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: controller.isLoadingVehicle
+                      ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                      : Material(
+                          elevation: 5,
+                          borderRadius: BorderRadius.circular(10),
+                          child: DropdownSearch<VehicleTypeModel>(
+                            validator: (type) {
+                              if (type == null) return "you must select a type".tr;
+                              return null;
+                            },
+                            compareFn: (type1, type2) => type1.id == type2.id,
+                            popupProps: PopupProps.menu(
+                              showSearchBox: false,
+                              constraints: BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
+                              menuProps: MenuProps(
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                    bottom: Radius.circular(10), // Only round bottom corners
+                                    top: Radius.circular(10), // Only round bottom corners
                                   ),
-                          ),
-                          InputField(
-                            controller: controller.description,
-                            label: "description".tr,
-                            keyboardType: TextInputType.multiline,
-                            textInputAction: TextInputAction.newline,
-                            prefixIcon: Icons.text_snippet,
-                            validator: (val) {
-                              return validateInput(controller.description.text, 4, 1000, "text");
-                            },
-                            onChanged: (val) {
+                                ),
+                                backgroundColor: Colors.white,
+                                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              ),
+                              searchFieldProps: TextFieldProps(
+                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                decoration: InputDecoration(
+                                  fillColor: Colors.white70,
+                                  hintText: "vehicle type".tr,
+                                  filled: true,
+                                  //fillColor: const Color(0xFFf9eaee),
+                                  prefix: Padding(
+                                    padding: const EdgeInsets.all(4),
+                                    child: Icon(Icons.search, color: cs.onSurface),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            decoratorProps: DropDownDecoratorProps(
+                              baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              decoration: InputDecoration(
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                  child: Icon(
+                                    Icons.fire_truck,
+                                    color: cs.primary,
+                                  ),
+                                ),
+                                filled: true,
+                                fillColor: cs.secondary,
+                                labelText: "required vehicle type".tr,
+                                labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                                floatingLabelBehavior: FloatingLabelBehavior.never,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    width: .5,
+                                    color: cs.surface,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide(
+                                    width: 0.5,
+                                    color: cs.onSurface,
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(32),
+                                  borderSide: BorderSide(
+                                    width: 0.5,
+                                    color: cs.error,
+                                  ),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(32),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: cs.error,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            items: (filter, infiniteScrollProps) => controller.vehicleTypes,
+                            itemAsString: (VehicleTypeModel type) => type.type,
+                            onChanged: (VehicleTypeModel? type) async {
+                              controller.selectVehicleType(type);
+                              await Future.delayed(const Duration(milliseconds: 1000));
                               if (controller.buttonPressed) controller.formKey.currentState!.validate();
                             },
+                            //enabled: !con.enabled,
                           ),
-                          InputField(
-                            controller: controller.weight,
-                            label: "weight with unit".tr,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.next,
-                            prefixIcon: Icons.monitor_weight,
-                            validator: (val) {
-                              return validateInput(controller.weight.text, 1, 100, "");
-                            },
-                            onChanged: (val) {
-                              if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
+                ),
+                InputField(
+                  controller: controller.description,
+                  label: "description".tr,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
+                  prefixIcon: Icons.text_snippet,
+                  validator: (val) {
+                    return validateInput(controller.description.text, 4, 1000, "text");
+                  },
+                  onChanged: (val) {
+                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                  },
+                ),
+                InputField(
+                  controller: controller.weight,
+                  label: "weight with unit".tr,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  prefixIcon: Icons.monitor_weight,
+                  validator: (val) {
+                    return validateInput(controller.weight.text, 1, 100, "");
+                  },
+                  onChanged: (val) {
+                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                  },
+                ),
+                InputField(
+                  controller: controller.price,
+                  label: "expected price".tr,
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  prefixIcon: Icons.attach_money,
+                  validator: (val) {
+                    return validateInput(controller.price.text, 1, 18, "", wholeNumber: true);
+                  },
+                  onChanged: (val) {
+                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                  },
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8),
-                  child: Card(
-                    color: cs.secondaryContainer,
-                    elevation: 8,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          InputField(
-                            controller: controller.price,
-                            label: "expected price".tr,
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
-                            prefixIcon: Icons.attach_money,
-                            validator: (val) {
-                              return validateInput(controller.price.text, 1, 18, "", wholeNumber: true);
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: controller.isLoadingPayment //todo: load again after failing, do it also in vehicle type
+                      ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                      : Material(
+                          elevation: 5,
+                          borderRadius: BorderRadius.circular(10),
+                          child: MultiDropdown<PaymentMethodModel>(
+                            items: controller.paymentMethods
+                                .map(
+                                  (paymentMethod) => DropdownItem(
+                                    label: paymentMethod.name,
+                                    value: paymentMethod,
+                                  ),
+                                )
+                                .toList(),
+                            controller: controller.paymentMethodController,
+                            enabled: true,
+                            //searchEnabled: true,
+                            chipDecoration: ChipDecoration(
+                              backgroundColor: cs.primary,
+                              wrap: true,
+                              runSpacing: 2,
+                              spacing: 10,
+                            ),
+                            fieldDecoration: FieldDecoration(
+                              backgroundColor: cs.secondary,
+                              hintText: 'payment methods'.tr,
+                              hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
+                                child: Icon(
+                                  CupertinoIcons.money_dollar,
+                                  color: cs.primary,
+                                ),
+                              ),
+                              showClearIcon: false,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: cs.surface, width: 0.5),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                            dropdownDecoration: DropdownDecoration(
+                              elevation: 8,
+
+                              marginTop: -4,
+                              maxHeight: 500,
+                              // header: Padding(
+                              //   padding: const EdgeInsets.all(12),
+                              //   child: Text(
+                              //     'select payment method'.tr,
+                              //     textAlign: TextAlign.start,
+                              //     style: tt.titleSmall!.copyWith(color: Colors.black),
+                              //   ),
+                              // ),
+                            ),
+                            dropdownItemDecoration: DropdownItemDecoration(
+                              // filled: true,
+                              // fillColor: cs.secondary,
+                              backgroundColor: cs.secondary,
+                              disabledBackgroundColor: cs.surface,
+                              selectedBackgroundColor: Colors.grey.shade300,
+                              textColor: Colors.black87,
+                              selectedTextColor: Colors.black87,
+                              selectedIcon: Icon(Icons.check_box, color: cs.primary),
+                              disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'select payment method'.tr;
+                              }
+                              return null;
                             },
-                            onChanged: (val) {
+                            onSelectionChange: (selectedItems) {
                               if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                              print("OnSelectionChange: $selectedItems");
+                              //controller.toggleFields();
                             },
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child:
-                                controller.isLoadingPayment //todo: load again after failing, do it also in vehicle type
-                                    ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                                    : MultiDropdown<PaymentMethodModel>(
-                                        items: controller.paymentMethods
-                                            .map(
-                                              (paymentMethod) => DropdownItem(
-                                                label: paymentMethod.name,
-                                                value: paymentMethod,
-                                              ),
-                                            )
-                                            .toList(),
-                                        controller: controller.paymentMethodController,
-                                        enabled: true,
-                                        //searchEnabled: true,
-                                        chipDecoration: ChipDecoration(
-                                          backgroundColor: cs.primary,
-                                          wrap: true,
-                                          runSpacing: 2,
-                                          spacing: 10,
-                                        ),
-                                        fieldDecoration: FieldDecoration(
-                                          hintText: 'payment methods'.tr,
-                                          hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                                          prefixIcon: const Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
-                                            child: Icon(CupertinoIcons.money_dollar),
-                                          ),
-                                          showClearIcon: false,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(32),
-                                            borderSide: BorderSide(color: cs.onSurface, width: 0.5),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(12),
-                                            borderSide: const BorderSide(
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                        ),
-                                        dropdownDecoration: DropdownDecoration(
-                                          marginTop: 2,
-                                          maxHeight: 500,
-                                          header: Padding(
-                                            padding: const EdgeInsets.all(12),
-                                            child: Text(
-                                              'select payment method'.tr,
-                                              textAlign: TextAlign.start,
-                                              style: tt.titleSmall!.copyWith(color: Colors.black),
-                                            ),
-                                          ),
-                                        ),
-                                        dropdownItemDecoration: DropdownItemDecoration(
-                                          backgroundColor: Colors.grey.shade300,
-                                          selectedBackgroundColor: Colors.grey.shade300,
-                                          textColor: Colors.black87,
-                                          selectedTextColor: Colors.black87,
-                                          selectedIcon: Icon(Icons.check_box, color: cs.primary),
-                                          disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
-                                        ),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'select payment method'.tr;
-                                          }
-                                          return null;
-                                        },
-                                        onSelectionChange: (selectedItems) {
-                                          if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                                          print("OnSelectionChange: $selectedItems");
-                                          //controller.toggleFields();
-                                        },
-                                      ),
-                          ),
-                        ],
+                        ),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8),
+                //   child: Card(
+                //     color: cs.secondaryContainer,
+                //     elevation: 8,
+                //     child: Padding(
+                //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                //         child: DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate)),
+                //   ),
+                // ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Card(
+                          color: cs.secondaryContainer,
+                          elevation: 8,
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child:
+                                  DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate)),
+                        ),
                       ),
                     ),
-                  ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Card(
+                          color: cs.secondaryContainer,
+                          elevation: 8,
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child:
+                                  TimeSelector(time: controller.selectedTime, selectTimeCallback: controller.setTime)),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
-                TimeSelector(time: controller.selectedTime, selectTimeCallback: controller.setTime),
                 ExpansionTile(
                   title: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 6),

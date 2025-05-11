@@ -26,23 +26,37 @@ class TimeSelector extends StatelessWidget {
           );
           selectTimeCallback(newTime!);
         },
-        title: Text(
-          "desired time".tr,
-          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Icon(Icons.watch_later_outlined, color: cs.primary),
+            ),
+            Text(
+              "desired time".tr,
+              style: tt.labelMedium!.copyWith(color: cs.onSurface),
+            ),
+          ],
         ),
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 6),
-          child: Icon(Icons.watch_later_outlined, color: cs.onSurface),
+        // leading: Padding(
+        //   padding: const EdgeInsets.symmetric(horizontal: 6),
+        //   child: Icon(Icons.watch_later_outlined, color: cs.onSurface),
+        // ),
+        subtitle: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: time != null
+                ? Text(
+                    time!.format(context),
+                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                  )
+                : Text(
+                    "select time".tr,
+                    style: tt.titleSmall!.copyWith(color: cs.primary, fontWeight: FontWeight.bold),
+                  ),
+          ),
         ),
-        trailing: time != null
-            ? Text(
-                time!.format(context),
-                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-              )
-            : Text(
-                "select time".tr,
-                style: tt.titleSmall!.copyWith(color: cs.primary, fontWeight: FontWeight.bold),
-              ),
         // shape: RoundedRectangleBorder(
         //   side: BorderSide(width: 0.7, color: cs.onSurface),
         //   borderRadius: BorderRadius.circular(20),
