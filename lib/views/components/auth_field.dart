@@ -40,27 +40,27 @@ class AuthField extends StatelessWidget {
           filled: true,
           fillColor: const Color(0xFFf9eaee),
           focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(width: 0, color: Colors.transparent),
           ),
           disabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(width: 0, color: Colors.transparent),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(width: 0, color: Colors.transparent),
           ),
           border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(width: 1),
           ),
           errorBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(width: 1, color: Colors.red),
           ),
           focusedErrorBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(32)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(width: 2, color: Colors.red),
           ),
           //hintText: "password".tr,

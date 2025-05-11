@@ -24,13 +24,13 @@ class NotificationCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Material(
           borderRadius: BorderRadius.circular(20),
-          elevation: 3,
-          color: cs.surface,
+          elevation: 5,
+          color: cs.secondary,
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               border: Border.all(
-                color: cs.onSurface,
+                color: cs.surface,
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(20),
