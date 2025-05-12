@@ -297,60 +297,33 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ExpansionTile(
-                    title: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "extra options".tr,
-                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                      ),
-                    ),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: CheckboxListTile(
-                          value: controller.coveredCar,
-                          onChanged: (val) {
-                            controller.toggleCoveredCar();
-                          },
-                          title: Text(
-                            "covered car required".tr,
-                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                  child: controller.isLoadingExtra
+                      ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                      : ExpansionTile(
+                          title: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: Text(
+                              "extra options".tr,
+                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                            ),
                           ),
-                          secondary: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Icon(
-                              CupertinoIcons.car,
-                              color: cs.onSurface,
-                              size: 22,
+                          children: List.generate(
+                            controller.extraInfo.length,
+                            (i) => Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: CheckboxListTile(
+                                value: controller.extraInfoSelection[i],
+                                onChanged: (val) {
+                                  controller.toggleExtraInfo(i, val!);
+                                },
+                                title: Text(
+                                  controller.extraInfo[i],
+                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      //todo: بكرات تحزيم
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: CheckboxListTile(
-                          value: controller.coveredCar,
-                          onChanged: (val) {
-                            controller.toggleCoveredCar();
-                          },
-                          title: Text(
-                            "cables required".tr,
-                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                          ),
-                          secondary: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Icon(
-                              CupertinoIcons.car,
-                              color: cs.onSurface,
-                              size: 22,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
                 CustomButton(
                   onTap: () {

@@ -9,6 +9,7 @@ import '../../models/vehicle_type_model.dart';
 import 'auth_field.dart';
 import 'id_image_selector.dart';
 
+//todo: i get an error if i redirect to vehicle page
 class AddVehicleSheet extends StatelessWidget {
   const AddVehicleSheet({super.key});
 

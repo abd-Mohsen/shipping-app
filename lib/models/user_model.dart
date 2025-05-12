@@ -17,7 +17,7 @@ class UserModel {
   final String? idPhotoRare;
   final DriverInfo? driverInfo;
   final CompanyInfo? companyInfo;
-  final Wallet wallet;
+  final Wallet? wallet;
 
   UserModel({
     required this.id,
@@ -43,7 +43,7 @@ class UserModel {
         idPhotoRare: json["ID_photo_rare"],
         idStatus: json["ID_status"] ?? "",
         role: Role.fromJson(json["role"]),
-        wallet: Wallet.fromJson(json["wallet"]),
+        wallet: json["wallet"] != null ? Wallet.fromJson(json["wallet"]) : null,
         isVerified: json["is_verified"],
         driverInfo: json["driver_info"] == null ? null : DriverInfo.fromJson(json["driver_info"]),
         companyInfo: json["company_info"] == null ? null : CompanyInfo.fromJson(json["company_info"]),

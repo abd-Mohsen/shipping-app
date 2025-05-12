@@ -1316,6 +1316,13 @@ class OrderView extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 16),
+                            if (order.extraInfo.isNotEmpty)
+                              Text(
+                                order.formatExtraInfo(),
+                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1000,
+                              ),
                             if (order.otherInfo != null)
                               Text(
                                 order.otherInfo!,

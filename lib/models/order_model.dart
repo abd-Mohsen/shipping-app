@@ -27,6 +27,7 @@ class OrderModel {
   final DateTime? updatedAt;
   final bool ownerApproved;
   final bool driverApproved;
+  final List<String> extraInfo;
 
   OrderModel({
     required this.id,
@@ -47,6 +48,7 @@ class OrderModel {
     required this.updatedAt,
     required this.ownerApproved,
     required this.driverApproved,
+    required this.extraInfo,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
@@ -69,6 +71,7 @@ class OrderModel {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         ownerApproved: json["owner_is_approved"],
         driverApproved: json["driver_is_approved"],
+        extraInfo: List<String>.from(json["order_extra_info"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -89,6 +92,14 @@ class OrderModel {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt,
       };
+
+  String formatExtraInfo() {
+    String res = "";
+    for (String info in extraInfo) {
+      res += "$info\n";
+    }
+    return res;
+  }
 }
 
 class OrderLocation {

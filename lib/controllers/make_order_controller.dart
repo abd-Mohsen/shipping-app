@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/extra_info_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
@@ -17,6 +18,7 @@ class MakeOrderController extends GetxController {
   void onInit() {
     getPaymentMethods();
     getVehicleTypes();
+    getExtraInfo();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
         mapController1.listenerMapSingleTapping.addListener(
@@ -181,6 +183,8 @@ class MakeOrderController extends GetxController {
 
   List<PaymentMethodModel> paymentMethods = [];
   List<VehicleTypeModel> vehicleTypes = [];
+  List<String> extraInfo = [];
+  List<bool> extraInfoSelection = [];
 
   VehicleTypeModel? selectedVehicleType;
   void selectVehicleType(VehicleTypeModel? user) {
@@ -202,6 +206,13 @@ class MakeOrderController extends GetxController {
     update();
   }
 
+  bool _isLoadingExtra = false;
+  bool get isLoadingExtra => _isLoadingExtra;
+  void toggleLoadingExtra(bool value) {
+    _isLoadingExtra = value;
+    update();
+  }
+
   void getPaymentMethods() async {
     toggleLoadingPayment(true);
     List<PaymentMethodModel> newPaymentMethods = await RemoteServices.fetchPaymentMethods() ?? [];
@@ -216,10 +227,34 @@ class MakeOrderController extends GetxController {
     toggleLoadingVehicle(false);
   }
 
+  void getExtraInfo() async {
+    toggleLoadingExtra(true);
+    ExtraInfoModel? newItem = await RemoteServices.fetchOrdersExtraInfo();
+    if (newItem != null) {
+      extraInfo = newItem.orderExtraInfo;
+      extraInfoSelection = List.generate(extraInfo.length, (i) => false);
+      print(extraInfo);
+    }
+    toggleLoadingExtra(false);
+  }
+
+  void toggleExtraInfo(int i, bool v) {
+    extraInfoSelection[i] = v;
+    update();
+  }
+
   List formatPayment() {
     List res = [];
     for (final item in paymentMethodController.selectedItems) {
       res.add({"payment": item.value.id});
+    }
+    return res;
+  }
+
+  List formatExtraInfo() {
+    List res = [];
+    for (int i = 0; i < extraInfo.length; i++) {
+      if (extraInfoSelection[i]) res.add(extraInfo[i]);
     }
     return res;
   }
@@ -285,6 +320,7 @@ class MakeOrderController extends GetxController {
       "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
       "payment_methods": formatPayment(),
+      "order_extra_info": formatExtraInfo(),
     };
     print(order);
     bool success = await RemoteServices.makeOrder(order);

@@ -32,100 +32,101 @@ class InvoicesView extends StatelessWidget {
               ? SpinKitSquareCircle(color: cs.primary)
               : RefreshIndicator(
                   onRefresh: controller.refreshBankDetails,
-                  child: controller.invoices.isEmpty
-                      ? Center(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              Lottie.asset("assets/animations/simple truck.json", height: 200),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 32),
-                                child: Center(
-                                  child: Text(
-                                    "no data, pull down to refresh".tr,
-                                    style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Material(
+                                elevation: 5,
+                                borderRadius: BorderRadius.circular(10),
+                                child: ListTile(
+                                  tileColor: cs.secondaryContainer,
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                                  leading: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.directions_car_filled_rounded, color: cs.primary, size: 30),
+                                  ),
+                                  title: Text(
+                                    "الرصيد الحالي".tr,
+                                    style: tt.labelSmall!.copyWith(color: cs.onSurface),
+                                  ),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      user.wallet?.balance ?? "x",
+                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                    ),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: BorderSide(
+                                      color: cs.surface,
+                                      width: 0,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        )
-                      : Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Material(
-                                      elevation: 5,
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: ListTile(
-                                        tileColor: cs.secondaryContainer,
-                                        contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                        leading: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.directions_car_filled_rounded, color: cs.primary, size: 30),
-                                        ),
-                                        title: Text(
-                                          "الرصيد الحالي".tr,
-                                          style: tt.labelSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                        subtitle: Padding(
-                                          padding: const EdgeInsets.only(top: 4.0),
-                                          child: Text(
-                                            user.wallet.balance,
-                                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                          ),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          side: BorderSide(
-                                            color: cs.surface,
-                                            width: 0,
-                                          ),
-                                        ),
-                                      ),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Material(
+                                elevation: 5,
+                                borderRadius: BorderRadius.circular(10),
+                                child: ListTile(
+                                  tileColor: cs.secondaryContainer,
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
+                                  leading: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.checklist_outlined, color: cs.primary, size: 30),
+                                  ),
+                                  title: Text(
+                                    "الرصيد المحفوظ".tr,
+                                    style: tt.labelSmall!.copyWith(color: cs.onSurface),
+                                  ),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      user.wallet?.reservedCommission ?? "x",
+                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Material(
-                                      elevation: 5,
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: ListTile(
-                                        tileColor: cs.secondaryContainer,
-                                        contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                        leading: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.checklist_outlined, color: cs.primary, size: 30),
-                                        ),
-                                        title: Text(
-                                          "الرصيد المحفوظ".tr,
-                                          style: tt.labelSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                        subtitle: Padding(
-                                          padding: const EdgeInsets.only(top: 4.0),
-                                          child: Text(
-                                            user.wallet.reservedCommission,
-                                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                          ),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          side: BorderSide(
-                                            color: cs.surface,
-                                            width: 0,
-                                          ),
-                                        ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    side: BorderSide(
+                                      color: cs.surface,
+                                      width: 0,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      controller.invoices.isEmpty
+                          ? Expanded(
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                                    child: Center(
+                                      child: Text(
+                                        "no data, pull down to refresh".tr,
+                                        style:
+                                            tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
-                            Expanded(
+                            )
+                          : Expanded(
                               child: ListView.builder(
                                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                                 itemCount: controller.invoices.length,
@@ -134,8 +135,8 @@ class InvoicesView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                    ],
+                  ),
                 );
         },
       ),

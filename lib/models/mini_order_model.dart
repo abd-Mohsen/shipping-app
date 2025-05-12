@@ -13,8 +13,8 @@ class MiniOrderModel {
   final String description;
   final String status;
   final String location;
-  final Point startPoint;
-  final Point endPoint;
+  final Point? startPoint;
+  final Point? endPoint;
 
   MiniOrderModel({
     required this.orderId,
@@ -31,13 +31,13 @@ class MiniOrderModel {
   factory MiniOrderModel.fromJson(Map<String, dynamic> json) => MiniOrderModel(
         orderId: json["order_id"],
         driverName: json["driver_name"],
-        dateTime: DateTime.parse(json["date_time"]),
-        vehicle: json["vehicle"],
-        description: json["discription"],
-        status: json["status"],
-        location: json["location"],
-        startPoint: Point.fromJson(json["start_point"]),
-        endPoint: Point.fromJson(json["end_point"]),
+        dateTime: json["date_time"] != null ? DateTime.parse(json["date_time"]) : DateTime.now(),
+        vehicle: json["vehicle"] ?? "",
+        description: json["discription"] ?? "",
+        status: json["status"] ?? "",
+        location: json["location"] ?? "",
+        startPoint: json["start_point"] == null ? null : Point.fromJson(json["start_point"]),
+        endPoint: json["end_point"] == null ? null : Point.fromJson(json["end_point"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,8 +48,8 @@ class MiniOrderModel {
         "discription": description,
         "status": status,
         "location": location,
-        "start_point": startPoint.toJson(),
-        "end_point": endPoint.toJson(),
+        "start_point": startPoint?.toJson(),
+        "end_point": endPoint?.toJson(),
       };
 }
 

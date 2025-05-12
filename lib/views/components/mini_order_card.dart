@@ -53,18 +53,18 @@ class MiniOrderCard extends StatelessWidget {
                   maxLines: 2,
                 ),
               ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2,
-                child: Text(
-                  "${order.startPoint.name} - ${order.endPoint.name}",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: tt.labelMedium!.copyWith(
-                    color: cs.onSurface.withOpacity(0.5),
-                  ),
-                ),
-              ),
+              // const SizedBox(height: 8),
+              // SizedBox(
+              //   width: MediaQuery.of(context).size.width / 2,
+              //   child: Text(
+              //     "${order.startPoint.name} - ${order.endPoint.name}",
+              //     maxLines: 2,
+              //     overflow: TextOverflow.ellipsis,
+              //     style: tt.labelMedium!.copyWith(
+              //       color: cs.onSurface.withOpacity(0.5),
+              //     ),
+              //   ),
+              // ),
               const SizedBox(height: 8),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 2.5,

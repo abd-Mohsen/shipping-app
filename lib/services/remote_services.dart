@@ -7,6 +7,7 @@ import 'package:shipment/models/bank_details_model.dart';
 import 'package:shipment/models/branch_model.dart';
 import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
+import 'package:shipment/models/extra_info_model.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/invoice_model.dart';
 import 'package:shipment/models/location_model.dart';
@@ -510,5 +511,14 @@ class RemoteServices {
     );
     if (json == null) return null;
     return invoiceModelFromJson(json);
+  }
+
+  static Future<ExtraInfoModel?> fetchOrdersExtraInfo() async {
+    String? json = await api.getRequest(
+      "order-extra-info/",
+      auth: true,
+    );
+    if (json == null) return null;
+    return ExtraInfoModel.fromJson(jsonDecode(json));
   }
 }

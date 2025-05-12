@@ -14,6 +14,7 @@ import '../controllers/locale_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
 import 'edit_profile_view.dart';
+import 'invoices_view.dart';
 
 class CompanyHomeView extends StatelessWidget {
   const CompanyHomeView({super.key});
@@ -221,7 +222,18 @@ class CompanyHomeView extends StatelessWidget {
                               Get.to(() => const PaymentsView());
                             },
                           ),
-                          //todo: add invoices page
+                          GetBuilder<CompanyHomeController>(builder: (con) {
+                            return Visibility(
+                              visible: con.currentUser != null,
+                              child: ListTile(
+                                leading: const Icon(Icons.text_snippet),
+                                title: Text("payment history".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                                onTap: () {
+                                  Get.to(() => InvoicesView(user: con.currentUser!));
+                                },
+                              ),
+                            );
+                          }),
                           // ListTile(
                           //   leading: Icon(
                           //     Icons.language,

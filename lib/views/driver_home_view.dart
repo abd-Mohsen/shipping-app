@@ -15,6 +15,7 @@ import '../constants.dart';
 import '../controllers/locale_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
+import 'invoices_view.dart';
 import 'notifications_view.dart';
 
 class DriverHomeView extends StatelessWidget {
@@ -224,7 +225,18 @@ class DriverHomeView extends StatelessWidget {
                             },
                           ),
                         ),
-                        //todo: show invoices and payment methods and wallet for all except employee
+                        GetBuilder<DriverHomeController>(builder: (con) {
+                          return Visibility(
+                            visible: con.currentUser != null && !con.isEmployee,
+                            child: ListTile(
+                              leading: const Icon(Icons.text_snippet),
+                              title: Text("payment history".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                              onTap: () {
+                                Get.to(() => InvoicesView(user: con.currentUser!));
+                              },
+                            ),
+                          );
+                        }),
 
                         ListTile(
                           leading: const Icon(Icons.info_outline),
