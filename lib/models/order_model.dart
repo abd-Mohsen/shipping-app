@@ -20,7 +20,6 @@ class OrderModel {
   final String weight;
   final double price;
   final DateTime dateTime;
-  final bool withCover;
   final String? otherInfo;
   final String status;
   final List<PaymentMethod> paymentMethods;
@@ -41,7 +40,6 @@ class OrderModel {
     required this.weight,
     required this.price,
     required this.dateTime,
-    required this.withCover,
     required this.otherInfo,
     required this.status,
     required this.paymentMethods,
@@ -64,7 +62,6 @@ class OrderModel {
         weight: json["weight"],
         price: json["price"],
         dateTime: DateTime.parse(json["DateTime"]),
-        withCover: json["with_cover"],
         otherInfo: json["other_info"],
         status: json["status"],
         paymentMethods: List<PaymentMethod>.from(json["payment_methods"].map((x) => PaymentMethod.fromJson(x))),
@@ -86,7 +83,6 @@ class OrderModel {
         "weight": weight,
         "price": price,
         "DateTime": dateTime.toIso8601String(),
-        "with_cover": withCover,
         "other_info": otherInfo,
         "status": status,
         "payment_methods": List<dynamic>.from(paymentMethods.map((x) => x.toJson())),

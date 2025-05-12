@@ -1350,23 +1350,22 @@ class OrderView extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            if (order.withCover)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width / 1.8,
-                                      child: Text(
-                                        "covered vehicle is required".tr,
-                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width / 1.8,
+                                    child: Text(
+                                      "covered vehicle is required".tr,
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),
                               child: Row(

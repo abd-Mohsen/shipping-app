@@ -226,12 +226,12 @@ class MakeOrderView extends StatelessWidget {
                             // filled: true,
                             // fillColor: cs.secondary,
                             backgroundColor: cs.secondaryContainer,
-                            disabledBackgroundColor: cs.surface,
-                            selectedBackgroundColor: Colors.grey.shade300,
-                            textColor: Colors.black87,
-                            selectedTextColor: Colors.black87,
+                            disabledBackgroundColor: cs.secondaryContainer,
+                            selectedBackgroundColor: cs.secondaryContainer,
+                            textColor: cs.onSurface,
+                            selectedTextColor: cs.onSurface,
                             selectedIcon: Icon(Icons.check_box, color: cs.primary),
-                            disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
+                            //disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {

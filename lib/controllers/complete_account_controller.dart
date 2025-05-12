@@ -37,11 +37,11 @@ class CompleteAccountController extends GetxController {
   Future<void> prepopulateImages() async {
     toggleLoadingImages(true);
     await homeController.getCurrentUser(refresh: true);
-    idStatus = homeController.currentUser.idStatus;
+    //idStatus = homeController.currentUser.idStatus;
     licenseStatus = ["company", "customer"].contains(homeController.currentUser.role.type)
         ? "verified"
         : homeController.currentUser.driverInfo!.licenseStatus;
-    if (idStatus.toLowerCase() == "verified" && licenseStatus.toLowerCase() == "verified") {
+    if (licenseStatus.toLowerCase() == "verified") {
       Get.back();
       Get.showSnackbar(GetSnackBar(
         message: "updated successfully".tr,

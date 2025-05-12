@@ -224,6 +224,7 @@ class DriverHomeView extends StatelessWidget {
                             },
                           ),
                         ),
+                        //todo: show invoices and payment methods and wallet for all except employee
 
                         ListTile(
                           leading: const Icon(Icons.info_outline),

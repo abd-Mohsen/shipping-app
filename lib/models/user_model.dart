@@ -39,7 +39,7 @@ class UserModel {
         phoneNumber: json["phone_number"],
         idPhotoFront: json["ID_photo_front"],
         idPhotoRare: json["ID_photo_rare"],
-        idStatus: json["ID_status"],
+        idStatus: json["ID_status"] ?? "",
         role: Role.fromJson(json["role"]),
         isVerified: json["is_verified"],
         driverInfo: json["driver_info"] == null ? null : DriverInfo.fromJson(json["driver_info"]),

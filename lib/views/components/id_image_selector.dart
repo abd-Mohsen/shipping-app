@@ -31,6 +31,7 @@ class IdImageSelector extends StatelessWidget {
       child: Material(
         elevation: 5,
         borderRadius: BorderRadius.circular(10),
+        color: cs.secondaryContainer,
         child: ListTile(
           //leading: Icon(card),
           title: Text(title, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
@@ -54,7 +55,7 @@ class IdImageSelector extends StatelessWidget {
               //todo(later): ask for camera and storage permission
               Container(
                 decoration: BoxDecoration(
-                  color: cs.secondary,
+                  color: cs.surface,
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                 ),
                 //height: MediaQuery.of(context).size.height / 2,

@@ -226,7 +226,7 @@ class EditOrderController extends GetxController {
     DateTime orderDate = order.dateTime;
     selectedDate = orderDate;
     selectedTime = TimeOfDay(hour: orderDate.hour, minute: orderDate.minute);
-    coveredCar = order.withCover;
+    //coveredCar = order.withCover;
     update();
   }
 

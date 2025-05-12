@@ -191,83 +191,99 @@ class CompanyStatsTab extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0, right: 20),
-                                child: SizedBox(
-                                  height: 300,
-                                  child: BarChart(
-                                    BarChartData(
-                                      borderData: FlBorderData(
-                                        border: Border(
-                                          top: BorderSide.none,
-                                          right: BorderSide.none,
-                                          left: BorderSide(width: 2, color: cs.surface),
-                                          bottom: BorderSide(width: 2, color: cs.surface),
-                                        ),
-                                      ),
-                                      groupsSpace: 10,
-                                      barGroups: List.generate(
-                                        controller.companyStats!.lastWeekOrders.values.toList().length,
-                                        (i) => BarChartGroupData(
-                                          x: i,
-                                          barRods: [
-                                            BarChartRodData(
-                                              toY:
-                                                  controller.companyStats!.lastWeekOrders.values.toList()[i].toDouble(),
-                                              width: 15,
-                                              color: cs.primary,
+
+                              Card(
+                                elevation: 5,
+                                color: cs.secondaryContainer,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0, right: 20),
+                                      child: SizedBox(
+                                        height: 300,
+                                        child: BarChart(
+                                          BarChartData(
+                                            borderData: FlBorderData(
+                                              border: Border(
+                                                top: BorderSide.none,
+                                                right: BorderSide.none,
+                                                // left: BorderSide(width: 2, color: cs.surface),
+                                                // bottom: BorderSide(width: 2, color: cs.surface),
+                                                left: BorderSide.none,
+                                                bottom: BorderSide.none,
+                                              ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      titlesData: FlTitlesData(
-                                        bottomTitles: AxisTitles(
-                                          sideTitles: SideTitles(
-                                            showTitles: true, // Enable bottom titles
-                                            getTitlesWidget: (double value, TitleMeta meta) {
-                                              List<String> days = controller.companyStats!.lastWeekOrders.keys.toList();
-                                              String text = days[value.toInt()];
-                                              return Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                                child: Text(
-                                                  text.substring(0, 3),
-                                                  style: tt.labelSmall!.copyWith(color: cs.onSurface),
+                                            groupsSpace: 10,
+                                            barGroups: List.generate(
+                                              controller.companyStats!.lastWeekOrders.values.toList().length,
+                                              (i) => BarChartGroupData(
+                                                x: i,
+                                                barRods: [
+                                                  BarChartRodData(
+                                                    toY: controller.companyStats!.lastWeekOrders.values
+                                                        .toList()[i]
+                                                        .toDouble(),
+                                                    width: 15,
+                                                    color: cs.primary,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            titlesData: FlTitlesData(
+                                              bottomTitles: AxisTitles(
+                                                sideTitles: SideTitles(
+                                                  showTitles: true, // Enable bottom titles
+                                                  getTitlesWidget: (double value, TitleMeta meta) {
+                                                    List<String> days =
+                                                        controller.companyStats!.lastWeekOrders.keys.toList();
+                                                    String text = days[value.toInt()];
+                                                    return Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                                                      child: Text(
+                                                        text.substring(0, 3),
+                                                        style: tt.labelSmall!.copyWith(color: cs.onSurface),
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
-                                              );
-                                            },
+                                              ),
+                                              leftTitles: AxisTitles(
+                                                sideTitles: SideTitles(
+                                                  showTitles: true, // Enable left titles
+                                                  getTitlesWidget: (double value, TitleMeta meta) {
+                                                    // Customize the text for Y-axis values
+                                                    final String text =
+                                                        '${value.toInt()}'; // Example: Display integer values
+                                                    return Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Text(
+                                                        text,
+                                                        style: tt.labelLarge!.copyWith(color: cs.onSurface),
+                                                      ),
+                                                    );
+                                                  },
+                                                  interval: 2, // Set the interval between Y-axis labels
+                                                  reservedSize: 40, // Reserve space for the left titles
+                                                ),
+                                              ),
+                                              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                            ),
                                           ),
                                         ),
-                                        leftTitles: AxisTitles(
-                                          sideTitles: SideTitles(
-                                            showTitles: true, // Enable left titles
-                                            getTitlesWidget: (double value, TitleMeta meta) {
-                                              // Customize the text for Y-axis values
-                                              final String text = '${value.toInt()}'; // Example: Display integer values
-                                              return Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  text,
-                                                  style: tt.labelLarge!.copyWith(color: cs.onSurface),
-                                                ),
-                                              );
-                                            },
-                                            interval: 2, // Set the interval between Y-axis labels
-                                            reservedSize: 40, // Reserve space for the left titles
-                                          ),
-                                        ),
-                                        rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                                       ),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                      child: Text(
+                                        "orders taken last week".tr,
+                                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                "orders taken last week".tr,
-                                style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                              ),
-                              const SizedBox(height: 72),
+                              const SizedBox(height: 32),
                               // Visibility(
                               //   visible: controller.companyStats!.ordersPerCity.isNotEmpty,
                               //   child: Column(
@@ -307,52 +323,58 @@ class CompanyStatsTab extends StatelessWidget {
                               //   ),
                               // ),
 
-                              //todo: put the chart in a card
                               Visibility(
                                 visible: controller.companyStats!.ordersPerCity.isNotEmpty,
-                                child: pie.PieChart(
-                                  dataMap: controller.companyStats!.decodedOrdersPerCity(),
-                                  animationDuration: Duration(milliseconds: 800),
-                                  chartLegendSpacing: 32,
-                                  chartRadius: MediaQuery.of(context).size.width / 1.5,
-                                  colorList: [
-                                    const Color(0xfffdcb6e), // Yellow
-                                    const Color(0xffe17055), // Orange
-                                    const Color(0xffd63031), // Red
-                                    const Color(0xffe84393), // Pink
-                                    const Color(0xff6c5ce7), // Purple
-                                    const Color(0xff0984e3), // Blue
-                                    const Color(0xff00cec9), // Teal
-                                    const Color(0xff00b894), // Green
-                                    const Color(0xff55efc4), // Mint
-                                    const Color(0xff74b9ff), // Light Blue
-                                    const Color(0xffa29bfe), // Lavender
-                                    const Color(0xffdfe6e9), // Light Gray
-                                    const Color(0xff636e72), // Dark Gray
-                                    const Color(0xff2d3436) // Almost Black
-                                  ],
-                                  initialAngleInDegree: 0,
-                                  chartType: ChartType.disc,
-                                  ringStrokeWidth: 32,
-                                  centerText: "نسبة الطلبيات \n في المحافظات".tr,
-                                  centerTextStyle: tt.labelMedium!.copyWith(color: Colors.black),
-                                  legendOptions: LegendOptions(
-                                    showLegendsInRow: false,
-                                    legendPosition: LegendPosition.bottom,
-                                    //showLegends: false,
-                                    //legendShape: _BoxShape.circle,
-                                    legendTextStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                  ),
-                                  chartValuesOptions: const ChartValuesOptions(
-                                    showChartValueBackground: true,
-                                    showChartValues: true,
-                                    showChartValuesInPercentage: true,
-                                    showChartValuesOutside: false,
-                                    decimalPlaces: 1,
-                                  ),
+                                child: Card(
+                                  elevation: 5,
+                                  color: cs.secondaryContainer,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: pie.PieChart(
+                                      dataMap: controller.companyStats!.decodedOrdersPerCity(),
+                                      animationDuration: Duration(milliseconds: 800),
+                                      chartLegendSpacing: 32,
+                                      chartRadius: MediaQuery.of(context).size.width / 1.5,
+                                      colorList: [
+                                        const Color(0xfffdcb6e), // Yellow
+                                        const Color(0xffe17055), // Orange
+                                        const Color(0xffd63031), // Red
+                                        const Color(0xffe84393), // Pink
+                                        const Color(0xff6c5ce7), // Purple
+                                        const Color(0xff0984e3), // Blue
+                                        const Color(0xff00cec9), // Teal
+                                        const Color(0xff00b894), // Green
+                                        const Color(0xff55efc4), // Mint
+                                        const Color(0xff74b9ff), // Light Blue
+                                        const Color(0xffa29bfe), // Lavender
+                                        const Color(0xffdfe6e9), // Light Gray
+                                        const Color(0xff636e72), // Dark Gray
+                                        const Color(0xff2d3436) // Almost Black
+                                      ],
+                                      initialAngleInDegree: 0,
+                                      chartType: ChartType.disc,
+                                      ringStrokeWidth: 32,
+                                      centerText: "نسبة الطلبيات \n في المحافظات".tr,
+                                      centerTextStyle: tt.labelMedium!.copyWith(color: Colors.black),
+                                      legendOptions: LegendOptions(
+                                        showLegendsInRow: false,
+                                        legendPosition: LegendPosition.bottom,
+                                        //showLegends: false,
+                                        //legendShape: _BoxShape.circle,
+                                        legendTextStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                      ),
+                                      chartValuesOptions: const ChartValuesOptions(
+                                        showChartValueBackground: true,
+                                        showChartValues: true,
+                                        showChartValuesInPercentage: true,
+                                        showChartValuesOutside: false,
+                                        decimalPlaces: 1,
+                                      ),
 
-                                  // gradientList: ---To add gradient colors---
-                                  // emptyColorGradient: ---Empty Color gradient---
+                                      // gradientList: ---To add gradient colors---
+                                      // emptyColorGradient: ---Empty Color gradient---
+                                    ),
+                                  ),
                                 ),
                               )
                             ],

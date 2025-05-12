@@ -106,10 +106,9 @@ class RegisterController extends GetxController {
     if (!isValid) return;
     //todo: make ID optional, here and in complete account
     if (((roles[roleIndex] == "employee" || roles[roleIndex] == "driver") &&
-            (idFront == null || idRear == null || dLicenseFront == null || dLicenseRear == null)) ||
-        (roles[roleIndex] == "company" && (idFront == null || idRear == null))) {
+        (dLicenseFront == null || dLicenseRear == null))) {
       Get.showSnackbar(GetSnackBar(
-        message: "fill all images first".tr,
+        message: "select all required images first".tr,
         duration: const Duration(milliseconds: 2500),
         backgroundColor: Colors.red,
       ));

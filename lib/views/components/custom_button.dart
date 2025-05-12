@@ -17,19 +17,21 @@ class CustomButton extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    //todo: make BorderRadius.circular(10)
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all<Color>(color ?? cs.primary),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14.0),
-          child: SizedBox(
-            width: double.infinity,
-            child: child,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            color: color ?? cs.primary,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 14.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: child,
+            ),
           ),
         ),
       ),

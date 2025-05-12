@@ -220,6 +220,7 @@ class EditOrderView extends StatelessWidget {
                             errorBorder: border(color: cs.error, width: 1.5),
                           ),
                           dropdownDecoration: DropdownDecoration(
+                            backgroundColor: cs.surface,
                             elevation: 8,
                             marginTop: -4,
                             maxHeight: 500,
@@ -228,12 +229,12 @@ class EditOrderView extends StatelessWidget {
                             // filled: true,
                             // fillColor: cs.secondary,
                             backgroundColor: cs.secondaryContainer,
-                            disabledBackgroundColor: cs.surface,
-                            selectedBackgroundColor: Colors.grey.shade300,
-                            textColor: Colors.black87,
-                            selectedTextColor: Colors.black87,
+                            disabledBackgroundColor: cs.secondaryContainer,
+                            selectedBackgroundColor: cs.secondaryContainer,
+                            textColor: cs.onSurface,
+                            selectedTextColor: cs.onSurface,
                             selectedIcon: Icon(Icons.check_box, color: cs.primary),
-                            disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
+                            //disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {

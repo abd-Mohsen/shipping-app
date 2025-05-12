@@ -23,7 +23,7 @@ class BankDetailsCard extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             border: Border.all(
-              color: cs.onSurface,
+              color: cs.surface,
               width: 0.5,
             ),
             borderRadius: BorderRadius.circular(20),
