@@ -27,6 +27,17 @@ class EditOrderView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
     CustomerHomeController cHC = Get.find();
     EditOrderController eOC = Get.put(EditOrderController(customerHomeController: cHC, order: order));
+
+    OutlineInputBorder border({Color? color, double width = 0.5}) {
+      return OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderSide: BorderSide(
+          width: width,
+          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade300), // Fake shadow color
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
@@ -78,8 +89,8 @@ class EditOrderView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: controller.isLoadingVehicle
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                      //todo: it is not getting prepopulated after editing, and some times the page gives a weird error
                       : DropdownSearch<VehicleTypeModel>(
-                          selectedItem: controller.selectedVehicleType,
                           validator: (type) {
                             if (type == null) return "you must select a type".tr;
                             return null;
@@ -87,61 +98,38 @@ class EditOrderView extends StatelessWidget {
                           compareFn: (type1, type2) => type1.id == type2.id,
                           popupProps: PopupProps.menu(
                             showSearchBox: false,
+                            constraints: BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
                             menuProps: MenuProps(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            searchFieldProps: TextFieldProps(
-                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              decoration: InputDecoration(
-                                fillColor: Colors.white70,
-                                hintText: "vehicle type".tr,
-                                prefix: Padding(
-                                  padding: const EdgeInsets.all(4),
-                                  child: Icon(Icons.search, color: cs.onSurface),
+                              elevation: 5,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.circular(10), // Only round bottom corners
+                                  top: Radius.circular(10), // Only round bottom corners
                                 ),
                               ),
+                              backgroundColor: cs.surface,
+                              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                             ),
                           ),
                           decoratorProps: DropDownDecoratorProps(
                             baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
                             decoration: InputDecoration(
-                              prefixIcon: const Padding(
+                              prefixIcon: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                child: Icon(Icons.fire_truck),
+                                child: Icon(
+                                  Icons.fire_truck,
+                                  color: cs.primary,
+                                ),
                               ),
+                              filled: true,
+                              fillColor: cs.secondaryContainer,
                               labelText: "required vehicle type".tr,
                               labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
                               floatingLabelBehavior: FloatingLabelBehavior.never,
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(32),
-                                borderSide: BorderSide(
-                                  width: .5,
-                                  color: cs.onSurface,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(32),
-                                borderSide: BorderSide(
-                                  width: 0.5,
-                                  color: cs.onSurface,
-                                ),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(32),
-                                borderSide: BorderSide(
-                                  width: 0.5,
-                                  color: cs.error,
-                                ),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(32),
-                                borderSide: BorderSide(
-                                  width: 1,
-                                  color: cs.error,
-                                ),
-                              ),
+                              enabledBorder: border(width: 1.5),
+                              focusedBorder: border(width: 2),
+                              errorBorder: border(color: cs.error, width: 1.5),
+                              focusedErrorBorder: border(color: cs.error, width: 2),
                             ),
                           ),
                           items: (filter, infiniteScrollProps) => controller.vehicleTypes,
@@ -216,38 +204,31 @@ class EditOrderView extends StatelessWidget {
                             spacing: 10,
                           ),
                           fieldDecoration: FieldDecoration(
+                            backgroundColor: cs.secondaryContainer,
                             hintText: 'payment methods'.tr,
                             hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                            prefixIcon: const Padding(
+                            prefixIcon: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
-                              child: Icon(CupertinoIcons.money_dollar),
+                              child: Icon(
+                                CupertinoIcons.money_dollar,
+                                color: cs.primary,
+                              ),
                             ),
                             showClearIcon: false,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(32),
-                              borderSide: BorderSide(color: cs.onSurface, width: 0.5),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                color: Colors.black87,
-                              ),
-                            ),
+                            border: border(width: 1.5),
+                            focusedBorder: border(width: 2),
+                            errorBorder: border(color: cs.error, width: 1.5),
                           ),
                           dropdownDecoration: DropdownDecoration(
-                            marginTop: 2,
+                            elevation: 8,
+                            marginTop: -4,
                             maxHeight: 500,
-                            header: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Text(
-                                'select payment method'.tr,
-                                textAlign: TextAlign.start,
-                                style: tt.titleSmall!.copyWith(color: Colors.black),
-                              ),
-                            ),
                           ),
                           dropdownItemDecoration: DropdownItemDecoration(
-                            backgroundColor: Colors.grey.shade300,
+                            // filled: true,
+                            // fillColor: cs.secondary,
+                            backgroundColor: cs.secondaryContainer,
+                            disabledBackgroundColor: cs.surface,
                             selectedBackgroundColor: Colors.grey.shade300,
                             textColor: Colors.black87,
                             selectedTextColor: Colors.black87,

@@ -26,6 +26,17 @@ class MakeOrderView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
     CustomerHomeController cHC = Get.find();
     MakeOrderController mOC = Get.put(MakeOrderController(customerHomeController: cHC));
+
+    OutlineInputBorder border({Color? color, double width = 0.5}) {
+      return OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderSide: BorderSide(
+          width: width,
+          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade300), // Fake shadow color
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
@@ -72,102 +83,61 @@ class MakeOrderView extends StatelessWidget {
                   isLoading: controller.isLoadingSelect2,
                   source: "make",
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: controller.isLoadingVehicle
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                      : Material(
-                          elevation: 5,
-                          borderRadius: BorderRadius.circular(10),
-                          child: DropdownSearch<VehicleTypeModel>(
-                            validator: (type) {
-                              if (type == null) return "you must select a type".tr;
-                              return null;
-                            },
-                            compareFn: (type1, type2) => type1.id == type2.id,
-                            popupProps: PopupProps.menu(
-                              showSearchBox: false,
-                              constraints: BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
-                              menuProps: MenuProps(
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    bottom: Radius.circular(10), // Only round bottom corners
-                                    top: Radius.circular(10), // Only round bottom corners
-                                  ),
-                                ),
-                                backgroundColor: cs.surface,
-                                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              ),
-                              searchFieldProps: TextFieldProps(
-                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                decoration: InputDecoration(
-                                  fillColor: Colors.white70,
-                                  hintText: "vehicle type".tr,
-                                  filled: true,
-                                  //fillColor: const Color(0xFFf9eaee),
-                                  prefix: Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: Icon(Icons.search, color: cs.onSurface),
-                                  ),
+                      : DropdownSearch<VehicleTypeModel>(
+                          validator: (type) {
+                            if (type == null) return "you must select a type".tr;
+                            return null;
+                          },
+                          compareFn: (type1, type2) => type1.id == type2.id,
+                          popupProps: PopupProps.menu(
+                            showSearchBox: false,
+                            constraints: BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
+                            menuProps: MenuProps(
+                              elevation: 5,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.circular(10), // Only round bottom corners
+                                  top: Radius.circular(10), // Only round bottom corners
                                 ),
                               ),
+                              backgroundColor: cs.surface,
+                              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                             ),
-                            decoratorProps: DropDownDecoratorProps(
-                              baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              decoration: InputDecoration(
-                                prefixIcon: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                  child: Icon(
-                                    Icons.fire_truck,
-                                    color: cs.primary,
-                                  ),
-                                ),
-                                filled: true,
-                                fillColor: cs.secondaryContainer,
-                                labelText: "required vehicle type".tr,
-                                labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                                floatingLabelBehavior: FloatingLabelBehavior.never,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    width: .5,
-                                    color: cs.surface,
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(
-                                    width: 0.5,
-                                    color: cs.onSurface,
-                                  ),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(32),
-                                  borderSide: BorderSide(
-                                    width: 0.5,
-                                    color: cs.error,
-                                  ),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(32),
-                                  borderSide: BorderSide(
-                                    width: 1,
-                                    color: cs.error,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            items: (filter, infiniteScrollProps) => controller.vehicleTypes,
-                            itemAsString: (VehicleTypeModel type) => type.type,
-                            onChanged: (VehicleTypeModel? type) async {
-                              controller.selectVehicleType(type);
-                              await Future.delayed(const Duration(milliseconds: 1000));
-                              if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                            },
-                            //enabled: !con.enabled,
                           ),
+                          decoratorProps: DropDownDecoratorProps(
+                            baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+                            decoration: InputDecoration(
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                                child: Icon(
+                                  Icons.fire_truck,
+                                  color: cs.primary,
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: cs.secondaryContainer,
+                              labelText: "required vehicle type".tr,
+                              labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              enabledBorder: border(width: 1.5),
+                              focusedBorder: border(width: 2),
+                              errorBorder: border(color: cs.error, width: 1.5),
+                              focusedErrorBorder: border(color: cs.error, width: 2),
+                            ),
+                          ),
+                          items: (filter, infiniteScrollProps) => controller.vehicleTypes,
+                          itemAsString: (VehicleTypeModel type) => type.type,
+                          onChanged: (VehicleTypeModel? type) async {
+                            controller.selectVehicleType(type);
+                            await Future.delayed(const Duration(milliseconds: 1000));
+                            if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                          },
+                          //enabled: !con.enabled,
                         ),
                 ),
                 InputField(
@@ -213,78 +183,67 @@ class MakeOrderView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: controller.isLoadingPayment //todo: load again after failing, do it also in vehicle type
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                      : Material(
-                          elevation: 5,
-                          borderRadius: BorderRadius.circular(10),
-                          child: MultiDropdown<PaymentMethodModel>(
-                            items: controller.paymentMethods
-                                .map(
-                                  (paymentMethod) => DropdownItem(
-                                    label: paymentMethod.name,
-                                    value: paymentMethod,
-                                  ),
-                                )
-                                .toList(),
-                            controller: controller.paymentMethodController,
-                            enabled: true,
-                            //searchEnabled: true,
-                            chipDecoration: ChipDecoration(
-                              backgroundColor: cs.primary,
-                              wrap: true,
-                              runSpacing: 2,
-                              spacing: 10,
-                            ),
-                            fieldDecoration: FieldDecoration(
-                              backgroundColor: cs.secondaryContainer,
-                              hintText: 'payment methods'.tr,
-                              hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
-                                child: Icon(
-                                  CupertinoIcons.money_dollar,
-                                  color: cs.primary,
+                      : MultiDropdown<PaymentMethodModel>(
+                          items: controller.paymentMethods
+                              .map(
+                                (paymentMethod) => DropdownItem(
+                                  label: paymentMethod.name,
+                                  value: paymentMethod,
                                 ),
-                              ),
-                              showClearIcon: false,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(color: cs.surface, width: 0.5),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ),
-                            dropdownDecoration: DropdownDecoration(
-                              elevation: 8,
-                              marginTop: -4,
-                              maxHeight: 500,
-                            ),
-                            dropdownItemDecoration: DropdownItemDecoration(
-                              // filled: true,
-                              // fillColor: cs.secondary,
-                              backgroundColor: cs.secondaryContainer,
-                              disabledBackgroundColor: cs.surface,
-                              selectedBackgroundColor: Colors.grey.shade300,
-                              textColor: Colors.black87,
-                              selectedTextColor: Colors.black87,
-                              selectedIcon: Icon(Icons.check_box, color: cs.primary),
-                              disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'select payment method'.tr;
-                              }
-                              return null;
-                            },
-                            onSelectionChange: (selectedItems) {
-                              if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                              print("OnSelectionChange: $selectedItems");
-                              //controller.toggleFields();
-                            },
+                              )
+                              .toList(),
+                          controller: controller.paymentMethodController,
+                          enabled: true,
+                          //searchEnabled: true,
+                          chipDecoration: ChipDecoration(
+                            backgroundColor: cs.primary,
+                            wrap: true,
+                            runSpacing: 2,
+                            spacing: 10,
                           ),
+                          fieldDecoration: FieldDecoration(
+                            backgroundColor: cs.secondaryContainer,
+                            hintText: 'payment methods'.tr,
+                            hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
+                              child: Icon(
+                                CupertinoIcons.money_dollar,
+                                color: cs.primary,
+                              ),
+                            ),
+                            showClearIcon: false,
+                            border: border(width: 1.5),
+                            focusedBorder: border(width: 2),
+                            errorBorder: border(color: cs.error, width: 1.5),
+                          ),
+                          dropdownDecoration: DropdownDecoration(
+                            elevation: 8,
+                            marginTop: -4,
+                            maxHeight: 500,
+                          ),
+                          dropdownItemDecoration: DropdownItemDecoration(
+                            // filled: true,
+                            // fillColor: cs.secondary,
+                            backgroundColor: cs.secondaryContainer,
+                            disabledBackgroundColor: cs.surface,
+                            selectedBackgroundColor: Colors.grey.shade300,
+                            textColor: Colors.black87,
+                            selectedTextColor: Colors.black87,
+                            selectedIcon: Icon(Icons.check_box, color: cs.primary),
+                            disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'select payment method'.tr;
+                            }
+                            return null;
+                          },
+                          onSelectionChange: (selectedItems) {
+                            if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                            print("OnSelectionChange: $selectedItems");
+                            //controller.toggleFields();
+                          },
                         ),
                 ),
                 InputField(

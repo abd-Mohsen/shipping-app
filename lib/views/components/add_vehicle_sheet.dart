@@ -48,7 +48,7 @@ class AddVehicleSheet extends StatelessWidget {
                   label: "license Plate".tr,
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
-                  prefixIcon: Icons.local_police_outlined,
+                  prefixIcon: Icons.tag,
                   validator: (val) {
                     return validateInput(controller.licensePlate.text, 0, 100, "", wholeNumber: true);
                   },

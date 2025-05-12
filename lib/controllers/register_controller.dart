@@ -104,6 +104,7 @@ class RegisterController extends GetxController {
     buttonPressed = true;
     bool isValid = registerFormKey.currentState!.validate();
     if (!isValid) return;
+    //todo: make ID optional, here and in complete account
     if (((roles[roleIndex] == "employee" || roles[roleIndex] == "driver") &&
             (idFront == null || idRear == null || dLicenseFront == null || dLicenseRear == null)) ||
         (roles[roleIndex] == "company" && (idFront == null || idRear == null))) {

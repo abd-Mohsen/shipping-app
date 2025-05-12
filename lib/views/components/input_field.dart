@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-//todo: try to decrease field height
 class InputField extends StatelessWidget {
   const InputField({
     super.key,
@@ -36,67 +36,54 @@ class InputField extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    border() {
+    OutlineInputBorder border({Color? color, double width = 0.5}) {
       return OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        borderSide: BorderSide(width: 0.5, color: cs.surface),
+        borderSide: BorderSide(
+          width: width,
+          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade300), // Fake shadow color
+        ),
       );
     }
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Material(
-        elevation: 5,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        child: TextFormField(
-          controller: controller,
-          textInputAction: textInputAction,
-          keyboardType: keyboardType ?? TextInputType.text,
-          obscureText: obscure ?? false,
-          maxLines: maxLines,
-          minLines: maxLines,
-          decoration: InputDecoration(
-            filled: true,
-            //fillColor: const Color(0xFFf9eaee),
-            fillColor: cs.secondaryContainer,
-            focusedBorder: border(),
-            disabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(32)),
-              borderSide: BorderSide(width: 1.5, color: Colors.transparent),
-            ),
-            enabledBorder: border(),
-            // border: const OutlineInputBorder(
-            //   borderRadius: BorderRadius.all(Radius.circular(32)),
-            //   borderSide: BorderSide(width: 1),
-            // ),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(32)),
-              borderSide: BorderSide(width: 1, color: Colors.red),
-            ),
-            focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(32)),
-              borderSide: BorderSide(width: 1.5, color: Colors.red),
-            ),
-            //hintText: "password".tr,
-            labelText: label,
-            labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-            // hintText: label,
-            // hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Icon(
-                prefixIcon,
-                color: cs.primary,
-                size: 22,
-              ),
-            ),
-            suffixIcon: suffixIcon,
-            floatingLabelBehavior: floatingLabelBehavior ?? FloatingLabelBehavior.never,
+      child: TextFormField(
+        controller: controller,
+        textInputAction: textInputAction,
+        keyboardType: keyboardType ?? TextInputType.text,
+        obscureText: obscure ?? false,
+        maxLines: maxLines,
+        minLines: minLines ?? 1,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: cs.secondaryContainer,
+          focusedBorder: border(width: 2),
+          enabledBorder: border(width: 1.5),
+          errorBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(width: 1.5, color: Colors.red),
           ),
-          style: tt.titleSmall!.copyWith(color: cs.onSurface),
-          validator: validator,
-          onChanged: onChanged,
+          focusedErrorBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(width: 1.5, color: Colors.red),
+          ),
+          labelText: label,
+          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Icon(
+              prefixIcon,
+              color: cs.primary,
+              size: 22,
+            ),
+          ),
+          suffixIcon: suffixIcon,
+          floatingLabelBehavior: floatingLabelBehavior ?? FloatingLabelBehavior.never,
         ),
+        style: tt.titleSmall!.copyWith(color: cs.onSurface),
+        validator: validator,
+        onChanged: onChanged,
       ),
     );
   }
