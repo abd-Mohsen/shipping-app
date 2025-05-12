@@ -250,13 +250,18 @@ class CustomerHomeView extends StatelessWidget {
                         Get.to(() => const PaymentsView());
                       },
                     ),
-                    ListTile(
-                      leading: const Icon(Icons.text_snippet),
-                      title: Text("payment history".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                      onTap: () {
-                        Get.to(() => const InvoicesView());
-                      },
-                    ),
+                    GetBuilder<CustomerHomeController>(builder: (con) {
+                      return Visibility(
+                        visible: con.currentUser != null,
+                        child: ListTile(
+                          leading: const Icon(Icons.text_snippet),
+                          title: Text("payment history".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                          onTap: () {
+                            Get.to(() => InvoicesView(user: hC.currentUser!));
+                          },
+                        ),
+                      );
+                    }),
                     ListTile(
                       leading: const Icon(Icons.info_outline),
                       title: Text("About app".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),

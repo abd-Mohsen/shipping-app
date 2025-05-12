@@ -17,6 +17,7 @@ class UserModel {
   final String? idPhotoRare;
   final DriverInfo? driverInfo;
   final CompanyInfo? companyInfo;
+  final Wallet wallet;
 
   UserModel({
     required this.id,
@@ -30,6 +31,7 @@ class UserModel {
     required this.idPhotoFront,
     required this.idPhotoRare,
     required this.idStatus,
+    required this.wallet,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -41,6 +43,7 @@ class UserModel {
         idPhotoRare: json["ID_photo_rare"],
         idStatus: json["ID_status"] ?? "",
         role: Role.fromJson(json["role"]),
+        wallet: Wallet.fromJson(json["wallet"]),
         isVerified: json["is_verified"],
         driverInfo: json["driver_info"] == null ? null : DriverInfo.fromJson(json["driver_info"]),
         companyInfo: json["company_info"] == null ? null : CompanyInfo.fromJson(json["company_info"]),
@@ -138,5 +141,25 @@ class CompanyInfo {
         "members_num": membersNum,
         "vehicle_num": vehicleNum,
         //"employees": List<dynamic>.from(employees.map((x) => x.toJson())),
+      };
+}
+
+class Wallet {
+  final String balance;
+  final String reservedCommission;
+
+  Wallet({
+    required this.balance,
+    required this.reservedCommission,
+  });
+
+  factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
+        balance: json["balance"],
+        reservedCommission: json["reserved_commission"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "balance": balance,
+        "reserved_commission": reservedCommission,
       };
 }

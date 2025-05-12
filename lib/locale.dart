@@ -200,6 +200,7 @@ class MyLocale extends Translations {
               "you cannot use the app until your info are accepted, logout if you want",
           "updated successfully": "updated successfully",
           "no new images were selected": "no new images were selected",
+          "payment history": "payment history",
         },
         "ar": {
           "Arabic": "العربية",
@@ -396,6 +397,7 @@ class MyLocale extends Translations {
               "لا تستطيع استخدام التطبيق حتى يتم قبول كل بياناتك, يمكنك تسجيل الخروج اذا أردت",
           "updated successfully": "تم التحديث بنجاح",
           "no new images were selected": "لم يتم اختيار صور جديدة",
+          "payment history": "التقرير المالي",
         },
       };
 }

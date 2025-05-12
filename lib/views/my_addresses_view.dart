@@ -18,6 +18,7 @@ class MyAddressesView extends StatelessWidget {
     this.isStart,
   });
 
+  //todo: implement search in map here
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
