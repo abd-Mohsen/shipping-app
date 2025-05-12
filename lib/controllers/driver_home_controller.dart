@@ -189,8 +189,7 @@ class DriverHomeController extends GetxController {
           duration: const Duration(milliseconds: 6000),
         ));
       }
-      if (_currentUser!.idStatus.toLowerCase() != "verified" ||
-          _currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+      if (_currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
         CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
         Get.to(const CompleteAccountView());
       }

@@ -64,10 +64,10 @@ class CompanyHomeController extends GetxController {
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
     if (!refresh && _currentUser != null) {
-      if (_currentUser!.idStatus.toLowerCase() != "verified") {
-        CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
-        Get.to(const CompleteAccountView());
-      }
+      // if (_currentUser!.idStatus.toLowerCase() != "verified") {
+      //   CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
+      //   Get.to(const CompleteAccountView());
+      // }
       if (!_currentUser!.isVerified) {
         Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));
