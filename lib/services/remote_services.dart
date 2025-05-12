@@ -8,6 +8,7 @@ import 'package:shipment/models/branch_model.dart';
 import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/governorate_model.dart';
+import 'package:shipment/models/invoice_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/location_search_model.dart';
 import 'package:shipment/models/mini_order_model.dart';
@@ -502,12 +503,12 @@ class RemoteServices {
     return bankDetailsModelFromJson(json);
   }
 
-  static Future<List<BankDetailsModel>?> fetchInvoices() async {
+  static Future<List<InvoiceModel>?> fetchInvoices() async {
     String? json = await api.getRequest(
-      "/user_payment_history/",
+      "user_payment_history/",
       auth: true,
     );
     if (json == null) return null;
-    return bankDetailsModelFromJson(json);
+    return invoiceModelFromJson(json);
   }
 }

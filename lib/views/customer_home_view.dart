@@ -6,8 +6,10 @@ import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/locale_controller.dart';
 import 'package:shipment/views/components/custom_dropdown.dart';
 import 'package:shipment/views/components/order_card.dart';
+import 'package:shipment/views/invoices_view.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/my_addresses_view.dart';
+import 'package:shipment/views/payments_view.dart';
 import '../constants.dart';
 import '../controllers/notifications_controller.dart';
 import '../controllers/theme_controller.dart';
@@ -239,6 +241,20 @@ class CustomerHomeView extends StatelessWidget {
                       title: Text("My Addresses".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
                       onTap: () {
                         Get.to(const MyAddressesView());
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.monetization_on_outlined),
+                      title: Text("payment methods".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                      onTap: () {
+                        Get.to(() => const PaymentsView());
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.text_snippet),
+                      title: Text("payment history".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                      onTap: () {
+                        Get.to(() => const InvoicesView());
                       },
                     ),
                     ListTile(
