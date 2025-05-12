@@ -26,8 +26,8 @@ class VehicleCard extends StatelessWidget {
         elevation: 5,
         borderRadius: BorderRadius.circular(10),
         child: ExpansionTile(
-          backgroundColor: cs.secondary,
-          collapsedBackgroundColor: cs.secondary,
+          backgroundColor: cs.secondaryContainer,
+          collapsedBackgroundColor: cs.secondaryContainer,
           leading: Icon(
             Icons.directions_car_filled,
             color: vehicle.registrationStatus.toLowerCase() == "verified" ? Colors.green : cs.primary,

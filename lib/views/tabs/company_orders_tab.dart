@@ -171,14 +171,14 @@ class CompanyOrdersTab extends StatelessWidget {
                                       showSearchBox: false,
                                       menuProps: MenuProps(
                                         elevation: 5,
-                                        shape: RoundedRectangleBorder(
+                                        shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.vertical(
                                             bottom: Radius.circular(10), // Only round bottom corners
                                             top: Radius.circular(10), // Only round bottom corners
                                           ),
                                         ),
-                                        backgroundColor: Colors.white,
-                                        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                        backgroundColor: cs.surface,
+                                        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                       ),
                                       searchFieldProps: TextFieldProps(
                                         style: tt.titleSmall!.copyWith(color: cs.onSurface),
@@ -196,7 +196,7 @@ class CompanyOrdersTab extends StatelessWidget {
                                       baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
                                       decoration: InputDecoration(
                                         filled: true,
-                                        fillColor: cs.secondary,
+                                        fillColor: cs.secondaryContainer,
                                         prefixIcon: Padding(
                                           padding: EdgeInsets.symmetric(horizontal: 24.0),
                                           child: Icon(Icons.location_city, color: cs.primary),

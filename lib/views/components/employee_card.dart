@@ -25,8 +25,8 @@ class EmployeeCard extends StatelessWidget {
         elevation: 5,
         borderRadius: BorderRadius.circular(10),
         child: ExpansionTile(
-          backgroundColor: cs.secondary,
-          collapsedBackgroundColor: cs.secondary,
+          backgroundColor: cs.secondaryContainer,
+          collapsedBackgroundColor: cs.secondaryContainer,
           leading: Icon(
             Icons.person,
             color: employee.isAvailable ? Colors.green : cs.primary,

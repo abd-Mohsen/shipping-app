@@ -495,7 +495,16 @@ class RemoteServices {
 
   static Future<List<BankDetailsModel>?> fetchBankDetails() async {
     String? json = await api.getRequest(
-      "bank_account/",
+      "payments/bank_account/",
+      auth: true,
+    );
+    if (json == null) return null;
+    return bankDetailsModelFromJson(json);
+  }
+
+  static Future<List<BankDetailsModel>?> fetchInvoices() async {
+    String? json = await api.getRequest(
+      "/user_payment_history/",
       auth: true,
     );
     if (json == null) return null;

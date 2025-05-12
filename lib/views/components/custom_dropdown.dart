@@ -55,7 +55,7 @@ class CustomDropdown extends StatelessWidget {
                 .toList(),
             onChanged: onSelect,
             style: tt.titleLarge!.copyWith(color: cs.onSurface),
-            dropdownColor: Colors.white, // Background color of dropdown
+            dropdownColor: cs.surface, // Background color of dropdown
             menuMaxHeight: 300, // Limit dropdown height
             alignment: Alignment.bottomCenter, // Align menu to bottom
             borderRadius: BorderRadius.circular(20),
@@ -65,7 +65,7 @@ class CustomDropdown extends StatelessWidget {
             side: BorderSide(width: 1, color: cs.surface),
             borderRadius: BorderRadius.circular(20),
           ),
-          tileColor: cs.secondary,
+          tileColor: cs.secondaryContainer,
         ),
       ),
     );

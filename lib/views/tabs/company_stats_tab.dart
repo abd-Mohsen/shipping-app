@@ -58,7 +58,7 @@ class CompanyStatsTab extends StatelessWidget {
                                       elevation: 5,
                                       borderRadius: BorderRadius.circular(10),
                                       child: ListTile(
-                                        tileColor: cs.secondary,
+                                        tileColor: cs.secondaryContainer,
                                         contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
                                         leading: Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -91,7 +91,7 @@ class CompanyStatsTab extends StatelessWidget {
                                       elevation: 5,
                                       borderRadius: BorderRadius.circular(10),
                                       child: ListTile(
-                                        tileColor: cs.secondary,
+                                        tileColor: cs.secondaryContainer,
                                         contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
                                         leading: Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -126,7 +126,7 @@ class CompanyStatsTab extends StatelessWidget {
                                 elevation: 5,
                                 borderRadius: BorderRadius.circular(10),
                                 child: ListTile(
-                                  tileColor: cs.secondary,
+                                  tileColor: cs.secondaryContainer,
                                   contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
                                   leading: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -306,6 +306,8 @@ class CompanyStatsTab extends StatelessWidget {
                               //     ],
                               //   ),
                               // ),
+
+                              //todo: put the chart in a card
                               Visibility(
                                 visible: controller.companyStats!.ordersPerCity.isNotEmpty,
                                 child: pie.PieChart(

@@ -221,6 +221,7 @@ class CompanyHomeView extends StatelessWidget {
                               Get.to(() => const PaymentsView());
                             },
                           ),
+                          //todo: add invoices page
                           // ListTile(
                           //   leading: Icon(
                           //     Icons.language,

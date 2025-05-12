@@ -17,7 +17,7 @@ class DriverHistoryTab extends StatelessWidget {
     return GetBuilder<DriverHomeController>(
       builder: (controller) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
           child: controller.isLoadingHistory
               ? SpinKitSquareCircle(color: cs.primary)
               : RefreshIndicator(

@@ -25,7 +25,7 @@ class NotificationCard extends StatelessWidget {
         child: Material(
           borderRadius: BorderRadius.circular(20),
           elevation: 5,
-          color: cs.secondary,
+          //color: cs.secondary,
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -34,6 +34,7 @@ class NotificationCard extends StatelessWidget {
                 width: 0.5,
               ),
               borderRadius: BorderRadius.circular(20),
+              color: cs.secondaryContainer,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,

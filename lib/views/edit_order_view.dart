@@ -20,6 +20,7 @@ class EditOrderView extends StatelessWidget {
   final OrderModel order;
   const EditOrderView({super.key, required this.order});
 
+  //todo: make ui like make_order_view
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;

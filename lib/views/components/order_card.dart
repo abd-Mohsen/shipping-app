@@ -29,7 +29,7 @@ class OrderCard extends StatelessWidget {
         child: Material(
           borderRadius: BorderRadius.circular(10),
           elevation: 3,
-          color: cs.secondaryContainer,
+          //color: cs.secondaryContainer,
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -38,6 +38,7 @@ class OrderCard extends StatelessWidget {
                 width: order.status == "processing" ? 1.5 : 0.5,
               ),
               borderRadius: BorderRadius.circular(10),
+              color: cs.secondaryContainer,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,

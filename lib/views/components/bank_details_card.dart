@@ -19,7 +19,6 @@ class BankDetailsCard extends StatelessWidget {
       child: Material(
         borderRadius: BorderRadius.circular(20),
         elevation: 3,
-        color: cs.surface,
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
@@ -28,6 +27,7 @@ class BankDetailsCard extends StatelessWidget {
               width: 0.5,
             ),
             borderRadius: BorderRadius.circular(20),
+            color: cs.secondaryContainer,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,

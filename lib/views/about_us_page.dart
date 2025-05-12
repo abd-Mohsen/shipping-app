@@ -30,7 +30,7 @@ class AboutUsPage extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
-                    "assets/images/logo.png",
+                    "assets/images/logo_light.jpg",
                     height: MediaQuery.sizeOf(context).width / 2,
                   ),
                 ),
