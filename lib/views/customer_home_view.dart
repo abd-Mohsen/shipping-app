@@ -6,6 +6,7 @@ import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/locale_controller.dart';
 import 'package:shipment/views/components/custom_dropdown.dart';
 import 'package:shipment/views/components/order_card.dart';
+import 'package:shipment/views/components/selection_circle.dart';
 import 'package:shipment/views/invoices_view.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/my_addresses_view.dart';
@@ -75,7 +76,7 @@ class CustomerHomeView extends StatelessWidget {
               return Column(
                 children: [
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                     decoration: BoxDecoration(
                       color: Color.lerp(cs.primary, Colors.white, 0.025),
                       borderRadius: BorderRadius.circular(12),
@@ -136,19 +137,58 @@ class CustomerHomeView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  //
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: CustomDropdown(
-                      title: "order type".tr,
-                      items: controller.orderTypes,
-                      onSelect: (String? type) {
-                        controller.setOrderType(type);
-                      },
-                      selectedValue: controller.selectedOrderType,
-                      icon: Icons.filter_list,
+                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SelectionCircle(
+                          iconData: Icons.watch_later_outlined,
+                          title: "not taken".tr,
+                          isSelected: controller.selectedOrderType == "not taken",
+                          onTap: () {
+                            controller.setOrderType("not taken");
+                          },
+                        ),
+                        SelectionCircle(
+                          iconData: Icons.watch_later_outlined,
+                          title: "taken".tr,
+                          isSelected: controller.selectedOrderType == "taken",
+                          onTap: () {
+                            controller.setOrderType("taken");
+                          },
+                        ),
+                        SelectionCircle(
+                          iconData: Icons.local_shipping_outlined,
+                          title: "current".tr,
+                          isSelected: controller.selectedOrderType == "current",
+                          onTap: () {
+                            controller.setOrderType("current");
+                          },
+                        ),
+                        SelectionCircle(
+                          iconData: Icons.check,
+                          title: "finished".tr,
+                          isSelected: controller.selectedOrderType == "finished",
+                          onTap: () {
+                            controller.setOrderType("finished");
+                          },
+                        ),
+                      ],
                     ),
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  //   child: CustomDropdown(
+                  //     title: "order type".tr,
+                  //     items: controller.orderTypes,
+                  //     onSelect: (String? type) {
+                  //       controller.setOrderType(type);
+                  //     },
+                  //     selectedValue: controller.selectedOrderType,
+                  //     icon: Icons.filter_list,
+                  //   ),
+                  // ),
                   Expanded(
                     child: controller.isLoading
                         ? SpinKitSquareCircle(color: cs.primary)
