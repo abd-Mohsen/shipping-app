@@ -92,6 +92,10 @@ class CustomerHomeController extends GetxController {
         Get.to(() => const OTPView(source: "register"));
       }
     }
+    if (currentUser == null) {
+      await Future.delayed(Duration(seconds: 10));
+      getCurrentUser();
+    }
     toggleLoadingUser(false);
   }
 
