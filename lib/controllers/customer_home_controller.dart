@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,6 +18,8 @@ class CustomerHomeController extends GetxController {
     getOrders();
     super.onInit();
   }
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<OrderModel> myOrders = [];
 

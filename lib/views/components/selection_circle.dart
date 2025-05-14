@@ -25,9 +25,18 @@ class SelectionCircle extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
           children: [
-            CircleAvatar(
-              backgroundColor: Color.lerp(cs.primary, Colors.white, 0.05),
-              radius: 24,
+            Container(
+              width: 45,
+              height: 45,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                gradient: LinearGradient(
+                  colors: [cs.primary, Color.lerp(cs.primary, Colors.white, 0.4)!],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0, 1],
+                ),
+              ),
               child: Icon(
                 iconData,
                 color: cs.onPrimary,

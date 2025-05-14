@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/locale_controller.dart';
-import 'package:badges/badges.dart' as bdg;
-import 'package:shipment/views/components/order_card.dart';
-import 'package:shipment/views/components/selection_circle.dart';
 import 'package:shipment/views/invoices_view.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/my_addresses_view.dart';
 import 'package:shipment/views/payments_view.dart';
+import 'package:shipment/views/tabs/customer_home_tab.dart';
 import '../constants.dart';
+import '../controllers/home_navigation_controller.dart';
 import '../controllers/notifications_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
-import 'components/order_card_2.dart';
 import 'edit_profile_view.dart';
-import 'notifications_view.dart';
 
 class CustomerHomeView extends StatelessWidget {
   const CustomerHomeView({super.key});
@@ -30,7 +27,11 @@ class CustomerHomeView extends StatelessWidget {
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+    List<Widget> tabs = [
+      const CustomerHomeTab(),
+      Placeholder(),
+    ];
 
     return PopScope(
       canPop: false,
@@ -41,454 +42,225 @@ class CustomerHomeView extends StatelessWidget {
         Get.dialog(kCloseAppDialog());
       },
       child: SafeArea(
-        child: Scaffold(
-          // appBar: AppBar(
-          //   backgroundColor: cs.primary,
-          //   iconTheme: IconThemeData(
-          //     color: cs.onPrimary,
-          //   ),
-          //   title: Text(
-          //     'my orders'.tr,
-          //     style: tt.titleMedium!.copyWith(letterSpacing: 2, color: cs.onPrimary),
-          //   ),
-          //   centerTitle: true,
-          //   actions: [
-          //     GetBuilder<NotificationsController>(builder: (controller) {
-          //       return IconButton(
-          //         onPressed: () {
-          //           Get.to(() => const NotificationsView());
-          //         },
-          //         icon: Badge(
-          //           smallSize: 10,
-          //           backgroundColor: const Color(0xff00ff00),
-          //           alignment: Alignment.topRight,
-          //           child: Icon(
-          //             Icons.notifications,
-          //             color: cs.onPrimary,
-          //           ),
-          //         ),
-          //       );
-          //     })
-          //   ],
-          // ),
-          key: scaffoldKey,
-          backgroundColor: cs.surface,
-          body: GetBuilder<CustomerHomeController>(
-            //init: HomeController(),
+        child: GetBuilder<HomeNavigationController>(
+            init: HomeNavigationController(),
             builder: (controller) {
-              return Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-                    decoration: BoxDecoration(
-                      color: Color.lerp(cs.primary, Colors.white, 0.025),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 10,
-                          offset: Offset(0, 0),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              return Scaffold(
+                // appBar: AppBar(
+                //   backgroundColor: cs.primary,
+                //   iconTheme: IconThemeData(
+                //     color: cs.onPrimary,
+                //   ),
+                //   title: Text(
+                //     'my orders'.tr,
+                //     style: tt.titleMedium!.copyWith(letterSpacing: 2, color: cs.onPrimary),
+                //   ),
+                //   centerTitle: true,
+                //   actions: [
+                //     GetBuilder<NotificationsController>(builder: (controller) {
+                //       return IconButton(
+                //         onPressed: () {
+                //           Get.to(() => const NotificationsView());
+                //         },
+                //         icon: Badge(
+                //           smallSize: 10,
+                //           backgroundColor: const Color(0xff00ff00),
+                //           alignment: Alignment.topRight,
+                //           child: Icon(
+                //             Icons.notifications,
+                //             color: cs.onPrimary,
+                //           ),
+                //         ),
+                //       );
+                //     })
+                //   ],
+                // ),
+                key: hC.scaffoldKey,
+                backgroundColor: cs.surface,
+                bottomNavigationBar: SizedBox(
+                  height: MediaQuery.of(context).size.height / 11,
+                  child: BottomNavigationBar(
+                    items: [
+                      BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.house), label: "home".tr),
+                      BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.moneyBill), label: "history".tr),
+                    ],
+                    //height: MediaQuery.of(context).size.height / 11,
+                    backgroundColor: cs.surface,
+                    selectedItemColor: cs.primary,
+                    unselectedItemColor: cs.onSurface.withOpacity(0.5),
+                    iconSize: 25,
+                    elevation: 0,
+                    onTap: (i) {
+                      controller.changeTab(i);
+                    },
+                    currentIndex: controller.tabIndex,
+                  ),
+                ),
+                body: tabs[controller.tabIndex],
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    Get.to(() => const MakeOrderView());
+                  },
+                  foregroundColor: cs.onPrimary,
+                  child: Icon(Icons.add, color: cs.onPrimary),
+                ),
+                drawer: Drawer(
+                  backgroundColor: cs.surface,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView(
                           children: [
-                            Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    scaffoldKey.currentState?.openDrawer();
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    margin: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                                    decoration: BoxDecoration(
-                                      color: Color.lerp(cs.primary, Colors.white, 0.33),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Icon(Icons.person_outline, color: cs.onPrimary),
-                                  ),
-                                ),
-                                //SizedBox(width: 4),
-                                controller.isLoadingUser
-                                    ? SpinKitThreeBounce(color: cs.onPrimary, size: 15)
-                                    : controller.currentUser == null
-                                        ? SizedBox.shrink()
-                                        : Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "${controller.currentUser!.firstName} ${controller.currentUser!.lastName}",
-                                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                            GetBuilder<CustomerHomeController>(
+                              builder: (con) {
+                                return con.isLoadingUser
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(24),
+                                        child: SpinKitPianoWave(color: cs.primary),
+                                      )
+                                    : con.currentUser == null
+                                        ? Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                con.getCurrentUser();
+                                              },
+                                              style: ButtonStyle(
+                                                backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
                                               ),
-                                              SizedBox(height: 4),
-                                              Text(
-                                                controller.currentUser!.phoneNumber,
-                                                style: tt.labelMedium!.copyWith(color: cs.onPrimary.withOpacity(0.8)),
+                                              child: Text(
+                                                'refresh'.tr,
+                                                style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                              ),
+                                            ),
+                                          )
+                                        : Column(
+                                            children: [
+                                              UserAccountsDrawerHeader(
+                                                //showing old data or not showing at all, add loading (is it solved?)
+                                                accountName: Text(
+                                                  "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
+                                                  style: tt.headlineSmall,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                accountEmail: Text(
+                                                  con.currentUser!.phoneNumber,
+                                                  style: tt.titleMedium,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              ListTile(
+                                                leading: const Icon(Icons.manage_accounts),
+                                                title: Text("edit profile".tr,
+                                                    style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                                                onTap: () {
+                                                  Get.to(EditProfileView(user: con.currentUser!, homeController: hC));
+                                                },
                                               ),
                                             ],
-                                          )
-                              ],
+                                          );
+                              },
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                              // todo: use package bagde
-                              child: Badge(
-                                smallSize: 10,
-                                backgroundColor: const Color(0xff00ff00),
-                                alignment: Alignment.topRight,
-                                offset: const Offset(-5, -5),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.to(() => const NotificationsView());
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      color: Color.lerp(cs.primary, Colors.white, 0.33),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: GetBuilder<NotificationsController>(
-                                      builder: (controller) {
-                                        return Icon(
-                                          Icons.notifications_outlined,
-                                          color: cs.onPrimary,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
+                            ListTile(
+                              leading: const Icon(Icons.dark_mode_outlined),
+                              title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                              trailing: Switch(
+                                value: tC.switchValue,
+                                onChanged: (bool value) {
+                                  tC.updateTheme(value);
+                                },
                               ),
                             ),
+                            // ListTile(
+                            //   leading: Icon(
+                            //     Icons.language,
+                            //     color: cs.onSurface,
+                            //   ),
+                            //   title: DropdownButton(
+                            //     elevation: 10,
+                            //     iconEnabledColor: cs.onSurface,
+                            //     dropdownColor: Colors.grey[300],
+                            //     hint: Text(
+                            //       lC.getCurrentLanguageLabel(),
+                            //       style: tt.labelLarge!.copyWith(color: cs.onSurface),
+                            //     ),
+                            //     items: [
+                            //       DropdownMenuItem(
+                            //         value: "ar",
+                            //         child: Text(
+                            //           "Arabic".tr,
+                            //           style: tt.labelLarge!.copyWith(color: Colors.black),
+                            //         ),
+                            //       ),
+                            //       DropdownMenuItem(
+                            //         value: "en",
+                            //         child: Text(
+                            //           "English".tr,
+                            //           style: tt.labelLarge!.copyWith(color: Colors.black),
+                            //         ),
+                            //       ),
+                            //     ],
+                            //     onChanged: (val) {
+                            //       lC.updateLocale(val!);
+                            //     },
+                            //   ),
+                            // ),
+                            ListTile(
+                              leading: const Icon(Icons.maps_home_work_outlined),
+                              title: Text("My Addresses".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                              onTap: () {
+                                Get.to(const MyAddressesView());
+                              },
+                            ),
+                            ListTile(
+                              leading: const Icon(Icons.monetization_on_outlined),
+                              title: Text("payment methods".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                              onTap: () {
+                                Get.to(() => const PaymentsView());
+                              },
+                            ),
+                            GetBuilder<CustomerHomeController>(builder: (con) {
+                              return Visibility(
+                                visible: con.currentUser != null,
+                                child: ListTile(
+                                  leading: const Icon(Icons.text_snippet),
+                                  title:
+                                      Text("payment history".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                                  onTap: () {
+                                    Get.to(() => InvoicesView(user: hC.currentUser!));
+                                  },
+                                ),
+                              );
+                            }),
+                            ListTile(
+                              leading: const Icon(Icons.info_outline),
+                              title: Text("About app".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
+                              onTap: () {
+                                Get.to(const AboutUsPage());
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.logout, color: cs.error),
+                              title: Text("logout".tr, style: tt.titleSmall!.copyWith(color: cs.error)),
+                              onTap: () {
+                                hC.logout();
+                              },
+                            ),
                           ],
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                          margin: const EdgeInsets.only(left: 12, right: 12, bottom: 16, top: 4),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Color.lerp(cs.primary, Colors.black, 0.22),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(Icons.wallet_outlined, color: cs.onPrimary),
-                              SizedBox(width: 12),
-                              Text(
-                                controller.isLoadingUser ? "0.00" : controller.currentUser?.wallet?.balance ?? "0.00",
-                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                              )
-                            ],
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Text(
+                          "${"all rights reserved".tr} ®",
+                          style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
-                    child: Card(
-                      color: cs.secondaryContainer,
-                      elevation: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SelectionCircle(
-                              iconData: Icons.watch_later_outlined,
-                              title: "not taken".tr,
-                              isSelected: controller.selectedOrderType == "not taken",
-                              onTap: () {
-                                controller.setOrderType("not taken");
-                              },
-                            ),
-                            SelectionCircle(
-                              iconData: Icons.watch_later_outlined,
-                              title: "taken".tr,
-                              isSelected: controller.selectedOrderType == "taken",
-                              onTap: () {
-                                controller.setOrderType("taken");
-                              },
-                            ),
-                            SelectionCircle(
-                              iconData: Icons.local_shipping_outlined,
-                              title: "current".tr,
-                              isSelected: controller.selectedOrderType == "current",
-                              onTap: () {
-                                controller.setOrderType("current");
-                              },
-                            ),
-                            SelectionCircle(
-                              iconData: Icons.check,
-                              title: "finished".tr,
-                              isSelected: controller.selectedOrderType == "finished",
-                              onTap: () {
-                                controller.setOrderType("finished");
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  //   child: CustomDropdown(
-                  //     title: "order type".tr,
-                  //     items: controller.orderTypes,
-                  //     onSelect: (String? type) {
-                  //       controller.setOrderType(type);
-                  //     },
-                  //     selectedValue: controller.selectedOrderType,
-                  //     icon: Icons.filter_list,
-                  //   ),
-                  // ),
-                  Expanded(
-                    child: controller.isLoading
-                        ? SpinKitSquareCircle(color: cs.primary)
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: RefreshIndicator(
-                              onRefresh: controller.refreshOrders,
-                              child: controller.myOrders.isEmpty
-                                  ? Center(
-                                      child: ListView(
-                                        shrinkWrap: true,
-                                        //mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Lottie.asset("assets/animations/simple truck.json", height: 200),
-                                          Padding(
-                                            padding: const EdgeInsets.all(4),
-                                            child: Center(
-                                              child: Text(
-                                                "no data, pull down to refresh".tr,
-                                                style: tt.titleMedium!.copyWith(
-                                                  color: cs.onSurface,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 72),
-                                        ],
-                                      ),
-                                    )
-                                  : Card(
-                                      elevation: 5,
-                                      color: cs.secondaryContainer,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
-                                                child: Text(
-                                                  "Recent Delivery",
-                                                  style: tt.titleSmall!
-                                                      .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
-                                                  child: Text(
-                                                    "see all",
-                                                    style: tt.titleSmall!.copyWith(color: Colors.blue),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Expanded(
-                                            child: ListView.builder(
-                                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                              itemCount: controller.myOrders.length,
-                                              itemBuilder: (context, i) => OrderCard2(
-                                                order: controller.myOrders[i],
-                                                isCustomer: true,
-                                                isLast: i == controller.myOrders.length - 1,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                            ),
-                          ),
-                  ),
-                ],
-              );
-            },
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Get.to(() => const MakeOrderView());
-            },
-            foregroundColor: cs.onPrimary,
-            child: Icon(Icons.add, color: cs.onPrimary),
-          ),
-          drawer: Drawer(
-            backgroundColor: cs.surface,
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                      GetBuilder<CustomerHomeController>(
-                        builder: (con) {
-                          return con.isLoadingUser
-                              ? Padding(
-                                  padding: const EdgeInsets.all(24),
-                                  child: SpinKitPianoWave(color: cs.primary),
-                                )
-                              : con.currentUser == null
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          con.getCurrentUser();
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                                        ),
-                                        child: Text(
-                                          'refresh'.tr,
-                                          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
-                                        ),
-                                      ),
-                                    )
-                                  : Column(
-                                      children: [
-                                        UserAccountsDrawerHeader(
-                                          //showing old data or not showing at all, add loading (is it solved?)
-                                          accountName: Text(
-                                            "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
-                                            style: tt.headlineSmall,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          accountEmail: Text(
-                                            con.currentUser!.phoneNumber,
-                                            style: tt.titleMedium,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ),
-                                        ListTile(
-                                          leading: const Icon(Icons.manage_accounts),
-                                          title: Text("edit profile".tr,
-                                              style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                                          onTap: () {
-                                            Get.to(EditProfileView(user: con.currentUser!, homeController: hC));
-                                          },
-                                        ),
-                                      ],
-                                    );
-                        },
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.dark_mode_outlined),
-                        title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                        trailing: Switch(
-                          value: tC.switchValue,
-                          onChanged: (bool value) {
-                            tC.updateTheme(value);
-                          },
-                        ),
-                      ),
-                      // ListTile(
-                      //   leading: Icon(
-                      //     Icons.language,
-                      //     color: cs.onSurface,
-                      //   ),
-                      //   title: DropdownButton(
-                      //     elevation: 10,
-                      //     iconEnabledColor: cs.onSurface,
-                      //     dropdownColor: Colors.grey[300],
-                      //     hint: Text(
-                      //       lC.getCurrentLanguageLabel(),
-                      //       style: tt.labelLarge!.copyWith(color: cs.onSurface),
-                      //     ),
-                      //     items: [
-                      //       DropdownMenuItem(
-                      //         value: "ar",
-                      //         child: Text(
-                      //           "Arabic".tr,
-                      //           style: tt.labelLarge!.copyWith(color: Colors.black),
-                      //         ),
-                      //       ),
-                      //       DropdownMenuItem(
-                      //         value: "en",
-                      //         child: Text(
-                      //           "English".tr,
-                      //           style: tt.labelLarge!.copyWith(color: Colors.black),
-                      //         ),
-                      //       ),
-                      //     ],
-                      //     onChanged: (val) {
-                      //       lC.updateLocale(val!);
-                      //     },
-                      //   ),
-                      // ),
-                      ListTile(
-                        leading: const Icon(Icons.maps_home_work_outlined),
-                        title: Text("My Addresses".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                        onTap: () {
-                          Get.to(const MyAddressesView());
-                        },
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.monetization_on_outlined),
-                        title: Text("payment methods".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                        onTap: () {
-                          Get.to(() => const PaymentsView());
-                        },
-                      ),
-                      GetBuilder<CustomerHomeController>(builder: (con) {
-                        return Visibility(
-                          visible: con.currentUser != null,
-                          child: ListTile(
-                            leading: const Icon(Icons.text_snippet),
-                            title: Text("payment history".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                            onTap: () {
-                              Get.to(() => InvoicesView(user: hC.currentUser!));
-                            },
-                          ),
-                        );
-                      }),
-                      ListTile(
-                        leading: const Icon(Icons.info_outline),
-                        title: Text("About app".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                        onTap: () {
-                          Get.to(const AboutUsPage());
-                        },
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.logout, color: cs.error),
-                        title: Text("logout".tr, style: tt.titleSmall!.copyWith(color: cs.error)),
-                        onTap: () {
-                          hC.logout();
-                        },
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  child: Text(
-                    "${"all rights reserved".tr} ®",
-                    style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+              );
+            }),
       ),
     );
   }
