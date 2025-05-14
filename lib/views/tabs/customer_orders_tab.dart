@@ -46,6 +46,14 @@ class CustomerOrdersTab extends StatelessWidget {
                                 ? cs.primary
                                 : Colors.grey,
                             borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.5),
+                                spreadRadius: 0.5,
+                                blurRadius: 4,
+                                offset: const Offset(-1, 2),
+                              ),
+                            ],
                           ),
                           child: Text(controller.orderTypes[i].tr),
                         ),

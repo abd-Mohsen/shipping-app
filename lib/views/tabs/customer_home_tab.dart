@@ -1,15 +1,11 @@
-import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
-import 'package:badges/badges.dart' as bdg;
+import 'package:shipment/views/components/curr_order_card.dart';
 import 'package:shipment/views/components/selection_circle.dart';
-import '../../controllers/notifications_controller.dart';
+import 'package:shipment/views/components/user_profile_tile.dart';
 import '../components/order_card_2.dart';
-import '../notifications_view.dart';
 
 class CustomerHomeTab extends StatelessWidget {
   const CustomerHomeTab({super.key});
@@ -20,129 +16,17 @@ class CustomerHomeTab extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    List<IconData> stepperIcons = [
-      Icons.done,
-      Icons.watch_later,
-      FontAwesomeIcons.truck,
-      Icons.done_all,
-    ];
-
     return GetBuilder<CustomerHomeController>(
       //init: HomeController(),
       builder: (controller) {
         return Column(
           children: [
-            //todo: extract first 2 packages
-            Container(
-              margin: const EdgeInsets.only(left: 12, right: 12, top: 16, bottom: 10),
-              decoration: BoxDecoration(
-                color: Color.lerp(cs.primary, Colors.white, 0.025),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: const Offset(-1, 1),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              controller.scaffoldKey.currentState?.openDrawer();
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(6),
-                              margin: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                              decoration: BoxDecoration(
-                                color: Color.lerp(cs.primary, Colors.white, 0.33),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Icon(Icons.person_outline, color: cs.onPrimary),
-                            ),
-                          ),
-                          //SizedBox(width: 4),
-                          controller.isLoadingUser
-                              ? SpinKitThreeBounce(color: cs.onPrimary, size: 15)
-                              : controller.currentUser == null
-                                  ? SizedBox.shrink()
-                                  : Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${controller.currentUser!.firstName} ${controller.currentUser!.lastName}",
-                                          style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                        ),
-                                        SizedBox(height: 4),
-                                        Text(
-                                          controller.currentUser!.phoneNumber,
-                                          style: tt.labelMedium!.copyWith(color: cs.onPrimary.withOpacity(0.8)),
-                                        ),
-                                      ],
-                                    )
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                        // todo: use package bagde
-                        child: Badge(
-                          smallSize: 10,
-                          backgroundColor: const Color(0xff00ff00),
-                          alignment: Alignment.topRight,
-                          offset: const Offset(-5, -5),
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.to(() => const NotificationsView());
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: Color.lerp(cs.primary, Colors.white, 0.33),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: GetBuilder<NotificationsController>(
-                                builder: (controller) {
-                                  return Icon(
-                                    Icons.notifications_outlined,
-                                    color: cs.onPrimary,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                    margin: const EdgeInsets.only(left: 12, right: 12, bottom: 16, top: 4),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Color.lerp(cs.primary, Colors.black, 0.22),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(Icons.wallet_outlined, color: cs.onPrimary),
-                        SizedBox(width: 12),
-                        Text(
-                          controller.isLoadingUser ? "0.00" : controller.currentUser?.wallet?.balance ?? "0.00",
-                          style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            UserProfileTile(
+              onTapProfile: () {
+                controller.scaffoldKey.currentState?.openDrawer();
+              },
+              isLoadingUser: controller.isLoadingUser,
+              user: controller.currentUser,
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8, left: 12, right: 12),
@@ -264,160 +148,163 @@ class CustomerHomeTab extends StatelessWidget {
             //                 ),
             //         ),
             //       ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8, left: 12, right: 12),
-              child: Card(
-                color: cs.secondaryContainer,
-                elevation: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Current Shipping",
-                            style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Divider(color: cs.onSurface.withOpacity(0.4)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 4),
-                                child: Text(
-                                  "pick up truck - #1567",
-                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.5)),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color:
-                                  // order.status == "canceled"
-                                  //     ? Color.lerp(cs.primary, Colors.white, 0.22)
-                                  //     : order.status == "done"
-                                  //         ? Color.lerp(Colors.green, Colors.white, 0.15)
-                                  //         : order.status == "processing"
-                                  //             ? Color.lerp(Colors.blue, Colors.white, 0.5)
-                                  //             :
-                                  Color.lerp(Colors.black, Colors.white, 0.55),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
-                              child: Text(
-                                "pending",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: tt.labelSmall!.copyWith(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 4),
-                      SizedBox(
-                        height: 75,
-                        //width: double.infinity,
-                        child: EasyStepper(
-                          activeStep: 2,
-                          padding: const EdgeInsets.symmetric(vertical: 0),
-                          activeStepTextColor: cs.primary,
-                          finishedStepTextColor: cs.onSurface,
-                          unreachedStepTextColor: cs.onSurface.withOpacity(0.7),
-                          internalPadding: 0, // Removes padding around the whole stepper
-                          showLoadingAnimation: false,
-                          stepRadius: 15, // Should match your CircleAvatar radius
-                          showStepBorder: false,
-                          steps: List.generate(
-                            4,
-                            (i) => EasyStep(
-                              customStep: CircleAvatar(
-                                radius: 14,
-                                backgroundColor: 2 >= i ? Color.lerp(cs.primary, Colors.white, 0.1) : Colors.grey,
-                                child: FaIcon(
-                                  stepperIcons[i],
-                                  size: 13,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              customTitle: Text(
-                                controller.orderTypes[i].tr,
-                                style: tt.labelSmall!.copyWith(color: cs.onSurface, fontSize: 10),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "15/5/2025",
-                                  style: tt.labelSmall!.copyWith(
-                                    color: cs.onSurface.withOpacity(0.6),
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  "دمشق, ركن الدين",
-                                  style: tt.labelSmall!.copyWith(
-                                    color: cs.onSurface,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "18/5/2025",
-                                  style: tt.labelSmall!.copyWith(
-                                    color: cs.onSurface.withOpacity(0.6),
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  "ريف دمشق, حرستا",
-                                  style: tt.labelSmall!.copyWith(
-                                    color: cs.onSurface,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(bottom: 8, left: 12, right: 12),
+            //   child: Card(
+            //     color: cs.secondaryContainer,
+            //     elevation: 2,
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            //       child: Column(
+            //         children: [
+            //           Row(
+            //             mainAxisAlignment: MainAxisAlignment.start,
+            //             children: [
+            //               Text(
+            //                 "Current Shipping",
+            //                 style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+            //               ),
+            //             ],
+            //           ),
+            //           Divider(color: cs.onSurface.withOpacity(0.4)),
+            //           Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.start,
+            //                 children: [
+            //                   Padding(
+            //                     padding: const EdgeInsets.symmetric(vertical: 4),
+            //                     child: Text(
+            //                       "pick up truck - #1567",
+            //                       style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //               Container(
+            //                 decoration: BoxDecoration(
+            //                   color:
+            //                       // order.status == "canceled"
+            //                       //     ? Color.lerp(cs.primary, Colors.white, 0.22)
+            //                       //     : order.status == "done"
+            //                       //         ? Color.lerp(Colors.green, Colors.white, 0.15)
+            //                       //         : order.status == "processing"
+            //                       //             ? Color.lerp(Colors.blue, Colors.white, 0.5)
+            //                       //             :
+            //                       Color.lerp(Colors.black, Colors.white, 0.55),
+            //                   borderRadius: BorderRadius.circular(20),
+            //                 ),
+            //                 child: Padding(
+            //                   padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+            //                   child: Text(
+            //                     "pending",
+            //                     maxLines: 1,
+            //                     overflow: TextOverflow.ellipsis,
+            //                     style: tt.labelSmall!.copyWith(
+            //                       color: Colors.white,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //           SizedBox(height: 4),
+            //           SizedBox(
+            //             height: 75,
+            //             //width: double.infinity,
+            //             child: EasyStepper(
+            //               activeStep: 2,
+            //               padding: const EdgeInsets.symmetric(vertical: 0),
+            //               activeStepTextColor: cs.primary,
+            //               finishedStepTextColor: cs.onSurface,
+            //               unreachedStepTextColor: cs.onSurface.withOpacity(0.7),
+            //               internalPadding: 0, // Removes padding around the whole stepper
+            //               showLoadingAnimation: false,
+            //               stepRadius: 15, // Should match your CircleAvatar radius
+            //               showStepBorder: false,
+            //               steps: List.generate(
+            //                 4,
+            //                 (i) => EasyStep(
+            //                   customStep: CircleAvatar(
+            //                     radius: 14,
+            //                     backgroundColor: 2 >= i ? Color.lerp(cs.primary, Colors.white, 0.1) : Colors.grey,
+            //                     child: FaIcon(
+            //                       stepperIcons[i],
+            //                       size: 13,
+            //                       color: Colors.white,
+            //                     ),
+            //                   ),
+            //                   customTitle: Text(
+            //                     controller.orderTypes[i].tr,
+            //                     style: tt.labelSmall!.copyWith(color: cs.onSurface, fontSize: 10),
+            //                     maxLines: 2,
+            //                     overflow: TextOverflow.ellipsis,
+            //                     textAlign: TextAlign.center,
+            //                   ),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //           Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               SizedBox(
+            //                 width: MediaQuery.of(context).size.width / 3,
+            //                 child: Column(
+            //                   crossAxisAlignment: CrossAxisAlignment.start,
+            //                   children: [
+            //                     Text(
+            //                       "15/5/2025",
+            //                       style: tt.labelSmall!.copyWith(
+            //                         color: cs.onSurface.withOpacity(0.6),
+            //                       ),
+            //                     ),
+            //                     const SizedBox(height: 2),
+            //                     Text(
+            //                       "دمشق, ركن الدين",
+            //                       style: tt.labelSmall!.copyWith(
+            //                         color: cs.onSurface,
+            //                       ),
+            //                       maxLines: 2,
+            //                       overflow: TextOverflow.ellipsis,
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ),
+            //               SizedBox(
+            //                 width: MediaQuery.of(context).size.width / 3,
+            //                 child: Column(
+            //                   crossAxisAlignment: CrossAxisAlignment.end,
+            //                   children: [
+            //                     Text(
+            //                       "18/5/2025",
+            //                       style: tt.labelSmall!.copyWith(
+            //                         color: cs.onSurface.withOpacity(0.6),
+            //                       ),
+            //                     ),
+            //                     const SizedBox(height: 2),
+            //                     Text(
+            //                       "ريف دمشق, حرستا",
+            //                       style: tt.labelSmall!.copyWith(
+            //                         color: cs.onSurface,
+            //                       ),
+            //                       maxLines: 2,
+            //                       overflow: TextOverflow.ellipsis,
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ),
+            //             ],
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            controller.isLoadingRecent
+                ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                : CurrOrderCard(order: controller.currentOrder),
             Expanded(
               child: controller.isLoadingRecent
                   ? SpinKitSquareCircle(color: cs.primary)
@@ -436,7 +323,7 @@ class CustomerHomeTab extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
                                     child: Text(
-                                      "Recent Delivery",
+                                      "recent delivery".tr,
                                       style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -447,8 +334,8 @@ class CustomerHomeTab extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
                                       child: Text(
-                                        "see all",
-                                        style: tt.titleSmall!.copyWith(color: Colors.blue),
+                                        "see all".tr,
+                                        style: tt.labelSmall!.copyWith(color: Colors.blue, fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ),
