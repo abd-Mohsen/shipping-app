@@ -47,8 +47,8 @@ class SelectionCircle extends StatelessWidget {
             Text(
               title,
               style: isSelected
-                  ? tt.titleSmall!.copyWith(color: cs.primary, fontWeight: FontWeight.bold)
-                  : tt.titleSmall!.copyWith(color: cs.onSurface),
+                  ? tt.labelMedium!.copyWith(color: cs.primary, fontWeight: FontWeight.bold)
+                  : tt.labelMedium!.copyWith(color: cs.onSurface),
             )
           ],
         ),

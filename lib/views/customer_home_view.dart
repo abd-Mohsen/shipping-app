@@ -78,17 +78,19 @@ class CustomerHomeView extends StatelessWidget {
                 key: hC.scaffoldKey,
                 backgroundColor: cs.surface,
                 bottomNavigationBar: SizedBox(
-                  height: MediaQuery.of(context).size.height / 11,
+                  height: MediaQuery.of(context).size.height / 14,
                   child: BottomNavigationBar(
                     items: [
                       BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.house), label: "home".tr),
                       BottomNavigationBarItem(icon: FaIcon(FontAwesomeIcons.moneyBill), label: "history".tr),
                     ],
                     //height: MediaQuery.of(context).size.height / 11,
-                    backgroundColor: cs.surface,
+                    backgroundColor: cs.secondaryContainer,
                     selectedItemColor: cs.primary,
                     unselectedItemColor: cs.onSurface.withOpacity(0.5),
-                    iconSize: 25,
+                    iconSize: 18,
+                    selectedFontSize: 12,
+                    unselectedFontSize: 10,
                     elevation: 0,
                     onTap: (i) {
                       controller.changeTab(i);

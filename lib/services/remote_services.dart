@@ -153,7 +153,7 @@ class RemoteServices {
   static Future<List<LocationSearchModel>?> getLatLngFromQuery(String query) async {
     //todo: handle errors
     String? json = await api.getRequest(
-      'https://nominatim.openstreetmap.org/search?q=$query&format=json&countrycodes=SY&limit=10',
+      'https://nominatim.openstreetmap.org/search?q=$query&format=json&countrycodes=SY&limit=20',
       toMyServer: false,
       utf8Decode: false,
     );

@@ -1,5 +1,7 @@
+import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
@@ -17,6 +19,13 @@ class CustomerHomeTab extends StatelessWidget {
     CustomerHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
+
+    List<IconData> stepperIcons = [
+      Icons.done,
+      Icons.watch_later,
+      FontAwesomeIcons.truck,
+      Icons.done_all,
+    ];
 
     return GetBuilder<CustomerHomeController>(
       //init: HomeController(),
@@ -145,7 +154,7 @@ class CustomerHomeTab extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SelectionCircle(
-                        iconData: Icons.watch_later_outlined,
+                        iconData: Icons.done,
                         title: "not taken".tr,
                         isSelected: controller.selectedOrderType == "not taken",
                         onTap: () {
@@ -169,7 +178,7 @@ class CustomerHomeTab extends StatelessWidget {
                         },
                       ),
                       SelectionCircle(
-                        iconData: Icons.check,
+                        iconData: Icons.done_all,
                         title: "finished".tr,
                         isSelected: controller.selectedOrderType == "finished",
                         onTap: () {
@@ -181,18 +190,223 @@ class CustomerHomeTab extends StatelessWidget {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            //   child: CustomDropdown(
-            //     title: "order type".tr,
-            //     items: controller.orderTypes,
-            //     onSelect: (String? type) {
-            //       controller.setOrderType(type);
-            //     },
-            //     selectedValue: controller.selectedOrderType,
-            //     icon: Icons.filter_list,
-            //   ),
-            // ),
+            // controller.isLoading
+            //     ? SpinKitThreeBounce(color: cs.primary, size: 20)
+            //     : Padding(
+            //         padding: const EdgeInsets.symmetric(horizontal: 12),
+            //         child: RefreshIndicator(
+            //           onRefresh: controller.refreshOrders,
+            //           child: controller.myOrders.isEmpty
+            //               ? Center(
+            //                   child: ListView(
+            //                     shrinkWrap: true,
+            //                     //mainAxisAlignment: MainAxisAlignment.center,
+            //                     children: [
+            //                       //Lottie.asset("assets/animations/simple truck.json", height: 200),
+            //                       Padding(
+            //                         padding: const EdgeInsets.all(4),
+            //                         child: Center(
+            //                           child: Text(
+            //                             "no data, pull down to refresh".tr,
+            //                             style: tt.titleMedium!.copyWith(
+            //                               color: cs.onSurface,
+            //                               fontWeight: FontWeight.bold,
+            //                             ),
+            //                             textAlign: TextAlign.center,
+            //                           ),
+            //                         ),
+            //                       ),
+            //                       const SizedBox(height: 72),
+            //                     ],
+            //                   ),
+            //                 )
+            //               : Card(
+            //                   elevation: 5,
+            //                   color: cs.secondaryContainer,
+            //                   child: Column(
+            //                     children: [
+            //                       Row(
+            //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //                         children: [
+            //                           Padding(
+            //                             padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+            //                             child: Text(
+            //                               "Recent Delivery",
+            //                               style:
+            //                                   tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+            //                             ),
+            //                           ),
+            //                           GestureDetector(
+            //                             child: Padding(
+            //                               padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+            //                               child: Text(
+            //                                 "see all",
+            //                                 style: tt.titleSmall!.copyWith(color: Colors.blue),
+            //                               ),
+            //                             ),
+            //                           ),
+            //                         ],
+            //                       ),
+            //                       Expanded(
+            //                         child: ListView.builder(
+            //                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            //                           itemCount: controller.myOrders.length,
+            //                           itemBuilder: (context, i) => OrderCard2(
+            //                             order: controller.myOrders[i],
+            //                             isCustomer: true,
+            //                             isLast: i == controller.myOrders.length - 1,
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //         ),
+            //       ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
+              child: Card(
+                color: cs.secondaryContainer,
+                elevation: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Current Shipping",
+                            style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Divider(color: cs.onSurface.withOpacity(0.4)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 4),
+                                child: Text(
+                                  "pick up truck - #1567",
+                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color:
+                                  // order.status == "canceled"
+                                  //     ? Color.lerp(cs.primary, Colors.white, 0.22)
+                                  //     : order.status == "done"
+                                  //         ? Color.lerp(Colors.green, Colors.white, 0.15)
+                                  //         : order.status == "processing"
+                                  //             ? Color.lerp(Colors.blue, Colors.white, 0.5)
+                                  //             :
+                                  Color.lerp(Colors.black, Colors.white, 0.55),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                              child: Text(
+                                "pending",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: tt.labelSmall!.copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+                      SizedBox(
+                        height: 75,
+                        //width: double.infinity,
+                        child: EasyStepper(
+                          activeStep: 2,
+                          padding: const EdgeInsets.symmetric(vertical: 0),
+                          activeStepTextColor: cs.primary,
+                          finishedStepTextColor: cs.onSurface,
+                          unreachedStepTextColor: cs.onSurface.withOpacity(0.7),
+                          internalPadding: 0, // Removes padding around the whole stepper
+                          showLoadingAnimation: false,
+                          stepRadius: 15, // Should match your CircleAvatar radius
+                          showStepBorder: false,
+                          steps: List.generate(
+                            4,
+                            (i) => EasyStep(
+                              customStep: CircleAvatar(
+                                radius: 14,
+                                backgroundColor: 2 >= i ? Color.lerp(cs.primary, Colors.white, 0.1) : Colors.grey,
+                                child: FaIcon(
+                                  stepperIcons[i],
+                                  size: 13,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              customTitle: Text(
+                                controller.orderTypes[i].tr,
+                                style: tt.labelSmall!.copyWith(color: cs.onSurface, fontSize: 10),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "15/5/2025",
+                                style: tt.labelSmall!.copyWith(
+                                  color: cs.onSurface.withOpacity(0.6),
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "دمشق, ركن الدين",
+                                style: tt.labelMedium!.copyWith(
+                                  color: cs.onSurface,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "18/5/2025",
+                                style: tt.labelSmall!.copyWith(
+                                  color: cs.onSurface.withOpacity(0.6),
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "ريف دمشق, حرستا",
+                                style: tt.labelMedium!.copyWith(
+                                  color: cs.onSurface,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
             Expanded(
               child: controller.isLoading
                   ? SpinKitSquareCircle(color: cs.primary)
@@ -274,3 +488,16 @@ class CustomerHomeTab extends StatelessWidget {
     );
   }
 }
+
+// Padding(
+//   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+//   child: CustomDropdown(
+//     title: "order type".tr,
+//     items: controller.orderTypes,
+//     onSelect: (String? type) {
+//       controller.setOrderType(type);
+//     },
+//     selectedValue: controller.selectedOrderType,
+//     icon: Icons.filter_list,
+//   ),
+// ),

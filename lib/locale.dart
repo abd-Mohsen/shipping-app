@@ -361,7 +361,7 @@ class MyLocale extends Translations {
           "desired time": "الساعة المطلوبة",
           "order type": "نوع الطلبية",
           "taken": "مأخوذ",
-          "not taken": "غير مأخوذ",
+          "not taken": "متاح",
           "finished": "منتهي",
           "edit profile": "تعديل الملف الشخصي",
           "accepted your request": "قبل طلبك",
