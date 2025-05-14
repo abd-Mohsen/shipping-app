@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shipment/controllers/home_navigation_controller.dart';
 import 'package:shipment/models/order_model.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
@@ -12,10 +13,14 @@ import 'login_controller.dart';
 import 'otp_controller.dart';
 
 class CustomerHomeController extends GetxController {
+  HomeNavigationController homeNavigationController;
+  CustomerHomeController({required this.homeNavigationController});
+
   @override
   onInit() {
     getCurrentUser();
     getOrders();
+    getRecentOrders();
     super.onInit();
   }
 
@@ -23,13 +28,24 @@ class CustomerHomeController extends GetxController {
 
   List<OrderModel> myOrders = [];
 
+  List<OrderModel> recentOrders = [];
+
   List<String> orderTypes = ["not taken", "taken", "current", "finished"];
 
-  String selectedOrderType = "current";
+  List<String> selectedOrderTypes = ["current"];
+  //String selectedOrderType = "current";
 
-  void setOrderType(String? type) {
+  void setOrderType(String? type, bool clear, {bool selectAll = false}) {
     if (type == null) return;
-    selectedOrderType = type;
+    if (clear) {
+      selectedOrderTypes.clear();
+      homeNavigationController.changeTab(0);
+    }
+    if (selectAll) {
+      selectedOrderTypes = List.from(orderTypes);
+    } else {
+      selectedOrderTypes.contains(type) ? selectedOrderTypes.remove(type) : selectedOrderTypes.add(type);
+    }
     refreshOrders();
   }
 
@@ -37,10 +53,10 @@ class CustomerHomeController extends GetxController {
     //todo:pagination
     toggleLoading(true);
     List<String> typesToFetch = [];
-    if (selectedOrderType == "not taken") typesToFetch = ["available", "draft"];
-    if (selectedOrderType == "taken") typesToFetch = ["pending", "approved"];
-    if (selectedOrderType == "current") typesToFetch = ["processing"];
-    if (selectedOrderType == "finished") typesToFetch = ["done", "canceled"];
+    if (selectedOrderTypes.contains("not taken")) typesToFetch.addAll(["available", "draft"]);
+    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved"]);
+    if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
+    if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
     List<OrderModel> newItems = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
     myOrders.addAll(newItems);
     toggleLoading(false);
@@ -49,6 +65,21 @@ class CustomerHomeController extends GetxController {
   Future<void> refreshOrders() async {
     myOrders.clear();
     getOrders();
+  }
+
+  void getRecentOrders() async {
+    toggleLoadingRecent(true);
+    List<String> typesToFetch = ["available", "draft", "pending", "approved", "done", "canceled"];
+    List<OrderModel> newItems1 = await RemoteServices.fetchCustomerOrders(["processing"]) ?? [];
+    List<OrderModel> newItems2 = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
+    recentOrders.addAll(newItems1);
+    recentOrders.addAll(newItems2);
+    toggleLoadingRecent(false);
+  }
+
+  Future<void> refreshRecentOrders() async {
+    recentOrders.clear();
+    getRecentOrders();
   }
 
   void deleteOrder(int id) async {
@@ -66,6 +97,13 @@ class CustomerHomeController extends GetxController {
   bool get isLoading => _isLoading;
   void toggleLoading(bool value) {
     _isLoading = value;
+    update();
+  }
+
+  bool _isLoadingRecent = false;
+  bool get isLoadingRecent => _isLoadingRecent;
+  void toggleLoadingRecent(bool value) {
+    _isLoadingRecent = value;
     update();
   }
 

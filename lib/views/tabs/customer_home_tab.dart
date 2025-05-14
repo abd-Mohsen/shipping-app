@@ -32,8 +32,9 @@ class CustomerHomeTab extends StatelessWidget {
       builder: (controller) {
         return Column(
           children: [
+            //todo: extract first 2 packages
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
+              margin: const EdgeInsets.only(left: 12, right: 12, top: 16, bottom: 10),
               decoration: BoxDecoration(
                 color: Color.lerp(cs.primary, Colors.white, 0.025),
                 borderRadius: BorderRadius.circular(12),
@@ -41,8 +42,8 @@ class CustomerHomeTab extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),
                     spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: Offset(0, 0),
+                    blurRadius: 5,
+                    offset: const Offset(-1, 1),
                   ),
                 ],
               ),
@@ -144,7 +145,7 @@ class CustomerHomeTab extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
+              padding: const EdgeInsets.only(bottom: 8, left: 12, right: 12),
               child: Card(
                 color: cs.secondaryContainer,
                 elevation: 2,
@@ -156,33 +157,33 @@ class CustomerHomeTab extends StatelessWidget {
                       SelectionCircle(
                         iconData: Icons.done,
                         title: "not taken".tr,
-                        isSelected: controller.selectedOrderType == "not taken",
+                        isSelected: false,
                         onTap: () {
-                          controller.setOrderType("not taken");
+                          controller.setOrderType("not taken", true);
                         },
                       ),
                       SelectionCircle(
                         iconData: Icons.watch_later_outlined,
                         title: "taken".tr,
-                        isSelected: controller.selectedOrderType == "taken",
+                        isSelected: false,
                         onTap: () {
-                          controller.setOrderType("taken");
+                          controller.setOrderType("taken", true);
                         },
                       ),
                       SelectionCircle(
                         iconData: Icons.local_shipping_outlined,
                         title: "current".tr,
-                        isSelected: controller.selectedOrderType == "current",
+                        isSelected: false,
                         onTap: () {
-                          controller.setOrderType("current");
+                          controller.setOrderType("current", true);
                         },
                       ),
                       SelectionCircle(
                         iconData: Icons.done_all,
                         title: "finished".tr,
-                        isSelected: controller.selectedOrderType == "finished",
+                        isSelected: false,
                         onTap: () {
-                          controller.setOrderType("finished");
+                          controller.setOrderType("finished", true);
                         },
                       ),
                     ],
@@ -264,7 +265,7 @@ class CustomerHomeTab extends StatelessWidget {
             //         ),
             //       ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
+              padding: const EdgeInsets.only(bottom: 8, left: 12, right: 12),
               child: Card(
                 color: cs.secondaryContainer,
                 elevation: 2,
@@ -364,41 +365,51 @@ class CustomerHomeTab extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "15/5/2025",
-                                style: tt.labelSmall!.copyWith(
-                                  color: cs.onSurface.withOpacity(0.6),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "15/5/2025",
+                                  style: tt.labelSmall!.copyWith(
+                                    color: cs.onSurface.withOpacity(0.6),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                "دمشق, ركن الدين",
-                                style: tt.labelMedium!.copyWith(
-                                  color: cs.onSurface,
+                                const SizedBox(height: 2),
+                                Text(
+                                  "دمشق, ركن الدين",
+                                  style: tt.labelSmall!.copyWith(
+                                    color: cs.onSurface,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "18/5/2025",
-                                style: tt.labelSmall!.copyWith(
-                                  color: cs.onSurface.withOpacity(0.6),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "18/5/2025",
+                                  style: tt.labelSmall!.copyWith(
+                                    color: cs.onSurface.withOpacity(0.6),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                "ريف دمشق, حرستا",
-                                style: tt.labelMedium!.copyWith(
-                                  color: cs.onSurface,
+                                const SizedBox(height: 2),
+                                Text(
+                                  "ريف دمشق, حرستا",
+                                  style: tt.labelSmall!.copyWith(
+                                    color: cs.onSurface,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       )
@@ -408,77 +419,81 @@ class CustomerHomeTab extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: controller.isLoading
+              child: controller.isLoadingRecent
                   ? SpinKitSquareCircle(color: cs.primary)
                   : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
                       child: RefreshIndicator(
-                        onRefresh: controller.refreshOrders,
-                        child: controller.myOrders.isEmpty
-                            ? Center(
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  //mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Lottie.asset("assets/animations/simple truck.json", height: 200),
-                                    Padding(
-                                      padding: const EdgeInsets.all(4),
-                                      child: Center(
-                                        child: Text(
-                                          "no data, pull down to refresh".tr,
-                                          style: tt.titleMedium!.copyWith(
-                                            color: cs.onSurface,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
+                        onRefresh: controller.refreshRecentOrders,
+                        child: Card(
+                          elevation: 5,
+                          color: cs.secondaryContainer,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                                    child: Text(
+                                      "Recent Delivery",
+                                      style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.setOrderType("type", true, selectAll: true);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                                      child: Text(
+                                        "see all",
+                                        style: tt.titleSmall!.copyWith(color: Colors.blue),
                                       ),
                                     ),
-                                    const SizedBox(height: 72),
-                                  ],
-                                ),
-                              )
-                            : Card(
-                                elevation: 5,
-                                color: cs.secondaryContainer,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
-                                          child: Text(
-                                            "Recent Delivery",
-                                            style: tt.titleSmall!
-                                                .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
-                                            child: Text(
-                                              "see all",
-                                              style: tt.titleSmall!.copyWith(color: Colors.blue),
+                                  ),
+                                ],
+                              ),
+                              controller.recentOrders.isEmpty
+                                  ? Expanded(
+                                      child: Center(
+                                        child: ListView(
+                                          shrinkWrap: true,
+                                          //mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            //Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                            Padding(
+                                              padding: const EdgeInsets.all(4),
+                                              child: Center(
+                                                child: Text(
+                                                  "no data, pull down to refresh".tr,
+                                                  style: tt.titleSmall!.copyWith(
+                                                    color: cs.onSurface,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                            const SizedBox(height: 72),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    Expanded(
+                                      ),
+                                    )
+                                  : Expanded(
                                       child: ListView.builder(
                                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                        itemCount: controller.myOrders.length,
+                                        itemCount: controller.recentOrders.length,
                                         itemBuilder: (context, i) => OrderCard2(
-                                          order: controller.myOrders[i],
+                                          order: controller.recentOrders[i],
                                           isCustomer: true,
-                                          isLast: i == controller.myOrders.length - 1,
+                                          isLast: i == controller.recentOrders.length - 1,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
             ),
