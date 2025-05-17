@@ -26,8 +26,8 @@ class SelectionCircle extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              width: 45,
-              height: 45,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 gradient: LinearGradient(
@@ -40,6 +40,7 @@ class SelectionCircle extends StatelessWidget {
               child: Icon(
                 iconData,
                 color: cs.onPrimary,
+                size: 23,
               ),
               //backgroundColor: Colors.redAccent,
             ),
@@ -47,8 +48,8 @@ class SelectionCircle extends StatelessWidget {
             Text(
               title,
               style: isSelected
-                  ? tt.labelSmall!.copyWith(color: cs.primary, fontWeight: FontWeight.bold)
-                  : tt.labelSmall!.copyWith(color: cs.onSurface),
+                  ? tt.labelSmall!.copyWith(color: cs.primary, fontWeight: FontWeight.bold, fontSize: 10)
+                  : tt.labelSmall!.copyWith(color: cs.onSurface, fontSize: 10),
             )
           ],
         ),

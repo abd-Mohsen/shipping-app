@@ -19,7 +19,7 @@ class CustomerHomeTab extends StatelessWidget {
     return GetBuilder<CustomerHomeController>(
       //init: HomeController(),
       builder: (controller) {
-        return Column(
+        return ListView(
           children: [
             UserProfileTile(
               onTapProfile: () {
@@ -33,45 +33,61 @@ class CustomerHomeTab extends StatelessWidget {
               child: Card(
                 color: cs.secondaryContainer,
                 elevation: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SelectionCircle(
-                        iconData: Icons.done,
-                        title: "not taken".tr,
-                        isSelected: false,
-                        onTap: () {
-                          controller.setOrderType("not taken", true);
-                        },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
+                      child: Text(
+                        "orders status".tr,
+                        style: tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                       ),
-                      SelectionCircle(
-                        iconData: Icons.watch_later_outlined,
-                        title: "taken".tr,
-                        isSelected: false,
-                        onTap: () {
-                          controller.setOrderType("taken", true);
-                        },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Divider(color: cs.onSurface.withOpacity(0.2)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0, top: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SelectionCircle(
+                            iconData: Icons.done,
+                            title: "not taken".tr,
+                            isSelected: false,
+                            onTap: () {
+                              controller.setOrderType("not taken", true);
+                            },
+                          ),
+                          SelectionCircle(
+                            iconData: Icons.watch_later_outlined,
+                            title: "taken".tr,
+                            isSelected: false,
+                            onTap: () {
+                              controller.setOrderType("taken", true);
+                            },
+                          ),
+                          SelectionCircle(
+                            iconData: Icons.local_shipping_outlined,
+                            title: "current".tr,
+                            isSelected: false,
+                            onTap: () {
+                              controller.setOrderType("current", true);
+                            },
+                          ),
+                          SelectionCircle(
+                            iconData: Icons.done_all,
+                            title: "finished".tr,
+                            isSelected: false,
+                            onTap: () {
+                              controller.setOrderType("finished", true);
+                            },
+                          ),
+                        ],
                       ),
-                      SelectionCircle(
-                        iconData: Icons.local_shipping_outlined,
-                        title: "current".tr,
-                        isSelected: false,
-                        onTap: () {
-                          controller.setOrderType("current", true);
-                        },
-                      ),
-                      SelectionCircle(
-                        iconData: Icons.done_all,
-                        title: "finished".tr,
-                        isSelected: false,
-                        onTap: () {
-                          controller.setOrderType("finished", true);
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -305,7 +321,8 @@ class CustomerHomeTab extends StatelessWidget {
             controller.isLoadingRecent
                 ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                 : CurrOrderCard(order: controller.currentOrder),
-            Expanded(
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 1.5,
               child: controller.isLoadingRecent
                   ? SpinKitSquareCircle(color: cs.primary)
                   : Padding(
@@ -315,70 +332,83 @@ class CustomerHomeTab extends StatelessWidget {
                         child: Card(
                           elevation: 5,
                           color: cs.secondaryContainer,
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
-                                    child: Text(
-                                      "recent delivery".tr,
-                                      style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      controller.setOrderType("type", true, selectAll: true);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16),
                                       child: Text(
-                                        "see all".tr,
-                                        style: tt.labelSmall!.copyWith(color: Colors.blue, fontWeight: FontWeight.bold),
+                                        "recent delivery".tr,
+                                        style:
+                                            tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              controller.recentOrders.isEmpty
-                                  ? Expanded(
-                                      child: Center(
-                                        child: ListView(
-                                          shrinkWrap: true,
-                                          //mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            //Lottie.asset("assets/animations/simple truck.json", height: 200),
-                                            Padding(
-                                              padding: const EdgeInsets.all(4),
-                                              child: Center(
-                                                child: Text(
-                                                  "no data, pull down to refresh".tr,
-                                                  style: tt.titleSmall!.copyWith(
-                                                    color: cs.onSurface,
-                                                    fontWeight: FontWeight.bold,
+                                    GestureDetector(
+                                      onTap: () {
+                                        controller.setOrderType("type", true, selectAll: true);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                        child: Text(
+                                          "see all".tr,
+                                          style: tt.labelSmall!.copyWith(
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  child: Divider(color: cs.onSurface.withOpacity(0.2)),
+                                ),
+                                controller.recentOrders.isEmpty
+                                    ? Expanded(
+                                        child: Center(
+                                          child: ListView(
+                                            shrinkWrap: true,
+                                            //mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              //Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                              Padding(
+                                                padding: const EdgeInsets.all(4),
+                                                child: Center(
+                                                  child: Text(
+                                                    "no data, pull down to refresh".tr,
+                                                    style: tt.titleSmall!.copyWith(
+                                                      color: cs.onSurface,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    textAlign: TextAlign.center,
                                                   ),
-                                                  textAlign: TextAlign.center,
                                                 ),
                                               ),
-                                            ),
-                                            const SizedBox(height: 72),
-                                          ],
+                                              const SizedBox(height: 72),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    : Expanded(
+                                        child: ListView.builder(
+                                          //physics: NeverScrollableScrollPhysics(),
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                          itemCount: controller.recentOrders.length,
+                                          itemBuilder: (context, i) => OrderCard2(
+                                            order: controller.recentOrders[i],
+                                            isCustomer: true,
+                                            isLast: i == controller.recentOrders.length - 1,
+                                          ),
                                         ),
                                       ),
-                                    )
-                                  : Expanded(
-                                      child: ListView.builder(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                        itemCount: controller.recentOrders.length,
-                                        itemBuilder: (context, i) => OrderCard2(
-                                          order: controller.recentOrders[i],
-                                          isCustomer: true,
-                                          isLast: i == controller.recentOrders.length - 1,
-                                        ),
-                                      ),
-                                    ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

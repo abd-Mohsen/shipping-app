@@ -4,12 +4,16 @@ class CustomButton extends StatelessWidget {
   final void Function()? onTap;
   final Widget child;
   final Color? color;
+  final bool? isShort;
+  final bool? isGradiant;
 
   const CustomButton({
     super.key,
     required this.onTap,
     required this.child,
     this.color,
+    this.isShort,
+    this.isGradiant,
   });
 
   @override
@@ -25,9 +29,17 @@ class CustomButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: color ?? cs.primary,
             borderRadius: BorderRadius.circular(10),
+            gradient: ((isGradiant ?? false) && color != Colors.grey)
+                ? LinearGradient(
+                    colors: [Color.lerp(cs.primary, Colors.white, 0.25)!, cs.primary],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0, 1],
+                  )
+                : null,
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14.0),
+            padding: EdgeInsets.symmetric(vertical: (isShort ?? false) ? 12 : 14.0),
             child: SizedBox(
               width: double.infinity,
               child: child,

@@ -32,7 +32,44 @@ class OrderController extends GetxController {
     isEmployee = await _getStorage.read("role") == "company_employee";
     if (companyHomeController != null || isEmployee) getAvailableVehiclesAndEmployees();
     selectedPayment = order.paymentMethods[0];
+    //
+    mapController = MapController.withPosition(
+      initPosition: GeoPoint(
+        latitude: order.startCoordinates.latitude,
+        longitude: order.startCoordinates.longitude,
+      ),
+    );
+    update();
+    await Future.delayed(Duration(milliseconds: 800));
+    mapController!.addMarker(
+      GeoPoint(
+        latitude: order.startCoordinates.latitude,
+        longitude: order.startCoordinates.longitude,
+      ),
+      markerIcon: const MarkerIcon(
+        icon: Icon(
+          Icons.edit_location_alt_sharp,
+          color: Colors.red,
+          size: 30,
+        ),
+      ),
+    );
+    mapController!.addMarker(
+      GeoPoint(
+        latitude: order.endCoordinates.latitude,
+        longitude: order.endCoordinates.longitude,
+      ),
+      markerIcon: const MarkerIcon(
+        icon: Icon(
+          Icons.location_on,
+          color: Colors.red,
+          size: 30,
+        ),
+      ),
+    );
+    //
     //todo: draw path
+    //todo: connect when button is pressed
     if (customerHomeController != null && ["processing"].contains(order.status)) _connectTrackingSocket();
     super.onInit();
   }
@@ -45,9 +82,8 @@ class OrderController extends GetxController {
 
   void setStatusIndex() {
     if (order.status == "draft") return;
-    if (order.status == "cancelled") {
-      statuses.removeLast();
-      statuses.add("cancelled");
+    if (order.status == "canceled") {
+      statuses.last = "cancelled";
     }
     statusIndex = statuses.indexOf(order.status);
   }
@@ -326,12 +362,7 @@ class OrderController extends GetxController {
 
   //--------------------------------------Real time-----------------------------------
 
-  MapController mapController = MapController.withPosition(
-    initPosition: GeoPoint(
-      latitude: 12.456789,
-      longitude: 8.4737324,
-    ),
-  );
+  MapController? mapController;
 
   late WebSocket websocket;
   bool isTracking = false;
@@ -375,11 +406,11 @@ class OrderController extends GetxController {
     }
     message = jsonDecode(message);
     print("${message["latitude"]}, ${message["longitude"]}");
-    if (currPosition != null) mapController.removeMarker(currPosition!);
+    if (currPosition != null) mapController!.removeMarker(currPosition!);
     currPosition = GeoPoint(latitude: message["latitude"], longitude: message["longitude"]);
-    mapController.moveTo(currPosition!);
+    mapController!.moveTo(currPosition!);
     await Future.delayed(Duration(milliseconds: 800));
-    mapController.addMarker(
+    mapController!.addMarker(
       currPosition!,
       markerIcon: const MarkerIcon(
         icon: Icon(
@@ -390,6 +421,8 @@ class OrderController extends GetxController {
       ),
     );
   }
+
+  //----------------------------------------
 
   Future<void> callPhone(String number) async {
     bool? res = await FlutterPhoneDirectCaller.callNumber(number);

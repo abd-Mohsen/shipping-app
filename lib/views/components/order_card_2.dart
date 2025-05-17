@@ -47,8 +47,8 @@ class OrderCard2 extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 40,
-                        height: 40,
+                        width: 37,
+                        height: 37,
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [Color(0xffD8D8D9), Color(0xffC8C8C8)],
@@ -63,24 +63,24 @@ class OrderCard2 extends StatelessWidget {
                               ? FaIcon(
                                   FontAwesomeIcons.box,
                                   color: cs.onPrimary,
-                                  size: 20,
+                                  size: 18,
                                 )
                               : order.status == "canceled"
                                   ? FaIcon(
                                       FontAwesomeIcons.close,
                                       color: cs.onPrimary,
-                                      size: 20,
+                                      size: 18,
                                     )
                                   : order.status == "processing"
                                       ? FaIcon(
                                           FontAwesomeIcons.truckMoving,
                                           color: cs.onPrimary,
-                                          size: 20,
+                                          size: 18,
                                         )
                                       : FaIcon(
                                           FontAwesomeIcons.clock,
                                           color: cs.onPrimary,
-                                          size: 20,
+                                          size: 18,
                                         ),
                         ),
                       ),
@@ -92,7 +92,7 @@ class OrderCard2 extends StatelessWidget {
                             width: MediaQuery.of(context).size.width / 2.2,
                             child: Text(
                               order.description,
-                              style: tt.labelLarge!.copyWith(color: cs.onSurface),
+                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -106,6 +106,7 @@ class OrderCard2 extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: tt.labelSmall!.copyWith(
                                 color: cs.onSurface.withOpacity(0.5),
+                                fontSize: 10,
                               ),
                             ),
                           ),
@@ -163,18 +164,19 @@ class OrderCard2 extends StatelessWidget {
                           : order.status == "done"
                               ? Color.lerp(Colors.green, Colors.white, 0.15)
                               : order.status == "processing"
-                                  ? Color.lerp(Colors.blue, Colors.white, 0.5)
+                                  ? Color.lerp(Colors.blue, Colors.white, 0.3)
                                   : Color.lerp(Colors.black, Colors.white, 0.55),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                       child: Text(
-                        order.status,
+                        order.status.tr,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: tt.labelSmall!.copyWith(
                           color: Colors.white,
+                          fontSize: 10,
                         ),
                       ),
                     ),

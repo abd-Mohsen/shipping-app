@@ -49,11 +49,11 @@ class CurrOrderCard extends StatelessWidget {
                   children: [
                     Text(
                       "current shipping".tr,
-                      style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                      style: tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
-                Divider(color: cs.onSurface.withOpacity(0.4)),
+                Divider(color: cs.onSurface.withOpacity(0.2)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -82,7 +82,7 @@ class CurrOrderCard extends StatelessWidget {
                               : order!.status == "done"
                                   ? Color.lerp(Colors.green, Colors.white, 0.15)
                                   : order!.status == "processing"
-                                      ? Color.lerp(Colors.blue, Colors.white, 0.5)
+                                      ? Color.lerp(Colors.blue, Colors.white, 0.3)
                                       : Color.lerp(Colors.black, Colors.white, 0.55),
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -94,6 +94,7 @@ class CurrOrderCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: tt.labelSmall!.copyWith(
                               color: Colors.white,
+                              fontSize: 10,
                             ),
                           ),
                         ),
@@ -128,13 +129,13 @@ class CurrOrderCard extends StatelessWidget {
                           backgroundColor: statusIndex >= i ? Color.lerp(cs.primary, Colors.white, 0.1) : Colors.grey,
                           child: FaIcon(
                             stepperIcons[i],
-                            size: 13,
+                            size: statusIndex == i ? 18 : 13,
                             color: Colors.white,
                           ),
                         ),
                         customTitle: Text(
                           orderTypes[i].tr,
-                          style: tt.labelSmall!.copyWith(color: cs.onSurface, fontSize: 10),
+                          style: tt.labelSmall!.copyWith(color: cs.onSurface, fontSize: 9.5),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
@@ -171,6 +172,7 @@ class CurrOrderCard extends StatelessWidget {
                               ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.right,
                             ),
                           ],
                         ),
@@ -198,6 +200,7 @@ class CurrOrderCard extends StatelessWidget {
                               ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
                             ),
                           ],
                         ),

@@ -17,6 +17,7 @@ import 'package:shipment/views/components/time_selector.dart';
 import '../controllers/make_order_controller.dart';
 import 'components/auth_field.dart';
 
+//todo: refactor to use it as edit page
 class MakeOrderView extends StatelessWidget {
   const MakeOrderView({super.key});
 
@@ -40,7 +41,7 @@ class MakeOrderView extends StatelessWidget {
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        backgroundColor: cs.primary,
+        backgroundColor: cs.secondaryContainer,
         title: Text(
           'make an order'.tr,
           style: tt.headlineSmall!.copyWith(color: cs.onPrimary),
@@ -272,7 +273,7 @@ class MakeOrderView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Card(
                           color: cs.secondaryContainer,
-                          elevation: 8,
+                          elevation: 3,
                           child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8),
                               child:
@@ -285,7 +286,7 @@ class MakeOrderView extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Card(
                           color: cs.secondaryContainer,
-                          elevation: 8,
+                          elevation: 3,
                           child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8),
                               child:
@@ -296,7 +297,7 @@ class MakeOrderView extends StatelessWidget {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: controller.isLoadingExtra
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : ExpansionTile(

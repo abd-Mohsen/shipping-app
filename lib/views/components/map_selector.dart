@@ -77,7 +77,7 @@ class _MapSelectorState extends State<MapSelector> {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Material(
-        elevation: 8,
+        elevation: 3,
         color: cs.secondaryContainer,
         borderRadius: BorderRadius.circular(10),
         child: GestureDetector(

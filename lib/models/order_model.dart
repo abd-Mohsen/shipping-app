@@ -28,6 +28,8 @@ class OrderModel {
   final bool ownerApproved;
   final bool driverApproved;
   final List<String> extraInfo;
+  final Coordinates startCoordinates;
+  final Coordinates endCoordinates;
 
   OrderModel({
     required this.id,
@@ -49,10 +51,11 @@ class OrderModel {
     required this.ownerApproved,
     required this.driverApproved,
     required this.extraInfo,
+    required this.startCoordinates,
+    required this.endCoordinates,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
-        //todo
         id: json["id"],
         orderOwner: OrderOwner.fromJson(json["order_owner"]),
         driver: OrderOwner.fromJson(json["driver"]),
@@ -72,6 +75,8 @@ class OrderModel {
         ownerApproved: json["owner_is_approved"],
         driverApproved: json["driver_is_approved"],
         extraInfo: List<String>.from(json["order_extra_info"].map((x) => x)),
+        startCoordinates: Coordinates.fromJson(json["start_coordinates"]),
+        endCoordinates: Coordinates.fromJson(json["end_coordinates"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -195,5 +200,25 @@ class Payment {
         "phone_number": phoneNumber,
         "account_details": accountDetails,
         "info": info,
+      };
+}
+
+class Coordinates {
+  final double latitude;
+  final double longitude;
+
+  Coordinates({
+    required this.latitude,
+    required this.longitude,
+  });
+
+  factory Coordinates.fromJson(Map<String, dynamic> json) => Coordinates(
+        latitude: json["latitude"]?.toDouble() ?? 0.0,
+        longitude: json["longitude"]?.toDouble() ?? 0.0,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "latitude": latitude,
+        "longitude": longitude,
       };
 }

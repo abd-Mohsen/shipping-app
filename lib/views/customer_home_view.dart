@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,10 +39,12 @@ class CustomerHomeView extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
-        if (didPop) {
-          return;
-        }
-        Get.dialog(kCloseAppDialog());
+        if (didPop) return;
+
+        if (hNC.tabIndex != 1) {
+          hNC.changeTab(1);
+        } else
+          Get.dialog(kCloseAppDialog());
       },
       child: SafeArea(
         child: GetBuilder<HomeNavigationController>(builder: (controller) {
@@ -110,7 +113,44 @@ class CustomerHomeView extends StatelessWidget {
                 currentIndex: controller.tabIndex,
               ),
             ),
-            body: tabs[controller.tabIndex],
+            body: ShaderMask(
+              shaderCallback: (Rect rect) {
+                return LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.white],
+                  //set stops as par your requirement
+                  stops: [0.92, 1], // 50% transparent, 50% white
+                ).createShader(rect);
+              },
+              blendMode: BlendMode.dstOut,
+              child: tabs[controller.tabIndex],
+            ),
+            // Stack(
+            //   children: [
+            //     // Main content behind the blur
+            //     tabs[controller.tabIndex],
+            //
+            //     // Positioned blur effect above bottom nav bar
+            //     Positioned(
+            //       bottom: 0, // height of bottom nav bar
+            //       left: 0,
+            //       right: 0,
+            //       child: Padding(
+            //         padding: const EdgeInsets.symmetric(horizontal: 16),
+            //         child: ClipRect(
+            //           child: BackdropFilter(
+            //             filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            //             child: Container(
+            //               height: 20,
+            //               color: Colors.white.withOpacity(0.005), // semi-transparent
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 Get.to(() => const MakeOrderView());
