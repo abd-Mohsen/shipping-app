@@ -207,6 +207,7 @@ class MyLocale extends Translations {
           "see all": "see all",
           "location": "location",
           "orders status": "orders status",
+          "search": "search",
         },
         "ar": {
           "Arabic": "العربية",
@@ -410,6 +411,7 @@ class MyLocale extends Translations {
           "see all": "عرض المزيد",
           "location": "الموقع",
           "orders status": "حالة الطلبيات",
+          "search": "بحث",
         },
       };
 }

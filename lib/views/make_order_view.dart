@@ -44,7 +44,7 @@ class MakeOrderView extends StatelessWidget {
         backgroundColor: cs.secondaryContainer,
         title: Text(
           'make an order'.tr,
-          style: tt.headlineSmall!.copyWith(color: cs.onPrimary),
+          style: tt.headlineSmall!.copyWith(color: cs.onSecondaryContainer),
         ),
         centerTitle: true,
         actions: [

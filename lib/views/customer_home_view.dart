@@ -115,7 +115,7 @@ class CustomerHomeView extends StatelessWidget {
             ),
             body: ShaderMask(
               shaderCallback: (Rect rect) {
-                return LinearGradient(
+                return const LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [Colors.transparent, Colors.white],

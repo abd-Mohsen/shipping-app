@@ -794,19 +794,22 @@ class OrderView extends StatelessWidget {
                                       style: tt.labelMedium!
                                           .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
                                     ),
-                                    content: SizedBox.shrink(),
-                                    subtitle: Text(
-                                      order.endPoint.toString(),
-                                      style: tt.labelMedium!
-                                          .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                    content: SizedBox(
+                                      width: double.infinity,
+                                      height: 0,
                                     ),
+                                    // subtitle: Text(
+                                    //   "",
+                                    //   style: tt.labelMedium!
+                                    //       .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                    // ),
                                   ),
                                 ),
 
                                 onStepTapped: null, // Disables tapping on steps
                                 onStepCancel: null, // Disables cancel action
                                 onStepContinue: null, // Disables continue action
-                                currentStep: 1, // Set to whatever step should appear as "current"
+                                currentStep: 2, // Set to whatever step should appear as "current"
                               ),
                             ],
                           ),

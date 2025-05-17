@@ -16,99 +16,160 @@ class CustomerOrdersTab extends StatelessWidget {
 
     return GetBuilder<CustomerHomeController>(
       builder: (controller) {
-        return Column(
+        return Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 24, bottom: 8),
-              child: Text(
-                "orders".tr,
-                style: tt.titleMedium!.copyWith(color: cs.onSurface),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 3,
+              child: ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  cs.primary.withOpacity(0.7),
+                  BlendMode.srcATop, // Replaces all colors with solid red
+                ),
+                child: Image.asset(
+                  "assets/images/background.jpg",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8, bottom: 4),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height / 14,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                      controller.orderTypes.length,
-                      (i) => GestureDetector(
-                        onTap: () {
-                          controller.setOrderType(controller.orderTypes[i], false);
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: controller.selectedOrderTypes.contains(controller.orderTypes[i])
-                                ? cs.primary
-                                : Colors.grey,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.5),
-                                spreadRadius: 0.5,
-                                blurRadius: 4,
-                                offset: const Offset(-1, 2),
-                              ),
-                            ],
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 36, bottom: 20, left: 20, right: 20),
+                  child: Text(
+                    "orders".tr,
+                    style: tt.headlineSmall!.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 8),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      constraints: BoxConstraints(maxHeight: 50),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: CircleAvatar(
+                          backgroundColor: cs.onPrimary,
+                          foregroundColor: cs.primary,
+                          radius: 10,
+                          child: Icon(
+                            Icons.search,
+                            size: 20,
                           ),
-                          child: Text(controller.orderTypes[i].tr),
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: Color.lerp(cs.primary.withOpacity(0.5), Colors.white, 0.5),
+                      enabledBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 0,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderSide: BorderSide(
+                          width: 0,
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      label: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          "search".tr,
+                          style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Expanded(
-              child: controller.isLoading
-                  ? SpinKitSquareCircle(color: cs.primary)
-                  : Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
-                      child: RefreshIndicator(
-                        onRefresh: controller.refreshOrders,
-                        child: controller.myOrders.isEmpty
-                            ? Center(
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  //mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Lottie.asset("assets/animations/simple truck.json", height: 200),
-                                    Padding(
-                                      padding: const EdgeInsets.all(4),
-                                      child: Center(
-                                        child: Text(
-                                          "no data, pull down to refresh".tr,
-                                          style: tt.titleMedium!.copyWith(
-                                            color: cs.onSurface,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 72),
-                                  ],
-                                ),
-                              )
-                            : Card(
-                                elevation: 5,
-                                color: cs.secondaryContainer,
-                                child: ListView.builder(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                  itemCount: controller.myOrders.length,
-                                  itemBuilder: (context, i) => OrderCard2(
-                                    order: controller.myOrders[i],
-                                    isCustomer: true,
-                                    isLast: i == controller.myOrders.length - 1,
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 12),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height / 14,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(
+                          controller.orderTypes.length,
+                          (i) => GestureDetector(
+                            onTap: () {
+                              controller.setOrderType(controller.orderTypes[i], false);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10),
+                              decoration: BoxDecoration(
+                                color: controller.selectedOrderTypes.contains(controller.orderTypes[i])
+                                    ? cs.primary
+                                    : Colors.grey,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    spreadRadius: 0.5,
+                                    blurRadius: 4,
+                                    offset: const Offset(-1, 2),
                                   ),
-                                ),
+                                ],
                               ),
+                              child: Text(controller.orderTypes[i].tr),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
+                    child: Card(
+                      color: cs.secondaryContainer,
+                      elevation: 5,
+                      child: controller.isLoading
+                          ? SpinKitSquareCircle(color: cs.primary)
+                          : RefreshIndicator(
+                              onRefresh: controller.refreshOrders,
+                              child: controller.myOrders.isEmpty
+                                  ? Center(
+                                      child: ListView(
+                                        shrinkWrap: true,
+                                        //mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                          Padding(
+                                            padding: const EdgeInsets.all(4),
+                                            child: Center(
+                                              child: Text(
+                                                "no data, pull down to refresh".tr,
+                                                style: tt.titleMedium!.copyWith(
+                                                  color: cs.onSurface,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 72),
+                                        ],
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                      itemCount: controller.myOrders.length,
+                                      itemBuilder: (context, i) => OrderCard2(
+                                        order: controller.myOrders[i],
+                                        isCustomer: true,
+                                        isLast: i == controller.myOrders.length - 1,
+                                      ),
+                                    ),
+                            ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         );
