@@ -99,7 +99,7 @@ class CustomerOrdersTab extends StatelessWidget {
                             },
                             child: Container(
                               margin: const EdgeInsets.symmetric(horizontal: 4),
-                              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                               decoration: BoxDecoration(
                                 color: controller.selectedOrderTypes.contains(controller.orderTypes[i])
                                     ? cs.primary
@@ -114,7 +114,10 @@ class CustomerOrdersTab extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              child: Text(controller.orderTypes[i].tr),
+                              child: Text(
+                                controller.orderTypes[i].tr,
+                                style: tt.labelSmall!.copyWith(color: cs.onPrimary),
+                              ),
                             ),
                           ),
                         ),
