@@ -11,6 +11,7 @@ import 'controllers/locale_controller.dart';
 import 'controllers/theme_controller.dart';
 import 'firebase_options.dart';
 import 'locale.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final Api api = Api();
 final NotificationService notificationService = NotificationService();
@@ -27,6 +28,7 @@ void main() async {
   final FirebaseApp app = Firebase.app();
   print('Firebase app name: ${app.name}');
   print('Firebase app options: ${app.options}');
+  await dotenv.load(fileName: ".env");
   notificationService.initNotification();
   await Get.putAsync(() => ScreenService().init());
   runApp(const MyApp());

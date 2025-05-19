@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:shipment/constants.dart';
 import 'package:shipment/models/address_model.dart';
@@ -28,6 +29,8 @@ class RemoteServices {
     "Content-Type": "application/json",
     "sent-from": "mobile",
   };
+
+  final mapApiKey = dotenv.env['LOCATIONIQ_API_KEY'];
 
   static var client = http.Client();
 
