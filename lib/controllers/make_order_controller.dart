@@ -2,12 +2,14 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/extra_info_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
+import 'package:shipment/services/permission_service.dart';
 import 'package:shipment/services/remote_services.dart';
 
 class MakeOrderController extends GetxController {
@@ -15,63 +17,20 @@ class MakeOrderController extends GetxController {
   MakeOrderController({required this.customerHomeController});
 
   @override
-  void onInit() {
+  void onInit() async {
     getPaymentMethods();
     getVehicleTypes();
     getExtraInfo();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        mapController1.listenerMapSingleTapping.addListener(
-          () async {
-            if (startPosition != null) mapController1.removeMarker(startPosition!);
-            startPosition = mapController1.listenerMapSingleTapping.value!;
-            await mapController1.addMarker(
-              startPosition!,
-              markerIcon: const MarkerIcon(
-                icon: Icon(
-                  Icons.location_on,
-                  color: Colors.red,
-                  size: 40,
-                ),
-              ),
-            );
-          },
-        );
-        mapController2.listenerMapSingleTapping.addListener(
-          () async {
-            if (endPosition != null) mapController2.removeMarker(endPosition!);
-            endPosition = mapController2.listenerMapSingleTapping.value!;
-            await mapController2.addMarker(
-              endPosition!,
-              markerIcon: const MarkerIcon(
-                icon: Icon(
-                  Icons.location_on,
-                  color: Colors.red,
-                  size: 40,
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-
+    await PermissionService().requestPermission(Permission.location);
     super.onInit();
   }
 
-  MapController mapController1 = MapController(
-    initMapWithUserPosition: const UserTrackingOption(
-      enableTracking: false,
-      unFollowUser: true,
-    ),
-  );
-
-  MapController mapController2 = MapController(
-    initMapWithUserPosition: const UserTrackingOption(
-      enableTracking: false,
-      unFollowUser: true,
-    ),
-  );
+  void setPosition(GeoPoint? position, bool start) {
+    if (position == null) return;
+    start ? startPosition = position : endPosition = position;
+    start ? calculateStartAddress() : calculateTargetAddress();
+    Get.back();
+  }
 
   GeoPoint? startPosition;
   GeoPoint? endPosition;

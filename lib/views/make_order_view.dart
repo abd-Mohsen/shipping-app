@@ -63,24 +63,16 @@ class MakeOrderView extends StatelessWidget {
                   child: SvgPicture.asset("assets/images/make_order.svg", height: 200),
                 ),
                 MapSelector(
-                  mapController: controller.mapController1,
                   makeOrderController: mOC,
                   start: true,
                   address: controller.sourceAddress?.toString() ?? "select location".tr,
-                  onClose: () {
-                    controller.calculateStartAddress();
-                  },
                   isLoading: controller.isLoadingSelect1,
                   source: "make",
                 ),
                 MapSelector(
-                  mapController: controller.mapController2,
                   makeOrderController: mOC,
                   start: false,
                   address: controller.targetAddress?.toString() ?? "select location".tr,
-                  onClose: () {
-                    controller.calculateTargetAddress();
-                  },
                   isLoading: controller.isLoadingSelect2,
                   source: "make",
                 ),

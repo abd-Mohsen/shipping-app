@@ -8,9 +8,40 @@ import '../services/remote_services.dart';
 import 'package:flutter/material.dart';
 
 class MapSelectorController extends GetxController {
-  MapSelectorController({required this.mapController});
+  @override
+  void onInit() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        mapController.listenerMapSingleTapping.addListener(
+          () async {
+            if (selectedPosition != null) mapController.removeMarker(selectedPosition!);
+            selectedPosition = mapController.listenerMapSingleTapping.value!;
+            await mapController.addMarker(
+              selectedPosition!,
+              markerIcon: const MarkerIcon(
+                icon: Icon(
+                  Icons.location_on,
+                  color: Colors.red,
+                  size: 40,
+                ),
+              ),
+            );
+            update();
+          },
+        );
+      },
+    );
+    super.onInit();
+  }
 
-  MapController mapController;
+  GeoPoint? selectedPosition;
+
+  MapController mapController = MapController(
+    initMapWithUserPosition: const UserTrackingOption(
+      enableTracking: false,
+      unFollowUser: true,
+    ),
+  );
 
   List<LocationSearchModel> searchResults = [];
   int resultIndex = -1;
@@ -57,11 +88,22 @@ class MapSelectorController extends GetxController {
     print("clearee seacrh");
   }
 
-  void traverseSearchResults(bool next) {
+  void traverseSearchResults(bool next) async {
     resultIndex = next ? min(searchResults.length - 1, resultIndex + 1) : max(0, resultIndex - 1);
     print(resultIndex);
     GeoPoint geoPoint = GeoPoint(latitude: searchResults[resultIndex].lat, longitude: searchResults[resultIndex].long);
+    selectedPosition = geoPoint;
     mapController.moveTo(geoPoint);
+    await mapController.addMarker(
+      selectedPosition!,
+      markerIcon: const MarkerIcon(
+        icon: Icon(
+          Icons.location_on,
+          color: Colors.red,
+          size: 40,
+        ),
+      ),
+    );
     update();
   }
 }

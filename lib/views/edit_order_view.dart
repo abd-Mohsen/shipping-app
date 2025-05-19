@@ -20,7 +20,7 @@ class EditOrderView extends StatelessWidget {
   final OrderModel order;
   const EditOrderView({super.key, required this.order});
 
-  //todo: make ui like make_order_view
+  //todo: remove and combine with make order
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
@@ -63,24 +63,16 @@ class EditOrderView extends StatelessWidget {
                 //   child: SvgPicture.asset("assets/images/make_order.svg", height: 200),
                 // ),
                 MapSelector(
-                  mapController: controller.mapController1,
                   editOrderController: eOC,
                   start: true,
                   address: controller.startAddress?.toString() ?? "select location".tr,
-                  onClose: () {
-                    controller.calculateStartAddress();
-                  },
                   isLoading: controller.isLoadingSelect1,
                   source: "edit",
                 ),
                 MapSelector(
-                  mapController: controller.mapController2,
                   editOrderController: eOC,
                   start: false,
                   address: controller.endAddress?.toString() ?? "select location".tr,
-                  onClose: () {
-                    controller.calculateTargetAddress();
-                  },
                   isLoading: controller.isLoadingSelect2,
                   source: "edit",
                 ),

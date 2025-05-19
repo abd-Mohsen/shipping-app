@@ -13,6 +13,7 @@ class AuthField extends StatelessWidget {
     this.suffixIcon,
     required this.validator,
     required this.onChanged,
+    this.onSubmit,
   });
 
   final TextEditingController controller;
@@ -24,6 +25,7 @@ class AuthField extends StatelessWidget {
   final Widget? suffixIcon;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
+  final void Function(String?)? onSubmit;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +75,7 @@ class AuthField extends StatelessWidget {
         style: tt.titleSmall!.copyWith(color: Colors.black),
         validator: validator,
         onChanged: onChanged,
+        onFieldSubmitted: onSubmit,
       ),
     );
   }
