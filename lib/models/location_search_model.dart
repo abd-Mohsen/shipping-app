@@ -22,7 +22,7 @@ class LocationSearchModel {
   factory LocationSearchModel.fromJson(Map<String, dynamic> json) => LocationSearchModel(
         lat: double.parse(json["lat"]),
         long: double.parse(json["lon"]),
-        name: json["name"],
+        name: json["name"] ?? "",
         displayName: json["display_name"],
       );
 

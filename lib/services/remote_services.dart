@@ -30,7 +30,7 @@ class RemoteServices {
     "sent-from": "mobile",
   };
 
-  final mapApiKey = dotenv.env['LOCATIONIQ_API_KEY'];
+  static String? mapApiKey = dotenv.env['LOCATIONIQ_API_KEY'];
 
   static var client = http.Client();
 
@@ -144,7 +144,9 @@ class RemoteServices {
   static Future<LocationModel?> getAddressFromLatLng(double latitude, double longitude) async {
     //todo: handle errors
     String? json = await api.getRequest(
-      'https://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude',
+      //'https://nominatim.openstreetmap.org/reverse?format=json&lat=$latitude&lon=$longitude',
+      "https://us1.locationiq.com/v1/reverse?key=$mapApiKey&lat=$latitude&lon=$longitude&accept-language=ar&format"
+      "=json&",
       toMyServer: false,
       utf8Decode: false,
     );
@@ -156,7 +158,9 @@ class RemoteServices {
   static Future<List<LocationSearchModel>?> getLatLngFromQuery(String query) async {
     //todo: handle errors
     String? json = await api.getRequest(
-      'https://nominatim.openstreetmap.org/search?q=$query&format=json&countrycodes=SY&limit=20',
+      //'https://nominatim.openstreetmap.org/search?q=$query&format=json&countrycodes=SY&limit=20',
+      "https://us1.locationiq.com/v1/search?key=$mapApiKey&q=$query&limit=19&countrycodes=sy"
+      "&normalizeaddress=1&accept-language=ar&format=json&",
       toMyServer: false,
       utf8Decode: false,
     );
