@@ -32,6 +32,13 @@ class CustomerHomeController extends GetxController {
 
   List<String> orderTypes = ["not taken", "taken", "current", "finished"];
 
+  List<IconData> orderIcons = [
+    Icons.done,
+    Icons.watch_later,
+    Icons.local_shipping,
+    Icons.done_all,
+  ];
+
   List<String> selectedOrderTypes = ["current"];
   //String selectedOrderType = "current";
 
