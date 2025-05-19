@@ -47,6 +47,12 @@ class MapSelectorController extends GetxController {
   int resultIndex = -1;
 
   TextEditingController searchQuery = TextEditingController();
+  bool searchEnabled = false;
+
+  void toggleSearchState(bool v) {
+    searchEnabled = v;
+    update();
+  }
 
   bool isMapReady = false;
 
@@ -67,7 +73,8 @@ class MapSelectorController extends GetxController {
     if (searchQuery.text.trim().isEmpty) return;
     toggleLoadingSearch(true);
     List<LocationSearchModel> newItems = await RemoteServices.getLatLngFromQuery(searchQuery.text) ?? [];
-    if (newItems.isNotEmpty) clearSearch();
+    // if (newItems.isNotEmpty)
+    clearSearch();
     searchResults.addAll(newItems);
     toggleLoadingSearch(false);
     if (searchResults.isEmpty) {
@@ -76,9 +83,10 @@ class MapSelectorController extends GetxController {
         duration: const Duration(milliseconds: 6000),
         backgroundColor: Colors.red,
       ));
-    } else {
-      traverseSearchResults(true);
     }
+    // else {
+    //   traverseSearchResults(true);
+    // }
   }
 
   void clearSearch() {
@@ -104,6 +112,24 @@ class MapSelectorController extends GetxController {
         ),
       ),
     );
+    update();
+  }
+
+  void selectSearchResults(LocationSearchModel searchModel) async {
+    GeoPoint geoPoint = GeoPoint(latitude: searchModel.lat, longitude: searchModel.long);
+    selectedPosition = geoPoint;
+    mapController.moveTo(geoPoint);
+    await mapController.addMarker(
+      selectedPosition!,
+      markerIcon: const MarkerIcon(
+        icon: Icon(
+          Icons.location_on,
+          color: Colors.red,
+          size: 40,
+        ),
+      ),
+    );
+    searchEnabled = false;
     update();
   }
 }

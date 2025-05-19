@@ -3,6 +3,8 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/map_selector_controller.dart';
+import 'package:shipment/models/location_search_model.dart';
+import 'package:shipment/views/components/my_search_field.dart';
 import 'auth_field.dart';
 
 class MapSheet extends StatelessWidget {
@@ -38,25 +40,25 @@ class MapSheet extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Text(
-                            "select location".tr,
-                            style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      Divider(color: cs.primary, endIndent: 20, thickness: 2),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       Center(
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(vertical: 12),
+                //           child: Text(
+                //             "select location".tr,
+                //             style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                //           ),
+                //         ),
+                //       ),
+                //       Divider(color: cs.primary, endIndent: 20, thickness: 2),
+                //     ],
+                //   ),
+                // ),
                 Expanded(
                   child: Stack(
                     children: [
@@ -90,107 +92,207 @@ class MapSheet extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                                    child: AuthField(
-                                      controller: controller.searchQuery,
+                                    padding: const EdgeInsets.only(left: 12, right: 12, top: 16),
+                                    child: MySearchField(
                                       label: "search".tr,
-                                      prefixIcon: Icon(Icons.search, color: cs.primary),
-                                      validator: (s) {
-                                        return null;
-                                      },
-                                      onChanged: (s) {},
+                                      textEditingController: controller.searchQuery,
+                                      icon:
+                                          // controller.isLoadingSearch
+                                          //     ? Center(
+                                          //         child: SpinKitFoldingCube(
+                                          //           color: cs.primary,
+                                          //           size: 15,
+                                          //         ),
+                                          //       )
+                                          //     :
+                                          Icon(Icons.search, color: cs.primary),
                                       onSubmit: (s) {
                                         controller.search();
                                       },
+                                      onTapOutside: (x) {
+                                        controller.toggleSearchState(false);
+                                      },
+                                      onTapField: () {
+                                        controller.toggleSearchState(true);
+                                      },
                                     ),
+                                    // AuthField(
+                                    //   controller: controller.searchQuery,
+                                    //   label: "search".tr,
+                                    //   prefixIcon: controller.isLoadingSearch
+                                    //       ? Center(
+                                    //           child: SpinKitFoldingCube(
+                                    //             color: cs.primary,
+                                    //             size: 15,
+                                    //           ),
+                                    //         )
+                                    //       : Icon(Icons.search, color: cs.primary),
+                                    //   validator: (s) {
+                                    //     return null;
+                                    //   },
+                                    //   onChanged: (s) {},
+                                    //   onSubmit: (s) {
+                                    //     controller.search();
+                                    //   },
+                                    // ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 12, right: 4, left: 4),
-                                  child: CircleAvatar(
-                                    child: controller.isLoadingSearch
-                                        ? SpinKitFoldingCube(
-                                            color: cs.onPrimary,
-                                            size: 15,
-                                          )
-                                        : IconButton(
-                                            onPressed: () {
-                                              controller.search();
-                                            },
-                                            icon: Icon(
-                                              Icons.search,
-                                              color: cs.onPrimary,
-                                            ),
-                                          ),
-                                  ),
-                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.only(top: 12, right: 4, left: 4),
+                                //   child: CircleAvatar(
+                                //     child: controller.isLoadingSearch
+                                //         ? SpinKitFoldingCube(
+                                //             color: cs.onPrimary,
+                                //             size: 15,
+                                //           )
+                                //         : IconButton(
+                                //             onPressed: () {
+                                //               controller.search();
+                                //             },
+                                //             icon: Icon(
+                                //               Icons.search,
+                                //               color: cs.onPrimary,
+                                //             ),
+                                //           ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
+                          // Visibility(
+                          //   visible: controller.isMapReady && controller.searchResults.isNotEmpty,
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     children: [
+                          //       Expanded(
+                          //         child: Padding(
+                          //           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          //           child: Material(
+                          //             elevation: 10,
+                          //             borderRadius: BorderRadius.circular(24),
+                          //             child: Container(
+                          //               decoration: BoxDecoration(
+                          //                 color: cs.surface,
+                          //                 borderRadius: BorderRadius.circular(24),
+                          //               ),
+                          //               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          //               child: Text(
+                          //                 controller.resultIndex == -1
+                          //                     ? ""
+                          //                     : controller.searchResults[controller.resultIndex].displayName,
+                          //                 style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                          //                 maxLines: 2,
+                          //                 overflow: TextOverflow.ellipsis,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       Card(
+                          //         elevation: 10,
+                          //         color: cs.surface,
+                          //         child: Row(
+                          //           crossAxisAlignment: CrossAxisAlignment.center,
+                          //           children: [
+                          //             IconButton(
+                          //               onPressed: () {
+                          //                 controller.traverseSearchResults(false);
+                          //               },
+                          //               icon: Icon(
+                          //                 Icons.arrow_left_outlined,
+                          //                 color:
+                          //                     controller.resultIndex == 0 ? cs.onSurface.withOpacity(0.6) : cs.primary,
+                          //               ),
+                          //             ),
+                          //             Text(
+                          //               "${controller.resultIndex + 1} / ${controller.searchResults.length}",
+                          //               style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                          //             ),
+                          //             IconButton(
+                          //               onPressed: () {
+                          //                 controller.traverseSearchResults(true);
+                          //               },
+                          //               icon: Icon(
+                          //                 Icons.arrow_right_outlined,
+                          //                 color: controller.resultIndex == controller.searchResults.length - 1
+                          //                     ? cs.onSurface.withOpacity(0.6)
+                          //                     : cs.primary,
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           Visibility(
-                            visible: controller.isMapReady && controller.searchResults.isNotEmpty,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                    child: Material(
-                                      elevation: 10,
-                                      borderRadius: BorderRadius.circular(24),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: cs.surface,
-                                          borderRadius: BorderRadius.circular(24),
+                            visible: controller.isMapReady && controller.searchEnabled,
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 2,
+                              decoration: BoxDecoration(
+                                color: cs.surface,
+                              ),
+                              margin: const EdgeInsets.only(left: 12, right: 12, top: 2),
+                              padding: const EdgeInsets.only(top: 8),
+                              child: controller.isLoadingSearch
+                                  ? SpinKitFoldingCube(color: cs.primary)
+                                  : controller.searchResults.isEmpty
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(4),
+                                          child: Center(
+                                            child: Text(
+                                              "no data".tr,
+                                              style: tt.titleSmall!.copyWith(
+                                                color: cs.onSurface,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        )
+                                      : ListView.builder(
+                                          itemCount: controller.searchResults.length,
+                                          itemBuilder: (context, i) {
+                                            List<LocationSearchModel> list = controller.searchResults;
+                                            return Column(
+                                              children: [
+                                                ListTile(
+                                                  leading: CircleAvatar(
+                                                    radius: 17,
+                                                    backgroundColor: cs.secondaryContainer,
+                                                    foregroundColor: cs.onSecondaryContainer,
+                                                    child: Icon(Icons.location_on_outlined, size: 20),
+                                                  ),
+                                                  title: Text(
+                                                    list[i].name == "" ? controller.searchQuery.text : list[i].name,
+                                                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                  subtitle: Padding(
+                                                    padding: const EdgeInsets.only(top: 4.0),
+                                                    child: Text(
+                                                      list[i].displayName,
+                                                      style:
+                                                          tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.4)),
+                                                      maxLines: 2,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    controller.selectSearchResults(list[i]);
+                                                  },
+                                                ),
+                                                Divider(
+                                                  thickness: 1,
+                                                  color: cs.onSurface.withOpacity(0.2),
+                                                  indent: 60,
+                                                  endIndent: 0,
+                                                )
+                                              ],
+                                            );
+                                          },
                                         ),
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                        child: Text(
-                                          controller.resultIndex == -1
-                                              ? ""
-                                              : controller.searchResults[controller.resultIndex].displayName,
-                                          style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 10,
-                                  color: cs.surface,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          controller.traverseSearchResults(false);
-                                        },
-                                        icon: Icon(
-                                          Icons.arrow_left_outlined,
-                                          color:
-                                              controller.resultIndex == 0 ? cs.onSurface.withOpacity(0.6) : cs.primary,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${controller.resultIndex + 1} / ${controller.searchResults.length}",
-                                        style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          controller.traverseSearchResults(true);
-                                        },
-                                        icon: Icon(
-                                          Icons.arrow_right_outlined,
-                                          color: controller.resultIndex == controller.searchResults.length - 1
-                                              ? cs.onSurface.withOpacity(0.6)
-                                              : cs.primary,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                         ],
