@@ -19,11 +19,13 @@ class PermissionService {
 
   Future<void> requestPermission(Permission permission) async {
     final status = await permission.status;
-    if (status.isGranted) {
+    print(status.toString());
+    if (status.isGranted || status.isLimited) {
       print("already granted permission");
     } else if (status.isDenied) {
-      await permission.request().isGranted ? print("permission granted") : Get.dialog(permissionDeniedDialog);
+      await permission.request().isGranted ? print("permission granted") : print("permission denied");
     } else {
+      print("permission denied forever");
       if (permission == Permission.location) {
         Get.dialog(permissionDeniedDialog);
       }

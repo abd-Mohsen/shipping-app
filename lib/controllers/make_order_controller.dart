@@ -21,7 +21,7 @@ class MakeOrderController extends GetxController {
     getPaymentMethods();
     getVehicleTypes();
     getExtraInfo();
-    await PermissionService().requestPermission(Permission.location);
+    await PermissionService().requestPermission(Permission.location); //todo: showing even if accepted
     super.onInit();
   }
 
