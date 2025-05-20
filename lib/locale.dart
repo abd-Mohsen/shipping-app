@@ -208,6 +208,9 @@ class MyLocale extends Translations {
           "location": "location",
           "orders status": "orders status",
           "search": "search",
+          "invoice": "invoice",
+          "date": "date",
+          "time": "time",
         },
         "ar": {
           "Arabic": "العربية",
@@ -412,6 +415,9 @@ class MyLocale extends Translations {
           "location": "الموقع",
           "orders status": "حالة الطلبيات",
           "search": "بحث",
+          "invoice": "فاتورة",
+          "date": "تاريخ",
+          "time": "وقت",
         },
       };
 }

@@ -19,126 +19,106 @@ class InvoicesView extends StatelessWidget {
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        backgroundColor: cs.primary,
+        backgroundColor: cs.surface,
         title: Text(
           'payment history'.tr,
-          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+          style: tt.titleMedium!.copyWith(color: cs.onSurface),
         ),
         centerTitle: true,
       ),
-      body: GetBuilder<InvoiceController>(
-        builder: (controller) {
-          return controller.isLoading
-              ? SpinKitSquareCircle(color: cs.primary)
-              : RefreshIndicator(
-                  onRefresh: controller.refreshBankDetails,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Material(
-                                elevation: 5,
-                                borderRadius: BorderRadius.circular(10),
-                                child: ListTile(
-                                  tileColor: cs.secondaryContainer,
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                  leading: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.directions_car_filled_rounded, color: cs.primary, size: 30),
-                                  ),
-                                  title: Text(
-                                    "الرصيد الحالي".tr,
-                                    style: tt.labelSmall!.copyWith(color: cs.onSurface),
-                                  ),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.only(top: 4.0),
-                                    child: Text(
-                                      user.wallet?.balance ?? "x",
-                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                    ),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
-                                      color: cs.surface,
-                                      width: 0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Material(
-                                elevation: 5,
-                                borderRadius: BorderRadius.circular(10),
-                                child: ListTile(
-                                  tileColor: cs.secondaryContainer,
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                  leading: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.checklist_outlined, color: cs.primary, size: 30),
-                                  ),
-                                  title: Text(
-                                    "الرصيد المحفوظ".tr,
-                                    style: tt.labelSmall!.copyWith(color: cs.onSurface),
-                                  ),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.only(top: 4.0),
-                                    child: Text(
-                                      user.wallet?.reservedCommission ?? "x",
-                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                    ),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
-                                      color: cs.surface,
-                                      width: 0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      controller.invoices.isEmpty
-                          ? Expanded(
-                              child: ListView(
-                                shrinkWrap: true,
+      body: ShaderMask(
+        shaderCallback: (Rect rect) {
+          return const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.transparent, Colors.white],
+            //set stops as par your requirement
+            stops: [0.92, 1], // 50% transparent, 50% white
+          ).createShader(rect);
+        },
+        blendMode: BlendMode.dstOut,
+        child: GetBuilder<InvoiceController>(
+          builder: (controller) {
+            return controller.isLoading
+                ? SpinKitSquareCircle(color: cs.primary)
+                : RefreshIndicator(
+                    onRefresh: controller.refreshBankDetails,
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(top: 16, left: 20, right: 20, bottom: 16),
+                          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              //color: cs.primary,
+                              gradient: LinearGradient(
+                                colors: [Color.lerp(cs.primary, Colors.white, 0.2)!, cs.primary],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                stops: [0, 1],
+                              )),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Lottie.asset("assets/animations/simple truck.json", height: 200),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                                    child: Center(
-                                      child: Text(
-                                        "no data, pull down to refresh".tr,
-                                        style:
-                                            tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
+                                  Text(
+                                    "الرصيد الحالي".tr,
+                                    style: tt.labelMedium!.copyWith(color: cs.onPrimary),
                                   ),
+                                  if (user.wallet != null)
+                                    Text(
+                                      "${"reserved".tr}:  ${user.wallet!.reservedCommission}",
+                                      style: tt.labelSmall!.copyWith(color: cs.onPrimary),
+                                    ),
                                 ],
                               ),
-                            )
-                          : Expanded(
-                              child: ListView.builder(
-                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                                itemCount: controller.invoices.length,
-                                itemBuilder: (context, i) => InvoiceCard(
-                                  invoice: controller.invoices[i],
+                              SizedBox(height: 12),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4.0),
+                                child: Text(
+                                  "${user.wallet?.balance ?? "x"}\$",
+                                  style: tt.headlineLarge!.copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
                                 ),
                               ),
-                            ),
-                    ],
-                  ),
-                );
-        },
+                            ],
+                          ),
+                        ),
+                        controller.invoices.isEmpty
+                            ? Expanded(
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  children: [
+                                    Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                                      child: Center(
+                                        child: Text(
+                                          "no data, pull down to refresh".tr,
+                                          style: tt.titleMedium!
+                                              .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Expanded(
+                                child: ListView.builder(
+                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                                  itemCount: controller.invoices.length,
+                                  itemBuilder: (context, i) => InvoiceCard(
+                                    invoice: controller.invoices[i],
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
+                  );
+          },
+        ),
       ),
     );
   }
