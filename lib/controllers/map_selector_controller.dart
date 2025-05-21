@@ -124,7 +124,7 @@ class MapSelectorController extends GetxController {
       markerIcon: const MarkerIcon(
         icon: Icon(
           Icons.location_on,
-          color: Colors.red,
+          color: Color(0xFFFF0000),
           size: 40,
         ),
       ),

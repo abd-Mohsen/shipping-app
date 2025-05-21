@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/map_selector_controller.dart';
 import 'package:shipment/models/location_search_model.dart';
 import 'package:shipment/views/components/my_search_field.dart';
-import 'auth_field.dart';
 
 class MapSheet extends StatelessWidget {
   final void Function()? onTapMyAddresses;
@@ -73,24 +72,32 @@ class MapSheet extends StatelessWidget {
                           ).createShader(rect);
                         },
                         blendMode: BlendMode.dstOut,
-                        child: OSMFlutter(
-                          controller: controller.mapController,
-                          mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                          onMapIsReady: (v) {
-                            controller.setIsMapReady(true);
-                          },
-                          osmOption: OSMOption(
-                            isPicker: true,
-                            userLocationMarker: UserLocationMaker(
-                              personMarker: MarkerIcon(
-                                icon: Icon(Icons.person, color: cs.primary, size: 40),
+                        child: ColorFiltered(
+                          colorFilter: const ColorFilter.matrix([
+                            0.8, 0.1, 0.1, 0, 0, // Red channel (80% red, 10% green/blue)
+                            0.1, 0.8, 0.1, 0, 0, // Green channel
+                            0.1, 0.1, 0.8, 0, 0, // Blue channel
+                            0, 0, 0, 1, 0, // Alpha (unchanged)
+                          ]),
+                          child: OSMFlutter(
+                            controller: controller.mapController,
+                            mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+                            onMapIsReady: (v) {
+                              controller.setIsMapReady(true);
+                            },
+                            osmOption: OSMOption(
+                              isPicker: true,
+                              userLocationMarker: UserLocationMaker(
+                                personMarker: MarkerIcon(
+                                  icon: Icon(Icons.person, color: cs.primary, size: 40),
+                                ),
+                                directionArrowMarker: MarkerIcon(
+                                  icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                                ),
                               ),
-                              directionArrowMarker: MarkerIcon(
-                                icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                              zoomOption: const ZoomOption(
+                                initZoom: 16,
                               ),
-                            ),
-                            zoomOption: const ZoomOption(
-                              initZoom: 16,
                             ),
                           ),
                         ),
