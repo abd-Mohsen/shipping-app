@@ -11,7 +11,7 @@ class InvoiceModel {
   final int id;
   final String amount;
   final DateTime paymentDate;
-  final BranchModel branch;
+  final BranchModel? branch;
 
   InvoiceModel({
     required this.id,
@@ -24,13 +24,13 @@ class InvoiceModel {
         id: json["id"],
         amount: json["amount"],
         paymentDate: DateTime.parse(json["payment_date"]),
-        branch: BranchModel.fromJson(json["branch"]),
+        branch: json["branch"] == null ? null : BranchModel.fromJson(json["branch"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "amount": amount,
         "payment_date": paymentDate.toIso8601String(),
-        "branch": branch.toJson(),
+        "branch": branch!.toJson(),
       };
 }

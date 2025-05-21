@@ -53,7 +53,7 @@ class InvoiceCard extends StatelessWidget {
                 style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
-                invoice.branch.name,
+                invoice.branch?.name ?? "paid by bank transfer".tr,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
@@ -84,7 +84,7 @@ class InvoiceCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 12),
+                            padding: const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 10),
                             child: Text(
                               "${"invoice".tr} #${invoice.id}",
                               style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
@@ -102,17 +102,38 @@ class InvoiceCard extends StatelessWidget {
                               Expanded(
                                 child: InvoiceDetailsTile(
                                   title: "date".tr,
-                                  subtitle:
-                                      "${Jiffy.parseFromDateTime(invoice.paymentDate).format(pattern: "d / M / y")}"
-                                      "  ${Jiffy.parseFromDateTime(invoice.paymentDate).jm}",
+                                  subtitle: Jiffy.parseFromDateTime(invoice.paymentDate).format(pattern: "d / M / y"),
                                 ),
                               ),
                               Expanded(
-                                child: InvoiceDetailsTile(title: "price".tr, subtitle: invoice.amount),
+                                child: InvoiceDetailsTile(
+                                  title: "time".tr,
+                                  subtitle: Jiffy.parseFromDateTime(invoice.paymentDate).jm,
+                                ),
                               ),
                             ],
                           ),
-                          InvoiceDetailsTile(title: "address".tr, subtitle: invoice.branch.address.toString()),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: InvoiceDetailsTile(
+                                  title: "paid amount".tr,
+                                  subtitle: invoice.amount,
+                                ),
+                              ),
+                              Expanded(
+                                child: InvoiceDetailsTile(
+                                  title: "branch name".tr,
+                                  subtitle: invoice.branch?.name ?? "paid by bank transfer".tr,
+                                ),
+                              ),
+                            ],
+                          ),
+                          if (invoice.branch != null)
+                            InvoiceDetailsTile(
+                              title: "branch address".tr,
+                              subtitle: invoice.branch?.address.toString() ?? "",
+                            ),
                         ],
                       ),
                     ),
@@ -232,7 +253,7 @@ class InvoiceDetailsTile extends StatelessWidget {
           Text(
             title,
             style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.start,
           ),
           const SizedBox(height: 8),
           Text(
@@ -240,7 +261,7 @@ class InvoiceDetailsTile extends StatelessWidget {
             // "  ${Jiffy.parseFromDateTime(invoice.paymentDate).jm}",
             subtitle,
             style: tt.labelMedium!.copyWith(color: cs.onSurface),
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.start,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

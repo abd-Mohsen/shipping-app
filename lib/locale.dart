@@ -211,6 +211,11 @@ class MyLocale extends Translations {
           "invoice": "invoice",
           "date": "date",
           "time": "time",
+          "price": "price",
+          "paid amount": "paid amount",
+          "branch name": "branch name",
+          "branch address": "branch address",
+          "paid by bank transfer": "paid by bank transfer",
         },
         "ar": {
           "Arabic": "العربية",
@@ -418,6 +423,11 @@ class MyLocale extends Translations {
           "invoice": "فاتورة",
           "date": "تاريخ",
           "time": "وقت",
+          "price": "price",
+          "paid amount": "القيمة المدفوعة",
+          "branch name": "اسم الفرع",
+          "branch address": "عنوان الفرع",
+          "paid by bank transfer": "دفع عن طريق تحويل بنكي",
         },
       };
 }
