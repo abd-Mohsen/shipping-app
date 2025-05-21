@@ -15,50 +15,68 @@ class NotificationsView extends StatelessWidget {
 
     NotificationsController nC = Get.find();
 
-    return Scaffold(
-      backgroundColor: cs.surface,
-      appBar: AppBar(
-        backgroundColor: cs.primary,
-        title: Text(
-          'my notifications'.tr.toUpperCase(),
-          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
-        ),
-        centerTitle: true,
-      ),
-      body: GetBuilder<NotificationsController>(
-        builder: (controller) {
-          return controller.isLoading
-              ? SpinKitSquareCircle(color: cs.primary)
-              : RefreshIndicator(
-                  onRefresh: controller.refreshNotifications,
-                  child: controller.allNotifications.isEmpty
-                      ? Center(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              Lottie.asset("assets/animations/Notification.json", height: 200),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 32),
-                                child: Center(
-                                  child: Text(
-                                    "no data, pull down to refresh".tr,
-                                    style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: cs.surface,
+        // appBar: AppBar(
+        //   backgroundColor: cs.primary,
+        //   title: Text(
+        //     'my notifications'.tr.toUpperCase(),
+        //     style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+        //   ),
+        //   centerTitle: true,
+        // ),
+        body: GetBuilder<NotificationsController>(
+          builder: (controller) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12, top: 32, bottom: 16),
+                  child: Text(
+                    'my notifications'.tr.toUpperCase(),
+                    style: tt.headlineSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: controller.isLoading
+                      ? SpinKitSquareCircle(color: cs.primary)
+                      : RefreshIndicator(
+                          onRefresh: controller.refreshNotifications,
+                          child: controller.allNotifications.isEmpty
+                              ? Center(
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    children: [
+                                      Lottie.asset("assets/animations/Notification.json", height: 200),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                                        child: Center(
+                                          child: Text(
+                                            "no data, pull down to refresh".tr,
+                                            style: tt.titleMedium!
+                                                .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  itemCount: controller.allNotifications.length,
+                                  itemBuilder: (context, i) => NotificationCard(
+                                    notification: controller.allNotifications[i],
+                                    isLast: i == controller.allNotifications.length - 1,
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                          itemCount: controller.allNotifications.length,
-                          itemBuilder: (context, i) => NotificationCard(
-                            notification: controller.allNotifications[i],
-                          ),
                         ),
-                );
-        },
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

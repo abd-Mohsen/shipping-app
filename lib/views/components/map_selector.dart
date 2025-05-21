@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/edit_order_controller.dart';
 import 'package:shipment/controllers/make_order_controller.dart';
 import 'package:shipment/views/components/map_sheet.dart';
@@ -71,23 +74,25 @@ class MapSelector extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         child: GestureDetector(
           onTap: () {
-            showModalBottomSheet(
+            showMaterialModalBottomSheet(
               context: context,
               enableDrag: false,
-              isScrollControlled: true,
-              //clipBehavior: Clip.hardEdge,
-              builder: (context) => MapSheet(
-                onDone: makeOrderController!.setPosition, // todo: handle for register
-                onTapMyAddresses: () {
-                  Get.to(
-                    () => MyAddressesView(
-                      makeOrderController: makeOrderController,
-                      editOrderController: editOrderController,
-                      isStart: start,
-                    ),
-                  );
-                },
-                start: start,
+              //isScrollControlled: true,
+              builder: (context) => BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: MapSheet(
+                  onDone: makeOrderController!.setPosition, // todo: handle for register
+                  onTapMyAddresses: () {
+                    Get.to(
+                      () => MyAddressesView(
+                        makeOrderController: makeOrderController,
+                        editOrderController: editOrderController,
+                        isStart: start,
+                      ),
+                    );
+                  },
+                  start: start,
+                ),
               ),
             );
             //.whenComplete(makeOrderController!.setPosition);

@@ -5,10 +5,12 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class NotificationCard extends StatelessWidget {
   final NotificationModel notification;
+  final bool isLast;
 
   const NotificationCard({
     super.key,
     required this.notification,
+    required this.isLast,
   });
 
   @override
@@ -20,32 +22,36 @@ class NotificationCard extends StatelessWidget {
       onTap: () {
         //Get.to(() => OrderView(order: notification, isCustomer: isCustomer));
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Material(
-          borderRadius: BorderRadius.circular(20),
-          elevation: 5,
-          //color: cs.secondary,
-          child: Container(
-            padding: const EdgeInsets.all(12),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              border: Border.all(
-                color: cs.surface,
-                width: 0.5,
-              ),
+              // border: Border.all(
+              //   color: cs.surface,
+              //   width: 0.5,
+              // ),
               borderRadius: BorderRadius.circular(20),
-              color: cs.secondaryContainer,
+              color: cs.surface,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(width: 8),
+                if (notification.isRead) const SizedBox(width: 4),
+                if (!notification.isRead)
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      radius: 4,
+                      backgroundColor: Color(0xff00ff00),
+                    ),
+                  ),
                 Icon(
                   Icons.notifications_active,
                   color: cs.primary,
                   size: 35,
                 ),
-                const SizedBox(width: 24),
+                const SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -53,24 +59,24 @@ class NotificationCard extends StatelessWidget {
                       width: MediaQuery.of(context).size.width / 2,
                       child: Text(
                         notification.title,
-                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 5,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 4),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.6,
                       child: Text(
                         notification.content,
                         maxLines: 10,
                         overflow: TextOverflow.ellipsis,
-                        style: tt.titleSmall!.copyWith(
+                        style: tt.labelMedium!.copyWith(
                           color: cs.onSurface.withOpacity(0.5),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 4),
                     // SizedBox(
                     //   width: MediaQuery.of(context).size.width / 2.5,
                     //   child: Text(
@@ -87,7 +93,7 @@ class NotificationCard extends StatelessWidget {
                       width: MediaQuery.of(context).size.width / 2.5,
                       child: Text(
                         timeago.format(notification.timestamp, locale: 'en_short'),
-                        style: tt.titleSmall!.copyWith(
+                        style: tt.labelMedium!.copyWith(
                           color: cs.onSurface.withOpacity(0.8),
                         ),
                         overflow: TextOverflow.ellipsis,
@@ -99,7 +105,13 @@ class NotificationCard extends StatelessWidget {
               ],
             ),
           ),
-        ),
+          if (!isLast)
+            Divider(
+              thickness: 0.8,
+              color: cs.onSurface.withOpacity(0.2),
+              indent: 12,
+            )
+        ],
       ),
     );
   }

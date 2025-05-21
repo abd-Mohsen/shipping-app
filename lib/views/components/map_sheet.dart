@@ -62,24 +62,36 @@ class MapSheet extends StatelessWidget {
                 Expanded(
                   child: Stack(
                     children: [
-                      OSMFlutter(
-                        controller: controller.mapController,
-                        mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                        onMapIsReady: (v) {
-                          controller.setIsMapReady(true);
+                      ShaderMask(
+                        shaderCallback: (Rect rect) {
+                          return const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.transparent, Colors.white],
+                            //set stops as par your requirement
+                            stops: [0.90, 1], // 50% transparent, 50% white
+                          ).createShader(rect);
                         },
-                        osmOption: OSMOption(
-                          isPicker: true,
-                          userLocationMarker: UserLocationMaker(
-                            personMarker: MarkerIcon(
-                              icon: Icon(Icons.person, color: cs.primary, size: 40),
+                        blendMode: BlendMode.dstOut,
+                        child: OSMFlutter(
+                          controller: controller.mapController,
+                          mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+                          onMapIsReady: (v) {
+                            controller.setIsMapReady(true);
+                          },
+                          osmOption: OSMOption(
+                            isPicker: true,
+                            userLocationMarker: UserLocationMaker(
+                              personMarker: MarkerIcon(
+                                icon: Icon(Icons.person, color: cs.primary, size: 40),
+                              ),
+                              directionArrowMarker: MarkerIcon(
+                                icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                              ),
                             ),
-                            directionArrowMarker: MarkerIcon(
-                              icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                            zoomOption: const ZoomOption(
+                              initZoom: 16,
                             ),
-                          ),
-                          zoomOption: const ZoomOption(
-                            initZoom: 16,
                           ),
                         ),
                       ),
@@ -299,34 +311,36 @@ class MapSheet extends StatelessWidget {
                       ),
                       Positioned(
                         bottom: 0,
+                        right: 0,
+                        child: Visibility(
+                          visible: controller.selectedPosition != null,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                            child: FloatingActionButton(
+                              onPressed: () {
+                                onDone(controller.selectedPosition!, start);
+                              },
+                              foregroundColor: cs.onPrimary,
+                              backgroundColor: Colors.green,
+                              child: Icon(Icons.check),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
                         left: 0,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                          child: Column(
-                            children: [
-                              Visibility(
-                                visible: controller.selectedPosition != null,
-                                child: FloatingActionButton(
-                                  onPressed: () {
-                                    onDone(controller.selectedPosition!, start);
-                                  },
-                                  foregroundColor: cs.onPrimary,
-                                  backgroundColor: Colors.green,
-                                  child: Icon(Icons.check),
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              FloatingActionButton(
-                                onPressed: onTapMyAddresses,
-                                foregroundColor: cs.onPrimary,
-                                backgroundColor: cs.primary,
-                                child: Icon(Icons.location_on_outlined),
-                                // Text(
-                                //   "select from my addresses".tr.toUpperCase(),
-                                //   style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                // ),
-                              ),
-                            ],
+                          child: FloatingActionButton(
+                            onPressed: onTapMyAddresses,
+                            foregroundColor: cs.onPrimary,
+                            backgroundColor: cs.primary,
+                            child: Icon(Icons.location_on_outlined),
+                            // Text(
+                            //   "select from my addresses".tr.toUpperCase(),
+                            //   style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                            // ),
                           ),
                         ),
                       ),
