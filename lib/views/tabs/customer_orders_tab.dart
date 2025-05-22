@@ -139,18 +139,24 @@ class CustomerOrdersTab extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: List.generate(
-                          controller.orderTypes.length,
+                          controller.orderTypes.length + 1,
                           (i) => GestureDetector(
                             onTap: () {
-                              controller.setOrderType(controller.orderTypes[i], false);
+                              i == controller.orderTypes.length
+                                  ? controller.setOrderType("type", true, selectAll: true)
+                                  : controller.setOrderType(controller.orderTypes[i], false);
                             },
                             child: Container(
                               margin: const EdgeInsets.symmetric(horizontal: 4),
                               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                               decoration: BoxDecoration(
-                                color: controller.selectedOrderTypes.contains(controller.orderTypes[i])
-                                    ? cs.primary
-                                    : Colors.transparent,
+                                color: i == controller.orderTypes.length
+                                    ? controller.selectedOrderTypes.length == controller.orderTypes.length
+                                        ? cs.primary
+                                        : Colors.transparent
+                                    : controller.selectedOrderTypes.contains(controller.orderTypes[i])
+                                        ? cs.primary
+                                        : Colors.transparent,
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
                                   color: cs.onSurface.withOpacity(0.2),
@@ -167,20 +173,25 @@ class CustomerOrdersTab extends StatelessWidget {
                               ),
                               child: Row(
                                 children: [
-                                  Icon(
-                                    controller.orderIcons[i],
-                                    color: controller.selectedOrderTypes.contains(controller.orderTypes[i])
-                                        ? cs.onPrimary
-                                        : cs.primary,
-                                    size: 16,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    controller.orderTypes[i].tr,
-                                    style: tt.labelSmall!.copyWith(
+                                  if (i != controller.orderTypes.length)
+                                    Icon(
+                                      controller.orderIcons[i],
                                       color: controller.selectedOrderTypes.contains(controller.orderTypes[i])
                                           ? cs.onPrimary
                                           : cs.primary,
+                                      size: 16,
+                                    ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    i == controller.orderTypes.length ? "all".tr : controller.orderTypes[i].tr,
+                                    style: tt.labelSmall!.copyWith(
+                                      color: i == controller.orderTypes.length
+                                          ? controller.selectedOrderTypes.length == controller.orderTypes.length
+                                              ? cs.onPrimary
+                                              : cs.primary
+                                          : controller.selectedOrderTypes.contains(controller.orderTypes[i])
+                                              ? cs.onPrimary
+                                              : cs.primary,
                                       fontSize: 10,
                                     ),
                                   ),

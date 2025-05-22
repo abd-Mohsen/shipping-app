@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:shipment/controllers/edit_order_controller.dart';
 import 'package:shipment/controllers/make_order_controller.dart';
 import 'package:shipment/controllers/my_addresses_controller.dart';
 import 'package:get/get.dart';
@@ -9,12 +8,10 @@ import 'package:shipment/views/components/address_card.dart';
 
 class MyAddressesView extends StatelessWidget {
   final MakeOrderController? makeOrderController;
-  final EditOrderController? editOrderController;
   final bool? isStart;
   const MyAddressesView({
     super.key,
     this.makeOrderController,
-    this.editOrderController,
     this.isStart,
   });
 
@@ -25,9 +22,8 @@ class MyAddressesView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
     MyAddressesController mAC = Get.put(MyAddressesController(
       makeOrderController: makeOrderController,
-      editOrderController: editOrderController,
     ));
-    bool selectionMode = makeOrderController != null || editOrderController != null;
+    bool selectionMode = makeOrderController != null;
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
@@ -38,7 +34,7 @@ class MyAddressesView extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      floatingActionButton: makeOrderController == null && editOrderController == null
+      floatingActionButton: makeOrderController == null
           ? GetBuilder<MyAddressesController>(
               builder: (controller) {
                 return FloatingActionButton(
@@ -101,13 +97,14 @@ class MyAddressesView extends StatelessWidget {
                           } else {
                             makeOrderController!.selectEndAddress(controller.myAddresses[i]);
                           }
-                        } else if (editOrderController != null) {
-                          if (isStart!) {
-                            editOrderController!.selectStartAddress(controller.myAddresses[i]);
-                          } else {
-                            editOrderController!.selectEndAddress(controller.myAddresses[i]);
-                          }
                         }
+                        // else if (editOrderController != null) {
+                        //   if (isStart!) {
+                        //     editOrderController!.selectStartAddress(controller.myAddresses[i]);
+                        //   } else {
+                        //     editOrderController!.selectEndAddress(controller.myAddresses[i]);
+                        //   }
+                        // }
                       },
                     ),
                   ),

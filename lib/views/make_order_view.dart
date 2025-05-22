@@ -33,7 +33,7 @@ class MakeOrderView extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     CustomerHomeController cHC = Get.find();
-    MakeOrderController mOC = Get.put(MakeOrderController(customerHomeController: cHC));
+    MakeOrderController mOC = Get.put(MakeOrderController(customerHomeController: cHC, order: order));
 
     OutlineInputBorder border({Color? color, double width = 0.5}) {
       return OutlineInputBorder(
@@ -48,10 +48,10 @@ class MakeOrderView extends StatelessWidget {
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        backgroundColor: cs.secondaryContainer,
+        backgroundColor: cs.surface,
         title: Text(
           edit ? 'edit order'.tr : 'make an order'.tr,
-          style: tt.headlineSmall!.copyWith(color: cs.onSecondaryContainer),
+          style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
@@ -72,14 +72,16 @@ class MakeOrderView extends StatelessWidget {
                 MapSelector(
                   makeOrderController: mOC,
                   start: true,
-                  address: controller.sourceAddress?.toString() ?? "select location".tr,
+                  address: controller.sourceAddress,
+                  selectedPoint: controller.startPosition,
                   isLoading: controller.isLoadingSelect1,
                   source: edit ? "edit" : "make",
                 ),
                 MapSelector(
                   makeOrderController: mOC,
                   start: false,
-                  address: controller.targetAddress?.toString() ?? "select location".tr,
+                  address: controller.targetAddress,
+                  selectedPoint: controller.endPosition,
                   isLoading: controller.isLoadingSelect2,
                   source: edit ? "edit" : "make",
                 ),
@@ -341,7 +343,7 @@ class MakeOrderView extends StatelessWidget {
                 CustomButton(
                   onTap: () {
                     //print(GetStorage().read("token"));
-                    // todo edit ? controller.editOrder() : controller.makeOrder();
+                    edit ? controller.editOrder() : controller.makeOrder();
                   },
                   child: Center(
                     child: controller.isLoading

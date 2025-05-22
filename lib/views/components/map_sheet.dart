@@ -3,6 +3,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/map_selector_controller.dart';
+import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/location_search_model.dart';
 import 'package:shipment/views/components/my_search_field.dart';
 
@@ -15,12 +16,14 @@ class MapSheet extends StatelessWidget {
   // final bool isMapReady;
   //final TextEditingController searchQuery;
   final bool start;
+  final GeoPoint? selectedPoint;
 
   const MapSheet({
     super.key,
     this.onTapMyAddresses,
     required this.onDone,
     required this.start,
+    this.selectedPoint,
   });
 
   // todo: if location is selected, mark it when opening
@@ -31,7 +34,7 @@ class MapSheet extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     return GetBuilder<MapSelectorController>(
-        init: MapSelectorController(),
+        init: MapSelectorController(selectedPosition: selectedPoint),
         builder: (controller) {
           return Container(
             height: MediaQuery.of(context).size.height / 1.2,

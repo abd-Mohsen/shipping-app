@@ -23,9 +23,10 @@ class MakeOrderController extends GetxController {
   @override
   void onInit() async {
     await getPaymentMethods();
+    await getExtraInfo();
     await getVehicleTypes();
-    getExtraInfo();
-    await PermissionService().requestPermission(Permission.location); //todo: showing even if accepted
+    if (order != null) prePopulate();
+    await PermissionService().requestPermission(Permission.location); //todo: showing even if accepted (if only 1 time)
     super.onInit();
   }
 
@@ -35,12 +36,10 @@ class MakeOrderController extends GetxController {
   LocationModel? sourceLocation;
   LocationModel? targetLocation;
 
-  AddressModel? startAddress;
-  AddressModel? endAddress;
-
   void prePopulate() {
-    startAddress = order!.startPoint;
-    endAddress = order!.endPoint;
+    //todo: payments and car not getting pre populated properly
+    sourceAddress = order!.startPoint;
+    targetAddress = order!.endPoint;
     description.text = order!.description;
     price.text = order!.price.toString();
     weight.text = order!.weight;
@@ -51,7 +50,7 @@ class MakeOrderController extends GetxController {
     DateTime orderDate = order!.dateTime;
     selectedDate = orderDate;
     selectedTime = TimeOfDay(hour: orderDate.hour, minute: orderDate.minute);
-    //coveredCar = order.withCover;
+    prePopulateExtraInfo();
     update();
   }
 
@@ -210,7 +209,7 @@ class MakeOrderController extends GetxController {
     toggleLoadingVehicle(false);
   }
 
-  void getExtraInfo() async {
+  Future getExtraInfo() async {
     toggleLoadingExtra(true);
     ExtraInfoModel? newItem = await RemoteServices.fetchOrdersExtraInfo();
     if (newItem != null) {
@@ -240,6 +239,12 @@ class MakeOrderController extends GetxController {
       if (extraInfoSelection[i]) res.add(extraInfo[i]);
     }
     return res;
+  }
+
+  prePopulateExtraInfo() {
+    for (int i = 0; i < extraInfo.length; i++) {
+      if (order!.extraInfo.contains(extraInfo[i])) extraInfoSelection[i] = true;
+    }
   }
 
   void makeOrder() async {
@@ -323,7 +328,7 @@ class MakeOrderController extends GetxController {
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
-    if (startAddress == null || endAddress == null) {
+    if (sourceAddress == null || targetAddress == null) {
       Get.showSnackbar(GetSnackBar(
         message: "pick positions first".tr,
         duration: const Duration(milliseconds: 2500),
@@ -366,8 +371,8 @@ class MakeOrderController extends GetxController {
     Map<String, dynamic> newOrder = {
       "discription": description.text,
       "type_vehicle": selectedVehicleType?.id,
-      "start_point": [startAddress!.toJson()],
-      "end_point": [endAddress!.toJson()],
+      "start_point": [sourceAddress!.toJson()],
+      "end_point": [targetAddress!.toJson()],
       "weight": weight.text,
       "price": int.parse(price.text),
       "DateTime": desiredDate.toIso8601String(),

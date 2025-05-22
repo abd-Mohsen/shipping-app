@@ -1,20 +1,21 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:shipment/controllers/edit_order_controller.dart';
 import 'package:shipment/controllers/make_order_controller.dart';
+import 'package:shipment/models/address_model.dart';
 import 'package:shipment/views/components/map_sheet.dart';
 
 import '../my_addresses_view.dart';
 
 class MapSelector extends StatelessWidget {
   final MakeOrderController? makeOrderController;
-  final EditOrderController? editOrderController;
   final bool start;
-  final String address;
+  final AddressModel? address;
+  final GeoPoint? selectedPoint;
   final bool isLoading;
   final String source;
   const MapSelector({
@@ -24,7 +25,7 @@ class MapSelector extends StatelessWidget {
     required this.isLoading,
     required this.source,
     this.makeOrderController,
-    this.editOrderController,
+    required this.selectedPoint,
   });
 
   // List<LocationSearchModel> searchResults = [];
@@ -86,12 +87,12 @@ class MapSelector extends StatelessWidget {
                     Get.to(
                       () => MyAddressesView(
                         makeOrderController: makeOrderController,
-                        editOrderController: editOrderController,
                         isStart: start,
                       ),
                     );
                   },
                   start: start,
+                  selectedPoint: selectedPoint,
                 ),
               ),
             );
@@ -127,16 +128,13 @@ class MapSelector extends StatelessWidget {
                         ? SpinKitThreeBounce(color: cs.primary, size: 22)
                         : SizedBox(
                             width: MediaQuery.of(context).size.width / 1.6,
-                            child: Directionality(
-                              textDirection: (address == "select location") ? TextDirection.ltr : TextDirection.rtl,
-                              child: Text(
-                                address,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: tt.titleSmall!.copyWith(
-                                  color: address == "select location".tr ? cs.primary : cs.onSurface.withOpacity(0.5),
-                                  fontWeight: address == "select location".tr ? FontWeight.bold : FontWeight.normal,
-                                ),
+                            child: Text(
+                              address?.toString() ?? "select location".tr,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: tt.titleSmall!.copyWith(
+                                color: address == null ? cs.primary : cs.onSurface.withOpacity(0.5),
+                                fontWeight: address == null ? FontWeight.bold : FontWeight.normal,
                               ),
                             ),
                           ),

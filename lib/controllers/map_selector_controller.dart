@@ -8,6 +8,8 @@ import '../services/remote_services.dart';
 import 'package:flutter/material.dart';
 
 class MapSelectorController extends GetxController {
+  MapSelectorController({required this.selectedPosition});
+
   @override
   void onInit() {
     WidgetsBinding.instance.addPostFrameCallback(
@@ -58,6 +60,22 @@ class MapSelectorController extends GetxController {
 
   void setIsMapReady(bool v) {
     isMapReady = v;
+
+    if (isMapReady && selectedPosition != null) {
+      print(selectedPosition);
+      mapController.moveTo(selectedPosition!);
+      mapController.addMarker(
+        selectedPosition!,
+        markerIcon: const MarkerIcon(
+          icon: Icon(
+            Icons.location_on,
+            color: Colors.red,
+            size: 40,
+          ),
+        ),
+      );
+    }
+
     print("map is reay");
     update();
   }
@@ -93,7 +111,6 @@ class MapSelectorController extends GetxController {
     searchResults.clear();
     resultIndex = -1;
     update();
-    print("clearee seacrh");
   }
 
   void traverseSearchResults(bool next) async {
