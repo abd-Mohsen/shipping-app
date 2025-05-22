@@ -134,6 +134,7 @@ class InvoiceCard extends StatelessWidget {
                               title: "branch address".tr,
                               subtitle: invoice.branch?.address.toString() ?? "",
                             ),
+                          //todo: add button to close
                         ],
                       ),
                     ),

@@ -13,13 +13,20 @@ import 'package:shipment/views/components/date_selector.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
 import 'package:shipment/views/components/time_selector.dart';
-
+import 'package:badges/badges.dart' as bdg;
 import '../controllers/make_order_controller.dart';
+import '../models/order_model.dart';
 import 'components/auth_field.dart';
 
 //todo: refactor to use it as edit page
 class MakeOrderView extends StatelessWidget {
-  const MakeOrderView({super.key});
+  final bool edit;
+  final OrderModel? order;
+  const MakeOrderView({
+    super.key,
+    required this.edit,
+    this.order,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,7 @@ class MakeOrderView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: cs.secondaryContainer,
         title: Text(
-          'make an order'.tr,
+          edit ? 'edit order'.tr : 'make an order'.tr,
           style: tt.headlineSmall!.copyWith(color: cs.onSecondaryContainer),
         ),
         centerTitle: true,
@@ -67,14 +74,14 @@ class MakeOrderView extends StatelessWidget {
                   start: true,
                   address: controller.sourceAddress?.toString() ?? "select location".tr,
                   isLoading: controller.isLoadingSelect1,
-                  source: "make",
+                  source: edit ? "edit" : "make",
                 ),
                 MapSelector(
                   makeOrderController: mOC,
                   start: false,
                   address: controller.targetAddress?.toString() ?? "select location".tr,
                   isLoading: controller.isLoadingSelect2,
-                  source: "make",
+                  source: edit ? "edit" : "make",
                 ),
                 const SizedBox(height: 8),
                 Padding(
@@ -268,8 +275,21 @@ class MakeOrderView extends StatelessWidget {
                           elevation: 3,
                           child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child:
-                                  DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate)),
+                              child: bdg.Badge(
+                                showBadge: edit && order!.dateTime.isBefore(DateTime.now()),
+                                position: bdg.BadgePosition.topStart(),
+                                // smallSize: 10,
+                                // backgroundColor: const Color(0xff00ff00),
+                                // alignment: Alignment.topRight,
+                                // offset: const Offset(-5, -5),
+                                badgeStyle: bdg.BadgeStyle(
+                                  shape: bdg.BadgeShape.circle,
+                                  badgeColor: const Color(0xff00ff00),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child:
+                                    DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
+                              )),
                         ),
                       ),
                     ),
@@ -321,13 +341,13 @@ class MakeOrderView extends StatelessWidget {
                 CustomButton(
                   onTap: () {
                     //print(GetStorage().read("token"));
-                    controller.makeOrder();
+                    // todo edit ? controller.editOrder() : controller.makeOrder();
                   },
                   child: Center(
                     child: controller.isLoading
                         ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                         : Text(
-                            "make order".tr.toUpperCase(),
+                            edit ? "edit order".tr.toUpperCase() : "make order".tr.toUpperCase(),
                             style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                           ),
                   ),

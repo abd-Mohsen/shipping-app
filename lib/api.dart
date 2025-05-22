@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'constants.dart';
 
 //todo find a way to cancel all running requests after logging out
+//todo handle handshake exception when ssl is expired
 class Api {
   var client = http.Client();
   final String _hostIP = "$kHostIP/en/api";

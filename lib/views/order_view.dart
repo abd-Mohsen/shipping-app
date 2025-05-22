@@ -15,10 +15,10 @@ import 'package:shipment/models/order_model.dart';
 import 'package:shipment/models/vehicle_model.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/mini_order_card.dart';
-import 'package:shipment/views/edit_order_view.dart';
 
 import 'components/auth_field.dart';
 import 'components/input_field.dart';
+import 'make_order_view.dart';
 
 class OrderView extends StatelessWidget {
   //todo: show payment methods
@@ -101,7 +101,7 @@ class OrderView extends StatelessWidget {
           if (isCustomer && ["draft", "available"].contains(order.status))
             IconButton(
               onPressed: () {
-                Get.to(() => EditOrderView(order: order));
+                Get.to(() => MakeOrderView(edit: true, order: order));
               },
               icon: order.dateTime.isBefore(DateTime.now())
                   ? const Badge(

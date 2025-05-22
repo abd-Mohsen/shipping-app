@@ -176,7 +176,7 @@ class CustomerHomeView extends StatelessWidget {
             // ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                Get.to(() => const MakeOrderView());
+                Get.to(() => const MakeOrderView(edit: false));
               },
               foregroundColor: cs.onPrimary,
               child: Icon(Icons.add, color: cs.onPrimary),

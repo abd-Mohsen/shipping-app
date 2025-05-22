@@ -3,12 +3,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
-import '../components/order_card_2.dart';
 import '../components/order_card_3.dart';
 
 class CustomerOrdersTab extends StatelessWidget {
   const CustomerOrdersTab({super.key});
 
+  //todo: add "all" tag
   @override
   Widget build(BuildContext context) {
     CustomerHomeController hC = Get.find();

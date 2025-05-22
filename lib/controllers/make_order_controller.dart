@@ -12,17 +12,47 @@ import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:shipment/services/permission_service.dart';
 import 'package:shipment/services/remote_services.dart';
 
+import '../models/order_model.dart';
+
 class MakeOrderController extends GetxController {
   CustomerHomeController customerHomeController;
-  MakeOrderController({required this.customerHomeController});
+  OrderModel? order;
+
+  MakeOrderController({required this.customerHomeController, this.order});
 
   @override
   void onInit() async {
-    getPaymentMethods();
-    getVehicleTypes();
+    await getPaymentMethods();
+    await getVehicleTypes();
     getExtraInfo();
     await PermissionService().requestPermission(Permission.location); //todo: showing even if accepted
     super.onInit();
+  }
+
+  GeoPoint? startPosition;
+  GeoPoint? endPosition;
+
+  LocationModel? sourceLocation;
+  LocationModel? targetLocation;
+
+  AddressModel? startAddress;
+  AddressModel? endAddress;
+
+  void prePopulate() {
+    startAddress = order!.startPoint;
+    endAddress = order!.endPoint;
+    description.text = order!.description;
+    price.text = order!.price.toString();
+    weight.text = order!.weight;
+    otherInfo.text = order!.otherInfo ?? "";
+    selectedVehicleType = order!.typeVehicle;
+    List currentPaymentMethodsIDs = order!.paymentMethods.map((p) => p.payment.methodName).toList();
+    paymentMethodController.selectWhere((item) => currentPaymentMethodsIDs.contains(item.value.name));
+    DateTime orderDate = order!.dateTime;
+    selectedDate = orderDate;
+    selectedTime = TimeOfDay(hour: orderDate.hour, minute: orderDate.minute);
+    //coveredCar = order.withCover;
+    update();
   }
 
   void setPosition(GeoPoint? position, bool start) {
@@ -31,12 +61,6 @@ class MakeOrderController extends GetxController {
     start ? calculateStartAddress() : calculateTargetAddress();
     Get.back();
   }
-
-  GeoPoint? startPosition;
-  GeoPoint? endPosition;
-
-  LocationModel? sourceLocation;
-  LocationModel? targetLocation;
 
   AddressModel? sourceAddress;
   AddressModel? targetAddress;
@@ -172,14 +196,14 @@ class MakeOrderController extends GetxController {
     update();
   }
 
-  void getPaymentMethods() async {
+  Future getPaymentMethods() async {
     toggleLoadingPayment(true);
     List<PaymentMethodModel> newPaymentMethods = await RemoteServices.fetchPaymentMethods() ?? [];
     paymentMethods.addAll(newPaymentMethods);
     toggleLoadingPayment(false);
   }
 
-  void getVehicleTypes() async {
+  Future getVehicleTypes() async {
     toggleLoadingVehicle(true);
     List<VehicleTypeModel> newItems = await RemoteServices.fetchVehicleType() ?? [];
     vehicleTypes.addAll(newItems);
@@ -288,6 +312,79 @@ class MakeOrderController extends GetxController {
       Get.back();
       Get.showSnackbar(GetSnackBar(
         message: "order added successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoading(false);
+  }
+
+  void editOrder() async {
+    if (isLoading || isLoadingVehicle || isLoadingPayment) return;
+    buttonPressed = true;
+    bool valid = formKey.currentState!.validate();
+    if (!valid) return;
+    if (startAddress == null || endAddress == null) {
+      Get.showSnackbar(GetSnackBar(
+        message: "pick positions first".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      return;
+    }
+    List<String> syriaNames = ["sy", "syria", "سوريا"];
+    if ((sourceLocation != null && !syriaNames.contains(sourceLocation!.country)) ||
+        (targetLocation != null && !syriaNames.contains(targetLocation!.country))) {
+      Get.showSnackbar(GetSnackBar(
+        message: "pick a position in syria".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      return;
+    }
+    if (selectedDate == null || selectedTime == null) {
+      Get.showSnackbar(GetSnackBar(
+        message: "pick a date and time first".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    DateTime desiredDate = DateTime(
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      selectedTime!.hour,
+      selectedTime!.minute,
+    );
+    DateTime thresholdDate = DateTime.now().add(const Duration(hours: 1));
+    print(desiredDate.toIso8601String());
+    print(thresholdDate.toIso8601String());
+    if (desiredDate.isBefore(thresholdDate)) {
+      Get.showSnackbar(GetSnackBar(
+        message: "pick a time at least 1 hr from now".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      return;
+    }
+    toggleLoading(true);
+    Map<String, dynamic> newOrder = {
+      "discription": description.text,
+      "type_vehicle": selectedVehicleType?.id,
+      "start_point": [startAddress!.toJson()],
+      "end_point": [endAddress!.toJson()],
+      "weight": weight.text,
+      "price": int.parse(price.text),
+      "DateTime": desiredDate.toIso8601String(),
+      "with_cover": coveredCar,
+      "other_info": otherInfo.text == "" ? null : otherInfo.text,
+      "payment_methods": formatPayment(),
+    };
+    print(newOrder);
+
+    bool success = await RemoteServices.editOrder(newOrder, order!.id);
+
+    if (success) {
+      customerHomeController.refreshOrders();
+      Get.back();
+      Get.back();
+      Get.showSnackbar(GetSnackBar(
+        message: "order edited successfully".tr,
         duration: const Duration(milliseconds: 2500),
       ));
     }

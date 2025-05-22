@@ -23,6 +23,8 @@ class MapSheet extends StatelessWidget {
     required this.start,
   });
 
+  // todo: if location is selected, mark it when opening
+
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
@@ -249,6 +251,7 @@ class MapSheet extends StatelessWidget {
                             child: Container(
                               height: MediaQuery.of(context).size.height / 2,
                               decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
                                 color: cs.surface,
                               ),
                               margin: const EdgeInsets.only(left: 12, right: 12, top: 2),
