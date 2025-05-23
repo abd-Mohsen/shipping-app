@@ -73,68 +73,107 @@ class InvoiceCard extends StatelessWidget {
                   builder: (context) => BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                     child: Container(
-                      height: MediaQuery.of(context).size.height / 2.5,
+                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                      height: MediaQuery.of(context).size.height / 2.2,
                       decoration: BoxDecoration(
-                          color: cs.surface,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          )),
+                        color: cs.surface,
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 10),
-                            child: Text(
-                              "${"invoice".tr} #${invoice.id}",
-                              style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Divider(
-                            thickness: 1,
-                            color: cs.onSurface.withOpacity(0.2),
-                            indent: 20,
-                            endIndent: 60,
-                          ),
-                          Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Expanded(
-                                child: InvoiceDetailsTile(
-                                  title: "date".tr,
-                                  subtitle: Jiffy.parseFromDateTime(invoice.paymentDate).format(pattern: "d / M / y"),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 10),
+                                child: Text(
+                                  "${"invoice".tr} #${invoice.id}",
+                                  style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
-                              Expanded(
-                                child: InvoiceDetailsTile(
-                                  title: "time".tr,
-                                  subtitle: Jiffy.parseFromDateTime(invoice.paymentDate).jm,
-                                ),
+                              Divider(
+                                thickness: 1,
+                                color: cs.onSurface.withOpacity(0.2),
+                                indent: 20,
+                                endIndent: 60,
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: InvoiceDetailsTile(
-                                  title: "paid amount".tr,
-                                  subtitle: invoice.amount,
+                          //
+                          Expanded(
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: InvoiceDetailsTile(
+                                            title: "date".tr,
+                                            subtitle: Jiffy.parseFromDateTime(invoice.paymentDate)
+                                                .format(pattern: "d / M / y"),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: InvoiceDetailsTile(
+                                            title: "time".tr,
+                                            subtitle: Jiffy.parseFromDateTime(invoice.paymentDate).jm,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: InvoiceDetailsTile(
+                                            title: "paid amount".tr,
+                                            subtitle: invoice.amount,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: InvoiceDetailsTile(
+                                            title: "branch name".tr,
+                                            subtitle: invoice.branch?.name ?? "paid by bank transfer".tr,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    if (invoice.branch != null)
+                                      InvoiceDetailsTile(
+                                        title: "branch address".tr,
+                                        subtitle: invoice.branch?.address.toString() ?? "",
+                                      ),
+                                  ],
                                 ),
                               ),
-                              Expanded(
-                                child: InvoiceDetailsTile(
-                                  title: "branch name".tr,
-                                  subtitle: invoice.branch?.name ?? "paid by bank transfer".tr,
-                                ),
-                              ),
-                            ],
-                          ),
-                          if (invoice.branch != null)
-                            InvoiceDetailsTile(
-                              title: "branch address".tr,
-                              subtitle: invoice.branch?.address.toString() ?? "",
                             ),
-                          //todo: add button to close and padding to the sheet
+                          ),
+                          //
+                          GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: cs.primary,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "ok".tr,
+                                  style: tt.labelMedium!.copyWith(color: cs.onPrimary),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
