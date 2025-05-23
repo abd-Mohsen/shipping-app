@@ -30,7 +30,8 @@ class DriverHomeController extends GetxController {
     //dont show error msgs for below requests
     getGovernorates();
     getCurrentOrders();
-    getHistoryOrders();
+    getRecentOrders();
+    //getHistoryOrders();
     super.onInit();
   }
 
@@ -94,15 +95,23 @@ class DriverHomeController extends GetxController {
   }
 
   void getRecentOrders() async {
+    //todo:pagination
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled"];
-    List<OrderModel> newProcessingOrders = await RemoteServices.fetchCustomerOrders(["processing"]) ?? [];
-    List<OrderModel> newOrders = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
+    List<OrderModel> newProcessingOrders = await RemoteServices.fetchDriverOrders(null, ["processing"]) ?? [];
+    List<OrderModel> newOrders = await RemoteServices.fetchDriverOrders(null, typesToFetch) ?? [];
     recentOrders.addAll(newProcessingOrders);
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
     //currentOrder = newOrders.first;
     toggleLoadingRecent(false);
+    //
+    if (currentOrder != null) trackingID = currentOrder!.id;
+    print("tracking order with ID ${trackingID.toString()}");
+    if (trackingID != 0) {
+      _connectTrackingSocket();
+    }
+    //
   }
 
   Future<void> refreshRecentOrders() async {

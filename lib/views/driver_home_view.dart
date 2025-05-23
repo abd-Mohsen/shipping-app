@@ -31,10 +31,12 @@ class DriverHomeView extends StatelessWidget {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
-        if (didPop) {
-          return;
-        }
-        Get.dialog(kCloseAppDialog());
+        if (didPop) return;
+
+        if (hNC.tabIndex != 1) {
+          hNC.changeTab(1);
+        } else
+          Get.dialog(kCloseAppDialog());
       },
       child: GetBuilder<HomeNavigationController>(
         init: HomeNavigationController(),
