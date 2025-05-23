@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
-import 'package:shipment/views/components/selection_circle.dart';
 import 'package:shipment/views/components/user_profile_tile.dart';
 import '../components/order_card_2.dart';
 
@@ -358,7 +357,7 @@ class DriverHomeTab extends StatelessWidget {
             //   ),
             // ),
             controller.isLoadingRecent
-                ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                ? SpinKitThreeBounce(color: cs.surface, size: 20)
                 : CurrOrderCard(order: controller.currentOrder),
             SizedBox(
               height: MediaQuery.of(context).size.height / 1.5,

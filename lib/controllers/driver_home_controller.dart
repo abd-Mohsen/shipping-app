@@ -361,7 +361,7 @@ class DriverHomeController extends GetxController {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        setTrackingStatus("location permission is denied");
+        setTrackingStatus("location permission is denied"); //todo: ask for permission and localize
         return;
       }
     }

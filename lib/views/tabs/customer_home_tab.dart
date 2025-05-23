@@ -319,7 +319,7 @@ class CustomerHomeTab extends StatelessWidget {
             //   ),
             // ),
             controller.isLoadingRecent
-                ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                ? SpinKitThreeBounce(color: cs.surface, size: 20)
                 : CurrOrderCard(order: controller.currentOrder),
             SizedBox(
               height: MediaQuery.of(context).size.height / 1.5,

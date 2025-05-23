@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shipment/controllers/make_order_controller.dart';
@@ -27,12 +28,20 @@ class MyAddressesView extends StatelessWidget {
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        backgroundColor: cs.primary,
-        title: Text(
-          selectionMode ? "select an address".tr : 'my addresses'.tr,
-          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+        backgroundColor: cs.surface,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent, // Add this line
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: cs.surface, // Match your AppBar
         ),
         centerTitle: true,
+        title: Text(
+          selectionMode ? "select an address".tr : 'my addresses'.tr,
+          style: tt.titleMedium!.copyWith(
+            color: cs.onSurface,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       floatingActionButton: makeOrderController == null
           ? GetBuilder<MyAddressesController>(

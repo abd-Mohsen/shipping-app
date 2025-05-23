@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 //todo take data from api
@@ -13,12 +14,20 @@ class AboutUsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
-        backgroundColor: cs.primary,
-        title: Text(
-          'About app'.tr,
-          style: tt.headlineSmall!.copyWith(color: cs.onPrimary),
+        backgroundColor: cs.surface,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent, // Add this line
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: cs.surface, // Match your AppBar
         ),
         centerTitle: true,
+        title: Text(
+          'About app'.tr,
+          style: tt.titleMedium!.copyWith(
+            color: cs.onSurface,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: ListView(
         children: [

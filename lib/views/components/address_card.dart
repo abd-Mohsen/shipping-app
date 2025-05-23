@@ -42,7 +42,7 @@ class AddressCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
             color: cs.onSurface,
-            width: 1,
+            width: 0.5,
           ),
         ),
         trailing: selectMode
