@@ -6,12 +6,9 @@ import 'package:shipment/controllers/home_navigation_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/views/edit_profile_view.dart';
 import 'package:shipment/views/tabs/driver_explore_tab.dart';
-import 'package:shipment/views/tabs/driver_history_tab.dart';
+import 'package:shipment/views/tabs/driver_orders_tab.dart';
 import 'package:shipment/views/tabs/driver_home_tab.dart';
-
 import '../constants.dart';
-import '../controllers/locale_controller.dart';
-import '../controllers/theme_controller.dart';
 import 'components/my_drawer.dart';
 
 class DriverHomeView extends StatelessWidget {
@@ -20,12 +17,13 @@ class DriverHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(NotificationsController());
-    DriverHomeController hC = Get.put(DriverHomeController());
+    HomeNavigationController hNC = Get.put(HomeNavigationController());
+    DriverHomeController hC = Get.put(DriverHomeController(homeNavigationController: hNC));
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
-      const DriverHistoryTab(),
+      const DriverOrdersTab(),
       const DriverHomeTab(),
       const DriverExploreTab(),
     ];

@@ -147,6 +147,7 @@ class MyDrawer extends StatelessWidget {
                                                 style: tt.titleSmall!.copyWith(color: cs.primary),
                                                 overflow: TextOverflow.ellipsis,
                                               ),
+                                              const SizedBox(height: 4),
                                               Text(
                                                 "دمشق, ركن الدين, صلاح الدين",
                                                 style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.4)),
@@ -201,6 +202,7 @@ class MyDrawer extends StatelessWidget {
                 //     },
                 //   ),
                 // ),
+                const SizedBox(height: 4),
                 Visibility(
                   visible: role == "customer",
                   child: DrawerCard(

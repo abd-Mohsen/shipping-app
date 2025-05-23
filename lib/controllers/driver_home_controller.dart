@@ -14,10 +14,14 @@ import '../services/remote_services.dart';
 import '../views/login_view.dart';
 import '../views/otp_view.dart';
 import 'complete_account_controller.dart';
+import 'home_navigation_controller.dart';
 import 'login_controller.dart';
 import 'otp_controller.dart';
 
 class DriverHomeController extends GetxController {
+  HomeNavigationController homeNavigationController;
+  DriverHomeController({required this.homeNavigationController});
+
   @override
   onInit() async {
     isEmployee = await _getStorage.read("role") == "company_employee";
@@ -33,6 +37,76 @@ class DriverHomeController extends GetxController {
   final GetStorage _getStorage = GetStorage();
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  //
+  List<OrderModel> myOrders = [];
+
+  List<OrderModel> recentOrders = [];
+
+  List<String> orderTypes = ["taken", "current", "finished"];
+
+  List<IconData> orderIcons = [
+    Icons.watch_later,
+    Icons.local_shipping,
+    Icons.done_all,
+  ];
+
+  List<String> selectedOrderTypes = ["current"];
+  //String selectedOrderType = "current";
+
+  OrderModel? currentOrder;
+
+  void setOrderType(String? type, bool clear, {bool selectAll = false}) {
+    if (type == null) return;
+    if (clear) {
+      selectedOrderTypes.clear();
+      homeNavigationController.changeTab(0);
+    }
+    if (selectAll) {
+      selectedOrderTypes.length == orderTypes.length
+          ? selectedOrderTypes.clear()
+          : selectedOrderTypes = List.from(orderTypes);
+    } else {
+      selectedOrderTypes.contains(type) ? selectedOrderTypes.remove(type) : selectedOrderTypes.add(type);
+    }
+    refreshOrders();
+  }
+
+  void getMyOrders() async {
+    //todo:pagination
+    toggleLoading(true);
+    List<String> typesToFetch = [];
+    //if (selectedOrderTypes.contains("not taken")) typesToFetch.addAll(["available", "draft"]);
+    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved"]);
+    if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
+    if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
+    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(null, typesToFetch) ?? [];
+    myOrders.addAll(newItems);
+    toggleLoading(false);
+  }
+
+  Future<void> refreshOrders() async {
+    myOrders.clear();
+    getMyOrders();
+  }
+
+  void getRecentOrders() async {
+    toggleLoadingRecent(true);
+    List<String> typesToFetch = ["pending", "done", "canceled"];
+    List<OrderModel> newProcessingOrders = await RemoteServices.fetchCustomerOrders(["processing"]) ?? [];
+    List<OrderModel> newOrders = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
+    recentOrders.addAll(newProcessingOrders);
+    recentOrders.addAll(newOrders);
+    if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
+    //currentOrder = newOrders.first;
+    toggleLoadingRecent(false);
+  }
+
+  Future<void> refreshRecentOrders() async {
+    recentOrders.clear();
+    getRecentOrders();
+  }
+  //
 
   bool isEmployee = false;
 
@@ -57,10 +131,9 @@ class DriverHomeController extends GetxController {
     update();
   }
 
-  bool _isLoadingHistory = false;
-  bool get isLoadingHistory => _isLoadingHistory;
-  void toggleLoadingHistory(bool value) {
-    _isLoadingHistory = value;
+  bool isLoadingRecent = false;
+  void toggleLoadingRecent(bool value) {
+    isLoadingRecent = value;
     update();
   }
 
@@ -85,8 +158,7 @@ class DriverHomeController extends GetxController {
     update();
   }
 
-  UserModel? _currentUser;
-  UserModel? get currentUser => _currentUser;
+  UserModel? currentUser;
 
   List<GovernorateModel> governorates = [];
   GovernorateModel? selectedGovernorate;
@@ -143,12 +215,12 @@ class DriverHomeController extends GetxController {
 
   void getHistoryOrders() async {
     //todo: implement pagination
-    toggleLoadingHistory(true);
+    toggleLoadingRecent(true);
     List<OrderModel> newItems = isEmployee
         ? await RemoteServices.fetchCompanyOrders(null, ["processing"]) ?? [] //todo: make it done
         : await RemoteServices.fetchDriverOrders(null, ["done"]) ?? [];
     historyOrders.addAll(newItems);
-    toggleLoadingHistory(false);
+    toggleLoadingRecent(false);
     //
     if (historyOrders.isNotEmpty && isEmployee)
       trackingID = historyOrders.where((order) => order.status == "processing").first.id;
@@ -179,24 +251,24 @@ class DriverHomeController extends GetxController {
 
   Future<void> getCurrentUser({bool refresh = false}) async {
     toggleLoadingUser(true);
-    _currentUser = await RemoteServices.fetchCurrentUser();
+    currentUser = await RemoteServices.fetchCurrentUser();
     /*
       'Pending', 'Verified', 'Refused', 'No_Input',
     */
-    if (!refresh && _currentUser != null) {
-      if (!isEmployee && _currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
+    if (!refresh && currentUser != null) {
+      if (!isEmployee && currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
         Get.to(() => const MyVehiclesView());
         Get.showSnackbar(GetSnackBar(
           message: "you need to add a car to use the app".tr,
           duration: const Duration(milliseconds: 6000),
         ));
       }
-      if (_currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+      if (currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
         CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
         Get.to(const CompleteAccountView());
       }
-      if (!_currentUser!.isVerified) {
-        Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
+      if (!currentUser!.isVerified) {
+        Get.put(OTPController(currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));
       }
     }
@@ -394,4 +466,4 @@ class DriverHomeController extends GetxController {
   }
 }
 
-//todo: i get mapController error sometimes (maybe after logging in from other user)?
+//todo: i get mapController error sometimes (editing map before its ready)

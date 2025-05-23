@@ -3,37 +3,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shipment/controllers/customer_home_controller.dart';
+import 'package:shipment/controllers/driver_home_controller.dart';
 import '../components/order_card_3.dart';
 
-class CustomerOrdersTab extends StatelessWidget {
-  const CustomerOrdersTab({super.key});
+class DriverOrdersTab extends StatelessWidget {
+  const DriverOrdersTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    CustomerHomeController hC = Get.find();
+    DriverHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    return GetBuilder<CustomerHomeController>(
+    return GetBuilder<DriverHomeController>(
       builder: (controller) {
         return Stack(
           children: [
-            // SizedBox(
-            //   height: MediaQuery.of(context).size.height / 3,
-            //   child: ColorFiltered(
-            //     colorFilter: ColorFilter.mode(
-            //       cs.primary.withOpacity(0.7),
-            //       BlendMode.srcATop, // Replaces all colors with solid red
-            //     ),
-            //     child: Image.asset(
-            //       "assets/images/background.jpg",
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
             Column(
-              //crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -248,7 +234,7 @@ class CustomerOrdersTab extends StatelessWidget {
                                     itemCount: controller.myOrders.length,
                                     itemBuilder: (context, i) => OrderCard3(
                                       order: controller.myOrders[i],
-                                      isCustomer: true,
+                                      isCustomer: false,
                                       isLast: i == controller.myOrders.length - 1,
                                     ),
                                   ),
@@ -263,16 +249,3 @@ class CustomerOrdersTab extends StatelessWidget {
     );
   }
 }
-
-// Padding(
-//   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-//   child: CustomDropdown(
-//     title: "order type".tr,
-//     items: controller.orderTypes,
-//     onSelect: (String? type) {
-//       controller.setOrderType(type);
-//     },
-//     selectedValue: controller.selectedOrderType,
-//     icon: Icons.filter_list,
-//   ),
-// ),
