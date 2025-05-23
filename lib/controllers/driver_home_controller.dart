@@ -39,6 +39,9 @@ class DriverHomeController extends GetxController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   //
+  TextEditingController searchQuery1 = TextEditingController();
+  TextEditingController searchQuery2 = TextEditingController();
+
   List<OrderModel> myOrders = [];
 
   List<OrderModel> recentOrders = [];

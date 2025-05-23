@@ -219,6 +219,7 @@ class MyLocale extends Translations {
           "you have": "you have",
           "unread notification": "unread notification",
           "today": "today",
+          "canceled": "canceled",
         },
         "ar": {
           "Arabic": "العربية",
@@ -434,6 +435,7 @@ class MyLocale extends Translations {
           "you have": "عندك",
           "unread notification": "اشعارات غير مقروءة",
           "today": "اليوم",
+          "canceled": "ملغي",
         },
       };
 }

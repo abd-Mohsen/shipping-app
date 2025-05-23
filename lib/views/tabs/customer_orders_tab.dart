@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
+import '../components/my_search_field.dart';
 import '../components/order_card_3.dart';
 
 class CustomerOrdersTab extends StatelessWidget {
@@ -86,57 +87,11 @@ class CustomerOrdersTab extends StatelessWidget {
                 //   ],
                 // ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 8),
-                  child: Material(
-                    elevation: 2,
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        constraints: BoxConstraints(maxHeight: 50),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          // child: CircleAvatar(
-                          //   backgroundColor: cs.onPrimary,
-                          //   foregroundColor: cs.primary,
-                          //   radius: 10,
-                          //   child: Icon(
-                          //     Icons.search,
-                          //     size: 20,
-                          //   ),
-                          // ),
-                          child: Icon(
-                            Icons.search,
-                            size: 30,
-                            color: cs.primary,
-                          ),
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        filled: true,
-                        //fillColor: Color.lerp(cs.primary.withOpacity(0.5), Colors.white, 0.5),
-                        fillColor: cs.secondaryContainer,
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          borderSide: BorderSide(
-                            width: 0,
-                            color: Colors.transparent,
-                          ),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          borderSide: BorderSide(
-                            width: 0,
-                            color: Colors.transparent,
-                          ),
-                        ),
-                        label: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            "search".tr,
-                            style: tt.titleSmall!.copyWith(color: cs.onSecondaryContainer),
-                          ),
-                        ),
-                      ),
-                    ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                  child: MySearchField(
+                    label: "search".tr,
+                    textEditingController: controller.searchQuery,
+                    icon: Icon(Icons.search, color: cs.primary),
                   ),
                 ),
                 Padding(

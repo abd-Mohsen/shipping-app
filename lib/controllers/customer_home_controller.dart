@@ -26,6 +26,8 @@ class CustomerHomeController extends GetxController {
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+  TextEditingController searchQuery = TextEditingController();
+
   List<OrderModel> myOrders = [];
 
   List<OrderModel> recentOrders = [];

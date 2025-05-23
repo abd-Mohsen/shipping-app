@@ -57,7 +57,7 @@ class MySearchField extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               label,
-              style: tt.titleSmall!.copyWith(color: cs.onSecondaryContainer.withOpacity(0.5)),
+              style: tt.titleSmall!.copyWith(color: cs.onSecondaryContainer.withOpacity(0.6)),
             ),
           ),
         ),
