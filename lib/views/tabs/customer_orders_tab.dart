@@ -143,7 +143,7 @@ class CustomerOrdersTab extends StatelessWidget {
                           (i) => GestureDetector(
                             onTap: () {
                               i == controller.orderTypes.length
-                                  ? controller.setOrderType("type", true, selectAll: true)
+                                  ? controller.setOrderType("type", false, selectAll: true)
                                   : controller.setOrderType(controller.orderTypes[i], false);
                             },
                             child: Container(

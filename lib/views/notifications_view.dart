@@ -38,6 +38,25 @@ class NotificationsView extends StatelessWidget {
                     style: tt.headlineSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 16),
+                  child: Row(
+                    children: [
+                      Text(
+                        "${'you have'.tr} ",
+                        style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                      ),
+                      Text(
+                        '${3} ${"unread notification".tr} ', //todo: add the legit number
+                        style: tt.titleSmall!.copyWith(color: cs.primary),
+                      ),
+                      Text(
+                        "today".tr,
+                        style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                      ),
+                    ],
+                  ),
+                ),
                 Expanded(
                   child: controller.isLoading
                       ? SpinKitSquareCircle(color: cs.primary)

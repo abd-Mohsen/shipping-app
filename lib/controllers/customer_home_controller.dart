@@ -51,7 +51,9 @@ class CustomerHomeController extends GetxController {
       homeNavigationController.changeTab(0);
     }
     if (selectAll) {
-      selectedOrderTypes = List.from(orderTypes);
+      selectedOrderTypes.length == orderTypes.length
+          ? selectedOrderTypes.clear()
+          : selectedOrderTypes = List.from(orderTypes);
     } else {
       selectedOrderTypes.contains(type) ? selectedOrderTypes.remove(type) : selectedOrderTypes.add(type);
     }

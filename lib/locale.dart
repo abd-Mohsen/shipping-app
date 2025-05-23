@@ -216,6 +216,9 @@ class MyLocale extends Translations {
           "branch name": "branch name",
           "branch address": "branch address",
           "paid by bank transfer": "paid by bank transfer",
+          "you have": "you have",
+          "unread notification": "unread notification",
+          "today": "today",
         },
         "ar": {
           "Arabic": "العربية",
@@ -428,6 +431,9 @@ class MyLocale extends Translations {
           "branch name": "اسم الفرع",
           "branch address": "عنوان الفرع",
           "paid by bank transfer": "دفع عن طريق تحويل بنكي",
+          "you have": "عندك",
+          "unread notification": "اشعارات غير مقروءة",
+          "today": "اليوم",
         },
       };
 }
