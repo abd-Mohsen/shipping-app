@@ -221,6 +221,7 @@ class MyLocale extends Translations {
           "today": "today",
           "canceled": "canceled",
           "my addresses": "my addresses",
+          "new order": "new order",
         },
         "ar": {
           "Arabic": "العربية",
@@ -286,7 +287,7 @@ class MyLocale extends Translations {
           "starting point": "موقع البدء",
           "destination point": "موقع الوصول",
           "description": "الوصف",
-          "expected price": "السعر المتوقع بالليرة",
+          "expected price": "السعر المتوقع",
           "weight with unit": "الوزن مع الواحدة",
           "other info (optional)": "معلومات أخرى (اختياري)",
           "required vehicle type": "نوع السيارة المطلوب",
@@ -438,6 +439,7 @@ class MyLocale extends Translations {
           "today": "اليوم",
           "canceled": "ملغي",
           "my addresses": "عناويني",
+          "new order": "طلبية جديدة",
         },
       };
 }

@@ -125,16 +125,21 @@ class CustomerHomeView extends StatelessWidget {
                   // arrow to indicate that there is a drawer
                   Positioned(
                     top: MediaQuery.of(context).size.height / 2,
-                    child: ClipRect(
-                      child: Align(
-                        alignment: Alignment.centerLeft, // Show left half
-                        widthFactor: 0.5, // Clip to 50% width
-                        child: CircleAvatar(
-                          backgroundColor: cs.primary.withOpacity(0.7),
-                          foregroundColor: cs.onPrimary,
-                          child: const Padding(
-                            padding: EdgeInsets.only(right: 16),
-                            child: Icon(Icons.arrow_forward_ios, size: 18),
+                    child: GestureDetector(
+                      onTap: () {
+                        hC.scaffoldKey.currentState!.openDrawer();
+                      },
+                      child: ClipRect(
+                        child: Align(
+                          alignment: Alignment.centerLeft, // Show left half
+                          widthFactor: 0.5, // Clip to 50% width
+                          child: CircleAvatar(
+                            backgroundColor: cs.primary.withOpacity(0.7),
+                            foregroundColor: cs.onPrimary,
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 16),
+                              child: Icon(Icons.arrow_forward_ios, size: 18),
+                            ),
                           ),
                         ),
                       ),
