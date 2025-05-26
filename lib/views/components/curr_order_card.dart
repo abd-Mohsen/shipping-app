@@ -9,7 +9,8 @@ import 'package:shipment/views/order_view.dart';
 
 class CurrOrderCard extends StatelessWidget {
   final OrderModel? order;
-  const CurrOrderCard({super.key, this.order});
+  final BorderRadius borderRadius;
+  const CurrOrderCard({super.key, this.order, required this.borderRadius});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,19 @@ class CurrOrderCard extends StatelessWidget {
                 isCustomer: GetStorage().read("role") == "customer",
               ));
         },
-        child: Card(
-          color: cs.secondaryContainer,
-          elevation: 2,
+        child: Container(
+          decoration: BoxDecoration(
+            color: cs.secondaryContainer,
+            borderRadius: borderRadius,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2), // Shadow color
+                blurRadius: 4, // Soften the shadow
+                spreadRadius: 1, // Extend the shadow
+                offset: Offset(2, 2), // Shadow direction (x, y)
+              ),
+            ],
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             child: Column(

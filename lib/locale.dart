@@ -222,6 +222,8 @@ class MyLocale extends Translations {
           "canceled": "canceled",
           "my addresses": "my addresses",
           "new order": "new order",
+          "Tracking status": "Tracking status",
+          "accepted": "accepted",
         },
         "ar": {
           "Arabic": "العربية",
@@ -440,6 +442,8 @@ class MyLocale extends Translations {
           "canceled": "ملغي",
           "my addresses": "عناويني",
           "new order": "طلبية جديدة",
+          "Tracking status": "حالة تتبع الموقع",
+          "accepted": "تم القبول",
         },
       };
 }

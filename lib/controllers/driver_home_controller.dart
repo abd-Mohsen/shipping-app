@@ -47,10 +47,11 @@ class DriverHomeController extends GetxController {
 
   List<OrderModel> recentOrders = [];
 
-  List<String> orderTypes = ["taken", "current", "finished"];
+  List<String> orderTypes = ["taken", "accepted", "current", "finished"];
 
   List<IconData> orderIcons = [
     Icons.watch_later,
+    Icons.done,
     Icons.local_shipping,
     Icons.done_all,
   ];
@@ -80,8 +81,8 @@ class DriverHomeController extends GetxController {
     //todo:pagination
     toggleLoading(true);
     List<String> typesToFetch = [];
-    //if (selectedOrderTypes.contains("not taken")) typesToFetch.addAll(["available", "draft"]);
-    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved"]);
+    if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
+    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
     List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(null, typesToFetch) ?? [];
