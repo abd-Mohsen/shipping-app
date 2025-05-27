@@ -29,7 +29,7 @@ class DriverHomeController extends GetxController {
     getCurrentUser();
     //dont show error msgs for below requests
     getGovernorates();
-    getCurrentOrders();
+    //getCurrentOrders();
     getRecentOrders();
     //getHistoryOrders();
     super.onInit();
@@ -111,12 +111,18 @@ class DriverHomeController extends GetxController {
     print("tracking order with ID ${trackingID.toString()}");
     if (trackingID != 0) {
       _connectTrackingSocket();
+    } else {
+      setTrackingStatus("no running order");
     }
     //
   }
 
   Future<void> refreshRecentOrders() async {
     recentOrders.clear();
+    _shouldReconnect = false; // Temporarily disable reconnection
+    await websocket?.close();
+    websocket = null;
+    _shouldReconnect = true;
     getRecentOrders();
   }
   //
@@ -205,62 +211,59 @@ class DriverHomeController extends GetxController {
   }
 
   int trackingID = 0;
-  void getCurrentOrders() async {
-    //todo: implement pagination
-    toggleLoadingCurrent(true);
-    List<OrderModel> newItems = isEmployee
-        ? await RemoteServices.fetchCompanyOrders(null, ["approved"]) ?? []
-        : await RemoteServices.fetchDriverOrders(null, ["processing", "pending", "approved"]) ?? [];
-    currOrders.addAll(newItems);
-    toggleLoadingCurrent(false);
-    //
-    if (currOrders.isNotEmpty) trackingID = currOrders.where((order) => order.status == "processing").first.id;
-    print("tracking order with ID ${trackingID.toString()}");
-    if (trackingID != 0) {
-      // _shouldReconnect = false; // Temporarily disable reconnection
-      // await websocket?.close();
-      // websocket = null;
-      // _shouldReconnect = true;
-      _connectTrackingSocket();
-    }
-    //
-  }
+  // void getCurrentOrders() async {
+  //   toggleLoadingCurrent(true);
+  //   List<OrderModel> newItems = isEmployee
+  //       ? await RemoteServices.fetchCompanyOrders(null, ["approved"]) ?? []
+  //       : await RemoteServices.fetchDriverOrders(null, ["processing", "pending", "approved"]) ?? [];
+  //   currOrders.addAll(newItems);
+  //   toggleLoadingCurrent(false);
+  //   //
+  //   if (currOrders.isNotEmpty) trackingID = currOrders.where((order) => order.status == "processing").first.id;
+  //   print("tracking order with ID ${trackingID.toString()}");
+  //   if (trackingID != 0) {
+  //     // _shouldReconnect = false; // Temporarily disable reconnection
+  //     // await websocket?.close();
+  //     // websocket = null;
+  //     // _shouldReconnect = true;
+  //     _connectTrackingSocket();
+  //   }
+  //   //
+  // }
 
-  void getHistoryOrders() async {
-    //todo: implement pagination
-    toggleLoadingRecent(true);
-    List<OrderModel> newItems = isEmployee
-        ? await RemoteServices.fetchCompanyOrders(null, ["processing"]) ?? [] //todo: make it done
-        : await RemoteServices.fetchDriverOrders(null, ["done"]) ?? [];
-    historyOrders.addAll(newItems);
-    toggleLoadingRecent(false);
-    //
-    if (historyOrders.isNotEmpty && isEmployee)
-      trackingID = historyOrders.where((order) => order.status == "processing").first.id;
-    print("tracking order with ID ${trackingID.toString()}"); //todo
-    if (trackingID != 0) _connectTrackingSocket();
-    //
-  }
-  //todo: the app is crashing sometimes when entering order page
+  // void getHistoryOrders() async {
+  //   toggleLoadingRecent(true);
+  //   List<OrderModel> newItems = isEmployee
+  //       ? await RemoteServices.fetchCompanyOrders(null, ["processing"]) ?? []
+  //       : await RemoteServices.fetchDriverOrders(null, ["done"]) ?? [];
+  //   historyOrders.addAll(newItems);
+  //   toggleLoadingRecent(false);
+  //   //
+  //   if (historyOrders.isNotEmpty && isEmployee)
+  //     trackingID = historyOrders.where((order) => order.status == "processing").first.id;
+  //   print("tracking order with ID ${trackingID.toString()}");
+  //   if (trackingID != 0) _connectTrackingSocket();
+  //   //
+  // }
 
   Future<void> refreshExploreOrders() async {
     exploreOrders.clear();
     getExploreOrders();
   }
 
-  Future<void> refreshCurrOrders() async {
-    currOrders.clear();
-    _shouldReconnect = false; // Temporarily disable reconnection
-    await websocket?.close();
-    websocket = null;
-    _shouldReconnect = true;
-    getCurrentOrders();
-  }
+  // Future<void> refreshCurrOrders() async {
+  //   currOrders.clear();
+  //   _shouldReconnect = false; // Temporarily disable reconnection
+  //   await websocket?.close();
+  //   websocket = null;
+  //   _shouldReconnect = true;
+  //   getCurrentOrders();
+  // }
 
-  Future<void> refreshHistoryOrders() async {
-    historyOrders.clear();
-    getHistoryOrders();
-  }
+  // Future<void> refreshHistoryOrders() async {
+  //   historyOrders.clear();
+  //   getHistoryOrders();
+  // }
 
   Future<void> getCurrentUser({bool refresh = false}) async {
     toggleLoadingUser(true);
@@ -361,8 +364,6 @@ class DriverHomeController extends GetxController {
     );
   }
 
-  //todo ask for location permission
-
   // void _startPeriodicLocationUpdates() async {
   //   _locationTimer?.cancel();
   //   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -374,7 +375,7 @@ class DriverHomeController extends GetxController {
   //   if (permission == LocationPermission.denied) {
   //     permission = await Geolocator.requestPermission();
   //     if (permission == LocationPermission.denied) {
-  //       setTrackingStatus("location permission is denied"); //todo: set tracking status in stream
+  //       setTrackingStatus("location permission is denied");
   //       return;
   //     }
   //   }
@@ -491,3 +492,4 @@ class DriverHomeController extends GetxController {
 }
 
 //todo: i get mapController error sometimes (editing map before its ready)
+//todo: test sending location one more time

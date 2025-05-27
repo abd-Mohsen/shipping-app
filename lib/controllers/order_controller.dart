@@ -148,7 +148,7 @@ class OrderController extends GetxController {
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       driverHomeController!.refreshExploreOrders();
-      driverHomeController!.refreshCurrOrders();
+      driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
         duration: const Duration(milliseconds: 2500),
@@ -195,7 +195,7 @@ class OrderController extends GetxController {
         : await RemoteServices.driverRefuseOrder(order.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
-      driverHomeController!.refreshCurrOrders();
+      driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "order is cancelled".tr,
         duration: const Duration(milliseconds: 2500),
@@ -235,7 +235,7 @@ class OrderController extends GetxController {
     if (success) {
       Get.back();
       if (Get.routing.current == "/OrderView") Get.back();
-      driverHomeController!.refreshCurrOrders();
+      driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "success".tr,
         duration: const Duration(milliseconds: 2500),
@@ -251,7 +251,7 @@ class OrderController extends GetxController {
         isEmployee ? await RemoteServices.companyBeginOrder(order.id) : await RemoteServices.driverBeginOrder(order.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
-      driverHomeController!.refreshCurrOrders();
+      driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "shipping started, user can track your location".tr,
         duration: const Duration(milliseconds: 2500),
@@ -269,7 +269,7 @@ class OrderController extends GetxController {
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       //todo: if user clicks and return before processing, app closes (i fixed it here, fix in all the app)
-      driverHomeController!.refreshCurrOrders();
+      driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "ordered delivered".tr,
         duration: const Duration(milliseconds: 2500),
@@ -288,7 +288,7 @@ class OrderController extends GetxController {
     if (success) {
       Get.back();
       if (Get.routing.current == "/OrderView") Get.back();
-      isEmployee ? driverHomeController!.refreshCurrOrders() : companyHomeController!.refreshCurrOrders();
+      isEmployee ? driverHomeController!.refreshOrders() : companyHomeController!.refreshCurrOrders();
       isEmployee ? driverHomeController!.refreshExploreOrders() : companyHomeController!.refreshExploreOrders();
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
