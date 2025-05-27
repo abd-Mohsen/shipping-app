@@ -198,7 +198,7 @@ class DriverHomeTab extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 16.0, top: 8),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     SelectionCircle(
                                       iconData: Icons.watch_later_outlined,
@@ -337,7 +337,7 @@ class DriverHomeTab extends StatelessWidget {
                                                     itemCount: controller.recentOrders.length,
                                                     itemBuilder: (context, i) => OrderCard2(
                                                       order: controller.recentOrders[i],
-                                                      isCustomer: true,
+                                                      isCustomer: false,
                                                       isLast: i == controller.recentOrders.length - 1,
                                                     ),
                                                   ),

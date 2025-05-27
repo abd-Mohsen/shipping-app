@@ -79,6 +79,7 @@ class DriverHomeController extends GetxController {
 
   void getMyOrders() async {
     //todo:pagination
+    //todo: can i get more than one type in one request in driver and company?
     toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
@@ -96,7 +97,6 @@ class DriverHomeController extends GetxController {
   }
 
   void getRecentOrders() async {
-    //todo:pagination
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled"];
     List<OrderModel> newProcessingOrders = await RemoteServices.fetchDriverOrders(null, ["processing"]) ?? [];

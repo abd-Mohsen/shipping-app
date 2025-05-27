@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/models/governorate_model.dart';
+import 'package:shipment/views/components/filter_sheet.dart';
 import '../../controllers/driver_home_controller.dart';
 import '../components/my_search_field.dart';
 import '../components/order_card.dart';
@@ -120,42 +121,7 @@ class DriverExploreTab extends StatelessWidget {
                                     enableDrag: true,
                                     builder: (context) => BackdropFilter(
                                       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                                      child: Container(
-                                        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                                        height: MediaQuery.of(context).size.height / 2.2,
-                                        decoration: BoxDecoration(
-                                          color: cs.surface,
-                                          borderRadius: BorderRadius.circular(24),
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            //
-                                            GestureDetector(
-                                              onTap: () {
-                                                Get.back();
-                                              },
-                                              child: Container(
-                                                margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                                width: double.infinity,
-                                                decoration: BoxDecoration(
-                                                  color: cs.primary,
-                                                  borderRadius: BorderRadius.circular(20),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    "ok".tr,
-                                                    style: tt.labelMedium!.copyWith(color: cs.onPrimary),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                                      child: FilterSheet(),
                                     ),
                                   );
                                 },
@@ -169,6 +135,7 @@ class DriverExploreTab extends StatelessWidget {
                                   child: FaIcon(
                                     FontAwesomeIcons.sliders,
                                     color: cs.onPrimary,
+                                    size: 20,
                                   ),
                                 ),
                               )
