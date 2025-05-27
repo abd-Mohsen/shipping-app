@@ -138,8 +138,10 @@ class DriverHomeTab extends StatelessWidget {
                           //     radius: 20,
                           //   ),
                           // ),
-                          Icon(Icons.location_on_outlined,
-                              color: controller.trackingStatus == "tracking" ? Colors.green : cs.primary),
+                          Icon(
+                            Icons.location_on_outlined,
+                            color: controller.trackingStatus == "tracking" ? const Color(0xff00ff00) : cs.primary,
+                          ),
                           const SizedBox(width: 12),
                           Expanded(
                             //width: MediaQuery.of(context).size.width / 1.2,

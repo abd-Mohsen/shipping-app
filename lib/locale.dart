@@ -226,6 +226,14 @@ class MyLocale extends Translations {
           "accepted": "accepted",
           "tracking in progress": "tracking in progress",
           "your location is being sent to order owner": "your location is being sent to order owner",
+          "turn location on": "turn location on",
+          "location permission is denied": "location permission is denied",
+          "Location permission is permanently denied": "Location permission is permanently denied",
+          "connecting": "connecting",
+          "tracking": "tracking",
+          "disconnected": "disconnected",
+          "your location is not tracked": "your location is not tracked",
+          "no running order": "no running order,"
         },
         "ar": {
           "Arabic": "العربية",
@@ -448,6 +456,14 @@ class MyLocale extends Translations {
           "accepted": "تم القبول",
           "tracking in progress": "تتبع الموقع يعمل",
           "your location is being sent to order owner": "يتم ارسال موقعك لصاحب الطلبية",
+          "turn location on": "شغل خدمة الموقع وحدث الطلبيات",
+          "location permission is denied": "اذونات الموقع مرفوضة من اعدادات التطبيق",
+          "Location permission is permanently denied": "اذونات الموقع مرفوضة من اعدادات التطبيق",
+          "connecting": "يتم الاتصال",
+          "tracking": "يتم تتبع موقعك",
+          "disconnected": "الاتصال مقطوع",
+          "your location is not tracked": "لا يتم تتبع موقعك",
+          "no running order": "لا يوجد طلب قيد التنفيذ",
         },
       };
 }

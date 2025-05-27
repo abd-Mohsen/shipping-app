@@ -318,19 +318,19 @@ class DriverHomeController extends GetxController {
   void _startSendingLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      print("Location services are disabled.");
+      setTrackingStatus("turn location on");
       return;
     }
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        print("Location permissions are denied.");
+        setTrackingStatus("location permission is denied");
         return;
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      print("Location permissions are permanently denied.");
+      setTrackingStatus("Location permission is permanently denied");
       return;
     }
 
