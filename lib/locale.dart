@@ -224,6 +224,8 @@ class MyLocale extends Translations {
           "new order": "new order",
           "Tracking status": "Tracking status",
           "accepted": "accepted",
+          "tracking in progress": "tracking in progress",
+          "your location is being sent to order owner": "your location is being sent to order owner",
         },
         "ar": {
           "Arabic": "العربية",
@@ -444,6 +446,8 @@ class MyLocale extends Translations {
           "new order": "طلبية جديدة",
           "Tracking status": "حالة تتبع الموقع",
           "accepted": "تم القبول",
+          "tracking in progress": "تتبع الموقع يعمل",
+          "your location is being sent to order owner": "يتم ارسال موقعك لصاحب الطلبية",
         },
       };
 }

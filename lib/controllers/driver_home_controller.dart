@@ -300,6 +300,11 @@ class DriverHomeController extends GetxController {
 
   //-----------------------------------Real Time-------------------------------------------
 
+  //
+  Position? currLocation;
+  StreamSubscription? subscription;
+  //
+
   WebSocket? websocket;
   Timer? _locationTimer;
 
@@ -310,95 +315,100 @@ class DriverHomeController extends GetxController {
     update();
   }
 
-  // void _startSendingLocation() async {
-  //   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     print("Location services are disabled.");
-  //     return;
-  //   }
-  //   LocationPermission permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       print("Location permissions are denied.");
-  //       return;
-  //     }
-  //   }
-  //   if (permission == LocationPermission.deniedForever) {
-  //     print("Location permissions are permanently denied.");
-  //     return;
-  //   }
-  //
-  //   const locationSettings = LocationSettings(
-  //     accuracy: LocationAccuracy.bestForNavigation,
-  //     distanceFilter: 5,
-  //     timeLimit: null,
-  //   );
-  //
-  //   Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-  //     (Position position) {
-  //       Map pos = {
-  //         'latitude': position.latitude,
-  //         'longitude': position.longitude,
-  //       };
-  //       print(pos);
-  //       websocket.add(
-  //         jsonEncode(pos),
-  //       );
-  //     },
-  //     cancelOnError: false, // Continue listening even if an error occurs
-  //   );
-  // }
-
-  //todo ask for location permission
-  void _startPeriodicLocationUpdates() async {
-    _locationTimer?.cancel();
+  void _startSendingLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      setTrackingStatus("turn location on");
+      print("Location services are disabled.");
       return;
     }
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        setTrackingStatus("location permission is denied"); //todo: ask for permission and localize
+        print("Location permissions are denied.");
         return;
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      setTrackingStatus("Location permission is permanently denied");
+      print("Location permissions are permanently denied.");
       return;
     }
 
-    _locationTimer = Timer.periodic(Duration(seconds: 10), (timer) async {
-      try {
-        Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.bestForNavigation,
-        );
+    final locationSettings = AndroidSettings(
+      foregroundNotificationConfig: ForegroundNotificationConfig(
+        notificationTitle: "tracking in progress".tr,
+        notificationText: "your location is being sent to order owner".tr,
+        enableWakeLock: true,
+        notificationIcon: AndroidResource(name: "ic_notification"),
+      ),
+      accuracy: LocationAccuracy.bestForNavigation,
+      distanceFilter: 5,
+      timeLimit: null,
+    );
 
+    subscription = Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+      (Position position) {
         Map pos = {
           'latitude': position.latitude,
           'longitude': position.longitude,
         };
-        print("Foreground location: $pos");
-
-        if (websocket!.readyState == WebSocket.open) {
-          websocket!.add(jsonEncode(pos));
-        } else {
-          // Handle reconnection
-          //_reconnectWebSocket();
-        }
-      } catch (e) {
-        print("Error getting location: $e");
-      }
-    });
+        print(pos);
+        websocket!.add(
+          jsonEncode(pos),
+        );
+      },
+      cancelOnError: false, // Continue listening even if an error occurs
+    );
   }
+
+  //todo ask for location permission
+
+  // void _startPeriodicLocationUpdates() async {
+  //   _locationTimer?.cancel();
+  //   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     setTrackingStatus("turn location on");
+  //     return;
+  //   }
+  //   LocationPermission permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       setTrackingStatus("location permission is denied"); //todo: set tracking status in stream
+  //       return;
+  //     }
+  //   }
+  //   if (permission == LocationPermission.deniedForever) {
+  //     setTrackingStatus("Location permission is permanently denied");
+  //     return;
+  //   }
+  //
+  //   _locationTimer = Timer.periodic(Duration(seconds: 10), (timer) async {
+  //     try {
+  //       Position position = await Geolocator.getCurrentPosition(
+  //         desiredAccuracy: LocationAccuracy.bestForNavigation,
+  //       );
+  //
+  //       Map pos = {
+  //         'latitude': position.latitude,
+  //         'longitude': position.longitude,
+  //       };
+  //       print("Foreground location: $pos");
+  //
+  //       if (websocket!.readyState == WebSocket.open) {
+  //         websocket!.add(jsonEncode(pos));
+  //       } else {
+  //         // Handle reconnection
+  //         //_reconnectWebSocket();
+  //       }
+  //     } catch (e) {
+  //       print("Error getting location: $e");
+  //     }
+  //   });
+  // }
 
   bool _shouldReconnect = true;
   final Duration _initialReconnectDelay = Duration(seconds: 5);
-
-  //todo: not working if screen is off
 
   bool _isConnecting = false;
 
@@ -422,7 +432,7 @@ class DriverHomeController extends GetxController {
         socketUrl,
       ).timeout(const Duration(seconds: 20));
 
-      _startPeriodicLocationUpdates();
+      _startSendingLocation();
 
       websocket!.listen(
         (message) {
@@ -475,6 +485,7 @@ class DriverHomeController extends GetxController {
     _shouldReconnect = false;
     websocket!.close();
     _locationTimer!.cancel();
+    subscription!.cancel();
     super.dispose();
   }
 }
