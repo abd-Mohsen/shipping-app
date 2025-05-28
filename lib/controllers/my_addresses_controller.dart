@@ -47,6 +47,13 @@ class MyAddressesController extends GetxController {
   GeoPoint? selectedPosition;
   LocationModel? selectedLocation;
 
+  void setPosition(GeoPoint? position, bool ignoreThisSh1t) async {
+    if (position == null) return;
+    selectedPosition = position;
+    Get.back();
+    await addAddress();
+  }
+
   Future<void> calculateLocation() async {
     if (selectedPosition == null) return;
     selectedLocation = await RemoteServices.getAddressFromLatLng(
@@ -77,7 +84,7 @@ class MyAddressesController extends GetxController {
     List<AddressModel> newItems = await RemoteServices.fetchMyAddresses() ?? [];
     myAddresses.addAll(newItems);
     toggleLoading(false);
-  } //todo
+  } //todo: pagination?
 
   Future<void> refreshMyAddress() async {
     myAddresses.clear();

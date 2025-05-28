@@ -3,7 +3,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
-import 'package:shipment/views/components/user_profile_tile.dart';
 import '../../controllers/notifications_controller.dart';
 import '../components/order_card_2.dart';
 import 'package:badges/badges.dart' as badges;
@@ -78,7 +77,10 @@ class DriverHomeTab extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                             child: badges.Badge(
                               showBadge: true,
-                              position: badges.BadgePosition.topStart(),
+                              position: badges.BadgePosition.topStart(
+                                top: -2, // Negative value moves it up
+                                start: -4, // Negative value moves it left
+                              ),
                               // smallSize: 10,
                               // backgroundColor: const Color(0xff00ff00),
                               // alignment: Alignment.topRight,
@@ -110,7 +112,7 @@ class DriverHomeTab extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
                   child: Text(
                     "Tracking status".tr,
                     style: tt.titleSmall!.copyWith(color: cs.onPrimary, fontWeight: FontWeight.normal),

@@ -1,11 +1,15 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/make_order_controller.dart';
 import 'package:shipment/controllers/my_addresses_controller.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/components/address_card.dart';
+
+import 'components/map_sheet.dart';
 
 class MyAddressesView extends StatelessWidget {
   final MakeOrderController? makeOrderController;
@@ -43,82 +47,103 @@ class MyAddressesView extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: makeOrderController == null
-          ? GetBuilder<MyAddressesController>(
-              builder: (controller) {
-                return FloatingActionButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      enableDrag: false,
-                      builder: (context) => OSMFlutter(
-                        controller: mAC.mapController,
-                        mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                        osmOption: OSMOption(
-                          isPicker: true,
-                          userLocationMarker: UserLocationMaker(
-                            personMarker: MarkerIcon(
-                              icon: Icon(Icons.person, color: cs.primary, size: 40),
-                            ),
-                            directionArrowMarker: MarkerIcon(
-                              icon: Icon(Icons.location_history, color: cs.primary, size: 40),
-                            ),
-                          ),
-                          zoomOption: const ZoomOption(
-                            initZoom: 16,
-                          ),
+      body: Stack(
+        children: [
+          GetBuilder<MyAddressesController>(
+            builder: (controller) {
+              return controller.isLoading
+                  ? SpinKitSquareCircle(color: cs.primary)
+                  : RefreshIndicator(
+                      onRefresh: controller.refreshMyAddress,
+                      child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                        itemCount: controller.myAddresses.length,
+                        itemBuilder: (context, i) => AddressCard(
+                          address: controller.myAddresses[i],
+                          selectMode: selectionMode,
+                          onDelete: () {
+                            controller.deleteAddress(controller.myAddresses[i].id!);
+                          },
+                          onSelect: () {
+                            if (!selectionMode) return;
+                            if (makeOrderController != null) {
+                              if (isStart!) {
+                                makeOrderController!.selectStartAddress(controller.myAddresses[i]);
+                              } else {
+                                makeOrderController!.selectEndAddress(controller.myAddresses[i]);
+                              }
+                            }
+                            // else if (editOrderController != null) {
+                            //   if (isStart!) {
+                            //     editOrderController!.selectStartAddress(controller.myAddresses[i]);
+                            //   } else {
+                            //     editOrderController!.selectEndAddress(controller.myAddresses[i]);
+                            //   }
+                            // }
+                          },
                         ),
                       ),
-                    ).whenComplete(
-                      () {
-                        controller.addAddress();
-                      },
                     );
-                  },
-                  foregroundColor: cs.onPrimary,
-                  child: controller.isLoadingAdd
-                      ? SpinKitRotatingPlain(color: cs.onPrimary, size: 20)
-                      : Icon(Icons.add, color: cs.onPrimary),
-                );
-              },
-            )
-          : null,
-      body: GetBuilder<MyAddressesController>(
-        builder: (controller) {
-          return controller.isLoading
-              ? SpinKitSquareCircle(color: cs.primary)
-              : RefreshIndicator(
-                  onRefresh: controller.refreshMyAddress,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                    itemCount: controller.myAddresses.length,
-                    itemBuilder: (context, i) => AddressCard(
-                      address: controller.myAddresses[i],
-                      selectMode: selectionMode,
-                      onDelete: () {
-                        controller.deleteAddress(controller.myAddresses[i].id!);
-                      },
-                      onSelect: () {
-                        if (!selectionMode) return;
-                        if (makeOrderController != null) {
-                          if (isStart!) {
-                            makeOrderController!.selectStartAddress(controller.myAddresses[i]);
-                          } else {
-                            makeOrderController!.selectEndAddress(controller.myAddresses[i]);
-                          }
-                        }
-                        // else if (editOrderController != null) {
-                        //   if (isStart!) {
-                        //     editOrderController!.selectStartAddress(controller.myAddresses[i]);
-                        //   } else {
-                        //     editOrderController!.selectEndAddress(controller.myAddresses[i]);
-                        //   }
-                        // }
-                      },
-                    ),
-                  ),
-                );
-        },
+            },
+          ),
+          Positioned(
+            bottom: 16,
+            left: 16,
+            child: makeOrderController == null
+                ? GetBuilder<MyAddressesController>(
+                    builder: (controller) {
+                      return FloatingActionButton(
+                        heroTag: "my addresses button",
+                        onPressed: () {
+                          // showModalBottomSheet(
+                          //   context: context,
+                          //   enableDrag: false,
+                          //   builder: (context) => OSMFlutter(
+                          //     controller: mAC.mapController,
+                          //     mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+                          //     osmOption: OSMOption(
+                          //       isPicker: true,
+                          //       userLocationMarker: UserLocationMaker(
+                          //         personMarker: MarkerIcon(
+                          //           icon: Icon(Icons.person, color: cs.primary, size: 40),
+                          //         ),
+                          //         directionArrowMarker: MarkerIcon(
+                          //           icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                          //         ),
+                          //       ),
+                          //       zoomOption: const ZoomOption(
+                          //         initZoom: 16,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ).whenComplete(
+                          //   () {
+                          //     controller.addAddress();
+                          //   },
+                          // );
+
+                          showMaterialModalBottomSheet(
+                            context: context,
+                            enableDrag: false,
+                            //isScrollControlled: true,
+                            builder: (context) => BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                              child: MapSheet(
+                                onDone: controller.setPosition,
+                              ),
+                            ),
+                          );
+                        },
+                        foregroundColor: cs.onPrimary,
+                        child: controller.isLoadingAdd
+                            ? SpinKitRotatingPlain(color: cs.onPrimary, size: 20)
+                            : Icon(Icons.add, color: cs.onPrimary),
+                      );
+                    },
+                  )
+                : SizedBox.shrink(),
+          )
+        ],
       ),
     );
   }

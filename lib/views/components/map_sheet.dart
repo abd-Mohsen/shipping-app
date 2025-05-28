@@ -3,7 +3,6 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/map_selector_controller.dart';
-import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/location_search_model.dart';
 import 'package:shipment/views/components/my_search_field.dart';
 
@@ -15,14 +14,14 @@ class MapSheet extends StatelessWidget {
   // final void Function(bool) onIsMapReady;
   // final bool isMapReady;
   //final TextEditingController searchQuery;
-  final bool start;
+  final bool? start;
   final GeoPoint? selectedPoint;
 
   const MapSheet({
     super.key,
     this.onTapMyAddresses,
     required this.onDone,
-    required this.start,
+    this.start,
     this.selectedPoint,
   });
 
@@ -330,8 +329,9 @@ class MapSheet extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                             child: FloatingActionButton(
+                              heroTag: "pick address",
                               onPressed: () {
-                                onDone(controller.selectedPosition!, start);
+                                onDone(controller.selectedPosition!, start ?? true);
                               },
                               foregroundColor: cs.onPrimary,
                               backgroundColor: Colors.green,
@@ -340,23 +340,25 @@ class MapSheet extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                          child: FloatingActionButton(
-                            onPressed: onTapMyAddresses,
-                            foregroundColor: cs.onPrimary,
-                            backgroundColor: cs.primary,
-                            child: Icon(Icons.location_on_outlined),
-                            // Text(
-                            //   "select from my addresses".tr.toUpperCase(),
-                            //   style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                            // ),
+                      if (start != null)
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                            child: FloatingActionButton(
+                              heroTag: "open my address page",
+                              onPressed: onTapMyAddresses,
+                              foregroundColor: cs.onPrimary,
+                              backgroundColor: cs.primary,
+                              child: Icon(Icons.location_on_outlined),
+                              // Text(
+                              //   "select from my addresses".tr.toUpperCase(),
+                              //   style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                              // ),
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),

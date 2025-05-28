@@ -20,6 +20,7 @@ final NotificationService notificationService = NotificationService();
 //todo: show payment methods (for rafed) and bills
 //todo: in light mode, every icon in appbar is black
 //todo: reduce apk size
+//todo: tele group
 
 void main() async {
   await GetStorage.init();
