@@ -27,7 +27,7 @@ class PermissionService {
     } else {
       print("permission denied forever");
       if (permission == Permission.location) {
-        Get.dialog(permissionDeniedDialog); //todo: something is wrong
+        Get.dialog(permissionDeniedDialog);
       }
     }
   }

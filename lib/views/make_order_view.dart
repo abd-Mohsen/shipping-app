@@ -18,7 +18,6 @@ import '../controllers/make_order_controller.dart';
 import '../models/order_model.dart';
 import 'components/auth_field.dart';
 
-//todo: refactor to use it as edit page
 class MakeOrderView extends StatelessWidget {
   final bool edit;
   final OrderModel? order;
@@ -183,7 +182,7 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: controller.isLoadingPayment //todo: load again after failing, do it also in vehicle type
+                  child: controller.isLoadingPayment //todo(later): load again after failing, do it also in vehicle type
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : MultiDropdown<PaymentMethodModel>(
                           items: controller.paymentMethods

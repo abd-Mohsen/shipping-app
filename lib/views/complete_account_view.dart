@@ -21,11 +21,10 @@ class CompleteAccountView extends StatelessWidget {
 
     return PopScope(
       canPop: false,
-      // todo fix deprecated code
-      onPopInvoked: (bool didPop) {
-        if (didPop) {
-          return;
-        }
+      // todo fix deprecated code (check if works)
+      onPopInvokedWithResult: (bool didPop, res) {
+        if (didPop) return;
+
         showDialog(
           context: context,
           builder: (context) => AlertDialog(

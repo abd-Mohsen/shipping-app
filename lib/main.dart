@@ -15,12 +15,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final Api api = Api();
 final NotificationService notificationService = NotificationService();
-//todo: additional notes
+//todo: additional notes (tele)
 //todo: PT report
-//todo: show payment methods (for rafed) and bills
-//todo: in light mode, every icon in appbar is black
-//todo: reduce apk size
-//todo: tele group
+//todo(later): reduce apk size
 
 void main() async {
   await GetStorage.init();

@@ -106,7 +106,7 @@ class DriverHomeView extends StatelessWidget {
               //     color: cs.onPrimary,
               //   ),
               //   title: Text(
-              //     'driver'.toUpperCase(), //todo, for employee, write company name
+              //     'driver'.toUpperCase(),
               //     style: tt.headlineSmall!.copyWith(letterSpacing: 2, color: cs.onPrimary),
               //   ),
               //   actions: [

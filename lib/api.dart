@@ -8,8 +8,8 @@ import 'package:path/path.dart';
 import 'package:get/get.dart';
 import 'constants.dart';
 
-//todo find a way to cancel all running requests after logging out
-//todo handle handshake exception when ssl is expired
+//todo(later) find a way to cancel all running requests after logging out
+//todo(later) handle handshake exception when ssl is expired
 class Api {
   var client = http.Client();
   final String _hostIP = "$kHostIP/en/api";
@@ -294,7 +294,7 @@ class Api {
     // {"phone_number":["This field must be unique."]}
   }
 
-  //todo: test
+  //todo(later): test
   void handleSessionExpired(int statusCode, bool canRefresh) {
     if (!canRefresh || statusCode != 401) return;
     _getStorage.remove("token");

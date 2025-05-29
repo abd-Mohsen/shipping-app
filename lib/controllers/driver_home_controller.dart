@@ -266,6 +266,7 @@ class DriverHomeController extends GetxController {
   // }
 
   Future<void> getCurrentUser({bool refresh = false}) async {
+    //todo: auto refresh like in customer
     toggleLoadingUser(true);
     currentUser = await RemoteServices.fetchCurrentUser();
     /*

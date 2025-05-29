@@ -82,7 +82,7 @@ class MapSelector extends StatelessWidget {
               builder: (context) => BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: MapSheet(
-                  onDone: makeOrderController!.setPosition, // todo: handle for register
+                  onDone: makeOrderController!.setPosition,
                   onTapMyAddresses: () {
                     Get.to(
                       () => MyAddressesView(

@@ -88,7 +88,6 @@ class NotificationsController extends GetxController {
   }
 
   void setupFCMListeners() {
-    //todo: notifications from here appears without badge when app is close
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       await refreshNotifications();
       // print('Received notification: ${message.notification?.title}');

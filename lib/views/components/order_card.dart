@@ -6,7 +6,7 @@ import 'package:shipment/models/order_model.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/order_view.dart';
 
-//todo: put read data (expired date) in order_view
+//todo: put red data (expired date) in order_view
 class OrderCard extends StatelessWidget {
   final OrderModel order;
   final bool isCustomer;

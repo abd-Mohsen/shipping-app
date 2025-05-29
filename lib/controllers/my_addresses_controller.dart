@@ -84,7 +84,7 @@ class MyAddressesController extends GetxController {
     List<AddressModel> newItems = await RemoteServices.fetchMyAddresses() ?? [];
     myAddresses.addAll(newItems);
     toggleLoading(false);
-  } //todo: pagination?
+  }
 
   Future<void> refreshMyAddress() async {
     myAddresses.clear();

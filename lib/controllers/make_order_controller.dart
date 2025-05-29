@@ -297,8 +297,8 @@ class MakeOrderController extends GetxController {
       "type_vehicle": selectedVehicleType?.id,
       "start_point": [sourceAddress!.toJson()],
       "end_point": [targetAddress!.toJson()],
-      //todo: add lat, long here and in order model and in my-addresses and in edit address
-      "start_latitude": startPosition?.latitude ?? 0, //TODO: when selecting existing order, i cant get this
+      //todo: change address model
+      "start_latitude": startPosition?.latitude ?? 0, //TODO: check if its zero if existing order
       "start_longitude": startPosition?.longitude ?? 0,
       "end_latitude": endPosition?.latitude ?? 0,
       "end_longitude": endPosition?.longitude ?? 0,

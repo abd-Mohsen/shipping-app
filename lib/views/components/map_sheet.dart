@@ -25,8 +25,6 @@ class MapSheet extends StatelessWidget {
     this.selectedPoint,
   });
 
-  // todo: if location is selected, mark it when opening
-
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;

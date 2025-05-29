@@ -23,13 +23,39 @@ class OTPView extends StatelessWidget {
 
     return SafeArea(
       child: PopScope(
-        canPop: true, // make false
-        onPopInvokedWithResult: (didPop, result) async {
-          if (didPop) {
-            return;
-          }
-          //todo: show a dialog: are you sure you wanna close otp page?
-          //Get.dialog(kCloseAppDialog());
+        canPop: false,
+        onPopInvokedWithResult: (bool didPop, res) {
+          if (didPop) return;
+
+          // showDialog(
+          //   context: context,
+          //   builder: (context) => AlertDialog(
+          //     title: Text(
+          //       'do you wanna exit?'.tr,
+          //       style: tt.titleLarge!.copyWith(color: cs.onSurface),
+          //     ),
+          //     content: Text(
+          //       'you will have to wait to request a new code'.tr,
+          //       style: tt.titleSmall!.copyWith(color: cs.onSurface),
+          //     ),
+          //     actions: [
+          //       TextButton(
+          //         onPressed: () {},
+          //         child: Text(
+          //           'cancel'.tr,
+          //           style: tt.titleSmall!.copyWith(color: cs.onSurface),
+          //         ),
+          //       ),
+          //       TextButton(
+          //         onPressed: () => Get.back(),
+          //         child: Text(
+          //           'ok'.tr,
+          //           style: tt.titleSmall!.copyWith(color: cs.error),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // );
         },
         child: AuthBackground(
           pageName: "otp",
@@ -99,7 +125,6 @@ class OTPView extends StatelessWidget {
                         GetBuilder<OTPController>(
                           builder: (controller) {
                             return CustomButton(
-                              //todo: color is always red
                               onTap: controller.isTimeUp
                                   ? () {
                                       controller.resendOtp();
