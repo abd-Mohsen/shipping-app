@@ -266,7 +266,6 @@ class DriverHomeController extends GetxController {
   // }
 
   Future<void> getCurrentUser({bool refresh = false}) async {
-    //todo: auto refresh like in customer
     toggleLoadingUser(true);
     currentUser = await RemoteServices.fetchCurrentUser();
     /*
@@ -288,6 +287,11 @@ class DriverHomeController extends GetxController {
         Get.put(OTPController(currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));
       }
+    }
+
+    if (currentUser == null) {
+      await Future.delayed(Duration(seconds: 10));
+      getCurrentUser();
     }
 
     toggleLoadingUser(false);

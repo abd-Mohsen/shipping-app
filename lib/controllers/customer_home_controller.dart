@@ -98,7 +98,6 @@ class CustomerHomeController extends GetxController {
   }
 
   void deleteOrder(int id) async {
-    //todo: orders might get duplicated after deletion, see why
     bool success = await RemoteServices.deleteCustomerOrder(id);
     if (success) {
       Get.back();

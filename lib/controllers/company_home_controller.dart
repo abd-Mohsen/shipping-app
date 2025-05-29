@@ -74,6 +74,11 @@ class CompanyHomeController extends GetxController {
       }
     }
 
+    if (currentUser == null) {
+      await Future.delayed(Duration(seconds: 10));
+      getCurrentUser();
+    }
+
     toggleLoadingUser(false);
   }
 
@@ -245,7 +250,6 @@ class CompanyHomeController extends GetxController {
 
   void getCurrentOrders() async {
     //todo: implement pagination
-    //todo: current running order must appear first (separate them)
     toggleLoadingCurrent(true);
     List<OrderModel> newItems =
         await RemoteServices.fetchCompanyOrders(null, ["processing", "pending", "approved"]) ?? [];

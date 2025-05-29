@@ -13,7 +13,6 @@ import '../services/remote_services.dart';
 import '../views/login_view.dart';
 import 'login_controller.dart';
 
-//todo: re test for all roles
 class CompleteAccountController extends GetxController {
   final GetStorage _getStorage = GetStorage();
 
@@ -150,7 +149,7 @@ class CompleteAccountController extends GetxController {
       licenseRear: license2Changed ? File(dLicenseRear!.path) : null,
     );
     if (success) {
-      //Get.back();
+      prepopulateImages();
       Get.showSnackbar(GetSnackBar(
         message: "updated successfully".tr,
         duration: const Duration(milliseconds: 2500),
