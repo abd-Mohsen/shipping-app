@@ -156,6 +156,14 @@ class MakeOrderController extends GetxController {
   List<WeightUnitModel> weightUnits = [];
   double customerCommissionPercentage = 0.0;
 
+  double applicationCommission = 0.0;
+
+  calculateApplicationCommission() {
+    applicationCommission =
+        double.parse((double.tryParse(price.text) == null) ? "0" : price.text) * (customerCommissionPercentage / 100);
+    update();
+  }
+
   VehicleTypeModel? selectedVehicleType;
   void selectVehicleType(VehicleTypeModel? type) {
     selectedVehicleType = type;

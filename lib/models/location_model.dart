@@ -55,7 +55,7 @@ class LocationModel {
       };
 
   AddressModel addressEncoder() {
-    List<String?> steps = [city, town, road];
+    List<String?> steps = [country, city, town, road];
     if (town != null) steps.remove(city);
     if (city == state) steps.remove(city);
     AddressModel result = AddressModel(name: state!, child: null);

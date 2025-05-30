@@ -159,7 +159,7 @@ class MakeOrderView extends StatelessWidget {
                   },
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       flex: 2,
@@ -195,7 +195,7 @@ class MakeOrderView extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       flex: 2,
@@ -210,6 +210,7 @@ class MakeOrderView extends StatelessWidget {
                         },
                         onChanged: (val) {
                           if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                          controller.calculateApplicationCommission();
                         },
                       ),
                     ),
@@ -229,6 +230,14 @@ class MakeOrderView extends StatelessWidget {
                             ),
                     )
                   ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
+                  child: Text(
+                    "${"application commission".tr}: "
+                    "${controller.applicationCommission.toPrecision(2)}${controller.selectedCurrency?.symbol ?? ""}",
+                    style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.7), fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
