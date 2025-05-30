@@ -196,7 +196,7 @@ class MakeOrderView extends StatelessWidget {
                               onSelect: (w) {
                                 controller.selectWeightUnit(w);
                               },
-                              selectedValue: controller.selectedWeightUnit!,
+                              selectedValue: controller.selectedWeightUnit,
                             ),
                     )
                   ],
@@ -233,7 +233,7 @@ class MakeOrderView extends StatelessWidget {
                               onSelect: (c) {
                                 controller.selectCurrency(c);
                               },
-                              selectedValue: controller.selectedCurrency!,
+                              selectedValue: controller.selectedCurrency,
                             ),
                     )
                   ],

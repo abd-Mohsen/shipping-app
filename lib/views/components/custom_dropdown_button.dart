@@ -9,7 +9,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
     required this.selectedValue,
   });
 
-  final T selectedValue;
+  final T? selectedValue;
   final List<T> items;
   final void Function(T?) onSelect;
 

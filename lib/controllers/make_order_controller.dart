@@ -201,7 +201,10 @@ class MakeOrderController extends GetxController {
   Future getMakeOrderInfo() async {
     toggleLoadingInfo(true);
     MakeOrderModel? model = await RemoteServices.fetchMakeOrderInfo();
-    if (model != null) {
+    if (model == null) {
+      await Future.delayed(Duration(seconds: 10));
+      getMakeOrderInfo();
+    } else {
       vehicleTypes = model.vehicleTypes;
       paymentMethods = model.paymentMethods;
       extraInfo = model.orderExtraInfo;
@@ -212,8 +215,8 @@ class MakeOrderController extends GetxController {
 
       selectedWeightUnit = weightUnits.first;
       selectedCurrency = currencies.first;
+      toggleLoadingInfo(false);
     }
-    toggleLoadingInfo(false);
   }
 
   void toggleExtraInfo(int i, bool v) {
