@@ -22,13 +22,14 @@ class PermissionService {
     print(status.toString());
     if (status.isGranted || status.isLimited) {
       print("already granted permission");
-    } else if (status.isDenied) {
-      await permission.request().isGranted ? print("permission granted") : print("permission denied");
     } else {
-      print("permission denied forever");
-      if (permission == Permission.location) {
-        Get.dialog(permissionDeniedDialog);
-      }
+      await permission.request().isGranted ? print("permission granted") : Get.dialog(permissionDeniedDialog);
     }
+    // } else {
+    //   print("permission denied forever");
+    //   if (permission == Permission.location) {
+    //     Get.dialog(permissionDeniedDialog);
+    //   }
+    //}
   }
 }

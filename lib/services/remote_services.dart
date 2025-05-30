@@ -13,6 +13,7 @@ import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/invoice_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/location_search_model.dart';
+import 'package:shipment/models/make_order_model.dart';
 import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/notification_model.dart';
 import 'package:shipment/models/order_model.dart';
@@ -537,5 +538,15 @@ class RemoteServices {
     );
     if (json == null) return null;
     return ExtraInfoModel.fromJson(jsonDecode(json));
+  }
+
+  static Future<MakeOrderModel?> fetchMakeOrderInfo() async {
+    String? json = await api.getRequest(
+      "orders/form-options/",
+      auth: true,
+      //utf8Decode: true,
+    );
+    if (json == null) return null;
+    return MakeOrderModel.fromJson(jsonDecode(json));
   }
 }

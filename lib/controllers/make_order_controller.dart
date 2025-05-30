@@ -5,8 +5,8 @@ import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/models/address_model.dart';
-import 'package:shipment/models/extra_info_model.dart';
 import 'package:shipment/models/location_model.dart';
+import 'package:shipment/models/make_order_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:shipment/services/permission_service.dart';
@@ -22,11 +22,9 @@ class MakeOrderController extends GetxController {
 
   @override
   void onInit() async {
-    await getPaymentMethods();
-    await getExtraInfo();
-    await getVehicleTypes();
+    getMakeOrderInfo();
     if (order != null) prePopulate();
-    await PermissionService().requestPermission(Permission.location); //todo: showing even if accepted (if only 1 time)
+    await PermissionService().requestPermission(Permission.location); //todo: test if showing properly
     super.onInit();
   }
 
@@ -148,25 +146,13 @@ class MakeOrderController extends GetxController {
     update();
   }
 
-  bool isBankSelected = false;
-
-  void toggleFields() {
-    isBankSelected = paymentMethodController.selectedItems.any((payment) => payment.label == "bank_account");
-    // isBankSelected = false;
-    // for (final item in paymentMethodController.selectedItems) {
-    //   print(item.value.name);
-    //   if (item.value.name == "bank_account") {
-    //     isBankSelected = true;
-    //     break;
-    //   }
-    // }
-    update();
-  }
-
   List<PaymentMethodModel> paymentMethods = [];
   List<VehicleTypeModel> vehicleTypes = [];
-  List<String> extraInfo = [];
+  List<OrderExtraInfoModel> extraInfo = [];
   List<bool> extraInfoSelection = [];
+  List<CurrencyModel> currencies = [];
+  List<WeightUnitModel> weightUnits = [];
+  double customerCommissionPercentage = 0.0;
 
   VehicleTypeModel? selectedVehicleType;
   void selectVehicleType(VehicleTypeModel? user) {
@@ -174,50 +160,64 @@ class MakeOrderController extends GetxController {
     update();
   }
 
-  bool _isLoadingPayment = false;
-  bool get isLoadingPayment => _isLoadingPayment;
-  void toggleLoadingPayment(bool value) {
-    _isLoadingPayment = value;
+  bool isLoadingInfo = false;
+  void toggleLoadingInfo(bool value) {
+    isLoadingInfo = value;
     update();
   }
+  //
+  // bool _isLoadingVehicle = false;
+  // bool get isLoadingVehicle => _isLoadingVehicle;
+  // void toggleLoadingVehicle(bool value) {
+  //   _isLoadingVehicle = value;
+  //   update();
+  // }
+  //
+  // bool _isLoadingExtra = false;
+  // bool get isLoadingExtra => _isLoadingExtra;
+  // void toggleLoadingExtra(bool value) {
+  //   _isLoadingExtra = value;
+  //   update();
+  // }
 
-  bool _isLoadingVehicle = false;
-  bool get isLoadingVehicle => _isLoadingVehicle;
-  void toggleLoadingVehicle(bool value) {
-    _isLoadingVehicle = value;
-    update();
-  }
+  // Future getPaymentMethods() async {
+  //   toggleLoadingPayment(true);
+  //   List<PaymentMethodModel> newPaymentMethods = await RemoteServices.fetchPaymentMethods() ?? [];
+  //   paymentMethods.addAll(newPaymentMethods);
+  //   toggleLoadingPayment(false);
+  // }
+  //
+  // Future getVehicleTypes() async {
+  //   toggleLoadingVehicle(true);
+  //   List<VehicleTypeModel> newItems = await RemoteServices.fetchVehicleType() ?? [];
+  //   vehicleTypes.addAll(newItems);
+  //   toggleLoadingVehicle(false);
+  // }
+  //
+  // Future getExtraInfo() async {
+  //   toggleLoadingExtra(true);
+  //   ExtraInfoModel? newItem = await RemoteServices.fetchOrdersExtraInfo();
+  //   if (newItem != null) {
+  //     extraInfo = newItem.orderExtraInfo;
+  //     extraInfoSelection = List.generate(extraInfo.length, (i) => false);
+  //     print(extraInfo);
+  //   }
+  //   toggleLoadingExtra(false);
+  // }
 
-  bool _isLoadingExtra = false;
-  bool get isLoadingExtra => _isLoadingExtra;
-  void toggleLoadingExtra(bool value) {
-    _isLoadingExtra = value;
-    update();
-  }
-
-  Future getPaymentMethods() async {
-    toggleLoadingPayment(true);
-    List<PaymentMethodModel> newPaymentMethods = await RemoteServices.fetchPaymentMethods() ?? [];
-    paymentMethods.addAll(newPaymentMethods);
-    toggleLoadingPayment(false);
-  }
-
-  Future getVehicleTypes() async {
-    toggleLoadingVehicle(true);
-    List<VehicleTypeModel> newItems = await RemoteServices.fetchVehicleType() ?? [];
-    vehicleTypes.addAll(newItems);
-    toggleLoadingVehicle(false);
-  }
-
-  Future getExtraInfo() async {
-    toggleLoadingExtra(true);
-    ExtraInfoModel? newItem = await RemoteServices.fetchOrdersExtraInfo();
-    if (newItem != null) {
-      extraInfo = newItem.orderExtraInfo;
+  Future getMakeOrderInfo() async {
+    toggleLoadingInfo(true);
+    MakeOrderModel? model = await RemoteServices.fetchMakeOrderInfo();
+    if (model != null) {
+      vehicleTypes = model.vehicleTypes;
+      paymentMethods = model.paymentMethods;
+      extraInfo = model.orderExtraInfo;
       extraInfoSelection = List.generate(extraInfo.length, (i) => false);
-      print(extraInfo);
+      currencies = model.currencies;
+      weightUnits = model.weightUnits;
+      customerCommissionPercentage = model.customerCommissionPercentage;
     }
-    toggleLoadingExtra(false);
+    toggleLoadingInfo(false);
   }
 
   void toggleExtraInfo(int i, bool v) {
@@ -234,21 +234,21 @@ class MakeOrderController extends GetxController {
   }
 
   List formatExtraInfo() {
-    List res = [];
+    List<int> res = [];
     for (int i = 0; i < extraInfo.length; i++) {
-      if (extraInfoSelection[i]) res.add(extraInfo[i]);
+      if (extraInfoSelection[i]) res.add(extraInfo[i].id);
     }
     return res;
   }
 
   prePopulateExtraInfo() {
     for (int i = 0; i < extraInfo.length; i++) {
-      if (order!.extraInfo.contains(extraInfo[i])) extraInfoSelection[i] = true;
+      if (order!.extraInfo.contains(extraInfo[i].id)) extraInfoSelection[i] = true;
     }
   }
 
   void makeOrder() async {
-    if (isLoading || isLoadingVehicle || isLoadingPayment) return;
+    if (isLoading || isLoadingInfo) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
@@ -295,20 +295,18 @@ class MakeOrderController extends GetxController {
     Map<String, dynamic> order = {
       "discription": description.text,
       "type_vehicle": selectedVehicleType?.id,
-      "start_point": [sourceAddress!.toJson()],
-      "end_point": [targetAddress!.toJson()],
+      "start_point": sourceAddress!.toJson(),
+      "end_point": targetAddress!.toJson(),
       //todo: change address model
-      "start_latitude": startPosition?.latitude ?? 0, //TODO: check if its zero if existing order
-      "start_longitude": startPosition?.longitude ?? 0,
-      "end_latitude": endPosition?.latitude ?? 0,
-      "end_longitude": endPosition?.longitude ?? 0,
       "weight": weight.text,
+      "weight_unit": "mg",
       "price": int.parse(price.text),
+      "currency": 1,
       "DateTime": desiredDate.toIso8601String(),
       "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
-      "payment_methods": formatPayment(),
       "order_extra_info": formatExtraInfo(),
+      "payment_methods": formatPayment(),
     };
     print(order);
     bool success = await RemoteServices.makeOrder(order);
@@ -323,8 +321,9 @@ class MakeOrderController extends GetxController {
     toggleLoading(false);
   }
 
+  //todo: new format
   void editOrder() async {
-    if (isLoading || isLoadingVehicle || isLoadingPayment) return;
+    if (isLoading || isLoadingInfo) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;

@@ -154,8 +154,8 @@ class Wallet {
   });
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
-        balance: json["balance"],
-        reservedCommission: json["reserved_commission"],
+        balance: json["balance"] ?? "", //todo: needs modification
+        reservedCommission: json["reserved_commission"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

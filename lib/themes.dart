@@ -31,7 +31,7 @@ class MyThemes {
       brightness: Brightness.light,
       primary: const Color(0xffd1261b),
       onPrimary: Colors.white,
-      secondary: Colors.white,
+      secondary: Color(0xff03DAC6),
       onSecondary: Colors.black,
       error: Colors.redAccent,
       onError: Colors.white70,

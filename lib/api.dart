@@ -8,11 +8,10 @@ import 'package:path/path.dart';
 import 'package:get/get.dart';
 import 'constants.dart';
 
-//todo(later) find a way to cancel all running requests after logging out
 //todo(later) handle handshake exception when ssl is expired
 class Api {
   var client = http.Client();
-  final String _hostIP = "$kHostIP/en/api";
+  final String _hostIP = "$kHostIP/ar/api";
   final _getStorage = GetStorage();
   String get accessToken => _getStorage.read("token");
 
@@ -300,5 +299,11 @@ class Api {
     _getStorage.remove("token");
     _getStorage.remove("role");
     Get.dialog(kSessionExpiredDialog(), barrierDismissible: false);
+  }
+
+  //todo(later) to cancel all running requests after logging out
+  void cancelAllRequests() {
+    client.close();
+    client = http.Client();
   }
 }

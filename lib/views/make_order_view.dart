@@ -2,8 +2,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/models/payment_method_model.dart';
@@ -53,20 +53,21 @@ class MakeOrderView extends StatelessWidget {
           style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        actions: [
-          //
-        ],
       ),
       body: GetBuilder<MakeOrderController>(
         builder: (controller) {
           return Form(
             key: controller.formKey,
             child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 16),
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: SvgPicture.asset("assets/images/make_order.svg", height: 200),
+                //child: SvgPicture.asset("assets/images/make_order.svg", height: 200),
+                ClipRect(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    heightFactor: 0.8,
+                    child: Lottie.asset("assets/animations/driver2.json", height: 200),
+                  ),
                 ),
                 MapSelector(
                   makeOrderController: mOC,
@@ -87,7 +88,7 @@ class MakeOrderView extends StatelessWidget {
                 const SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: controller.isLoadingVehicle
+                  child: controller.isLoadingInfo
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : DropdownSearch<VehicleTypeModel>(
                           validator: (type) {
@@ -182,7 +183,7 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: controller.isLoadingPayment //todo(later): load again after failing, do it also in vehicle type
+                  child: controller.isLoadingInfo //todo(later): load again after failing, do it also in vehicle type
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : MultiDropdown<PaymentMethodModel>(
                           items: controller.paymentMethods
@@ -275,22 +276,23 @@ class MakeOrderView extends StatelessWidget {
                           color: cs.secondaryContainer,
                           elevation: 3,
                           child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: bdg.Badge(
-                                showBadge: edit && order!.dateTime.isBefore(DateTime.now()),
-                                position: bdg.BadgePosition.topStart(),
-                                // smallSize: 10,
-                                // backgroundColor: const Color(0xff00ff00),
-                                // alignment: Alignment.topRight,
-                                // offset: const Offset(-5, -5),
-                                badgeStyle: bdg.BadgeStyle(
-                                  shape: bdg.BadgeShape.circle,
-                                  badgeColor: const Color(0xff00ff00),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child:
-                                    DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
-                              )),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: bdg.Badge(
+                              showBadge: edit && order!.dateTime.isBefore(DateTime.now()),
+                              position: bdg.BadgePosition.topStart(),
+                              // smallSize: 10,
+                              // backgroundColor: const Color(0xff00ff00),
+                              // alignment: Alignment.topRight,
+                              // offset: const Offset(-5, -5),
+                              badgeStyle: bdg.BadgeStyle(
+                                shape: bdg.BadgeShape.circle,
+                                badgeColor: const Color(0xff00ff00),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child:
+                                  DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -311,7 +313,7 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: controller.isLoadingExtra
+                  child: controller.isLoadingInfo
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : ExpansionTile(
                           title: Padding(
@@ -331,7 +333,7 @@ class MakeOrderView extends StatelessWidget {
                                   controller.toggleExtraInfo(i, val!);
                                 },
                                 title: Text(
-                                  controller.extraInfo[i],
+                                  controller.extraInfo[i].name,
                                   style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                 ),
                               ),
