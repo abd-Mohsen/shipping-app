@@ -157,7 +157,7 @@ class MakeOrderView extends StatelessWidget {
                   label: "description placeholder".tr,
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.newline,
-                  prefixIcon: FontAwesomeIcons.ccMastercard,
+                  prefixIcon: Icons.text_snippet_rounded,
                   validator: (val) {
                     return validateInput(controller.description.text, 4, 1000, "text");
                   },
@@ -275,7 +275,7 @@ class MakeOrderView extends StatelessWidget {
                             prefixIcon: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
                               child: Icon(
-                                CupertinoIcons.money_dollar,
+                                FontAwesomeIcons.ccMastercard,
                                 color: cs.primary,
                               ),
                             ),
