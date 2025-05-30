@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CustomDropdownButton extends StatelessWidget {
+class CustomDropdownButton<T> extends StatelessWidget {
   const CustomDropdownButton({
     super.key,
     required this.items,
@@ -8,9 +9,9 @@ class CustomDropdownButton extends StatelessWidget {
     required this.selectedValue,
   });
 
-  final String selectedValue;
-  final List<String> items;
-  final void Function(String?) onSelect;
+  final T selectedValue;
+  final List<T> items;
+  final void Function(T?) onSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -19,35 +20,41 @@ class CustomDropdownButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Material(
-        elevation: 5,
-        borderRadius: BorderRadius.circular(20),
+        color: cs.secondaryContainer,
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: 1, color: cs.surface),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          side: BorderSide(
+            width: 1.5,
+            color: Get.isDarkMode ? cs.surface : Colors.grey.shade300, // Fake shadow color
+          ),
         ),
-        child: DropdownButton<String>(
+        child: DropdownButton<T>(
           value: selectedValue,
           items: items
               .map(
-                (item) => DropdownMenuItem<String>(
+                (item) => DropdownMenuItem<T>(
                   value: item,
                   child: Text(
-                    item,
-                    style: tt.titleSmall!.copyWith(
+                    item.toString(),
+                    style: tt.labelSmall!.copyWith(
                       overflow: TextOverflow.ellipsis,
                       color: cs.onSurface,
                     ),
+                    maxLines: 2,
                   ),
                 ),
               )
               .toList(),
           onChanged: onSelect,
           style: tt.titleLarge!.copyWith(color: cs.onSurface),
-          dropdownColor: cs.surface, // Background color of dropdown
-          menuMaxHeight: 300, // Limit dropdown height
-          alignment: Alignment.bottomCenter, // Align menu to bottom
-          borderRadius: BorderRadius.circular(20),
-          //padding: const EdgeInsets.only(top: 100.0),
+          dropdownColor: cs.surface,
+          menuMaxHeight: 300,
+          alignment: Alignment.bottomCenter,
+          // Keep only one borderRadius declaration - either here or in Material
+          borderRadius: BorderRadius.circular(10),
+          isExpanded: true, // Recommended for proper width
+          underline: const SizedBox(),
+          padding: const EdgeInsets.symmetric(horizontal: 6),
         ),
       ),
     );

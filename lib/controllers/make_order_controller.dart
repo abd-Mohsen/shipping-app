@@ -12,7 +12,9 @@ import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:shipment/services/permission_service.dart';
 import 'package:shipment/services/remote_services.dart';
 
+import '../models/currency_model.dart';
 import '../models/order_model.dart';
+import '../models/weight_unit_model.dart';
 
 class MakeOrderController extends GetxController {
   CustomerHomeController customerHomeController;
@@ -155,8 +157,20 @@ class MakeOrderController extends GetxController {
   double customerCommissionPercentage = 0.0;
 
   VehicleTypeModel? selectedVehicleType;
-  void selectVehicleType(VehicleTypeModel? user) {
-    selectedVehicleType = user;
+  void selectVehicleType(VehicleTypeModel? type) {
+    selectedVehicleType = type;
+    update();
+  }
+
+  CurrencyModel? selectedCurrency;
+  void selectCurrency(CurrencyModel? currency) {
+    selectedCurrency = currency;
+    update();
+  }
+
+  WeightUnitModel? selectedWeightUnit;
+  void selectWeightUnit(WeightUnitModel? weightUnit) {
+    selectedWeightUnit = weightUnit;
     update();
   }
 
@@ -165,45 +179,6 @@ class MakeOrderController extends GetxController {
     isLoadingInfo = value;
     update();
   }
-  //
-  // bool _isLoadingVehicle = false;
-  // bool get isLoadingVehicle => _isLoadingVehicle;
-  // void toggleLoadingVehicle(bool value) {
-  //   _isLoadingVehicle = value;
-  //   update();
-  // }
-  //
-  // bool _isLoadingExtra = false;
-  // bool get isLoadingExtra => _isLoadingExtra;
-  // void toggleLoadingExtra(bool value) {
-  //   _isLoadingExtra = value;
-  //   update();
-  // }
-
-  // Future getPaymentMethods() async {
-  //   toggleLoadingPayment(true);
-  //   List<PaymentMethodModel> newPaymentMethods = await RemoteServices.fetchPaymentMethods() ?? [];
-  //   paymentMethods.addAll(newPaymentMethods);
-  //   toggleLoadingPayment(false);
-  // }
-  //
-  // Future getVehicleTypes() async {
-  //   toggleLoadingVehicle(true);
-  //   List<VehicleTypeModel> newItems = await RemoteServices.fetchVehicleType() ?? [];
-  //   vehicleTypes.addAll(newItems);
-  //   toggleLoadingVehicle(false);
-  // }
-  //
-  // Future getExtraInfo() async {
-  //   toggleLoadingExtra(true);
-  //   ExtraInfoModel? newItem = await RemoteServices.fetchOrdersExtraInfo();
-  //   if (newItem != null) {
-  //     extraInfo = newItem.orderExtraInfo;
-  //     extraInfoSelection = List.generate(extraInfo.length, (i) => false);
-  //     print(extraInfo);
-  //   }
-  //   toggleLoadingExtra(false);
-  // }
 
   Future getMakeOrderInfo() async {
     toggleLoadingInfo(true);
@@ -216,6 +191,9 @@ class MakeOrderController extends GetxController {
       currencies = model.currencies;
       weightUnits = model.weightUnits;
       customerCommissionPercentage = model.customerCommissionPercentage;
+
+      selectedWeightUnit = weightUnits.first;
+      selectedCurrency = currencies.first;
     }
     toggleLoadingInfo(false);
   }
@@ -299,9 +277,9 @@ class MakeOrderController extends GetxController {
       "end_point": targetAddress!.toJson(),
       //todo: change address model
       "weight": weight.text,
-      "weight_unit": "mg",
+      "weight_unit": selectedWeightUnit!.value,
       "price": int.parse(price.text),
-      "currency": 1,
+      "currency": selectedCurrency!.id,
       "DateTime": desiredDate.toIso8601String(),
       "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,

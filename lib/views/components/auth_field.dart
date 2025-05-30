@@ -91,6 +91,7 @@ String? validateInput(
   bool canBeEmpty = false,
   bool english = false,
   bool wholeNumber = false,
+  bool floatingPointNumber = false,
   int lowerRange = 0,
   int upperRange = 1000000000000000000,
 }) {
@@ -113,6 +114,10 @@ String? validateInput(
     int num = int.parse(val);
     if (num > upperRange) return "${"cannot be greater".tr} ${"than".tr} $upperRange";
     if (num < lowerRange) return "${"cannot be less".tr} ${"than".tr} $lowerRange";
+  }
+
+  if (floatingPointNumber) {
+    if (double.tryParse(val) == null) return "enter a whole number".tr;
   }
 
   if (val.length < min) return "${"cannot be shorter".tr} ${"than".tr} $min ${"characters".tr}";

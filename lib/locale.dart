@@ -233,7 +233,8 @@ class MyLocale extends Translations {
           "tracking": "tracking",
           "disconnected": "disconnected",
           "your location is not tracked": "your location is not tracked",
-          "no running order": "no running order,"
+          "no running order": "no running order",
+          "extra options": "extra options",
         },
         "ar": {
           "Arabic": "العربية",
@@ -300,7 +301,7 @@ class MyLocale extends Translations {
           "destination point": "موقع الوصول",
           "description": "الوصف",
           "expected price": "السعر المتوقع",
-          "weight with unit": "الوزن مع الواحدة",
+          "weight with unit": "الوزن",
           "other info (optional)": "معلومات أخرى (اختياري)",
           "required vehicle type": "نوع السيارة المطلوب",
           "payment methods": "طرق الدفع",
@@ -464,6 +465,7 @@ class MyLocale extends Translations {
           "disconnected": "الاتصال مقطوع",
           "your location is not tracked": "لا يتم تتبع موقعك",
           "no running order": "لا يوجد طلب قيد التنفيذ",
+          "extra options": "خيارات اضافية",
         },
       };
 }

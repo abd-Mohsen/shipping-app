@@ -6,9 +6,12 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
+import 'package:shipment/models/currency_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
+import 'package:shipment/models/weight_unit_model.dart';
 import 'package:shipment/views/components/custom_button.dart';
+import 'package:shipment/views/components/custom_dropdown_button.dart';
 import 'package:shipment/views/components/date_selector.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
@@ -98,7 +101,7 @@ class MakeOrderView extends StatelessWidget {
                           compareFn: (type1, type2) => type1.id == type2.id,
                           popupProps: PopupProps.menu(
                             showSearchBox: false,
-                            constraints: BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
+                            constraints: const BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
                             menuProps: MenuProps(
                               elevation: 5,
                               shape: const RoundedRectangleBorder(
@@ -155,31 +158,77 @@ class MakeOrderView extends StatelessWidget {
                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
                   },
                 ),
-                InputField(
-                  controller: controller.weight,
-                  label: "weight with unit".tr,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  prefixIcon: Icons.monitor_weight,
-                  validator: (val) {
-                    return validateInput(controller.weight.text, 1, 100, "");
-                  },
-                  onChanged: (val) {
-                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                  },
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: InputField(
+                        controller: controller.weight,
+                        label: "weight with unit".tr,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        prefixIcon: Icons.monitor_weight,
+                        validator: (val) {
+                          return validateInput(controller.weight.text, 1, 18, "", floatingPointNumber: true);
+                        },
+                        onChanged: (val) {
+                          if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: controller.isLoadingInfo
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: SpinKitThreeBounce(color: cs.primary, size: 20),
+                            )
+                          : CustomDropdownButton<WeightUnitModel>(
+                              items: controller.weightUnits,
+                              onSelect: (w) {
+                                controller.selectWeightUnit(w);
+                              },
+                              selectedValue: controller.selectedWeightUnit!,
+                            ),
+                    )
+                  ],
                 ),
-                InputField(
-                  controller: controller.price,
-                  label: "expected price".tr,
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  prefixIcon: Icons.attach_money,
-                  validator: (val) {
-                    return validateInput(controller.price.text, 1, 18, "", wholeNumber: true);
-                  },
-                  onChanged: (val) {
-                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                  },
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: InputField(
+                        controller: controller.price,
+                        label: "expected price".tr,
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        prefixIcon: Icons.attach_money,
+                        validator: (val) {
+                          return validateInput(controller.price.text, 1, 18, "", floatingPointNumber: true);
+                        },
+                        onChanged: (val) {
+                          if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: controller.isLoadingInfo
+                          ? Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: SpinKitThreeBounce(color: cs.primary, size: 20),
+                            )
+                          : CustomDropdownButton<CurrencyModel>(
+                              items: controller.currencies,
+                              onSelect: (c) {
+                                controller.selectCurrency(c);
+                              },
+                              selectedValue: controller.selectedCurrency!,
+                            ),
+                    )
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),

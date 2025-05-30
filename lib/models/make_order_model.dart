@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
+import 'package:shipment/models/weight_unit_model.dart';
+
+import 'currency_model.dart';
 
 MakeOrderModel makeOrderModelFromJson(String str) => MakeOrderModel.fromJson(json.decode(str));
 
@@ -45,42 +48,6 @@ class MakeOrderModel {
       };
 }
 
-class CurrencyModel {
-  final int id;
-  final String code;
-  final String name;
-  final String symbol;
-  final String exchangeRateToUsd;
-  final bool isActive;
-
-  CurrencyModel({
-    required this.id,
-    required this.code,
-    required this.name,
-    required this.symbol,
-    required this.exchangeRateToUsd,
-    required this.isActive,
-  });
-
-  factory CurrencyModel.fromJson(Map<String, dynamic> json) => CurrencyModel(
-        id: json["id"],
-        code: json["code"],
-        name: json["name"],
-        symbol: json["symbol"],
-        exchangeRateToUsd: json["exchange_rate_to_usd"],
-        isActive: json["is_active"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "code": code,
-        "name": name,
-        "symbol": symbol,
-        "exchange_rate_to_usd": exchangeRateToUsd,
-        "is_active": isActive,
-      };
-}
-
 class OrderExtraInfoModel {
   final int id;
   final String name;
@@ -98,45 +65,5 @@ class OrderExtraInfoModel {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-      };
-}
-
-class TypeVehicle {
-  final int id;
-  final String type;
-
-  TypeVehicle({
-    required this.id,
-    required this.type,
-  });
-
-  factory TypeVehicle.fromJson(Map<String, dynamic> json) => TypeVehicle(
-        id: json["id"],
-        type: json["type"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "type": type,
-      };
-}
-
-class WeightUnitModel {
-  final String value;
-  final String label;
-
-  WeightUnitModel({
-    required this.value,
-    required this.label,
-  });
-
-  factory WeightUnitModel.fromJson(Map<String, dynamic> json) => WeightUnitModel(
-        value: json["value"],
-        label: json["label"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "value": value,
-        "label": label,
       };
 }
