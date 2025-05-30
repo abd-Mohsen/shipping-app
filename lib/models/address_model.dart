@@ -7,34 +7,58 @@ String addressModelToJson(List<AddressModel> data) => json.encode(List<dynamic>.
 
 class AddressModel {
   final int? id;
-  final String name;
-  AddressModel? child;
+  final String country;
+  final String governorate;
+  final String? city;
+  final String? district;
+  final String? street;
+  final double latitude;
+  final double longitude;
 
   AddressModel({
     this.id,
-    required this.name,
-    required this.child,
+    required this.country,
+    required this.governorate,
+    required this.city,
+    required this.district,
+    required this.street,
+    required this.latitude,
+    required this.longitude,
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
         id: json["id"],
-        name: json["name"],
-        child: json["child"] == null ? null : AddressModel.fromJson(json["child"]),
+        country: json["country"],
+        governorate: json["governorate"],
+        city: json["city"],
+        district: json["district"],
+        street: json["street"],
+        latitude: json["latitude"],
+        longitude: json["longitude"],
       );
 
   Map<String, dynamic> toJson() => {
-        "name": name,
-        "child": child?.toJson(),
+        "country": country,
+        "governorate": governorate,
+        "city": city,
+        "district": district,
+        "street": street,
+        "latitude": latitude,
+        "longitude": longitude,
       };
 
   @override
   String toString() {
-    List<String> list = [];
-    AddressModel? curr = this;
-    while (curr != null) {
-      list.add(curr.name);
-      curr = curr.child;
+    List<String?> names = [governorate, city, street];
+    String res = "";
+
+    for (String? name in names) {
+      if (name != null) {
+        res += name;
+        res += ', ';
+      }
     }
-    return list.join(", ");
+    res = res.substring(0, res.length - 2);
+    return res;
   }
 }

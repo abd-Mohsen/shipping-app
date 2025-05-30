@@ -36,7 +36,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
                   value: item,
                   child: Text(
                     item.toString(),
-                    style: tt.labelSmall!.copyWith(
+                    style: tt.labelMedium!.copyWith(
                       overflow: TextOverflow.ellipsis,
                       color: cs.onSurface,
                     ),
@@ -54,7 +54,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           isExpanded: true, // Recommended for proper width
           underline: const SizedBox(),
-          padding: const EdgeInsets.symmetric(horizontal: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
         ),
       ),
     );

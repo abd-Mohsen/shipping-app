@@ -112,7 +112,10 @@ class MyAddressesController extends GetxController {
       toggleLoadingAdd(false);
       return;
     }
-    bool success = await RemoteServices.addAddress(selectedLocation!.addressEncoder());
+    bool success = await RemoteServices.addAddress(selectedLocation!.addressEncoder(
+      selectedPosition!.latitude,
+      selectedPosition!.longitude,
+    ));
     if (success) {
       Get.showSnackbar(GetSnackBar(
         message: "the address was added successfully".tr,

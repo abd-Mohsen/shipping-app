@@ -164,7 +164,7 @@ class OrderCard extends StatelessWidget {
                         children: [
                           //const SizedBox(height: 8),
                           Text(
-                            "${order.startPoint.name} - ${order.endPoint.name}",
+                            "${order.startPoint.governorate} - ${order.endPoint.governorate}",
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: tt.labelSmall!.copyWith(

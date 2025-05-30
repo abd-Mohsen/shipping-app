@@ -54,18 +54,17 @@ class LocationModel {
         "country": country,
       };
 
-  AddressModel addressEncoder() {
-    List<String?> steps = [country, city, town, road];
-    if (town != null) steps.remove(city);
-    if (city == state) steps.remove(city);
-    AddressModel result = AddressModel(name: state!, child: null);
-    AddressModel current = result;
+  AddressModel addressEncoder(double lat, double long) {
+    AddressModel result = AddressModel(
+      country: country!,
+      governorate: state!,
+      city: city == state ? null : town ?? city,
+      district: district,
+      street: road,
+      latitude: lat,
+      longitude: long,
+    );
 
-    for (String? step in steps) {
-      if (step == null) continue;
-      current.child = AddressModel(name: step, child: null);
-      current = current.child!;
-    }
     return result;
   }
 }

@@ -1,7 +1,9 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
@@ -52,8 +54,13 @@ class MakeOrderView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: cs.surface,
         title: Text(
-          edit ? 'edit order'.tr : 'make an order'.tr,
+          edit ? 'edit order'.tr : 'new order'.tr,
           style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+        ),
+        elevation: 0,
+        surfaceTintColor: Colors.transparent, // Add this line
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: cs.surface, // Match your AppBar
         ),
         centerTitle: true,
       ),
@@ -147,10 +154,10 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 InputField(
                   controller: controller.description,
-                  label: "description".tr,
+                  label: "description placeholder".tr,
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.newline,
-                  prefixIcon: Icons.text_snippet,
+                  prefixIcon: FontAwesomeIcons.ccMastercard,
                   validator: (val) {
                     return validateInput(controller.description.text, 4, 1000, "text");
                   },
@@ -162,7 +169,7 @@ class MakeOrderView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 4,
                       child: InputField(
                         controller: controller.weight,
                         label: "weight with unit".tr,
@@ -198,7 +205,7 @@ class MakeOrderView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 4,
                       child: InputField(
                         controller: controller.price,
                         label: "expected price".tr,
@@ -234,7 +241,7 @@ class MakeOrderView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
                   child: Text(
-                    "${"application commission".tr}: "
+                    "${"order commission".tr}: "
                     "${controller.applicationCommission.toPrecision(2)}${controller.selectedCurrency?.symbol ?? ""}",
                     style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.7), fontWeight: FontWeight.bold),
                   ),
@@ -408,7 +415,7 @@ class MakeOrderView extends StatelessWidget {
                     child: controller.isLoading
                         ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                         : Text(
-                            edit ? "edit order".tr.toUpperCase() : "make order".tr.toUpperCase(),
+                            edit ? "edit".tr.toUpperCase() : "add".tr.toUpperCase(),
                             style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                           ),
                   ),

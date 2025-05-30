@@ -102,7 +102,7 @@ class OrderCard3 extends StatelessWidget {
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 2.5,
                           child: Text(
-                            "${order.startPoint.name} - ${order.endPoint.name}",
+                            "${order.startPoint.governorate} - ${order.endPoint.governorate}",
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: tt.labelSmall!.copyWith(

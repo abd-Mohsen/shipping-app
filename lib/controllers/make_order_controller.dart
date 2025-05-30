@@ -82,7 +82,12 @@ class MakeOrderController extends GetxController {
     toggleLoadingSelect1(true);
     if (startPosition != null) {
       sourceLocation = await RemoteServices.getAddressFromLatLng(startPosition!.latitude, startPosition!.longitude);
-      if (sourceLocation != null) sourceAddress = sourceLocation!.addressEncoder();
+      if (sourceLocation != null) {
+        sourceAddress = sourceLocation!.addressEncoder(
+          startPosition!.latitude,
+          startPosition!.longitude,
+        );
+      }
     }
     toggleLoadingSelect1(false);
   }
@@ -91,7 +96,12 @@ class MakeOrderController extends GetxController {
     toggleLoadingSelect2(true);
     if (endPosition != null) {
       targetLocation = await RemoteServices.getAddressFromLatLng(endPosition!.latitude, endPosition!.longitude);
-      if (targetLocation != null) targetAddress = targetLocation!.addressEncoder();
+      if (targetLocation != null) {
+        targetAddress = targetLocation!.addressEncoder(
+          endPosition!.latitude,
+          endPosition!.longitude,
+        );
+      }
     }
     toggleLoadingSelect2(false);
   }
@@ -283,7 +293,6 @@ class MakeOrderController extends GetxController {
       "type_vehicle": selectedVehicleType?.id,
       "start_point": sourceAddress!.toJson(),
       "end_point": targetAddress!.toJson(),
-      //todo: change address model
       "weight": weight.text,
       "weight_unit": selectedWeightUnit!.value,
       "price": int.parse(price.text),

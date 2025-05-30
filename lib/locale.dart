@@ -235,7 +235,8 @@ class MyLocale extends Translations {
           "your location is not tracked": "your location is not tracked",
           "no running order": "no running order",
           "extra options": "extra options",
-          "application commission": "application commission",
+          "order commission": "order commission",
+          "description placeholder": "description e.g: building equipments"
         },
         "ar": {
           "Arabic": "العربية",
@@ -467,7 +468,8 @@ class MyLocale extends Translations {
           "your location is not tracked": "لا يتم تتبع موقعك",
           "no running order": "لا يوجد طلب قيد التنفيذ",
           "extra options": "خيارات اضافية",
-          "application commission": "عمولة التطبيق",
+          "order commission": "عمولة الطلب",
+          "description placeholder": "الوصف (توصيل معدات بناء)"
         },
       };
 }
