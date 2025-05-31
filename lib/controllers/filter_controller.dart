@@ -71,6 +71,13 @@ class FilterController extends GetxController {
     update();
   }
 
+  void clearFilters() {
+    resetRange();
+    selectedVehicleType = null;
+    selectedGovernorate = null;
+    update();
+  }
+
   bool _isLoadingGovernorates = false;
   bool get isLoadingGovernorates => _isLoadingGovernorates;
   void toggleLoadingGovernorate(bool value) {

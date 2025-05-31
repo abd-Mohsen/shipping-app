@@ -246,6 +246,9 @@ class MyLocale extends Translations {
           "in service": "in service",
           "out of service": "out of service",
           "selected governorate": "selected governorate",
+          "max price": "max price",
+          "min price": "min price",
+          "clear filters": "clear filters",
         },
         "ar": {
           "Arabic": "العربية",
@@ -488,6 +491,9 @@ class MyLocale extends Translations {
           "out of service": "خارج الخدمة",
           "branch details": "تفاصيل الفرع",
           "selected governorate": "المحافظة المختارة",
+          "max price": "السعر الأعلى",
+          "min price": "السعر الأدنى",
+          "clear filters": "مسح الفلاتر",
         },
       };
 }

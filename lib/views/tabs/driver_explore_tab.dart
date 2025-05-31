@@ -119,7 +119,11 @@ class DriverExploreTab extends StatelessWidget {
                                     enableDrag: true,
                                     builder: (context) => BackdropFilter(
                                       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                                      child: FilterSheet(),
+                                      child: const FilterSheet(
+                                        showGovernorate: false,
+                                        showPrice: false,
+                                        showVehicleType: true,
+                                      ),
                                     ),
                                   );
                                 },

@@ -18,6 +18,7 @@ final NotificationService notificationService = NotificationService();
 //todo: additional notes (tele)
 //todo: PT report
 //todo(later): reduce apk size
+//todo: order mini model
 
 void main() async {
   await GetStorage.init();
