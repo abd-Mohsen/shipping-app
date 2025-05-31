@@ -13,12 +13,14 @@ class FilterSheet extends StatelessWidget {
   final bool showGovernorate;
   final bool showPrice;
   final bool showVehicleType;
+  final void Function() onConfirm;
 
   const FilterSheet({
     super.key,
     required this.showGovernorate,
     required this.showPrice,
     required this.showVehicleType,
+    required this.onConfirm,
   });
 
   @override
@@ -168,10 +170,7 @@ class FilterSheet extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                // refresh orders with new filters
-                Get.back();
-              },
+              onTap: onConfirm,
               child: Container(
                 margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
                 padding: const EdgeInsets.symmetric(vertical: 16),

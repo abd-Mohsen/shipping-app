@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -9,6 +10,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/views/components/filter_sheet.dart';
 import 'package:shipment/views/components/governorate_selector.dart';
 import '../../controllers/driver_home_controller.dart';
+import '../../controllers/filter_controller.dart';
 import '../components/my_search_field.dart';
 import '../components/order_card.dart';
 
@@ -109,38 +111,56 @@ class DriverExploreTab extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  //todo: implement filters
-                                  showMaterialModalBottomSheet(
-                                    context: context,
-                                    backgroundColor: Colors.transparent,
-                                    barrierColor: Colors.black.withOpacity(0.5),
-                                    enableDrag: true,
-                                    builder: (context) => BackdropFilter(
-                                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                                      child: const FilterSheet(
-                                        showGovernorate: false,
-                                        showPrice: false,
-                                        showVehicleType: true,
+                              GetBuilder<FilterController>(builder: (controller) {
+                                return badges.Badge(
+                                  showBadge: controller.isFilterApplied,
+                                  position: badges.BadgePosition.topStart(
+                                    top: -3, // Negative value moves it up
+                                    start: -3, // Negative value moves it left
+                                  ),
+                                  badgeStyle: badges.BadgeStyle(
+                                    shape: badges.BadgeShape.circle,
+                                    badgeColor: const Color(0xff00ff00),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showMaterialModalBottomSheet(
+                                        context: context,
+                                        isDismissible: false,
+                                        backgroundColor: Colors.transparent,
+                                        barrierColor: Colors.black.withOpacity(0.5),
+                                        enableDrag: true,
+                                        builder: (context) => BackdropFilter(
+                                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                                          child: FilterSheet(
+                                            showGovernorate: true,
+                                            showPrice: true,
+                                            showVehicleType: true,
+                                            onConfirm: () {
+                                              hC.refreshExploreOrders();
+                                              Get.back();
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      margin: const EdgeInsets.only(bottom: 4),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: cs.primary,
+                                      ),
+                                      child: FaIcon(
+                                        FontAwesomeIcons.sliders,
+                                        color: cs.onPrimary,
+                                        size: 20,
                                       ),
                                     ),
-                                  );
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(8.0),
-                                  margin: const EdgeInsets.only(left: 4, right: 4, bottom: 4),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: cs.primary,
                                   ),
-                                  child: FaIcon(
-                                    FontAwesomeIcons.sliders,
-                                    color: cs.onPrimary,
-                                    size: 20,
-                                  ),
-                                ),
-                              )
+                                );
+                              }),
                             ],
                           ),
                           Padding(

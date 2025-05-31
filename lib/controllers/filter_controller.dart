@@ -9,7 +9,7 @@ import '../services/remote_services.dart';
 class FilterController extends GetxController {
   @override
   onInit() {
-    geFilterInfo();
+    getFilterInfo();
     getGovernorates();
     super.onInit();
   }
@@ -32,12 +32,12 @@ class FilterController extends GetxController {
     update();
   }
 
-  Future geFilterInfo() async {
+  Future getFilterInfo() async {
     toggleLoadingInfo(true);
     MakeOrderModel? model = await RemoteServices.fetchMakeOrderInfo();
     if (model == null) {
       await Future.delayed(const Duration(seconds: 10));
-      geFilterInfo();
+      getFilterInfo();
     } else {
       vehicleTypes = model.vehicleTypes;
       currencies = model.currencies;
@@ -63,21 +63,6 @@ class FilterController extends GetxController {
     update();
   }
 
-  void resetRange() {
-    minPrice = 0.0;
-    maxPrice = 2500.0 * selectedCurrency!.exchangeRateToUsd;
-    sliderMinPrice = minPrice;
-    sliderMaxPrice = maxPrice;
-    update();
-  }
-
-  void clearFilters() {
-    resetRange();
-    selectedVehicleType = null;
-    selectedGovernorate = null;
-    update();
-  }
-
   bool _isLoadingGovernorates = false;
   bool get isLoadingGovernorates => _isLoadingGovernorates;
   void toggleLoadingGovernorate(bool value) {
@@ -99,4 +84,25 @@ class FilterController extends GetxController {
     governorates.addAll(newItems);
     toggleLoadingGovernorate(false);
   }
+
+  void resetRange() {
+    minPrice = 0.0;
+    maxPrice = 2500.0 * selectedCurrency!.exchangeRateToUsd;
+    sliderMinPrice = minPrice;
+    sliderMaxPrice = maxPrice;
+    update();
+  }
+
+  void clearFilters() {
+    resetRange();
+    selectedVehicleType = null;
+    selectedGovernorate = null;
+    update();
+  }
+
+  bool get isFilterApplied =>
+      minPrice != sliderMinPrice ||
+      maxPrice != sliderMaxPrice ||
+      selectedGovernorate != null ||
+      selectedVehicleType != null;
 }

@@ -1,9 +1,15 @@
+import 'dart:ui';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
+import 'package:shipment/controllers/filter_controller.dart';
+import '../components/filter_sheet.dart';
 import '../components/my_search_field.dart';
 import '../components/order_card_3.dart';
 
@@ -86,13 +92,74 @@ class CustomerOrdersTab extends StatelessWidget {
                 //     ),
                 //   ],
                 // ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                  child: MySearchField(
-                    label: "search".tr,
-                    textEditingController: controller.searchQuery,
-                    icon: Icon(Icons.search, color: cs.primary),
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: MySearchField(
+                          label: "search".tr,
+                          textEditingController: controller.searchQuery,
+                          icon: Icon(Icons.search, color: cs.primary),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    //todo: refactor filter buttom
+                    GetBuilder<FilterController>(builder: (controller) {
+                      return badges.Badge(
+                        showBadge: controller.isFilterApplied,
+                        position: badges.BadgePosition.topStart(
+                          top: -3, // Negative value moves it up
+                          start: -3, // Negative value moves it left
+                        ),
+                        badgeStyle: badges.BadgeStyle(
+                          shape: badges.BadgeShape.circle,
+                          badgeColor: const Color(0xff00ff00),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            showMaterialModalBottomSheet(
+                              context: context,
+                              isDismissible: false,
+                              backgroundColor: Colors.transparent,
+                              barrierColor: Colors.black.withOpacity(0.5),
+                              enableDrag: true,
+                              builder: (context) => BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                                child: FilterSheet(
+                                  showGovernorate: true,
+                                  showPrice: true,
+                                  showVehicleType: true,
+                                  onConfirm: () {
+                                    Get.back();
+                                    hC.refreshOrders();
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8.0),
+                            margin: const EdgeInsets.only(bottom: 4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: cs.primary,
+                            ),
+                            child: FaIcon(
+                              FontAwesomeIcons.sliders,
+                              color: cs.onPrimary,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                    SizedBox(width: 12),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 12),

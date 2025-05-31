@@ -241,12 +241,27 @@ class RemoteServices {
     return vehicleModelFromJson(json);
   }
 
-  static Future<List<OrderModel2>?> fetchCustomerOrders(List<String> types) async {
+  static Future<List<OrderModel2>?> fetchCustomerOrders({
+    required List<String> types,
+    int page = 1,
+    String? searchQuery,
+    double? minPrice,
+    double? maxPrice,
+    int? vehicleType,
+    int? governorate,
+    int? currency,
+  }) async {
     String addedTypes = "";
     for (String type in types) {
       addedTypes += "&order_status=$type";
     }
-    String? json = await api.getRequest("customer_order/?$addedTypes&page=1", auth: true);
+    if (searchQuery != null && searchQuery.isNotEmpty) addedTypes += "&search=$searchQuery";
+    if (minPrice != null) addedTypes += "&min_price=$minPrice";
+    if (maxPrice != null) addedTypes += "&max_price=$maxPrice";
+    if (vehicleType != null) addedTypes += "&type_vehicle=$vehicleType";
+    if (governorate != null) addedTypes += "&order_location=$governorate";
+    if (currency != null) addedTypes += "&currency_id=$currency";
+    String? json = await api.getRequest("customer_order/?$addedTypes&page=$page", auth: true);
     if (json == null) return null;
     return orderModel2FromJson(json);
   }

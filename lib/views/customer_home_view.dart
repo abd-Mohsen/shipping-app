@@ -7,6 +7,7 @@ import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/tabs/customer_home_tab.dart';
 import 'package:shipment/views/tabs/customer_orders_tab.dart';
 import '../constants.dart';
+import '../controllers/filter_controller.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../controllers/notifications_controller.dart';
 import 'edit_profile_view.dart';
@@ -18,7 +19,11 @@ class CustomerHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     //ThemeController tC = Get.find();
     HomeNavigationController hNC = Get.put(HomeNavigationController());
-    CustomerHomeController hC = Get.put(CustomerHomeController(homeNavigationController: hNC));
+    FilterController fC = Get.put(FilterController());
+    CustomerHomeController hC = Get.put(CustomerHomeController(
+      homeNavigationController: hNC,
+      filterController: fC,
+    ));
     Get.put(NotificationsController());
 
     ColorScheme cs = Theme.of(context).colorScheme;
@@ -103,6 +108,7 @@ class CustomerHomeView extends StatelessWidget {
                   elevation: 0,
                   onTap: (i) {
                     controller.changeTab(i);
+                    hC.filterController.clearFilters(); //todo do for all roles
                   },
                   currentIndex: controller.tabIndex,
                 ),

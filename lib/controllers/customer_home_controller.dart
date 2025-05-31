@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
 // import 'package:shipment/models/order_model.dart';
 import '../models/order_model_2.dart';
@@ -15,7 +16,8 @@ import 'otp_controller.dart';
 
 class CustomerHomeController extends GetxController {
   HomeNavigationController homeNavigationController;
-  CustomerHomeController({required this.homeNavigationController});
+  FilterController filterController;
+  CustomerHomeController({required this.homeNavigationController, required this.filterController});
 
   @override
   onInit() {
@@ -64,14 +66,23 @@ class CustomerHomeController extends GetxController {
   }
 
   void getOrders() async {
-    //todo:pagination
     toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("not taken")) typesToFetch.addAll(["available", "draft"]);
     if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
-    List<OrderModel2> newItems = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
+    List<OrderModel2> newItems = await RemoteServices.fetchCustomerOrders(
+          types: typesToFetch,
+          page: 1, //todo:pagination
+          searchQuery: searchQuery.text.trim(),
+          minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+          maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+          vehicleType: filterController.selectedVehicleType?.id,
+          governorate: filterController.selectedGovernorate?.id,
+          currency: filterController.selectedCurrency?.id,
+        ) ??
+        [];
     myOrders.addAll(newItems);
     toggleLoading(false);
   }
@@ -81,11 +92,20 @@ class CustomerHomeController extends GetxController {
     getOrders();
   }
 
+  Timer? _debounce;
+
+  search(text) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(seconds: 1), () {
+      refreshOrders();
+    });
+  }
+
   void getRecentOrders() async {
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["available", "draft", "pending", "approved", "done", "canceled"];
-    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchCustomerOrders(["processing"]) ?? [];
-    List<OrderModel2> newOrders = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
+    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchCustomerOrders(types: ["processing"]) ?? [];
+    List<OrderModel2> newOrders = await RemoteServices.fetchCustomerOrders(types: typesToFetch) ?? [];
     recentOrders.addAll(newProcessingOrders);
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
