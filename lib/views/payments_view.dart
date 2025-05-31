@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/payments_controller.dart';
@@ -16,42 +17,64 @@ class PaymentsView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
     PaymentsController pC = Get.put(PaymentsController());
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         backgroundColor: cs.surface,
         appBar: AppBar(
-          backgroundColor: cs.primary,
+          backgroundColor: cs.secondaryContainer,
           title: Text(
             'payment methods'.tr,
-            style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+            style: tt.titleSmall!.copyWith(color: cs.onSecondaryContainer),
           ),
           centerTitle: true,
           bottom: TabBar(
-            indicatorColor: Color(0xff7fff00),
+            indicatorColor: cs.primary,
             indicatorWeight: 4,
             tabs: [
               Tab(
-                icon: Icon(
-                  Icons.house,
-                  color: cs.onPrimary,
-                  size: 25,
+                icon: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(
+                    Icons.house,
+                    color: cs.onSecondaryContainer,
+                    size: 23,
+                  ),
                 ),
                 child: Text(
                   "branches".tr,
-                  style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
+                  style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               Tab(
-                icon: Icon(
-                  Icons.account_balance,
-                  color: cs.onPrimary,
-                  size: 25,
+                icon: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(
+                    Icons.account_balance,
+                    color: cs.onSecondaryContainer,
+                    size: 23,
+                  ),
                 ),
                 child: Text(
                   "bank accounts".tr,
-                  style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
+                  style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Tab(
+                icon: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(
+                    FontAwesomeIcons.moneyBillTransfer,
+                    color: cs.onSecondaryContainer,
+                    size: 20,
+                  ),
+                ),
+                child: Text(
+                  "money transfer".tr,
+                  style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -92,25 +115,13 @@ class PaymentsView extends StatelessWidget {
                         : Column(
                             children: [
                               Expanded(
-                                child: OSMFlutter(
-                                  controller: controller.mapController,
-                                  mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                                  osmOption: const OSMOption(
-                                    zoomOption: ZoomOption(
-                                      initZoom: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
                                 child: ListView.builder(
                                   padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                                   itemCount: controller.branches.length,
                                   itemBuilder: (context, i) => BranchCard(
                                     branch: controller.branches[i],
-                                    isSelected: controller.selectedBranch == i,
                                     onTap: () {
-                                      controller.selectBranch(controller.branches[i], i);
+                                      //
                                     },
                                   ),
                                 ),
@@ -150,6 +161,8 @@ class PaymentsView extends StatelessWidget {
                                 ),
                               ),
                       ),
+                //
+                Placeholder(),
               ],
             );
           },

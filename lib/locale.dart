@@ -236,7 +236,15 @@ class MyLocale extends Translations {
           "no running order": "no running order",
           "extra options": "extra options",
           "order commission": "order commission",
-          "description placeholder": "description e.g: building equipments"
+          "description placeholder": "description e.g: building equipments",
+          "branches": "branches",
+          "branch details": "branch details",
+          "bank accounts": "bank accounts",
+          "money transfer": "money transfer",
+          "closed": "closed",
+          "opened": "opened",
+          "in service": "in service",
+          "out of service": "out of service",
         },
         "ar": {
           "Arabic": "العربية",
@@ -469,7 +477,15 @@ class MyLocale extends Translations {
           "no running order": "لا يوجد طلب قيد التنفيذ",
           "extra options": "خيارات اضافية",
           "order commission": "عمولة الطلب",
-          "description placeholder": "الوصف (توصيل معدات بناء)"
+          "description placeholder": "الوصف (توصيل معدات بناء)",
+          "branches": "الفروع",
+          "bank accounts": "حسابات بنكية",
+          "money transfer": "تحويل",
+          "closed": "مغلق",
+          "opened": "مفتوح",
+          "in service": "في الخدمة",
+          "out of service": "خارج الخدمة",
+          "branch details": "تفاصيل الفرع",
         },
       };
 }

@@ -10,14 +10,12 @@ String branchModelToJson(List<BranchModel> data) => json.encode(List<dynamic>.fr
 class BranchModel {
   final int id;
   final String name;
-  final Coordinates coordinates;
   final AddressModel address;
   final bool isActive;
 
   BranchModel({
     required this.id,
     required this.name,
-    required this.coordinates,
     required this.address,
     required this.isActive,
   });
@@ -25,7 +23,6 @@ class BranchModel {
   factory BranchModel.fromJson(Map<String, dynamic> json) => BranchModel(
         id: json["id"],
         name: json["name"],
-        coordinates: Coordinates.fromJson(json["coordinates"]),
         address: AddressModel.fromJson(json["address"]),
         isActive: json["is_active"],
       );
@@ -33,7 +30,6 @@ class BranchModel {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "coordinates": coordinates.toJson(),
         "address": address.toJson(),
         "is_active": isActive,
       };

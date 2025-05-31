@@ -2,7 +2,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:shipment/models/bank_details_model.dart';
 import 'package:shipment/models/branch_model.dart';
-import 'package:flutter/material.dart';
+import '../constants.dart';
 import '../services/remote_services.dart';
 
 class PaymentsController extends GetxController {
@@ -39,28 +39,19 @@ class PaymentsController extends GetxController {
     initPosition: GeoPoint(latitude: 33.5101876, longitude: 36.2775732),
   );
 
-  int selectedBranch = -1;
-  void selectBranch(BranchModel branch, int i) async {
-    selectedBranch = i;
+  void selectBranch(BranchModel branch) async {
     GeoPoint currPosition = GeoPoint(
-      latitude: branch.coordinates.latitude,
-      longitude: branch.coordinates.longitude,
+      latitude: branch.address.latitude,
+      longitude: branch.address.longitude,
     );
     mapController.moveTo(currPosition);
     await Future.delayed(const Duration(milliseconds: 100));
     mapController.addMarker(
       currPosition,
-      markerIcon: const MarkerIcon(
-        icon: Icon(
-          Icons.location_pin,
-          color: Colors.red,
-          size: 30,
-        ),
-      ),
+      markerIcon: kMapDefaultMarker,
     );
     update();
   }
-
   //----------------------bank details-------------------------
 
   bool _isLoadingBank = false;

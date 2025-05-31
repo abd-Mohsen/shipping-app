@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/login_view.dart';
 
@@ -182,5 +183,13 @@ TextTheme kMyTextTheme = TextTheme(
     //wordSpacing: 16,
     letterSpacing: 0.4,
     fontFamily: kFontFamily,
+  ),
+);
+
+MarkerIcon kMapDefaultMarker = const MarkerIcon(
+  icon: Icon(
+    Icons.location_pin,
+    color: Colors.red,
+    size: 30,
   ),
 );

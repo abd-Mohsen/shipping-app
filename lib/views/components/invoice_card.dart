@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/models/invoice_model.dart';
+import 'package:shipment/views/components/blurred_sheet.dart';
+import 'package:shipment/views/components/sheet_details_tile.dart';
 
 class InvoiceCard extends StatelessWidget {
   final InvoiceModel invoice;
@@ -70,112 +72,52 @@ class InvoiceCard extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   barrierColor: Colors.black.withOpacity(0.5),
                   enableDrag: true,
-                  builder: (context) => BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                      height: MediaQuery.of(context).size.height / 2.2,
-                      decoration: BoxDecoration(
-                        color: cs.surface,
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 10),
-                                child: Text(
-                                  "${"invoice".tr} #${invoice.id}",
-                                  style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Divider(
-                                thickness: 1,
-                                color: cs.onSurface.withOpacity(0.2),
-                                indent: 20,
-                                endIndent: 60,
-                              ),
-                            ],
-                          ),
-                          //
-                          Expanded(
-                            child: Scrollbar(
-                              thumbVisibility: true,
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: InvoiceDetailsTile(
-                                            title: "date".tr,
-                                            subtitle: Jiffy.parseFromDateTime(invoice.paymentDate)
-                                                .format(pattern: "d / M / y"),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: InvoiceDetailsTile(
-                                            title: "time".tr,
-                                            subtitle: Jiffy.parseFromDateTime(invoice.paymentDate).jm,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: InvoiceDetailsTile(
-                                            title: "paid amount".tr,
-                                            subtitle: invoice.amount,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: InvoiceDetailsTile(
-                                            title: "branch name".tr,
-                                            subtitle: invoice.branch?.name ?? "paid by bank transfer".tr,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    if (invoice.branch != null)
-                                      InvoiceDetailsTile(
-                                        title: "branch address".tr,
-                                        subtitle: invoice.branch?.address.toString() ?? "",
-                                      ),
-                                  ],
-                                ),
+                  builder: (context) => BlurredSheet(
+                    title: "#${invoice.id.toString()}",
+                    confirmText: "ok".tr,
+                    onConfirm: () {
+                      Get.back();
+                    },
+                    content: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SheetDetailsTile(
+                                title: "date".tr,
+                                subtitle: Jiffy.parseFromDateTime(invoice.paymentDate).format(pattern: "d / M / y"),
                               ),
                             ),
-                          ),
-                          //
-                          GestureDetector(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: cs.primary,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "ok".tr,
-                                  style: tt.labelMedium!.copyWith(color: cs.onPrimary),
-                                  textAlign: TextAlign.start,
-                                ),
+                            Expanded(
+                              child: SheetDetailsTile(
+                                title: "time".tr,
+                                subtitle: Jiffy.parseFromDateTime(invoice.paymentDate).jm,
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SheetDetailsTile(
+                                title: "paid amount".tr,
+                                subtitle: invoice.amount,
+                              ),
+                            ),
+                            Expanded(
+                              child: SheetDetailsTile(
+                                title: "branch name".tr,
+                                subtitle: invoice.branch?.name ?? "paid by bank transfer".tr,
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (invoice.branch != null)
+                          SheetDetailsTile(
+                            title: "branch address".tr,
+                            subtitle: invoice.branch?.address.toString() ?? "",
+                          ),
+                      ],
                     ),
                   ),
                 );
@@ -266,47 +208,6 @@ class InvoiceCard extends StatelessWidget {
           //   ),
           // ),
           ),
-    );
-  }
-}
-
-class InvoiceDetailsTile extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  const InvoiceDetailsTile({
-    super.key,
-    required this.title,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
-            textAlign: TextAlign.start,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            // "${Jiffy.parseFromDateTime(invoice.paymentDate).format(pattern: "d / M / y")}"
-            // "  ${Jiffy.parseFromDateTime(invoice.paymentDate).jm}",
-            subtitle,
-            style: tt.labelMedium!.copyWith(color: cs.onSurface),
-            textAlign: TextAlign.start,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
     );
   }
 }
