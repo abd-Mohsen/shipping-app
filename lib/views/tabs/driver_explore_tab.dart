@@ -11,6 +11,7 @@ import 'package:shipment/views/components/filter_sheet.dart';
 import 'package:shipment/views/components/governorate_selector.dart';
 import '../../controllers/driver_home_controller.dart';
 import '../../controllers/filter_controller.dart';
+import '../components/filter_button.dart';
 import '../components/my_search_field.dart';
 import '../components/order_card.dart';
 
@@ -112,52 +113,16 @@ class DriverExploreTab extends StatelessWidget {
                                 ),
                               ),
                               GetBuilder<FilterController>(builder: (controller) {
-                                return badges.Badge(
+                                return FilterButton(
                                   showBadge: controller.isFilterApplied,
-                                  position: badges.BadgePosition.topStart(
-                                    top: -3, // Negative value moves it up
-                                    start: -3, // Negative value moves it left
-                                  ),
-                                  badgeStyle: badges.BadgeStyle(
-                                    shape: badges.BadgeShape.circle,
-                                    badgeColor: const Color(0xff00ff00),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      showMaterialModalBottomSheet(
-                                        context: context,
-                                        isDismissible: false,
-                                        backgroundColor: Colors.transparent,
-                                        barrierColor: Colors.black.withOpacity(0.5),
-                                        enableDrag: true,
-                                        builder: (context) => BackdropFilter(
-                                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                                          child: FilterSheet(
-                                            showGovernorate: true,
-                                            showPrice: true,
-                                            showVehicleType: true,
-                                            onConfirm: () {
-                                              hC.refreshExploreOrders();
-                                              Get.back();
-                                            },
-                                          ),
-                                        ),
-                                      );
+                                  sheet: FilterSheet(
+                                    showGovernorate: false,
+                                    showPrice: false,
+                                    showVehicleType: true,
+                                    onConfirm: () {
+                                      Get.back();
+                                      hC.refreshExploreOrders();
                                     },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8.0),
-                                      margin: const EdgeInsets.only(bottom: 4),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: cs.primary,
-                                      ),
-                                      child: FaIcon(
-                                        FontAwesomeIcons.sliders,
-                                        color: cs.onPrimary,
-                                        size: 20,
-                                      ),
-                                    ),
                                   ),
                                 );
                               }),

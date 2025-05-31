@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/filter_controller.dart';
+import 'package:shipment/views/components/filter_button.dart';
 import '../components/filter_sheet.dart';
 import '../components/my_search_field.dart';
 import '../components/order_card_3.dart';
@@ -107,58 +108,23 @@ class CustomerOrdersTab extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    //todo: refactor filter buttom
-                    GetBuilder<FilterController>(builder: (controller) {
-                      return badges.Badge(
-                        showBadge: controller.isFilterApplied,
-                        position: badges.BadgePosition.topStart(
-                          top: -3, // Negative value moves it up
-                          start: -3, // Negative value moves it left
-                        ),
-                        badgeStyle: badges.BadgeStyle(
-                          shape: badges.BadgeShape.circle,
-                          badgeColor: const Color(0xff00ff00),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            showMaterialModalBottomSheet(
-                              context: context,
-                              isDismissible: false,
-                              backgroundColor: Colors.transparent,
-                              barrierColor: Colors.black.withOpacity(0.5),
-                              enableDrag: true,
-                              builder: (context) => BackdropFilter(
-                                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                                child: FilterSheet(
-                                  showGovernorate: true,
-                                  showPrice: true,
-                                  showVehicleType: true,
-                                  onConfirm: () {
-                                    Get.back();
-                                    hC.refreshOrders();
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(8.0),
-                            margin: const EdgeInsets.only(bottom: 4),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: cs.primary,
-                            ),
-                            child: FaIcon(
-                              FontAwesomeIcons.sliders,
-                              color: cs.onPrimary,
-                              size: 20,
-                            ),
+                    GetBuilder<FilterController>(
+                      builder: (controller) {
+                        return FilterButton(
+                          showBadge: controller.isFilterApplied,
+                          sheet: FilterSheet(
+                            showGovernorate: true,
+                            showPrice: true,
+                            showVehicleType: true,
+                            onConfirm: () {
+                              Get.back();
+                              hC.refreshOrders();
+                            },
                           ),
-                        ),
-                      );
-                    }),
-                    SizedBox(width: 12),
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 12),
                   ],
                 ),
                 Padding(
