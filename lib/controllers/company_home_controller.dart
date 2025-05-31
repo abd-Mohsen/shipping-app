@@ -11,6 +11,7 @@ import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import '../models/governorate_model.dart';
 import '../models/order_model.dart';
+import '../models/order_model_2.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/complete_account_view.dart';
@@ -171,9 +172,9 @@ class CompanyHomeController extends GetxController {
   List<GovernorateModel> governorates = [];
   GovernorateModel? selectedGovernorate;
 
-  List<OrderModel> exploreOrders = [];
-  List<OrderModel> currOrders = [];
-  List<OrderModel> historyOrders = [];
+  List<OrderModel2> exploreOrders = [];
+  List<OrderModel2> currOrders = [];
+  List<OrderModel2> historyOrders = [];
 
   bool _isLoadingExplore = false;
   bool get isLoadingExplore => _isLoadingExplore;
@@ -211,7 +212,7 @@ class CompanyHomeController extends GetxController {
     //todo: implement pagination
     if (selectedGovernorate == null) return;
     toggleLoadingExplore(true);
-    List<OrderModel> newItems = await RemoteServices.fetchCompanyOrders(selectedGovernorate!.id, ["available"]) ?? [];
+    List<OrderModel2> newItems = await RemoteServices.fetchCompanyOrders(selectedGovernorate!.id, ["available"]) ?? [];
     exploreOrders.addAll(newItems);
     toggleLoadingExplore(false);
   }
@@ -231,7 +232,7 @@ class CompanyHomeController extends GetxController {
   void getHistoryOrders() async {
     //todo: implement pagination
     toggleLoadingHistory(true);
-    List<OrderModel> newItems = await RemoteServices.fetchCompanyOrders(null, ["done"]) ?? [];
+    List<OrderModel2> newItems = await RemoteServices.fetchCompanyOrders(null, ["done"]) ?? [];
     historyOrders.addAll(newItems);
     toggleLoadingHistory(false);
   }
@@ -251,7 +252,7 @@ class CompanyHomeController extends GetxController {
   void getCurrentOrders() async {
     //todo: implement pagination
     toggleLoadingCurrent(true);
-    List<OrderModel> newItems =
+    List<OrderModel2> newItems =
         await RemoteServices.fetchCompanyOrders(null, ["processing", "pending", "approved"]) ?? [];
     currOrders.addAll(newItems);
     toggleLoadingCurrent(false);

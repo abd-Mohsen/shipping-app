@@ -4,6 +4,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
@@ -15,12 +16,14 @@ import 'package:shipment/models/vehicle_model.dart';
 import '../services/remote_services.dart';
 
 class OrderController extends GetxController {
-  final OrderModel order;
+  OrderModel? order;
+
+  final int orderID;
   final DriverHomeController? driverHomeController; // handle company and customer case
   final CustomerHomeController? customerHomeController;
   final CompanyHomeController? companyHomeController;
   OrderController({
-    required this.order,
+    required this.orderID,
     this.driverHomeController,
     this.customerHomeController,
     this.companyHomeController,
@@ -28,50 +31,54 @@ class OrderController extends GetxController {
 
   @override
   void onInit() async {
-    setStatusIndex();
     isEmployee = await _getStorage.read("role") == "company_employee";
     if (companyHomeController != null || isEmployee) getAvailableVehiclesAndEmployees();
-    selectedPayment = order.paymentMethods[0];
-    //
+    getOrder();
+    super.onInit();
+  }
+
+  bool isLoadingOrder = false;
+  void toggleLoadingOrder(bool value) {
+    isLoadingOrder = value;
+    update();
+  }
+
+  void getOrder() async {
+    toggleLoadingOrder(true);
+    order = await RemoteServices.getSingleOrder(orderID);
+    if (order != null) {
+      selectedPayment = order!.paymentMethods[0];
+      setStatusIndex();
+    }
+    toggleLoadingOrder(false);
+  }
+
+  void initMap() {
+    //todo: call in order page
     mapController = MapController.withPosition(
       initPosition: GeoPoint(
-        latitude: order.startPoint.latitude,
-        longitude: order.startPoint.longitude,
-      ),
-    );
-    update();
-    await Future.delayed(Duration(milliseconds: 800));
-    mapController!.addMarker(
-      GeoPoint(
-        latitude: order.startPoint.latitude,
-        longitude: order.startPoint.longitude,
-      ),
-      markerIcon: const MarkerIcon(
-        icon: Icon(
-          Icons.edit_location_alt_sharp,
-          color: Colors.red,
-          size: 30,
-        ),
+        latitude: order!.startPoint.latitude,
+        longitude: order!.startPoint.longitude,
       ),
     );
     mapController!.addMarker(
       GeoPoint(
-        latitude: order.endPoint.latitude,
-        longitude: order.endPoint.longitude,
+        latitude: order!.startPoint.latitude,
+        longitude: order!.startPoint.longitude,
       ),
-      markerIcon: const MarkerIcon(
-        icon: Icon(
-          Icons.location_on,
-          color: Colors.red,
-          size: 30,
-        ),
-      ),
+      markerIcon: kMapDefaultMarker,
     );
-    //
+    mapController!.addMarker(
+      GeoPoint(
+        latitude: order!.endPoint.latitude,
+        longitude: order!.endPoint.longitude,
+      ),
+      markerIcon: kMapDefaultMarker,
+    );
     //todo: draw path
     //todo: connect when button is pressed
-    if (customerHomeController != null && ["processing"].contains(order.status)) _connectTrackingSocket();
-    super.onInit();
+    if (customerHomeController != null && ["processing"].contains(order!.status)) _connectTrackingSocket();
+    update();
   }
 
   final GetStorage _getStorage = GetStorage();
@@ -81,17 +88,16 @@ class OrderController extends GetxController {
   int statusIndex = 0;
 
   void setStatusIndex() {
-    if (order.status == "draft") return;
-    if (order.status == "canceled") {
+    if (order!.status == "draft") return;
+    if (order!.status == "canceled") {
       statuses.last = "cancelled";
     }
-    statusIndex = statuses.indexOf(order.status);
+    statusIndex = statuses.indexOf(order!.status);
   }
 
   List<String> statuses = ["available", "pending", "approved", "processing", "done"]; //todo there is cancelled
 
   late PaymentMethod selectedPayment;
-
   void selectPayment(PaymentMethod payment) {
     selectedPayment = payment;
     update();
@@ -125,9 +131,8 @@ class OrderController extends GetxController {
     update();
   }
 
-  List<MiniOrderModel> currOrders = [];
+  List<MiniOrderModel> currOrders = []; // to let user see if he has running orders
 
-  // to let user see if he has running orders
   void getCurrOrders() async {
     toggleLoadingCurr(true);
     currOrders.clear();
@@ -136,15 +141,12 @@ class OrderController extends GetxController {
     toggleLoadingCurr(false);
   }
 
-  /*
-  bank account -> full name + account details
-  money transfer -> full name + phone num
-  */
+  /// interacting with order
 
   void acceptOrderDriver() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.driverAcceptOrder(order.id);
+    bool success = await RemoteServices.driverAcceptOrder(order!.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       driverHomeController!.refreshExploreOrders();
@@ -160,7 +162,7 @@ class OrderController extends GetxController {
   void confirmOrderCustomer() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.customerAcceptOrder(order.id);
+    bool success = await RemoteServices.customerAcceptOrder(order!.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       customerHomeController!.refreshOrders();
@@ -175,7 +177,7 @@ class OrderController extends GetxController {
   void refuseOrderCustomer() async {
     if (isLoadingRefuse || isLoadingSubmit) return;
     toggleLoadingRefuse(true);
-    bool success = await RemoteServices.customerRefuseOrder(order.id);
+    bool success = await RemoteServices.customerRefuseOrder(order!.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       customerHomeController!.refreshOrders();
@@ -191,8 +193,8 @@ class OrderController extends GetxController {
     if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingRefuse(true);
     bool success = isEmployee
-        ? await RemoteServices.companyRefuseOrder(order.id)
-        : await RemoteServices.driverRefuseOrder(order.id);
+        ? await RemoteServices.companyRefuseOrder(order!.id)
+        : await RemoteServices.driverRefuseOrder(order!.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       driverHomeController!.refreshOrders();
@@ -207,7 +209,7 @@ class OrderController extends GetxController {
   void refuseOrderCompany() async {
     if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingRefuse(true);
-    bool success = await RemoteServices.companyRefuseOrder(order.id);
+    bool success = await RemoteServices.companyRefuseOrder(order!.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       companyHomeController!.refreshCurrOrders();
@@ -226,7 +228,7 @@ class OrderController extends GetxController {
     if (!valid) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.driverConfirmOrder(
-      order.id,
+      order!.id,
       selectedPayment.id!,
       fullName.text,
       accountDetails.text,
@@ -247,8 +249,9 @@ class OrderController extends GetxController {
   void beginOrderDriver() async {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
-    bool success =
-        isEmployee ? await RemoteServices.companyBeginOrder(order.id) : await RemoteServices.driverBeginOrder(order.id);
+    bool success = isEmployee
+        ? await RemoteServices.companyBeginOrder(order!.id)
+        : await RemoteServices.driverBeginOrder(order!.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       driverHomeController!.refreshOrders();
@@ -264,8 +267,8 @@ class OrderController extends GetxController {
     if (isLoadingSubmit) return;
     toggleLoadingSubmit(true);
     bool success = isEmployee
-        ? await RemoteServices.companyFinishOrder(order.id)
-        : await RemoteServices.driverFinishOrder(order.id);
+        ? await RemoteServices.companyFinishOrder(order!.id)
+        : await RemoteServices.driverFinishOrder(order!.id);
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       //todo: if user clicks and return before processing, app closes (i fixed it here, fix in all the app)
@@ -284,7 +287,8 @@ class OrderController extends GetxController {
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.companyAcceptOrder(order.id, selectedEmployee?.driver?.id, selectedVehicle!.id);
+    bool success =
+        await RemoteServices.companyAcceptOrder(order!.id, selectedEmployee?.driver?.id, selectedVehicle!.id);
     if (success) {
       Get.back();
       if (Get.routing.current == "/OrderView") Get.back();
@@ -305,7 +309,7 @@ class OrderController extends GetxController {
     if (!valid) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.companyConfirmOrder(
-      order.id,
+      order!.id,
       selectedPayment.id!,
       fullName.text,
       accountDetails.text,
@@ -376,7 +380,8 @@ class OrderController extends GetxController {
 
   void _connectTrackingSocket() async {
     print("connecting to map socket");
-    String socketUrl = 'wss://shipping.adadevs.com/ws/location-tracking/${order.id}?token=${_getStorage.read("token")}';
+    String socketUrl =
+        'wss://shipping.adadevs.com/ws/location-tracking/${order!.id}?token=${_getStorage.read("token")}';
 
     websocket = await WebSocket.connect(
       socketUrl,

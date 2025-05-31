@@ -15,7 +15,7 @@ class OrderModel {
   final OrderOwner orderOwner;
   final dynamic acceptedApplication;
   final VehicleTypeModel typeVehicle;
-  final OrderLocation orderLocation;
+  final OrderLocation? orderLocation;
   final String description;
   final AddressModel startPoint;
   final AddressModel endPoint;
@@ -71,7 +71,7 @@ class OrderModel {
         acceptedApplication: json["accepted_application"],
         typeVehicle: VehicleTypeModel.fromJson(json["type_vehicle"]),
         description: json["discription"],
-        orderLocation: OrderLocation.fromJson(json["order_location"]),
+        orderLocation: json["order_location"] == null ? null : OrderLocation.fromJson(json["order_location"]),
         startPoint: AddressModel.fromJson(json["start_point"]),
         endPoint: AddressModel.fromJson(json["end_point"]),
         weight: json["weight"],
@@ -100,7 +100,7 @@ class OrderModel {
         "accepted_application": acceptedApplication,
         "type_vehicle": typeVehicle.toJson(),
         "discription": description,
-        "order_location": orderLocation.toJson(),
+        "order_location": orderLocation!.toJson(),
         "start_point": startPoint.toJson(),
         "end_point": endPoint.toJson(),
         "weight": weight,

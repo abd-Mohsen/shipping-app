@@ -22,6 +22,7 @@ import 'package:shipment/models/transfer_details_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import '../main.dart';
 import '../models/login_model.dart';
+import '../models/order_model_2.dart';
 import '../models/user_model.dart';
 import '../models/vehicle_model.dart';
 
@@ -240,14 +241,14 @@ class RemoteServices {
     return vehicleModelFromJson(json);
   }
 
-  static Future<List<OrderModel>?> fetchCustomerOrders(List<String> types) async {
+  static Future<List<OrderModel2>?> fetchCustomerOrders(List<String> types) async {
     String addedTypes = "";
     for (String type in types) {
       addedTypes += "&order_status=$type";
     }
     String? json = await api.getRequest("customer_order/?$addedTypes&page=1", auth: true);
     if (json == null) return null;
-    return orderModelFromJson(json);
+    return orderModel2FromJson(json);
   }
 
   static Future<bool> deleteVehicle(int id) async {
@@ -266,7 +267,7 @@ class RemoteServices {
     return governorateModelFromJson(json);
   }
 
-  static Future<List<OrderModel>?> fetchDriverOrders(int? governorateID, List<String> types) async {
+  static Future<List<OrderModel2>?> fetchDriverOrders(int? governorateID, List<String> types) async {
     String addedTypes = "";
     for (String type in types) {
       addedTypes += "&order_status=$type";
@@ -276,7 +277,7 @@ class RemoteServices {
       auth: true,
     );
     if (json == null) return null;
-    return orderModelFromJson(json);
+    return orderModel2FromJson(json);
   }
 
   static Future<bool> editOrder(body, id) async {
@@ -376,7 +377,7 @@ class RemoteServices {
     return json;
   }
 
-  static Future<List<OrderModel>?> fetchCompanyOrders(int? governorateID, List<String> types) async {
+  static Future<List<OrderModel2>?> fetchCompanyOrders(int? governorateID, List<String> types) async {
     String addedTypes = "";
     for (String type in types) {
       addedTypes += "&order_status=$type";
@@ -386,7 +387,7 @@ class RemoteServices {
       auth: true,
     );
     if (json == null) return null;
-    return orderModelFromJson(json);
+    return orderModel2FromJson(json);
   }
 
   static Future<bool> subscribeFCM(String deviceToken) async {
@@ -561,5 +562,11 @@ class RemoteServices {
       "bank": bankAccounts,
       "money_transfer": moneyTransferNumbers,
     };
+  }
+
+  static Future<OrderModel?> getSingleOrder(int id) async {
+    String? json = await api.getRequest("customer_order/$id/", auth: true);
+    if (json == null) return null;
+    return OrderModel.fromJson(jsonDecode(json));
   }
 }

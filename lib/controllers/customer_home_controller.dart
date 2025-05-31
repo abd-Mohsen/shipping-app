@@ -4,7 +4,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
-import 'package:shipment/models/order_model.dart';
+// import 'package:shipment/models/order_model.dart';
+import '../models/order_model_2.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
@@ -28,9 +29,9 @@ class CustomerHomeController extends GetxController {
 
   TextEditingController searchQuery = TextEditingController();
 
-  List<OrderModel> myOrders = [];
+  List<OrderModel2> myOrders = [];
 
-  List<OrderModel> recentOrders = [];
+  List<OrderModel2> recentOrders = [];
 
   List<String> orderTypes = ["not taken", "taken", "current", "finished"];
 
@@ -44,7 +45,7 @@ class CustomerHomeController extends GetxController {
   List<String> selectedOrderTypes = ["current"];
   //String selectedOrderType = "current";
 
-  OrderModel? currentOrder;
+  OrderModel2? currentOrder;
 
   void setOrderType(String? type, bool clear, {bool selectAll = false}) {
     if (type == null) return;
@@ -70,7 +71,7 @@ class CustomerHomeController extends GetxController {
     if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
-    List<OrderModel> newItems = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
+    List<OrderModel2> newItems = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
     myOrders.addAll(newItems);
     toggleLoading(false);
   }
@@ -83,8 +84,8 @@ class CustomerHomeController extends GetxController {
   void getRecentOrders() async {
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["available", "draft", "pending", "approved", "done", "canceled"];
-    List<OrderModel> newProcessingOrders = await RemoteServices.fetchCustomerOrders(["processing"]) ?? [];
-    List<OrderModel> newOrders = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
+    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchCustomerOrders(["processing"]) ?? [];
+    List<OrderModel2> newOrders = await RemoteServices.fetchCustomerOrders(typesToFetch) ?? [];
     recentOrders.addAll(newProcessingOrders);
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;

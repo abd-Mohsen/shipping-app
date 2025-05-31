@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:popover/popover.dart';
-import 'package:shipment/models/order_model.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/order_view.dart';
 
+import '../../models/order_model_2.dart';
+
 class OrderCard3 extends StatelessWidget {
-  final OrderModel order;
+  final OrderModel2 order;
   final bool isCustomer;
   final bool? isLast;
 
@@ -25,7 +24,7 @@ class OrderCard3 extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Get.to(() => OrderView(order: order, isCustomer: isCustomer));
+        Get.to(() => OrderView(orderID: order.id, isCustomer: isCustomer));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -68,7 +67,7 @@ class OrderCard3 extends StatelessWidget {
                               )
                             : order.status == "canceled"
                                 ? FaIcon(
-                                    FontAwesomeIcons.close,
+                                    Icons.close,
                                     color: cs.onPrimary,
                                     size: 18,
                                   )

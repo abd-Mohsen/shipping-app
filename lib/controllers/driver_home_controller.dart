@@ -10,6 +10,7 @@ import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/complete_account_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
+import '../models/order_model_2.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
@@ -42,9 +43,9 @@ class DriverHomeController extends GetxController {
   TextEditingController searchQuery1 = TextEditingController();
   TextEditingController searchQuery2 = TextEditingController();
 
-  List<OrderModel> myOrders = [];
+  List<OrderModel2> myOrders = [];
 
-  List<OrderModel> recentOrders = [];
+  List<OrderModel2> recentOrders = [];
 
   List<String> orderTypes = ["taken", "accepted", "current", "finished"];
 
@@ -58,7 +59,7 @@ class DriverHomeController extends GetxController {
   List<String> selectedOrderTypes = ["current"];
   //String selectedOrderType = "current";
 
-  OrderModel? currentOrder;
+  OrderModel2? currentOrder;
 
   void setOrderType(String? type, bool clear, {bool selectAll = false}) {
     if (type == null) return;
@@ -85,7 +86,7 @@ class DriverHomeController extends GetxController {
     if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
-    List<OrderModel> newItems = await RemoteServices.fetchDriverOrders(null, typesToFetch) ?? [];
+    List<OrderModel2> newItems = await RemoteServices.fetchDriverOrders(null, typesToFetch) ?? [];
     myOrders.addAll(newItems);
     toggleLoading(false);
   }
@@ -98,8 +99,8 @@ class DriverHomeController extends GetxController {
   void getRecentOrders() async {
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled"];
-    List<OrderModel> newProcessingOrders = await RemoteServices.fetchDriverOrders(null, ["processing"]) ?? [];
-    List<OrderModel> newOrders = await RemoteServices.fetchDriverOrders(null, typesToFetch) ?? [];
+    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchDriverOrders(null, ["processing"]) ?? [];
+    List<OrderModel2> newOrders = await RemoteServices.fetchDriverOrders(null, typesToFetch) ?? [];
     recentOrders.addAll(newProcessingOrders);
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
@@ -181,9 +182,9 @@ class DriverHomeController extends GetxController {
   List<GovernorateModel> governorates = [];
   GovernorateModel? selectedGovernorate;
 
-  List<OrderModel> exploreOrders = [];
-  List<OrderModel> currOrders = [];
-  List<OrderModel> historyOrders = [];
+  List<OrderModel2> exploreOrders = [];
+  // List<OrderModel2> currOrders = [];
+  // List<OrderModel2> historyOrders = [];
 
   void setGovernorate(GovernorateModel? governorate) {
     selectedGovernorate = governorate;
@@ -202,7 +203,7 @@ class DriverHomeController extends GetxController {
     //todo: implement pagination
     if (selectedGovernorate == null) return;
     toggleLoadingExplore(true);
-    List<OrderModel> newItems = isEmployee
+    List<OrderModel2> newItems = isEmployee
         ? await RemoteServices.fetchCompanyOrders(selectedGovernorate!.id, ["available"]) ?? []
         : await RemoteServices.fetchDriverOrders(selectedGovernorate!.id, ["available"]) ?? [];
     exploreOrders.addAll(newItems);

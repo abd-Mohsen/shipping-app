@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:shipment/models/order_model.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/order_view.dart';
 
+import '../../models/order_model_2.dart';
+
 class CurrOrderCard extends StatelessWidget {
-  final OrderModel? order;
+  final OrderModel2? order;
   final BorderRadius borderRadius;
   const CurrOrderCard({super.key, this.order, required this.borderRadius});
 
@@ -34,7 +35,7 @@ class CurrOrderCard extends StatelessWidget {
         onTap: () {
           if (order == null) return;
           Get.to(() => OrderView(
-                order: order!,
+                orderID: order!.id,
                 isCustomer: GetStorage().read("role") == "customer",
               ));
         },
