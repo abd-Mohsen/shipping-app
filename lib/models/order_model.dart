@@ -12,8 +12,8 @@ String orderModelToJson(List<OrderModel> data) => json.encode(List<dynamic>.from
 
 class OrderModel {
   final int id;
-  final OrderOwner orderOwner;
-  final dynamic acceptedApplication;
+  final OrderOwner? orderOwner;
+  final OrderOwner? acceptedApplication; //todo
   final VehicleTypeModel typeVehicle;
   final OrderLocation? orderLocation;
   final String description;
@@ -96,7 +96,7 @@ class OrderModel {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "order_owner": orderOwner.toJson(),
+        "order_owner": orderOwner!.toJson(),
         "accepted_application": acceptedApplication,
         "type_vehicle": typeVehicle.toJson(),
         "discription": description,

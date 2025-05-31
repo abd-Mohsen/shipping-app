@@ -193,3 +193,11 @@ MarkerIcon kMapDefaultMarker = const MarkerIcon(
     size: 30,
   ),
 );
+
+MarkerIcon kMapDriverMarker = const MarkerIcon(
+  icon: Icon(
+    Icons.local_shipping,
+    color: Colors.red,
+    size: 30,
+  ),
+);

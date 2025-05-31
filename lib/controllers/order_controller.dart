@@ -53,22 +53,33 @@ class OrderController extends GetxController {
     toggleLoadingOrder(false);
   }
 
+  Future<void> refreshOrder() async {
+    getOrder();
+  }
+
+  MapController mapController = MapController.withPosition(
+    initPosition: GeoPoint(
+      latitude: 0,
+      longitude: 0,
+    ),
+  );
+
   void initMap() {
     //todo: call in order page
-    mapController = MapController.withPosition(
-      initPosition: GeoPoint(
+    mapController.moveTo(
+      GeoPoint(
         latitude: order!.startPoint.latitude,
         longitude: order!.startPoint.longitude,
       ),
     );
-    mapController!.addMarker(
+    mapController.addMarker(
       GeoPoint(
         latitude: order!.startPoint.latitude,
         longitude: order!.startPoint.longitude,
       ),
       markerIcon: kMapDefaultMarker,
     );
-    mapController!.addMarker(
+    mapController.addMarker(
       GeoPoint(
         latitude: order!.endPoint.latitude,
         longitude: order!.endPoint.longitude,
@@ -78,6 +89,13 @@ class OrderController extends GetxController {
     //todo: draw path
     //todo: connect when button is pressed
     if (customerHomeController != null && ["processing"].contains(order!.status)) _connectTrackingSocket();
+    update();
+  }
+
+  bool isMapReady = false;
+  setMapReady(bool v) {
+    initMap();
+    isMapReady = v;
     update();
   }
 
@@ -366,17 +384,9 @@ class OrderController extends GetxController {
 
   //--------------------------------------Real time-----------------------------------
 
-  MapController? mapController;
-
   late WebSocket websocket;
   bool isTracking = false;
-  bool isMapReady = false;
   GeoPoint? currPosition;
-
-  setMapReady(bool v) {
-    isMapReady = v;
-    update();
-  }
 
   void _connectTrackingSocket() async {
     print("connecting to map socket");
@@ -411,19 +421,13 @@ class OrderController extends GetxController {
     }
     message = jsonDecode(message);
     print("${message["latitude"]}, ${message["longitude"]}");
-    if (currPosition != null) mapController!.removeMarker(currPosition!);
+    if (currPosition != null) mapController.removeMarker(currPosition!);
     currPosition = GeoPoint(latitude: message["latitude"], longitude: message["longitude"]);
-    mapController!.moveTo(currPosition!);
+    mapController.moveTo(currPosition!);
     await Future.delayed(Duration(milliseconds: 800));
-    mapController!.addMarker(
+    mapController.addMarker(
       currPosition!,
-      markerIcon: const MarkerIcon(
-        icon: Icon(
-          Icons.local_shipping,
-          color: Colors.red,
-          size: 30,
-        ),
-      ),
+      markerIcon: kMapDriverMarker,
     );
   }
 
