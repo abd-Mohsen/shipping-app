@@ -42,6 +42,14 @@ class DriverHomeController extends GetxController {
   TextEditingController searchQueryMyOrders = TextEditingController();
   TextEditingController searchQueryExploreOrders = TextEditingController();
 
+  Timer? _debounce;
+  search({required bool explore}) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      explore ? refreshExploreOrders() : refreshOrders();
+    });
+  }
+
   List<OrderModel2> myOrders = [];
 
   List<OrderModel2> recentOrders = [];

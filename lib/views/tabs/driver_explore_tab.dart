@@ -109,6 +109,9 @@ class DriverExploreTab extends StatelessWidget {
                                       padding: const EdgeInsets.only(right: 20.0, left: 12),
                                       child: Icon(Icons.search, color: cs.primary),
                                     ),
+                                    onChanged: (s) {
+                                      controller.search(explore: true);
+                                    },
                                   ),
                                 ),
                               ),

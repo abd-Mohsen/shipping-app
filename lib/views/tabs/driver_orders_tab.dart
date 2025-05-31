@@ -4,6 +4,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
+import '../../controllers/filter_controller.dart';
+import '../components/filter_button.dart';
+import '../components/filter_sheet.dart';
 import '../components/my_search_field.dart';
 import '../components/order_card_3.dart';
 
@@ -125,13 +128,39 @@ class DriverOrdersTab extends StatelessWidget {
                 //     ),
                 //   ),
                 // ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                  child: MySearchField(
-                    label: "search".tr,
-                    textEditingController: controller.searchQueryMyOrders,
-                    icon: Icon(Icons.search, color: cs.primary),
-                  ),
+                Row(
+                  children: [
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: MySearchField(
+                          label: "search".tr,
+                          textEditingController: controller.searchQueryMyOrders,
+                          icon: Icon(Icons.search, color: cs.primary),
+                          onChanged: (s) {
+                            controller.search(explore: false);
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    GetBuilder<FilterController>(builder: (controller) {
+                      return FilterButton(
+                        showBadge: controller.isFilterApplied,
+                        sheet: FilterSheet(
+                          showGovernorate: true,
+                          showPrice: true,
+                          showVehicleType: true,
+                          onConfirm: () {
+                            Get.back();
+                            hC.refreshExploreOrders();
+                          },
+                        ),
+                      );
+                    }),
+                    SizedBox(width: 8),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 12),
