@@ -33,8 +33,8 @@ class AddressModel {
         city: json["city"],
         district: json["district"],
         street: json["street"],
-        latitude: json["latitude"],
-        longitude: json["longitude"],
+        latitude: double.parse(json["latitude"]),
+        longitude: double.parse(json["longitude"]),
       );
 
   Map<String, dynamic> toJson() => {

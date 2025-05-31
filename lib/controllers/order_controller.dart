@@ -35,16 +35,16 @@ class OrderController extends GetxController {
     //
     mapController = MapController.withPosition(
       initPosition: GeoPoint(
-        latitude: order.startCoordinates.latitude,
-        longitude: order.startCoordinates.longitude,
+        latitude: order.startPoint.latitude,
+        longitude: order.startPoint.longitude,
       ),
     );
     update();
     await Future.delayed(Duration(milliseconds: 800));
     mapController!.addMarker(
       GeoPoint(
-        latitude: order.startCoordinates.latitude,
-        longitude: order.startCoordinates.longitude,
+        latitude: order.startPoint.latitude,
+        longitude: order.startPoint.longitude,
       ),
       markerIcon: const MarkerIcon(
         icon: Icon(
@@ -56,8 +56,8 @@ class OrderController extends GetxController {
     );
     mapController!.addMarker(
       GeoPoint(
-        latitude: order.endCoordinates.latitude,
-        longitude: order.endCoordinates.longitude,
+        latitude: order.endPoint.latitude,
+        longitude: order.endPoint.longitude,
       ),
       markerIcon: const MarkerIcon(
         icon: Icon(

@@ -42,7 +42,7 @@ class MakeOrderController extends GetxController {
     targetAddress = order!.endPoint;
     description.text = order!.description;
     price.text = order!.price.toString();
-    weight.text = order!.weight;
+    weight.text = order!.weight.toString();
     otherInfo.text = order!.otherInfo ?? "";
     selectedVehicleType = order!.typeVehicle;
     List currentPaymentMethodsIDs = order!.paymentMethods.map((p) => p.payment.methodName).toList();

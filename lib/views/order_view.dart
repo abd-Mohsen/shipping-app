@@ -69,7 +69,9 @@ class OrderView extends StatelessWidget {
             onPressed: () {
               Get.back();
               oC.callPhone(
-                isCustomer ? order.driver!.phoneNumber.toString() : order.orderOwner.phoneNumber.toString(),
+                isCustomer
+                    ? order.acceptedApplication!.phoneNumber.toString()
+                    : order.orderOwner.phoneNumber.toString(),
               );
             },
             child: Text(
@@ -186,7 +188,7 @@ class OrderView extends StatelessWidget {
                         ),
                         title: Center(
                           child: Text(
-                            "${order.driver!.name} ${"wants to take this order".tr}",
+                            "${order.acceptedApplication!.name} ${"wants to take this order".tr}",
                             style: tt.titleSmall!.copyWith(color: cs.onSurface),
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
@@ -1351,7 +1353,7 @@ class OrderView extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        if (isCustomer && order.driver!.name.isNotEmpty)
+                        if (isCustomer && order.acceptedApplication!.name.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.only(top: 12.0),
                             child: Card(
@@ -1379,7 +1381,7 @@ class OrderView extends StatelessWidget {
                                       child: SizedBox(
                                         width: MediaQuery.of(context).size.width / 1.7,
                                         child: Text(
-                                          order.driver!.name,
+                                          order.acceptedApplication!.name,
                                           style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 3,
@@ -1395,7 +1397,7 @@ class OrderView extends StatelessWidget {
                                             callDialog();
                                           },
                                           child: Text(
-                                            order.driver!.phoneNumber.toString(),
+                                            order.acceptedApplication!.phoneNumber.toString(),
                                             style: tt.titleSmall!.copyWith(
                                               color: Colors.blue,
                                               decoration: TextDecoration.underline,
@@ -1603,7 +1605,7 @@ class OrderView extends StatelessWidget {
                                       SizedBox(
                                         width: MediaQuery.of(context).size.width / 1.8,
                                         child: Text(
-                                          order.weight,
+                                          order.weight.toString(),
                                           style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,

@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/currency_model.dart';
+import 'package:shipment/models/make_order_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 
 List<OrderModel> orderModelFromJson(String str) =>
@@ -11,96 +13,117 @@ String orderModelToJson(List<OrderModel> data) => json.encode(List<dynamic>.from
 class OrderModel {
   final int id;
   final OrderOwner orderOwner;
-  final OrderOwner? driver;
+  final dynamic acceptedApplication;
   final VehicleTypeModel typeVehicle;
   final OrderLocation orderLocation;
   final String description;
   final AddressModel startPoint;
   final AddressModel endPoint;
-  final String weight;
+  final double weight;
+  final String weightUnit;
   final double price;
+  final double priceUsdEquivalent;
+  final CurrencyModel currency;
+  final List<OrderExtraInfoModel> extraInfo;
   final DateTime dateTime;
   final String? otherInfo;
   final String status;
+  final bool ownerApproved;
+  final bool driverApproved;
   final List<PaymentMethod> paymentMethods;
   final DateTime createdAt;
   final DateTime? updatedAt;
-  final bool ownerApproved;
-  final bool driverApproved;
-  final List<String> extraInfo;
-  final Coordinates startCoordinates;
-  final Coordinates endCoordinates;
+  final bool customerWannaCancel;
+  final bool driverWannaCancel;
+  final List<dynamic> driversApplications;
 
   OrderModel({
     required this.id,
     required this.orderOwner,
-    required this.driver,
+    required this.acceptedApplication,
     required this.typeVehicle,
     required this.orderLocation,
     required this.description,
     required this.startPoint,
     required this.endPoint,
     required this.weight,
+    required this.weightUnit,
     required this.price,
+    required this.priceUsdEquivalent,
+    required this.currency,
+    required this.extraInfo,
     required this.dateTime,
     required this.otherInfo,
     required this.status,
+    required this.ownerApproved,
+    required this.driverApproved,
     required this.paymentMethods,
     required this.createdAt,
     required this.updatedAt,
-    required this.ownerApproved,
-    required this.driverApproved,
-    required this.extraInfo,
-    required this.startCoordinates,
-    required this.endCoordinates,
+    required this.customerWannaCancel,
+    required this.driverWannaCancel,
+    required this.driversApplications,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         id: json["id"],
         orderOwner: OrderOwner.fromJson(json["order_owner"]),
-        driver: OrderOwner.fromJson(json["driver"]),
+        acceptedApplication: json["accepted_application"],
         typeVehicle: VehicleTypeModel.fromJson(json["type_vehicle"]),
-        orderLocation: OrderLocation.fromJson(json["order_location"]),
         description: json["discription"],
+        orderLocation: OrderLocation.fromJson(json["order_location"]),
         startPoint: AddressModel.fromJson(json["start_point"]),
         endPoint: AddressModel.fromJson(json["end_point"]),
         weight: json["weight"],
+        weightUnit: json["weight_unit"],
         price: json["price"],
+        priceUsdEquivalent: json["price_usd_equivalent"],
+        currency: CurrencyModel.fromJson(json["currency"]),
+        extraInfo: List<OrderExtraInfoModel>.from(json["order_extra_info"].map((x) => x)),
         dateTime: DateTime.parse(json["DateTime"]),
         otherInfo: json["other_info"],
         status: json["status"],
-        paymentMethods: List<PaymentMethod>.from(json["payment_methods"].map((x) => PaymentMethod.fromJson(x))),
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         ownerApproved: json["owner_is_approved"],
         driverApproved: json["driver_is_approved"],
-        extraInfo: List<String>.from(json["order_extra_info"].map((x) => x)),
-        startCoordinates: Coordinates.fromJson(json["start_coordinates"]),
-        endCoordinates: Coordinates.fromJson(json["end_coordinates"]),
+        paymentMethods: List<PaymentMethod>.from(json["payment_methods"].map((x) => PaymentMethod.fromJson(x))),
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"],
+        customerWannaCancel: json["customer_wanna_cancel"],
+        driverWannaCancel: json["driver_wanna_cancel"],
+        driversApplications: List<dynamic>.from(json["drivers_applications"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "order_owner": orderOwner.toJson(),
-        "driver": driver,
+        "accepted_application": acceptedApplication,
         "type_vehicle": typeVehicle.toJson(),
-        "order_location": orderLocation.toJson(),
         "discription": description,
+        "order_location": orderLocation.toJson(),
         "start_point": startPoint.toJson(),
         "end_point": endPoint.toJson(),
         "weight": weight,
+        "weight_unit": weightUnit,
         "price": price,
+        "price_usd_equivalent": priceUsdEquivalent,
+        "currency": currency.toJson(),
+        "order_extra_info": List<dynamic>.from(extraInfo.map((x) => x)),
         "DateTime": dateTime.toIso8601String(),
         "other_info": otherInfo,
         "status": status,
+        "owner_is_approved": ownerApproved,
+        "driver_is_approved": driverApproved,
         "payment_methods": List<dynamic>.from(paymentMethods.map((x) => x.toJson())),
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt,
+        "customer_wanna_cancel": customerWannaCancel,
+        "driver_wanna_cancel": driverWannaCancel,
+        "drivers_applications": List<dynamic>.from(driversApplications.map((x) => x)),
       };
 
   String formatExtraInfo() {
     String res = "";
-    for (String info in extraInfo) {
+    for (String info in extraInfo.map((e) => e.name).toList()) {
       res += "$info\n";
     }
     return res;
@@ -129,7 +152,7 @@ class OrderLocation {
 
 class OrderOwner {
   final String name;
-  final String? phoneNumber;
+  final String phoneNumber;
 
   OrderOwner({
     required this.name,
@@ -159,13 +182,13 @@ class PaymentMethod {
   });
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
-        id: json["id"] ?? json["order_payment_id"],
+        id: json["order_payment_id"],
         payment: Payment.fromJson(json["payment"]),
         isActive: json["is_active"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "order_payment_id": id,
         "payment": payment.toJson(),
         "is_active": isActive,
       };
@@ -196,29 +219,9 @@ class Payment {
 
   Map<String, dynamic> toJson() => {
         "method_name": methodName,
-        "full_name": fullName,
-        "phone_number": phoneNumber,
-        "account_details": accountDetails,
         "info": info,
-      };
-}
-
-class Coordinates {
-  final double latitude;
-  final double longitude;
-
-  Coordinates({
-    required this.latitude,
-    required this.longitude,
-  });
-
-  factory Coordinates.fromJson(Map<String, dynamic> json) => Coordinates(
-        latitude: json["latitude"]?.toDouble() ?? 0.0,
-        longitude: json["longitude"]?.toDouble() ?? 0.0,
-      );
-
-  Map<String, dynamic> toJson() => {
-        "latitude": latitude,
-        "longitude": longitude,
+        "full_name": fullName,
+        "account_details": accountDetails,
+        "phone_number": phoneNumber,
       };
 }
