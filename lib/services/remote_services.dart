@@ -514,26 +514,6 @@ class RemoteServices {
     return branchModelFromJson(json);
   }
 
-  static Future<Map<String, List?>?> fetchBankDetails() async {
-    String? json = await api.getRequest(
-      "payments-admin/",
-      auth: true,
-    );
-    if (json == null) return null;
-    Map decodedJson = jsonDecode(json);
-    List bankAccounts = bankDetailsModelFromJson(
-      jsonEncode(decodedJson["bank_accounts"]),
-    );
-    List moneyTransferNumbers = transferDetailsModelFromJson(
-      jsonEncode(decodedJson["phone_numbers"]),
-    );
-
-    return {
-      "bank": bankAccounts,
-      "money_transfer": moneyTransferNumbers,
-    };
-  }
-
   static Future<List<InvoiceModel>?> fetchInvoices() async {
     String? json = await api.getRequest(
       "user_payment_history/",
@@ -560,5 +540,26 @@ class RemoteServices {
     );
     if (json == null) return null;
     return MakeOrderModel.fromJson(jsonDecode(json));
+  }
+
+  static Future<Map<String, List?>?> fetchBankDetails() async {
+    //todo separate
+    String? json = await api.getRequest(
+      "payments-admin/",
+      auth: true,
+    );
+    if (json == null) return null;
+    Map decodedJson = jsonDecode(json);
+    List bankAccounts = bankDetailsModelFromJson(
+      jsonEncode(decodedJson["bank_accounts"]),
+    );
+    List moneyTransferNumbers = transferDetailsModelFromJson(
+      jsonEncode(decodedJson["phone_numbers"]),
+    );
+
+    return {
+      "bank": bankAccounts,
+      "money_transfer": moneyTransferNumbers,
+    };
   }
 }

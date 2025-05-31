@@ -245,6 +245,7 @@ class MyLocale extends Translations {
           "opened": "opened",
           "in service": "in service",
           "out of service": "out of service",
+          "selected governorate": "selected governorate",
         },
         "ar": {
           "Arabic": "العربية",
@@ -486,6 +487,7 @@ class MyLocale extends Translations {
           "in service": "في الخدمة",
           "out of service": "خارج الخدمة",
           "branch details": "تفاصيل الفرع",
+          "selected governorate": "المحافظة المختارة",
         },
       };
 }

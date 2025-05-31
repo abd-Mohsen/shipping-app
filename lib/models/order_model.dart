@@ -35,7 +35,7 @@ class OrderModel {
   final DateTime? updatedAt;
   final bool customerWannaCancel;
   final bool driverWannaCancel;
-  final List<dynamic> driversApplications;
+  final List<dynamic>? driversApplications;
 
   OrderModel({
     required this.id,
@@ -90,7 +90,8 @@ class OrderModel {
         updatedAt: json["updated_at"],
         customerWannaCancel: json["customer_wanna_cancel"],
         driverWannaCancel: json["driver_wanna_cancel"],
-        driversApplications: List<dynamic>.from(json["drivers_applications"].map((x) => x)),
+        driversApplications: [],
+        //driversApplications: List<dynamic>.from(json["drivers_applications"].map((x) => x)), //todo
       );
 
   Map<String, dynamic> toJson() => {
@@ -118,7 +119,7 @@ class OrderModel {
         "updated_at": updatedAt,
         "customer_wanna_cancel": customerWannaCancel,
         "driver_wanna_cancel": driverWannaCancel,
-        "drivers_applications": List<dynamic>.from(driversApplications.map((x) => x)),
+        "drivers_applications": List<dynamic>.from(driversApplications!.map((x) => x)),
       };
 
   String formatExtraInfo() {

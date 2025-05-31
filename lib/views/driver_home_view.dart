@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
+import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/views/edit_profile_view.dart';
@@ -18,7 +19,11 @@ class DriverHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(NotificationsController());
     HomeNavigationController hNC = Get.put(HomeNavigationController());
-    DriverHomeController hC = Get.put(DriverHomeController(homeNavigationController: hNC));
+    FilterController fC = Get.put(FilterController());
+    DriverHomeController hC = Get.put(DriverHomeController(
+      homeNavigationController: hNC,
+      filterController: fC,
+    ));
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 

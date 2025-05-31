@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/complete_account_view.dart';
@@ -20,18 +21,16 @@ import 'otp_controller.dart';
 
 class DriverHomeController extends GetxController {
   HomeNavigationController homeNavigationController;
-  DriverHomeController({required this.homeNavigationController});
+  FilterController filterController;
+  DriverHomeController({required this.homeNavigationController, required this.filterController});
 
   @override
   onInit() async {
     isEmployee = await _getStorage.read("role") == "company_employee";
     print(isEmployee ? "an employee" : "not employee");
     getCurrentUser();
-    //dont show error msgs for below requests
     getGovernorates();
-    //getCurrentOrders();
     getRecentOrders();
-    //getHistoryOrders();
     super.onInit();
   }
 
@@ -195,7 +194,7 @@ class DriverHomeController extends GetxController {
     toggleLoadingGovernorate(true);
     List<GovernorateModel> newItems = await RemoteServices.fetchGovernorates() ?? [];
     governorates.addAll(newItems);
-    if (newItems.isNotEmpty) setGovernorate(governorates[1]);
+    if (newItems.isNotEmpty) setGovernorate(governorates[0]);
     toggleLoadingGovernorate(false);
   }
 
@@ -307,6 +306,8 @@ class DriverHomeController extends GetxController {
       Get.offAll(() => const LoginView());
     }
   }
+
+  //------------------------------------filters-------------------------------------------
 
   //-----------------------------------Real Time-------------------------------------------
 

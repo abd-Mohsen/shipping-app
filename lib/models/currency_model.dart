@@ -3,7 +3,7 @@ class CurrencyModel {
   final String code;
   final String name;
   final String symbol;
-  final String exchangeRateToUsd;
+  final double exchangeRateToUsd;
   final bool isActive;
 
   CurrencyModel({
@@ -20,7 +20,9 @@ class CurrencyModel {
         code: json["code"],
         name: json["name"],
         symbol: json["symbol"],
-        exchangeRateToUsd: json["exchange_rate_to_usd"],
+        exchangeRateToUsd: double.parse(
+          double.tryParse(json["exchange_rate_to_usd"]) == null ? "0" : json["exchange_rate_to_usd"],
+        ),
         isActive: json["is_active"],
       );
 
