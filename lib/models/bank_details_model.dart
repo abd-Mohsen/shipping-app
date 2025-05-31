@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 List<BankDetailsModel> bankDetailsModelFromJson(String str) =>
-    List<BankDetailsModel>.from(json.decode(str)["bank_accounts"].map((x) => BankDetailsModel.fromJson(x)));
+    List<BankDetailsModel>.from(json.decode(str).map((x) => BankDetailsModel.fromJson(x)));
 
 String bankDetailsModelToJson(List<BankDetailsModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));

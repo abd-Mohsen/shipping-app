@@ -273,6 +273,7 @@ class DriverHomeController extends GetxController {
     */
     if (!refresh && currentUser != null) {
       if (!isEmployee && currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
+        //todo: show a badge instead of going here
         Get.to(() => const MyVehiclesView());
         Get.showSnackbar(GetSnackBar(
           message: "you need to add a car to use the app".tr,

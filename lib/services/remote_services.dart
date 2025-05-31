@@ -18,6 +18,7 @@ import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/notification_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
+import 'package:shipment/models/transfer_details_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import '../main.dart';
 import '../models/login_model.dart';
@@ -513,13 +514,24 @@ class RemoteServices {
     return branchModelFromJson(json);
   }
 
-  static Future<List<BankDetailsModel>?> fetchBankDetails() async {
+  static Future<Map<String, List?>?> fetchBankDetails() async {
     String? json = await api.getRequest(
-      "payments/bank_account/",
+      "payments-admin/",
       auth: true,
     );
     if (json == null) return null;
-    return bankDetailsModelFromJson(json);
+    Map decodedJson = jsonDecode(json);
+    List bankAccounts = bankDetailsModelFromJson(
+      jsonEncode(decodedJson["bank_accounts"]),
+    );
+    List moneyTransferNumbers = transferDetailsModelFromJson(
+      jsonEncode(decodedJson["phone_numbers"]),
+    );
+
+    return {
+      "bank": bankAccounts,
+      "money_transfer": moneyTransferNumbers,
+    };
   }
 
   static Future<List<InvoiceModel>?> fetchInvoices() async {

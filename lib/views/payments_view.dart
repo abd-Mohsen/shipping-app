@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -26,6 +25,33 @@ class PaymentsView extends StatelessWidget {
             'payment methods'.tr,
             style: tt.titleSmall!.copyWith(color: cs.onSecondaryContainer),
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.defaultDialog(
+                  title: "help".tr,
+                  titleStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
+                  titlePadding: const EdgeInsets.only(top: 20),
+                  content: Column(
+                    children: [
+                      ListTile(
+                        title: Text(
+                          "this page contains available ways to pay your commission".tr,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.info_outline,
+                color: cs.onSecondaryContainer,
+              ),
+            ),
+          ],
           centerTitle: true,
           bottom: TabBar(
             indicatorColor: cs.primary,
@@ -85,7 +111,6 @@ class PaymentsView extends StatelessWidget {
         body: GetBuilder<PaymentsController>(
           builder: (controller) {
             return TabBarView(
-              physics: NeverScrollableScrollPhysics(),
               children: [
                 controller.isLoadingBranches
                     ? SpinKitSquareCircle(color: cs.primary)
@@ -120,9 +145,6 @@ class PaymentsView extends StatelessWidget {
                                   itemCount: controller.branches.length,
                                   itemBuilder: (context, i) => BranchCard(
                                     branch: controller.branches[i],
-                                    onTap: () {
-                                      //
-                                    },
                                   ),
                                 ),
                               )
@@ -132,7 +154,7 @@ class PaymentsView extends StatelessWidget {
                 controller.isLoadingBank
                     ? SpinKitSquareCircle(color: cs.primary)
                     : RefreshIndicator(
-                        onRefresh: controller.refreshBankDetails,
+                        onRefresh: controller.refreshPaymentDetails,
                         child: controller.bankDetails.isEmpty
                             ? Center(
                                 child: ListView(
@@ -156,13 +178,44 @@ class PaymentsView extends StatelessWidget {
                             : ListView.builder(
                                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                                 itemCount: controller.bankDetails.length,
-                                itemBuilder: (context, i) => BankDetailsCard(
+                                itemBuilder: (context, i) => PaymentDetailsCard(
                                   bankDetails: controller.bankDetails[i],
                                 ),
                               ),
                       ),
                 //
-                Placeholder(),
+                controller.isLoadingBank
+                    ? SpinKitSquareCircle(color: cs.primary)
+                    : RefreshIndicator(
+                        onRefresh: controller.refreshPaymentDetails,
+                        child: controller.transferDetails.isEmpty
+                            ? Center(
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  children: [
+                                    Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                                      child: Center(
+                                        child: Text(
+                                          "no data, pull down to refresh".tr,
+                                          style: tt.titleMedium!
+                                              .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : ListView.builder(
+                                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                                itemCount: controller.transferDetails.length,
+                                itemBuilder: (context, i) => PaymentDetailsCard(
+                                  transferDetails: controller.transferDetails[i],
+                                ),
+                              ),
+                      ),
               ],
             );
           },

@@ -13,13 +13,11 @@ import 'blurred_sheet.dart';
 class BranchCard extends StatelessWidget {
   final BranchModel branch;
   final bool? isSelected;
-  final void Function() onTap;
 
   const BranchCard({
     super.key,
     required this.branch,
     this.isSelected,
-    required this.onTap,
   });
 
   @override
@@ -97,7 +95,7 @@ class BranchCard extends StatelessWidget {
                 color: Colors.black.withOpacity(0.2), // Shadow color
                 blurRadius: 4, // Soften the shadow
                 spreadRadius: 1, // Extend the shadow
-                offset: Offset(2, 2), // Shadow direction (x, y)
+                offset: const Offset(2, 2), // Shadow direction (x, y)
               ),
             ],
           ),

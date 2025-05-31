@@ -2,6 +2,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:shipment/models/bank_details_model.dart';
 import 'package:shipment/models/branch_model.dart';
+import 'package:shipment/models/transfer_details_model.dart';
 import '../constants.dart';
 import '../services/remote_services.dart';
 
@@ -9,7 +10,7 @@ class PaymentsController extends GetxController {
   @override
   onInit() async {
     getBranches();
-    getBankDetails();
+    getPaymentDetails();
     super.onInit();
   }
 
@@ -52,7 +53,7 @@ class PaymentsController extends GetxController {
     );
     update();
   }
-  //----------------------bank details-------------------------
+  //----------------------bank and transfer details-------------------------
 
   bool _isLoadingBank = false;
   bool get isLoadingBank => _isLoadingBank;
@@ -62,17 +63,21 @@ class PaymentsController extends GetxController {
   }
 
   List<BankDetailsModel> bankDetails = [];
+  List<TransferDetailsModel> transferDetails = [];
 
-  void getBankDetails() async {
-    //todo: implement pagination if necessary
+  void getPaymentDetails() async {
     toggleLoadingBank(true);
-    List<BankDetailsModel> newItems = await RemoteServices.fetchBankDetails() ?? [];
-    bankDetails.addAll(newItems);
+    Map? newItems = await RemoteServices.fetchBankDetails();
+    if (newItems != null) {
+      bankDetails.addAll(newItems["bank"]);
+      transferDetails.addAll(newItems["money_transfer"]);
+    }
     toggleLoadingBank(false);
   }
 
-  Future refreshBankDetails() async {
+  Future refreshPaymentDetails() async {
     bankDetails.clear();
-    getBankDetails();
+    transferDetails.clear();
+    getPaymentDetails();
   }
 }
