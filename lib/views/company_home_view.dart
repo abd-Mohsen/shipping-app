@@ -10,6 +10,8 @@ import 'package:shipment/views/tabs/company_orders_tab.dart';
 import 'package:shipment/views/tabs/company_stats_tab.dart';
 import 'package:shipment/views/tabs/company_vehicles_tab.dart';
 import '../constants.dart';
+import '../controllers/filter_controller.dart';
+import '../controllers/home_navigation_controller.dart';
 import '../controllers/locale_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'about_us_page.dart';
@@ -22,8 +24,13 @@ class CompanyHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
-    CompanyHomeController cHC = Get.put(CompanyHomeController());
     Get.put(NotificationsController());
+    HomeNavigationController hNC = Get.put(HomeNavigationController());
+    FilterController fC = Get.put(FilterController());
+    CompanyHomeController cHC = Get.put(CompanyHomeController(
+      homeNavigationController: hNC,
+      filterController: fC,
+    ));
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;

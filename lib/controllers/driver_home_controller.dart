@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/models/governorate_model.dart';
-import 'package:shipment/models/order_model.dart';
 import 'package:shipment/views/complete_account_view.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import '../models/order_model_2.dart';
@@ -40,8 +39,8 @@ class DriverHomeController extends GetxController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   //
-  TextEditingController searchQuery1 = TextEditingController();
-  TextEditingController searchQuery2 = TextEditingController();
+  TextEditingController searchQueryMyOrders = TextEditingController();
+  TextEditingController searchQueryExploreOrders = TextEditingController();
 
   List<OrderModel2> myOrders = [];
 
@@ -78,15 +77,24 @@ class DriverHomeController extends GetxController {
   }
 
   void getMyOrders() async {
-    //todo:pagination
-    //todo: can i get more than one type in one request in driver and company?
+    //todo: handle employee
     toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
     if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
-    List<OrderModel2> newItems = await RemoteServices.fetchDriverOrders(null, typesToFetch) ?? [];
+    List<OrderModel2> newItems = await RemoteServices.fetchDriverOrders(
+          types: typesToFetch,
+          page: 1, //todo:pagination
+          searchQuery: searchQueryMyOrders.text.trim(),
+          minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+          maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+          vehicleType: filterController.selectedVehicleType?.id,
+          governorate: filterController.selectedGovernorate?.id,
+          currency: filterController.selectedCurrency?.id,
+        ) ??
+        [];
     myOrders.addAll(newItems);
     toggleLoading(false);
   }
@@ -97,10 +105,11 @@ class DriverHomeController extends GetxController {
   }
 
   void getRecentOrders() async {
+    //todo: handle employee
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled"];
-    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchDriverOrders(null, ["processing"]) ?? [];
-    List<OrderModel2> newOrders = await RemoteServices.fetchDriverOrders(null, typesToFetch) ?? [];
+    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchDriverOrders(types: ["processing"]) ?? [];
+    List<OrderModel2> newOrders = await RemoteServices.fetchDriverOrders(types: typesToFetch) ?? [];
     recentOrders.addAll(newProcessingOrders);
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
@@ -200,12 +209,31 @@ class DriverHomeController extends GetxController {
   }
 
   void getExploreOrders() async {
-    //todo: implement pagination
     if (selectedGovernorate == null) return;
     toggleLoadingExplore(true);
     List<OrderModel2> newItems = isEmployee
-        ? await RemoteServices.fetchCompanyOrders(selectedGovernorate!.id, ["available"]) ?? []
-        : await RemoteServices.fetchDriverOrders(selectedGovernorate!.id, ["available"]) ?? [];
+        ? await RemoteServices.fetchCompanyOrders(
+              governorateID: selectedGovernorate!.id, types: ["available"],
+              page: 1, //todo:pagination
+              searchQuery: searchQueryMyOrders.text.trim(),
+              minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+              maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+              vehicleType: filterController.selectedVehicleType?.id,
+              governorate: null,
+              currency: filterController.selectedCurrency?.id,
+            ) ??
+            []
+        : await RemoteServices.fetchDriverOrders(
+              governorateID: selectedGovernorate!.id, types: ["available"],
+              page: 1, //todo:pagination
+              searchQuery: searchQueryMyOrders.text.trim(),
+              minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+              maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+              vehicleType: filterController.selectedVehicleType?.id,
+              governorate: null,
+              currency: filterController.selectedCurrency?.id,
+            ) ??
+            [];
     exploreOrders.addAll(newItems);
     toggleLoadingExplore(false);
   }
@@ -281,7 +309,7 @@ class DriverHomeController extends GetxController {
         ));
       }
       if (currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
-        CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
+        Get.put(CompleteAccountController(homeController: this));
         Get.to(const CompleteAccountView());
       }
       if (!currentUser!.isVerified) {
@@ -307,8 +335,6 @@ class DriverHomeController extends GetxController {
       Get.offAll(() => const LoginView());
     }
   }
-
-  //------------------------------------filters-------------------------------------------
 
   //-----------------------------------Real Time-------------------------------------------
 

@@ -104,6 +104,9 @@ class CustomerOrdersTab extends StatelessWidget {
                           label: "search".tr,
                           textEditingController: controller.searchQuery,
                           icon: Icon(Icons.search, color: cs.primary),
+                          onChanged: (s) {
+                            controller.search();
+                          },
                         ),
                       ),
                     ),

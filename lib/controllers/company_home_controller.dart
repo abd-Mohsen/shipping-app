@@ -10,20 +10,23 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import '../models/governorate_model.dart';
-import '../models/order_model.dart';
 import '../models/order_model_2.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
-import '../views/complete_account_view.dart';
 import '../views/login_view.dart';
 import '../views/otp_view.dart';
-import 'complete_account_controller.dart';
+import 'filter_controller.dart';
+import 'home_navigation_controller.dart';
 import 'login_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'otp_controller.dart';
 
 class CompanyHomeController extends GetxController {
+  HomeNavigationController homeNavigationController;
+  FilterController filterController;
+  CompanyHomeController({required this.homeNavigationController, required this.filterController});
+
   @override
   onInit() {
     getCurrentUser();
@@ -36,6 +39,9 @@ class CompanyHomeController extends GetxController {
   }
 
   final GetStorage _getStorage = GetStorage();
+
+  TextEditingController searchQueryMyOrders = TextEditingController();
+  TextEditingController searchQueryExploreOrders = TextEditingController();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -209,10 +215,19 @@ class CompanyHomeController extends GetxController {
   }
 
   void getExploreOrders() async {
-    //todo: implement pagination
     if (selectedGovernorate == null) return;
     toggleLoadingExplore(true);
-    List<OrderModel2> newItems = await RemoteServices.fetchCompanyOrders(selectedGovernorate!.id, ["available"]) ?? [];
+    List<OrderModel2> newItems = await RemoteServices.fetchCompanyOrders(
+          governorateID: selectedGovernorate!.id, types: ["available"],
+          page: 1, //todo:pagination
+          searchQuery: searchQueryMyOrders.text.trim(),
+          minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+          maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+          vehicleType: filterController.selectedVehicleType?.id,
+          governorate: null,
+          currency: filterController.selectedCurrency?.id,
+        ) ??
+        [];
     exploreOrders.addAll(newItems);
     toggleLoadingExplore(false);
   }
@@ -230,9 +245,8 @@ class CompanyHomeController extends GetxController {
   }
 
   void getHistoryOrders() async {
-    //todo: implement pagination
     toggleLoadingHistory(true);
-    List<OrderModel2> newItems = await RemoteServices.fetchCompanyOrders(null, ["done"]) ?? [];
+    List<OrderModel2> newItems = [];
     historyOrders.addAll(newItems);
     toggleLoadingHistory(false);
   }
@@ -250,10 +264,8 @@ class CompanyHomeController extends GetxController {
   }
 
   void getCurrentOrders() async {
-    //todo: implement pagination
     toggleLoadingCurrent(true);
-    List<OrderModel2> newItems =
-        await RemoteServices.fetchCompanyOrders(null, ["processing", "pending", "approved"]) ?? [];
+    List<OrderModel2> newItems = [];
     currOrders.addAll(newItems);
     toggleLoadingCurrent(false);
   }

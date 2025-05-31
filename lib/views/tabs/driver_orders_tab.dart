@@ -129,7 +129,7 @@ class DriverOrdersTab extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                   child: MySearchField(
                     label: "search".tr,
-                    textEditingController: controller.searchQuery1,
+                    textEditingController: controller.searchQueryMyOrders,
                     icon: Icon(Icons.search, color: cs.primary),
                   ),
                 ),

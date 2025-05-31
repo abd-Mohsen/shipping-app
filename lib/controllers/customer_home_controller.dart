@@ -93,10 +93,9 @@ class CustomerHomeController extends GetxController {
   }
 
   Timer? _debounce;
-
-  search(text) {
+  search() {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(seconds: 1), () {
+    _debounce = Timer(const Duration(milliseconds: 500), () {
       refreshOrders();
     });
   }

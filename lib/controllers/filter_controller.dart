@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
+import 'package:shipment/models/filter_data_model.dart';
 
 import '../models/currency_model.dart';
 import '../models/governorate_model.dart';
-import '../models/make_order_model.dart';
 import '../models/vehicle_type_model.dart';
 import '../services/remote_services.dart';
 
@@ -34,7 +34,7 @@ class FilterController extends GetxController {
 
   Future getFilterInfo() async {
     toggleLoadingInfo(true);
-    MakeOrderModel? model = await RemoteServices.fetchMakeOrderInfo();
+    FilterDataModel? model = await RemoteServices.fetchFilterInfo();
     if (model == null) {
       await Future.delayed(const Duration(seconds: 10));
       getFilterInfo();

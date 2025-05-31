@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shipment/models/address_model.dart';
 
 List<BranchModel> branchModelFromJson(String str) =>
-    List<BranchModel>.from(json.decode(str).map((x) => BranchModel.fromJson(x)));
+    List<BranchModel>.from(json.decode(str)["results"].map((x) => BranchModel.fromJson(x)));
 
 String branchModelToJson(List<BranchModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 

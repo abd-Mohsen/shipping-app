@@ -7,6 +7,7 @@ class MySearchField extends StatelessWidget {
   final void Function(String?)? onSubmit;
   final void Function(PointerDownEvent)? onTapOutside;
   final void Function()? onTapField;
+  final void Function(String?)? onChanged;
 
   const MySearchField({
     super.key,
@@ -16,6 +17,7 @@ class MySearchField extends StatelessWidget {
     this.onSubmit,
     this.onTapOutside,
     this.onTapField,
+    this.onChanged,
   });
 
   @override
@@ -65,6 +67,7 @@ class MySearchField extends StatelessWidget {
         onSubmitted: onSubmit,
         onTap: onTapField,
         onTapOutside: onTapOutside,
+        onChanged: onChanged,
       ),
     );
   }

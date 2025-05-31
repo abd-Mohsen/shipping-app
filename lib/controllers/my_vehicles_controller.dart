@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class MyVehiclesController extends GetxController {
 
   void getMyVehicles() async {
     toggleLoading(true);
-    List<VehicleModel> newItems = await RemoteServices.fetchMyVehicles() ?? [];
+    List<VehicleModel> newItems = await RemoteServices.fetchDriverVehicles() ?? [];
     myVehicles.addAll(newItems);
     toggleLoading(false);
   }
@@ -125,6 +126,7 @@ class MyVehiclesController extends GetxController {
       selectedVehicleType!.id,
       licensePlate.text,
       File(registration!.path),
+      GetStorage().read("role"),
     );
     if (success) {
       Get.back();

@@ -104,7 +104,7 @@ class DriverExploreTab extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
                                   child: MySearchField(
                                     label: "search".tr,
-                                    textEditingController: controller.searchQuery2,
+                                    textEditingController: controller.searchQueryExploreOrders,
                                     icon: Padding(
                                       padding: const EdgeInsets.only(right: 20.0, left: 12),
                                       child: Icon(Icons.search, color: cs.primary),

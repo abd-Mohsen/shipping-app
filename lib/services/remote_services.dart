@@ -21,6 +21,7 @@ import 'package:shipment/models/payment_method_model.dart';
 import 'package:shipment/models/transfer_details_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import '../main.dart';
+import '../models/filter_data_model.dart';
 import '../models/login_model.dart';
 import '../models/order_model_2.dart';
 import '../models/user_model.dart';
@@ -222,6 +223,7 @@ class RemoteServices {
     int vehicleTypeID,
     String vehicleRegistrationNumber,
     File? vehicleRegistrationPhoto,
+    String role,
   ) async {
     Map<String, String> body = {
       "full_name_owner": ownerName,
@@ -231,39 +233,20 @@ class RemoteServices {
     Map<String, File?> images = {
       "vehicle_registration_photo": vehicleRegistrationPhoto,
     };
-    String? json = await api.requestWithFiles("vehicles/", images, body, auth: true, utf8Decode: false);
+    String? json = await api.requestWithFiles("$role/vehicles/", images, body, auth: true, utf8Decode: false);
     return json != null;
   }
 
-  static Future<List<VehicleModel>?> fetchMyVehicles() async {
-    String? json = await api.getRequest("vehicles/", auth: true);
+  static Future<List<VehicleModel>?> fetchDriverVehicles() async {
+    String? json = await api.getRequest("driver/vehicles/", auth: true);
     if (json == null) return null;
     return vehicleModelFromJson(json);
   }
 
-  static Future<List<OrderModel2>?> fetchCustomerOrders({
-    required List<String> types,
-    int page = 1,
-    String? searchQuery,
-    double? minPrice,
-    double? maxPrice,
-    int? vehicleType,
-    int? governorate,
-    int? currency,
-  }) async {
-    String addedTypes = "";
-    for (String type in types) {
-      addedTypes += "&order_status=$type";
-    }
-    if (searchQuery != null && searchQuery.isNotEmpty) addedTypes += "&search=$searchQuery";
-    if (minPrice != null) addedTypes += "&min_price=$minPrice";
-    if (maxPrice != null) addedTypes += "&max_price=$maxPrice";
-    if (vehicleType != null) addedTypes += "&type_vehicle=$vehicleType";
-    if (governorate != null) addedTypes += "&order_location=$governorate";
-    if (currency != null) addedTypes += "&currency_id=$currency";
-    String? json = await api.getRequest("customer_order/?$addedTypes&page=$page", auth: true);
+  static Future<List<VehicleModel>?> fetchCompanyVehicles() async {
+    String? json = await api.getRequest("company/vehicles/", auth: true);
     if (json == null) return null;
-    return orderModel2FromJson(json);
+    return vehicleModelFromJson(json);
   }
 
   static Future<bool> deleteVehicle(int id) async {
@@ -280,19 +263,6 @@ class RemoteServices {
     String? json = await api.getRequest("get_governorate/", auth: true, showTimeout: false);
     if (json == null) return null;
     return governorateModelFromJson(json);
-  }
-
-  static Future<List<OrderModel2>?> fetchDriverOrders(int? governorateID, List<String> types) async {
-    String addedTypes = "";
-    for (String type in types) {
-      addedTypes += "&order_status=$type";
-    }
-    String? json = await api.getRequest(
-      "driver_order/?${governorateID == null ? "" : "order_location=$governorateID"}&$addedTypes&page=1",
-      auth: true,
-    );
-    if (json == null) return null;
-    return orderModel2FromJson(json);
   }
 
   static Future<bool> editOrder(body, id) async {
@@ -390,19 +360,6 @@ class RemoteServices {
   static Future<bool> deleteEmployee(int id) async {
     bool json = await api.deleteRequest("employees/$id/", auth: true);
     return json;
-  }
-
-  static Future<List<OrderModel2>?> fetchCompanyOrders(int? governorateID, List<String> types) async {
-    String addedTypes = "";
-    for (String type in types) {
-      addedTypes += "&order_status=$type";
-    }
-    String? json = await api.getRequest(
-      "company_order/?${governorateID == null ? "" : "order_location=$governorateID"}&$addedTypes&page=1",
-      auth: true,
-    );
-    if (json == null) return null;
-    return orderModel2FromJson(json);
   }
 
   static Future<bool> subscribeFCM(String deviceToken) async {
@@ -583,5 +540,98 @@ class RemoteServices {
     String? json = await api.getRequest("customer_order/$id/", auth: true);
     if (json == null) return null;
     return OrderModel.fromJson(jsonDecode(json));
+  }
+
+  static Future<List<OrderModel2>?> fetchCustomerOrders({
+    required List<String> types,
+    int page = 1,
+    String? searchQuery,
+    double? minPrice,
+    double? maxPrice,
+    int? vehicleType,
+    int? governorate,
+    int? currency,
+  }) async {
+    String addedTypes = "";
+    for (String type in types) {
+      addedTypes += "&order_status=$type";
+    }
+    if (searchQuery != null && searchQuery.isNotEmpty) addedTypes += "&search=$searchQuery";
+    if (minPrice != null) addedTypes += "&min_price=$minPrice";
+    if (maxPrice != null) addedTypes += "&max_price=$maxPrice";
+    if (vehicleType != null) addedTypes += "&type_vehicle=$vehicleType";
+    if (governorate != null) addedTypes += "&order_location=$governorate";
+    if (currency != null) addedTypes += "&currency_id=$currency";
+    String? json = await api.getRequest("customer_order/?$addedTypes&page=$page", auth: true);
+    if (json == null) return null;
+    return orderModel2FromJson(json);
+  }
+
+  static Future<List<OrderModel2>?> fetchDriverOrders({
+    int? governorateID,
+    required List<String> types,
+    int page = 1,
+    String? searchQuery,
+    double? minPrice,
+    double? maxPrice,
+    int? vehicleType,
+    int? governorate,
+    int? currency,
+  }) async {
+    String addedTypes = "";
+    for (String type in types) {
+      addedTypes += "&order_status=$type";
+    }
+    if (searchQuery != null && searchQuery.isNotEmpty) addedTypes += "&search=$searchQuery";
+    if (minPrice != null) addedTypes += "&min_price=$minPrice";
+    if (maxPrice != null) addedTypes += "&max_price=$maxPrice";
+    if (vehicleType != null) addedTypes += "&type_vehicle=$vehicleType";
+    if (governorate != null) addedTypes += "&order_location=$governorate";
+    if (currency != null) addedTypes += "&currency_id=$currency";
+    String? json = await api.getRequest(
+      "driver_order/?${governorateID == null ? "" : "order_location=$governorateID"}&$addedTypes&page=$page",
+      auth: true,
+    );
+    if (json == null) return null;
+    return orderModel2FromJson(json);
+  }
+
+  static Future<List<OrderModel2>?> fetchCompanyOrders({
+    int? governorateID,
+    required List<String> types,
+    int page = 1,
+    String? searchQuery,
+    double? minPrice,
+    double? maxPrice,
+    int? vehicleType,
+    int? governorate,
+    int? currency,
+  }) async {
+    String addedTypes = "";
+    for (String type in types) {
+      addedTypes += "&order_status=$type";
+    }
+    if (searchQuery != null && searchQuery.isNotEmpty) addedTypes += "&search=$searchQuery";
+    if (minPrice != null) addedTypes += "&min_price=$minPrice";
+    if (maxPrice != null) addedTypes += "&max_price=$maxPrice";
+    if (vehicleType != null) addedTypes += "&type_vehicle=$vehicleType";
+    if (governorate != null) addedTypes += "&order_location=$governorate";
+    if (currency != null) addedTypes += "&currency_id=$currency";
+    String? json = await api.getRequest(
+      "company_order/?${governorateID == null ? "" : "order_location=$governorateID"}&$addedTypes&page=$page",
+      auth: true,
+    );
+    if (json == null) return null;
+    return orderModel2FromJson(json);
+  }
+
+  static Future<FilterDataModel?> fetchFilterInfo() async {
+    String? json = await api.getRequest(
+      "filter_data/",
+      auth: true,
+      //utf8Decode: true,
+    );
+    if (json == null) return null;
+    return FilterDataModel.fromJson(jsonDecode(json));
   }
 }
