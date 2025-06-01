@@ -482,10 +482,13 @@ class RemoteServices {
     return json != null;
   }
 
-  static Future<List<NotificationModel>?> fetchNotifications({int page = 1}) async {
+  static Future<Map<String, dynamic>?> fetchNotifications({int page = 1}) async {
     String? json = await api.getRequest("notifications/?page=$page", auth: true);
     if (json == null) return null;
-    return notificationModelFromJson(json);
+    return {
+      "notifications": notificationModelFromJson(json),
+      "unread_count": jsonDecode(json)["total_count_unread"],
+    };
   }
 
   static Future<bool> changePassword(String oldPass, String newPass, String reNewPass) async {
@@ -653,5 +656,10 @@ class RemoteServices {
     );
     if (json == null) return null;
     return FilterDataModel.fromJson(jsonDecode(json));
+  }
+
+  static Future<bool> readNotification(int id) async {
+    String? json = await api.postRequest("notifications/$id", {}, auth: true);
+    return json != null;
   }
 }

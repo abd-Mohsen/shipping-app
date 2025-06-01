@@ -115,17 +115,29 @@ class NotificationsController extends GetxController {
   }
 
   List<NotificationModel> allNotifications = [];
+  int unreadCount = 0;
 
   void getNotifications() async {
     toggleLoading(true);
     //todo with pagination
-    List<NotificationModel> newItems = await RemoteServices.fetchNotifications() ?? [];
-    allNotifications.addAll(newItems);
+    Map<String, dynamic>? newItems = await RemoteServices.fetchNotifications();
+    if (newItems != null) {
+      allNotifications.addAll(newItems["notifications"]);
+      unreadCount = newItems["unread_count"];
+    }
     toggleLoading(false);
   }
 
   Future<void> refreshNotifications() async {
     allNotifications.clear();
     getNotifications();
+  }
+
+  void readNotification(NotificationModel notification) async {
+    bool success = await RemoteServices.readNotification(notification.id);
+    if (success) {
+      notification.markAsRead();
+      update();
+    }
   }
 }

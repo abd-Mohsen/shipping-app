@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 List<NotificationModel> notificationModelFromJson(String str) =>
-    List<NotificationModel>.from(json.decode(str)["notifications"].map((x) => NotificationModel.fromJson(x)));
+    List<NotificationModel>.from(json.decode(str)["results"].map((x) => NotificationModel.fromJson(x)));
 
 String notificationModelToJson(List<NotificationModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -13,7 +13,7 @@ class NotificationModel {
   final String content;
   final String url;
   final String style;
-  final bool isRead;
+  bool isRead;
   final int user;
 
   NotificationModel({
@@ -48,4 +48,8 @@ class NotificationModel {
         "is_read": isRead,
         "user": user,
       };
+
+  void markAsRead() {
+    isRead = true;
+  }
 }

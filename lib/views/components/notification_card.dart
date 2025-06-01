@@ -6,11 +6,13 @@ import 'package:timeago/timeago.dart' as timeago;
 class NotificationCard extends StatelessWidget {
   final NotificationModel notification;
   final bool isLast;
+  final void Function() onTap;
 
   const NotificationCard({
     super.key,
     required this.notification,
     required this.isLast,
+    required this.onTap,
   });
 
   @override
@@ -19,9 +21,7 @@ class NotificationCard extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     return GestureDetector(
-      onTap: () {
-        //Get.to(() => OrderView(order: notification, isCustomer: isCustomer));
-      },
+      onTap: onTap,
       child: Column(
         children: [
           Container(

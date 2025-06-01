@@ -47,7 +47,7 @@ class NotificationsView extends StatelessWidget {
                         style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
                       ),
                       Text(
-                        '${3} ${"unread notification".tr} ', //todo: add the legit number
+                        '${controller.unreadCount} ${"unread notification".tr} ',
                         style: tt.titleSmall!.copyWith(color: cs.primary),
                       ),
                       Text(
@@ -88,6 +88,9 @@ class NotificationsView extends StatelessWidget {
                                   itemBuilder: (context, i) => NotificationCard(
                                     notification: controller.allNotifications[i],
                                     isLast: i == controller.allNotifications.length - 1,
+                                    onTap: () {
+                                      controller.readNotification(controller.allNotifications[i]);
+                                    },
                                   ),
                                 ),
                         ),
