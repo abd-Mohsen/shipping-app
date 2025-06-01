@@ -210,7 +210,7 @@ class CompanyHomeController extends GetxController {
     toggleLoadingGovernorate(true);
     List<GovernorateModel> newItems = await RemoteServices.fetchGovernorates() ?? [];
     governorates.addAll(newItems);
-    if (newItems.isNotEmpty) setGovernorate(governorates[1]);
+    if (newItems.isNotEmpty) setGovernorate(governorates[0]);
     toggleLoadingGovernorate(false);
   }
 

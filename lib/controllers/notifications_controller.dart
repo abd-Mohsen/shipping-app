@@ -134,9 +134,11 @@ class NotificationsController extends GetxController {
   }
 
   void readNotification(NotificationModel notification) async {
+    if (notification.isRead) return;
     bool success = await RemoteServices.readNotification(notification.id);
     if (success) {
       notification.markAsRead();
+      unreadCount--;
       update();
     }
   }
