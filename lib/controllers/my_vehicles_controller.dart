@@ -36,6 +36,7 @@ class MyVehiclesController extends GetxController {
   }
 
   XFile? registration;
+  bool pickedAnImage = false;
 
   Future pickImage(String source) async {
     XFile? pickedImage = await ImagePicker().pickImage(
@@ -44,6 +45,7 @@ class MyVehiclesController extends GetxController {
 
     if (pickedImage == null) return;
 
+    pickedAnImage = true;
     pickedImage = await CompressImageService().compressImage(pickedImage);
 
     registration = pickedImage;
@@ -99,6 +101,7 @@ class MyVehiclesController extends GetxController {
     licensePlate.text = "";
     selectedVehicleType = null;
     registration = null;
+    pickedAnImage = false;
     buttonPressed = false;
   }
 

@@ -97,7 +97,7 @@ class MyVehiclesView extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                   child: Text(
                                     "delete the vehicle?".tr,
-                                    style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
                                 confirm: TextButton(
@@ -106,8 +106,8 @@ class MyVehiclesView extends StatelessWidget {
                                     controller.deleteVehicle(controller.myVehicles[i].id);
                                   },
                                   child: Text(
-                                    "yes",
-                                    style: tt.titleMedium!.copyWith(color: Colors.red),
+                                    "yes".tr,
+                                    style: tt.titleSmall!.copyWith(color: Colors.red),
                                   ),
                                 ),
                                 cancel: TextButton(
@@ -115,8 +115,8 @@ class MyVehiclesView extends StatelessWidget {
                                     Get.back();
                                   },
                                   child: Text(
-                                    "no",
-                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                    "no".tr,
+                                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                   ),
                                 ),
                               );

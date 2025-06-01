@@ -30,10 +30,19 @@ class IdImageSelector extends StatelessWidget {
 
     return Padding(
       padding: padding ?? const EdgeInsets.only(top: 16),
-      child: Material(
-        elevation: 5,
-        borderRadius: BorderRadius.circular(10),
-        color: cs.secondaryContainer,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: cs.secondaryContainer,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2), // Shadow color
+              blurRadius: 4, // Soften the shadow
+              spreadRadius: 1, // Extend the shadow
+              offset: Offset(2, 2), // Shadow direction (x, y)
+            ),
+          ],
+        ),
         child: ListTile(
           //leading: Icon(card),
           title: Text(title, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
@@ -103,7 +112,7 @@ class IdImageSelector extends StatelessWidget {
                       ),
                       title: Text(
                         image == null ? "take photo".tr : "take new photo".tr,
-                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
                       ),
                       onTap: onTapCamera,
                       //     () {
@@ -117,7 +126,7 @@ class IdImageSelector extends StatelessWidget {
                       ),
                       title: Text(
                         image == null ? "select photo from gallery".tr : "select new photo from gallery".tr,
-                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
                       ),
                       onTap: onTapGallery,
                     ),

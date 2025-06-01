@@ -7,11 +7,14 @@ class VehicleTypeSelector extends StatelessWidget {
   final VehicleTypeModel? selectedItem;
   final List<VehicleTypeModel> items;
   final void Function(VehicleTypeModel?) onChanged;
+  final FloatingLabelBehavior? floatingLabelBehavior;
+
   const VehicleTypeSelector({
     super.key,
     required this.items,
     required this.onChanged,
     this.selectedItem,
+    this.floatingLabelBehavior,
   });
 
   @override
@@ -67,7 +70,7 @@ class VehicleTypeSelector extends StatelessWidget {
             fillColor: cs.secondaryContainer,
             labelText: "required vehicle type".tr,
             labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-            floatingLabelBehavior: FloatingLabelBehavior.never,
+            floatingLabelBehavior: floatingLabelBehavior ?? FloatingLabelBehavior.never,
             enabledBorder: border(width: 1.5),
             focusedBorder: border(width: 2),
             errorBorder: border(color: cs.error, width: 1.5),

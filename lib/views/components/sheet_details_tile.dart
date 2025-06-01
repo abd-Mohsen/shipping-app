@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class SheetDetailsTile extends StatelessWidget {
   final String title;
   final String subtitle;
+  final Color? color;
 
   const SheetDetailsTile({
     super.key,
     required this.title,
     required this.subtitle,
+    this.color,
   });
 
   @override
@@ -30,7 +32,7 @@ class SheetDetailsTile extends StatelessWidget {
             // "${Jiffy.parseFromDateTime(invoice.paymentDate).format(pattern: "d / M / y")}"
             // "  ${Jiffy.parseFromDateTime(invoice.paymentDate).jm}",
             subtitle,
-            style: tt.labelMedium!.copyWith(color: cs.onSurface),
+            style: tt.labelMedium!.copyWith(color: color ?? cs.onSurface),
             textAlign: TextAlign.start,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
