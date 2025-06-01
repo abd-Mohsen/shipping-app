@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -47,8 +48,35 @@ class CompanyStatsTab extends StatelessWidget {
                       ),
                     )
                   : ListView(
-                      padding: const EdgeInsets.only(top: 20.0),
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: AppBar(
+                            backgroundColor: cs.surface,
+                            elevation: 0,
+                            surfaceTintColor: Colors.transparent, // Add this line
+                            systemOverlayStyle: SystemUiOverlayStyle(
+                              statusBarColor: cs.surface, // Match your AppBar
+                            ),
+                            centerTitle: true,
+                            leading: IconButton(
+                              onPressed: () {
+                                controller.homeNavigationController.changeTab(1);
+                              },
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: cs.onSurface,
+                              ),
+                            ),
+                            title: Text(
+                              "statistics".tr,
+                              style: tt.titleMedium!.copyWith(
+                                color: cs.onSurface,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
                         Column(
                           children: [
                             Padding(

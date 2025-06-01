@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/views/components/add_vehicle_sheet.dart';
 
@@ -27,15 +30,15 @@ class CompanyVehiclesTab extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: CustomButton(
               onTap: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
+                showMaterialModalBottomSheet(
                   context: context,
-                  enableDrag: false,
-                  builder: (BuildContext context) => Padding(
-                    padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom, // Adjusts for keyboard
-                    ),
-                    child: const AddVehicleSheet(),
+                  isDismissible: true,
+                  backgroundColor: Colors.transparent,
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  enableDrag: true,
+                  builder: (context) => BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: AddVehicleSheet(),
                   ),
                 );
               },

@@ -10,11 +10,14 @@ class UserProfileTile extends StatelessWidget {
   final void Function() onTapProfile;
   final bool isLoadingUser;
   final UserModel? user;
+  final bool? company;
+
   const UserProfileTile({
     super.key,
     required this.onTapProfile,
     required this.isLoadingUser,
     required this.user,
+    this.company,
   });
 
   @override

@@ -37,7 +37,17 @@ class StatsTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(iconData, color: cs.primary, size: iconSize ?? 32),
+          ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                colors: [cs.primary, Colors.black], // Your gradient colors
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0, 1],
+              ).createShader(bounds);
+            },
+            child: Icon(iconData, size: iconSize ?? 32),
+          ),
           const SizedBox(height: 10),
           Text(
             value,

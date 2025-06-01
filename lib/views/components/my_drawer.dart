@@ -145,6 +145,16 @@ class MyDrawer extends StatelessWidget {
                                               style: tt.titleSmall!.copyWith(color: cs.primary),
                                               overflow: TextOverflow.ellipsis,
                                             ),
+                                            if (role == "company")
+                                              Column(
+                                                children: [
+                                                  const SizedBox(height: 4),
+                                                  Text(
+                                                    currentUser!.companyInfo?.name ?? "",
+                                                    style: tt.labelLarge!.copyWith(color: cs.onSurface),
+                                                  ),
+                                                ],
+                                              ),
                                             const SizedBox(height: 4),
                                             Text(
                                               "دمشق, ركن الدين, صلاح الدين",
