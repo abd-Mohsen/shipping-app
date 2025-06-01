@@ -106,7 +106,10 @@ class MyVehiclesController extends GetxController {
   }
 
   void deleteVehicle(int id) async {
-    bool res = await RemoteServices.deleteVehicle(id);
+    bool res = await RemoteServices.deleteVehicle(
+      id,
+      _getStorage.read("role"),
+    );
     if (res) {
       myVehicles.removeWhere((vehicle) => vehicle.id == id);
       update();
@@ -128,6 +131,8 @@ class MyVehiclesController extends GetxController {
     toggleLoadingImage(false);
   }
 
+  final GetStorage _getStorage = GetStorage();
+
   void submit(bool edit) async {
     if (isLoading || isLoadingVehicle || isLoadingSubmit || isLoadingImage) return;
     buttonPressed = true;
@@ -147,7 +152,7 @@ class MyVehiclesController extends GetxController {
             selectedVehicleType!.id,
             licensePlate.text,
             File(registration!.path),
-            GetStorage().read("role"),
+            _getStorage.read("role"),
           )
         : await RemoteServices.addVehicle(
             vehicleOwner.text,

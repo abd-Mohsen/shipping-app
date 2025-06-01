@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
+import 'package:shipment/views/my_vehicles_view.dart';
 import '../../controllers/notifications_controller.dart';
 import '../components/order_card_2.dart';
 import 'package:badges/badges.dart' as badges;
@@ -47,7 +48,8 @@ class DriverHomeTab extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                                   child: badges.Badge(
                                     showBadge: controller.currentUser != null &&
-                                        controller.currentUser!.driverInfo?.vehicleStatus == "refused",
+                                        ["refused", "No_Input"]
+                                            .contains(controller.currentUser!.driverInfo?.vehicleStatus),
                                     position: badges.BadgePosition.topStart(
                                       top: -2, // Negative value moves it up
                                       start: -4, // Negative value moves it left
@@ -165,6 +167,69 @@ class DriverHomeTab extends StatelessWidget {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                //
+                Visibility(
+                  visible: controller.currentUser != null &&
+                      ["refused", "No_Input"].contains(controller.currentUser!.driverInfo?.vehicleStatus),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(MyVehiclesView());
+                      //todo: press FAB
+                      //todo: refresh user after adding
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
+                      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFF5E5C4),
+                            Color(0xFFF1C68B),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0, 1],
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.warning_amber,
+                                color: Color(0xFF92833C),
+                                size: 30,
+                              ),
+                              const SizedBox(width: 12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "you dont have a vehicle".tr,
+                                    style: tt.titleSmall!
+                                        .copyWith(color: const Color(0xFF92833C), fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    "click here to go to vehicles page".tr,
+                                    style: tt.labelMedium!.copyWith(color: const Color(0xFF92833C)),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          const Icon(
+                            Icons.add,
+                            color: Color(0xFF92833C),
+                            size: 35,
                           ),
                         ],
                       ),

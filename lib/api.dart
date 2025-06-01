@@ -155,6 +155,8 @@ class Api {
     bool canRefresh = true,
     bool showTimeout = true,
   }) async {
+    print("sending to $_hostIP/$endPoint");
+    if (auth) print("Token $accessToken");
     try {
       var response = await client
           .delete(

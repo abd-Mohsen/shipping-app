@@ -43,13 +43,19 @@ class DrawerCard extends StatelessWidget {
             style: tt.labelMedium!.copyWith(color: textColor ?? cs.onSurface),
           ),
           if (isMarked ?? false)
+            //Padding(
+            //   padding: const EdgeInsets.all(4.0),
+            //   child: CircleAvatar(
+            //     backgroundColor: kNotificationColor,
+            //     radius: 5,
+            //   ),
+            // ),
             Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: CircleAvatar(
-                backgroundColor: kNotificationColor,
-                radius: 5,
-              ),
-            ),
+                padding: const EdgeInsets.all(4.0),
+                child: Icon(
+                  Icons.error,
+                  color: Color(0xFFF1C68B),
+                )),
         ],
       ),
       trailing: trailing ??

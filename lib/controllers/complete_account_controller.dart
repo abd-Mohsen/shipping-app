@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:shipment/services/compress_image_service.dart';
 import 'package:shipment/services/download_image_service.dart';
 
@@ -34,6 +32,8 @@ class CompleteAccountController extends GetxController {
   String idStatus = "x";
   String licenseStatus = "x";
 
+  String msg = "";
+
   Future<void> prepopulateImages() async {
     toggleLoadingImages(true);
     await homeController.getCurrentUser(refresh: true);
@@ -41,6 +41,13 @@ class CompleteAccountController extends GetxController {
     licenseStatus = ["company", "customer"].contains(homeController.currentUser.role.type)
         ? "verified"
         : homeController.currentUser.driverInfo!.licenseStatus;
+    if (licenseStatus == "refused") {
+      msg = "your data is refused, please select new pictures then submit";
+    } else if (licenseStatus == "pending") {
+      msg = "your data is under review, please wait or upload new pictures";
+    } else {
+      msg = "you need to upload required pictures and wait for confirmation";
+    }
     if (licenseStatus.toLowerCase() == "verified") {
       Get.back();
       Get.showSnackbar(GetSnackBar(

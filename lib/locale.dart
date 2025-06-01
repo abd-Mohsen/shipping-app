@@ -256,6 +256,14 @@ class MyLocale extends Translations {
           "no input": "no input",
           "your register is refused, choose another image": "your register is refused, choose another image",
           "delete the vehicle?": "delete the vehicle?",
+          "your data is refused, please select new pictures then submit": "your data is refused, please select new "
+              "pictures then submit",
+          "your data is under review, please wait or upload new pictures": "your data is under review, please wait or "
+              "upload new pictures",
+          "you need to upload required pictures and wait for confirmation": "you need to upload required pictures and "
+              "wait for confirmation",
+          "click here to go to vehicles page": "click here to go to vehicles page",
+          "you dont have a vehicle": "you dont have a vehicle",
         },
         "ar": {
           "Arabic": "العربية",
@@ -508,6 +516,13 @@ class MyLocale extends Translations {
           "no input": "لا يوجد",
           "your register is refused, choose another image": "المكانيك مرفوض, اختر صورة أخرى",
           "delete the vehicle?": "هل تريد حذف المركبة؟",
+          "your data is refused, please select new pictures then submit":
+              "بياناتك مرفوضة, الرجاء اختيار صور جديدة ثم الارسال وانتظار القبول",
+          "your data is under review, please wait or upload new pictures":
+              "يتم مراجعة بياناتك, الرجاء الانتظار او ادخال صور جديدة والانتظار",
+          "you need to upload required pictures and wait for confirmation": "قم باختيار الصور المطلوبة وانتظار القبول",
+          "click here to go to vehicles page": "اضغط هنا لاضافة مركبة",
+          "you dont have a vehicle": "عذراً, ليس لديك مركبة مسجلة حالياً",
         },
       };
 }

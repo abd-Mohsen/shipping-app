@@ -269,8 +269,8 @@ class RemoteServices {
     return vehicleModelFromJson(json);
   }
 
-  static Future<bool> deleteVehicle(int id) async {
-    bool json = await api.deleteRequest("vehicles/$id/", auth: true);
+  static Future<bool> deleteVehicle(int id, String role) async {
+    bool json = await api.deleteRequest("$role/vehicles/$id/", auth: true);
     return json;
   }
 

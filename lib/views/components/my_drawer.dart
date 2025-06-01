@@ -219,7 +219,7 @@ class MyDrawer extends StatelessWidget {
                   child: DrawerCard(
                     title: "my vehicles".tr,
                     icon: Icons.local_shipping_outlined,
-                    isMarked: currentUser!.driverInfo?.vehicleStatus == "refused",
+                    isMarked: ["refused", "No_Input"].contains(currentUser!.driverInfo?.vehicleStatus),
                     onTap: () {
                       Get.to(() => const MyVehiclesView());
                     },

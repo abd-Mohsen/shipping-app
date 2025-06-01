@@ -58,10 +58,10 @@ class CompleteAccountView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: cs.surface,
         appBar: AppBar(
-          backgroundColor: cs.primary,
+          backgroundColor: cs.secondaryContainer,
           title: Text(
             'complete info'.tr.toUpperCase(),
-            style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+            style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer),
           ),
           //centerTitle: true,
           leading: null,
@@ -116,7 +116,7 @@ class CompleteAccountView extends StatelessWidget {
               },
               icon: Icon(
                 Icons.info_outline,
-                color: cs.onPrimary,
+                color: cs.onSecondaryContainer,
               ),
             ),
           ],
@@ -131,7 +131,7 @@ class CompleteAccountView extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                       children: [
                         Text(
-                          "complete info text".tr,
+                          controller.msg.tr,
                           style: tt.titleSmall!.copyWith(color: cs.onSurface),
                         ),
                         const SizedBox(height: 12),
