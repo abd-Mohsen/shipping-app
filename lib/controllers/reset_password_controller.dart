@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:shipment/controllers/otp_controller.dart';
 
-import '../constants.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
 import '../views/otp_view.dart';

@@ -26,7 +26,7 @@ class ResetPassView2 extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "set new password".toUpperCase(),
+                  "set new password".tr.toUpperCase(),
                   style: tt.titleLarge!.copyWith(color: cs.onSurface),
                 ),
                 const SizedBox(height: 16),
@@ -62,7 +62,7 @@ class ResetPassView2 extends StatelessWidget {
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.next,
                             obscure: !controller.passwordVisible,
-                            label: "new password",
+                            label: "new password".tr,
                             prefixIcon: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Icon(Icons.lock, color: cs.primary),
@@ -86,7 +86,7 @@ class ResetPassView2 extends StatelessWidget {
                             keyboardType: TextInputType.text,
                             textInputAction: TextInputAction.done,
                             obscure: !controller.rePasswordVisible,
-                            label: "re enter new password",
+                            label: "re enter new password".tr,
                             prefixIcon: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Icon(Icons.lock, color: cs.primary),
@@ -123,7 +123,7 @@ class ResetPassView2 extends StatelessWidget {
                                     child: controller.isLoading2
                                         ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                         : Text(
-                                            "ok".toUpperCase(),
+                                            "ok".tr.toUpperCase(),
                                             style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                           ),
                                   ));
@@ -132,7 +132,7 @@ class ResetPassView2 extends StatelessWidget {
                           const SizedBox(height: 24),
                           Center(
                             child: Text(
-                              "now you are logged in, you can set a new password",
+                              "reset pass2 text".tr,
                               style: tt.titleSmall!.copyWith(color: cs.onSurface),
                             ),
                           ),

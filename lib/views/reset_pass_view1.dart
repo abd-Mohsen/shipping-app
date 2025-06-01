@@ -25,7 +25,7 @@ class ResetPassView1 extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "reset password".toUpperCase(),
+                  "reset password".tr.toUpperCase(),
                   style: tt.titleLarge!.copyWith(color: cs.onSurface),
                 ),
                 const SizedBox(height: 16),
@@ -59,7 +59,7 @@ class ResetPassView1 extends StatelessWidget {
                           controller: rPC.phone,
                           keyboardType: TextInputType.phone,
                           textInputAction: TextInputAction.done,
-                          label: "your phone",
+                          label: "your phone".tr,
                           prefixIcon: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Icon(Icons.phone_android, color: cs.primary),
@@ -82,7 +82,7 @@ class ResetPassView1 extends StatelessWidget {
                                 child: controller.isLoading1
                                     ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                     : Text(
-                                        "send".toUpperCase(),
+                                        "send".tr.toUpperCase(),
                                         style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                       ),
                               ),
@@ -92,7 +92,7 @@ class ResetPassView1 extends StatelessWidget {
                         const SizedBox(height: 24),
                         Center(
                           child: Text(
-                            "this will send a code as an sms to the phone number associated with your account.",
+                            "reset pass1 text".tr,
                             style: tt.titleSmall!.copyWith(color: cs.onSurface),
                           ),
                         ),

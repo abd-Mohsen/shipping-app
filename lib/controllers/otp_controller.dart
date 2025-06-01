@@ -63,9 +63,9 @@ class OTPController extends GetxController {
 
   void verifyOtp(String pin) async {
     if (_isTimeUp) {
-      Get.showSnackbar(const GetSnackBar(
-        message: "انتهت صلاحية الرمز, اطلب رمزأً جديدا",
-        duration: Duration(milliseconds: 2500),
+      Get.showSnackbar(GetSnackBar(
+        message: "the code is expired, request new one".tr,
+        duration: const Duration(milliseconds: 2500),
         backgroundColor: Colors.red,
       ));
       return;
@@ -75,9 +75,9 @@ class OTPController extends GetxController {
     if (resetToken != null) {
       if (source == "register") {
         Get.back();
-        Get.showSnackbar(const GetSnackBar(
-          message: "تم التأكيد بنجاح",
-          duration: Duration(milliseconds: 2500),
+        Get.showSnackbar(GetSnackBar(
+          message: "done successfully".tr,
+          duration: const Duration(milliseconds: 2500),
           backgroundColor: Colors.green,
         ));
       } else {
@@ -86,9 +86,9 @@ class OTPController extends GetxController {
         Get.off(() => const ResetPassView2());
       }
     } else {
-      Get.showSnackbar(const GetSnackBar(
-        message: "incorrect",
-        duration: Duration(milliseconds: 2500),
+      Get.showSnackbar(GetSnackBar(
+        message: "incorrect".tr,
+        duration: const Duration(milliseconds: 2500),
         backgroundColor: Colors.red,
       ));
       otpFieldController.clear();

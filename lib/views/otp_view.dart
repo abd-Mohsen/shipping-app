@@ -66,7 +66,7 @@ class OTPView extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "enter OTP".toUpperCase(),
+                    "enter OTP".tr.toUpperCase(),
                     style: tt.titleLarge!.copyWith(color: cs.onSurface),
                   ),
                   const SizedBox(height: 16),
@@ -135,7 +135,7 @@ class OTPView extends StatelessWidget {
                                 child: controller.isLoading
                                     ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                     : Text(
-                                        "resend".toUpperCase(),
+                                        "resend".tr.toUpperCase(),
                                         style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                       ),
                               ),
@@ -149,7 +149,7 @@ class OTPView extends StatelessWidget {
                               controller: controller.timeController,
                               seconds: 180,
                               build: (_, double time) => Text(
-                                "enter the code we sent to your phone, you can request a new code after ${time.toInt().toString()} seconds",
+                                "${"OTP text".tr} ${time.toInt().toString()}",
                                 style: tt.titleSmall!.copyWith(color: cs.onSurface),
                               ),
                               onFinished: () {
@@ -172,7 +172,7 @@ class OTPView extends StatelessWidget {
                                 oC.logout();
                               },
                               title: Text(
-                                "logout",
+                                "logout".tr,
                                 style: tt.titleSmall!.copyWith(color: cs.error),
                               ),
                             ),
