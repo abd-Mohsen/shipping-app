@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
 import '../../controllers/notifications_controller.dart';
@@ -42,14 +43,29 @@ class DriverHomeTab extends StatelessWidget {
                                 onTap: () {
                                   controller.scaffoldKey.currentState?.openDrawer();
                                 },
-                                child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  margin: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                                  decoration: BoxDecoration(
-                                    color: Color.lerp(cs.primary, Colors.white, 0.33),
-                                    borderRadius: BorderRadius.circular(8),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                                  child: badges.Badge(
+                                    showBadge: controller.currentUser != null &&
+                                        controller.currentUser!.driverInfo?.vehicleStatus == "refused",
+                                    position: badges.BadgePosition.topStart(
+                                      top: -2, // Negative value moves it up
+                                      start: -4, // Negative value moves it left
+                                    ),
+                                    badgeStyle: badges.BadgeStyle(
+                                      shape: badges.BadgeShape.circle,
+                                      badgeColor: kNotificationColor,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(6),
+                                      decoration: BoxDecoration(
+                                        color: Color.lerp(cs.primary, Colors.white, 0.33),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Icon(Icons.person_outline, color: cs.onPrimary),
+                                    ),
                                   ),
-                                  child: Icon(Icons.person_outline, color: cs.onPrimary),
                                 ),
                               ),
                               //SizedBox(width: 4),
@@ -76,18 +92,14 @@ class DriverHomeTab extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                             child: badges.Badge(
-                              showBadge: true,
+                              showBadge: true, //todo
                               position: badges.BadgePosition.topStart(
                                 top: -2, // Negative value moves it up
                                 start: -4, // Negative value moves it left
                               ),
-                              // smallSize: 10,
-                              // backgroundColor: const Color(0xff00ff00),
-                              // alignment: Alignment.topRight,
-                              // offset: const Offset(-5, -5),
                               badgeStyle: badges.BadgeStyle(
                                 shape: badges.BadgeShape.circle,
-                                badgeColor: const Color(0xff00ff00),
+                                badgeColor: kNotificationColor,
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: GestureDetector(

@@ -42,7 +42,7 @@ class MyDrawer extends StatelessWidget {
     String role = getStorage.read("role");
 
     //todo: handle all roles case (add specific tabs for each role)
-    //todo: switch language
+    //todo(later): switch language
     return Drawer(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0),
@@ -215,10 +215,11 @@ class MyDrawer extends StatelessWidget {
                   ),
                 ),
                 Visibility(
-                  visible: role == "driver",
+                  visible: currentUser != null && role == "driver",
                   child: DrawerCard(
                     title: "my vehicles".tr,
                     icon: Icons.local_shipping_outlined,
+                    isMarked: currentUser!.driverInfo?.vehicleStatus == "refused",
                     onTap: () {
                       Get.to(() => const MyVehiclesView());
                     },

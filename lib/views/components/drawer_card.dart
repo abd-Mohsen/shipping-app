@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shipment/constants.dart';
 
 class DrawerCard extends StatelessWidget {
   final String title;
@@ -6,8 +7,17 @@ class DrawerCard extends StatelessWidget {
   final void Function()? onTap;
   final Widget? trailing;
   final Color? textColor;
+  final bool? isMarked;
 
-  const DrawerCard({super.key, required this.title, required this.icon, this.onTap, this.trailing, this.textColor});
+  const DrawerCard({
+    super.key,
+    required this.title,
+    required this.icon,
+    this.onTap,
+    this.trailing,
+    this.textColor,
+    this.isMarked,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +35,22 @@ class DrawerCard extends StatelessWidget {
           child: Icon(icon, size: 22),
         ),
       ),
-      title: Text(
-        title,
-        style: tt.labelMedium!.copyWith(color: textColor ?? cs.onSurface),
+      title: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: tt.labelMedium!.copyWith(color: textColor ?? cs.onSurface),
+          ),
+          if (isMarked ?? false)
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: CircleAvatar(
+                backgroundColor: kNotificationColor,
+                radius: 5,
+              ),
+            ),
+        ],
       ),
       trailing: trailing ??
           Icon(

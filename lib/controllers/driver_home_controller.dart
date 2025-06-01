@@ -8,7 +8,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/views/complete_account_view.dart';
-import 'package:shipment/views/my_vehicles_view.dart';
 import '../models/order_model_2.dart';
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
@@ -27,7 +26,6 @@ class DriverHomeController extends GetxController {
   @override
   onInit() async {
     isEmployee = await _getStorage.read("role") == "company_employee";
-    print(isEmployee ? "an employee" : "not employee");
     getCurrentUser();
     getGovernorates();
     getRecentOrders();
@@ -309,8 +307,6 @@ class DriverHomeController extends GetxController {
     */
     if (!refresh && currentUser != null) {
       if (!isEmployee && currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
-        //todo: show a badge instead of going here
-        Get.to(() => const MyVehiclesView());
         Get.showSnackbar(GetSnackBar(
           message: "you need to add a car to use the app".tr,
           duration: const Duration(milliseconds: 6000),
@@ -534,5 +530,4 @@ class DriverHomeController extends GetxController {
   }
 }
 
-//todo: i get mapController error sometimes (editing map before its ready)
 //todo: test sending location one more time
