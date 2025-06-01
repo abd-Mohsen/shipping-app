@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/services/notifications_service.dart';
 import 'package:shipment/services/screen_service.dart';
@@ -18,11 +19,15 @@ final NotificationService notificationService = NotificationService();
 //todo: additional notes (tele)
 //todo: PT report
 //todo(later): reduce apk size
-//todo: order mini model
 
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.black, // Set your desired color
+    statusBarIconBrightness: Brightness.light, // For dark status bar icons
+    // or Brightness.dark for light icons
+  ));
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final FirebaseApp app = Firebase.app();
   print('Firebase app name: ${app.name}');
