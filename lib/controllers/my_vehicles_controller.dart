@@ -117,6 +117,7 @@ class MyVehiclesController extends GetxController {
     );
     if (res) {
       myVehicles.removeWhere((vehicle) => vehicle.id == id);
+      if (driverHomeController != null) driverHomeController!.getCurrentUser(refresh: true);
       update();
     }
   }
@@ -174,7 +175,7 @@ class MyVehiclesController extends GetxController {
       ));
       resetForm();
       refreshMyVehicles(); //todo: doesnt refresh everytime
-      if (driverHomeController != null) driverHomeController!.getCurrentUser();
+      if (driverHomeController != null) driverHomeController!.getCurrentUser(refresh: true);
     }
     toggleLoadingSubmit(false);
   }

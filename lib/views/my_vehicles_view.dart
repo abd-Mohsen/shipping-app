@@ -21,9 +21,11 @@ class MyVehiclesView extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     GetStorage getStorage = GetStorage();
-    DriverHomeController? dHC;
+    late DriverHomeController dHC;
     if (getStorage.read("role") == "driver") dHC = Get.find();
-    MyVehiclesController mVC = Get.put(MyVehiclesController(driverHomeController: dHC));
+    MyVehiclesController mVC = (getStorage.read("role") == "driver")
+        ? Get.put(MyVehiclesController(driverHomeController: dHC))
+        : Get.put(MyVehiclesController());
 
     openAddSheet() async {
       await Future.delayed(const Duration(milliseconds: 400));
