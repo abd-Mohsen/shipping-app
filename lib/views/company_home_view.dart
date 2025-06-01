@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/views/notifications_view.dart';
-import 'package:shipment/views/payments_view.dart';
 import 'package:shipment/views/tabs/company_employees_tab.dart';
+import 'package:shipment/views/tabs/company_explore_tab.dart';
+import 'package:shipment/views/tabs/company_manage_tab.dart';
 import 'package:shipment/views/tabs/company_orders_tab.dart';
 import 'package:shipment/views/tabs/company_stats_tab.dart';
 import 'package:shipment/views/tabs/company_vehicles_tab.dart';
@@ -14,9 +15,8 @@ import '../controllers/filter_controller.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../controllers/locale_controller.dart';
 import '../controllers/theme_controller.dart';
-import 'about_us_page.dart';
+import 'components/my_drawer.dart';
 import 'edit_profile_view.dart';
-import 'invoices_view.dart';
 
 class CompanyHomeView extends StatelessWidget {
   const CompanyHomeView({super.key});
@@ -36,14 +36,15 @@ class CompanyHomeView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
-      const CompanyVehiclesTab(),
-      const CompanyStatsTab(),
       const CompanyOrdersTab(),
-      const CompanyEmployeesTab(),
+      const CompanyStatsTab(),
+      const Placeholder(),
+      const CompanyManageTab(),
+      const CompanyExploreTab(),
     ];
 
     return DefaultTabController(
-      length: 3,
+      length: 2,
       initialIndex: 1,
       child: PopScope(
         canPop: false,
@@ -56,26 +57,81 @@ class CompanyHomeView extends StatelessWidget {
         child: GetBuilder<CompanyHomeController>(
           builder: (controller) {
             return Scaffold(
-              bottomNavigationBar: NavigationBar(
-                destinations: [
-                  NavigationDestination(icon: Icon(Icons.directions_car), label: "vehicles".tr),
-                  NavigationDestination(icon: Icon(Icons.home_rounded), label: "home".tr),
-                  NavigationDestination(icon: Icon(Icons.list), label: "orders".tr),
-                  NavigationDestination(icon: Icon(Icons.manage_accounts), label: "employees".tr),
-                ],
-                height: MediaQuery.of(context).size.height / 11,
-                backgroundColor: Get.isDarkMode ? cs.primary : Color(0xffefefef),
-                indicatorColor: Get.isDarkMode ? cs.surface : cs.primary,
-                elevation: 10,
-                onDestinationSelected: (i) {
-                  controller.changeTab(i);
-                },
-                selectedIndex: controller.tabIndex,
+              // bottomNavigationBar: NavigationBar(
+              //   destinations: [
+              //     NavigationDestination(icon: Icon(Icons.directions_car), label: "vehicles".tr),
+              //     NavigationDestination(icon: Icon(Icons.home_rounded), label: "home".tr),
+              //     NavigationDestination(icon: Icon(Icons.list), label: "orders".tr),
+              //     NavigationDestination(icon: Icon(Icons.manage_accounts), label: "employees".tr),
+              //   ],
+              //   height: MediaQuery.of(context).size.height / 11,
+              //   backgroundColor: Get.isDarkMode ? cs.primary : Color(0xffefefef),
+              //   indicatorColor: Get.isDarkMode ? cs.surface : cs.primary,
+              //   elevation: 10,
+              //   onDestinationSelected: (i) {
+              //     controller.changeTab(i);
+              //   },
+              //   selectedIndex: controller.tabIndex,
+              // ),
+              bottomNavigationBar: SizedBox(
+                height: MediaQuery.of(context).size.height / 14,
+                child: BottomNavigationBar(
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: const Padding(
+                        padding: EdgeInsets.all(2.0),
+                        child: FaIcon(FontAwesomeIcons.list),
+                      ),
+                      label: "orders".tr,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Padding(
+                        padding: EdgeInsets.all(2.0),
+                        child: FaIcon(FontAwesomeIcons.chartLine),
+                      ),
+                      label: "statistics".tr,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Padding(
+                        padding: EdgeInsets.all(2.0),
+                        child: FaIcon(FontAwesomeIcons.house),
+                      ),
+                      label: "home".tr,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Padding(
+                        padding: EdgeInsets.all(2.0),
+                        child: FaIcon(Icons.manage_accounts),
+                      ),
+                      label: "manage".tr,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Padding(
+                        padding: EdgeInsets.all(2.0),
+                        child: FaIcon(Icons.search),
+                      ),
+                      label: "explore".tr,
+                    ),
+                  ],
+                  showUnselectedLabels: true,
+                  //height: MediaQuery.of(context).size.height / 11,
+                  backgroundColor: cs.secondaryContainer,
+                  selectedItemColor: cs.primary,
+                  unselectedItemColor: cs.onSurface.withOpacity(0.5),
+                  iconSize: 18,
+                  selectedFontSize: 10,
+                  unselectedFontSize: 10,
+                  elevation: 0,
+                  onTap: (i) {
+                    controller.changeTab(i);
+                  },
+                  currentIndex: controller.tabIndex,
+                ),
               ),
               appBar: AppBar(
-                backgroundColor: cs.primary,
+                backgroundColor: cs.secondaryContainer,
                 iconTheme: IconThemeData(
-                  color: cs.onPrimary,
+                  color: cs.onSecondaryContainer,
                 ),
                 title: GetBuilder<CompanyHomeController>(
                   builder: (controller) {
@@ -83,7 +139,7 @@ class CompanyHomeView extends StatelessWidget {
                       controller.isLoadingUser || controller.currentUser == null
                           ? 'company'.toUpperCase()
                           : controller.currentUser!.companyInfo!.name,
-                      style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                      style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     );
@@ -98,56 +154,49 @@ class CompanyHomeView extends StatelessWidget {
                       },
                       icon: Badge(
                         smallSize: 10,
-                        backgroundColor: const Color(0xff00ff00),
+                        backgroundColor: kNotificationColor,
                         alignment: Alignment.topRight,
                         child: Icon(
                           Icons.notifications,
-                          color: cs.onPrimary,
+                          color: cs.onSecondaryContainer,
                         ),
                       ),
                     );
                   })
                 ],
-                bottom: controller.tabIndex == 2
+                bottom: controller.tabIndex == 3
                     ? TabBar(
-                        indicatorColor: Color(0xff7fff00),
+                        indicatorColor: cs.primary,
                         indicatorWeight: 4,
                         tabs: [
                           Tab(
-                            icon: Icon(
-                              Icons.history,
-                              color: cs.onPrimary,
-                              size: 25,
-                            ),
-                            child: Text(
-                              "history".tr,
-                              style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Tab(
-                            icon: Icon(
-                              Icons.checklist_outlined,
-                              color: cs.onPrimary,
-                              size: 25,
+                            icon: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Icon(
+                                Icons.checklist_outlined,
+                                color: cs.onSecondaryContainer,
+                                size: 23,
+                              ),
                             ),
                             child: Text(
                               "current".tr,
-                              style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
+                              style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Tab(
-                            icon: Icon(
-                              Icons.search,
-                              color: cs.onPrimary,
-                              size: 25,
+                            icon: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Icon(
+                                Icons.search,
+                                color: cs.onSecondaryContainer,
+                                size: 23,
+                              ),
                             ),
                             child: Text(
                               "explore".tr,
-                              style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
+                              style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -161,146 +210,25 @@ class CompanyHomeView extends StatelessWidget {
                 index: controller.tabIndex,
                 children: tabs,
               ),
-              drawer: Drawer(
-                backgroundColor: cs.surface,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          GetBuilder<CompanyHomeController>(builder: (con) {
-                            return con.isLoadingUser
-                                ? Padding(
-                                    padding: const EdgeInsets.all(24),
-                                    child: SpinKitPianoWave(color: cs.primary),
-                                  )
-                                : con.currentUser == null
-                                    ? Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            con.getCurrentUser();
-                                          },
-                                          style: ButtonStyle(
-                                            backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                                          ),
-                                          child: Text(
-                                            'خطأ, انقر للتحديث',
-                                            style: tt.titleMedium!.copyWith(color: cs.onPrimary),
-                                          ),
-                                        ),
-                                      )
-                                    : UserAccountsDrawerHeader(
-                                        //showing old data or not showing at all, add loading (is it solved?)
-                                        accountName: Text(
-                                          "${con.currentUser!.firstName} ${con.currentUser!.lastName}",
-                                          style: tt.titleMedium,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 2,
-                                        ),
-                                        accountEmail: Text(
-                                          con.currentUser!.phoneNumber,
-                                          style: tt.titleMedium,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      );
-                          }),
-                          ListTile(
-                            leading: const Icon(Icons.manage_accounts),
-                            title: Text("edit profile".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                            onTap: () {
-                              Get.to(EditProfileView(user: controller.currentUser!, homeController: cHC));
-                            },
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.dark_mode_outlined),
-                            title: Text("Dark mode".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                            trailing: Switch(
-                              value: tC.switchValue,
-                              onChanged: (bool value) {
-                                tC.updateTheme(value);
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            leading: const Icon(Icons.monetization_on_outlined),
-                            title: Text("payment methods".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                            onTap: () {
-                              Get.to(() => const PaymentsView());
-                            },
-                          ),
-                          GetBuilder<CompanyHomeController>(builder: (con) {
-                            return Visibility(
-                              visible: con.currentUser != null,
-                              child: ListTile(
-                                leading: const Icon(Icons.text_snippet),
-                                title: Text("payment history".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                                onTap: () {
-                                  Get.to(() => InvoicesView(user: con.currentUser!));
-                                },
-                              ),
-                            );
-                          }),
-                          // ListTile(
-                          //   leading: Icon(
-                          //     Icons.language,
-                          //     color: cs.onSurface,
-                          //   ),
-                          //   title: DropdownButton(
-                          //     elevation: 10,
-                          //     iconEnabledColor: cs.onSurface,
-                          //     dropdownColor: Colors.grey[300],
-                          //     hint: Text(
-                          //       lC.getCurrentLanguageLabel(),
-                          //       style: tt.labelLarge!.copyWith(color: cs.onSurface),
-                          //     ),
-                          //     items: [
-                          //       DropdownMenuItem(
-                          //         value: "ar",
-                          //         child: Text(
-                          //           "Arabic".tr,
-                          //           style: tt.labelLarge!.copyWith(color: Colors.black),
-                          //         ),
-                          //       ),
-                          //       DropdownMenuItem(
-                          //         value: "en",
-                          //         child: Text(
-                          //           "English".tr,
-                          //           style: tt.labelLarge!.copyWith(color: Colors.black),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //     onChanged: (val) {
-                          //       lC.updateLocale(val!);
-                          //     },
-                          //   ),
-                          // ),
-                          ListTile(
-                            leading: const Icon(Icons.info_outline),
-                            title: Text("About app".tr, style: tt.titleSmall!.copyWith(color: cs.onSurface)),
-                            onTap: () {
-                              Get.to(const AboutUsPage());
-                            },
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.logout, color: cs.error),
-                            title: Text("logout".tr, style: tt.titleSmall!.copyWith(color: cs.error)),
-                            onTap: () {
-                              cHC.logout();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Text(
-                        '® جميع الحقوق محفوظة',
-                        style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
-                      ),
-                    ),
-                  ],
-                ),
+              drawer: GetBuilder<CompanyHomeController>(
+                builder: (controller) {
+                  return MyDrawer(
+                    onClose: () {
+                      controller.scaffoldKey.currentState!.closeDrawer();
+                    },
+                    onRefreshUser: () {
+                      controller.getCurrentUser();
+                    },
+                    onEditProfileClick: () {
+                      Get.to(EditProfileView(user: controller.currentUser!, homeController: cHC));
+                    },
+                    onLogout: () {
+                      controller.logout();
+                    },
+                    isLoadingUser: controller.isLoadingUser,
+                    currentUser: controller.currentUser,
+                  );
+                },
               ),
             );
           },

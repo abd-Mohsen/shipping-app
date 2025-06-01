@@ -1,12 +1,15 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
-
-import '../../models/governorate_model.dart';
-import '../components/order_card.dart';
+import 'package:shipment/controllers/driver_home_controller.dart';
+import '../../controllers/filter_controller.dart';
+import '../components/filter_button.dart';
+import '../components/filter_sheet.dart';
+import '../components/my_search_field.dart';
+import '../components/order_card_3.dart';
 
 class CompanyOrdersTab extends StatelessWidget {
   const CompanyOrdersTab({super.key});
@@ -19,269 +22,187 @@ class CompanyOrdersTab extends StatelessWidget {
 
     return GetBuilder<CompanyHomeController>(
       builder: (controller) {
-        return TabBarView(
+        return Stack(
           children: [
-            //history
-            Padding(
-              padding: const EdgeInsets.only(left: 12, right: 12, top: 8),
-              child: controller.isLoadingHistory
-                  ? SpinKitSquareCircle(color: cs.primary)
-                  : RefreshIndicator(
-                      onRefresh: controller.refreshHistoryOrders,
-                      child: controller.historyOrders.isEmpty
-                          ? Center(
-                              child: ListView(
-                                shrinkWrap: true,
-                                children: [
-                                  Lottie.asset("assets/animations/timer.json", height: 200),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                                    child: Center(
-                                      child: Text(
-                                        "no data, pull down to refresh".tr,
-                                        style:
-                                            tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : ListView.builder(
-                              itemCount: controller.historyOrders.length,
-                              itemBuilder: (context, i) =>
-                                  OrderCard(order: controller.historyOrders[i], isCustomer: false),
-                            ),
-                    ),
-            ),
-            //curr
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: controller.isLoadingCurrent
-                  ? SpinKitSquareCircle(color: cs.primary)
-                  : RefreshIndicator(
-                      onRefresh: controller.refreshCurrOrders,
-                      child: controller.currOrders.isEmpty
-                          ? Center(
-                              child: ListView(
-                                shrinkWrap: true,
-                                children: [
-                                  Lottie.asset("assets/animations/simple truck.json", height: 200),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                                    child: Center(
-                                      child: Text(
-                                        "no data, pull down to refresh".tr,
-                                        style:
-                                            tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : ListView.builder(
-                              itemCount: controller.currOrders.length + 2,
-                              itemBuilder: (context, i) {
-                                if (i == 0) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 12),
-                                    child: Center(child: Lottie.asset("assets/animations/driver2.json", height: 200)),
-                                  );
-                                }
-                                if (i == 1) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.circle, size: 13, color: cs.onSurface),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          "my current orders".tr,
-                                          style: tt.titleMedium!
-                                              .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                          textAlign: TextAlign.start,
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }
-                                return OrderCard(order: controller.currOrders[i - 2], isCustomer: false);
-                              }),
-                    ),
-            ),
-            //explore
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: controller.isLoadingGovernorates
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: SpinKitThreeBounce(color: cs.primary, size: 20),
-                        )
-                      : controller.selectedGovernorate == null
-                          ? Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  controller.getGovernorates();
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                                ),
-                                child: Text(
-                                  'خطأ, انقر للتحديث',
-                                  style: tt.titleMedium!.copyWith(color: cs.onPrimary),
-                                ),
-                              ),
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 20, bottom: 12, left: 8, right: 8),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.circle, size: 10, color: cs.onSurface),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        "show orders in governorate:".tr,
-                                        style:
-                                            tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Material(
-                                  elevation: 5,
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: DropdownSearch<GovernorateModel>(
-                                    validator: (type) {
-                                      if (type == null) return "you must select a governorate".tr;
-                                      return null;
-                                    },
-                                    selectedItem: controller.selectedGovernorate,
-                                    compareFn: (type1, type2) => type1.id == type2.id,
-                                    popupProps: PopupProps.menu(
-                                      showSearchBox: false,
-                                      menuProps: MenuProps(
-                                        elevation: 5,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.vertical(
-                                            bottom: Radius.circular(10), // Only round bottom corners
-                                            top: Radius.circular(10), // Only round bottom corners
-                                          ),
-                                        ),
-                                        backgroundColor: cs.surface,
-                                        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                      ),
-                                      searchFieldProps: TextFieldProps(
-                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        decoration: InputDecoration(
-                                          fillColor: Colors.white70,
-                                          hintText: "governorate name".tr,
-                                          prefix: Padding(
-                                            padding: const EdgeInsets.all(4),
-                                            child: Icon(Icons.search, color: cs.onSurface),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    decoratorProps: DropDownDecoratorProps(
-                                      baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                      decoration: InputDecoration(
-                                        filled: true,
-                                        fillColor: cs.secondaryContainer,
-                                        prefixIcon: Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                          child: Icon(Icons.location_city, color: cs.primary),
-                                        ),
-                                        labelText: "selected governorate".tr,
-                                        labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                            width: .5,
-                                            color: cs.surface,
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                            width: 0.5,
-                                            color: cs.onSurface,
-                                          ),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                            width: 0.5,
-                                            color: cs.error,
-                                          ),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(32),
-                                          borderSide: BorderSide(
-                                            width: 1,
-                                            color: cs.error,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    items: (filter, infiniteScrollProps) => controller.governorates,
-                                    itemAsString: (GovernorateModel governorate) => governorate.name,
-                                    onChanged: (GovernorateModel? governorate) async {
-                                      controller.setGovernorate(governorate);
-                                      // await Future.delayed(const Duration(milliseconds: 1000));
-                                      // if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                                    },
-                                    //enabled: !con.enabled,
-                                  ),
-                                ),
-                              ],
-                            ),
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: AppBar(
+                    backgroundColor: cs.surface,
+                    elevation: 0,
+                    surfaceTintColor: Colors.transparent, // Add this line
+                    systemOverlayStyle: SystemUiOverlayStyle(
+                      statusBarColor: cs.surface, // Match your AppBar
+                    ),
+                    centerTitle: true,
+                    leading: IconButton(
+                      onPressed: () {
+                        controller.homeNavigationController.changeTab(1);
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: cs.onSurface,
+                      ),
+                    ),
+                    title: Text(
+                      "orders".tr,
+                      style: tt.titleMedium!.copyWith(
+                        color: cs.onSurface,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
-                //
+                Row(
+                  children: [
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: MySearchField(
+                          label: "search".tr,
+                          textEditingController: controller.searchQueryMyOrders,
+                          icon: Icon(Icons.search, color: cs.primary),
+                          onChanged: (s) {
+                            controller.search(explore: false);
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    GetBuilder<FilterController>(builder: (controller) {
+                      return FilterButton(
+                        showBadge: controller.isFilterApplied,
+                        sheet: FilterSheet(
+                          showGovernorate: true,
+                          showPrice: true,
+                          showVehicleType: true,
+                          onConfirm: () {
+                            Get.back();
+                            hC.refreshExploreOrders();
+                          },
+                        ),
+                      );
+                    }),
+                    const SizedBox(width: 8),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 12),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height / 14,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(
+                          controller.orderTypes.length + 1,
+                          (i) => GestureDetector(
+                            onTap: () {
+                              i == controller.orderTypes.length
+                                  ? controller.setOrderType("type", false, selectAll: true)
+                                  : controller.setOrderType(controller.orderTypes[i], false);
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: i == controller.orderTypes.length
+                                    ? controller.selectedOrderTypes.length == controller.orderTypes.length
+                                        ? cs.primary
+                                        : Colors.transparent
+                                    : controller.selectedOrderTypes.contains(controller.orderTypes[i])
+                                        ? cs.primary
+                                        : Colors.transparent,
+                                borderRadius: BorderRadius.circular(15),
+                                border: Border.all(
+                                  color: cs.onSurface.withOpacity(0.2),
+                                  width: 0.5,
+                                ),
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color: Colors.black.withOpacity(0.5),
+                                //     spreadRadius: 0.5,
+                                //     blurRadius: 4,
+                                //     offset: const Offset(-1, 2),
+                                //   ),
+                                // ],
+                              ),
+                              child: Row(
+                                children: [
+                                  if (i != controller.orderTypes.length)
+                                    Icon(
+                                      controller.orderIcons[i],
+                                      color: controller.selectedOrderTypes.contains(controller.orderTypes[i])
+                                          ? cs.onPrimary
+                                          : cs.primary,
+                                      size: 16,
+                                    ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    i == controller.orderTypes.length ? "all".tr : controller.orderTypes[i].tr,
+                                    style: tt.labelSmall!.copyWith(
+                                      color: i == controller.orderTypes.length
+                                          ? controller.selectedOrderTypes.length == controller.orderTypes.length
+                                              ? cs.onPrimary
+                                              : cs.primary
+                                          : controller.selectedOrderTypes.contains(controller.orderTypes[i])
+                                              ? cs.onPrimary
+                                              : cs.primary,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
-                  child: controller.isLoadingExplore
-                      ? SpinKitSquareCircle(color: cs.primary)
-                      : RefreshIndicator(
-                          onRefresh: controller.refreshExploreOrders,
-                          child: controller.exploreOrders.isEmpty
-                              ? Center(
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    children: [
-                                      Lottie.asset("assets/animations/search.json", height: 300),
-                                      Padding(
-                                        padding: const EdgeInsets.all(24),
-                                        child: Center(
-                                          child: Text(
-                                            "no data, pull down to refresh".tr,
-                                            style: tt.titleMedium!
-                                                .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                            textAlign: TextAlign.center,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
+                    child: controller.isLoading
+                        ? SpinKitSquareCircle(color: cs.primary)
+                        : RefreshIndicator(
+                            onRefresh: controller.refreshOrders,
+                            child: controller.myOrders.isEmpty
+                                ? Center(
+                                    child: ListView(
+                                      shrinkWrap: true,
+                                      //mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Lottie.asset("assets/animations/simple truck.json", height: 200),
+                                        Padding(
+                                          padding: const EdgeInsets.all(4),
+                                          child: Center(
+                                            child: Text(
+                                              "no data, pull down to refresh".tr,
+                                              style: tt.titleMedium!.copyWith(
+                                                color: cs.onSurface,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                        const SizedBox(height: 72),
+                                      ],
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                    itemCount: controller.myOrders.length,
+                                    itemBuilder: (context, i) => OrderCard3(
+                                      order: controller.myOrders[i],
+                                      isCustomer: false,
+                                      isLast: i == controller.myOrders.length - 1,
+                                    ),
                                   ),
-                                )
-                              : ListView.builder(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                  itemCount: controller.exploreOrders.length,
-                                  itemBuilder: (context, i) => OrderCard(
-                                    order: controller.exploreOrders[i],
-                                    isCustomer: false,
-                                  ),
-                                ),
-                        ),
+                          ),
+                  ),
                 ),
               ],
             ),

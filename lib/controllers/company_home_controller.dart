@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:excel/excel.dart';
@@ -32,8 +33,6 @@ class CompanyHomeController extends GetxController {
     getCurrentUser();
     getMyEmployees();
     getGovernorates();
-    getHistoryOrders();
-    getCurrentOrders();
     getCompanyStats();
     super.onInit();
   }
@@ -42,6 +41,14 @@ class CompanyHomeController extends GetxController {
 
   TextEditingController searchQueryMyOrders = TextEditingController();
   TextEditingController searchQueryExploreOrders = TextEditingController();
+
+  Timer? _debounce;
+  search({required bool explore}) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      explore ? refreshExploreOrders() : refreshOrders();
+    });
+  }
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -98,6 +105,91 @@ class CompanyHomeController extends GetxController {
     }
   }
 
+  //-------------------------------------------------
+  List<OrderModel2> myOrders = [];
+
+  List<OrderModel2> recentOrders = [];
+
+  List<String> orderTypes = ["taken", "accepted", "current", "finished"];
+
+  List<IconData> orderIcons = [
+    Icons.watch_later,
+    Icons.done,
+    Icons.local_shipping,
+    Icons.done_all,
+  ];
+
+  List<String> selectedOrderTypes = ["current"];
+  //String selectedOrderType = "current";
+
+  OrderModel2? currentOrder;
+
+  void setOrderType(String? type, bool clear, {bool selectAll = false}) {
+    if (type == null) return;
+    if (clear) {
+      selectedOrderTypes.clear();
+      homeNavigationController.changeTab(0);
+    }
+    if (selectAll) {
+      selectedOrderTypes.length == orderTypes.length
+          ? selectedOrderTypes.clear()
+          : selectedOrderTypes = List.from(orderTypes);
+    } else {
+      selectedOrderTypes.contains(type) ? selectedOrderTypes.remove(type) : selectedOrderTypes.add(type);
+    }
+    refreshOrders();
+  }
+
+  void getMyOrders() async {
+    toggleLoading(true);
+    List<String> typesToFetch = [];
+    if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
+    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending"]);
+    if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
+    if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
+    List<OrderModel2> newItems = await RemoteServices.fetchCompanyOrders(
+          types: typesToFetch,
+          page: 1, //todo:pagination
+          searchQuery: searchQueryMyOrders.text.trim(),
+          minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+          maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+          vehicleType: filterController.selectedVehicleType?.id,
+          governorate: filterController.selectedGovernorate?.id,
+          currency: filterController.selectedCurrency?.id,
+        ) ??
+        [];
+    myOrders.addAll(newItems);
+    toggleLoading(false);
+  }
+
+  Future<void> refreshOrders() async {
+    myOrders.clear();
+    getMyOrders();
+  }
+
+  bool isLoadingRecent = false;
+  void toggleLoadingRecent(bool value) {
+    isLoadingRecent = value;
+    update();
+  }
+
+  void getRecentOrders() async {
+    toggleLoadingRecent(true);
+    List<String> typesToFetch = ["pending", "done", "canceled"];
+    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchDriverOrders(types: ["processing"]) ?? [];
+    List<OrderModel2> newOrders = await RemoteServices.fetchDriverOrders(types: typesToFetch) ?? [];
+    recentOrders.addAll(newProcessingOrders);
+    recentOrders.addAll(newOrders);
+    if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
+    //currentOrder = newOrders.first;
+    toggleLoadingRecent(false);
+  }
+
+  Future<void> refreshRecentOrders() async {
+    recentOrders.clear();
+    getRecentOrders();
+  }
+
   // -----------------employees-----------------------
 
   bool _isLoadingEmployees = false;
@@ -113,6 +205,8 @@ class CompanyHomeController extends GetxController {
     _isLoadingEmployeesAdd = value;
     update();
   }
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   GlobalKey<FormState> addEmployeeFormKey = GlobalKey<FormState>();
   bool employeeButtonPressed = false;
