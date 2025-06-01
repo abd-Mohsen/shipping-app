@@ -11,6 +11,7 @@ class IdImageSelector extends StatelessWidget {
   final bool isSubmitted;
   final XFile? image;
   final String? uploadStatus;
+  final EdgeInsets? padding;
   const IdImageSelector({
     super.key,
     required this.title,
@@ -19,6 +20,7 @@ class IdImageSelector extends StatelessWidget {
     required this.image,
     required this.onTapGallery,
     this.uploadStatus,
+    this.padding,
   });
 
   @override
@@ -27,7 +29,7 @@ class IdImageSelector extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.only(top: 16),
+      padding: padding ?? const EdgeInsets.only(top: 16),
       child: Material(
         elevation: 5,
         borderRadius: BorderRadius.circular(10),

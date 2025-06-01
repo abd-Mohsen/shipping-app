@@ -249,6 +249,7 @@ class MyLocale extends Translations {
           "max price": "max price",
           "min price": "min price",
           "clear filters": "clear filters",
+          "refused": "refused",
         },
         "ar": {
           "Arabic": "العربية",
@@ -494,6 +495,7 @@ class MyLocale extends Translations {
           "max price": "السعر الأعلى",
           "min price": "السعر الأدنى",
           "clear filters": "مسح الفلاتر",
+          "refused": "مرفوض",
         },
       };
 }

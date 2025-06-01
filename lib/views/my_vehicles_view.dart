@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/my_vehicles_controller.dart';
 import 'package:shipment/views/components/add_vehicle_sheet.dart';
 import 'package:shipment/views/components/vehicle_card.dart';
@@ -39,10 +42,16 @@ class MyVehiclesView extends StatelessWidget {
             visible: controller.myVehicles.isEmpty,
             child: FloatingActionButton(
               onPressed: () {
-                showModalBottomSheet(
+                showMaterialModalBottomSheet(
                   context: context,
-                  enableDrag: false,
-                  builder: (BuildContext context) => AddVehicleSheet(),
+                  isDismissible: false,
+                  backgroundColor: Colors.transparent,
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  enableDrag: true,
+                  builder: (context) => BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: AddVehicleSheet(),
+                  ),
                 );
               },
               foregroundColor: cs.onPrimary,

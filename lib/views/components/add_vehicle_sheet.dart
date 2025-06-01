@@ -1,33 +1,26 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/input_field.dart';
+import 'package:shipment/views/components/vehicle_type_selector.dart';
 import '../../controllers/my_vehicles_controller.dart';
+import '../../models/vehicle_model.dart';
 import '../../models/vehicle_type_model.dart';
+import 'package:badges/badges.dart' as badges;
 import 'auth_field.dart';
 import 'id_image_selector.dart';
 
 //todo: i get an error if i redirect to vehicle page
 class AddVehicleSheet extends StatelessWidget {
-  const AddVehicleSheet({super.key});
+  final VehicleModel? vehicle;
+  const AddVehicleSheet({super.key, this.vehicle});
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     MyVehiclesController mVC = Get.find();
-
-    OutlineInputBorder border({Color? color, double width = 0.5}) {
-      return OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        borderSide: BorderSide(
-          width: width,
-          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade300), // Fake shadow color
-        ),
-      );
-    }
 
     return GetBuilder<MyVehiclesController>(
       builder: (controller) {
@@ -69,78 +62,54 @@ class AddVehicleSheet extends StatelessWidget {
                   },
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: controller.isLoadingVehicle
-                      ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                      : DropdownSearch<VehicleTypeModel>(
-                          validator: (type) {
-                            if (type == null) return "you must select a type".tr;
-                            return null;
-                          },
-                          compareFn: (type1, type2) => type1.id == type2.id,
-                          popupProps: PopupProps.menu(
-                            showSearchBox: false,
-                            constraints: BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
-                            menuProps: MenuProps(
-                              elevation: 5,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  bottom: Radius.circular(10), // Only round bottom corners
-                                  top: Radius.circular(10), // Only round bottom corners
-                                ),
-                              ),
-                              backgroundColor: cs.surface,
-                              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            ),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: controller.isLoadingVehicle
+                        ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                        : VehicleTypeSelector(
+                            selectedItem: controller.selectedVehicleType,
+                            items: controller.vehicleTypes,
+                            onChanged: (VehicleTypeModel? type) async {
+                              controller.selectVehicleType(type);
+                              await Future.delayed(const Duration(milliseconds: 1000));
+                              if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                            },
+                          )),
+                controller.isLoadingImage
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: SpinKitThreeBounce(color: cs.onSurface, size: 20),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: badges.Badge(
+                          showBadge: vehicle != null && vehicle!.registrationStatus == "refused",
+                          position: badges.BadgePosition.topStart(
+                            top: 0, // Negative value moves it up
+                            start: 0, // Negative value moves it left
                           ),
-                          decoratorProps: DropDownDecoratorProps(
-                            baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
-                            decoration: InputDecoration(
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                child: Icon(
-                                  Icons.fire_truck,
-                                  color: cs.primary,
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: cs.secondaryContainer,
-                              labelText: "required vehicle type".tr,
-                              labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
-                              enabledBorder: border(width: 1.5),
-                              focusedBorder: border(width: 2),
-                              errorBorder: border(color: cs.error, width: 1.5),
-                              focusedErrorBorder: border(color: cs.error, width: 2),
-                            ),
+                          badgeStyle: badges.BadgeStyle(
+                            shape: badges.BadgeShape.circle,
+                            badgeColor: const Color(0xff00ff00),
+                            borderRadius: BorderRadius.circular(4),
                           ),
-                          items: (filter, infiniteScrollProps) => controller.vehicleTypes,
-                          itemAsString: (VehicleTypeModel type) => type.type,
-                          onChanged: (VehicleTypeModel? type) async {
-                            controller.selectVehicleType(type);
-                            await Future.delayed(const Duration(milliseconds: 1000));
-                            if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                          },
-                          //enabled: !con.enabled,
+                          child: IdImageSelector(
+                            padding: EdgeInsets.symmetric(vertical: 4),
+                            title: "registration".tr,
+                            isSubmitted: controller.registration != null,
+                            image: controller.registration,
+                            onTapCamera: () {
+                              controller.pickImage("camera");
+                            },
+                            onTapGallery: () {
+                              controller.pickImage("gallery");
+                            },
+                            uploadStatus: vehicle?.registrationStatus,
+                          ),
                         ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: IdImageSelector(
-                    title: "registration".tr,
-                    isSubmitted: controller.registration != null,
-                    image: controller.registration,
-                    onTapCamera: () {
-                      controller.pickImage("camera");
-                    },
-                    onTapGallery: () {
-                      controller.pickImage("gallery");
-                    },
-                  ),
-                ),
+                      ),
                 CustomButton(
                   onTap: () {
-                    controller.submit();
+                    controller.submit(vehicle != null);
                   },
                   child: Center(
                     child: controller.isLoadingSubmit

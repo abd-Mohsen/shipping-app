@@ -6,7 +6,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:flutter/material.dart';
+import 'package:shipment/services/download_image_service.dart';
 
+import '../constants.dart';
 import '../models/vehicle_model.dart';
 import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
@@ -108,8 +110,23 @@ class MyVehiclesController extends GetxController {
     }
   }
 
-  void submit() async {
-    if (isLoading || isLoadingVehicle || isLoadingSubmit) return;
+  bool isLoadingImage = false;
+  void toggleLoadingImage(bool value) {
+    isLoadingImage = value;
+    update();
+  }
+
+  void prePopulate(VehicleModel vehicle) async {
+    toggleLoadingImage(true);
+    vehicleOwner.text = vehicle.fullNameOwner;
+    licensePlate.text = vehicle.licensePlate;
+    selectedVehicleType = vehicle.vehicleTypeInfo;
+    registration = await DownloadImageService().downloadImage(kHostIP + vehicle.registrationPhoto);
+    toggleLoadingImage(false);
+  }
+
+  void submit(bool edit) async {
+    if (isLoading || isLoadingVehicle || isLoadingSubmit || isLoadingImage) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
@@ -121,13 +138,21 @@ class MyVehiclesController extends GetxController {
       return;
     }
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.addVehicle(
-      vehicleOwner.text,
-      selectedVehicleType!.id,
-      licensePlate.text,
-      File(registration!.path),
-      GetStorage().read("role"),
-    );
+    bool success = edit
+        ? await RemoteServices.editVehicle(
+            vehicleOwner.text,
+            selectedVehicleType!.id,
+            licensePlate.text,
+            File(registration!.path),
+            GetStorage().read("role"),
+          )
+        : await RemoteServices.addVehicle(
+            vehicleOwner.text,
+            selectedVehicleType!.id,
+            licensePlate.text,
+            File(registration!.path),
+            GetStorage().read("role"),
+          );
     if (success) {
       Get.back();
       Get.showSnackbar(GetSnackBar(

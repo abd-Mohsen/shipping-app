@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:shipment/services/compress_image_service.dart';
+import 'package:shipment/services/download_image_service.dart';
 
 import '../constants.dart';
 import '../services/remote_services.dart';
@@ -48,12 +49,15 @@ class CompleteAccountController extends GetxController {
         backgroundColor: Colors.green,
       ));
     }
-    idFront = await downloadImage("$kHostIP${homeController.currentUser.idPhotoFront}");
-    idRear = await downloadImage("$kHostIP${homeController.currentUser.idPhotoRare}");
+    final downloadService = DownloadImageService();
+    idFront = await downloadService.downloadImage("$kHostIP${homeController.currentUser.idPhotoFront}");
+    idRear = await downloadService.downloadImage("$kHostIP${homeController.currentUser.idPhotoRare}");
     bool isDriver = !["company", "customer"].contains(homeController.currentUser.role.type);
     if (isDriver) {
-      dLicenseFront = await downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoFront}");
-      dLicenseRear = await downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoRare}");
+      dLicenseFront = await downloadService
+          .downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoFront}");
+      dLicenseRear = await downloadService
+          .downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoRare}");
     }
     toggleLoadingImages(false);
   }
@@ -104,32 +108,6 @@ class CompleteAccountController extends GetxController {
   void toggleLoadingImages(bool value) {
     _isLoadingImages = value;
     update();
-  }
-
-  Future<XFile?> downloadImage(String imageUrl) async {
-    if (imageUrl.endsWith("null")) return null;
-    try {
-      // Download the image
-      final response = await http.get(Uri.parse(imageUrl));
-
-      // Get the document directory path
-      final documentDirectory = await getTemporaryDirectory();
-
-      // Generate a unique filename using the image URL's hash code
-      final uniqueFileName = 'image_${imageUrl.hashCode}.jpg';
-
-      // Create a file in the temporary directory with the unique filename
-      final file = File('${documentDirectory.path}/$uniqueFileName');
-
-      // Write the image bytes to the file
-      file.writeAsBytesSync(response.bodyBytes);
-
-      // Create an XFile from the file
-      return XFile(file.path);
-    } catch (e) {
-      print('Error: $e');
-      return null;
-    }
   }
 
   void submit() async {

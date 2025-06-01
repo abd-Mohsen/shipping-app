@@ -237,6 +237,26 @@ class RemoteServices {
     return json != null;
   }
 
+  static Future<bool> editVehicle(
+    String ownerName,
+    int vehicleTypeID,
+    String vehicleRegistrationNumber,
+    File? vehicleRegistrationPhoto,
+    String role,
+  ) async {
+    Map<String, String> body = {
+      "full_name_owner": ownerName,
+      "vehicle_type": vehicleTypeID.toString(),
+      "vehicle_registration_number": vehicleRegistrationNumber,
+    };
+    Map<String, File?> images = {
+      "vehicle_registration_photo": vehicleRegistrationPhoto,
+    };
+    String? json =
+        await api.requestWithFiles("$role/vehicles/", methodType: "PUT", images, body, auth: true, utf8Decode: false);
+    return json != null;
+  }
+
   static Future<List<VehicleModel>?> fetchDriverVehicles() async {
     String? json = await api.getRequest("driver/vehicles/", auth: true);
     if (json == null) return null;
