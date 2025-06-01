@@ -25,38 +25,44 @@ class EditProfileView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: cs.surface,
         appBar: AppBar(
-          backgroundColor: cs.primary,
+          backgroundColor: cs.secondaryContainer,
           title: Text(
             'edit profile'.tr,
-            style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+            style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer),
           ),
           centerTitle: true,
           bottom: TabBar(
-            indicatorColor: Color(0xff7fff00),
+            indicatorColor: cs.primary,
             indicatorWeight: 4,
             tabs: [
               Tab(
-                icon: Icon(
-                  Icons.person,
-                  color: cs.onPrimary,
-                  size: 25,
+                icon: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(
+                    Icons.person,
+                    color: cs.onSecondaryContainer,
+                    size: 23,
+                  ),
                 ),
                 child: Text(
                   "profile".tr,
-                  style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
+                  style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               Tab(
-                icon: Icon(
-                  Icons.lock,
-                  color: cs.onPrimary,
-                  size: 25,
+                icon: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(
+                    Icons.lock,
+                    color: cs.onSecondaryContainer,
+                    size: 23,
+                  ),
                 ),
                 child: Text(
                   "password".tr,
-                  style: tt.bodyMedium!.copyWith(color: cs.onPrimary),
+                  style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -153,7 +159,10 @@ class EditProfileView extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         obscure: !controller.oldPasswordVisible,
-                        label: "old password",
+                        label: "old password".tr,
+                        fillColor: cs.secondaryContainer,
+                        bordered: true,
+                        fontColor: cs.onSecondaryContainer,
                         prefixIcon: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Icon(Icons.lock, color: cs.primary),
@@ -177,7 +186,10 @@ class EditProfileView extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         obscure: !controller.passwordVisible,
-                        label: "new password",
+                        label: "new password".tr,
+                        fillColor: cs.secondaryContainer,
+                        bordered: true,
+                        fontColor: cs.onSecondaryContainer,
                         prefixIcon: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Icon(Icons.lock, color: cs.primary),
@@ -201,7 +213,10 @@ class EditProfileView extends StatelessWidget {
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         obscure: !controller.rePasswordVisible,
-                        label: "re enter new password",
+                        label: "re enter new password".tr,
+                        fillColor: cs.secondaryContainer,
+                        bordered: true,
+                        fontColor: cs.onSecondaryContainer,
                         prefixIcon: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Icon(Icons.lock, color: cs.primary),
@@ -214,7 +229,14 @@ class EditProfileView extends StatelessWidget {
                           ),
                         ),
                         validator: (val) {
-                          return validateInput(controller.reNewPass.text, 8, 50, "");
+                          return validateInput(
+                            controller.reNewPass.text,
+                            8,
+                            50,
+                            "",
+                            pass: controller.newPass.text,
+                            rePass: controller.reNewPass.text,
+                          );
                         },
                         onChanged: (val) {
                           if (controller.button2Pressed) controller.passFormKey.currentState!.validate();

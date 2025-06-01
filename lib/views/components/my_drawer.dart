@@ -53,120 +53,116 @@ class MyDrawer extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                Material(
-                  elevation: 1,
-                  color: cs.secondaryContainer,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12, bottom: 4, left: 16, right: 16),
-                            child: GestureDetector(
-                              onTap: onClose,
-                              child: Icon(
-                                Icons.arrow_back,
-                                color: cs.onSurface,
-                                weight: 2,
-                              ),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12, bottom: 4, left: 16, right: 16),
+                          child: GestureDetector(
+                            onTap: onClose,
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: cs.onSurface,
+                              weight: 2,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: IconButton(
-                              icon: FaIcon(tC.switchValue ? Icons.sunny : FontAwesomeIcons.solidMoon),
-                              onPressed: () {
-                                tC.updateTheme(!tC.switchValue);
-                              },
-                            ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                            icon: FaIcon(tC.switchValue ? Icons.sunny : FontAwesomeIcons.solidMoon),
+                            onPressed: () {
+                              tC.updateTheme(!tC.switchValue);
+                            },
                           ),
-                        ],
-                      ),
-                      isLoadingUser
-                          ? Padding(
-                              padding: const EdgeInsets.all(24),
-                              child: SpinKitPianoWave(color: cs.primary),
-                            )
-                          : currentUser == null
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                  child: ElevatedButton(
-                                    onPressed: onRefreshUser,
-                                    style: ButtonStyle(
-                                      backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                                    ),
-                                    child: Text(
-                                      'refresh'.tr,
-                                      style: tt.titleMedium!.copyWith(color: cs.onPrimary),
-                                    ),
+                        ),
+                      ],
+                    ),
+                    isLoadingUser
+                        ? Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: SpinKitPianoWave(color: cs.primary),
+                          )
+                        : currentUser == null
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                child: ElevatedButton(
+                                  onPressed: onRefreshUser,
+                                  style: ButtonStyle(
+                                    backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
                                   ),
-                                )
-                              : Column(
-                                  children: [
-                                    Padding(
+                                  child: Text(
+                                    'refresh'.tr,
+                                    style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                  ),
+                                ),
+                              )
+                            : Column(
+                                children: [
+                                  InkWell(
+                                    onTap: onEditProfileClick,
+                                    child: Padding(
                                       padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
-                                      child: GestureDetector(
-                                        onTap: onEditProfileClick,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                currentUser!.role.type.tr,
-                                                style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.4)),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              const SizedBox(height: 8),
-                                              Row(
-                                                children: [
-                                                  Icon(Icons.person, color: cs.primary, size: 40),
-                                                  const SizedBox(width: 8),
-                                                  Expanded(
-                                                    child: Text(
-                                                      "${currentUser!.firstName} ${currentUser!.lastName}",
-                                                      style: tt.titleMedium!.copyWith(
-                                                        color: cs.onSecondaryContainer,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 2,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              currentUser!.role.type.tr,
+                                              style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.4)),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Row(
+                                              children: [
+                                                Icon(Icons.person, color: cs.primary, size: 40),
+                                                const SizedBox(width: 8),
+                                                Expanded(
+                                                  child: Text(
+                                                    "${currentUser!.firstName} ${currentUser!.lastName}",
+                                                    style: tt.titleMedium!.copyWith(
+                                                      color: cs.onSecondaryContainer,
+                                                      fontWeight: FontWeight.bold,
                                                     ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 2,
                                                   ),
-                                                  const SizedBox(width: 16),
-                                                  Icon(
-                                                    Icons.arrow_forward_ios,
-                                                    color: cs.primary,
-                                                    size: 14,
-                                                  )
-                                                ],
-                                              ),
-                                              const SizedBox(height: 8),
-                                              Text(
-                                                currentUser!.phoneNumber,
-                                                style: tt.titleSmall!.copyWith(color: cs.primary),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              const SizedBox(height: 4),
-                                              Text(
-                                                "دمشق, ركن الدين, صلاح الدين",
-                                                style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.4)),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ],
-                                          ),
+                                                ),
+                                                const SizedBox(width: 16),
+                                                Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: cs.primary,
+                                                  size: 14,
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              currentUser!.phoneNumber,
+                                              style: tt.titleSmall!.copyWith(color: cs.primary),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              "دمشق, ركن الدين, صلاح الدين",
+                                              style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.4)),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                    // Divider(
-                                    //   thickness: 1,
-                                    //   color: cs.onSurface.withOpacity(0.2),
-                                    // )
-                                  ],
-                                ),
-                    ],
-                  ),
+                                  ),
+                                  Divider(
+                                    thickness: 1,
+                                    color: cs.onSurface.withOpacity(0.2),
+                                  )
+                                ],
+                              ),
+                  ],
                 ),
 
                 // ListTile(

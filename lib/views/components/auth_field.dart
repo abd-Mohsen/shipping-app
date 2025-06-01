@@ -14,6 +14,9 @@ class AuthField extends StatelessWidget {
     required this.validator,
     required this.onChanged,
     this.onSubmit,
+    this.fillColor,
+    this.fontColor,
+    this.bordered,
   });
 
   final TextEditingController controller;
@@ -26,11 +29,35 @@ class AuthField extends StatelessWidget {
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
   final void Function(String?)? onSubmit;
+  final Color? fillColor;
+  final Color? fontColor;
+  final bool? bordered;
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
+
+    OutlineInputBorder border1({Color? color, double width = 0.5}) {
+      return OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderSide: BorderSide(
+          width: width,
+          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade300), // Fake shadow color
+        ),
+      );
+    }
+
+    OutlineInputBorder border2({Color? color, double width = 0.5}) {
+      return OutlineInputBorder(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        borderSide: BorderSide(
+          width: 0,
+          color: color ?? Colors.transparent,
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: TextFormField(
@@ -40,39 +67,21 @@ class AuthField extends StatelessWidget {
         obscureText: obscure ?? false,
         decoration: InputDecoration(
           filled: true,
-          fillColor: const Color(0xFFf9eaee),
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 0, color: Colors.transparent),
-          ),
-          disabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 0, color: Colors.transparent),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 0, color: Colors.transparent),
-          ),
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 1),
-          ),
-          errorBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 1, color: Colors.red),
-          ),
-          focusedErrorBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 2, color: Colors.red),
-          ),
+          fillColor: fillColor ?? const Color(0xFFf9eaee),
+          focusedBorder: bordered ?? false ? border1(width: 2) : border2(),
+          disabledBorder: bordered ?? false ? border1(width: 1.5) : border2(),
+          enabledBorder: bordered ?? false ? border1(width: 1.5) : border2(),
+          border: bordered ?? false ? border1(width: 1.5) : border2(),
+          errorBorder: border2(color: Colors.red, width: 1),
+          focusedErrorBorder: border2(color: Colors.red, width: 2),
           //hintText: "password".tr,
           hintText: label,
-          hintStyle: tt.titleSmall!.copyWith(color: Colors.black.withOpacity(0.5)),
+          hintStyle: tt.titleSmall!.copyWith(color: fontColor?.withOpacity(0.5) ?? Colors.black.withOpacity(0.5)),
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           floatingLabelBehavior: FloatingLabelBehavior.never,
         ),
-        style: tt.titleSmall!.copyWith(color: Colors.black),
+        style: tt.titleSmall!.copyWith(color: fontColor ?? Colors.black),
         validator: validator,
         onChanged: onChanged,
         onFieldSubmitted: onSubmit,

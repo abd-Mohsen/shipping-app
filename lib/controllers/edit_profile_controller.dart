@@ -74,7 +74,7 @@ class EditProfileController extends GetxController {
       if (Get.routing.current == "/EditProfileView") Get.back();
       homeController.getCurrentUser();
       Get.showSnackbar(GetSnackBar(
-        message: "profile updated successfully".tr,
+        message: "done successfully".tr,
         duration: const Duration(milliseconds: 2500),
         backgroundColor: Colors.green,
       ));
@@ -93,7 +93,7 @@ class EditProfileController extends GetxController {
       if (Get.routing.current == "/EditProfileView") Get.back();
       homeController.getCurrentUser();
       Get.showSnackbar(GetSnackBar(
-        message: "password updated successfully".tr,
+        message: "done successfully".tr,
         duration: const Duration(milliseconds: 2500),
         backgroundColor: Colors.green,
       ));

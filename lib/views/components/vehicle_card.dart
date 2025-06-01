@@ -38,7 +38,7 @@ class VehicleCard extends StatelessWidget {
               color: Colors.black.withOpacity(0.2), // Shadow color
               blurRadius: 4, // Soften the shadow
               spreadRadius: 1, // Extend the shadow
-              offset: Offset(2, 2), // Shadow direction (x, y)
+              offset: const Offset(2, 2), // Shadow direction (x, y)
             ),
           ],
         ),
@@ -50,7 +50,7 @@ class VehicleCard extends StatelessWidget {
           ),
           badgeStyle: badges.BadgeStyle(
             shape: badges.BadgeShape.circle,
-            badgeColor: const Color(0xff00ff00),
+            badgeColor: kNotificationColor,
             borderRadius: BorderRadius.circular(4),
           ),
           child: ExpansionTile(
@@ -137,7 +137,7 @@ class VehicleCard extends StatelessWidget {
                   // ),
                   SheetDetailsTile(
                     title: "registration status".tr,
-                    subtitle: vehicle.registrationStatus.tr, //todo: localize this
+                    subtitle: vehicle.registrationStatus.tr,
                     color: vehicle.registrationStatus == "refused" ? cs.error : cs.onSurface,
                   ),
                   // ListTile(
@@ -175,7 +175,7 @@ class VehicleCard extends StatelessWidget {
                   //     ),
                   //   ),
                   // ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(
@@ -188,6 +188,7 @@ class VehicleCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: tt.titleSmall!.copyWith(
                                 color: cs.onSurface,
+                                decoration: TextDecoration.underline,
                               ),
                               textAlign: TextAlign.start,
                             ),
@@ -204,7 +205,7 @@ class VehicleCard extends StatelessWidget {
                             ),
                             badgeStyle: badges.BadgeStyle(
                               shape: badges.BadgeShape.circle,
-                              badgeColor: const Color(0xff00ff00),
+                              badgeColor: kNotificationColor,
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: GestureDetector(
@@ -227,9 +228,8 @@ class VehicleCard extends StatelessWidget {
                                   "edit".tr,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: tt.titleSmall!.copyWith(
-                                    color: cs.onSurface,
-                                  ),
+                                  style: tt.titleSmall!
+                                      .copyWith(color: cs.onSurface, decoration: TextDecoration.underline),
                                   textAlign: TextAlign.start,
                                 ),
                               ),

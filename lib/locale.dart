@@ -279,6 +279,8 @@ class MyLocale extends Translations {
           "new password": "new password",
           "re enter new password": "re enter new password",
           "reset pass2 text": "now you are logged in, you can set a new password",
+          "profile": "profile",
+          "old password": "old password",
         },
         "ar": {
           "Arabic": "العربية",
@@ -553,6 +555,8 @@ class MyLocale extends Translations {
           "new password": "كلمة مرور جديدة",
           "re enter new password": "أعد ادخال كلمة المرور الجديدة",
           "reset pass2 text": "يمكنك الآن تعيين كلمة مرور جديدة",
+          "profile": "الملف الشخصي",
+          "old password": "كلمة المرور القديمة",
         },
       };
 }

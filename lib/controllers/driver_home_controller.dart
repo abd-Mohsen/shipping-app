@@ -307,10 +307,10 @@ class DriverHomeController extends GetxController {
     */
     if (!refresh && currentUser != null) {
       if (!isEmployee && currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
-        Get.showSnackbar(GetSnackBar(
-          message: "you need to add a car to use the app".tr,
-          duration: const Duration(milliseconds: 6000),
-        ));
+        // Get.showSnackbar(GetSnackBar(
+        //   message: "you need to add a car to use the app".tr,
+        //   duration: const Duration(milliseconds: 6000),
+        // ));
       }
       if (currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
         Get.put(CompleteAccountController(homeController: this));
