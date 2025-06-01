@@ -179,9 +179,7 @@ class DriverHomeTab extends StatelessWidget {
                       ["refused", "No_Input"].contains(controller.currentUser!.driverInfo?.vehicleStatus),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(MyVehiclesView());
-                      //todo: press FAB
-                      //todo: refresh user after adding
+                      Get.to(const MyVehiclesView(openSheet: true));
                     },
                     child: Container(
                       padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),

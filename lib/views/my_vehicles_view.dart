@@ -4,20 +4,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/my_vehicles_controller.dart';
 import 'package:shipment/views/components/add_vehicle_sheet.dart';
 import 'package:shipment/views/components/vehicle_card.dart';
 
 class MyVehiclesView extends StatelessWidget {
-  const MyVehiclesView({super.key});
+  final bool? openSheet;
+  const MyVehiclesView({super.key, this.openSheet});
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    MyVehiclesController mVC = Get.put(MyVehiclesController());
+    GetStorage getStorage = GetStorage();
+    DriverHomeController? dHC;
+    if (getStorage.read("role") == "driver") dHC = Get.find();
+    MyVehiclesController mVC = Get.put(MyVehiclesController(driverHomeController: dHC));
+
+    openAddSheet() async {
+      await Future.delayed(const Duration(milliseconds: 400));
+      showMaterialModalBottomSheet(
+        context: context,
+        isDismissible: false,
+        backgroundColor: Colors.transparent,
+        barrierColor: Colors.black.withOpacity(0.5),
+        enableDrag: true,
+        builder: (context) => BackdropFilter(filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), child: AddVehicleSheet()),
+      );
+    }
+
+    if (openSheet ?? false) openAddSheet();
+
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
@@ -42,17 +63,7 @@ class MyVehiclesView extends StatelessWidget {
             visible: controller.myVehicles.isEmpty,
             child: FloatingActionButton(
               onPressed: () {
-                showMaterialModalBottomSheet(
-                  context: context,
-                  isDismissible: false,
-                  backgroundColor: Colors.transparent,
-                  barrierColor: Colors.black.withOpacity(0.5),
-                  enableDrag: true,
-                  builder: (context) => BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: AddVehicleSheet(),
-                  ),
-                );
+                openAddSheet();
               },
               foregroundColor: cs.onPrimary,
               child: Icon(Icons.add, color: cs.onPrimary),
