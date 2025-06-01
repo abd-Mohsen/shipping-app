@@ -1,12 +1,14 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:pie_chart/pie_chart.dart' as pie;
 import 'package:shipment/views/components/export_file_sheet.dart';
+import 'package:shipment/views/components/stats_tile.dart';
 
 class CompanyStatsTab extends StatelessWidget {
   const CompanyStatsTab({super.key});
@@ -45,7 +47,92 @@ class CompanyStatsTab extends StatelessWidget {
                       ),
                     )
                   : ListView(
+                      padding: const EdgeInsets.only(top: 20.0),
                       children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0, right: 20),
+                              child: SizedBox(
+                                height: 300,
+                                child: BarChart(
+                                  BarChartData(
+                                    borderData: FlBorderData(
+                                      border: Border(
+                                        top: BorderSide.none,
+                                        right: BorderSide.none,
+                                        // left: BorderSide(width: 2, color: cs.surface),
+                                        // bottom: BorderSide(width: 2, color: cs.surface),
+                                        left: BorderSide.none,
+                                        bottom: BorderSide.none,
+                                      ),
+                                    ),
+                                    groupsSpace: 10,
+                                    barGroups: List.generate(
+                                      controller.companyStats!.lastWeekOrders.values.toList().length,
+                                      (i) => BarChartGroupData(
+                                        x: i,
+                                        barRods: [
+                                          BarChartRodData(
+                                            toY: controller.companyStats!.lastWeekOrders.values.toList()[i].toDouble(),
+                                            width: 15,
+                                            color: cs.primary,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    titlesData: FlTitlesData(
+                                      bottomTitles: AxisTitles(
+                                        sideTitles: SideTitles(
+                                          showTitles: true, // Enable bottom titles
+                                          getTitlesWidget: (double value, TitleMeta meta) {
+                                            List<String> days = controller.companyStats!.lastWeekOrders.keys.toList();
+                                            String text = days[value.toInt()];
+                                            return Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 0),
+                                              child: Text(
+                                                text.substring(0, 3).toUpperCase(),
+                                                style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      leftTitles: AxisTitles(
+                                        sideTitles: SideTitles(
+                                          showTitles: true, // Enable left titles
+                                          getTitlesWidget: (double value, TitleMeta meta) {
+                                            // Customize the text for Y-axis values
+                                            final String text = '${value.toInt()}'; // Example: Display integer values
+                                            return Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                text,
+                                                style: tt.labelLarge!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                                              ),
+                                            );
+                                          },
+                                          interval: 2, // Set the interval between Y-axis labels
+                                          reservedSize: 40, // Reserve space for the left titles
+                                        ),
+                                      ),
+                                      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(vertical: 12),
+                            //   child: Text(
+                            //     "orders taken last week".tr,
+                            //     style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                        //const SizedBox(height: 32),
                         Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Column(
@@ -54,105 +141,42 @@ class CompanyStatsTab extends StatelessWidget {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: Material(
-                                      elevation: 5,
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: ListTile(
-                                        tileColor: cs.secondaryContainer,
-                                        contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                        leading: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.directions_car_filled_rounded, color: cs.primary, size: 30),
-                                        ),
-                                        title: Text(
-                                          "available vehicles".tr,
-                                          style: tt.labelSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                        subtitle: Padding(
-                                          padding: const EdgeInsets.only(top: 4.0),
-                                          child: Text(
-                                            controller.companyStats!.availableVehicle.toString(),
-                                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                          ),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          side: BorderSide(
-                                            color: cs.surface,
-                                            width: 0,
-                                          ),
-                                        ),
-                                      ),
+                                    child: StatsTile(
+                                      title: "available vehicles".tr,
+                                      value: controller.companyStats!.availableVehicle.toString(),
+                                      iconData: Icons.directions_car_filled_rounded,
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
                                   Expanded(
-                                    child: Material(
-                                      elevation: 5,
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: ListTile(
-                                        tileColor: cs.secondaryContainer,
-                                        contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                        leading: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(Icons.checklist_outlined, color: cs.primary, size: 30),
-                                        ),
-                                        title: Text(
-                                          "running orders".tr,
-                                          style: tt.labelSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                        subtitle: Padding(
-                                          padding: const EdgeInsets.only(top: 4.0),
-                                          child: Text(
-                                            controller.companyStats!.processingOrder.toString(),
-                                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                          ),
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          side: BorderSide(
-                                            color: cs.surface,
-                                            width: 0,
-                                          ),
-                                        ),
-                                      ),
+                                    child: StatsTile(
+                                      title: "running orders".tr,
+                                      value: controller.companyStats!.processingOrder.toString(),
+                                      iconData: FontAwesomeIcons.truckFast,
+                                      iconSize: 27,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: StatsTile(
+                                      title: "available vehicles".tr,
+                                      value: controller.companyStats!.availableVehicle.toString(),
+                                      iconData: Icons.directions_car_filled_rounded,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: StatsTile(
+                                      title: "running orders".tr,
+                                      value: controller.companyStats!.processingOrder.toString(),
+                                      iconData: FontAwesomeIcons.truckFast,
+                                      iconSize: 28,
                                     ),
                                   ),
                                 ],
                               ),
 
-                              const SizedBox(height: 16),
-                              Material(
-                                elevation: 5,
-                                borderRadius: BorderRadius.circular(10),
-                                child: ListTile(
-                                  tileColor: cs.secondaryContainer,
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12),
-                                  leading: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.person, color: cs.primary, size: 30),
-                                  ),
-                                  title: Text(
-                                    "available drivers".tr,
-                                    style: tt.labelSmall!.copyWith(color: cs.onSurface),
-                                  ),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.only(top: 4.0),
-                                    child: Text(
-                                      controller.companyStats!.availableDrivers.toString(),
-                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                    ),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
-                                      color: cs.surface,
-                                      width: 0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 40),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 32),
                                 child: GestureDetector(
@@ -192,98 +216,6 @@ class CompanyStatsTab extends StatelessWidget {
                                 ),
                               ),
 
-                              Card(
-                                elevation: 5,
-                                color: cs.secondaryContainer,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0, right: 20),
-                                      child: SizedBox(
-                                        height: 300,
-                                        child: BarChart(
-                                          BarChartData(
-                                            borderData: FlBorderData(
-                                              border: Border(
-                                                top: BorderSide.none,
-                                                right: BorderSide.none,
-                                                // left: BorderSide(width: 2, color: cs.surface),
-                                                // bottom: BorderSide(width: 2, color: cs.surface),
-                                                left: BorderSide.none,
-                                                bottom: BorderSide.none,
-                                              ),
-                                            ),
-                                            groupsSpace: 10,
-                                            barGroups: List.generate(
-                                              controller.companyStats!.lastWeekOrders.values.toList().length,
-                                              (i) => BarChartGroupData(
-                                                x: i,
-                                                barRods: [
-                                                  BarChartRodData(
-                                                    toY: controller.companyStats!.lastWeekOrders.values
-                                                        .toList()[i]
-                                                        .toDouble(),
-                                                    width: 15,
-                                                    color: cs.primary,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            titlesData: FlTitlesData(
-                                              bottomTitles: AxisTitles(
-                                                sideTitles: SideTitles(
-                                                  showTitles: true, // Enable bottom titles
-                                                  getTitlesWidget: (double value, TitleMeta meta) {
-                                                    List<String> days =
-                                                        controller.companyStats!.lastWeekOrders.keys.toList();
-                                                    String text = days[value.toInt()];
-                                                    return Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                                                      child: Text(
-                                                        text.substring(0, 3),
-                                                        style: tt.labelSmall!.copyWith(color: cs.onSurface),
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                              leftTitles: AxisTitles(
-                                                sideTitles: SideTitles(
-                                                  showTitles: true, // Enable left titles
-                                                  getTitlesWidget: (double value, TitleMeta meta) {
-                                                    // Customize the text for Y-axis values
-                                                    final String text =
-                                                        '${value.toInt()}'; // Example: Display integer values
-                                                    return Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                        text,
-                                                        style: tt.labelLarge!.copyWith(color: cs.onSurface),
-                                                      ),
-                                                    );
-                                                  },
-                                                  interval: 2, // Set the interval between Y-axis labels
-                                                  reservedSize: 40, // Reserve space for the left titles
-                                                ),
-                                              ),
-                                              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
-                                      child: Text(
-                                        "orders taken last week".tr,
-                                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 32),
                               // Visibility(
                               //   visible: controller.companyStats!.ordersPerCity.isNotEmpty,
                               //   child: Column(
