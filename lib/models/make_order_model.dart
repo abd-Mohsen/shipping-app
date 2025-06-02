@@ -66,4 +66,18 @@ class OrderExtraInfoModel {
         "id": id,
         "name": name,
       };
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is OrderExtraInfoModel && other.runtimeType == runtimeType && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  String toString() {
+    return "$id $name";
+  }
 }

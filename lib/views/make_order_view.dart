@@ -1,5 +1,4 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -19,6 +18,7 @@ import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
 import 'package:shipment/views/components/time_selector.dart';
 import 'package:badges/badges.dart' as bdg;
+import 'package:shipment/views/components/vehicle_type_selector.dart';
 import '../controllers/make_order_controller.dart';
 import '../models/order_model.dart';
 import 'components/auth_field.dart';
@@ -100,56 +100,15 @@ class MakeOrderView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: controller.isLoadingInfo
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                      : DropdownSearch<VehicleTypeModel>(
-                          validator: (type) {
-                            if (type == null) return "you must select a type".tr;
-                            return null;
-                          },
-                          compareFn: (type1, type2) => type1.id == type2.id,
-                          popupProps: PopupProps.menu(
-                            showSearchBox: false,
-                            constraints: const BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
-                            menuProps: MenuProps(
-                              elevation: 5,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                  bottom: Radius.circular(10), // Only round bottom corners
-                                  top: Radius.circular(10), // Only round bottom corners
-                                ),
-                              ),
-                              backgroundColor: cs.surface,
-                              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            ),
-                          ),
-                          decoratorProps: DropDownDecoratorProps(
-                            baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
-                            decoration: InputDecoration(
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                                child: Icon(
-                                  Icons.fire_truck,
-                                  color: cs.primary,
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: cs.secondaryContainer,
-                              labelText: "required vehicle type".tr,
-                              labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
-                              enabledBorder: border(width: 1.5),
-                              focusedBorder: border(width: 2),
-                              errorBorder: border(color: cs.error, width: 1.5),
-                              focusedErrorBorder: border(color: cs.error, width: 2),
-                            ),
-                          ),
-                          items: (filter, infiniteScrollProps) => controller.vehicleTypes,
-                          itemAsString: (VehicleTypeModel type) => type.type,
+                      : VehicleTypeSelector(
+                          padding: EdgeInsets.zero,
+                          selectedItem: controller.selectedVehicleType,
+                          items: controller.vehicleTypes,
                           onChanged: (VehicleTypeModel? type) async {
                             controller.selectVehicleType(type);
                             await Future.delayed(const Duration(milliseconds: 1000));
                             if (controller.buttonPressed) controller.formKey.currentState!.validate();
                           },
-                          //enabled: !con.enabled,
                         ),
                 ),
                 InputField(

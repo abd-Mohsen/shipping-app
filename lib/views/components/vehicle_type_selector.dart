@@ -8,6 +8,7 @@ class VehicleTypeSelector extends StatelessWidget {
   final List<VehicleTypeModel> items;
   final void Function(VehicleTypeModel?) onChanged;
   final FloatingLabelBehavior? floatingLabelBehavior;
+  final EdgeInsetsGeometry? padding;
 
   const VehicleTypeSelector({
     super.key,
@@ -15,6 +16,7 @@ class VehicleTypeSelector extends StatelessWidget {
     required this.onChanged,
     this.selectedItem,
     this.floatingLabelBehavior,
+    this.padding,
   });
 
   @override
@@ -33,7 +35,7 @@ class VehicleTypeSelector extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: padding ?? const EdgeInsets.symmetric(vertical: 8),
       child: DropdownSearch<VehicleTypeModel>(
         selectedItem: selectedItem,
         validator: (type) {

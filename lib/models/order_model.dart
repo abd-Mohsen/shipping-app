@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:jiffy/jiffy.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/application_model.dart';
 import 'package:shipment/models/currency_model.dart';
@@ -81,7 +82,7 @@ class OrderModel {
         price: json["price"],
         priceUsdEquivalent: json["price_usd_equivalent"],
         currency: CurrencyModel.fromJson(json["currency"]),
-        extraInfo: List<OrderExtraInfoModel>.from(json["order_extra_info"].map((x) => x)),
+        extraInfo: List<OrderExtraInfoModel>.from(json["order_extra_info"].map((x) => OrderExtraInfoModel.fromJson(x))),
         dateTime: DateTime.parse(json["DateTime"]),
         otherInfo: json["other_info"],
         status: json["status"],
@@ -89,7 +90,7 @@ class OrderModel {
         driverApproved: json["driver_is_approved"],
         paymentMethods: List<PaymentMethod>.from(json["payment_methods"].map((x) => PaymentMethod.fromJson(x))),
         createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"],
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         customerWannaCancel: json["customer_wanna_cancel"],
         driverWannaCancel: json["driver_wanna_cancel"],
         driversApplications: List<ApplicationModel>.from(json["drivers_applications"].map((x) => x)), //todo
@@ -129,6 +130,18 @@ class OrderModel {
       res += "$info\n";
     }
     return res;
+  }
+
+  String shortAddress() {
+    return "${startPoint.governorate} - ${endPoint.governorate}";
+  }
+
+  String fullDate() {
+    return "${Jiffy.parseFromDateTime(dateTime).format(pattern: "d / M / y")} ${Jiffy.parseFromDateTime(dateTime).jm}";
+  }
+
+  String shortDate() {
+    return Jiffy.parseFromDateTime(dateTime).format(pattern: "d / M / y");
   }
 }
 

@@ -24,8 +24,8 @@ class MakeOrderController extends GetxController {
 
   @override
   void onInit() async {
-    getMakeOrderInfo();
-    if (order != null) prePopulate();
+    await getMakeOrderInfo();
+    if (order != null) await prePopulate();
     await PermissionService().requestPermission(Permission.location); //todo: test if showing properly
     super.onInit();
   }
@@ -36,20 +36,24 @@ class MakeOrderController extends GetxController {
   LocationModel? sourceLocation;
   LocationModel? targetLocation;
 
-  void prePopulate() {
+  Future prePopulate() async {
     //todo: payments and car not getting pre populated properly
+    List currentPaymentMethodsIDs = order!.paymentMethods.map((p) => p.id).toList();
+    await Future.delayed(const Duration(milliseconds: 400));
+    paymentMethodController.selectWhere((item) => currentPaymentMethodsIDs.contains(item.value.id));
     sourceAddress = order!.startPoint;
     targetAddress = order!.endPoint;
     description.text = order!.description;
     price.text = order!.price.toString();
     weight.text = order!.weight.toString();
     otherInfo.text = order!.otherInfo ?? "";
+    selectedCurrency = order!.currency;
+    selectedWeightUnit = weightUnits.firstWhere((w) => w.label == order!.weightUnit);
     selectedVehicleType = order!.typeVehicle;
-    List currentPaymentMethodsIDs = order!.paymentMethods.map((p) => p.payment.methodName).toList();
-    paymentMethodController.selectWhere((item) => currentPaymentMethodsIDs.contains(item.value.name));
     DateTime orderDate = order!.dateTime;
     selectedDate = orderDate;
     selectedTime = TimeOfDay(hour: orderDate.hour, minute: orderDate.minute);
+    calculateApplicationCommission();
     prePopulateExtraInfo();
     update();
   }
@@ -241,8 +245,9 @@ class MakeOrderController extends GetxController {
   }
 
   prePopulateExtraInfo() {
+    print("object===================");
     for (int i = 0; i < extraInfo.length; i++) {
-      if (order!.extraInfo.contains(extraInfo[i].id)) extraInfoSelection[i] = true;
+      if (order!.extraInfo.contains(extraInfo[i])) extraInfoSelection[i] = true;
     }
   }
 
@@ -298,10 +303,9 @@ class MakeOrderController extends GetxController {
       "end_point": targetAddress!.toJson(),
       "weight": weight.text,
       "weight_unit": selectedWeightUnit!.value,
-      "price": int.parse(price.text),
+      "price": double.parse(price.text),
       "currency": selectedCurrency!.id,
       "DateTime": desiredDate.toIso8601String(),
-      "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
       "order_extra_info": formatExtraInfo(),
       "payment_methods": formatPayment(),
@@ -368,13 +372,15 @@ class MakeOrderController extends GetxController {
     Map<String, dynamic> newOrder = {
       "discription": description.text,
       "type_vehicle": selectedVehicleType?.id,
-      "start_point": [sourceAddress!.toJson()],
-      "end_point": [targetAddress!.toJson()],
+      "start_point": sourceAddress!.toJson(),
+      "end_point": targetAddress!.toJson(),
       "weight": weight.text,
-      "price": int.parse(price.text),
+      "weight_unit": selectedWeightUnit!.value,
+      "price": double.parse(price.text),
+      "currency": selectedCurrency!.id,
       "DateTime": desiredDate.toIso8601String(),
-      "with_cover": coveredCar,
       "other_info": otherInfo.text == "" ? null : otherInfo.text,
+      "order_extra_info": formatExtraInfo(),
       "payment_methods": formatPayment(),
     };
     print(newOrder);

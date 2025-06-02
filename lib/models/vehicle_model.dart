@@ -18,6 +18,7 @@ class VehicleModel {
   final String registrationStatus;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  final Employee? employee;
 
   VehicleModel({
     required this.id,
@@ -30,6 +31,7 @@ class VehicleModel {
     required this.registrationStatus,
     required this.createdAt,
     required this.updatedAt,
+    required this.employee,
   });
 
   factory VehicleModel.fromJson(Map<String, dynamic> json) => VehicleModel(
@@ -43,6 +45,7 @@ class VehicleModel {
         registrationStatus: json["registration_status"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"],
+        employee: json["employee"] == null ? null : Employee.fromJson(json["employee"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,5 +58,38 @@ class VehicleModel {
         "vehicle_registration_photo": registrationPhoto,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt,
+      };
+
+  @override
+  String toString() {
+    return "$fullNameOwner #$licensePlate";
+  }
+}
+
+class Employee {
+  final int id;
+  final String fullName;
+  final String username;
+  final bool canAcceptOrders;
+
+  Employee({
+    required this.id,
+    required this.fullName,
+    required this.username,
+    required this.canAcceptOrders,
+  });
+
+  factory Employee.fromJson(Map<String, dynamic> json) => Employee(
+        id: json["id"],
+        fullName: json["full_name"],
+        username: json["username"],
+        canAcceptOrders: json["can_accept_orders"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "full_name": fullName,
+        "username": username,
+        "can_accept_orders": canAcceptOrders,
       };
 }

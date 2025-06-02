@@ -59,6 +59,11 @@ class UserModel {
         "driver_info": driverInfo!.toJson(),
         "company_info": companyInfo!.toJson(),
       };
+
+  @override
+  String toString() {
+    return "$firstName $lastName";
+  }
 }
 
 class DriverInfo {
