@@ -84,7 +84,10 @@ class CompanyStatsTab extends StatelessWidget {
                                     backgroundColor: Colors.transparent,
                                     barrierColor: Colors.black.withOpacity(0.5),
                                     enableDrag: false,
-                                    builder: (context) => const ExportFileSheet(),
+                                    builder: (context) => Padding(
+                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                      child: const ExportFileSheet(),
+                                    ),
                                   );
                                 },
                                 icon: FaIcon(
@@ -122,11 +125,7 @@ class CompanyStatsTab extends StatelessWidget {
                                         x: i,
                                         barRods: [
                                           BarChartRodData(
-                                            toY: controller.companyStats!
-                                                .mockBarChartData() //todo: change
-                                                .values
-                                                .toList()[i]
-                                                .toDouble(),
+                                            toY: controller.companyStats!.lastWeekOrders.values.toList()[i].toDouble(),
                                             width: 15,
                                             //color: cs.primary,
                                             gradient: LinearGradient(
@@ -279,8 +278,7 @@ class CompanyStatsTab extends StatelessWidget {
                               // ),
 
                               Visibility(
-                                visible: controller.companyStats!.decodedOrdersPerCity(true).isNotEmpty, //todo: change
-
+                                visible: controller.companyStats!.decodedOrdersPerCity(false).isNotEmpty,
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
                                   margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -310,7 +308,7 @@ class CompanyStatsTab extends StatelessWidget {
                                       ),
                                       Divider(color: cs.onSurface.withOpacity(0.2)),
                                       pie.PieChart(
-                                        dataMap: controller.companyStats!.decodedOrdersPerCity(true), //todo: change
+                                        dataMap: controller.companyStats!.decodedOrdersPerCity(false),
                                         animationDuration: Duration(milliseconds: 800),
                                         chartLegendSpacing: 12,
                                         chartRadius: MediaQuery.of(context).size.width / 1.5,

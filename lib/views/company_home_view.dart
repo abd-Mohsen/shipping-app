@@ -3,14 +3,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
-import 'package:shipment/views/notifications_view.dart';
-import 'package:shipment/views/tabs/company_employees_tab.dart';
 import 'package:shipment/views/tabs/company_explore_tab.dart';
 import 'package:shipment/views/tabs/company_home_tab.dart';
 import 'package:shipment/views/tabs/company_manage_tab.dart';
 import 'package:shipment/views/tabs/company_orders_tab.dart';
 import 'package:shipment/views/tabs/company_stats_tab.dart';
-import 'package:shipment/views/tabs/company_vehicles_tab.dart';
 import '../constants.dart';
 import '../controllers/filter_controller.dart';
 import '../controllers/home_navigation_controller.dart';
@@ -40,7 +37,7 @@ class CompanyHomeView extends StatelessWidget {
       const CompanyOrdersTab(),
       const CompanyStatsTab(),
       const CompanyHomeTab(),
-      const CompanyManageTab(),
+      const CompanyManageTab(), //todo: move to sidebar
       const CompanyExploreTab(),
     ];
 
@@ -159,7 +156,7 @@ class CompanyHomeView extends StatelessWidget {
                                     icon: Padding(
                                       padding: const EdgeInsets.all(4.0),
                                       child: Icon(
-                                        Icons.supervised_user_circle_outlined,
+                                        Icons.people_alt_outlined,
                                         color: cs.onSecondaryContainer,
                                         size: 23,
                                       ),
@@ -177,6 +174,7 @@ class CompanyHomeView extends StatelessWidget {
                       )
                     : null,
                 backgroundColor: cs.surface,
+                //todo: add fade and sidebar arrow
                 body: IndexedStack(
                   index: controller.tabIndex,
                   children: tabs,

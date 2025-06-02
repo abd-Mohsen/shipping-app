@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BlurredSheet extends StatelessWidget {
   final Widget content;
@@ -8,6 +9,7 @@ class BlurredSheet extends StatelessWidget {
   final String confirmText;
   final void Function() onConfirm;
   final double? height;
+  final bool? isLoading;
 
   const BlurredSheet({
     super.key,
@@ -16,6 +18,7 @@ class BlurredSheet extends StatelessWidget {
     required this.confirmText,
     required this.onConfirm,
     this.height,
+    this.isLoading,
   });
 
   @override
@@ -75,13 +78,15 @@ class BlurredSheet extends StatelessWidget {
                   color: cs.primary,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Center(
-                  child: Text(
-                    confirmText,
-                    style: tt.labelMedium!.copyWith(color: cs.onPrimary),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
+                child: isLoading ?? false
+                    ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                    : Center(
+                        child: Text(
+                          confirmText,
+                          style: tt.labelMedium!.copyWith(color: cs.onPrimary),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
               ),
             )
           ],

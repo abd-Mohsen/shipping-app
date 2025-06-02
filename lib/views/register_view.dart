@@ -210,7 +210,7 @@ class RegisterView extends StatelessWidget {
                                 controller: rC.rePassword,
                                 obscure: !controller.rePasswordVisible,
                                 keyboardType: TextInputType.text,
-                                textInputAction: TextInputAction.done,
+                                textInputAction: TextInputAction.next,
                                 label: "re enter password".tr,
                                 prefixIcon: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 16),

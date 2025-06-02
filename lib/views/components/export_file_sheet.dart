@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/views/components/blurred_sheet.dart';
-import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'auth_field.dart';
 
@@ -11,8 +10,8 @@ class ExportFileSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
+    // ColorScheme cs = Theme.of(context).colorScheme;
+    // TextTheme tt = Theme.of(context).textTheme;
     CompanyHomeController cHC = Get.find();
     return BlurredSheet(
         height: MediaQuery.of(context).size.height / 3,
@@ -21,7 +20,7 @@ class ExportFileSheet extends StatelessWidget {
             return Form(
               key: controller.exportFileFormKey,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 child: InputField(
                   controller: controller.fileName,
                   label: "file name".tr,
