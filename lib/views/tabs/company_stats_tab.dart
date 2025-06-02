@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:pie_chart/pie_chart.dart' as pie;
@@ -75,6 +76,25 @@ class CompanyStatsTab extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            actions: [
+                              IconButton(
+                                onPressed: () {
+                                  showMaterialModalBottomSheet(
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    barrierColor: Colors.black.withOpacity(0.5),
+                                    enableDrag: false,
+                                    builder: (context) => const ExportFileSheet(),
+                                  );
+                                },
+                                icon: FaIcon(
+                                  //FontAwesomeIcons.fileExcel,
+                                  Icons.print,
+                                  //color: const Color(0xFF1E7045),
+                                  color: cs.onSurface,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Column(
@@ -82,7 +102,7 @@ class CompanyStatsTab extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0, right: 20),
                               child: SizedBox(
-                                height: 300,
+                                height: 270,
                                 child: BarChart(
                                   BarChartData(
                                     borderData: FlBorderData(
@@ -102,9 +122,20 @@ class CompanyStatsTab extends StatelessWidget {
                                         x: i,
                                         barRods: [
                                           BarChartRodData(
-                                            toY: controller.companyStats!.lastWeekOrders.values.toList()[i].toDouble(),
+                                            toY: controller.companyStats!
+                                                .mockBarChartData() //todo: change
+                                                .values
+                                                .toList()[i]
+                                                .toDouble(),
                                             width: 15,
-                                            color: cs.primary,
+                                            //color: cs.primary,
+                                            gradient: LinearGradient(
+                                              colors: [cs.primary, Colors.deepPurple],
+                                              begin: Alignment.bottomCenter,
+                                              end: Alignment.topCenter,
+                                              stops: [0.3, 1],
+                                            ),
+                                            borderRadius: BorderRadius.circular(5),
                                           ),
                                         ],
                                       ),
@@ -120,7 +151,10 @@ class CompanyStatsTab extends StatelessWidget {
                                               padding: const EdgeInsets.symmetric(horizontal: 0),
                                               child: Text(
                                                 text.substring(0, 3).toUpperCase(),
-                                                style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                                                style: tt.labelSmall!.copyWith(
+                                                  color: cs.onSurface.withOpacity(0.5),
+                                                  fontSize: 10,
+                                                ),
                                               ),
                                             );
                                           },
@@ -151,13 +185,13 @@ class CompanyStatsTab extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.symmetric(vertical: 12),
-                            //   child: Text(
-                            //     "orders taken last week".tr,
-                            //     style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                            //   ),
-                            // ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text(
+                                "orders taken last week".tr,
+                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                              ),
+                            ),
                           ],
                         ),
                         //const SizedBox(height: 32),
@@ -189,59 +223,20 @@ class CompanyStatsTab extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: StatsTile(
-                                      title: "available vehicles".tr,
-                                      value: controller.companyStats!.availableVehicle.toString(),
-                                      iconData: Icons.directions_car_filled_rounded,
+                                      title: "available drivers".tr,
+                                      value: controller.companyStats!.availableDrivers.toString(),
+                                      iconData: Icons.people,
                                     ),
                                   ),
                                   Expanded(
                                     child: StatsTile(
-                                      title: "running orders".tr,
-                                      value: controller.companyStats!.processingOrder.toString(),
-                                      iconData: FontAwesomeIcons.truckFast,
+                                      title: "governorates".tr,
+                                      value: controller.companyStats!.decodedOrdersPerCity(false).length.toString(),
+                                      iconData: FontAwesomeIcons.city,
                                       iconSize: 28,
                                     ),
                                   ),
                                 ],
-                              ),
-
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 32),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      isScrollControlled: true,
-                                      context: context,
-                                      enableDrag: false,
-                                      builder: (BuildContext context) => Padding(
-                                        padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context).viewInsets.bottom, // Adjusts for keyboard
-                                        ),
-                                        child: const ExportFileSheet(),
-                                      ),
-                                    );
-                                  },
-                                  child: IntrinsicWidth(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: const Color(0xFF1E7045),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: GetBuilder<CompanyHomeController>(
-                                            builder: (con) {
-                                              return false
-                                                  ? SpinKitThreeBounce(color: Colors.white, size: 25)
-                                                  : Text("تصدير ملف إكسل");
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
                               ),
 
                               // Visibility(
@@ -284,56 +279,86 @@ class CompanyStatsTab extends StatelessWidget {
                               // ),
 
                               Visibility(
-                                visible: controller.companyStats!.ordersPerCity.isNotEmpty,
-                                child: Card(
-                                  elevation: 5,
-                                  color: cs.secondaryContainer,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: pie.PieChart(
-                                      dataMap: controller.companyStats!.decodedOrdersPerCity(),
-                                      animationDuration: Duration(milliseconds: 800),
-                                      chartLegendSpacing: 32,
-                                      chartRadius: MediaQuery.of(context).size.width / 1.5,
-                                      colorList: [
-                                        const Color(0xfffdcb6e), // Yellow
-                                        const Color(0xffe17055), // Orange
-                                        const Color(0xffd63031), // Red
-                                        const Color(0xffe84393), // Pink
-                                        const Color(0xff6c5ce7), // Purple
-                                        const Color(0xff0984e3), // Blue
-                                        const Color(0xff00cec9), // Teal
-                                        const Color(0xff00b894), // Green
-                                        const Color(0xff55efc4), // Mint
-                                        const Color(0xff74b9ff), // Light Blue
-                                        const Color(0xffa29bfe), // Lavender
-                                        const Color(0xffdfe6e9), // Light Gray
-                                        const Color(0xff636e72), // Dark Gray
-                                        const Color(0xff2d3436) // Almost Black
-                                      ],
-                                      initialAngleInDegree: 0,
-                                      chartType: ChartType.disc,
-                                      ringStrokeWidth: 32,
-                                      centerText: "نسبة الطلبيات \n في المحافظات".tr,
-                                      centerTextStyle: tt.labelMedium!.copyWith(color: Colors.black),
-                                      legendOptions: LegendOptions(
-                                        showLegendsInRow: false,
-                                        legendPosition: LegendPosition.bottom,
-                                        //showLegends: false,
-                                        //legendShape: _BoxShape.circle,
-                                        legendTextStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                      ),
-                                      chartValuesOptions: const ChartValuesOptions(
-                                        showChartValueBackground: true,
-                                        showChartValues: true,
-                                        showChartValuesInPercentage: true,
-                                        showChartValuesOutside: false,
-                                        decimalPlaces: 1,
-                                      ),
+                                visible: controller.companyStats!.decodedOrdersPerCity(true).isNotEmpty, //todo: change
 
-                                      // gradientList: ---To add gradient colors---
-                                      // emptyColorGradient: ---Empty Color gradient---
-                                    ),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: cs.secondaryContainer,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2), // Shadow color
+                                        blurRadius: 4, // Soften the shadow
+                                        spreadRadius: 1, // Extend the shadow
+                                        offset: Offset(2, 2), // Shadow direction (x, y)
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "governorates coverage".tr,
+                                            style: tt.labelMedium!
+                                                .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                      Divider(color: cs.onSurface.withOpacity(0.2)),
+                                      pie.PieChart(
+                                        dataMap: controller.companyStats!.decodedOrdersPerCity(true), //todo: change
+                                        animationDuration: Duration(milliseconds: 800),
+                                        chartLegendSpacing: 12,
+                                        chartRadius: MediaQuery.of(context).size.width / 1.5,
+                                        colorList: [
+                                          const Color(0xfffdcb6e), // Yellow
+                                          const Color(0xffe17055), // Orange
+                                          const Color(0xffd63031), // Red
+                                          const Color(0xffe84393), // Pink
+                                          const Color(0xff6c5ce7), // Purple
+                                          const Color(0xff0984e3), // Blue
+                                          const Color(0xff00cec9), // Teal
+                                          const Color(0xff00b894), // Green
+                                          const Color(0xff55efc4), // Mint
+                                          const Color(0xff74b9ff), // Light Blue
+                                          const Color(0xffa29bfe), // Lavender
+                                          const Color(0xffdfe6e9), // Light Gray
+                                          const Color(0xff636e72), // Dark Gray
+                                          const Color(0xff2d3436) // Almost Black
+                                        ],
+                                        initialAngleInDegree: 0,
+                                        chartType: ChartType.disc,
+                                        ringStrokeWidth: 32,
+                                        // centerText: "نسبة الطلبيات \n في المحافظات".tr,
+                                        // centerTextStyle: tt.labelSmall!.copyWith(color: Colors.black),
+                                        legendOptions: LegendOptions(
+                                          showLegendsInRow: false,
+                                          legendPosition: LegendPosition.left,
+                                          //showLegends: false,
+                                          //legendShape: _BoxShape.circle,
+                                          legendTextStyle: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                        ),
+                                        chartValuesOptions: ChartValuesOptions(
+                                          showChartValueBackground: true,
+                                          showChartValues: true,
+                                          showChartValuesInPercentage: true,
+                                          showChartValuesOutside: false,
+                                          decimalPlaces: 1,
+                                          chartValueStyle: tt.labelSmall!.copyWith(
+                                            color: Colors.black,
+                                            fontSize: 8.5,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+
+                                        // gradientList: ---To add gradient colors---
+                                        // emptyColorGradient: ---Empty Color gradient---
+                                      ),
+                                    ],
                                   ),
                                 ),
                               )

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 CompanyStatsModel companyStatsModelFromJson(String str) => CompanyStatsModel.fromJson(json.decode(str));
 
@@ -39,11 +40,21 @@ class CompanyStatsModel {
         availableVehicle: json["available_vehicles_length"],
       );
 
-  Map<String, double> decodedOrdersPerCity() {
+  Map<String, double> decodedOrdersPerCity(bool mock) {
     Map<String, double> res = {};
 
-    for (OrdersPerCity ordersPerCity in ordersPerCity) {
-      res[ordersPerCity.orderLocationName] = ordersPerCity.orderCount.toDouble();
+    List temp = List.from(mockPieChartData());
+
+    if (mock) {
+      temp.sort((a, b) => b.orderCount.compareTo(a.orderCount));
+      for (OrdersPerCity ordersPerCity in temp) {
+        res[ordersPerCity.orderLocationName] = ordersPerCity.orderCount.toDouble();
+      }
+    } else {
+      ordersPerCity.sort((a, b) => b.orderCount.compareTo(a.orderCount));
+      for (OrdersPerCity ordersPerCity in ordersPerCity) {
+        res[ordersPerCity.orderLocationName] = ordersPerCity.orderCount.toDouble();
+      }
     }
 
     return res;
@@ -60,6 +71,33 @@ class CompanyStatsModel {
         "available_driver": availableDrivers,
         "available_vehicle": availableVehicle,
       };
+
+  Map<String, dynamic> mockBarChartData() {
+    Map<String, dynamic> res = {};
+    for (String day in lastWeekOrders.keys) {
+      res[day] = Random().nextInt(24).toDouble();
+    }
+    return res;
+  }
+
+  List<OrdersPerCity> mockPieChartData() {
+    List<OrdersPerCity> res = [];
+    res.add(OrdersPerCity(orderLocationName: "درعا", orderCount: 10));
+    res.add(OrdersPerCity(orderLocationName: "حلب", orderCount: 20));
+    res.add(OrdersPerCity(orderLocationName: "ريف دمشق", orderCount: 70));
+    res.add(OrdersPerCity(orderLocationName: "حماة", orderCount: 30));
+    res.add(OrdersPerCity(orderLocationName: "ادلب", orderCount: 30));
+    res.add(OrdersPerCity(orderLocationName: "طرطوس", orderCount: 30));
+    res.add(OrdersPerCity(orderLocationName: "دمشق", orderCount: 40));
+    res.add(OrdersPerCity(orderLocationName: "اللادقية", orderCount: 30));
+    res.add(OrdersPerCity(orderLocationName: "دير الزور", orderCount: 30));
+    // res.add(OrdersPerCity(orderLocationName: "الحسكة", orderCount: 30));
+    // res.add(OrdersPerCity(orderLocationName: "الرقة", orderCount: 30));
+    res.add(OrdersPerCity(orderLocationName: "القنيطرة", orderCount: 30));
+    res.add(OrdersPerCity(orderLocationName: "حمص", orderCount: 15));
+    //res.add(OrdersPerCity(orderLocationName: "السويداء", orderCount: 30));
+    return res;
+  }
 }
 
 class OrdersPerCity {

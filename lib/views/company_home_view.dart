@@ -101,7 +101,7 @@ class CompanyHomeView extends StatelessWidget {
                     ],
                     showUnselectedLabels: true,
                     //height: MediaQuery.of(context).size.height / 11,
-                    backgroundColor: cs.secondaryContainer,
+                    backgroundColor: cs.secondaryContainer, //todo: fix color in dark mode
                     selectedItemColor: cs.primary,
                     unselectedItemColor: cs.onSurface.withOpacity(0.5),
                     iconSize: 18,
