@@ -10,8 +10,8 @@ class AddEmployeeSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
+    // ColorScheme cs = Theme.of(context).colorScheme;
+    // TextTheme tt = Theme.of(context).textTheme;
     CompanyHomeController cHC = Get.find();
     return GetBuilder<CompanyHomeController>(builder: (controller) {
       return BlurredSheet(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/application_model.dart';
 import 'package:shipment/models/currency_model.dart';
 import 'package:shipment/models/make_order_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
@@ -13,7 +14,7 @@ String orderModelToJson(List<OrderModel> data) => json.encode(List<dynamic>.from
 class OrderModel {
   final int id;
   final OrderOwner? orderOwner;
-  final OrderOwner? acceptedApplication; //todo
+  final ApplicationModel? acceptedApplication; //todo
   final VehicleTypeModel typeVehicle;
   final OrderLocation? orderLocation;
   final String description;
@@ -35,7 +36,7 @@ class OrderModel {
   final DateTime? updatedAt;
   final bool customerWannaCancel;
   final bool driverWannaCancel;
-  final List<dynamic>? driversApplications;
+  final List<ApplicationModel> driversApplications;
 
   OrderModel({
     required this.id,
@@ -68,7 +69,8 @@ class OrderModel {
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
         id: json["id"],
         orderOwner: OrderOwner.fromJson(json["order_owner"]),
-        acceptedApplication: json["accepted_application"],
+        acceptedApplication:
+            json["accepted_application"] == null ? null : ApplicationModel.fromJson(json["accepted_application"]),
         typeVehicle: VehicleTypeModel.fromJson(json["type_vehicle"]),
         description: json["discription"],
         orderLocation: json["order_location"] == null ? null : OrderLocation.fromJson(json["order_location"]),
@@ -90,8 +92,7 @@ class OrderModel {
         updatedAt: json["updated_at"],
         customerWannaCancel: json["customer_wanna_cancel"],
         driverWannaCancel: json["driver_wanna_cancel"],
-        driversApplications: [],
-        //driversApplications: List<dynamic>.from(json["drivers_applications"].map((x) => x)), //todo
+        driversApplications: List<ApplicationModel>.from(json["drivers_applications"].map((x) => x)), //todo
       );
 
   Map<String, dynamic> toJson() => {

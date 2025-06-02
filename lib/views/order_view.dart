@@ -15,6 +15,7 @@ import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/vehicle_model.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/mini_order_card.dart';
+import 'package:shipment/views/components/order_page_map.dart';
 
 import 'components/auth_field.dart';
 import 'components/input_field.dart';
@@ -57,6 +58,8 @@ class OrderView extends StatelessWidget {
             ? OrderController(orderID: orderID, companyHomeController: cHC2)
             : OrderController(orderID: orderID, driverHomeController: dHC));
 
+    PageStorageKey mapKey = const PageStorageKey('mapKey');
+
     callDialog() => Get.defaultDialog(
           title: "",
           content: Padding(
@@ -71,7 +74,7 @@ class OrderView extends StatelessWidget {
               Get.back();
               oC.callPhone(
                 isCustomer
-                    ? oC.order!.acceptedApplication!.phoneNumber.toString()
+                    ? oC.order!.acceptedApplication!.driver.phoneNumber
                     : oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
               );
             },
@@ -223,7 +226,8 @@ class OrderView extends StatelessWidget {
                                       ),
                                       title: Center(
                                         child: Text(
-                                          "${oC.order!.acceptedApplication!.name} ${"wants to take this order".tr}",
+                                          "${oC.order!.acceptedApplication?.driver.name ?? ""} "
+                                          "${"wants to take this order".tr}",
                                           style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                           maxLines: 3,
                                           overflow: TextOverflow.ellipsis,
@@ -635,31 +639,13 @@ class OrderView extends StatelessWidget {
                                                 child: SizedBox(
                                                   height: MediaQuery.of(context).size.height / 5,
                                                   child: ClipRRect(
-                                                    borderRadius: BorderRadius.circular(8),
-                                                    child: OSMFlutter(
-                                                      controller: controller.mapController!,
-                                                      mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                                                      onMapIsReady: (v) {
-                                                        controller.setMapReady(v);
-                                                      },
-                                                      osmOption: OSMOption(
-                                                        isPicker: false,
-                                                        userLocationMarker: UserLocationMaker(
-                                                          personMarker: MarkerIcon(
-                                                            icon: Icon(Icons.person, color: cs.primary, size: 40),
-                                                          ),
-                                                          directionArrowMarker: MarkerIcon(
-                                                            icon: Icon(Icons.location_history,
-                                                                color: cs.primary, size: 40),
-                                                          ),
-                                                        ),
-                                                        zoomOption: const ZoomOption(
-                                                          //initZoom: 17.65,
-                                                          initZoom: 6,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      child: OrderPageMap(
+                                                        mapController: controller.mapController,
+                                                        onMapIsReady: (v) {
+                                                          controller.setMapReady(true);
+                                                        },
+                                                      )),
                                                 ),
                                               ),
                                               Padding(
@@ -1419,9 +1405,7 @@ class OrderView extends StatelessWidget {
                                         ),
                                       ),
                                       const SizedBox(height: 12),
-                                      if (isCustomer
-                                          //&& oC.order!.acceptedApplication?.name.isNotEmpty //todo
-                                          )
+                                      if (isCustomer && oC.order!.acceptedApplication != null)
                                         Padding(
                                           padding: const EdgeInsets.only(top: 12.0),
                                           child: Card(
@@ -1449,8 +1433,8 @@ class OrderView extends StatelessWidget {
                                                     child: SizedBox(
                                                       width: MediaQuery.of(context).size.width / 1.7,
                                                       child: Text(
-                                                        oC.order!.acceptedApplication?.name ??
-                                                            "accepted appliction is null",
+                                                        oC.order!.acceptedApplication?.driver.name ??
+                                                            "accepted application is null",
                                                         style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                                         overflow: TextOverflow.ellipsis,
                                                         maxLines: 3,
@@ -1466,9 +1450,9 @@ class OrderView extends StatelessWidget {
                                                           callDialog();
                                                         },
                                                         child: Text(
-                                                          oC.order!.acceptedApplication?.phoneNumber.toString() ??
-                                                              "a"
-                                                                  "ccepted application is null",
+                                                          oC.order!.acceptedApplication?.driver.phoneNumber
+                                                                  .toString() ??
+                                                              "accepted application is null",
                                                           style: tt.titleSmall!.copyWith(
                                                             color: Colors.blue,
                                                             decoration: TextDecoration.underline,
