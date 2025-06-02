@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/models/notification_model.dart';
+import 'package:shipment/views/order_view.dart';
 import '../main.dart';
 import '../services/remote_services.dart';
 import '../views/redirect_page.dart';
@@ -131,6 +132,13 @@ class NotificationsController extends GetxController {
   Future<void> refreshNotifications() async {
     allNotifications.clear();
     getNotifications();
+  }
+
+  void clickNotification(NotificationModel notification) {
+    readNotification(notification);
+    if (notification.action == "go_to_order") {
+      Get.to(OrderView(orderID: notification.actionParams!.orderId!));
+    }
   }
 
   void readNotification(NotificationModel notification) async {

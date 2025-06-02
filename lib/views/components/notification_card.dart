@@ -46,11 +46,13 @@ class NotificationCard extends StatelessWidget {
                       backgroundColor: Color(0xff00ff00),
                     ),
                   ),
-                Icon(
-                  Icons.notifications_active,
-                  color: cs.primary,
-                  size: 35,
-                ),
+                notification.iconUrl != null
+                    ? Image.network(notification.iconUrl!)
+                    : Icon(
+                        Icons.notifications_active,
+                        color: cs.primary,
+                        size: 35,
+                      ),
                 const SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

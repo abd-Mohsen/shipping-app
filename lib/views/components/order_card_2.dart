@@ -24,7 +24,7 @@ class OrderCard2 extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Get.to(() => OrderView(orderID: order.id, isCustomer: isCustomer));
+        Get.to(() => OrderView(orderID: order.id));
       },
       child: Column(
         children: [

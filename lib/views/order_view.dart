@@ -30,10 +30,8 @@ class OrderView extends StatelessWidget {
   //todo: refactor this shit
 
   final int orderID;
-  final bool isCustomer;
   const OrderView({
     super.key,
-    required this.isCustomer,
     required this.orderID,
   });
 
@@ -44,6 +42,7 @@ class OrderView extends StatelessWidget {
     GetStorage getStorage = GetStorage();
     bool isCompany = getStorage.read("role") == "company";
     bool isEmployee = getStorage.read("role") == "company_employee";
+    bool isCustomer = getStorage.read("role") == "customer";
     late CustomerHomeController cHC;
     late DriverHomeController dHC;
     late CompanyHomeController cHC2;
