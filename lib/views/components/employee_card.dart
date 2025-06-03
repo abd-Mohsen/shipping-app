@@ -4,6 +4,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:shipment/models/employee_model.dart';
 
 //todo: toggle availability
+//todo: do vehicle/employee relation
 class EmployeeCard extends StatelessWidget {
   final EmployeeModel employee;
   final void Function() onDelete;

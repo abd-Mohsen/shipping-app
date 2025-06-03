@@ -103,7 +103,7 @@ class OrderView extends StatelessWidget {
               onPressed: onPressed,
               child: Text(
                 "yes".tr,
-                style: tt.titleMedium!.copyWith(color: Colors.red),
+                style: tt.titleSmall!.copyWith(color: Colors.red),
               ),
             ),
             TextButton(
@@ -112,7 +112,7 @@ class OrderView extends StatelessWidget {
               },
               child: Text(
                 "no".tr,
-                style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                style: tt.titleSmall!.copyWith(color: cs.onSurface),
               ),
             ),
           ],
@@ -174,7 +174,7 @@ class OrderView extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 24.0),
+                padding: const EdgeInsets.only(top: 20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -185,14 +185,7 @@ class OrderView extends StatelessWidget {
                           context: context,
                           builder: (context) => alertDialog(
                             onPressed: onPressedGreen,
-                            title: "",
-                            content: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text(
-                                "accept the order?".tr,
-                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              ),
-                            ),
+                            title: "accept the order?".tr,
                           ),
                         );
                       },
@@ -211,15 +204,11 @@ class OrderView extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        alertDialog(
-                          onPressed: onPressedRed,
-                          title: "",
-                          content: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(
-                              "refuse the order?".tr,
-                              style: tt.titleLarge!.copyWith(color: cs.onSurface),
-                            ),
+                        showDialog(
+                          context: context,
+                          builder: (context) => alertDialog(
+                            onPressed: onPressedRed,
+                            title: "refuse the order?".tr,
                           ),
                         );
                       },
@@ -1167,280 +1156,179 @@ class OrderView extends StatelessWidget {
                             ],
                           ),
 
-                          // if (!isCustomer &&
-                          //     oC.order!.status == "pending" &&
-                          //     oC.order!.ownerApproved &&
-                          //     !oC.order!.driverApproved)
+                          if (!isCustomer &&
+                              oC.order!.status == "pending" &&
+                              oC.order!.ownerApproved &&
+                              !oC.order!.driverApproved)
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              child: alertStack(
+                                title: "${oC.order!.orderOwner?.name ?? "order owner is null"}"
+                                    " ${"accepted your request".tr}",
+                                onPressedGreen: () {
+                                  print("green");
+                                  Get.bottomSheet(
+                                    GetBuilder<OrderController>(
+                                      builder: (controller) {
+                                        return Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                          decoration: BoxDecoration(
+                                            borderRadius: const BorderRadius.only(
+                                              topRight: Radius.circular(20),
+                                              topLeft: Radius.circular(20),
+                                            ),
+                                            color: cs.surface,
+                                          ),
+                                          //height: MediaQuery.of(context).size.height / 1.5,
+                                          child: Form(
+                                            key: controller.formKey,
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.all(16.0),
+                                                  child: Text(
+                                                    "select payment method".tr,
+                                                    style: tt.titleMedium!
+                                                        .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Scrollbar(
+                                                    child: ListView.builder(
+                                                      itemCount: oC.order!.paymentMethods.length,
+                                                      itemBuilder: (context, i) => RadioListTile(
+                                                        title: Text(
+                                                          oC.order!.paymentMethods[i].payment.methodName,
+                                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                        ),
+                                                        value: oC.order!.paymentMethods[i],
+                                                        groupValue: controller.selectedPayment,
+                                                        onChanged: (v) {
+                                                          controller.selectPayment(v!);
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                  visible: ["bank_account", "money_transfer"]
+                                                      .contains(controller.selectedPayment.payment.methodName),
+                                                  child: InputField(
+                                                    controller: controller.fullName,
+                                                    label: "full name".tr,
+                                                    keyboardType: TextInputType.text,
+                                                    textInputAction: TextInputAction.next,
+                                                    prefixIcon: Icons.person,
+                                                    validator: (val) {
+                                                      if (!["bank_account", "money_transfer"]
+                                                          .contains(controller.selectedPayment.payment.methodName))
+                                                        return null;
+                                                      return validateInput(controller.fullName.text, 0, 100, "");
+                                                    },
+                                                    onChanged: (val) {
+                                                      if (controller.buttonPressed)
+                                                        controller.formKey.currentState!.validate();
+                                                    },
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                  visible: ["bank_account"]
+                                                      .contains(controller.selectedPayment.payment.methodName),
+                                                  child: InputField(
+                                                    controller: controller.accountDetails,
+                                                    label: "account details".tr,
+                                                    keyboardType: TextInputType.text,
+                                                    textInputAction: TextInputAction.next,
+                                                    prefixIcon: Icons.short_text_outlined,
+                                                    validator: (val) {
+                                                      if (!["bank_account"]
+                                                          .contains(controller.selectedPayment.payment.methodName))
+                                                        return null;
+                                                      return validateInput(controller.accountDetails.text, 0, 100, "");
+                                                    },
+                                                    onChanged: (val) {
+                                                      if (controller.buttonPressed)
+                                                        controller.formKey.currentState!.validate();
+                                                    },
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                  visible: ["money_transfer"]
+                                                      .contains(controller.selectedPayment.payment.methodName),
+                                                  child: InputField(
+                                                    controller: controller.phoneNumber,
+                                                    label: "phone number".tr,
+                                                    keyboardType: TextInputType.number,
+                                                    textInputAction: TextInputAction.next,
+                                                    prefixIcon: Icons.phone_android,
+                                                    validator: (val) {
+                                                      if (!["money_transfer"]
+                                                          .contains(controller.selectedPayment.payment.methodName))
+                                                        return null;
+                                                      return validateInput(controller.phoneNumber.text, 4, 15, "",
+                                                          wholeNumber: true);
+                                                    },
+                                                    onChanged: (val) {
+                                                      if (controller.buttonPressed)
+                                                        controller.formKey.currentState!.validate();
+                                                    },
+                                                  ),
+                                                ),
+                                                CustomButton(
+                                                  onTap: () {
+                                                    isCompany
+                                                        ? controller.confirmOrderCompany()
+                                                        : controller.confirmOrderDriver();
+                                                  },
+                                                  child: Center(
+                                                    child: controller.isLoadingSubmit
+                                                        ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                                        : Text(
+                                                            "add".tr.toUpperCase(),
+                                                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                                          ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                onPressedRed: () {
+                                  Get.back();
+                                  controller.refuseOrderDriver();
+                                },
+                                isLoadingGreen: controller.isLoadingSubmit,
+                                isLoadingRed: controller.isLoadingRefuse,
+                              ),
+                            ),
+
+                          //if (isCustomer && oC.order!.status == "pending" && !oC.order!.ownerApproved)
                           Positioned(
                             top: 0,
                             left: 0,
                             right: 0,
                             child: alertStack(
-                              title: "${oC.order!.orderOwner?.name ?? "order owner is null"}"
-                                  " ${"accepted your request".tr}",
+                              title: "${oC.order!.acceptedApplication?.driver.name ?? ""} "
+                                  "${"wants to take this order".tr}",
                               onPressedGreen: () {
-                                print("green");
-                                Get.bottomSheet(
-                                  GetBuilder<OrderController>(
-                                    builder: (controller) {
-                                      return Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            topRight: Radius.circular(20),
-                                            topLeft: Radius.circular(20),
-                                          ),
-                                          color: cs.surface,
-                                        ),
-                                        //height: MediaQuery.of(context).size.height / 1.5,
-                                        child: Form(
-                                          key: controller.formKey,
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(16.0),
-                                                child: Text(
-                                                  "select payment method".tr,
-                                                  style: tt.titleMedium!
-                                                      .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Scrollbar(
-                                                  child: ListView.builder(
-                                                    itemCount: oC.order!.paymentMethods.length,
-                                                    itemBuilder: (context, i) => RadioListTile(
-                                                      title: Text(
-                                                        oC.order!.paymentMethods[i].payment.methodName,
-                                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                      ),
-                                                      value: oC.order!.paymentMethods[i],
-                                                      groupValue: controller.selectedPayment,
-                                                      onChanged: (v) {
-                                                        controller.selectPayment(v!);
-                                                      },
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible: ["bank_account", "money_transfer"]
-                                                    .contains(controller.selectedPayment.payment.methodName),
-                                                child: InputField(
-                                                  controller: controller.fullName,
-                                                  label: "full name".tr,
-                                                  keyboardType: TextInputType.text,
-                                                  textInputAction: TextInputAction.next,
-                                                  prefixIcon: Icons.person,
-                                                  validator: (val) {
-                                                    if (!["bank_account", "money_transfer"]
-                                                        .contains(controller.selectedPayment.payment.methodName))
-                                                      return null;
-                                                    return validateInput(controller.fullName.text, 0, 100, "");
-                                                  },
-                                                  onChanged: (val) {
-                                                    if (controller.buttonPressed)
-                                                      controller.formKey.currentState!.validate();
-                                                  },
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible: ["bank_account"]
-                                                    .contains(controller.selectedPayment.payment.methodName),
-                                                child: InputField(
-                                                  controller: controller.accountDetails,
-                                                  label: "account details".tr,
-                                                  keyboardType: TextInputType.text,
-                                                  textInputAction: TextInputAction.next,
-                                                  prefixIcon: Icons.short_text_outlined,
-                                                  validator: (val) {
-                                                    if (!["bank_account"]
-                                                        .contains(controller.selectedPayment.payment.methodName))
-                                                      return null;
-                                                    return validateInput(controller.accountDetails.text, 0, 100, "");
-                                                  },
-                                                  onChanged: (val) {
-                                                    if (controller.buttonPressed)
-                                                      controller.formKey.currentState!.validate();
-                                                  },
-                                                ),
-                                              ),
-                                              Visibility(
-                                                visible: ["money_transfer"]
-                                                    .contains(controller.selectedPayment.payment.methodName),
-                                                child: InputField(
-                                                  controller: controller.phoneNumber,
-                                                  label: "phone number".tr,
-                                                  keyboardType: TextInputType.number,
-                                                  textInputAction: TextInputAction.next,
-                                                  prefixIcon: Icons.phone_android,
-                                                  validator: (val) {
-                                                    if (!["money_transfer"]
-                                                        .contains(controller.selectedPayment.payment.methodName))
-                                                      return null;
-                                                    return validateInput(controller.phoneNumber.text, 4, 15, "",
-                                                        wholeNumber: true);
-                                                  },
-                                                  onChanged: (val) {
-                                                    if (controller.buttonPressed)
-                                                      controller.formKey.currentState!.validate();
-                                                  },
-                                                ),
-                                              ),
-                                              CustomButton(
-                                                onTap: () {
-                                                  isCompany
-                                                      ? controller.confirmOrderCompany()
-                                                      : controller.confirmOrderDriver();
-                                                },
-                                                child: Center(
-                                                  child: controller.isLoadingSubmit
-                                                      ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                                      : Text(
-                                                          "add".tr.toUpperCase(),
-                                                          style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                                        ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
+                                Get.back();
+                                controller.confirmOrderCustomer();
                               },
                               onPressedRed: () {
                                 Get.back();
-                                controller.refuseOrderDriver();
+                                controller.refuseOrderCustomer();
+                                //todo: don't let user click either buttons if one is loading
                               },
                               isLoadingGreen: controller.isLoadingSubmit,
                               isLoadingRed: controller.isLoadingRefuse,
                             ),
                           ),
-
-                          if (isCustomer && oC.order!.status == "pending" && !oC.order!.ownerApproved)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20, left: 16, right: 16),
-                              child: ListTile(
-                                contentPadding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                  side: BorderSide(
-                                    color: cs.onSurface,
-                                  ),
-                                ),
-                                title: Center(
-                                  child: Text(
-                                    "${oC.order!.acceptedApplication?.driver.name ?? ""} "
-                                    "${"wants to take this order".tr}",
-                                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                subtitle: Padding(
-                                  padding: const EdgeInsets.only(top: 24.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Get.defaultDialog(
-                                            title: "",
-                                            content: Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                              child: Text(
-                                                "accept the order?".tr,
-                                                style: tt.titleLarge!.copyWith(color: cs.onSurface),
-                                              ),
-                                            ),
-                                            confirm: TextButton(
-                                              onPressed: () {
-                                                Get.back();
-                                                controller.confirmOrderCustomer();
-                                              },
-                                              child: Text(
-                                                "yes".tr,
-                                                style: tt.titleMedium!.copyWith(color: Colors.red),
-                                              ),
-                                            ),
-                                            cancel: TextButton(
-                                              onPressed: () {
-                                                Get.back();
-                                              },
-                                              child: Text(
-                                                "no".tr,
-                                                style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor: WidgetStateProperty.all<Color>(Colors.green.shade500),
-                                        ),
-                                        child: !controller.isLoadingSubmit
-                                            ? Text(
-                                                "accept".tr,
-                                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                              )
-                                            : SpinKitThreeBounce(
-                                                color: cs.onPrimary,
-                                                size: 18,
-                                              ),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          Get.defaultDialog(
-                                            title: "",
-                                            content: Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                              child: Text(
-                                                "refuse the order?".tr,
-                                                style: tt.titleLarge!.copyWith(color: cs.onSurface),
-                                              ),
-                                            ),
-                                            confirm: TextButton(
-                                              onPressed: () {
-                                                Get.back();
-                                                controller.refuseOrderCustomer();
-                                                //todo: don't let user click either buttons if one is loading
-                                              },
-                                              child: Text(
-                                                "yes".tr,
-                                                style: tt.titleMedium!.copyWith(color: Colors.red),
-                                              ),
-                                            ),
-                                            cancel: TextButton(
-                                              onPressed: () {
-                                                Get.back();
-                                              },
-                                              child: Text(
-                                                "no".tr,
-                                                style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        style: ButtonStyle(
-                                          backgroundColor: WidgetStateProperty.all<Color>(Colors.redAccent),
-                                        ),
-                                        child: !controller.isLoadingRefuse
-                                            ? Text(
-                                                "refuse".tr,
-                                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                              )
-                                            : SpinKitThreeBounce(
-                                                color: cs.onPrimary,
-                                                size: 18,
-                                              ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
                         ],
                       ),
               ),

@@ -322,7 +322,6 @@ class MakeOrderController extends GetxController {
     toggleLoading(false);
   }
 
-  //todo: new format
   void editOrder() async {
     if (isLoading || isLoadingInfo) return;
     buttonPressed = true;

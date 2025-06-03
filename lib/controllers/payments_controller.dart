@@ -25,6 +25,7 @@ class PaymentsController extends GetxController {
 
   void getBranches() async {
     //todo: implement pagination if necessary
+    //todo(later?): show only available methods
     toggleLoadingBranches(true);
     List<BranchModel> newItems = await RemoteServices.fetchBranches() ?? [];
     branches.addAll(newItems);

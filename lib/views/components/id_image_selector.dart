@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:shipment/services/permission_service.dart';
 
 class IdImageSelector extends StatelessWidget {
   final String title;
@@ -61,9 +63,12 @@ class IdImageSelector extends StatelessWidget {
               // uploadStatus != null && uploadStatus!.toLowerCase() == "verified"
               //     ? null
               //     :
-              () {
+              () async {
+            bool cameraAllowed = await PermissionService().requestPermission(Permission.camera);
+            bool storageAllowed = await PermissionService().requestPermission(Permission.storage);
+
+            if (!cameraAllowed || !storageAllowed) return;
             Get.bottomSheet(
-              //todo(later): ask for camera and storage permission
               Container(
                 decoration: BoxDecoration(
                   color: cs.surface,

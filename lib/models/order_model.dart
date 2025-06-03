@@ -15,7 +15,7 @@ String orderModelToJson(List<OrderModel> data) => json.encode(List<dynamic>.from
 class OrderModel {
   final int id;
   final OrderOwner? orderOwner;
-  final ApplicationModel? acceptedApplication; //todo
+  final ApplicationModel? acceptedApplication;
   final VehicleTypeModel typeVehicle;
   final OrderLocation? orderLocation;
   final String description;
@@ -93,7 +93,8 @@ class OrderModel {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         customerWannaCancel: json["customer_wanna_cancel"],
         driverWannaCancel: json["driver_wanna_cancel"],
-        driversApplications: List<ApplicationModel>.from(json["drivers_applications"].map((x) => x)), //todo
+        driversApplications:
+            List<ApplicationModel>.from(json["drivers_applications"].map((x) => ApplicationModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

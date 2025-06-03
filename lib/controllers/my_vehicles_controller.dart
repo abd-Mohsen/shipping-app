@@ -174,7 +174,7 @@ class MyVehiclesController extends GetxController {
         duration: const Duration(milliseconds: 2500),
       ));
       resetForm();
-      refreshMyVehicles(); //todo: doesnt refresh everytime
+      refreshMyVehicles();
       if (driverHomeController != null) driverHomeController!.getCurrentUser(refresh: true);
     }
     toggleLoadingSubmit(false);

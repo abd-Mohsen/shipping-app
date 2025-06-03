@@ -9,7 +9,6 @@ import '../main.dart';
 import '../services/remote_services.dart';
 import '../views/redirect_page.dart';
 
-//todo: handle reading notis
 class NotificationsController extends GetxController {
   @override
   onInit() {

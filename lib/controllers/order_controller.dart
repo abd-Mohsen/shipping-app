@@ -65,7 +65,6 @@ class OrderController extends GetxController {
   );
 
   void initMap() {
-    //todo: call in order page
     mapController.moveTo(
       GeoPoint(
         latitude: order!.startPoint.latitude,
@@ -113,7 +112,8 @@ class OrderController extends GetxController {
     statusIndex = statuses.indexOf(order!.status);
   }
 
-  List<String> statuses = ["available", "pending", "approved", "processing", "done"]; //todo there is cancelled
+  //todo there is cancelled and 6th status
+  List<String> statuses = ["available", "pending", "approved", "processing", "done"];
 
   late PaymentMethod selectedPayment;
   void selectPayment(PaymentMethod payment) {
@@ -160,9 +160,9 @@ class OrderController extends GetxController {
   }
 
   /// interacting with order
-
+  /// todo refresh order page in every request
   void acceptOrderDriver() async {
-    if (isLoadingSubmit) return;
+    if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.driverAcceptOrder(order!.id);
     if (success) {
@@ -178,7 +178,7 @@ class OrderController extends GetxController {
   }
 
   void confirmOrderCustomer() async {
-    if (isLoadingSubmit) return;
+    if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.customerAcceptOrder(order!.id);
     if (success) {
@@ -240,7 +240,7 @@ class OrderController extends GetxController {
   }
 
   void confirmOrderDriver() async {
-    if (isLoadingSubmit) return;
+    if (isLoadingSubmit || isLoadingRefuse) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
@@ -265,7 +265,7 @@ class OrderController extends GetxController {
   }
 
   void beginOrderDriver() async {
-    if (isLoadingSubmit) return;
+    if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingSubmit(true);
     bool success = isEmployee
         ? await RemoteServices.companyBeginOrder(order!.id)
@@ -282,7 +282,7 @@ class OrderController extends GetxController {
   }
 
   void finishOrderDriver() async {
-    if (isLoadingSubmit) return;
+    if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingSubmit(true);
     bool success = isEmployee
         ? await RemoteServices.companyFinishOrder(order!.id)
@@ -300,7 +300,7 @@ class OrderController extends GetxController {
   }
 
   void acceptOrderCompany() async {
-    if (isLoadingSubmit) return;
+    if (isLoadingSubmit || isLoadingRefuse) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
@@ -321,7 +321,7 @@ class OrderController extends GetxController {
   }
 
   void confirmOrderCompany() async {
-    if (isLoadingSubmit) return;
+    if (isLoadingSubmit || isLoadingRefuse) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
     if (!valid) return;
