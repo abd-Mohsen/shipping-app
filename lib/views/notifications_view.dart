@@ -58,7 +58,7 @@ class NotificationsView extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: controller.isLoading
+                  child: controller.isLoading && controller.page == 1
                       ? SpinKitSquareCircle(color: cs.primary)
                       : RefreshIndicator(
                           onRefresh: controller.refreshNotifications,

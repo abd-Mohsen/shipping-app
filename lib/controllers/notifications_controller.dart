@@ -134,11 +134,10 @@ class NotificationsController extends GetxController {
 
   void getNotifications() async {
     if (isLoading || !hasMore) return;
-    if (page == 1) toggleLoading(true);
+    toggleLoading(true);
     Map<String, dynamic>? newItems = await RemoteServices.fetchNotifications(page: page);
     if (newItems != null) {
       if (newItems["notifications"].length < 10) hasMore = false;
-      print(newItems.length);
       allNotifications.addAll(newItems["notifications"]);
       unreadCount = newItems["unread_count"];
       page++;

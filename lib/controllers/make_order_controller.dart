@@ -313,6 +313,7 @@ class MakeOrderController extends GetxController {
     bool success = await RemoteServices.makeOrder(order);
     if (success) {
       customerHomeController.refreshOrders();
+      customerHomeController.refreshRecentOrders();
       Get.back();
       Get.showSnackbar(GetSnackBar(
         message: "order added successfully".tr,
@@ -387,6 +388,7 @@ class MakeOrderController extends GetxController {
 
     if (success) {
       customerHomeController.refreshOrders();
+      customerHomeController.refreshRecentOrders();
       Get.back();
       Get.back();
       Get.showSnackbar(GetSnackBar(

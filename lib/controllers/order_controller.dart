@@ -160,7 +160,7 @@ class OrderController extends GetxController {
   }
 
   /// interacting with order
-  /// todo refresh order page in every request
+
   void acceptOrderDriver() async {
     if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingSubmit(true);
@@ -170,6 +170,7 @@ class OrderController extends GetxController {
       refreshOrder();
       driverHomeController!.refreshExploreOrders();
       driverHomeController!.refreshOrders();
+      driverHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
         duration: const Duration(milliseconds: 2500),
@@ -186,6 +187,7 @@ class OrderController extends GetxController {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       customerHomeController!.refreshOrders();
+      customerHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
         duration: const Duration(milliseconds: 2500),
@@ -202,6 +204,7 @@ class OrderController extends GetxController {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       customerHomeController!.refreshOrders();
+      customerHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "order is cancelled".tr,
         duration: const Duration(milliseconds: 2500),
@@ -220,6 +223,7 @@ class OrderController extends GetxController {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       driverHomeController!.refreshOrders();
+      driverHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "order is cancelled".tr,
         duration: const Duration(milliseconds: 2500),
@@ -236,6 +240,7 @@ class OrderController extends GetxController {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       companyHomeController!.refreshOrders();
+      companyHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "order is cancelled".tr,
         duration: const Duration(milliseconds: 2500),
@@ -262,6 +267,7 @@ class OrderController extends GetxController {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       driverHomeController!.refreshOrders();
+      driverHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "success".tr,
         duration: const Duration(milliseconds: 2500),
@@ -280,6 +286,7 @@ class OrderController extends GetxController {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       driverHomeController!.refreshOrders();
+      driverHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "shipping started, user can track your location".tr,
         duration: const Duration(milliseconds: 2500),
@@ -299,6 +306,7 @@ class OrderController extends GetxController {
       //todo: if user clicks and return before processing, app closes (i fixed it here, fix in all the app)
       refreshOrder();
       driverHomeController!.refreshOrders();
+      driverHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "ordered delivered".tr,
         duration: const Duration(milliseconds: 2500),
@@ -321,6 +329,7 @@ class OrderController extends GetxController {
       refreshOrder();
       isEmployee ? driverHomeController!.refreshOrders() : companyHomeController!.refreshOrders();
       isEmployee ? driverHomeController!.refreshExploreOrders() : companyHomeController!.refreshExploreOrders();
+      isEmployee ? driverHomeController!.refreshRecentOrders() : companyHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
         duration: const Duration(milliseconds: 2500),
@@ -347,6 +356,7 @@ class OrderController extends GetxController {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       companyHomeController!.refreshOrders();
+      companyHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "success".tr,
         duration: const Duration(milliseconds: 2500),
