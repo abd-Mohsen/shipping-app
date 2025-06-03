@@ -353,7 +353,7 @@ class OrderView extends StatelessWidget {
                               ///map
                               ///
                               Padding(
-                                padding: const EdgeInsets.only(top: 16, bottom: 8),
+                                padding: const EdgeInsets.only(top: 16, bottom: 8, left: 4, right: 4),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: cs.secondaryContainer,
@@ -744,6 +744,7 @@ class OrderView extends StatelessWidget {
                               ///stepper
                               ///
                               Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 4),
                                 decoration: BoxDecoration(
                                   color: cs.secondaryContainer,
                                   borderRadius: BorderRadius.circular(10),
@@ -977,8 +978,8 @@ class OrderView extends StatelessWidget {
                               ///details
                               ///
                               Container(
-                                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                                margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [

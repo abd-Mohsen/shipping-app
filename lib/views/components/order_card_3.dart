@@ -44,117 +44,115 @@ class OrderCard3 extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 37,
-                      height: 37,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xffD8D8D9), Color(0xffC8C8C8)],
-                          stops: [0, 1],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Center(
-                        child: order.status == "done"
-                            ? FaIcon(
-                                FontAwesomeIcons.box,
-                                color: cs.onPrimary,
-                                size: 18,
-                              )
-                            : order.status == "canceled"
-                                ? FaIcon(
-                                    Icons.close,
-                                    color: cs.onPrimary,
-                                    size: 18,
-                                  )
-                                : order.status == "processing"
-                                    ? FaIcon(
-                                        FontAwesomeIcons.truckMoving,
-                                        color: cs.onPrimary,
-                                        size: 18,
-                                      )
-                                    : FaIcon(
-                                        FontAwesomeIcons.clock,
-                                        color: cs.onPrimary,
-                                        size: 18,
-                                      ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.2,
-                          child: Text(
-                            order.description,
-                            style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                Expanded(
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 37,
+                        height: 37,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xffD8D8D9), Color(0xffC8C8C8)],
+                            stops: [0, 1],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
                           ),
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        const SizedBox(height: 4),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          child: Text(
-                            "${order.startPoint.governorate} - ${order.endPoint.governorate}",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: tt.labelSmall!.copyWith(
-                              color: cs.onSurface.withOpacity(0.5),
-                              fontSize: 10,
+                        child: Center(
+                          child: order.status == "done"
+                              ? FaIcon(
+                                  FontAwesomeIcons.box,
+                                  color: cs.onPrimary,
+                                  size: 18,
+                                )
+                              : order.status == "canceled"
+                                  ? FaIcon(
+                                      Icons.close,
+                                      color: cs.onPrimary,
+                                      size: 18,
+                                    )
+                                  : order.status == "processing"
+                                      ? FaIcon(
+                                          FontAwesomeIcons.truckMoving,
+                                          color: cs.onPrimary,
+                                          size: 18,
+                                        )
+                                      : FaIcon(
+                                          FontAwesomeIcons.clock,
+                                          color: cs.onPrimary,
+                                          size: 18,
+                                        ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              order.description,
+                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
                             ),
-                          ),
+                            const SizedBox(height: 4),
+                            Text(
+                              order.shortAddress(),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: tt.labelSmall!.copyWith(
+                                color: cs.onSurface.withOpacity(0.5),
+                                fontSize: 10,
+                              ),
+                            ),
+                            // const SizedBox(height: 8),
+                            // Row(
+                            //   children: [
+                            //     SizedBox(
+                            //       width: MediaQuery.of(context).size.width / 2.5,
+                            //       child: Text(
+                            //         " ${Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y")}"
+                            //         "  ${Jiffy.parseFromDateTime(order.dateTime).jm}",
+                            //         style: tt.titleSmall!.copyWith(
+                            //           color:
+                            //               order.dateTime.isBefore(DateTime.now()) && !["draft", "done"].contains(order.status)
+                            //                   ? cs.error
+                            //                   : cs.onSurface.withOpacity(0.8),
+                            //         ),
+                            //         overflow: TextOverflow.ellipsis,
+                            //         maxLines: 1,
+                            //       ),
+                            //     ),
+                            //     const SizedBox(width: 4),
+                            //     Visibility(
+                            //       visible: order.dateTime.isBefore(DateTime.now()) && !["draft", "done"].contains(order.status),
+                            //       child: GestureDetector(
+                            //         onTap: () {
+                            //           showPopover(
+                            //             context: context,
+                            //             backgroundColor: cs.surface,
+                            //             bodyBuilder: (context) => Padding(
+                            //               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                            //               child: Text(
+                            //                 "order was not accepted in time".tr,
+                            //                 style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                            //                 overflow: TextOverflow.ellipsis,
+                            //                 maxLines: 2,
+                            //               ),
+                            //             ),
+                            //           );
+                            //         },
+                            //         child: Icon(Icons.info, color: cs.error, size: 20),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                          ],
                         ),
-                        // const SizedBox(height: 8),
-                        // Row(
-                        //   children: [
-                        //     SizedBox(
-                        //       width: MediaQuery.of(context).size.width / 2.5,
-                        //       child: Text(
-                        //         " ${Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y")}"
-                        //         "  ${Jiffy.parseFromDateTime(order.dateTime).jm}",
-                        //         style: tt.titleSmall!.copyWith(
-                        //           color:
-                        //               order.dateTime.isBefore(DateTime.now()) && !["draft", "done"].contains(order.status)
-                        //                   ? cs.error
-                        //                   : cs.onSurface.withOpacity(0.8),
-                        //         ),
-                        //         overflow: TextOverflow.ellipsis,
-                        //         maxLines: 1,
-                        //       ),
-                        //     ),
-                        //     const SizedBox(width: 4),
-                        //     Visibility(
-                        //       visible: order.dateTime.isBefore(DateTime.now()) && !["draft", "done"].contains(order.status),
-                        //       child: GestureDetector(
-                        //         onTap: () {
-                        //           showPopover(
-                        //             context: context,
-                        //             backgroundColor: cs.surface,
-                        //             bodyBuilder: (context) => Padding(
-                        //               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                        //               child: Text(
-                        //                 "order was not accepted in time".tr,
-                        //                 style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                        //                 overflow: TextOverflow.ellipsis,
-                        //                 maxLines: 2,
-                        //               ),
-                        //             ),
-                        //           );
-                        //         },
-                        //         child: Icon(Icons.info, color: cs.error, size: 20),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
 
                 Container(

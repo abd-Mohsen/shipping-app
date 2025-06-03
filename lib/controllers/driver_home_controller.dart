@@ -87,7 +87,7 @@ class DriverHomeController extends GetxController {
     toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
-    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending"]);
+    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "waiting_approval"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
     List<OrderModel2> newItems = await RemoteServices.fetchDriverOrders(
