@@ -289,6 +289,9 @@ class MyLocale extends Translations {
           "covered governorates": "covered governorates",
           "governorates": "governorates",
           "governorates coverage": "governorates coverage",
+          "order name": "order name",
+          "order status": "order status",
+          "live tracking": "live tracking",
         },
         "ar": {
           "Arabic": "العربية",
@@ -573,6 +576,9 @@ class MyLocale extends Translations {
           "covered governorates": "المحافظات المغطاة",
           "governorates": "المحافظات",
           "governorates coverage": "تغطية المحافظات",
+          "order name": "اسم الطلبية",
+          "order status": "حالة الطلبية",
+          "live tracking": "تتبع المسار على الخريطة",
         },
       };
 }

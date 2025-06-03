@@ -37,7 +37,6 @@ class MakeOrderController extends GetxController {
   LocationModel? targetLocation;
 
   Future prePopulate() async {
-    //todo: payments and car not getting pre populated properly
     List currentPaymentMethodsIDs = order!.paymentMethods.map((p) => p.id).toList();
     await Future.delayed(const Duration(milliseconds: 400));
     paymentMethodController.selectWhere((item) => currentPaymentMethodsIDs.contains(item.value.id));
