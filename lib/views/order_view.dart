@@ -29,6 +29,7 @@ class OrderView extends StatelessWidget {
   //todo: map is not scrollable
   //todo: show currency here and in order cards
   //todo: refactor this shit
+  //todo: tracking page
 
   final int orderID;
   const OrderView({

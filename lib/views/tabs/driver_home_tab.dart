@@ -4,12 +4,14 @@ import 'package:get/get.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
+import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import '../../controllers/notifications_controller.dart';
 import '../components/order_card_2.dart';
 import 'package:badges/badges.dart' as badges;
 
 import '../components/selection_circle.dart';
+import '../components/titled_scrolling_card.dart';
 import '../notifications_view.dart';
 
 class DriverHomeTab extends StatelessWidget {
@@ -249,72 +251,43 @@ class DriverHomeTab extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 12, left: 16, right: 16),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: cs.secondaryContainer,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2), // Shadow color
-                                blurRadius: 4, // Soften the shadow
-                                spreadRadius: 1, // Extend the shadow
-                                offset: Offset(2, 2), // Shadow direction (x, y)
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        child: TitledCard(
+                          title: "orders status".tr,
+                          radius: 20,
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
-                                child: Text(
-                                  "orders status".tr,
-                                  style: tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                ),
+                              SelectionCircle(
+                                iconData: Icons.watch_later_outlined,
+                                title: "taken".tr,
+                                isSelected: false,
+                                onTap: () {
+                                  controller.setOrderType("taken", true);
+                                },
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                child: Divider(color: cs.onSurface.withOpacity(0.2)),
+                              SelectionCircle(
+                                iconData: Icons.done,
+                                title: "accepted".tr,
+                                isSelected: false,
+                                onTap: () {
+                                  controller.setOrderType("accepted", true);
+                                },
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 16.0, top: 8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    SelectionCircle(
-                                      iconData: Icons.watch_later_outlined,
-                                      title: "taken".tr,
-                                      isSelected: false,
-                                      onTap: () {
-                                        controller.setOrderType("taken", true);
-                                      },
-                                    ),
-                                    SelectionCircle(
-                                      iconData: Icons.done,
-                                      title: "accepted".tr,
-                                      isSelected: false,
-                                      onTap: () {
-                                        controller.setOrderType("accepted", true);
-                                      },
-                                    ),
-                                    SelectionCircle(
-                                      iconData: Icons.local_shipping_outlined,
-                                      title: "current".tr,
-                                      isSelected: false,
-                                      onTap: () {
-                                        controller.setOrderType("current", true);
-                                      },
-                                    ),
-                                    SelectionCircle(
-                                      iconData: Icons.done_all,
-                                      title: "finished".tr,
-                                      isSelected: false,
-                                      onTap: () {
-                                        controller.setOrderType("finished", true);
-                                      },
-                                    ),
-                                  ],
-                                ),
+                              SelectionCircle(
+                                iconData: Icons.local_shipping_outlined,
+                                title: "current".tr,
+                                isSelected: false,
+                                onTap: () {
+                                  controller.setOrderType("current", true);
+                                },
+                              ),
+                              SelectionCircle(
+                                iconData: Icons.done_all,
+                                title: "finished".tr,
+                                isSelected: false,
+                                onTap: () {
+                                  controller.setOrderType("finished", true);
+                                },
                               ),
                             ],
                           ),
@@ -335,97 +308,23 @@ class DriverHomeTab extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 4),
                                 child: RefreshIndicator(
                                   onRefresh: controller.refreshRecentOrders,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: cs.secondaryContainer,
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.2), // Shadow color
-                                          blurRadius: 4, // Soften the shadow
-                                          spreadRadius: 1, // Extend the shadow
-                                          offset: Offset(2, 2), // Shadow direction (x, y)
-                                        ),
-                                      ],
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 12.0),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                                child: Text(
-                                                  "recent delivery".tr,
-                                                  style: tt.labelMedium!
-                                                      .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                ),
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  controller.setOrderType("type", true, selectAll: true);
-                                                },
-                                                child: Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                                                  child: Text(
-                                                    "see all".tr,
-                                                    style: tt.labelSmall!.copyWith(
-                                                      color: Colors.blue,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 10,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                                            child: Divider(color: cs.onSurface.withOpacity(0.2)),
-                                          ),
-                                          controller.recentOrders.isEmpty
-                                              ? Expanded(
-                                                  child: Center(
-                                                    child: ListView(
-                                                      shrinkWrap: true,
-                                                      //mainAxisAlignment: MainAxisAlignment.center,
-                                                      children: [
-                                                        //Lottie.asset("assets/animations/simple truck.json", height: 200),
-                                                        Padding(
-                                                          padding: const EdgeInsets.all(4),
-                                                          child: Center(
-                                                            child: Text(
-                                                              "no data, pull down to refresh".tr,
-                                                              style: tt.titleSmall!.copyWith(
-                                                                color: cs.onSurface,
-                                                                fontWeight: FontWeight.bold,
-                                                              ),
-                                                              textAlign: TextAlign.center,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(height: 72),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              : Expanded(
-                                                  child: ListView.builder(
-                                                    //physics: NeverScrollableScrollPhysics(),
-                                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                                    itemCount: controller.recentOrders.length,
-                                                    itemBuilder: (context, i) => OrderCard2(
-                                                      order: controller.recentOrders[i],
-                                                      isCustomer: false,
-                                                      isLast: i == controller.recentOrders.length - 1,
-                                                    ),
-                                                  ),
-                                                ),
-                                        ],
+                                  child: TitledScrollingCard(
+                                    radius: 20,
+                                    title: "recent delivery".tr,
+                                    content: ListView.builder(
+                                      //physics: NeverScrollableScrollPhysics(),
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                      itemCount: controller.recentOrders.length,
+                                      itemBuilder: (context, i) => OrderCard2(
+                                        order: controller.recentOrders[i],
+                                        isCustomer: true,
+                                        isLast: i == controller.recentOrders.length - 1,
                                       ),
                                     ),
+                                    isEmpty: controller.recentOrders.isEmpty,
+                                    onClickSeeAll: () {
+                                      controller.setOrderType("type", true, selectAll: true);
+                                    },
                                   ),
                                 ),
                               ),

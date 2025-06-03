@@ -523,7 +523,7 @@ class DriverHomeController extends GetxController {
   @override
   void onClose() {
     _shouldReconnect = false;
-    websocket!.close();
+    if (websocket != null) websocket!.close();
     _locationTimer!.cancel();
     subscription!.cancel();
     super.dispose();

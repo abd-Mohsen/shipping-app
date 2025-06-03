@@ -1,7 +1,6 @@
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/order_view.dart';
@@ -43,9 +42,9 @@ class CurrOrderCard extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2), // Shadow color
-                blurRadius: 4, // Soften the shadow
+                blurRadius: 2, // Soften the shadow
                 spreadRadius: 1, // Extend the shadow
-                offset: Offset(2, 2), // Shadow direction (x, y)
+                offset: Offset(1, 1), // Shadow direction (x, y)
               ),
             ],
           ),

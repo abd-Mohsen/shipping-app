@@ -301,6 +301,8 @@ class MyLocale extends Translations {
           "are denied": "are denied",
           "Please enable the permission in app settings": "Please enable the permission in app settings",
           "open settings": "open settings",
+          "arrive date": "arrive date",
+          "expected arrive date": "expected arrive date",
         },
         "ar": {
           "Arabic": "العربية",
@@ -597,6 +599,8 @@ class MyLocale extends Translations {
           "are denied": "مرفوضة",
           "Please enable the permission in app settings": "يرجى تفعيل الأذونات من اعدادات التطبيق",
           "open settings": "فتح اعدادات التطبيق",
+          "arrive date": "تاريخ الوصول",
+          "expected arrive date": "تاريخ الوصول المتوقع",
         },
       };
 }

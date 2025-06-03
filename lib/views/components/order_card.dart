@@ -141,7 +141,7 @@ class OrderCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            "date".tr,
+                            "arrive date".tr,
                             style: tt.labelSmall!.copyWith(
                               color: cs.onSurface.withOpacity(0.5),
                             ),
