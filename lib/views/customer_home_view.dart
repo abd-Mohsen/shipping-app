@@ -108,7 +108,7 @@ class CustomerHomeView extends StatelessWidget {
                   elevation: 0,
                   onTap: (i) {
                     controller.changeTab(i);
-                    hC.filterController.clearFilters(); //todo do for all roles
+                    hC.filterController.clearFilters();
                   },
                   currentIndex: controller.tabIndex,
                 ),

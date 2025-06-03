@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-//todo: am, pm selector is flawed (secondary is the same color as surface in light mode)
 class TimeSelector extends StatelessWidget {
   final TimeOfDay? time;
   final void Function(TimeOfDay) selectTimeCallback;

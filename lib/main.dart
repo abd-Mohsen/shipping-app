@@ -16,7 +16,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final Api api = Api();
 final NotificationService notificationService = NotificationService();
-//todo: additional notes (tele)
+//todo: additional notes (tele pins)
 //todo: PT report
 //todo(later): reduce apk size
 

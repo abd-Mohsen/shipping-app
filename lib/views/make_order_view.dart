@@ -207,7 +207,7 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: controller.isLoadingInfo //todo(later): load again after failing, do it also in vehicle type
+                  child: controller.isLoadingInfo
                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
                       : MultiDropdown<PaymentMethodModel>(
                           items: controller.paymentMethods

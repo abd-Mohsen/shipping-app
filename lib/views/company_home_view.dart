@@ -107,6 +107,7 @@ class CompanyHomeView extends StatelessWidget {
                     elevation: 0,
                     onTap: (i) {
                       controller.changeTab(i);
+                      cHC.filterController.clearFilters();
                     },
                     currentIndex: controller.tabIndex,
                   ),

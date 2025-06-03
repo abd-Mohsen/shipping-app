@@ -79,42 +79,44 @@ class UserProfileTile extends StatelessWidget {
                             )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                child: badges.Badge(
-                  showBadge: true, //todo
-                  position: badges.BadgePosition.topStart(),
-                  // smallSize: 10,
-                  // backgroundColor: const Color(0xff00ff00),
-                  // alignment: Alignment.topRight,
-                  // offset: const Offset(-5, -5),
-                  badgeStyle: badges.BadgeStyle(
-                    shape: badges.BadgeShape.circle,
-                    badgeColor: const Color(0xff00ff00),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(() => const NotificationsView());
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Color.lerp(cs.primary, Colors.white, 0.33),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: GetBuilder<NotificationsController>(
-                        builder: (controller) {
-                          return Icon(
-                            Icons.notifications_outlined,
-                            color: cs.onPrimary,
-                          );
-                        },
+              GetBuilder<NotificationsController>(builder: (controller) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                  child: badges.Badge(
+                    showBadge: controller.unreadCount > 0, //todo in all
+                    position: badges.BadgePosition.topStart(),
+                    // smallSize: 10,
+                    // backgroundColor: const Color(0xff00ff00),
+                    // alignment: Alignment.topRight,
+                    // offset: const Offset(-5, -5),
+                    badgeStyle: badges.BadgeStyle(
+                      shape: badges.BadgeShape.circle,
+                      badgeColor: const Color(0xff00ff00),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(() => const NotificationsView());
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Color.lerp(cs.primary, Colors.white, 0.33),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: GetBuilder<NotificationsController>(
+                          builder: (controller) {
+                            return Icon(
+                              Icons.notifications_outlined,
+                              color: cs.onPrimary,
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              }),
             ],
           ),
           Container(

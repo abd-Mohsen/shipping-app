@@ -101,6 +101,7 @@ class DriverHomeView extends StatelessWidget {
                   elevation: 0,
                   onTap: (i) {
                     controller.changeTab(i);
+                    hC.filterController.clearFilters();
                   },
                   currentIndex: controller.tabIndex,
                 ),

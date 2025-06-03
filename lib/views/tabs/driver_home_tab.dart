@@ -91,35 +91,37 @@ class DriverHomeTab extends StatelessWidget {
                                         )
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                            child: badges.Badge(
-                              showBadge: true, //todo
-                              position: badges.BadgePosition.topStart(
-                                top: -2, // Negative value moves it up
-                                start: -4, // Negative value moves it left
-                              ),
-                              badgeStyle: badges.BadgeStyle(
-                                shape: badges.BadgeShape.circle,
-                                badgeColor: kNotificationColor,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.to(() => const NotificationsView());
-                                },
-                                child: GetBuilder<NotificationsController>(
-                                  builder: (controller) {
-                                    return Icon(
-                                      Icons.notifications,
-                                      color: cs.onPrimary,
-                                      //size: 30,
-                                    );
+                          GetBuilder<NotificationsController>(builder: (controller) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                              child: badges.Badge(
+                                showBadge: controller.unreadCount > 0,
+                                position: badges.BadgePosition.topStart(
+                                  top: -2, // Negative value moves it up
+                                  start: -4, // Negative value moves it left
+                                ),
+                                badgeStyle: badges.BadgeStyle(
+                                  shape: badges.BadgeShape.circle,
+                                  badgeColor: kNotificationColor,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => const NotificationsView());
                                   },
+                                  child: GetBuilder<NotificationsController>(
+                                    builder: (controller) {
+                                      return Icon(
+                                        Icons.notifications,
+                                        color: cs.onPrimary,
+                                        //size: 30,
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
+                            );
+                          }),
                         ],
                       ),
                     ],
