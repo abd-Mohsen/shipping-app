@@ -559,8 +559,14 @@ class RemoteServices {
     };
   }
 
-  static Future<OrderModel?> getSingleOrder(int id) async {
-    String? json = await api.getRequest("customer_order/$id/", auth: true);
+  static Future<OrderModel?> getSingleOrder(int id, String role) async {
+    Map<String, String> prefix = {
+      "customer": "customer_order",
+      "driver": "driver_order",
+      "company": "company_order",
+      "company_employee": "company_order",
+    };
+    String? json = await api.getRequest("${prefix[role] ?? ""}/$id/", auth: true);
     if (json == null) return null;
     return OrderModel.fromJson(jsonDecode(json));
   }

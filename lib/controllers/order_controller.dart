@@ -45,7 +45,7 @@ class OrderController extends GetxController {
 
   void getOrder() async {
     toggleLoadingOrder(true);
-    order = await RemoteServices.getSingleOrder(orderID);
+    order = await RemoteServices.getSingleOrder(orderID, _getStorage.read("role"));
     if (order != null) {
       selectedPayment = order!.paymentMethods[0];
       setStatusIndex();

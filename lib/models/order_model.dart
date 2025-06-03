@@ -93,8 +93,9 @@ class OrderModel {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         customerWannaCancel: json["customer_wanna_cancel"],
         driverWannaCancel: json["driver_wanna_cancel"],
-        driversApplications:
-            List<ApplicationModel>.from(json["drivers_applications"].map((x) => ApplicationModel.fromJson(x))),
+        driversApplications: json["drivers_applications"] == null
+            ? []
+            : List<ApplicationModel>.from(json["drivers_applications"].map((x) => ApplicationModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
