@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
@@ -17,6 +17,7 @@ class NotificationsController extends GetxController {
     setupFCMListeners();
     getNotifications();
     _connectNotificationSocket();
+    setPaginationListener();
     super.onInit();
   }
 
@@ -33,7 +34,7 @@ class NotificationsController extends GetxController {
 
   bool newNotifications = true;
 
-  //todo: implement reconnection logic
+  //todo(later): implement reconnection logic
 
   WebSocket? websocket;
 
@@ -117,18 +118,37 @@ class NotificationsController extends GetxController {
   List<NotificationModel> allNotifications = [];
   int unreadCount = 0;
 
+  ScrollController scrollController = ScrollController();
+
+  int page = 1, limit = 4;
+  bool hasMore = true;
+  bool failed = false;
+
+  void setPaginationListener() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+        getNotifications();
+      }
+    });
+  }
+
   void getNotifications() async {
-    toggleLoading(true);
-    //todo with pagination
-    Map<String, dynamic>? newItems = await RemoteServices.fetchNotifications();
+    if (isLoading || !hasMore) return;
+    if (page == 1) toggleLoading(true);
+    Map<String, dynamic>? newItems = await RemoteServices.fetchNotifications(page: page);
     if (newItems != null) {
+      if (newItems["notifications"].length < 10) hasMore = false;
+      print(newItems.length);
       allNotifications.addAll(newItems["notifications"]);
       unreadCount = newItems["unread_count"];
+      page++;
     }
     toggleLoading(false);
   }
 
   Future<void> refreshNotifications() async {
+    page = 1;
+    hasMore = true;
     allNotifications.clear();
     getNotifications();
   }

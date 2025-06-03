@@ -83,15 +83,29 @@ class NotificationsView extends StatelessWidget {
                                   ),
                                 )
                               : ListView.builder(
+                                  controller: controller.scrollController,
+                                  physics: const AlwaysScrollableScrollPhysics(),
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                                  itemCount: controller.allNotifications.length,
-                                  itemBuilder: (context, i) => NotificationCard(
-                                    notification: controller.allNotifications[i],
-                                    isLast: i == controller.allNotifications.length - 1,
-                                    onTap: () {
-                                      controller.clickNotification(controller.allNotifications[i]);
-                                    },
-                                  ),
+                                  itemCount: controller.allNotifications.length + 1,
+                                  itemBuilder: (context, i) => i < controller.allNotifications.length
+                                      ? NotificationCard(
+                                          notification: controller.allNotifications[i],
+                                          isLast: i == controller.allNotifications.length - 1,
+                                          onTap: () {
+                                            controller.clickNotification(controller.allNotifications[i]);
+                                          },
+                                        )
+                                      : Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 24),
+                                            child: controller.hasMore
+                                                ? CircularProgressIndicator(color: cs.primary)
+                                                : CircleAvatar(
+                                                    radius: 5,
+                                                    backgroundColor: cs.onSurface.withOpacity(0.7),
+                                                  ),
+                                          ),
+                                        ),
                                 ),
                         ),
                 ),

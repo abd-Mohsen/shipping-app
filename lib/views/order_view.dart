@@ -63,40 +63,6 @@ class OrderView extends StatelessWidget {
             ? OrderController(orderID: orderID, companyHomeController: cHC2)
             : OrderController(orderID: orderID, driverHomeController: dHC));
 
-    callDialog(String phone) => Get.defaultDialog(
-          title: "",
-          content: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              "wanna call?".tr,
-              style: tt.titleLarge!.copyWith(color: cs.onSurface),
-            ),
-          ),
-          confirm: TextButton(
-            onPressed: () {
-              Get.back();
-              oC.callPhone(phone
-                  // isCustomer
-                  //     ? oC.order!.acceptedApplication!.driver.phoneNumber
-                  //     : oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
-                  );
-            },
-            child: Text(
-              "yes".tr,
-              style: tt.titleMedium!.copyWith(color: Colors.red),
-            ),
-          ),
-          cancel: TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: Text(
-              "no".tr,
-              style: tt.titleMedium!.copyWith(color: cs.onSurface),
-            ),
-          ),
-        );
-
     alertDialog({required onPressed, required String title, Widget? content}) => AlertDialog(
           title: Text(
             title,
@@ -121,6 +87,19 @@ class OrderView extends StatelessWidget {
               ),
             ),
           ],
+        );
+
+    callDialog(String phone) => alertDialog(
+          onPressed: () {
+            Get.back();
+            oC.callPhone(
+              phone,
+              // isCustomer
+              //     ? oC.order!.acceptedApplication!.driver.phoneNumber
+              //     : oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
+            );
+          },
+          title: 'do you want to call this person?'.tr,
         );
 
     mainButton({required alertDialog, required bool isLoading, required String buttonText}) => Padding(
@@ -543,28 +522,33 @@ class OrderView extends StatelessWidget {
 
                               ///drivers applications
                               ///
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                                child: SizedBox(
-                                  height: 300,
-                                  child: TitledScrollingCard(
-                                    title: "drivers applications".tr,
-                                    content: ListView.builder(
-                                      //physics: NeverScrollableScrollPhysics(),
-                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                      itemCount: controller.order!.driversApplications.length,
-                                      itemBuilder: (context, i) => ApplicationCard(
-                                        application: controller.order!.driversApplications[i],
-                                        onTap: () {
-                                          callDialog(controller.order!.driversApplications[i].driver.phoneNumber);
-                                        },
-                                        isLast: i == controller.order!.driversApplications.length - 1,
+                              if (isCustomer && controller.order!.driversApplications.isNotEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                                  child: SizedBox(
+                                    height: 250,
+                                    child: TitledScrollingCard(
+                                      title: "drivers applications".tr,
+                                      content: ListView.builder(
+                                        //physics: NeverScrollableScrollPhysics(),
+                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                        itemCount: controller.order!.driversApplications.length,
+                                        itemBuilder: (context, i) => ApplicationCard(
+                                          application: controller.order!.driversApplications[i],
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => callDialog(
+                                                  controller.order!.driversApplications[i].driver.phoneNumber),
+                                            );
+                                          },
+                                          isLast: i == controller.order!.driversApplications.length - 1,
+                                        ),
                                       ),
+                                      isEmpty: controller.order!.driversApplications.isEmpty,
                                     ),
-                                    isEmpty: controller.order!.driversApplications.isEmpty,
                                   ),
                                 ),
-                              ),
 
                               /// accept order
                               ///
@@ -1083,7 +1067,7 @@ class OrderView extends StatelessWidget {
                                             child: Row(
                                               children: [
                                                 Text(
-                                                  "${"added at".tr}: ",
+                                                  "${"expected arrive date".tr}: ",
                                                   style: tt.titleSmall!.copyWith(
                                                     color: cs.onSecondaryContainer,
                                                     fontWeight: FontWeight.bold,
@@ -1138,7 +1122,7 @@ class OrderView extends StatelessWidget {
                                       child: Row(
                                         children: [
                                           Text(
-                                            "${"expected arrive date".tr}: ",
+                                            "${"added at".tr}: ",
                                             style: tt.titleSmall!.copyWith(
                                               color: cs.onSecondaryContainer,
                                               fontWeight: FontWeight.bold,
@@ -1149,7 +1133,7 @@ class OrderView extends StatelessWidget {
                                           const SizedBox(width: 8),
                                           Expanded(
                                             child: Text(
-                                              oC.order!.fullDate(),
+                                              oC.order!.fullCreationDate(),
                                               style: tt.labelMedium!.copyWith(color: cs.onSurface),
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,

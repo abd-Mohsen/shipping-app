@@ -69,10 +69,19 @@ class MapSelector extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: Material(
-        elevation: 3,
-        color: cs.secondaryContainer,
-        borderRadius: BorderRadius.circular(10),
+      child: Container(
+        decoration: BoxDecoration(
+          color: cs.secondaryContainer,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2), // Shadow color
+              blurRadius: 2, // Soften the shadow
+              spreadRadius: 1, // Extend the shadow
+              offset: Offset(1, 1), // Shadow direction (x, y)
+            ),
+          ],
+        ),
         child: GestureDetector(
           onTap: () {
             showMaterialModalBottomSheet(

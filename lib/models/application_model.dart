@@ -13,7 +13,8 @@ class ApplicationModel {
   final User driver;
   final User? acceptedBy;
   final Vehicle vehicle;
-  final DateTime appliedAt;
+  final DateTime appliedAt; //todo: 10 min
+  final DateTime? deletedAt;
 
   ApplicationModel({
     required this.id,
@@ -21,6 +22,7 @@ class ApplicationModel {
     required this.acceptedBy,
     required this.vehicle,
     required this.appliedAt,
+    required this.deletedAt,
   });
 
   factory ApplicationModel.fromJson(Map<String, dynamic> json) => ApplicationModel(
@@ -29,6 +31,7 @@ class ApplicationModel {
         acceptedBy: User.fromJson(json["accepted_by"]),
         vehicle: Vehicle.fromJson(json["vehicle"]),
         appliedAt: DateTime.parse(json["applied_at"]),
+        deletedAt: json["deleted_at"] == null ? null : DateTime.parse(json["deleted_at"]),
       );
 
   Map<String, dynamic> toJson() => {
