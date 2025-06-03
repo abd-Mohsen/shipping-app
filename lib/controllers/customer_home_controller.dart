@@ -69,7 +69,7 @@ class CustomerHomeController extends GetxController {
     toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("not taken")) typesToFetch.addAll(["available", "draft"]);
-    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved"]);
+    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved", "waiting_approval"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
     List<OrderModel2> newItems = await RemoteServices.fetchCustomerOrders(
@@ -102,7 +102,7 @@ class CustomerHomeController extends GetxController {
 
   void getRecentOrders() async {
     toggleLoadingRecent(true);
-    List<String> typesToFetch = ["available", "draft", "pending", "approved", "done", "canceled"];
+    List<String> typesToFetch = ["available", "draft", "waiting_approval", "pending", "approved", "done", "canceled"];
     List<OrderModel2> newProcessingOrders = await RemoteServices.fetchCustomerOrders(types: ["processing"]) ?? [];
     List<OrderModel2> newOrders = await RemoteServices.fetchCustomerOrders(types: typesToFetch) ?? [];
     recentOrders.addAll(newProcessingOrders);

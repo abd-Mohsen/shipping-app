@@ -331,6 +331,7 @@ class DriverHomeController extends GetxController {
     toggleLoadingUser(false);
   }
 
+  //todo: create logout service and add loading to it
   void logout() async {
     if (currentUser != null && await RemoteServices.logout()) {
       _getStorage.remove("token");

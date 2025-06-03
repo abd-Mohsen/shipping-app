@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shipment/constants.dart';
 // import 'package:jiffy/jiffy.dart';
 import 'package:shipment/models/notification_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -47,7 +48,7 @@ class NotificationCard extends StatelessWidget {
                     ),
                   ),
                 notification.iconUrl != null
-                    ? Image.network(notification.iconUrl!)
+                    ? SizedBox(width: 40, height: 40, child: Image.network("$kHostIP${notification.iconUrl!}"))
                     : Icon(
                         Icons.notifications_active,
                         color: cs.primary,

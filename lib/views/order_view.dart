@@ -13,10 +13,12 @@ import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/vehicle_model.dart';
+import 'package:shipment/views/components/application_card.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/employee_selector.dart';
 import 'package:shipment/views/components/mini_order_card.dart';
 import 'package:shipment/views/components/order_page_map.dart';
+import 'package:shipment/views/components/titled_scrolling_card.dart';
 import 'package:shipment/views/components/vehicle_selector.dart';
 
 import 'components/auth_field.dart';
@@ -61,7 +63,7 @@ class OrderView extends StatelessWidget {
             ? OrderController(orderID: orderID, companyHomeController: cHC2)
             : OrderController(orderID: orderID, driverHomeController: dHC));
 
-    callDialog() => Get.defaultDialog(
+    callDialog(String phone) => Get.defaultDialog(
           title: "",
           content: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -73,11 +75,11 @@ class OrderView extends StatelessWidget {
           confirm: TextButton(
             onPressed: () {
               Get.back();
-              oC.callPhone(
-                isCustomer
-                    ? oC.order!.acceptedApplication!.driver.phoneNumber
-                    : oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
-              );
+              oC.callPhone(phone
+                  // isCustomer
+                  //     ? oC.order!.acceptedApplication!.driver.phoneNumber
+                  //     : oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
+                  );
             },
             child: Text(
               "yes".tr,
@@ -539,6 +541,31 @@ class OrderView extends StatelessWidget {
                                 ),
                               ),
 
+                              ///drivers applications
+                              ///
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                                child: SizedBox(
+                                  height: 300,
+                                  child: TitledScrollingCard(
+                                    title: "drivers applications".tr,
+                                    content: ListView.builder(
+                                      //physics: NeverScrollableScrollPhysics(),
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                      itemCount: controller.order!.driversApplications.length,
+                                      itemBuilder: (context, i) => ApplicationCard(
+                                        application: controller.order!.driversApplications[i],
+                                        onTap: () {
+                                          callDialog(controller.order!.driversApplications[i].driver.phoneNumber);
+                                        },
+                                        isLast: i == controller.order!.driversApplications.length - 1,
+                                      ),
+                                    ),
+                                    isEmpty: controller.order!.driversApplications.isEmpty,
+                                  ),
+                                ),
+                              ),
+
                               /// accept order
                               ///
                               if (!isCustomer && oC.order!.status == "available")
@@ -891,7 +918,7 @@ class OrderView extends StatelessWidget {
                                               width: MediaQuery.of(context).size.width / 1.7,
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  callDialog();
+                                                  //callDialog();
                                                 },
                                                 child: Text(
                                                   oC.order!.acceptedApplication?.driver.phoneNumber.toString() ??
@@ -955,7 +982,7 @@ class OrderView extends StatelessWidget {
                                               width: MediaQuery.of(context).size.width / 1.7,
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  callDialog();
+                                                  //callDialog();
                                                 },
                                                 child: Text(
                                                   oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",

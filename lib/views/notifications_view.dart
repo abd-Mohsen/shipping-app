@@ -89,7 +89,7 @@ class NotificationsView extends StatelessWidget {
                                     notification: controller.allNotifications[i],
                                     isLast: i == controller.allNotifications.length - 1,
                                     onTap: () {
-                                      controller.readNotification(controller.allNotifications[i]);
+                                      controller.clickNotification(controller.allNotifications[i]);
                                     },
                                   ),
                                 ),

@@ -303,6 +303,7 @@ class MyLocale extends Translations {
           "open settings": "open settings",
           "arrive date": "arrive date",
           "expected arrive date": "expected arrive date",
+          "drivers applications": "drivers applications",
         },
         "ar": {
           "Arabic": "العربية",
@@ -601,6 +602,7 @@ class MyLocale extends Translations {
           "open settings": "فتح اعدادات التطبيق",
           "arrive date": "تاريخ الوصول",
           "expected arrive date": "تاريخ الوصول المتوقع",
+          "drivers applications": "السائقين المتقدمين",
         },
       };
 }

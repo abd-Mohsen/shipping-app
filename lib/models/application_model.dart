@@ -44,7 +44,7 @@ class User {
   final int id;
   final String name;
   final String phoneNumber;
-  final int? overallRating;
+  final double? overallRating;
 
   User({
     required this.id,
