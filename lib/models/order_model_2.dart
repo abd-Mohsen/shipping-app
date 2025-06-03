@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:jiffy/jiffy.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/currency_model.dart';
 
@@ -39,4 +40,16 @@ class OrderModel2 {
         status: json["status"],
         createdAt: DateTime.parse(json["created_at"]),
       );
+
+  String shortAddress() {
+    return "${startPoint.governorate} - ${endPoint.governorate}";
+  }
+
+  String fullDate() {
+    return "${Jiffy.parseFromDateTime(dateTime).format(pattern: "d/M/y")}  ${Jiffy.parseFromDateTime(dateTime).jm}";
+  }
+
+  String shortDate() {
+    return Jiffy.parseFromDateTime(dateTime).format(pattern: "d / M / y");
+  }
 }

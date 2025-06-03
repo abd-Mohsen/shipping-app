@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:popover/popover.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/order_view.dart';
 
 import '../../models/order_model_2.dart';
 
-//todo: put red data (expired date) in order_view
 class OrderCard extends StatelessWidget {
   final OrderModel2 order;
   final bool isCustomer;
@@ -176,8 +174,7 @@ class OrderCard extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                "${Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y")}"
-                                "  ${Jiffy.parseFromDateTime(order.dateTime).jm}",
+                                order.shortDate(),
                                 style: tt.labelSmall!.copyWith(
                                   color: order.dateTime.isBefore(DateTime.now()) &&
                                           !["draft", "done"].contains(order.status)
@@ -214,7 +211,7 @@ class OrderCard extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            "${order.price}",
+                            "${order.price}${order.currency.symbol}",
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: tt.labelSmall!.copyWith(

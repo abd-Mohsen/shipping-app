@@ -166,7 +166,8 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.driverAcceptOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
       driverHomeController!.refreshExploreOrders();
       driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
@@ -182,7 +183,8 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.customerAcceptOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
       customerHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
@@ -197,7 +199,8 @@ class OrderController extends GetxController {
     toggleLoadingRefuse(true);
     bool success = await RemoteServices.customerRefuseOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
       customerHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "order is cancelled".tr,
@@ -214,7 +217,8 @@ class OrderController extends GetxController {
         ? await RemoteServices.companyRefuseOrder(order!.id)
         : await RemoteServices.driverRefuseOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
       driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "order is cancelled".tr,
@@ -229,8 +233,9 @@ class OrderController extends GetxController {
     toggleLoadingRefuse(true);
     bool success = await RemoteServices.companyRefuseOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
-      companyHomeController!.refreshCurrOrders();
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
+      companyHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "order is cancelled".tr,
         duration: const Duration(milliseconds: 2500),
@@ -254,7 +259,8 @@ class OrderController extends GetxController {
     );
     if (success) {
       Get.back();
-      if (Get.routing.current == "/OrderView") Get.back();
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
       driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "success".tr,
@@ -271,7 +277,8 @@ class OrderController extends GetxController {
         ? await RemoteServices.companyBeginOrder(order!.id)
         : await RemoteServices.driverBeginOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
       driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "shipping started, user can track your location".tr,
@@ -288,8 +295,9 @@ class OrderController extends GetxController {
         ? await RemoteServices.companyFinishOrder(order!.id)
         : await RemoteServices.driverFinishOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
+      //if (Get.routing.current == "/OrderView") Get.back();
       //todo: if user clicks and return before processing, app closes (i fixed it here, fix in all the app)
+      refreshOrder();
       driverHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "ordered delivered".tr,
@@ -309,8 +317,9 @@ class OrderController extends GetxController {
         await RemoteServices.companyAcceptOrder(order!.id, selectedEmployee?.driver?.id, selectedVehicle!.id);
     if (success) {
       Get.back();
-      if (Get.routing.current == "/OrderView") Get.back();
-      isEmployee ? driverHomeController!.refreshOrders() : companyHomeController!.refreshCurrOrders();
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
+      isEmployee ? driverHomeController!.refreshOrders() : companyHomeController!.refreshOrders();
       isEmployee ? driverHomeController!.refreshExploreOrders() : companyHomeController!.refreshExploreOrders();
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
@@ -335,8 +344,9 @@ class OrderController extends GetxController {
     );
     if (success) {
       Get.back();
-      if (Get.routing.current == "/OrderView") Get.back();
-      companyHomeController!.refreshCurrOrders();
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
+      companyHomeController!.refreshOrders();
       Get.showSnackbar(GetSnackBar(
         message: "success".tr,
         duration: const Duration(milliseconds: 2500),

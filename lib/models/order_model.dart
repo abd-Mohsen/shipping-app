@@ -139,11 +139,19 @@ class OrderModel {
   }
 
   String fullDate() {
-    return "${Jiffy.parseFromDateTime(dateTime).format(pattern: "d / M / y")} ${Jiffy.parseFromDateTime(dateTime).jm}";
+    return "${Jiffy.parseFromDateTime(dateTime).format(pattern: "d / M / y")} - ${Jiffy.parseFromDateTime(dateTime).jm}";
   }
 
   String shortDate() {
     return Jiffy.parseFromDateTime(dateTime).format(pattern: "d / M / y");
+  }
+
+  String fullCreationDate() {
+    return "${Jiffy.parseFromDateTime(createdAt).format(pattern: "d / M / y")} - ${Jiffy.parseFromDateTime(createdAt).jm}";
+  }
+
+  String shortCreationDate() {
+    return Jiffy.parseFromDateTime(createdAt).format(pattern: "d / M / y");
   }
 }
 

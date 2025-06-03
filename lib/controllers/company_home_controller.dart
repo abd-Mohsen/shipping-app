@@ -352,10 +352,10 @@ class CompanyHomeController extends GetxController {
     update();
   }
 
-  Future<void> refreshCurrOrders() async {
-    currOrders.clear();
-    getCurrentOrders();
-  }
+  // Future<void> refreshCurrOrders() async {
+  //   currOrders.clear();
+  //   getCurrentOrders();
+  // }
 
   void getCurrentOrders() async {
     toggleLoadingCurrent(true);

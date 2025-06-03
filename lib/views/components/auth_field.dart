@@ -52,7 +52,7 @@ class AuthField extends StatelessWidget {
       return OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         borderSide: BorderSide(
-          width: 0,
+          width: width,
           color: color ?? Colors.transparent,
         ),
       );

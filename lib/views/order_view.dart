@@ -1,10 +1,12 @@
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:lottie/lottie.dart';
+import 'package:popover/popover.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
@@ -150,7 +152,7 @@ class OrderView extends StatelessWidget {
     }) =>
         Container(
           padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Color(0xFFFFC400),
             // gradient: const LinearGradient(
             //   colors: [
@@ -168,7 +170,7 @@ class OrderView extends StatelessWidget {
               Center(
                 child: Text(
                   title,
-                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                  style: tt.titleSmall!.copyWith(color: Colors.black),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -237,7 +239,12 @@ class OrderView extends StatelessWidget {
       return Scaffold(
         backgroundColor: cs.surface,
         appBar: AppBar(
-          backgroundColor: cs.secondaryContainer,
+          backgroundColor: cs.surface,
+          elevation: 0,
+          surfaceTintColor: Colors.transparent, // Add this line
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: cs.surface, // Match your AppBar
+          ),
           title: Text(
             'view order'.tr.toUpperCase(),
             style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer),
@@ -347,9 +354,19 @@ class OrderView extends StatelessWidget {
                               ///
                               Padding(
                                 padding: const EdgeInsets.only(top: 16, bottom: 8),
-                                child: Card(
-                                  color: cs.secondaryContainer,
-                                  elevation: 3,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: cs.secondaryContainer,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2), // Shadow color
+                                        blurRadius: 2, // Soften the shadow
+                                        spreadRadius: 1, // Extend the shadow
+                                        offset: Offset(1, 1), // Shadow direction (x, y)
+                                      ),
+                                    ],
+                                  ),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -519,64 +536,6 @@ class OrderView extends StatelessWidget {
                                       SizedBox(height: 8),
                                     ],
                                   ),
-                                ),
-                              ),
-
-                              ///stepper
-                              ///
-                              Card(
-                                color: cs.secondaryContainer,
-                                elevation: 3,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                                      child: Text(
-                                        "order status".tr,
-                                        style:
-                                            tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Divider(
-                                      thickness: 1.5,
-                                      color: cs.onSecondaryContainer.withOpacity(0.1),
-                                      indent: 12,
-                                      endIndent: 12,
-                                    ),
-                                    Stepper(
-                                      controlsBuilder: (BuildContext context, ControlsDetails details) {
-                                        return const SizedBox.shrink(); // Removes buttons
-                                      },
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      steps: List.generate(
-                                        controller.statuses.length,
-                                        (i) => Step(
-                                          state: StepState.indexed, // Shows simple circle instead of interactive icon
-                                          isActive: false, // Makes step appear inactive
-                                          title: Text(
-                                            controller.statuses[i].tr,
-                                            style: tt.labelMedium!
-                                                .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                          ),
-                                          content: SizedBox(
-                                            width: double.infinity,
-                                            height: 0,
-                                          ),
-                                          // subtitle: Text(
-                                          //   "",
-                                          //   style: tt.labelMedium!
-                                          //       .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                          // ),
-                                        ),
-                                      ),
-
-                                      onStepTapped: null, // Disables tapping on steps
-                                      onStepCancel: null, // Disables cancel action
-                                      onStepContinue: null, // Disables continue action
-                                      currentStep: 2, // Set to whatever step should appear as "current"
-                                    ),
-                                  ],
                                 ),
                               ),
 
@@ -782,7 +741,73 @@ class OrderView extends StatelessWidget {
                                   ),
                                 ),
 
+                              ///stepper
                               ///
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: cs.secondaryContainer,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2), // Shadow color
+                                      blurRadius: 2, // Soften the shadow
+                                      spreadRadius: 1, // Extend the shadow
+                                      offset: Offset(1, 1), // Shadow direction (x, y)
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                                      child: Text(
+                                        "order status".tr,
+                                        style:
+                                            tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Divider(
+                                      thickness: 1.5,
+                                      color: cs.onSecondaryContainer.withOpacity(0.1),
+                                      indent: 12,
+                                      endIndent: 12,
+                                    ),
+                                    Stepper(
+                                      controlsBuilder: (BuildContext context, ControlsDetails details) {
+                                        return const SizedBox.shrink(); // Removes buttons
+                                      },
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      steps: List.generate(
+                                        controller.statuses.length,
+                                        (i) => Step(
+                                          state: StepState.indexed, // Shows simple circle instead of interactive icon
+                                          isActive: false, // Makes step appear inactive
+                                          title: Text(
+                                            controller.statuses[i].tr,
+                                            style: tt.labelMedium!
+                                                .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                          ),
+                                          content: SizedBox(
+                                            width: double.infinity,
+                                            height: 0,
+                                          ),
+                                          // subtitle: Text(
+                                          //   "",
+                                          //   style: tt.labelMedium!
+                                          //       .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                          // ),
+                                        ),
+                                      ),
+
+                                      onStepTapped: null, // Disables tapping on steps
+                                      onStepCancel: null, // Disables cancel action
+                                      onStepContinue: null, // Disables continue action
+                                      currentStep: 2, // Set to whatever step should appear as "current"
+                                    ),
+                                  ],
+                                ),
+                              ),
                               // EasyStepper(
                               //   activeStep: controller.statusIndex,
                               //   activeStepTextColor: cs.primary,
@@ -808,93 +833,7 @@ class OrderView extends StatelessWidget {
                               //     ),
                               //   ),
                               // ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text(
-                                  "${oC.order!.price.toPrecision(1)} ${oC.order!.currency.symbol}",
-                                  style: tt.headlineMedium!.copyWith(color: cs.primary, fontWeight: FontWeight.bold),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Text(
-                                  oC.order!.description,
-                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on_outlined,
-                                      color: cs.onSurface,
-                                      size: 22,
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Text(
-                                      oC.order!.shortAddress(),
-                                      style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.watch_later_outlined,
-                                      color: cs.onSurface,
-                                      size: 22,
-                                    ),
-                                    const SizedBox(width: 16),
-                                    Text(
-                                      oC.order!.fullDate(),
-                                      style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // Padding(
-                              //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                              //   child: Row(
-                              //     children: [
-                              //       Icon(
-                              //         Icons.watch_later_outlined,
-                              //         color: cs.onSurface,
-                              //         size: 22,
-                              //       ),
-                              //       const SizedBox(width: 16),
-                              //       Text(
-                              //         Jiffy.parseFromDateTime(order.dateTime).jm,
-                              //         style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              if (!isCustomer)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.person_outline,
-                                        color: cs.onSurface,
-                                        size: 22,
-                                      ),
-                                      const SizedBox(width: 16),
-                                      Text(
-                                        oC.order!.orderOwner?.name ?? "order owner is null",
-                                        style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                                 child: Divider(
@@ -1099,8 +1038,8 @@ class OrderView extends StatelessWidget {
                                           SizedBox(
                                             width: MediaQuery.of(context).size.width / 1.8,
                                             child: Text(
-                                              oC.order!.weight.toString(),
-                                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                              "${oC.order!.weight} ${oC.order!.weightUnit}",
+                                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                             ),
@@ -1112,13 +1051,55 @@ class OrderView extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(vertical: 4),
                                       child: Row(
                                         children: [
-                                          SizedBox(
-                                            width: MediaQuery.of(context).size.width / 1.8,
-                                            child: Text(
-                                              "covered vehicle is required".tr,
-                                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
+                                          Expanded(
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "${"added at".tr}: ",
+                                                  style: tt.titleSmall!.copyWith(
+                                                    color: cs.onSecondaryContainer,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                ),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                  oC.order!.fullDate(),
+                                                  style: tt.labelMedium!.copyWith(
+                                                    color: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                                                            !["draft", "done"].contains(oC.order!.status)
+                                                        ? cs.error
+                                                        : cs.onSurface,
+                                                  ),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Visibility(
+                                                  visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                                                      !["draft", "done"].contains(oC.order!.status),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      showPopover(
+                                                        context: context,
+                                                        backgroundColor: cs.surface,
+                                                        bodyBuilder: (context) => Padding(
+                                                          padding:
+                                                              const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                                                          child: Text(
+                                                            "order was not accepted in time".tr,
+                                                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 2,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Icon(Icons.info, color: cs.error, size: 18),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
@@ -1129,7 +1110,7 @@ class OrderView extends StatelessWidget {
                                       child: Row(
                                         children: [
                                           Text(
-                                            "${"added at".tr}: ",
+                                            "${"expected arrive date".tr}: ",
                                             style: tt.titleSmall!.copyWith(
                                               color: cs.onSecondaryContainer,
                                               fontWeight: FontWeight.bold,
@@ -1138,11 +1119,10 @@ class OrderView extends StatelessWidget {
                                             maxLines: 2,
                                           ),
                                           const SizedBox(width: 8),
-                                          SizedBox(
-                                            width: MediaQuery.of(context).size.width / 2,
+                                          Expanded(
                                             child: Text(
-                                              Jiffy.parseFromDateTime(oC.order!.createdAt).format(pattern: "d / M / y"),
-                                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                              oC.order!.fullDate(),
+                                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 2,
                                             ),
@@ -1309,27 +1289,27 @@ class OrderView extends StatelessWidget {
                               ),
                             ),
 
-                          //if (isCustomer && oC.order!.status == "pending" && !oC.order!.ownerApproved)
-                          Positioned(
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            child: alertStack(
-                              title: "${oC.order!.acceptedApplication?.driver.name ?? ""} "
-                                  "${"wants to take this order".tr}",
-                              onPressedGreen: () {
-                                Get.back();
-                                controller.confirmOrderCustomer();
-                              },
-                              onPressedRed: () {
-                                Get.back();
-                                controller.refuseOrderCustomer();
-                                //todo: don't let user click either buttons if one is loading
-                              },
-                              isLoadingGreen: controller.isLoadingSubmit,
-                              isLoadingRed: controller.isLoadingRefuse,
+                          if (isCustomer && oC.order!.status == "pending" && !oC.order!.ownerApproved)
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              child: alertStack(
+                                title: "${oC.order!.acceptedApplication?.driver.name ?? ""} "
+                                    "${"wants to take this order".tr}",
+                                onPressedGreen: () {
+                                  Get.back();
+                                  controller.confirmOrderCustomer();
+                                },
+                                onPressedRed: () {
+                                  Get.back();
+                                  controller.refuseOrderCustomer();
+                                  //todo: don't let user click either buttons if one is loading
+                                },
+                                isLoadingGreen: controller.isLoadingSubmit,
+                                isLoadingRed: controller.isLoadingRefuse,
+                              ),
                             ),
-                          ),
                         ],
                       ),
               ),
