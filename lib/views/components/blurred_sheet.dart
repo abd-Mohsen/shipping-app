@@ -10,6 +10,9 @@ class BlurredSheet extends StatelessWidget {
   final void Function() onConfirm;
   final double? height;
   final bool? isLoading;
+  final bool? dynamicContent;
+  final double? fontSize;
+  final EdgeInsetsGeometry? sheetPadding;
 
   const BlurredSheet({
     super.key,
@@ -19,6 +22,9 @@ class BlurredSheet extends StatelessWidget {
     required this.onConfirm,
     this.height,
     this.isLoading,
+    this.dynamicContent,
+    this.fontSize,
+    this.sheetPadding,
   });
 
   @override
@@ -29,11 +35,13 @@ class BlurredSheet extends StatelessWidget {
     return BackdropFilter(
       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        margin: sheetPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         height: height ?? MediaQuery.of(context).size.height / 2.2,
         decoration: BoxDecoration(
           color: cs.surface,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: sheetPadding == EdgeInsets.zero
+              ? BorderRadius.only(topRight: Radius.circular(24), topLeft: Radius.circular(24))
+              : BorderRadius.circular(24),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +54,8 @@ class BlurredSheet extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 10),
                   child: Text(
                     title,
-                    style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                    style: tt.titleMedium!
+                        .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold, fontSize: fontSize ?? 18),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -59,14 +68,16 @@ class BlurredSheet extends StatelessWidget {
               ],
             ),
             //
-            Expanded(
-              child: Scrollbar(
-                thumbVisibility: true,
-                child: SingleChildScrollView(
-                  child: content,
-                ),
-              ),
-            ),
+            dynamicContent ?? false
+                ? content
+                : Expanded(
+                    child: Scrollbar(
+                      thumbVisibility: true,
+                      child: SingleChildScrollView(
+                        child: content,
+                      ),
+                    ),
+                  ),
             //
             GestureDetector(
               onTap: onConfirm,

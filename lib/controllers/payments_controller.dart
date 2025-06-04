@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shipment/models/bank_details_model.dart';
 import 'package:shipment/models/branch_model.dart';
+import 'package:shipment/models/payment_selection_model.dart';
 import 'package:shipment/models/transfer_details_model.dart';
 import '../constants.dart';
 import '../services/remote_services.dart';
@@ -9,8 +12,7 @@ import '../services/remote_services.dart';
 class PaymentsController extends GetxController {
   @override
   onInit() async {
-    getBranches();
-    getPaymentDetails();
+    getPaymentSelection();
     super.onInit();
   }
 
@@ -25,7 +27,6 @@ class PaymentsController extends GetxController {
 
   void getBranches() async {
     //todo: implement pagination if necessary
-    //todo(later?): show only available methods
     toggleLoadingBranches(true);
     List<BranchModel> newItems = await RemoteServices.fetchBranches() ?? [];
     branches.addAll(newItems);
@@ -56,29 +57,85 @@ class PaymentsController extends GetxController {
   }
   //----------------------bank and transfer details-------------------------
 
-  bool _isLoadingBank = false;
-  bool get isLoadingBank => _isLoadingBank;
+  List<BankDetailsModel> bankDetails = [];
+
+  bool isLoadingBank = false;
   void toggleLoadingBank(bool value) {
-    _isLoadingBank = value;
+    isLoadingBank = value;
     update();
   }
 
-  List<BankDetailsModel> bankDetails = [];
-  List<TransferDetailsModel> transferDetails = [];
-
-  void getPaymentDetails() async {
+  void getBankDetails() async {
     toggleLoadingBank(true);
-    Map? newItems = await RemoteServices.fetchBankDetails();
+    List<BankDetailsModel>? newItems = await RemoteServices.fetchBankPaymentsDetails();
     if (newItems != null) {
-      bankDetails.addAll(newItems["bank"]);
-      transferDetails.addAll(newItems["money_transfer"]);
+      bankDetails.addAll(newItems);
     }
     toggleLoadingBank(false);
   }
 
-  Future refreshPaymentDetails() async {
+  Future refreshBankDetails() async {
     bankDetails.clear();
+    getBankDetails();
+  }
+
+  List<TransferDetailsModel> transferDetails = [];
+
+  bool isLoadingTransfer = false;
+  void toggleLoadingTransfer(bool value) {
+    isLoadingTransfer = value;
+    update();
+  }
+
+  void getTransferDetails() async {
+    toggleLoadingTransfer(true);
+    List<TransferDetailsModel>? newItems = await RemoteServices.fetchMoneyTransferPaymentsDetails();
+    if (newItems != null) {
+      transferDetails.addAll(newItems);
+    }
+    toggleLoadingTransfer(false);
+  }
+
+  Future refreshTransferDetails() async {
     transferDetails.clear();
-    getPaymentDetails();
+    getTransferDetails();
+  }
+
+  //-------------------------------show available-----------------------------------
+
+  List<PaymentSelectionModel> selections = [];
+
+  bool isLoadingSelection = false;
+  void toggleLoadingSelection(bool value) {
+    isLoadingSelection = value;
+    update();
+  }
+
+  void getPaymentSelection() async {
+    toggleLoadingSelection(true);
+    List<PaymentSelectionModel>? newItems = await RemoteServices.fetchPaymentDetailsSelectionOptions();
+    if (newItems != null) {
+      selections.addAll(newItems);
+    }
+    toggleLoadingSelection(false);
+  }
+
+  Future refreshPaymentSelection() async {
+    selections.clear();
+    getPaymentSelection();
+  }
+
+  PaymentSelectionModel? selectedOption;
+
+  IconData iconDate = FontAwesomeIcons.moneyBill;
+
+  void selectOption(PaymentSelectionModel selectedOption) {
+    this.selectedOption = selectedOption;
+    iconDate = selectedOption.value == "Bank Account"
+        ? Icons.account_balance
+        : selectedOption.value == "Cash"
+            ? FontAwesomeIcons.moneyBill1
+            : FontAwesomeIcons.moneyBillTransfer;
+    update();
   }
 }

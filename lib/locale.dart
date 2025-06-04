@@ -304,6 +304,10 @@ class MyLocale extends Translations {
           "arrive date": "arrive date",
           "expected arrive date": "expected arrive date",
           "drivers applications": "drivers applications",
+          "How do you want to pay?": "How do you want to pay?",
+          "proceed": "proceed",
+          "bank payment methods": "bank payment methods",
+          "money transfer payment methods": "bank transfer payment methods",
         },
         "ar": {
           "Arabic": "العربية",
@@ -603,6 +607,10 @@ class MyLocale extends Translations {
           "arrive date": "تاريخ الوصول",
           "expected arrive date": "تاريخ الوصول المتوقع",
           "drivers applications": "السائقين المتقدمين",
+          "How do you want to pay?": "كيف تريد القيام بالدفع؟",
+          "proceed": "التالي",
+          "bank payment methods": "حسابات بنكية للتحويل",
+          "money transfer payment methods": "حسابات لتحويل اموال",
         },
       };
 }

@@ -18,6 +18,7 @@ import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/notification_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
+import 'package:shipment/models/payment_selection_model.dart';
 import 'package:shipment/models/transfer_details_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import '../main.dart';
@@ -538,25 +539,42 @@ class RemoteServices {
     return MakeOrderModel.fromJson(jsonDecode(json));
   }
 
-  static Future<Map<String, List?>?> fetchBankDetails() async {
-    //todo separate
-    String? json = await api.getRequest(
-      "payments-admin/",
-      auth: true,
-    );
-    if (json == null) return null;
-    Map decodedJson = jsonDecode(json);
-    List bankAccounts = bankDetailsModelFromJson(
-      jsonEncode(decodedJson["bank_accounts"]),
-    );
-    List moneyTransferNumbers = transferDetailsModelFromJson(
-      jsonEncode(decodedJson["phone_numbers"]),
-    );
+  // static Future<Map<String, List?>?> fetchBankDetails() async {
+  //   String? json = await api.getRequest(
+  //     "payments-admin/",
+  //     auth: true,
+  //   );
+  //   if (json == null) return null;
+  //   Map decodedJson = jsonDecode(json);
+  //   List bankAccounts = bankDetailsModelFromJson(
+  //     jsonEncode(decodedJson["bank_accounts"]),
+  //   );
+  //   List moneyTransferNumbers = transferDetailsModelFromJson(
+  //     jsonEncode(decodedJson["phone_numbers"]),
+  //   );
 
-    return {
-      "bank": bankAccounts,
-      "money_transfer": moneyTransferNumbers,
-    };
+  static Future<List<BankDetailsModel>?> fetchBankPaymentsDetails() async {
+    String? json = await api.getRequest("payments-details/admin/bank_account/", auth: true);
+    if (json == null) return null;
+    return bankDetailsModelFromJson(json);
+  }
+
+  static Future<List<TransferDetailsModel>?> fetchMoneyTransferPaymentsDetails() async {
+    String? json = await api.getRequest("payments-details/admin/money_transfer/", auth: true);
+    if (json == null) return null;
+    return transferDetailsModelFromJson(json);
+  }
+
+  // static Future<List<PaymentSelectionModel>?> fetchPaymentDetailsSelectionOptions() async {
+  //   String? json = await api.getRequest("payment-methods/admin/", auth: true);
+  //   if (json == null) return null;
+  //   return paymentSelectionModelFromJson(jsonEncode(json));
+  // }
+
+  static Future<List<PaymentSelectionModel>?> fetchPaymentDetailsSelectionOptions() async {
+    String? json = await api.getRequest("payment-methods/admin/", auth: true);
+    if (json == null) return null;
+    return paymentSelectionModelFromJson(json);
   }
 
   static Future<OrderModel?> getSingleOrder(int id, String role) async {

@@ -4,12 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/models/user_model.dart';
+import 'package:shipment/views/payment_methods_view.dart';
 import '../../controllers/theme_controller.dart';
 import '../about_us_page.dart';
 import '../invoices_view.dart';
 import '../my_addresses_view.dart';
 import '../my_vehicles_view.dart';
-import '../payments_view.dart';
 import 'drawer_card.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -220,9 +220,8 @@ class MyDrawer extends StatelessWidget {
                     },
                   ),
                 ),
-                Visibility(
-                  visible: currentUser != null && role == "driver",
-                  child: DrawerCard(
+                if (currentUser != null && role == "driver")
+                  DrawerCard(
                     title: "my vehicles".tr,
                     icon: Icons.local_shipping_outlined,
                     isMarked: ["refused", "No_Input"].contains(currentUser!.driverInfo?.vehicleStatus),
@@ -230,7 +229,6 @@ class MyDrawer extends StatelessWidget {
                       Get.to(() => const MyVehiclesView());
                     },
                   ),
-                ),
 
                 Visibility(
                   visible: role != "employee",
@@ -238,7 +236,8 @@ class MyDrawer extends StatelessWidget {
                     title: "payment methods".tr,
                     icon: Icons.monetization_on_outlined,
                     onTap: () {
-                      Get.to(const PaymentsView());
+                      //Get.to(const PaymentsView());
+                      Get.to(const PaymentMethodsView());
                     },
                   ),
                 ),
