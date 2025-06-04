@@ -202,7 +202,7 @@ class CustomerOrdersTab extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
-                    child: controller.isLoading
+                    child: controller.isLoading && controller.page == 1
                         ? SpinKitSquareCircle(color: cs.primary)
                         : RefreshIndicator(
                             onRefresh: controller.refreshOrders,
@@ -231,13 +231,27 @@ class CustomerOrdersTab extends StatelessWidget {
                                     ),
                                   )
                                 : ListView.builder(
+                                    controller: controller.scrollController,
+                                    physics: const AlwaysScrollableScrollPhysics(),
                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                    itemCount: controller.myOrders.length,
-                                    itemBuilder: (context, i) => OrderCard3(
-                                      order: controller.myOrders[i],
-                                      isCustomer: true,
-                                      isLast: i == controller.myOrders.length - 1,
-                                    ),
+                                    itemCount: controller.myOrders.length + 1,
+                                    itemBuilder: (context, i) => i < controller.myOrders.length
+                                        ? OrderCard3(
+                                            order: controller.myOrders[i],
+                                            isCustomer: true,
+                                            isLast: i == controller.myOrders.length - 1,
+                                          )
+                                        : Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 24),
+                                              child: controller.hasMore
+                                                  ? CircularProgressIndicator(color: cs.primary)
+                                                  : CircleAvatar(
+                                                      radius: 5,
+                                                      backgroundColor: cs.onSurface.withOpacity(0.7),
+                                                    ),
+                                            ),
+                                          ),
                                   ),
                           ),
                   ),

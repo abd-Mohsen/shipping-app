@@ -24,6 +24,7 @@ class CustomerHomeController extends GetxController {
     getCurrentUser();
     getOrders();
     getRecentOrders();
+    setPaginationListener();
     super.onInit();
   }
 
@@ -65,29 +66,52 @@ class CustomerHomeController extends GetxController {
     refreshOrders();
   }
 
+  ///pagination
+  ScrollController scrollController = ScrollController();
+
+  int page = 1, limit = 10;
+  bool hasMore = true;
+
+  void setPaginationListener() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+        getOrders();
+      }
+    });
+  }
+
   void getOrders() async {
+    hasMore = true;
+    if (isLoading) return;
     toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("not taken")) typesToFetch.addAll(["available", "draft"]);
     if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved", "waiting_approval"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
-    List<OrderModel2> newItems = await RemoteServices.fetchCustomerOrders(
-          types: typesToFetch,
-          page: 1, //todo:pagination
-          searchQuery: searchQuery.text.trim(),
-          minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
-          maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
-          vehicleType: filterController.selectedVehicleType?.id,
-          governorate: filterController.selectedGovernorate?.id,
-          currency: filterController.selectedCurrency?.id,
-        ) ??
-        [];
-    myOrders.addAll(newItems);
+    List<OrderModel2>? newItems = await RemoteServices.fetchCustomerOrders(
+      types: typesToFetch,
+      page: page,
+      searchQuery: searchQuery.text.trim(),
+      minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+      maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+      vehicleType: filterController.selectedVehicleType?.id,
+      governorate: filterController.selectedGovernorate?.id,
+      currency: filterController.selectedCurrency?.id,
+    );
+    if (newItems != null) {
+      if (newItems.length < limit) hasMore = false;
+      myOrders.addAll(newItems);
+      page++;
+    } else {
+      hasMore = false;
+    }
     toggleLoading(false);
   }
 
   Future<void> refreshOrders() async {
+    page = 1;
+    hasMore = true;
     myOrders.clear();
     getOrders();
   }

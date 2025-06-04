@@ -120,9 +120,9 @@ class NotificationsController extends GetxController {
 
   ScrollController scrollController = ScrollController();
 
-  int page = 1, limit = 4;
+  int page = 1, limit = 10;
   bool hasMore = true;
-  bool failed = false;
+  //bool failed = false;
 
   void setPaginationListener() {
     scrollController.addListener(() {
@@ -133,14 +133,17 @@ class NotificationsController extends GetxController {
   }
 
   void getNotifications() async {
-    if (isLoading || !hasMore) return;
+    hasMore = true;
+    if (isLoading) return;
     toggleLoading(true);
     Map<String, dynamic>? newItems = await RemoteServices.fetchNotifications(page: page);
     if (newItems != null) {
-      if (newItems["notifications"].length < 10) hasMore = false;
+      if (newItems["notifications"].length < limit) hasMore = false;
       allNotifications.addAll(newItems["notifications"]);
       unreadCount = newItems["unread_count"];
       page++;
+    } else {
+      hasMore = false;
     }
     toggleLoading(false);
   }
