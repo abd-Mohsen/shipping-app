@@ -6,16 +6,22 @@ import 'package:shipment/views/order_view.dart';
 
 class ApplicationCard extends StatelessWidget {
   final ApplicationModel application;
-  final void Function()? onTap;
+  final void Function()? onTapCall;
+  final void Function()? onTapAccept;
+  final void Function()? onTapRefuse;
   final bool? showButtons;
+  final bool? isAccepted;
   final bool isLast;
 
   const ApplicationCard({
     super.key,
     required this.application,
     required this.isLast,
-    this.onTap,
+    this.onTapCall,
     this.showButtons,
+    this.onTapAccept,
+    this.onTapRefuse,
+    this.isAccepted,
   });
 
   @override
@@ -52,7 +58,7 @@ class ApplicationCard extends StatelessWidget {
                           height: 37,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [cs.primary, Color(0xffC8C8C8)],
+                              colors: [isAccepted ?? true ? cs.primary : Colors.grey, Color(0xffC8C8C8)],
                               stops: [0, 1],
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -76,9 +82,14 @@ class ApplicationCard extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width / 2.2,
                                 child: Text(
                                   application.driver.name,
-                                  style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                  style: tt.labelMedium!.copyWith(
+                                    color: cs.onSurface,
+                                    decoration: application.deletedAt != null
+                                        ? TextDecoration.lineThrough
+                                        : TextDecoration.none,
+                                  ),
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
+                                  maxLines: 2,
                                 ),
                               ),
                               const SizedBox(height: 4),
@@ -91,6 +102,9 @@ class ApplicationCard extends StatelessWidget {
                                   style: tt.labelSmall!.copyWith(
                                     color: cs.onSurface.withOpacity(0.5),
                                     fontSize: 10,
+                                    decoration: application.deletedAt != null
+                                        ? TextDecoration.lineThrough
+                                        : TextDecoration.none,
                                   ),
                                 ),
                               ),
@@ -100,13 +114,53 @@ class ApplicationCard extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (showButtons ?? false)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                      child: GestureDetector(
+                        onTap: onTapRefuse,
+                        child: Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(width: 0.3),
+                            ),
+                            child: Icon(
+                              Icons.close,
+                              size: 20,
+                              color: cs.onPrimary,
+                            )),
+                      ),
+                    ),
+                  if (showButtons ?? false)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                      child: GestureDetector(
+                        onTap: onTapAccept,
+                        child: Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(width: 0.3),
+                            ),
+                            child: Icon(
+                              Icons.done,
+                              size: 20,
+                              color: cs.onPrimary,
+                            )),
+                      ),
+                    ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                     child: GestureDetector(
-                      onTap: onTap,
+                      onTap: onTapCall,
                       child: Container(
-                          width: 40,
-                          height: 40,
+                          width: 35,
+                          height: 35,
                           decoration: BoxDecoration(
                             color: cs.secondaryContainer,
                             borderRadius: BorderRadius.circular(100),
@@ -119,19 +173,6 @@ class ApplicationCard extends StatelessWidget {
                           )),
                     ),
                   ),
-                  if (showButtons ?? false)
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        application.vehicle.vehicleType.type,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: tt.labelSmall!.copyWith(
-                          color: cs.onSurface.withOpacity(0.5),
-                          fontSize: 10,
-                        ),
-                      ),
-                    )
                 ],
               ),
             ),

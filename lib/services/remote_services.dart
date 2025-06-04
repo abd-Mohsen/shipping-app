@@ -340,8 +340,12 @@ class RemoteServices {
     return json != null;
   }
 
-  static Future<bool> customerAcceptOrder(int orderID) async {
-    String? json = await api.postRequest("customer_order/$orderID/confirm/", {}, auth: true);
+  static Future<bool> customerAcceptOrder(int orderID, int applicationID) async {
+    String? json = await api.postRequest(
+      "customer_order/$orderID/confirm/",
+      {"application_id": applicationID},
+      auth: true,
+    );
     return json != null;
   }
 

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -134,8 +136,18 @@ class OrderView extends StatelessWidget {
     }) =>
         Container(
           padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
-          decoration: const BoxDecoration(
-            color: Color(0xFFFFC400),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFC400),
+            //color: cs.secondaryContainer,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2), // Shadow color
+                blurRadius: 2, // Soften the shadow
+                spreadRadius: 1, // Extend the shadow
+                offset: Offset(1, 1), // Shadow direction (x, y)
+              ),
+            ],
             // gradient: const LinearGradient(
             //   colors: [
             //     Color(0xFFF1C892),
@@ -175,7 +187,7 @@ class OrderView extends StatelessWidget {
                         );
                       },
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(Colors.green),
+                        backgroundColor: WidgetStateProperty.all<Color>(Color(0xff10AB43)),
                       ),
                       child: !isLoadingGreen
                           ? Text(
@@ -541,13 +553,40 @@ class OrderView extends StatelessWidget {
                                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                         itemCount: controller.order!.driversApplications.length,
                                         itemBuilder: (context, i) => ApplicationCard(
+                                          showButtons: controller.order!.status == "waiting_approval",
                                           application: controller.order!.driversApplications[i],
-                                          onTap: () {
+                                          onTapCall: () {
                                             showDialog(
                                               context: context,
                                               builder: (context) => callDialog(
                                                   controller.order!.driversApplications[i].driver.phoneNumber),
                                             );
+                                          },
+                                          onTapAccept: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => alertDialog(
+                                                onPressed: () {
+                                                  Get.back();
+                                                  controller.confirmOrderCustomer(
+                                                      controller.order!.driversApplications[i].id);
+                                                },
+                                                title: "accept the order?".tr,
+                                              ),
+                                            );
+                                          },
+                                          onTapRefuse: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => alertDialog(
+                                                onPressed: () {
+                                                  Get.back();
+                                                  controller.refuseOrderCustomer();
+                                                },
+                                                title: "refuse the order?".tr,
+                                              ),
+                                            );
+                                            //todo: don't let user click either buttons if one is loading
                                           },
                                           isLast: i == controller.order!.driversApplications.length - 1,
                                         ),
@@ -1164,9 +1203,9 @@ class OrderView extends StatelessWidget {
                               oC.order!.ownerApproved &&
                               !oC.order!.driverApproved)
                             Positioned(
-                              top: 0,
-                              left: 0,
-                              right: 0,
+                              top: 10,
+                              left: 30,
+                              right: 30,
                               child: alertStack(
                                 title: "${oC.order!.orderOwner?.name ?? "order owner is null"}"
                                     " ${"accepted your request".tr}",
@@ -1321,7 +1360,7 @@ class OrderView extends StatelessWidget {
                                     "${"wants to take this order".tr}",
                                 onPressedGreen: () {
                                   Get.back();
-                                  controller.confirmOrderCustomer();
+                                  //controller.confirmOrderCustomer();
                                 },
                                 onPressedRed: () {
                                   Get.back();

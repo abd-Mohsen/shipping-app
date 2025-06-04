@@ -180,10 +180,10 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  void confirmOrderCustomer() async {
+  void confirmOrderCustomer(int applicationID) async {
     if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingSubmit(true);
-    bool success = await RemoteServices.customerAcceptOrder(order!.id);
+    bool success = await RemoteServices.customerAcceptOrder(order!.id, applicationID);
     if (success) {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
