@@ -470,6 +470,7 @@ class CompanyHomeController extends GetxController {
   }
 
   Future<bool> successAssignVehicle(VehicleModel vehicle, EmployeeModel employee) async {
+    if (isLoadingAssign) return false;
     toggleLoadingAssign(true);
     bool success = await RemoteServices.assignVehicle(employee.driver!.id!, vehicle.id);
     toggleLoadingAssign(false);
@@ -491,5 +492,21 @@ class CompanyHomeController extends GetxController {
         myVehiclesController.refreshMyVehicles();
       }
     }
+  }
+
+  void unAssignVehicle(EmployeeModel employee) async {
+    if (isLoadingAssign || employee.vehicle == null) return;
+    toggleLoadingAssign(true);
+    bool success = await RemoteServices.unAssignVehicle(employee.vehicle!.id);
+    if (success) {
+      Get.showSnackbar(GetSnackBar(
+        message: "done successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
+      ));
+      refreshMyEmployees();
+      myVehiclesController.refreshMyVehicles();
+    }
+    toggleLoadingAssign(false);
   }
 }

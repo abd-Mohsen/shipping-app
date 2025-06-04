@@ -147,9 +147,14 @@ class EmployeeCard extends StatelessWidget {
                         ),
                       ),
                       cHC.isLoadingAssign
-                          ? SpinKitThreeBounce(color: cs.onSurface, size: 20)
+                          ? Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SpinKitThreeBounce(color: cs.onSurface, size: 20),
+                            )
                           : IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                cHC.unAssignVehicle(employee);
+                              },
                               icon: Icon(
                                 Icons.remove,
                                 color: cs.error,
