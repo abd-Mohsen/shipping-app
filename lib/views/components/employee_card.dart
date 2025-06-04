@@ -6,14 +6,12 @@ import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/my_vehicles_controller.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/mini_vehicle_model.dart';
-import 'package:shipment/services/remote_services.dart';
 import 'package:shipment/views/components/sheet_details_tile.dart';
 import 'package:shipment/views/components/vehicle_selector.dart';
 
 import '../../models/vehicle_model.dart';
 
 //todo: toggle availability
-//todo: do vehicle/employee relation
 
 class EmployeeCard extends StatelessWidget {
   final EmployeeModel employee;
@@ -118,9 +116,9 @@ class EmployeeCard extends StatelessWidget {
                 SheetDetailsTile(
                   title: "registration status".tr,
                   subtitle: employee.driver!.licenseStatus.tr,
-                  color: employee.driver!.licenseStatus.tr != "verified" ? cs.error : cs.onSurface,
+                  color: employee.driver!.licenseStatus != "verified" ? cs.error : cs.onSurface,
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Text(
@@ -138,7 +136,7 @@ class EmployeeCard extends StatelessWidget {
                           enabled: !cHC.isLoadingAssign,
                           selectedItem: employee.vehicle,
                           items: mVC.myVehicles.map((v) => v.toMiniModel()).toList(),
-                          title: "no vehicle".tr,
+                          title: "no vehicle is assigned".tr,
                           onChanged: (miniV) async {
                             if (miniV == null) return;
                             VehicleModel selectedVehicle = mVC.myVehicles.firstWhere((v) => v.id == miniV.id);
@@ -163,6 +161,22 @@ class EmployeeCard extends StatelessWidget {
                             )
                     ],
                   ),
+                ),
+                ListTile(
+                  leading: Text(
+                    "can accept orders".tr,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                  ),
+                  trailing: false
+                      ? SpinKitThreeBounce(color: cs.onSurface, size: 20)
+                      : Checkbox(
+                          value: employee.canAcceptOrders,
+                          onChanged: (v) {
+                            cHC.toggleEmployee(employee, !v!);
+                          },
+                        ),
                 ),
                 const SizedBox(height: 20),
                 Row(

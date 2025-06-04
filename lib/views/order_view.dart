@@ -564,7 +564,9 @@ class OrderView extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                                   child: CustomButton(
                                     onTap: () {
-                                      if (isCompany || isEmployee) {
+                                      if (isEmployee) {
+                                        controller.acceptOrderCompany();
+                                      } else if (isCompany) {
                                         Get.bottomSheet(
                                           GetBuilder<OrderController>(
                                             builder: (controller) {
@@ -597,18 +599,19 @@ class OrderView extends StatelessWidget {
                                                             ? SpinKitThreeBounce(color: cs.primary, size: 20)
                                                             : Column(
                                                                 children: [
-                                                                  VehicleSelector<VehicleModel>(
-                                                                    selectedItem: controller.selectedVehicle,
-                                                                    items: controller.availableVehicles,
-                                                                    onChanged: (VehicleModel? v) async {
-                                                                      controller.selectVehicle(v);
-                                                                      await Future.delayed(
-                                                                          const Duration(milliseconds: 1000));
-                                                                      if (controller.buttonPressed) {
-                                                                        controller.formKey.currentState!.validate();
-                                                                      }
-                                                                    },
-                                                                  ),
+                                                                  // VehicleSelector<VehicleModel>(
+                                                                  //   selectedItem: controller.selectedVehicle,
+                                                                  //   items: controller.availableVehicles,
+                                                                  //   onChanged: (VehicleModel? v) async {
+                                                                  //     controller.selectVehicle(v);
+                                                                  //     await Future.delayed(
+                                                                  //         const Duration(milliseconds: 1000));
+                                                                  //     if (controller.buttonPressed) {
+                                                                  //       controller.formKey.currentState!.validate();
+                                                                  //     }
+                                                                  //   },
+                                                                  // ),
+                                                                  //todo: fix UI in this sheet
                                                                   const SizedBox(height: 12),
                                                                   if (isCompany)
                                                                     EmployeeSelector(

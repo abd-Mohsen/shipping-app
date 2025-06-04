@@ -160,6 +160,7 @@ class OrderController extends GetxController {
   }
 
   /// interacting with order
+  ///
 
   void acceptOrderDriver() async {
     if (isLoadingSubmit || isLoadingRefuse) return;
@@ -318,11 +319,10 @@ class OrderController extends GetxController {
   void acceptOrderCompany() async {
     if (isLoadingSubmit || isLoadingRefuse) return;
     buttonPressed = true;
-    bool valid = formKey.currentState!.validate();
+    bool valid = isEmployee ? true : formKey.currentState!.validate();
     if (!valid) return;
     toggleLoadingSubmit(true);
-    bool success =
-        await RemoteServices.companyAcceptOrder(order!.id, selectedEmployee?.driver?.id, selectedVehicle!.id);
+    bool success = await RemoteServices.companyAcceptOrder(order!.id, selectedEmployee?.id);
     if (success) {
       Get.back();
       //if (Get.routing.current == "/OrderView") Get.back();

@@ -153,7 +153,7 @@ class CompanyHomeController extends GetxController {
     toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
-    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending"]);
+    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "waiting_approval"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
     List<OrderModel2> newItems = await RemoteServices.fetchCompanyOrders(
@@ -324,7 +324,7 @@ class CompanyHomeController extends GetxController {
     if (isLoadingExplore || selectedGovernorate == null) return;
     toggleLoadingExplore(true);
     List<OrderModel2> newItems = await RemoteServices.fetchCompanyOrders(
-          governorateID: selectedGovernorate!.id, types: ["available"],
+          governorateID: selectedGovernorate!.id, types: ["available", "waiting_approval"],
           page: 1, //todo:pagination
           searchQuery: searchQueryMyOrders.text.trim(),
           minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
@@ -469,6 +469,12 @@ class CompanyHomeController extends GetxController {
     update();
   }
 
+  bool isLoadingToggle = false;
+  void toggleLoadingToggle(bool value) {
+    isLoadingToggle = value;
+    update();
+  }
+
   Future<bool> successAssignVehicle(VehicleModel vehicle, EmployeeModel employee) async {
     if (isLoadingAssign) return false;
     toggleLoadingAssign(true);
@@ -508,5 +514,20 @@ class CompanyHomeController extends GetxController {
       myVehiclesController.refreshMyVehicles();
     }
     toggleLoadingAssign(false);
+  }
+
+  void toggleEmployee(EmployeeModel employee, v) async {
+    if (isLoadingToggle) return;
+    toggleLoadingToggle(true);
+    bool success = await RemoteServices.toggleEmployee(employee.id, v);
+    if (success) {
+      Get.showSnackbar(GetSnackBar(
+        message: "done successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
+      ));
+      employee.canAcceptOrders = !v;
+    }
+    toggleLoadingToggle(false);
   }
 }

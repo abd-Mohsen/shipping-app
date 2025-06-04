@@ -409,13 +409,11 @@ class RemoteServices {
     return json != null;
   }
 
-  static Future<bool> companyAcceptOrder(int orderID, int? employeeID, int vehicleID) async {
+  static Future<bool> companyAcceptOrder(int orderID, int? employeeID) async {
     String? json = await api.postRequest(
       "company_order/$orderID/accept/",
-      //todo: only send driver
       {
-        "vehicle": vehicleID,
-        "driver": employeeID,
+        if (employeeID != null) "employee_id": employeeID,
       },
       auth: true,
     );

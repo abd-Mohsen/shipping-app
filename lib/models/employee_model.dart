@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:shipment/models/mini_vehicle_model.dart';
 import 'package:shipment/models/user_model.dart';
-import 'package:shipment/models/vehicle_model.dart';
 
 List<EmployeeModel> employeeModelFromJson(String str) =>
     List<EmployeeModel>.from(json.decode(str).map((x) => EmployeeModel.fromJson(x)));
@@ -12,7 +11,7 @@ String employeeModelToJson(List<EmployeeModel> data) => json.encode(List<dynamic
 class EmployeeModel {
   final int id;
   final bool isAvailable;
-  final bool canAcceptOrders;
+  bool canAcceptOrders;
   final UserModel user;
   final DriverInfo? driver;
   final Role roleInCompany;

@@ -308,6 +308,9 @@ class MyLocale extends Translations {
           "proceed": "proceed",
           "bank payment methods": "bank payment methods",
           "money transfer payment methods": "bank transfer payment methods",
+          "no vehicle is assigned": "no vehicle is assigned",
+          "no vehicle": "no vehicle",
+          "vehicle": "vehicle",
         },
         "ar": {
           "Arabic": "العربية",
@@ -611,6 +614,9 @@ class MyLocale extends Translations {
           "proceed": "التالي",
           "bank payment methods": "حسابات بنكية للتحويل",
           "money transfer payment methods": "حسابات لتحويل اموال",
+          "no vehicle is assigned": "لم يتم تعيين مركبة",
+          "no vehicle": "لا يوجد مركبة",
+          "vehicle": "مركبة",
         },
       };
 }

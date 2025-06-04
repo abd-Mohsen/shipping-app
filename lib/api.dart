@@ -115,6 +115,7 @@ class Api {
   }) async {
     print("sending to $_hostIP/$endPoint");
     if (auth) print("Token $accessToken");
+    print('Request body: ${jsonEncode(body)}');
     try {
       var response = patch
           ? await client
