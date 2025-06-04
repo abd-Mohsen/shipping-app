@@ -14,26 +14,39 @@ class TrackingView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent, // Add this line
-        // systemOverlayStyle: SystemUiOverlayStyle(
-        //   statusBarColor: cs.surface, // Match your AppBar
-        // ),
-        centerTitle: true,
-        title: Text(
-          "live tracking".tr,
-          style: tt.titleMedium!.copyWith(
-            color: cs.onSurface,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       body: GetBuilder<OrderController>(builder: (controller) {
         return Stack(
           children: [
             map,
+            Positioned(
+              top: 50,
+              right: 15,
+              child: Container(
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: cs.secondaryContainer,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2), // Shadow color
+                      blurRadius: 3, // Soften the shadow
+                      spreadRadius: 1.5, // Extend the shadow
+                      offset: Offset(1, 1), // Shadow direction (x, y)
+                    ),
+                  ],
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: cs.primary,
+                    size: 25,
+                  ),
+                ),
+              ),
+            ),
             Positioned(
               bottom: 30,
               left: 20,
@@ -56,7 +69,7 @@ class TrackingView extends StatelessWidget {
                   children: [
                     ListTile(
                       title: Text(
-                        "description".tr,
+                        "order".tr,
                         style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
                       ),
                       subtitle: Text(
@@ -69,21 +82,20 @@ class TrackingView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                           child: Text(
                             controller.order!.status.tr,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: tt.labelSmall!.copyWith(
                               color: Colors.white,
-                              fontSize: 10,
                             ),
                           ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -147,6 +159,12 @@ class TrackingView extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    Divider(
+                      color: cs.onSurface.withOpacity(0.2),
+                      indent: 12,
+                      endIndent: 20,
                     ),
                     ApplicationCard(
                       application: controller.order?.acceptedApplication ?? controller.order!.driversApplications.first,
