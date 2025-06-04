@@ -24,7 +24,7 @@ void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.black, // Set your desired color
+    statusBarColor: Colors.black, // Set your desired color //todo: not working
     statusBarIconBrightness: Brightness.light, // For dark status bar icons
     // or Brightness.dark for light icons
   ));

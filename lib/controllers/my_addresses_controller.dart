@@ -1,7 +1,7 @@
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/my_address_model.dart';
 import '../models/location_model.dart';
 import '../services/remote_services.dart';
 import 'make_order_controller.dart';
@@ -77,11 +77,11 @@ class MyAddressesController extends GetxController {
     update();
   }
 
-  List<AddressModel> myAddresses = [];
+  List<MyAddressModel> myAddresses = [];
 
   void getMyAddresses() async {
     toggleLoading(true);
-    List<AddressModel> newItems = await RemoteServices.fetchMyAddresses() ?? [];
+    List<MyAddressModel> newItems = await RemoteServices.fetchMyAddresses() ?? [];
     myAddresses.addAll(newItems);
     toggleLoading(false);
   }
@@ -94,7 +94,7 @@ class MyAddressesController extends GetxController {
   void deleteAddress(int id) async {
     bool res = await RemoteServices.deleteAddress(id);
     if (res) {
-      myAddresses.removeWhere((address) => address.id == id);
+      myAddresses.removeWhere((myAddress) => myAddress.id == id);
       update();
     }
   }

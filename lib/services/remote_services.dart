@@ -15,6 +15,7 @@ import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/location_search_model.dart';
 import 'package:shipment/models/make_order_model.dart';
 import 'package:shipment/models/mini_order_model.dart';
+import 'package:shipment/models/my_address_model.dart';
 import 'package:shipment/models/notification_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:shipment/models/payment_method_model.dart';
@@ -185,16 +186,16 @@ class RemoteServices {
 
   static Future<bool> addAddress(AddressModel address) async {
     Map<String, dynamic> body = {
-      "address": [address.toJson()],
+      "address": address.toJson(),
     };
     String? json = await api.postRequest("user_addresses/", body, auth: true);
     return json != null;
   }
 
-  static Future<List<AddressModel>?> fetchMyAddresses() async {
+  static Future<List<MyAddressModel>?> fetchMyAddresses() async {
     String? json = await api.getRequest("user_addresses/", auth: true);
     if (json == null) return null;
-    return addressModelFromJson(json);
+    return myAddressModelFromJson(json);
   }
 
   static Future<bool> deleteAddress(int id) async {

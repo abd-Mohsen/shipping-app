@@ -44,7 +44,7 @@ class NotificationCard extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       radius: 4,
-                      backgroundColor: Color(0xff00ff00),
+                      backgroundColor: kNotificationColor,
                     ),
                   ),
                 //todo: image not loading sometimes, se a fallback and prolong timeout like in vehicle card

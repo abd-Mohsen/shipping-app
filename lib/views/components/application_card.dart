@@ -7,6 +7,7 @@ import 'package:shipment/views/order_view.dart';
 class ApplicationCard extends StatelessWidget {
   final ApplicationModel application;
   final void Function()? onTap;
+  final bool? showButtons;
   final bool isLast;
 
   const ApplicationCard({
@@ -14,6 +15,7 @@ class ApplicationCard extends StatelessWidget {
     required this.application,
     required this.isLast,
     this.onTap,
+    this.showButtons,
   });
 
   @override
@@ -117,6 +119,19 @@ class ApplicationCard extends StatelessWidget {
                           )),
                     ),
                   ),
+                  if (showButtons ?? false)
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        application.vehicle.vehicleType.type,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: tt.labelSmall!.copyWith(
+                          color: cs.onSurface.withOpacity(0.5),
+                          fontSize: 10,
+                        ),
+                      ),
+                    )
                 ],
               ),
             ),

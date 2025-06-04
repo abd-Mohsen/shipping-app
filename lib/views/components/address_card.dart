@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:shipment/constants.dart';
 import 'package:shipment/models/address_model.dart';
+import 'package:shipment/models/my_address_model.dart';
+// import 'package:jiffy/jiffy.dart';
+import 'package:shipment/models/notification_model.dart';
 
 class AddressCard extends StatelessWidget {
-  final AddressModel address;
+  final MyAddressModel myAddress;
+  final bool isLast;
   final bool selectMode;
-  final void Function() onDelete;
   final void Function()? onSelect;
+  final void Function() onDelete;
 
   const AddressCard({
     super.key,
-    required this.address,
-    required this.selectMode,
+    required this.myAddress,
+    required this.isLast,
+    required this.onSelect,
     required this.onDelete,
-    this.onSelect,
+    required this.selectMode,
   });
 
   @override
@@ -20,41 +26,59 @@ class AddressCard extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        onTap: onSelect,
-        leading: Icon(
-          Icons.location_pin,
-          color: cs.primary,
-          size: 30,
-        ),
-        title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(
-            address.toString(),
-            style: tt.titleSmall!.copyWith(color: cs.onSurface),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(
-            color: cs.onSurface,
-            width: 0.5,
-          ),
-        ),
-        trailing: selectMode
-            ? null
-            : IconButton(
-                onPressed: onDelete,
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                  size: 25,
+    return GestureDetector(
+      onTap: onSelect,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              // border: Border.all(
+              //   color: cs.surface,
+              //   width: 0.5,
+              // ),
+              borderRadius: BorderRadius.circular(20),
+              color: cs.surface,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      color: cs.primary,
+                      size: 35,
+                    ),
+                    const SizedBox(width: 16),
+                    Text(
+                      myAddress.address.toString(),
+                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 5,
+                    ),
+                  ],
                 ),
-              ),
+                selectMode
+                    ? SizedBox.shrink()
+                    : IconButton(
+                        onPressed: onDelete,
+                        icon: const Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                          size: 25,
+                        ),
+                      ),
+              ],
+            ),
+          ),
+          if (!isLast)
+            Divider(
+              thickness: 0.8,
+              color: cs.onSurface.withOpacity(0.2),
+              indent: 12,
+            )
+        ],
       ),
     );
   }

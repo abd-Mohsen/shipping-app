@@ -62,6 +62,8 @@ class MapSelector extends StatelessWidget {
   //   setState(() {});
   // }
 
+  ///todo(later): when choosing address from my addressees, or when edit, i the map doesnt point out to the selected
+  /// point, and it only show the point i manually selected even after i choose from myAddress
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;

@@ -58,18 +58,18 @@ class MyAddressesView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                         itemCount: controller.myAddresses.length,
                         itemBuilder: (context, i) => AddressCard(
-                          address: controller.myAddresses[i],
+                          myAddress: controller.myAddresses[i],
                           selectMode: selectionMode,
                           onDelete: () {
-                            controller.deleteAddress(controller.myAddresses[i].id!);
+                            controller.deleteAddress(controller.myAddresses[i].id);
                           },
                           onSelect: () {
                             if (!selectionMode) return;
                             if (makeOrderController != null) {
                               if (isStart!) {
-                                makeOrderController!.selectStartAddress(controller.myAddresses[i]);
+                                makeOrderController!.selectStartAddress(controller.myAddresses[i].address);
                               } else {
-                                makeOrderController!.selectEndAddress(controller.myAddresses[i]);
+                                makeOrderController!.selectEndAddress(controller.myAddresses[i].address);
                               }
                             }
                             // else if (editOrderController != null) {
@@ -80,6 +80,7 @@ class MyAddressesView extends StatelessWidget {
                             //   }
                             // }
                           },
+                          isLast: controller.myAddresses.length - 1 == i,
                         ),
                       ),
                     );
