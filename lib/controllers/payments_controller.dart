@@ -13,6 +13,7 @@ class PaymentsController extends GetxController {
   @override
   onInit() async {
     getPaymentSelection();
+    setPaginationListener();
     super.onInit();
   }
 
@@ -25,15 +26,38 @@ class PaymentsController extends GetxController {
 
   List<BranchModel> branches = [];
 
+  ///pagination
+  ScrollController scrollController = ScrollController();
+
+  int page = 1, limit = 10;
+  bool hasMore = true;
+
+  void setPaginationListener() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+        getBranches();
+      }
+    });
+  }
+
   void getBranches() async {
-    //todo: implement pagination if necessary
+    hasMore = true;
+    if (isLoadingBranches) return;
     toggleLoadingBranches(true);
-    List<BranchModel> newItems = await RemoteServices.fetchBranches() ?? [];
-    branches.addAll(newItems);
+    List<BranchModel>? newItems = await RemoteServices.fetchBranches(page: page);
+    if (newItems != null) {
+      if (newItems.length < limit) hasMore = false;
+      branches.addAll(newItems);
+      page++;
+    } else {
+      hasMore = false;
+    }
     toggleLoadingBranches(false);
   }
 
   Future refreshBranches() async {
+    page = 1;
+    hasMore = true;
     branches.clear();
     getBranches();
   }
@@ -66,6 +90,7 @@ class PaymentsController extends GetxController {
   }
 
   void getBankDetails() async {
+    if (isLoadingBank) return;
     toggleLoadingBank(true);
     List<BankDetailsModel>? newItems = await RemoteServices.fetchBankPaymentsDetails();
     if (newItems != null) {
@@ -88,6 +113,7 @@ class PaymentsController extends GetxController {
   }
 
   void getTransferDetails() async {
+    if (isLoadingTransfer) return;
     toggleLoadingTransfer(true);
     List<TransferDetailsModel>? newItems = await RemoteServices.fetchMoneyTransferPaymentsDetails();
     if (newItems != null) {
@@ -112,6 +138,7 @@ class PaymentsController extends GetxController {
   }
 
   void getPaymentSelection() async {
+    if (isLoadingSelection) return;
     toggleLoadingSelection(true);
     List<PaymentSelectionModel>? newItems = await RemoteServices.fetchPaymentDetailsSelectionOptions();
     if (newItems != null) {
@@ -127,14 +154,14 @@ class PaymentsController extends GetxController {
 
   PaymentSelectionModel? selectedOption;
 
-  IconData iconDate = FontAwesomeIcons.moneyBill;
+  IconData iconDate = FontAwesomeIcons.dollarSign;
 
   void selectOption(PaymentSelectionModel selectedOption) {
     this.selectedOption = selectedOption;
     iconDate = selectedOption.value == "Bank Account"
         ? Icons.account_balance
         : selectedOption.value == "Cash"
-            ? FontAwesomeIcons.moneyBill1
+            ? FontAwesomeIcons.moneyBill
             : FontAwesomeIcons.moneyBillTransfer;
     update();
   }

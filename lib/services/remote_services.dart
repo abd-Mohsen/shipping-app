@@ -502,9 +502,9 @@ class RemoteServices {
     return json != null;
   }
 
-  static Future<List<BranchModel>?> fetchBranches() async {
+  static Future<List<BranchModel>?> fetchBranches({int page = 1}) async {
     String? json = await api.getRequest(
-      "get_branchs/",
+      "get_branchs/?page=$page",
       auth: true,
     );
     if (json == null) return null;

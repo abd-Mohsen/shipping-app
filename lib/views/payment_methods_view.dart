@@ -112,7 +112,7 @@ class PaymentMethodsView extends StatelessWidget {
                       child: GestureDetector(
                         onTap: controller.selectedOption == null
                             ? null
-                            : () {
+                            : () async {
                                 if (controller.selectedOption!.value == "Cash") {
                                   controller.refreshBranches();
                                   showModalBottomSheet(
@@ -123,47 +123,66 @@ class PaymentMethodsView extends StatelessWidget {
                                       builder: (controller) {
                                         return SizedBox(
                                           height: MediaQuery.of(context).size.height * 0.95,
-                                          child: controller.isLoadingBranches
+                                          child: controller.isLoadingBranches && controller.page == 1
                                               ? SpinKitSquareCircle(color: cs.primary)
-                                              : controller.branches.isEmpty
-                                                  ? RefreshIndicator(
-                                                      onRefresh: controller.refreshBranches,
-                                                      child: Center(
-                                                        child: ListView(
-                                                          shrinkWrap: true,
-                                                          children: [
-                                                            Lottie.asset("assets/animations/simple truck.json",
-                                                                height: 200),
-                                                            Padding(
-                                                              padding: const EdgeInsets.symmetric(horizontal: 32),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "no data, pull down to refresh".tr,
-                                                                  style: tt.titleMedium!.copyWith(
-                                                                      color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                                  textAlign: TextAlign.center,
+                                              : RefreshIndicator(
+                                                  onRefresh: controller.refreshBranches,
+                                                  child: controller.branches.isEmpty
+                                                      ? Center(
+                                                          child: ListView(
+                                                            shrinkWrap: true,
+                                                            children: [
+                                                              Lottie.asset("assets/animations/simple truck.json",
+                                                                  height: 200),
+                                                              Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 32),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "no data, pull down to refresh".tr,
+                                                                    style: tt.titleMedium!.copyWith(
+                                                                        color: cs.onSurface,
+                                                                        fontWeight: FontWeight.bold),
+                                                                    textAlign: TextAlign.center,
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : Column(
-                                                      children: [
-                                                        Expanded(
-                                                          child: ListView.builder(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                vertical: 12, horizontal: 16),
-                                                            itemCount: controller.branches.length,
-                                                            itemBuilder: (context, i) => BranchCard(
-                                                              branch: controller.branches[i],
-                                                              isLast: i == controller.branches.length - 1,
-                                                            ),
+                                                            ],
                                                           ),
                                                         )
-                                                      ],
-                                                    ),
+                                                      : Column(
+                                                          children: [
+                                                            Expanded(
+                                                              child: ListView.builder(
+                                                                controller: controller.scrollController,
+                                                                physics: const AlwaysScrollableScrollPhysics(),
+                                                                padding: const EdgeInsets.symmetric(
+                                                                    vertical: 12, horizontal: 16),
+                                                                itemCount: controller.branches.length + 1,
+                                                                itemBuilder: (context, i) => i <
+                                                                        controller.branches.length
+                                                                    ? BranchCard(
+                                                                        branch: controller.branches[i],
+                                                                        isLast: i == controller.branches.length - 1,
+                                                                      )
+                                                                    : Center(
+                                                                        child: Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.symmetric(vertical: 24),
+                                                                          child: controller.hasMore
+                                                                              ? CircularProgressIndicator(
+                                                                                  color: cs.primary)
+                                                                              : CircleAvatar(
+                                                                                  radius: 5,
+                                                                                  backgroundColor:
+                                                                                      cs.onSurface.withOpacity(0.7),
+                                                                                ),
+                                                                        ),
+                                                                      ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                ),
                                         );
                                       },
                                     ),
@@ -172,81 +191,87 @@ class PaymentMethodsView extends StatelessWidget {
                                   controller.selectedOption!.value == "Bank Account"
                                       ? controller.refreshBankDetails()
                                       : controller.refreshTransferDetails();
+                                  //await Future.delayed(Duration(milliseconds: 300));
                                   showMaterialModalBottomSheet(
                                     context: context,
                                     backgroundColor: Colors.transparent,
                                     barrierColor: Colors.black.withOpacity(0.5),
                                     enableDrag: false,
-                                    builder: (context) => GetBuilder<PaymentsController>(builder: (controller) {
-                                      return BlurredSheet(
-                                        sheetPadding: EdgeInsets.zero,
-                                        fontSize: 14,
-                                        dynamicContent: true,
-                                        title: controller.selectedOption!.value == "Bank Account"
-                                            ? "bank payment methods".tr
-                                            : "money transfer payment methods".tr,
-                                        confirmText: "ok".tr,
-                                        onConfirm: () {
-                                          Get.back();
-                                        },
-                                        height: MediaQuery.of(context).size.height / 1.5,
-                                        content: Expanded(
-                                          child: (controller.selectedOption!.value == "Bank Account"
-                                                  ? controller.isLoadingBank
-                                                  : controller.isLoadingTransfer)
-                                              ? SpinKitSquareCircle(color: cs.primary)
-                                              : Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                  child: RefreshIndicator(
-                                                    onRefresh: controller.refreshBankDetails,
-                                                    child: controller.bankDetails.isEmpty
-                                                        ? Center(
-                                                            child: ListView(
-                                                              shrinkWrap: true,
-                                                              children: [
-                                                                Lottie.asset("assets/animations/simple truck.json",
-                                                                    height: 150),
-                                                                Padding(
-                                                                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      "no data, pull down to refresh".tr,
-                                                                      style: tt.titleSmall!.copyWith(
-                                                                          color: cs.onSurface,
-                                                                          fontWeight: FontWeight.bold),
-                                                                      textAlign: TextAlign.center,
+                                    builder: (context) => GetBuilder<PaymentsController>(
+                                      builder: (controller) {
+                                        return BlurredSheet(
+                                          sheetPadding: EdgeInsets.zero,
+                                          fontSize: 14,
+                                          dynamicContent: true,
+                                          title: controller.selectedOption!.value == "Bank Account"
+                                              ? "bank payment methods".tr
+                                              : "money transfer payment methods".tr,
+                                          confirmText: "ok".tr,
+                                          onConfirm: () {
+                                            Get.back();
+                                          },
+                                          height: MediaQuery.of(context).size.height / 1.5,
+                                          content: Expanded(
+                                            child: (controller.selectedOption!.value == "Bank Account"
+                                                    ? controller.isLoadingBank
+                                                    : controller.isLoadingTransfer)
+                                                ? SpinKitSquareCircle(color: cs.primary)
+                                                : Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                    child: RefreshIndicator(
+                                                      onRefresh: controller.refreshBankDetails,
+                                                      child: (controller.selectedOption!.value == "Bank Account"
+                                                              ? controller.bankDetails.isEmpty
+                                                              : controller.transferDetails.isEmpty)
+                                                          ? Center(
+                                                              child: ListView(
+                                                                shrinkWrap: true,
+                                                                children: [
+                                                                  Lottie.asset("assets/animations/simple truck.json",
+                                                                      height: 150),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                                                                    child: Center(
+                                                                      child: Text(
+                                                                        "no data, pull down to refresh".tr,
+                                                                        style: tt.titleSmall!.copyWith(
+                                                                            color: cs.onSurface,
+                                                                            fontWeight: FontWeight.bold),
+                                                                        textAlign: TextAlign.center,
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          )
-                                                        : ListView.builder(
-                                                            padding: const EdgeInsets.symmetric(
-                                                                vertical: 12, horizontal: 12),
-                                                            itemCount:
-                                                                controller.selectedOption!.value == "Bank Account"
-                                                                    ? controller.bankDetails.length
-                                                                    : controller.transferDetails.length,
-                                                            itemBuilder: (context, i) => PaymentDetailsCard(
-                                                              bankDetails:
+                                                                ],
+                                                              ),
+                                                            )
+                                                          : ListView.builder(
+                                                              padding: const EdgeInsets.symmetric(
+                                                                  vertical: 12, horizontal: 12),
+                                                              itemCount:
                                                                   controller.selectedOption!.value == "Bank Account"
-                                                                      ? controller.bankDetails[i]
-                                                                      : null,
-                                                              transferDetails:
-                                                                  controller.selectedOption!.value == "Money Transfer"
-                                                                      ? controller.transferDetails[i]
-                                                                      : null,
-                                                              isLast: controller.selectedOption!.value == "Bank Account"
-                                                                  ? i == controller.bankDetails.length - 1
-                                                                  : i == controller.transferDetails.length - 1,
+                                                                      ? controller.bankDetails.length
+                                                                      : controller.transferDetails.length,
+                                                              itemBuilder: (context, i) => PaymentDetailsCard(
+                                                                bankDetails:
+                                                                    controller.selectedOption!.value == "Bank Account"
+                                                                        ? controller.bankDetails[i]
+                                                                        : null,
+                                                                transferDetails:
+                                                                    controller.selectedOption!.value == "Money Transfer"
+                                                                        ? controller.transferDetails[i]
+                                                                        : null,
+                                                                isLast:
+                                                                    controller.selectedOption!.value == "Bank Account"
+                                                                        ? i == controller.bankDetails.length - 1
+                                                                        : i == controller.transferDetails.length - 1,
+                                                              ),
                                                             ),
-                                                          ),
+                                                    ),
                                                   ),
-                                                ),
-                                        ),
-                                      );
-                                    }),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   );
                                 }
                               },
