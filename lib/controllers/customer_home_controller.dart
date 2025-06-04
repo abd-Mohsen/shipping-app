@@ -125,6 +125,7 @@ class CustomerHomeController extends GetxController {
   }
 
   void getRecentOrders() async {
+    if (isLoadingRecent) return;
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["available", "draft", "waiting_approval", "pending", "approved", "done", "canceled"];
     List<OrderModel2> newProcessingOrders = await RemoteServices.fetchCustomerOrders(types: ["processing"]) ?? [];
@@ -183,6 +184,7 @@ class CustomerHomeController extends GetxController {
   UserModel? get currentUser => _currentUser;
 
   void getCurrentUser({bool refresh = false}) async {
+    if (isLoadingUser) return;
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
     if (!refresh && _currentUser != null) {

@@ -75,6 +75,7 @@ class CompanyHomeController extends GetxController {
   UserModel? get currentUser => _currentUser;
 
   void getCurrentUser({bool refresh = false}) async {
+    if (isLoadingUser) return;
     toggleLoadingUser(true);
     _currentUser = await RemoteServices.fetchCurrentUser();
     if (!refresh && _currentUser != null) {
@@ -141,6 +142,7 @@ class CompanyHomeController extends GetxController {
   }
 
   void getMyOrders() async {
+    if (isLoading) return;
     toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
@@ -174,6 +176,7 @@ class CompanyHomeController extends GetxController {
   }
 
   void getRecentOrders() async {
+    if (isLoadingRecent) return;
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled"];
     List<OrderModel2> newProcessingOrders = await RemoteServices.fetchDriverOrders(types: ["processing"]) ?? [];
@@ -234,6 +237,7 @@ class CompanyHomeController extends GetxController {
   final List myEmployees = [];
 
   void getMyEmployees() async {
+    if (isLoadingEmployees) return;
     toggleLoadingEmployees(true);
     List<EmployeeModel> newItems = await RemoteServices.fetchMyEmployees() ?? [];
     myEmployees.addAll(newItems);
@@ -301,6 +305,7 @@ class CompanyHomeController extends GetxController {
   }
 
   void getGovernorates() async {
+    if (isLoadingGovernorates) return;
     toggleLoadingGovernorate(true);
     List<GovernorateModel> newItems = await RemoteServices.fetchGovernorates() ?? [];
     governorates.addAll(newItems);
@@ -309,7 +314,7 @@ class CompanyHomeController extends GetxController {
   }
 
   void getExploreOrders() async {
-    if (selectedGovernorate == null) return;
+    if (isLoadingExplore || selectedGovernorate == null) return;
     toggleLoadingExplore(true);
     List<OrderModel2> newItems = await RemoteServices.fetchCompanyOrders(
           governorateID: selectedGovernorate!.id, types: ["available"],
@@ -326,44 +331,6 @@ class CompanyHomeController extends GetxController {
     toggleLoadingExplore(false);
   }
 
-  bool _isLoadingHistory = false;
-  bool get isLoadingHistory => _isLoadingHistory;
-  void toggleLoadingHistory(bool value) {
-    _isLoadingHistory = value;
-    update();
-  }
-
-  Future<void> refreshHistoryOrders() async {
-    historyOrders.clear();
-    getHistoryOrders();
-  }
-
-  void getHistoryOrders() async {
-    toggleLoadingHistory(true);
-    List<OrderModel2> newItems = [];
-    historyOrders.addAll(newItems);
-    toggleLoadingHistory(false);
-  }
-
-  bool _isLoadingCurrent = false;
-  bool get isLoadingCurrent => _isLoadingCurrent;
-  void toggleLoadingCurrent(bool value) {
-    _isLoadingCurrent = value;
-    update();
-  }
-
-  // Future<void> refreshCurrOrders() async {
-  //   currOrders.clear();
-  //   getCurrentOrders();
-  // }
-
-  void getCurrentOrders() async {
-    toggleLoadingCurrent(true);
-    List<OrderModel2> newItems = [];
-    currOrders.addAll(newItems);
-    toggleLoadingCurrent(false);
-  }
-
   //--------------------------------------------stats-------------------------------------
   bool _isLoadingStats = false;
   bool get isLoadingStats => _isLoadingStats;
@@ -375,6 +342,7 @@ class CompanyHomeController extends GetxController {
   CompanyStatsModel? companyStats;
 
   Future<void> getCompanyStats() async {
+    if (isLoadingStats) return;
     toggleLoadingStats(true);
     companyStats = await RemoteServices.fetchCompanyStats();
     //todo(later): filter

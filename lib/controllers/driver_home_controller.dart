@@ -84,6 +84,7 @@ class DriverHomeController extends GetxController {
 
   void getMyOrders() async {
     //todo: handle employee
+    if (isLoading) return;
     toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
@@ -112,6 +113,7 @@ class DriverHomeController extends GetxController {
 
   void getRecentOrders() async {
     //todo: handle employee
+    if (isLoadingRecent) return;
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled"];
     List<OrderModel2> newProcessingOrders = await RemoteServices.fetchDriverOrders(types: ["processing"]) ?? [];
@@ -207,6 +209,7 @@ class DriverHomeController extends GetxController {
   }
 
   void getGovernorates() async {
+    if (isLoadingGovernorates) return;
     toggleLoadingGovernorate(true);
     List<GovernorateModel> newItems = await RemoteServices.fetchGovernorates() ?? [];
     governorates.addAll(newItems);
@@ -215,7 +218,7 @@ class DriverHomeController extends GetxController {
   }
 
   void getExploreOrders() async {
-    if (selectedGovernorate == null) return;
+    if (isLoadingExplore || selectedGovernorate == null) return;
     toggleLoadingExplore(true);
     List<OrderModel2> newItems = isEmployee
         ? await RemoteServices.fetchCompanyOrders(
@@ -300,6 +303,7 @@ class DriverHomeController extends GetxController {
   // }
 
   Future<void> getCurrentUser({bool refresh = false}) async {
+    if (isLoadingUser) return;
     toggleLoadingUser(true);
     currentUser = await RemoteServices.fetchCurrentUser();
     /*
