@@ -20,6 +20,7 @@ import 'package:shipment/views/components/mini_order_card.dart';
 import 'package:shipment/views/components/order_page_map.dart';
 import 'package:shipment/views/components/titled_scrolling_card.dart';
 import 'package:shipment/views/components/vehicle_selector.dart';
+import 'package:shipment/views/tracking_view.dart';
 
 import 'components/auth_field.dart';
 import 'components/input_field.dart';
@@ -216,6 +217,13 @@ class OrderView extends StatelessWidget {
           ),
         );
 
+    map() => OrderPageMap(
+          mapController: oC.mapController,
+          onMapIsReady: (v) {
+            oC.setMapReady(true);
+          },
+        );
+
     return GetBuilder<OrderController>(builder: (controller) {
       return Scaffold(
         backgroundColor: cs.surface,
@@ -370,23 +378,22 @@ class OrderView extends StatelessWidget {
                                         child: SizedBox(
                                           height: MediaQuery.of(context).size.height / 5,
                                           child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(8),
-                                              child: OrderPageMap(
-                                                mapController: controller.mapController,
-                                                onMapIsReady: (v) {
-                                                  controller.setMapReady(true);
-                                                },
-                                              )),
+                                            borderRadius: BorderRadius.circular(8),
+                                            child: map(),
+                                          ),
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(left: 12.0, right: 12, top: 4),
                                         child: CustomButton(
-                                          onTap: isCustomer && oC.order!.status == "processing"
-                                              ? () {
-                                                  //
-                                                }
-                                              : null,
+                                          onTap: () {
+                                            Get.to(TrackingView(map: map()));
+                                          },
+                                          // isCustomer && oC.order!.status == "processing" //todo
+                                          //     ? () {
+                                          //         //
+                                          //       }
+                                          //     : null,
                                           isShort: true,
                                           isGradiant: true,
                                           color:

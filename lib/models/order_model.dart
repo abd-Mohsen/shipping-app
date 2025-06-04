@@ -153,6 +153,10 @@ class OrderModel {
   String shortCreationDate() {
     return Jiffy.parseFromDateTime(createdAt).format(pattern: "d / M / y");
   }
+
+  String fullWeight() {
+    return "$weight $weightUnit";
+  }
 }
 
 class OrderLocation {
