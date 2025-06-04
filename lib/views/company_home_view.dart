@@ -12,6 +12,7 @@ import '../constants.dart';
 import '../controllers/filter_controller.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../controllers/locale_controller.dart';
+import '../controllers/my_vehicles_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'components/my_drawer.dart';
 import 'edit_profile_view.dart';
@@ -25,9 +26,11 @@ class CompanyHomeView extends StatelessWidget {
     Get.put(NotificationsController());
     HomeNavigationController hNC = Get.put(HomeNavigationController());
     FilterController fC = Get.put(FilterController());
+    MyVehiclesController mVC = Get.put(MyVehiclesController());
     CompanyHomeController cHC = Get.put(CompanyHomeController(
       homeNavigationController: hNC,
       filterController: fC,
+      myVehiclesController: mVC,
     ));
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;

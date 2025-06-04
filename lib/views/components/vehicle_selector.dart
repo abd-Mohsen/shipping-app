@@ -8,6 +8,7 @@ class VehicleSelector<T> extends StatelessWidget {
   final T? selectedItem;
   final List<T> items;
   final String? title;
+  final bool? enabled;
   final void Function(T?) onChanged;
   final FloatingLabelBehavior? floatingLabelBehavior;
   const VehicleSelector({
@@ -17,6 +18,7 @@ class VehicleSelector<T> extends StatelessWidget {
     required this.onChanged,
     this.title,
     this.floatingLabelBehavior,
+    this.enabled,
   });
 
   @override
@@ -30,6 +32,7 @@ class VehicleSelector<T> extends StatelessWidget {
         if (type == null) return "you must select vehicle".tr;
         return null;
       },
+      enabled: enabled ?? true,
       compareFn: (type1, type2) => type1 == type2,
       popupProps: PopupProps.menu(
         showSearchBox: false,
@@ -72,6 +75,13 @@ class VehicleSelector<T> extends StatelessWidget {
             borderSide: BorderSide(
               width: 0.5,
               color: cs.onSurface,
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(32),
+            borderSide: BorderSide(
+              width: 0.5,
+              color: cs.onSurface.withOpacity(0.2),
             ),
           ),
           errorBorder: OutlineInputBorder(

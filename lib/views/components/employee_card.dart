@@ -52,7 +52,7 @@ class EmployeeCard extends StatelessWidget {
           collapsedBackgroundColor: cs.secondaryContainer,
           leading: GestureDetector(
             onTap: () {
-              cHC.assignVehicle(mVC.myVehicles.first, employee);
+              //cHC.assignVehicle(mVC.myVehicles.first, employee);
             },
             child: Icon(
               Icons.person,
@@ -135,6 +135,7 @@ class EmployeeCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: VehicleSelector<MiniVehicleModel>(
+                          enabled: !cHC.isLoadingAssign,
                           selectedItem: employee.vehicle,
                           items: mVC.myVehicles.map((v) => v.toMiniModel()).toList(),
                           title: "no vehicle".tr,
@@ -145,7 +146,7 @@ class EmployeeCard extends StatelessWidget {
                           },
                         ),
                       ),
-                      false
+                      cHC.isLoadingAssign
                           ? SpinKitThreeBounce(color: cs.onSurface, size: 20)
                           : IconButton(
                               onPressed: () {},

@@ -18,7 +18,6 @@ class CompanyVehiclesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CompanyHomeController hC = Get.find();
-    MyVehiclesController mVC = Get.put(MyVehiclesController());
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 

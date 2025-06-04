@@ -8,6 +8,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shipment/controllers/my_vehicles_controller.dart';
 import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import '../models/governorate_model.dart';
@@ -27,7 +28,12 @@ import 'otp_controller.dart';
 class CompanyHomeController extends GetxController {
   HomeNavigationController homeNavigationController;
   FilterController filterController;
-  CompanyHomeController({required this.homeNavigationController, required this.filterController});
+  MyVehiclesController myVehiclesController;
+  CompanyHomeController({
+    required this.homeNavigationController,
+    required this.filterController,
+    required this.myVehiclesController,
+  });
 
   @override
   onInit() {
@@ -481,7 +487,8 @@ class CompanyHomeController extends GetxController {
           duration: const Duration(milliseconds: 2500),
           backgroundColor: Colors.green,
         ));
-        //setState(() {});
+        refreshMyEmployees();
+        myVehiclesController.refreshMyVehicles();
       }
     }
   }

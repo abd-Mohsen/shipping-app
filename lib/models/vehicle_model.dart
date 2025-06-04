@@ -45,7 +45,7 @@ class VehicleModel {
         registrationPhoto: json["vehicle_registration_photo"],
         registrationStatus: json["registration_status"],
         createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"],
+        updatedAt: null,
         employee: json["employee"] == null ? null : Employee.fromJson(json["employee"]),
       );
 
