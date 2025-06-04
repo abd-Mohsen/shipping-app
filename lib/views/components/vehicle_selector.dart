@@ -4,24 +4,33 @@ import 'package:get/get.dart';
 
 import '../../models/vehicle_model.dart';
 
-class VehicleSelector extends StatelessWidget {
-  final VehicleModel? selectedItem;
-  final List<VehicleModel> items;
-  final void Function(VehicleModel?) onChanged;
-  const VehicleSelector({super.key, this.selectedItem, required this.items, required this.onChanged});
+class VehicleSelector<T> extends StatelessWidget {
+  final T? selectedItem;
+  final List<T> items;
+  final String? title;
+  final void Function(T?) onChanged;
+  final FloatingLabelBehavior? floatingLabelBehavior;
+  const VehicleSelector({
+    super.key,
+    this.selectedItem,
+    required this.items,
+    required this.onChanged,
+    this.title,
+    this.floatingLabelBehavior,
+  });
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    return DropdownSearch<VehicleModel>(
+    return DropdownSearch<T>(
       selectedItem: selectedItem,
       validator: (type) {
         if (type == null) return "you must select vehicle".tr;
         return null;
       },
-      compareFn: (type1, type2) => type1.id == type2.id,
+      compareFn: (type1, type2) => type1 == type2,
       popupProps: PopupProps.menu(
         showSearchBox: false,
         menuProps: MenuProps(
@@ -42,15 +51,15 @@ class VehicleSelector extends StatelessWidget {
         ),
       ),
       decoratorProps: DropDownDecoratorProps(
-        baseStyle: tt.titleSmall!.copyWith(color: cs.onSurface),
+        baseStyle: tt.labelMedium!.copyWith(color: cs.onSurface),
         decoration: InputDecoration(
           prefixIcon: const Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.0),
             child: Icon(Icons.local_shipping),
           ),
-          labelText: "required vehicle".tr,
-          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
-          floatingLabelBehavior: FloatingLabelBehavior.never,
+          labelText: title ?? "required vehicle".tr,
+          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+          floatingLabelBehavior: floatingLabelBehavior ?? FloatingLabelBehavior.never,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(32),
             borderSide: BorderSide(
@@ -82,7 +91,7 @@ class VehicleSelector extends StatelessWidget {
         ),
       ),
       items: (filter, infiniteScrollProps) => items,
-      itemAsString: (VehicleModel v) => v.toString(),
+      itemAsString: (T v) => v.toString(),
       onChanged: onChanged,
       //enabled: !con.enabled,
     );

@@ -597,7 +597,7 @@ class OrderView extends StatelessWidget {
                                                             ? SpinKitThreeBounce(color: cs.primary, size: 20)
                                                             : Column(
                                                                 children: [
-                                                                  VehicleSelector(
+                                                                  VehicleSelector<VehicleModel>(
                                                                     selectedItem: controller.selectedVehicle,
                                                                     items: controller.availableVehicles,
                                                                     onChanged: (VehicleModel? v) async {

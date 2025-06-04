@@ -50,6 +50,7 @@ class DriverHomeTab extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                                   child: badges.Badge(
                                     showBadge: controller.currentUser != null &&
+                                        controller.currentUser!.role.type == "driver" &&
                                         ["refused", "No_Input"]
                                             .contains(controller.currentUser!.driverInfo?.vehicleStatus),
                                     position: badges.BadgePosition.topStart(
@@ -180,6 +181,7 @@ class DriverHomeTab extends StatelessWidget {
                 //
                 Visibility(
                   visible: controller.currentUser != null &&
+                      controller.currentUser!.role.type == "driver" &&
                       ["refused", "No_Input"].contains(controller.currentUser!.driverInfo?.vehicleStatus),
                   child: GestureDetector(
                     onTap: () {

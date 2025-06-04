@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:shipment/models/mini_vehicle_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 
 List<VehicleModel> vehicleModelFromJson(String str) =>
@@ -63,6 +64,19 @@ class VehicleModel {
   @override
   String toString() {
     return "$fullNameOwner #$licensePlate";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is VehicleModel && other.runtimeType == runtimeType && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+
+  MiniVehicleModel toMiniModel() {
+    return MiniVehicleModel(id: id, vehicleRegistrationNumber: licensePlate, vehicleType: vehicleTypeInfo.type);
   }
 }
 

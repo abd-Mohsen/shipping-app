@@ -13,6 +13,7 @@ import 'package:shipment/models/employee_model.dart';
 import '../models/governorate_model.dart';
 import '../models/order_model_2.dart';
 import '../models/user_model.dart';
+import '../models/vehicle_model.dart';
 import '../services/remote_services.dart';
 import '../views/login_view.dart';
 import '../views/otp_view.dart';
@@ -452,5 +453,36 @@ class CompanyHomeController extends GetxController {
       return;
     }
     Get.back();
+  }
+
+  //////////////////////////////////////
+
+  bool isLoadingAssign = false;
+  void toggleLoadingAssign(bool value) {
+    isLoadingAssign = value;
+    update();
+  }
+
+  Future<bool> successAssignVehicle(VehicleModel vehicle, EmployeeModel employee) async {
+    toggleLoadingAssign(true);
+    bool success = await RemoteServices.assignVehicle(employee.driver!.id!, vehicle.id);
+    toggleLoadingAssign(false);
+    return success;
+  }
+
+  void assignVehicle(VehicleModel? vehicle, EmployeeModel employee) async {
+    if (vehicle == null) return;
+    if (vehicle.employee != null) {
+      //todo show dialog
+    } else {
+      if (await successAssignVehicle(vehicle, employee)) {
+        Get.showSnackbar(GetSnackBar(
+          message: "done successfully".tr,
+          duration: const Duration(milliseconds: 2500),
+          backgroundColor: Colors.green,
+        ));
+        //setState(() {});
+      }
+    }
   }
 }

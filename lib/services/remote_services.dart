@@ -412,6 +412,7 @@ class RemoteServices {
   static Future<bool> companyAcceptOrder(int orderID, int? employeeID, int vehicleID) async {
     String? json = await api.postRequest(
       "company_order/$orderID/accept/",
+      //todo: only send driver
       {
         "vehicle": vehicleID,
         "driver": employeeID,
@@ -684,6 +685,39 @@ class RemoteServices {
 
   static Future<bool> readNotification(int id) async {
     String? json = await api.postRequest("notifications/$id", {}, auth: true);
+    return json != null;
+  }
+
+  static Future<bool> unAssignVehicle(int id) async {
+    String? json = await api.putRequest(
+      "company/Unassign-vehicle/",
+      {"vehicle_id": id.toString()},
+      auth: true,
+      patch: true,
+    );
+    return json != null;
+  }
+
+  static Future<bool> assignVehicle(int driverID, int vehicleID) async {
+    String? json = await api.putRequest(
+      "company/assign-vehicle/",
+      {
+        "driver_id": driverID.toString(),
+        "vehicle_id": vehicleID.toString(),
+      },
+      auth: true,
+      patch: true,
+    );
+    return json != null;
+  }
+
+  static Future<bool> toggleEmployee(int id, bool value) async {
+    String? json = await api.putRequest(
+      "employees/$id/",
+      {"can_accept_orders": value},
+      auth: true,
+      patch: true,
+    );
     return json != null;
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/views/components/application_card.dart';

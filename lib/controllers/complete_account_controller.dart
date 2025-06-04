@@ -38,7 +38,7 @@ class CompleteAccountController extends GetxController {
     toggleLoadingImages(true);
     await homeController.getCurrentUser(refresh: true);
     //idStatus = homeController.currentUser.idStatus;
-    licenseStatus = ["company", "customer"].contains(homeController.currentUser.role.type)
+    licenseStatus = ["company", "customer"].contains(homeController.currentUser.roleInCompany.type)
         ? "verified"
         : homeController.currentUser.driverInfo!.licenseStatus;
     if (licenseStatus == "refused") {
@@ -59,7 +59,7 @@ class CompleteAccountController extends GetxController {
     final downloadService = DownloadImageService();
     idFront = await downloadService.downloadImage("$kHostIP${homeController.currentUser.idPhotoFront}");
     idRear = await downloadService.downloadImage("$kHostIP${homeController.currentUser.idPhotoRare}");
-    bool isDriver = !["company", "customer"].contains(homeController.currentUser.role.type);
+    bool isDriver = !["company", "customer"].contains(homeController.currentUser.roleInCompany.type);
     if (isDriver) {
       dLicenseFront = await downloadService
           .downloadImage("$kHostIP${homeController.currentUser.driverInfo!.drivingLicensePhotoFront}");

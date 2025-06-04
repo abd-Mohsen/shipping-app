@@ -111,22 +111,36 @@ class Api {
     bool auth = false,
     bool canRefresh = true,
     bool showTimeout = true,
+    bool patch = false,
   }) async {
     print("sending to $_hostIP/$endPoint");
     if (auth) print("Token $accessToken");
     try {
-      var response = await client
-          .put(
-            Uri.parse("$_hostIP/$endPoint"),
-            headers: !auth
-                ? headers
-                : {
-                    ...headers,
-                    "Authorization": "Token $accessToken",
-                  },
-            body: jsonEncode(body),
-          )
-          .timeout(kTimeOutDuration2);
+      var response = patch
+          ? await client
+              .patch(
+                Uri.parse("$_hostIP/$endPoint"),
+                headers: !auth
+                    ? headers
+                    : {
+                        ...headers,
+                        "Authorization": "Token $accessToken",
+                      },
+                body: jsonEncode(body),
+              )
+              .timeout(kTimeOutDuration2)
+          : await client
+              .put(
+                Uri.parse("$_hostIP/$endPoint"),
+                headers: !auth
+                    ? headers
+                    : {
+                        ...headers,
+                        "Authorization": "Token $accessToken",
+                      },
+                body: jsonEncode(body),
+              )
+              .timeout(kTimeOutDuration2);
 
       handleSessionExpired(response.statusCode, canRefresh);
 

@@ -85,7 +85,7 @@ class OrderController extends GetxController {
       ),
       markerIcon: kMapDefaultMarker,
     );
-    //todo: draw path
+    //todo(later): draw path
     //todo: connect when button is pressed
     if (customerHomeController != null && ["processing"].contains(order!.status)) _connectTrackingSocket();
     update();

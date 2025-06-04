@@ -231,7 +231,7 @@ class MyDrawer extends StatelessWidget {
                   ),
 
                 Visibility(
-                  visible: role != "employee",
+                  visible: role != "company_employee",
                   child: DrawerCard(
                     title: "payment methods".tr,
                     icon: Icons.monetization_on_outlined,
@@ -242,7 +242,7 @@ class MyDrawer extends StatelessWidget {
                   ),
                 ),
                 Visibility(
-                  visible: currentUser != null && role != "employee",
+                  visible: currentUser != null && role != "company_employee",
                   child: DrawerCard(
                     title: "payment history".tr,
                     icon: Icons.text_snippet_outlined,
