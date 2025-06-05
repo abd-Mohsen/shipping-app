@@ -1211,6 +1211,7 @@ class OrderView extends StatelessWidget {
                                     " ${"accepted your request".tr}",
                                 onPressedGreen: () {
                                   print("green");
+                                  Get.back();
                                   Get.bottomSheet(
                                     GetBuilder<OrderController>(
                                       builder: (controller) {
@@ -1255,8 +1256,8 @@ class OrderView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Visibility(
-                                                  visible: ["bank_account", "money_transfer"]
-                                                      .contains(controller.selectedPayment.payment.methodName),
+                                                  visible: ["Bank Account", "Money Transfer"]
+                                                      .contains(controller.selectedPayment.payment.methodValue),
                                                   child: InputField(
                                                     controller: controller.fullName,
                                                     label: "full name".tr,
@@ -1264,8 +1265,8 @@ class OrderView extends StatelessWidget {
                                                     textInputAction: TextInputAction.next,
                                                     prefixIcon: Icons.person,
                                                     validator: (val) {
-                                                      if (!["bank_account", "money_transfer"]
-                                                          .contains(controller.selectedPayment.payment.methodName))
+                                                      if (!["Bank Account", "Money Transfer"]
+                                                          .contains(controller.selectedPayment.payment.methodValue))
                                                         return null;
                                                       return validateInput(controller.fullName.text, 0, 100, "");
                                                     },
@@ -1276,8 +1277,8 @@ class OrderView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Visibility(
-                                                  visible: ["bank_account"]
-                                                      .contains(controller.selectedPayment.payment.methodName),
+                                                  visible: ["Bank Account"]
+                                                      .contains(controller.selectedPayment.payment.methodValue),
                                                   child: InputField(
                                                     controller: controller.accountDetails,
                                                     label: "account details".tr,
@@ -1285,8 +1286,8 @@ class OrderView extends StatelessWidget {
                                                     textInputAction: TextInputAction.next,
                                                     prefixIcon: Icons.short_text_outlined,
                                                     validator: (val) {
-                                                      if (!["bank_account"]
-                                                          .contains(controller.selectedPayment.payment.methodName))
+                                                      if (!["Bank Account"]
+                                                          .contains(controller.selectedPayment.payment.methodValue))
                                                         return null;
                                                       return validateInput(controller.accountDetails.text, 0, 100, "");
                                                     },
@@ -1297,8 +1298,8 @@ class OrderView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Visibility(
-                                                  visible: ["money_transfer"]
-                                                      .contains(controller.selectedPayment.payment.methodName),
+                                                  visible: ["Money Transfer"]
+                                                      .contains(controller.selectedPayment.payment.methodValue),
                                                   child: InputField(
                                                     controller: controller.phoneNumber,
                                                     label: "phone number".tr,
@@ -1306,8 +1307,8 @@ class OrderView extends StatelessWidget {
                                                     textInputAction: TextInputAction.next,
                                                     prefixIcon: Icons.phone_android,
                                                     validator: (val) {
-                                                      if (!["money_transfer"]
-                                                          .contains(controller.selectedPayment.payment.methodName))
+                                                      if (!["Money Transfer"]
+                                                          .contains(controller.selectedPayment.payment.methodValue))
                                                         return null;
                                                       return validateInput(controller.phoneNumber.text, 4, 15, "",
                                                           wholeNumber: true);

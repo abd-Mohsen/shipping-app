@@ -225,6 +225,7 @@ class PaymentMethod {
 
 class Payment {
   final String methodName;
+  final String methodValue;
   final String? fullName;
   final String? phoneNumber;
   final String? accountDetails;
@@ -232,6 +233,7 @@ class Payment {
 
   Payment({
     required this.methodName,
+    required this.methodValue,
     required this.fullName,
     required this.phoneNumber,
     required this.accountDetails,
@@ -240,6 +242,7 @@ class Payment {
 
   factory Payment.fromJson(Map<String, dynamic> json) => Payment(
         methodName: json["method_name"],
+        methodValue: json["method_value"],
         fullName: json["full_name"],
         phoneNumber: json["phone_number"],
         accountDetails: json["account_details"],

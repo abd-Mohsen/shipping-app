@@ -185,9 +185,9 @@ class CompanyHomeController extends GetxController {
   void getRecentOrders() async {
     if (isLoadingRecent) return;
     toggleLoadingRecent(true);
-    List<String> typesToFetch = ["pending", "done", "canceled"];
-    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchDriverOrders(types: ["processing"]) ?? [];
-    List<OrderModel2> newOrders = await RemoteServices.fetchDriverOrders(types: typesToFetch) ?? [];
+    List<String> typesToFetch = ["pending", "done", "canceled", "approved", "waiting_approval"];
+    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchCompanyOrders(types: ["processing"]) ?? [];
+    List<OrderModel2> newOrders = await RemoteServices.fetchCompanyOrders(types: typesToFetch) ?? [];
     recentOrders.addAll(newProcessingOrders);
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
