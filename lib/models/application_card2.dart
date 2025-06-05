@@ -4,23 +4,19 @@ import 'package:get/get.dart';
 import 'package:shipment/models/application_model.dart';
 import 'package:shipment/views/order_view.dart';
 
-class ApplicationCard extends StatelessWidget {
-  final ApplicationModel application;
+class ApplicationCard2 extends StatelessWidget {
+  final String title;
   final void Function()? onTapCall;
-  final void Function()? onTapAccept;
-  final void Function()? onTapRefuse;
   final bool? showButtons;
   final bool? isAccepted;
   final bool isLast;
 
-  const ApplicationCard({
+  const ApplicationCard2({
     super.key,
-    required this.application,
+    required this.title,
     required this.isLast,
     this.onTapCall,
     this.showButtons,
-    this.onTapAccept,
-    this.onTapRefuse,
     this.isAccepted,
   });
 
@@ -81,31 +77,12 @@ class ApplicationCard extends StatelessWidget {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width / 2.2,
                                 child: Text(
-                                  application.driver.name,
+                                  title,
                                   style: tt.labelMedium!.copyWith(
                                     color: cs.onSurface,
-                                    decoration: application.deletedAt != null
-                                        ? TextDecoration.lineThrough
-                                        : TextDecoration.none,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width / 2.5,
-                                child: Text(
-                                  application.vehicle.vehicleType.type,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: tt.labelSmall!.copyWith(
-                                    color: cs.onSurface.withOpacity(0.5),
-                                    fontSize: 10,
-                                    decoration: application.deletedAt != null
-                                        ? TextDecoration.lineThrough
-                                        : TextDecoration.none,
-                                  ),
                                 ),
                               ),
                             ],
@@ -118,61 +95,22 @@ class ApplicationCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                       child: GestureDetector(
-                        onTap: onTapRefuse,
+                        onTap: onTapCall,
                         child: Container(
                             width: 35,
                             height: 35,
                             decoration: BoxDecoration(
-                              color: Colors.red,
+                              color: cs.secondaryContainer,
                               borderRadius: BorderRadius.circular(100),
                               border: Border.all(width: 0.3),
                             ),
                             child: Icon(
-                              Icons.close,
+                              CupertinoIcons.phone,
                               size: 20,
-                              color: cs.onPrimary,
+                              color: cs.onSecondaryContainer,
                             )),
                       ),
                     ),
-                  if (showButtons ?? false)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                      child: GestureDetector(
-                        onTap: onTapAccept,
-                        child: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(width: 0.3),
-                            ),
-                            child: Icon(
-                              Icons.done,
-                              size: 20,
-                              color: cs.onPrimary,
-                            )),
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                    child: GestureDetector(
-                      onTap: onTapCall,
-                      child: Container(
-                          width: 35,
-                          height: 35,
-                          decoration: BoxDecoration(
-                            color: cs.secondaryContainer,
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(width: 0.3),
-                          ),
-                          child: Icon(
-                            CupertinoIcons.phone,
-                            size: 20,
-                            color: cs.onSecondaryContainer,
-                          )),
-                    ),
-                  ),
                 ],
               ),
             ),

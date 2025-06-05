@@ -107,7 +107,7 @@ class OrderController extends GetxController {
   void setStatusIndex() {
     if (order!.status == "draft") return;
     if (order!.status == "canceled") {
-      statuses.last = "cancelled";
+      statuses.last = "canceled";
     }
     statusIndex = statuses.indexOf(order!.status);
   }
@@ -455,7 +455,7 @@ class OrderController extends GetxController {
     if (currPosition != null) mapController.removeMarker(currPosition!);
     currPosition = GeoPoint(latitude: message["latitude"], longitude: message["longitude"]);
     mapController.moveTo(currPosition!);
-    await Future.delayed(Duration(milliseconds: 800));
+    await Future.delayed(Duration(milliseconds: 500));
     mapController.addMarker(
       currPosition!,
       markerIcon: kMapDriverMarker,

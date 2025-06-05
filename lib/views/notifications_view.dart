@@ -31,32 +31,46 @@ class NotificationsView extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12, top: 32, bottom: 16),
-                  child: Text(
-                    'my notifications'.tr.toUpperCase(),
-                    style: tt.headlineSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, left: 4, right: 4),
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: cs.onSurface,
+                        size: 30,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, right: 8, top: 32, bottom: 16),
+                      child: Text(
+                        'my notifications'.tr.toUpperCase(),
+                        style: tt.headlineSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 16),
-                  child: Row(
-                    children: [
-                      Text(
-                        "${'you have'.tr} ",
-                        style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
-                      ),
-                      Text(
-                        '${controller.unreadCount} ${"unread notification".tr} ',
-                        style: tt.titleSmall!.copyWith(color: cs.primary),
-                      ),
-                      Text(
-                        "today".tr,
-                        style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
-                      ),
-                    ],
+                if (controller.unreadCount > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12, top: 0, bottom: 16),
+                    child: Row(
+                      children: [
+                        Text(
+                          "${'you have'.tr} ",
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                        ),
+                        Text(
+                          '${controller.unreadCount} ${"unread notification".tr} ',
+                          style: tt.titleSmall!.copyWith(color: cs.primary),
+                        ),
+                        Text(
+                          "today".tr,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
                 Expanded(
                   child: controller.isLoading && controller.page == 1
                       ? SpinKitSquareCircle(color: cs.primary)
@@ -102,7 +116,7 @@ class NotificationsView extends StatelessWidget {
                                                 ? CircularProgressIndicator(color: cs.primary)
                                                 : CircleAvatar(
                                                     radius: 5,
-                                                    backgroundColor: cs.onSurface.withOpacity(0.7),
+                                                    backgroundColor: cs.onSurface.withOpacity(0.4),
                                                   ),
                                           ),
                                         ),

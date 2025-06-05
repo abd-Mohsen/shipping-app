@@ -198,6 +198,7 @@ class CompanyHomeController extends GetxController {
   }
 
   Future<void> refreshRecentOrders() async {
+    currentOrder = null;
     recentOrders.clear();
     getRecentOrders();
   }

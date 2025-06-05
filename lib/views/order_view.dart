@@ -13,6 +13,7 @@ import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
+import 'package:shipment/models/application_card2.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/vehicle_model.dart';
 import 'package:shipment/views/components/application_card.dart';
@@ -20,6 +21,7 @@ import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/employee_selector.dart';
 import 'package:shipment/views/components/mini_order_card.dart';
 import 'package:shipment/views/components/order_page_map.dart';
+import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/components/titled_scrolling_card.dart';
 import 'package:shipment/views/components/vehicle_selector.dart';
 import 'package:shipment/views/tracking_view.dart';
@@ -547,7 +549,7 @@ class OrderView extends StatelessWidget {
                               ///map
                               ///
                               Padding(
-                                padding: const EdgeInsets.only(top: 8, bottom: 8, left: 4, right: 4),
+                                padding: const EdgeInsets.only(top: 8, bottom: 16, left: 4, right: 4),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: cs.secondaryContainer,
@@ -602,13 +604,11 @@ class OrderView extends StatelessWidget {
                                           color:
                                               isCustomer && oC.order!.status == "processing" ? cs.primary : Colors.grey,
                                           child: Center(
-                                            child: controller.isLoadingSubmit
-                                                ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                                : Text(
-                                                    "live tracking".tr.toUpperCase(),
-                                                    style: tt.labelMedium!
-                                                        .copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
-                                                  ),
+                                            child: Text(
+                                              "live tracking".tr.toUpperCase(),
+                                              style: tt.labelMedium!
+                                                  .copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -827,24 +827,44 @@ class OrderView extends StatelessWidget {
                                       physics: const NeverScrollableScrollPhysics(),
                                       steps: List.generate(
                                         controller.statuses.length,
-                                        (i) => Step(
-                                          state: StepState.indexed, // Shows simple circle instead of interactive icon
-                                          isActive: false, // Makes step appear inactive
-                                          title: Text(
-                                            controller.statuses[i].tr,
-                                            style: tt.labelMedium!
-                                                .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                          ),
-                                          content: SizedBox(
-                                            width: double.infinity,
-                                            height: 0,
-                                          ),
-                                          // subtitle: Text(
-                                          //   "",
-                                          //   style: tt.labelMedium!
-                                          //       .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                          // ),
-                                        ),
+                                        (i) {
+                                          List icons = [
+                                            StepState.complete,
+                                            StepState.complete,
+                                            StepState.complete,
+                                            StepState.disabled,
+                                            StepState.disabled,
+                                          ];
+                                          return Step(
+                                              state: icons[i], // Shows simple circle instead of interactive
+                                              // icon
+                                              isActive: false, // Makes step appear inactive
+                                              title: Text(
+                                                controller.statuses[i].tr,
+                                                style: tt.labelMedium!.copyWith(
+                                                    color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                              ),
+                                              content: SizedBox(
+                                                width: double.infinity,
+                                                height: 0,
+                                              ),
+                                              subtitle: Text(
+                                                i % 2 == 0
+                                                    ? controller.order!.fullDate()
+                                                    : controller.order!.fullCreationDate(),
+                                                style: tt.labelSmall!.copyWith(
+                                                    color: cs.onSecondaryContainer, fontWeight: FontWeight.normal),
+                                              ),
+                                              stepStyle: StepStyle(
+                                                color: i > 2 ? Colors.grey : cs.primary,
+                                              )
+                                              // subtitle: Text(
+                                              //   "",
+                                              //   style: tt.labelMedium!
+                                              //       .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                              // ),
+                                              );
+                                        },
                                       ),
 
                                       onStepTapped: null, // Disables tapping on steps
@@ -881,16 +901,16 @@ class OrderView extends StatelessWidget {
                               //   ),
                               // ),
 
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                child: Divider(
-                                  thickness: 2,
-                                  color: cs.primary,
-                                  indent: 80,
-                                  endIndent: 80,
-                                ),
-                              ),
-                              const SizedBox(height: 12),
+                              // Padding(
+                              //   padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              //   child: Divider(
+                              //     thickness: 2,
+                              //     color: cs.primary,
+                              //     indent: 80,
+                              //     endIndent: 80,
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 12),
 
                               ///
                               ///driver info
@@ -960,227 +980,313 @@ class OrderView extends StatelessWidget {
 
                               ///customer info
                               ///
-                              if (!isCustomer && oC.order!.status != "available")
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 12.0),
-                                  child: Card(
-                                    color: cs.secondaryContainer,
-                                    elevation: 2,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(Icons.person, color: cs.primary),
-                                              const SizedBox(width: 8),
-                                              Text(
-                                                "owner info".tr,
-                                                style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 12),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4),
-                                            child: SizedBox(
-                                              width: MediaQuery.of(context).size.width / 1.7,
-                                              child: Text(
-                                                oC.order!.orderOwner?.name ?? "order owner is null",
-                                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 3,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4),
-                                            child: SizedBox(
-                                              width: MediaQuery.of(context).size.width / 1.7,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  //callDialog();
-                                                },
-                                                child: Text(
-                                                  oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
-                                                  style: tt.titleSmall!.copyWith(
-                                                    color: Colors.blue,
-                                                    decoration: TextDecoration.underline,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 3,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 16.0, right: 4, left: 4),
+                                child: TitledCard(
+                                  title: "owner info".tr,
+                                  content: ApplicationCard2(
+                                    title: oC.order!.orderOwner?.name ?? "",
+                                    showButtons:
+                                        (!isCustomer && ["processing", "done", "approved"].contains(oC.order!.status)),
+                                    isLast: true,
                                   ),
                                 ),
+                              ),
 
                               ///details
                               ///
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2), // Shadow color
-                                      blurRadius: 3, // Soften the shadow
-                                      spreadRadius: 1, // Extend the shadow
-                                      //offset: const Offset(2, 2), // Shadow direction (x, y)
-                                    ),
-                                  ],
-                                  color: cs.secondaryContainer,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
+                              Padding(
+                                padding: const EdgeInsets.only(top: 16.0, bottom: 16, right: 4, left: 4),
+                                child: TitledCard(
+                                  title: "details".tr,
+                                  content: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Icon(Icons.text_snippet, color: cs.primary),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          "details".tr,
-                                          style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
-                                          overflow: TextOverflow.ellipsis,
+                                        if (oC.order!.extraInfo.isNotEmpty)
+                                          Text(
+                                            oC.order!.formatExtraInfo(),
+                                            style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1000,
+                                          ),
+                                        if (oC.order!.otherInfo != null)
+                                          Text(
+                                            oC.order!.otherInfo!,
+                                            style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1000,
+                                          ),
+                                        const SizedBox(height: 8),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 4),
+                                          child: Row(
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  //
+                                                  Text(
+                                                    "${"weight".tr}: ",
+                                                    style: tt.labelMedium!.copyWith(
+                                                      color: cs.onSecondaryContainer,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 3,
+                                                  ),
+                                                  const SizedBox(height: 4),
+                                                  Text(
+                                                    "${"arrive date".tr}: ",
+                                                    style: tt.labelMedium!.copyWith(
+                                                      color: cs.onSecondaryContainer,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                  ),
+                                                  const SizedBox(height: 4),
+                                                  Text(
+                                                    "${"added at".tr}: ",
+                                                    style: tt.labelMedium!.copyWith(
+                                                      color: cs.onSecondaryContainer,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 2,
+                                                  ),
+                                                  //
+                                                ],
+                                              ),
+                                              SizedBox(width: 16),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      oC.order!.fullWeight(),
+                                                      style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                    ),
+                                                    const SizedBox(height: 4),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          oC.order!.fullDate(),
+                                                          style: tt.labelMedium!.copyWith(
+                                                            color: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                                                                    !["draft", "done"].contains(oC.order!.status)
+                                                                ? cs.error
+                                                                : cs.onSurface,
+                                                          ),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 1,
+                                                        ),
+                                                        const SizedBox(width: 12),
+                                                        Visibility(
+                                                          visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                                                              !["draft", "done"].contains(oC.order!.status),
+                                                          child: GestureDetector(
+                                                            onTap: () {
+                                                              showPopover(
+                                                                context: context,
+                                                                backgroundColor: cs.surface,
+                                                                bodyBuilder: (context) => Padding(
+                                                                  padding: const EdgeInsets.symmetric(
+                                                                      horizontal: 12, vertical: 16),
+                                                                  child: Text(
+                                                                    "order was not accepted in time".tr,
+                                                                    style:
+                                                                        tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    maxLines: 2,
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                            child: Icon(Icons.info, color: cs.error, size: 18),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 4),
+                                                    Text(
+                                                      oC.order!.fullCreationDate(),
+                                                      style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 16),
-                                    if (oC.order!.extraInfo.isNotEmpty)
-                                      Text(
-                                        oC.order!.formatExtraInfo(),
-                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1000,
-                                      ),
-                                    if (oC.order!.otherInfo != null)
-                                      Text(
-                                        oC.order!.otherInfo!,
-                                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1000,
-                                      ),
-                                    const SizedBox(height: 12),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 4),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "${"weight".tr}: ",
-                                            style: tt.titleSmall!.copyWith(
-                                              color: cs.onSecondaryContainer,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 3,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          SizedBox(
-                                            width: MediaQuery.of(context).size.width / 1.8,
-                                            child: Text(
-                                              "${oC.order!.weight} ${oC.order!.weightUnit}",
-                                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 4),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  "${"expected arrive date".tr}: ",
-                                                  style: tt.titleSmall!.copyWith(
-                                                    color: cs.onSecondaryContainer,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                ),
-                                                const SizedBox(width: 8),
-                                                Text(
-                                                  oC.order!.fullDate(),
-                                                  style: tt.labelMedium!.copyWith(
-                                                    color: oC.order!.dateTime.isBefore(DateTime.now()) &&
-                                                            !["draft", "done"].contains(oC.order!.status)
-                                                        ? cs.error
-                                                        : cs.onSurface,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                ),
-                                                const SizedBox(width: 12),
-                                                Visibility(
-                                                  visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
-                                                      !["draft", "done"].contains(oC.order!.status),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      showPopover(
-                                                        context: context,
-                                                        backgroundColor: cs.surface,
-                                                        bodyBuilder: (context) => Padding(
-                                                          padding:
-                                                              const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                                                          child: Text(
-                                                            "order was not accepted in time".tr,
-                                                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                                            overflow: TextOverflow.ellipsis,
-                                                            maxLines: 2,
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Icon(Icons.info, color: cs.error, size: 18),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 4),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "${"added at".tr}: ",
-                                            style: tt.titleSmall!.copyWith(
-                                              color: cs.onSecondaryContainer,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Expanded(
-                                            child: Text(
-                                              oC.order!.fullCreationDate(),
-                                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 2,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 24),
+                              // Container(
+                              //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                              //   margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(10),
+                              //     boxShadow: [
+                              //       BoxShadow(
+                              //         color: Colors.black.withOpacity(0.2), // Shadow color
+                              //         blurRadius: 3, // Soften the shadow
+                              //         spreadRadius: 1, // Extend the shadow
+                              //         //offset: const Offset(2, 2), // Shadow direction (x, y)
+                              //       ),
+                              //     ],
+                              //     color: cs.secondaryContainer,
+                              //   ),
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       Row(
+                              //         children: [
+                              //           Icon(Icons.text_snippet, color: cs.primary),
+                              //           const SizedBox(width: 8),
+                              //           Text(
+                              //             "details".tr,
+                              //             style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
+                              //             overflow: TextOverflow.ellipsis,
+                              //           ),
+                              //         ],
+                              //       ),
+                              //       const SizedBox(height: 16),
+                              //       if (oC.order!.extraInfo.isNotEmpty)
+                              //         Text(
+                              //           oC.order!.formatExtraInfo(),
+                              //           style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              //           overflow: TextOverflow.ellipsis,
+                              //           maxLines: 1000,
+                              //         ),
+                              //       if (oC.order!.otherInfo != null)
+                              //         Text(
+                              //           oC.order!.otherInfo!,
+                              //           style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              //           overflow: TextOverflow.ellipsis,
+                              //           maxLines: 1000,
+                              //         ),
+                              //       const SizedBox(height: 12),
+                              //       Padding(
+                              //         padding: const EdgeInsets.symmetric(vertical: 4),
+                              //         child: Row(
+                              //           children: [
+                              //             Text(
+                              //               "${"weight".tr}: ",
+                              //               style: tt.titleSmall!.copyWith(
+                              //                 color: cs.onSecondaryContainer,
+                              //                 fontWeight: FontWeight.bold,
+                              //               ),
+                              //               overflow: TextOverflow.ellipsis,
+                              //               maxLines: 3,
+                              //             ),
+                              //             const SizedBox(width: 8),
+                              //             SizedBox(
+                              //               width: MediaQuery.of(context).size.width / 1.8,
+                              //               child: Text(
+                              //                 "${oC.order!.weight} ${oC.order!.weightUnit}",
+                              //                 style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                              //                 overflow: TextOverflow.ellipsis,
+                              //                 maxLines: 1,
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //       Padding(
+                              //         padding: const EdgeInsets.symmetric(vertical: 4),
+                              //         child: Row(
+                              //           children: [
+                              //             Expanded(
+                              //               child: Row(
+                              //                 children: [
+                              //                   Text(
+                              //                     "${"expected arrive date".tr}: ",
+                              //                     style: tt.titleSmall!.copyWith(
+                              //                       color: cs.onSecondaryContainer,
+                              //                       fontWeight: FontWeight.bold,
+                              //                     ),
+                              //                     overflow: TextOverflow.ellipsis,
+                              //                     maxLines: 2,
+                              //                   ),
+                              //                   const SizedBox(width: 8),
+                              //                   Text(
+                              //                     oC.order!.fullDate(),
+                              //                     style: tt.labelMedium!.copyWith(
+                              //                       color: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                              //                               !["draft", "done"].contains(oC.order!.status)
+                              //                           ? cs.error
+                              //                           : cs.onSurface,
+                              //                     ),
+                              //                     overflow: TextOverflow.ellipsis,
+                              //                     maxLines: 1,
+                              //                   ),
+                              //                   const SizedBox(width: 12),
+                              //                   Visibility(
+                              //                     visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                              //                         !["draft", "done"].contains(oC.order!.status),
+                              //                     child: GestureDetector(
+                              //                       onTap: () {
+                              //                         showPopover(
+                              //                           context: context,
+                              //                           backgroundColor: cs.surface,
+                              //                           bodyBuilder: (context) => Padding(
+                              //                             padding:
+                              //                                 const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                              //                             child: Text(
+                              //                               "order was not accepted in time".tr,
+                              //                               style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                              //                               overflow: TextOverflow.ellipsis,
+                              //                               maxLines: 2,
+                              //                             ),
+                              //                           ),
+                              //                         );
+                              //                       },
+                              //                       child: Icon(Icons.info, color: cs.error, size: 18),
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //       Padding(
+                              //         padding: const EdgeInsets.symmetric(vertical: 4),
+                              //         child: Row(
+                              //           children: [
+                              //             Text(
+                              //               "${"added at".tr}: ",
+                              //               style: tt.titleSmall!.copyWith(
+                              //                 color: cs.onSecondaryContainer,
+                              //                 fontWeight: FontWeight.bold,
+                              //               ),
+                              //               overflow: TextOverflow.ellipsis,
+                              //               maxLines: 2,
+                              //             ),
+                              //             const SizedBox(width: 8),
+                              //             Expanded(
+                              //               child: Text(
+                              //                 oC.order!.fullCreationDate(),
+                              //                 style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                              //                 overflow: TextOverflow.ellipsis,
+                              //                 maxLines: 2,
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // const SizedBox(height: 24),
                             ],
                           ),
 

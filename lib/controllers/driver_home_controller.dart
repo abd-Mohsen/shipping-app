@@ -150,6 +150,7 @@ class DriverHomeController extends GetxController {
   }
 
   Future<void> refreshRecentOrders() async {
+    currentOrder = null;
     recentOrders.clear();
     _shouldReconnect = false; // Temporarily disable reconnection
     await websocket?.close();
