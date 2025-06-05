@@ -71,7 +71,7 @@ class DriverHomeController extends GetxController {
     if (type == null) return;
     if (clear) {
       selectedOrderTypes.clear();
-      homeNavigationController.changeTab(0);
+      homeNavigationController.changeTab(1);
     }
     if (selectAll) {
       selectedOrderTypes.length == orderTypes.length

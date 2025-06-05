@@ -317,6 +317,7 @@ class MyLocale extends Translations {
           "vehicle is already assigned to": "vehicle is already assigned to",
           "do you want to assign here anyway and remove it from the other user": "do you want to assign here anyway "
               "and remove it from the other user",
+          "all": "all",
         },
         "ar": {
           "Arabic": "العربية",
@@ -629,6 +630,7 @@ class MyLocale extends Translations {
           "vehicle is already assigned to": "تم تعيين هذه السيارة للسائق",
           "do you want to assign here anyway and remove it from the other user": "هل تريد تعيينها على أية حال؟ و "
               "إزالتها من السائق الآخر؟",
+          "all": "الكل",
         },
       };
 }

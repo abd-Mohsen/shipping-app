@@ -30,8 +30,8 @@ class CustomerHomeView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
-      const CustomerOrdersTab(),
       const CustomerHomeTab(),
+      const CustomerOrdersTab(),
     ];
 
     return PopScope(
@@ -39,8 +39,8 @@ class CustomerHomeView extends StatelessWidget {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
-        if (hNC.tabIndex != 1) {
-          hNC.changeTab(1);
+        if (hNC.tabIndex != 0) {
+          hNC.changeTab(0);
         } else
           Get.dialog(kCloseAppDialog());
       },
@@ -86,16 +86,16 @@ class CustomerHomeView extends StatelessWidget {
                     BottomNavigationBarItem(
                       icon: const Padding(
                         padding: EdgeInsets.all(2.0),
-                        child: FaIcon(FontAwesomeIcons.list),
+                        child: FaIcon(FontAwesomeIcons.house),
                       ),
-                      label: "orders".tr,
+                      label: "home".tr,
                     ),
                     BottomNavigationBarItem(
                       icon: const Padding(
                         padding: EdgeInsets.all(2.0),
-                        child: FaIcon(FontAwesomeIcons.house),
+                        child: FaIcon(FontAwesomeIcons.list),
                       ),
-                      label: "home".tr,
+                      label: "orders".tr,
                     ),
                   ],
                   //height: MediaQuery.of(context).size.height / 11,

@@ -28,8 +28,8 @@ class DriverHomeView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
-      const DriverOrdersTab(),
       const DriverHomeTab(),
+      const DriverOrdersTab(),
       const DriverExploreTab(),
     ];
 
@@ -38,8 +38,8 @@ class DriverHomeView extends StatelessWidget {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
-        if (hNC.tabIndex != 1) {
-          hNC.changeTab(1);
+        if (hNC.tabIndex != 0) {
+          hNC.changeTab(0);
         } else
           Get.dialog(kCloseAppDialog());
       },
@@ -72,16 +72,16 @@ class DriverHomeView extends StatelessWidget {
                     BottomNavigationBarItem(
                       icon: const Padding(
                         padding: EdgeInsets.all(2.0),
-                        child: FaIcon(FontAwesomeIcons.list),
+                        child: FaIcon(FontAwesomeIcons.house),
                       ),
-                      label: "orders".tr,
+                      label: "home".tr,
                     ),
                     BottomNavigationBarItem(
                       icon: const Padding(
                         padding: EdgeInsets.all(2.0),
-                        child: FaIcon(FontAwesomeIcons.house),
+                        child: FaIcon(FontAwesomeIcons.list),
                       ),
-                      label: "home".tr,
+                      label: "orders".tr,
                     ),
                     BottomNavigationBarItem(
                       icon: const Padding(

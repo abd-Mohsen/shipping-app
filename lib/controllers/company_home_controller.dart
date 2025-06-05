@@ -138,7 +138,7 @@ class CompanyHomeController extends GetxController {
     if (type == null) return;
     if (clear) {
       selectedOrderTypes.clear();
-      homeNavigationController.changeTab(0);
+      homeNavigationController.changeTab(1);
     }
     if (selectAll) {
       selectedOrderTypes.length == orderTypes.length
@@ -269,17 +269,17 @@ class CompanyHomeController extends GetxController {
 
   //------------------bottom bar-----------------------
 
-  int tabIndex = 1;
-  bool canNavigate = true;
-
-  void changeTab(int i) {
-    if (!canNavigate) {
-      //show msg: you must have an accepted car in order to use the app
-      return;
-    }
-    tabIndex = i;
-    update();
-  }
+  // int tabIndex = 1;
+  // bool canNavigate = true;
+  //
+  // void changeTab(int i) {
+  //   if (!canNavigate) {
+  //     //show msg: you must have an accepted car in order to use the app
+  //     return;
+  //   }
+  //   tabIndex = i;
+  //   update();
+  // }
 
   //---------------------------------------explore orders-------------------------
 
