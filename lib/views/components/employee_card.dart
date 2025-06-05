@@ -233,7 +233,7 @@ class EmployeeCard extends StatelessWidget {
                       : Checkbox(
                           value: employee.canAcceptOrders,
                           onChanged: (v) {
-                            cHC.toggleEmployee(employee, !v!);
+                            cHC.toggleEmployee(employee, v!);
                           },
                         ),
                 ),

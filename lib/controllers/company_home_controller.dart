@@ -41,6 +41,8 @@ class CompanyHomeController extends GetxController {
     getMyEmployees();
     getGovernorates();
     getCompanyStats();
+    getRecentOrders();
+    getMyOrders();
     super.onInit();
   }
 
@@ -522,7 +524,7 @@ class CompanyHomeController extends GetxController {
         duration: const Duration(milliseconds: 2500),
         backgroundColor: Colors.green,
       ));
-      employee.canAcceptOrders = !v;
+      employee.canAcceptOrders = v;
     }
     toggleLoadingToggle(false);
   }

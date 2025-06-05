@@ -152,15 +152,18 @@ class CompanyInfo {
 class Wallet {
   final String balance;
   final String reservedCommission;
+  final List balances;
 
   Wallet({
     required this.balance,
     required this.reservedCommission,
+    required this.balances,
   });
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
-        balance: json["balance"] ?? "", //todo: needs modification
-        reservedCommission: json["reserved_commission"] ?? "",
+        balance: json["total_balance_usd"] ?? "",
+        reservedCommission: json["reserved_commission_usd"] ?? "",
+        balances: [], //todo: needs modification
       );
 
   Map<String, dynamic> toJson() => {

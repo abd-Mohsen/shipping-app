@@ -375,69 +375,57 @@ class OrderView extends StatelessWidget {
                                                   color: cs.surface,
                                                 ),
                                                 height: MediaQuery.of(context).size.height / 3,
-                                                child: Form(
-                                                  key: controller.formKey,
-                                                  child: ListView(
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.all(16.0),
-                                                        child: Text(
-                                                          "select vehicle and driver",
-                                                          style: tt.titleMedium!.copyWith(
-                                                              color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                        ),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(16.0),
+                                                      child: Text(
+                                                        "select driver".tr,
+                                                        style: tt.titleMedium!
+                                                            .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                                       ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                                    ),
+                                                    Form(
+                                                      key: controller.formKey,
+                                                      child: Expanded(
+                                                        //padding: const EdgeInsets.symmetric(vertical: 12),
                                                         child: controller.isLoadingVehicles
                                                             ? SpinKitThreeBounce(color: cs.primary, size: 20)
                                                             : Column(
                                                                 children: [
-                                                                  // VehicleSelector<VehicleModel>(
-                                                                  //   selectedItem: controller.selectedVehicle,
-                                                                  //   items: controller.availableVehicles,
-                                                                  //   onChanged: (VehicleModel? v) async {
-                                                                  //     controller.selectVehicle(v);
-                                                                  //     await Future.delayed(
-                                                                  //         const Duration(milliseconds: 1000));
-                                                                  //     if (controller.buttonPressed) {
-                                                                  //       controller.formKey.currentState!.validate();
-                                                                  //     }
-                                                                  //   },
-                                                                  // ),
                                                                   //todo: fix UI in this sheet
                                                                   const SizedBox(height: 12),
-                                                                  if (isCompany)
-                                                                    EmployeeSelector(
-                                                                      selectedItem: controller.selectedEmployee,
-                                                                      items: controller.availableEmployees,
-                                                                      onChanged: (EmployeeModel? e) async {
-                                                                        controller.selectEmployee(e);
-                                                                        await Future.delayed(
-                                                                            const Duration(milliseconds: 1000));
-                                                                        if (controller.buttonPressed) {
-                                                                          controller.formKey.currentState!.validate();
-                                                                        }
-                                                                      },
-                                                                    )
+                                                                  EmployeeSelector(
+                                                                    selectedItem: controller.selectedEmployee,
+                                                                    items: controller.availableEmployees,
+                                                                    onChanged: (EmployeeModel? e) async {
+                                                                      controller.selectEmployee(e);
+                                                                      await Future.delayed(
+                                                                          const Duration(milliseconds: 1000));
+                                                                      if (controller.buttonPressed) {
+                                                                        controller.formKey.currentState!.validate();
+                                                                      }
+                                                                    },
+                                                                  )
                                                                 ],
                                                               ),
                                                       ),
-                                                      CustomButton(
-                                                        onTap: () {
-                                                          controller.acceptOrderCompany();
-                                                        },
-                                                        child: Center(
-                                                          child: controller.isLoadingSubmit
-                                                              ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                                              : Text(
-                                                                  "add".tr.toUpperCase(),
-                                                                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                                                ),
-                                                        ),
+                                                    ),
+                                                    CustomButton(
+                                                      onTap: () {
+                                                        controller.acceptOrderCompany();
+                                                      },
+                                                      child: Center(
+                                                        child: controller.isLoadingSubmit
+                                                            ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                                            : Text(
+                                                                "add".tr.toUpperCase(),
+                                                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                                              ),
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               );
                                             },

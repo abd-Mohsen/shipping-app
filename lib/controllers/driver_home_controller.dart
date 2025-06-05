@@ -29,6 +29,7 @@ class DriverHomeController extends GetxController {
     getCurrentUser();
     getGovernorates();
     getRecentOrders();
+    getMyOrders();
     super.onInit();
   }
 
