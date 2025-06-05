@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:shipment/models/mini_vehicle_model.dart';
 import 'package:shipment/models/user_model.dart';
+import 'package:shipment/models/vehicle_model.dart';
 
 List<EmployeeModel> employeeModelFromJson(String str) =>
     List<EmployeeModel>.from(json.decode(str).map((x) => EmployeeModel.fromJson(x)));
@@ -15,7 +16,7 @@ class EmployeeModel {
   final UserModel user;
   final DriverInfo? driver;
   final Role roleInCompany;
-  final MiniVehicleModel? vehicle;
+  MiniVehicleModel? vehicle;
   final DateTime joinDate;
 
   EmployeeModel({
@@ -48,4 +49,8 @@ class EmployeeModel {
         "driver": driver!.toJson(),
         "role": roleInCompany.toJson(),
       };
+
+  Employee toMini() {
+    return Employee(id: id, fullName: user.toString(), username: "random username", canAcceptOrders: canAcceptOrders);
+  }
 }

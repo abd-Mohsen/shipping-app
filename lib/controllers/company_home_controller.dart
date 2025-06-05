@@ -475,30 +475,26 @@ class CompanyHomeController extends GetxController {
     update();
   }
 
-  Future<bool> successAssignVehicle(VehicleModel vehicle, EmployeeModel employee) async {
-    if (isLoadingAssign) return false;
+  void assignVehicle(VehicleModel? vehicle, EmployeeModel employee) async {
+    if (isLoadingAssign) return;
     toggleLoadingAssign(true);
-    bool success = await RemoteServices.assignVehicle(employee.driver!.id!, vehicle.id);
+
+    bool success = await RemoteServices.assignVehicle(employee.driver!.id!, vehicle!.id);
+    if (success) {
+      Get.showSnackbar(GetSnackBar(
+        message: "done successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
+      ));
+      vehicle.employee = employee.toMini();
+    }
+    refreshMyEmployees();
     toggleLoadingAssign(false);
-    return success;
   }
 
-  void assignVehicle(VehicleModel? vehicle, EmployeeModel employee) async {
-    if (vehicle == null) return;
-    if (vehicle.employee != null) {
-      //todo show dialog
-    } else {
-      if (await successAssignVehicle(vehicle, employee)) {
-        Get.showSnackbar(GetSnackBar(
-          message: "done successfully".tr,
-          duration: const Duration(milliseconds: 2500),
-          backgroundColor: Colors.green,
-        ));
-        refreshMyEmployees();
-        myVehiclesController.refreshMyVehicles();
-      }
-    }
-  }
+  // void assignVehicle(VehicleModel? vehicle, EmployeeModel employee) async {
+  //
+  // }
 
   void unAssignVehicle(EmployeeModel employee) async {
     if (isLoadingAssign || employee.vehicle == null) return;
@@ -510,8 +506,8 @@ class CompanyHomeController extends GetxController {
         duration: const Duration(milliseconds: 2500),
         backgroundColor: Colors.green,
       ));
+      await myVehiclesController.refreshMyVehicles();
       refreshMyEmployees();
-      myVehiclesController.refreshMyVehicles();
     }
     toggleLoadingAssign(false);
   }

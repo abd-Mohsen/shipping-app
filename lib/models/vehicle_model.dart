@@ -19,7 +19,7 @@ class VehicleModel {
   final String registrationStatus;
   final DateTime createdAt;
   final DateTime? updatedAt;
-  final Employee? employee;
+  Employee? employee;
 
   VehicleModel({
     required this.id,

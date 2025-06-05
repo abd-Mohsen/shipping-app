@@ -27,10 +27,19 @@ class OrderCard extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Material(
-          borderRadius: BorderRadius.circular(10),
-          elevation: 3,
-          //color: cs.secondaryContainer,
+        child: Container(
+          decoration: BoxDecoration(
+            color: cs.secondaryContainer,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2), // Shadow color
+                blurRadius: 4, // Soften the shadow
+                spreadRadius: 1, // Extend the shadow
+                offset: Offset(1.5, 1.5), // Shadow direction (x, y)
+              ),
+            ],
+          ),
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(

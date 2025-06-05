@@ -19,6 +19,7 @@ final NotificationService notificationService = NotificationService();
 //todo: additional notes (tele pins)
 //todo: PT report
 //todo(later): reduce apk size
+//todo(later): handle big font size
 
 void main() async {
   await GetStorage.init();

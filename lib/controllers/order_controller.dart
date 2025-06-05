@@ -202,7 +202,7 @@ class OrderController extends GetxController {
     toggleLoadingRefuse(true);
     bool success = await RemoteServices.customerRefuseOrder(order!.id);
     if (success) {
-      //if (Get.routing.current == "/OrderView") Get.back();
+      if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       customerHomeController!.refreshOrders();
       customerHomeController!.refreshRecentOrders();
@@ -221,7 +221,7 @@ class OrderController extends GetxController {
         ? await RemoteServices.companyRefuseOrder(order!.id)
         : await RemoteServices.driverRefuseOrder(order!.id);
     if (success) {
-      //if (Get.routing.current == "/OrderView") Get.back();
+      if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       driverHomeController!.refreshOrders();
       driverHomeController!.refreshRecentOrders();
@@ -238,7 +238,7 @@ class OrderController extends GetxController {
     toggleLoadingRefuse(true);
     bool success = await RemoteServices.companyRefuseOrder(order!.id);
     if (success) {
-      //if (Get.routing.current == "/OrderView") Get.back();
+      if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       companyHomeController!.refreshOrders();
       companyHomeController!.refreshRecentOrders();

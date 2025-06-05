@@ -90,7 +90,7 @@ class MyVehiclesController extends GetxController {
 
   void getMyVehicles() async {
     toggleLoading(true);
-    List<VehicleModel> newItems = await RemoteServices.fetchDriverVehicles() ?? [];
+    List<VehicleModel> newItems = await RemoteServices.fetchDriverVehicles(_getStorage.read("role")) ?? [];
     myVehicles.addAll(newItems);
     toggleLoading(false);
   }

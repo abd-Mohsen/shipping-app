@@ -83,7 +83,6 @@ class DriverHomeController extends GetxController {
   }
 
   void getMyOrders() async {
-    //todo: handle employee
     if (isLoading) return;
     toggleLoading(true);
     List<String> typesToFetch = [];
@@ -91,17 +90,29 @@ class DriverHomeController extends GetxController {
     if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "waiting_approval"]);
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
-    List<OrderModel2> newItems = await RemoteServices.fetchDriverOrders(
-          types: typesToFetch,
-          page: 1, //todo:pagination
-          searchQuery: searchQueryMyOrders.text.trim(),
-          minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
-          maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
-          vehicleType: filterController.selectedVehicleType?.id,
-          governorate: filterController.selectedGovernorate?.id,
-          currency: filterController.selectedCurrency?.id,
-        ) ??
-        [];
+    List<OrderModel2> newItems = isEmployee
+        ? await RemoteServices.fetchCompanyOrders(
+              types: typesToFetch,
+              page: 1, //todo:pagination
+              searchQuery: searchQueryMyOrders.text.trim(),
+              minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+              maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+              vehicleType: filterController.selectedVehicleType?.id,
+              governorate: filterController.selectedGovernorate?.id,
+              currency: filterController.selectedCurrency?.id,
+            ) ??
+            []
+        : await RemoteServices.fetchDriverOrders(
+              types: typesToFetch,
+              page: 1, //todo:pagination
+              searchQuery: searchQueryMyOrders.text.trim(),
+              minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+              maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+              vehicleType: filterController.selectedVehicleType?.id,
+              governorate: filterController.selectedGovernorate?.id,
+              currency: filterController.selectedCurrency?.id,
+            ) ??
+            [];
     myOrders.addAll(newItems);
     toggleLoading(false);
   }
@@ -114,7 +125,7 @@ class DriverHomeController extends GetxController {
   void getRecentOrders() async {
     if (isLoadingRecent) return;
     toggleLoadingRecent(true);
-    List<String> typesToFetch = ["pending", "done", "canceled"];
+    List<String> typesToFetch = ["pending", "done", "canceled", "waiting_approval"];
     List<OrderModel2> newProcessingOrders = isEmployee
         ? await RemoteServices.fetchCompanyOrders(types: ["processing"]) ?? []
         : await RemoteServices.fetchDriverOrders(types: ["processing"]) ?? [];
@@ -531,11 +542,10 @@ class DriverHomeController extends GetxController {
   @override
   void onClose() {
     _shouldReconnect = false;
+    _cleanUpWebSocket();
     if (websocket != null) websocket!.close();
-    _locationTimer!.cancel();
-    subscription!.cancel();
+    if (_locationTimer != null) _locationTimer!.cancel();
+    if (subscription != null) subscription!.cancel();
     super.dispose();
   }
 }
-
-//todo: test sending location one more time

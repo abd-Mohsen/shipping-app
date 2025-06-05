@@ -11,8 +11,6 @@ import 'package:shipment/views/components/vehicle_selector.dart';
 
 import '../../models/vehicle_model.dart';
 
-//todo: toggle availability
-
 class EmployeeCard extends StatelessWidget {
   final EmployeeModel employee;
   final void Function() onDelete;
@@ -29,6 +27,30 @@ class EmployeeCard extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
     CompanyHomeController cHC = Get.find();
     MyVehiclesController mVC = Get.find();
+
+    alertDialog({required onPressed, onCancel, required String title, Widget? content}) => AlertDialog(
+          title: Text(
+            title,
+            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+          ),
+          content: content,
+          actions: [
+            TextButton(
+              onPressed: onPressed,
+              child: Text(
+                "yes".tr,
+                style: tt.titleSmall!.copyWith(color: Colors.red),
+              ),
+            ),
+            TextButton(
+              onPressed: onCancel,
+              child: Text(
+                "no".tr,
+                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+              ),
+            ),
+          ],
+        );
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -102,7 +124,7 @@ class EmployeeCard extends StatelessWidget {
                     Expanded(
                       child: SheetDetailsTile(
                         title: "role".tr,
-                        subtitle: employee.roleInCompany.name,
+                        subtitle: employee.roleInCompany.type.tr,
                       ),
                     ),
                     Expanded(
@@ -113,10 +135,23 @@ class EmployeeCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SheetDetailsTile(
-                  title: "registration status".tr,
-                  subtitle: employee.driver!.licenseStatus.tr,
-                  color: employee.driver!.licenseStatus != "verified" ? cs.error : cs.onSurface,
+                Row(
+                  children: [
+                    Expanded(
+                      child: SheetDetailsTile(
+                        title: "registration status".tr,
+                        subtitle: employee.driver!.licenseStatus.tr,
+                        color: employee.driver!.licenseStatus != "verified" ? cs.error : cs.onSurface,
+                      ),
+                    ),
+                    Expanded(
+                      child: SheetDetailsTile(
+                        title: "حالة السائق".tr,
+                        subtitle: !employee.isAvailable ? "not available".tr : "available".tr,
+                        color: !employee.isAvailable ? cs.error : cs.onSurface,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 16),
                 Padding(
@@ -137,10 +172,34 @@ class EmployeeCard extends StatelessWidget {
                           selectedItem: employee.vehicle,
                           items: mVC.myVehicles.map((v) => v.toMiniModel()).toList(),
                           title: "no vehicle is assigned".tr,
-                          onChanged: (miniV) async {
+                          onChanged: (miniV) {
                             if (miniV == null) return;
-                            VehicleModel selectedVehicle = mVC.myVehicles.firstWhere((v) => v.id == miniV.id);
-                            cHC.assignVehicle(selectedVehicle, employee);
+                            VehicleModel? selectedVehicle = mVC.myVehicles.firstWhere((v) => v.id == miniV.id);
+                            //if (selectedVehicle == null) return;
+                            if (selectedVehicle.employee != null) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => alertDialog(
+                                  onPressed: () {
+                                    Get.back();
+                                    cHC.assignVehicle(selectedVehicle, employee);
+                                  },
+                                  onCancel: () {
+                                    Get.back();
+                                    cHC.refreshMyEmployees();
+                                  },
+                                  title: "can't assign this vehicle".tr,
+                                  content: Text(
+                                    "${"vehicle is already assigned to".tr} '${selectedVehicle.employee!.fullName}' "
+                                    "${"do you want to assign here anyway and remove it from the other user".tr}",
+                                    style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              cHC.assignVehicle(selectedVehicle, employee);
+                            }
                           },
                         ),
                       ),

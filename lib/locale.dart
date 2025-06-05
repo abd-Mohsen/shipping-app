@@ -311,6 +311,12 @@ class MyLocale extends Translations {
           "no vehicle is assigned": "no vehicle is assigned",
           "no vehicle": "no vehicle",
           "vehicle": "vehicle",
+          "not available": "not available",
+          "can accept orders": "can accept orders",
+          "can't assign this vehicle": "can't assign this vehicle",
+          "vehicle is already assigned to": "vehicle is already assigned to",
+          "do you want to assign here anyway and remove it from the other user": "do you want to assign here anyway "
+              "and remove it from the other user",
         },
         "ar": {
           "Arabic": "العربية",
@@ -617,6 +623,12 @@ class MyLocale extends Translations {
           "no vehicle is assigned": "لم يتم تعيين مركبة",
           "no vehicle": "لا يوجد مركبة",
           "vehicle": "مركبة",
+          "not available": "غير متاح",
+          "can accept orders": "يستطيع قبول الطلبيات",
+          "can't assign this vehicle": "لا يمكنك تعيين هذه السيارة",
+          "vehicle is already assigned to": "تم تعيين هذه السيارة للسائق",
+          "do you want to assign here anyway and remove it from the other user": "هل تريد تعيينها على أية حال؟ و "
+              "إزالتها من السائق الآخر؟",
         },
       };
 }
