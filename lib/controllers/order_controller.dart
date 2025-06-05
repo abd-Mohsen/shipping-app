@@ -86,8 +86,8 @@ class OrderController extends GetxController {
       markerIcon: kMapDefaultMarker,
     );
     //todo(later): draw path
-    //todo: connect when button is pressed
-    if (customerHomeController != null && ["processing"].contains(order!.status)) _connectTrackingSocket();
+    //todo(later): connect when button is pressed
+    if (customerHomeController != null && ["processing"].contains(order!.status)) connectTrackingSocket();
     update();
   }
 
@@ -404,11 +404,20 @@ class OrderController extends GetxController {
 
   //--------------------------------------Real time-----------------------------------
 
+  //todo implement reconnection logic
+  bool isLoadingMap = false;
+  void toggleLoadingMap(bool value) {
+    isLoadingMap = value;
+    update();
+  }
+
   late WebSocket websocket;
   bool isTracking = false;
   GeoPoint? currPosition;
 
-  void _connectTrackingSocket() async {
+  void connectTrackingSocket() async {
+    if (isLoadingMap) return;
+    toggleLoadingMap(true);
     print("connecting to map socket");
     String socketUrl =
         'wss://shipping.adadevs.com/ws/location-tracking/${order!.id}?token=${_getStorage.read("token")}';
@@ -420,10 +429,12 @@ class OrderController extends GetxController {
 
     websocket.listen(
       (message) {
+        toggleLoadingMap(false);
         //print('Message from server: $message');
         updateMap(message);
       },
       onError: (error) {
+        toggleLoadingMap(false);
         print('WebSocket error: $error');
       },
     );
@@ -431,7 +442,7 @@ class OrderController extends GetxController {
 
   Future refreshMap() async {
     if (websocket.readyState == WebSocket.open) websocket.close();
-    _connectTrackingSocket();
+    connectTrackingSocket();
   }
 
   Future updateMap(message) async {

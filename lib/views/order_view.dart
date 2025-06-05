@@ -351,10 +351,215 @@ class OrderView extends StatelessWidget {
                           ListView(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             children: [
+                              /// accept order
+                              ///
+                              if (!isCustomer && oC.order!.status == "available")
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  child: CustomButton(
+                                    onTap: () {
+                                      if (isEmployee) {
+                                        controller.acceptOrderCompany();
+                                      } else if (isCompany) {
+                                        Get.bottomSheet(
+                                          GetBuilder<OrderController>(
+                                            builder: (controller) {
+                                              return Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: const BorderRadius.only(
+                                                    topRight: Radius.circular(20),
+                                                    topLeft: Radius.circular(20),
+                                                  ),
+                                                  color: cs.surface,
+                                                ),
+                                                height: MediaQuery.of(context).size.height / 3,
+                                                child: Form(
+                                                  key: controller.formKey,
+                                                  child: ListView(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(16.0),
+                                                        child: Text(
+                                                          "select vehicle and driver",
+                                                          style: tt.titleMedium!.copyWith(
+                                                              color: cs.onSurface, fontWeight: FontWeight.bold),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                                        child: controller.isLoadingVehicles
+                                                            ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                                                            : Column(
+                                                                children: [
+                                                                  // VehicleSelector<VehicleModel>(
+                                                                  //   selectedItem: controller.selectedVehicle,
+                                                                  //   items: controller.availableVehicles,
+                                                                  //   onChanged: (VehicleModel? v) async {
+                                                                  //     controller.selectVehicle(v);
+                                                                  //     await Future.delayed(
+                                                                  //         const Duration(milliseconds: 1000));
+                                                                  //     if (controller.buttonPressed) {
+                                                                  //       controller.formKey.currentState!.validate();
+                                                                  //     }
+                                                                  //   },
+                                                                  // ),
+                                                                  //todo: fix UI in this sheet
+                                                                  const SizedBox(height: 12),
+                                                                  if (isCompany)
+                                                                    EmployeeSelector(
+                                                                      selectedItem: controller.selectedEmployee,
+                                                                      items: controller.availableEmployees,
+                                                                      onChanged: (EmployeeModel? e) async {
+                                                                        controller.selectEmployee(e);
+                                                                        await Future.delayed(
+                                                                            const Duration(milliseconds: 1000));
+                                                                        if (controller.buttonPressed) {
+                                                                          controller.formKey.currentState!.validate();
+                                                                        }
+                                                                      },
+                                                                    )
+                                                                ],
+                                                              ),
+                                                      ),
+                                                      CustomButton(
+                                                        onTap: () {
+                                                          controller.acceptOrderCompany();
+                                                        },
+                                                        child: Center(
+                                                          child: controller.isLoadingSubmit
+                                                              ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                                              : Text(
+                                                                  "add".tr.toUpperCase(),
+                                                                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                                                ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      } else {
+                                        controller.getCurrOrders();
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => GetBuilder<OrderController>(
+                                            builder: (controller) {
+                                              return alertDialog(
+                                                title: "accept the order?".tr,
+                                                onPressed: () {
+                                                  Get.back();
+                                                  controller.acceptOrderDriver();
+                                                },
+                                                content: controller.isLoadingCurr
+                                                    ? SpinKitSquareCircle(color: cs.primary, size: 26)
+                                                    : controller.currOrders.isEmpty
+                                                        ? null
+                                                        : Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                            child: SizedBox(
+                                                              height: MediaQuery.of(context).size.height / 2,
+                                                              width: MediaQuery.of(context).size.width / 1.5,
+                                                              child: Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.all(8.0),
+                                                                    child: Text(
+                                                                      "you currently have these orders".tr,
+                                                                      style:
+                                                                          tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                                    ),
+                                                                  ),
+                                                                  Expanded(
+                                                                    child: ListView.builder(
+                                                                      itemCount: controller.currOrders.length,
+                                                                      itemBuilder: (context, i) => MiniOrderCard(
+                                                                        order: controller.currOrders[i],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                              );
+                                            },
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Center(
+                                      child: controller.isLoadingSubmit
+                                          ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                          : Text(
+                                              "apply".tr.toUpperCase(),
+                                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                              //todo: for company: show the name of the driver ("driver" didnt start the order yet)
+                              /// start order
+                              ///
+                              if (!isCustomer &&
+                                  !isCompany &&
+                                  oC.order!.status == "approved" &&
+                                  oC.order!.driverApproved)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  child: mainButton(
+                                    alertDialog: alertDialog(
+                                      onPressed: () {
+                                        Get.back();
+                                        controller.beginOrderDriver();
+                                      },
+                                      content: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: Text(
+                                          "customer will track driver's progress".tr,
+                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                        ),
+                                      ),
+                                      title: "begin the order?".tr,
+                                    ),
+                                    isLoading: controller.isLoadingSubmit,
+                                    buttonText: "begin".tr.toUpperCase(),
+                                  ),
+                                ),
+
+                              /// finish order button
+                              ///
+                              if (!isCustomer && oC.order!.status == "processing")
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  child: mainButton(
+                                    alertDialog: alertDialog(
+                                      onPressed: () {
+                                        Get.back();
+                                        controller.finishOrderDriver();
+                                      },
+                                      content: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: Text(
+                                          "press yes if you reached your destination".tr,
+                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                        ),
+                                      ),
+                                      title: "finish the order?".tr,
+                                    ),
+                                    isLoading: controller.isLoadingSubmit,
+                                    buttonText: "finish".tr.toUpperCase(),
+                                  ),
+                                ),
+
                               ///map
                               ///
                               Padding(
-                                padding: const EdgeInsets.only(top: 16, bottom: 8, left: 4, right: 4),
+                                padding: const EdgeInsets.only(top: 8, bottom: 8, left: 4, right: 4),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: cs.secondaryContainer,
@@ -398,14 +603,12 @@ class OrderView extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 12.0, right: 12, top: 4),
                                         child: CustomButton(
-                                          onTap: () {
-                                            Get.to(TrackingView(map: map()));
-                                          },
-                                          // isCustomer && oC.order!.status == "processing" //todo
-                                          //     ? () {
-                                          //         //
-                                          //       }
-                                          //     : null,
+                                          onTap: isCustomer && oC.order!.status == "processing"
+                                              ? () async {
+                                                  Get.to(TrackingView(map: map()));
+                                                  //controller.connectTrackingSocket();
+                                                }
+                                              : null,
                                           isShort: true,
                                           isGradiant: true,
                                           color:
@@ -593,211 +796,6 @@ class OrderView extends StatelessWidget {
                                       ),
                                       isEmpty: controller.order!.driversApplications.isEmpty,
                                     ),
-                                  ),
-                                ),
-
-                              /// accept order
-                              ///
-                              if (!isCustomer && oC.order!.status == "available")
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                                  child: CustomButton(
-                                    onTap: () {
-                                      if (isEmployee) {
-                                        controller.acceptOrderCompany();
-                                      } else if (isCompany) {
-                                        Get.bottomSheet(
-                                          GetBuilder<OrderController>(
-                                            builder: (controller) {
-                                              return Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: const BorderRadius.only(
-                                                    topRight: Radius.circular(20),
-                                                    topLeft: Radius.circular(20),
-                                                  ),
-                                                  color: cs.surface,
-                                                ),
-                                                height: MediaQuery.of(context).size.height / 3,
-                                                child: Form(
-                                                  key: controller.formKey,
-                                                  child: ListView(
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.all(16.0),
-                                                        child: Text(
-                                                          "select vehicle and driver",
-                                                          style: tt.titleMedium!.copyWith(
-                                                              color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.symmetric(vertical: 12),
-                                                        child: controller.isLoadingVehicles
-                                                            ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                                                            : Column(
-                                                                children: [
-                                                                  // VehicleSelector<VehicleModel>(
-                                                                  //   selectedItem: controller.selectedVehicle,
-                                                                  //   items: controller.availableVehicles,
-                                                                  //   onChanged: (VehicleModel? v) async {
-                                                                  //     controller.selectVehicle(v);
-                                                                  //     await Future.delayed(
-                                                                  //         const Duration(milliseconds: 1000));
-                                                                  //     if (controller.buttonPressed) {
-                                                                  //       controller.formKey.currentState!.validate();
-                                                                  //     }
-                                                                  //   },
-                                                                  // ),
-                                                                  //todo: fix UI in this sheet
-                                                                  const SizedBox(height: 12),
-                                                                  if (isCompany)
-                                                                    EmployeeSelector(
-                                                                      selectedItem: controller.selectedEmployee,
-                                                                      items: controller.availableEmployees,
-                                                                      onChanged: (EmployeeModel? e) async {
-                                                                        controller.selectEmployee(e);
-                                                                        await Future.delayed(
-                                                                            const Duration(milliseconds: 1000));
-                                                                        if (controller.buttonPressed) {
-                                                                          controller.formKey.currentState!.validate();
-                                                                        }
-                                                                      },
-                                                                    )
-                                                                ],
-                                                              ),
-                                                      ),
-                                                      CustomButton(
-                                                        onTap: () {
-                                                          controller.acceptOrderCompany();
-                                                        },
-                                                        child: Center(
-                                                          child: controller.isLoadingSubmit
-                                                              ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                                              : Text(
-                                                                  "add".tr.toUpperCase(),
-                                                                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                                                ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      } else {
-                                        controller.getCurrOrders();
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => GetBuilder<OrderController>(
-                                            builder: (controller) {
-                                              return alertDialog(
-                                                title: "accept the order?".tr,
-                                                onPressed: () {
-                                                  Get.back();
-                                                  controller.acceptOrderDriver();
-                                                },
-                                                content: controller.isLoadingCurr
-                                                    ? SpinKitSquareCircle(color: cs.primary, size: 26)
-                                                    : controller.currOrders.isEmpty
-                                                        ? null
-                                                        : Padding(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                            child: SizedBox(
-                                                              height: MediaQuery.of(context).size.height / 2,
-                                                              width: MediaQuery.of(context).size.width / 1.5,
-                                                              child: Column(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.all(8.0),
-                                                                    child: Text(
-                                                                      "you currently have these orders".tr,
-                                                                      style:
-                                                                          tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                                    ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    child: ListView.builder(
-                                                                      itemCount: controller.currOrders.length,
-                                                                      itemBuilder: (context, i) => MiniOrderCard(
-                                                                        order: controller.currOrders[i],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Center(
-                                      child: controller.isLoadingSubmit
-                                          ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                          : Text(
-                                              "apply".tr.toUpperCase(),
-                                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                            ),
-                                    ),
-                                  ),
-                                ),
-                              //todo: for company: show the name of the driver ("driver" didnt start the order yet)
-                              /// start order
-                              ///
-                              if (!isCustomer &&
-                                  !isCompany &&
-                                  oC.order!.status == "approved" &&
-                                  oC.order!.driverApproved)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                                  child: mainButton(
-                                    alertDialog: alertDialog(
-                                      onPressed: () {
-                                        Get.back();
-                                        controller.beginOrderDriver();
-                                      },
-                                      content: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: Text(
-                                          "customer will track driver's progress".tr,
-                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                      ),
-                                      title: "begin the order?".tr,
-                                    ),
-                                    isLoading: controller.isLoadingSubmit,
-                                    buttonText: "begin".tr.toUpperCase(),
-                                  ),
-                                ),
-
-                              /// finish order button
-                              ///
-                              if (!isCustomer && oC.order!.status == "processing")
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                                  child: mainButton(
-                                    alertDialog: alertDialog(
-                                      onPressed: () {
-                                        Get.back();
-                                        controller.finishOrderDriver();
-                                      },
-                                      content: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: Text(
-                                          "press yes if you reached your destination".tr,
-                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                      ),
-                                      title: "finish the order?".tr,
-                                    ),
-                                    isLoading: controller.isLoadingSubmit,
-                                    buttonText: "finish".tr.toUpperCase(),
                                   ),
                                 ),
 

@@ -112,12 +112,15 @@ class DriverHomeController extends GetxController {
   }
 
   void getRecentOrders() async {
-    //todo: handle employee
     if (isLoadingRecent) return;
     toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled"];
-    List<OrderModel2> newProcessingOrders = await RemoteServices.fetchDriverOrders(types: ["processing"]) ?? [];
-    List<OrderModel2> newOrders = await RemoteServices.fetchDriverOrders(types: typesToFetch) ?? [];
+    List<OrderModel2> newProcessingOrders = isEmployee
+        ? await RemoteServices.fetchCompanyOrders(types: ["processing"]) ?? []
+        : await RemoteServices.fetchDriverOrders(types: ["processing"]) ?? [];
+    List<OrderModel2> newOrders = isEmployee
+        ? await RemoteServices.fetchCompanyOrders(types: typesToFetch) ?? []
+        : await RemoteServices.fetchDriverOrders(types: typesToFetch) ?? [];
     recentOrders.addAll(newProcessingOrders);
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
