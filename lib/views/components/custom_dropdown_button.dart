@@ -54,7 +54,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           isExpanded: true, // Recommended for proper width
           underline: const SizedBox(),
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 4),
         ),
       ),
     );

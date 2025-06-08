@@ -322,6 +322,7 @@ class PaymentMethodSelectionCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
+        onTap: onTap,
         title: Text(
           paymentSelectionModel.name,
           style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
@@ -338,13 +339,10 @@ class PaymentMethodSelectionCard extends StatelessWidget {
             border: Border.all(width: 0.6, color: cs.primary),
             color: isSelected ? cs.primary : cs.surface,
           ),
-          child: GestureDetector(
-            onTap: onTap,
-            child: Icon(
-              Icons.done,
-              color: cs.surface,
-              size: 25,
-            ),
+          child: Icon(
+            Icons.done,
+            color: cs.surface,
+            size: 25,
           ),
         ),
       ),
