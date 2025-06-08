@@ -4,7 +4,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
-import 'package:shipment/controllers/driver_home_controller.dart';
 import '../../controllers/filter_controller.dart';
 import '../components/filter_button.dart';
 import '../components/filter_sheet.dart';
@@ -156,7 +155,7 @@ class CompanyOrdersTab extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ).reversed.toList(),
                       ),
                     ),
                   ),

@@ -915,68 +915,68 @@ class OrderView extends StatelessWidget {
                               ///
                               ///driver info
                               ///
-                              if (isCustomer && oC.order!.acceptedApplication != null)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 12.0),
-                                  child: Card(
-                                    color: cs.secondaryContainer,
-                                    elevation: 2,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(Icons.person, color: cs.primary),
-                                              const SizedBox(width: 8),
-                                              Text(
-                                                "driver info".tr,
-                                                style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 12),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4),
-                                            child: SizedBox(
-                                              width: MediaQuery.of(context).size.width / 1.7,
-                                              child: Text(
-                                                oC.order!.acceptedApplication?.driver.name ??
-                                                    "accepted application is null",
-                                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 3,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 4),
-                                            child: SizedBox(
-                                              width: MediaQuery.of(context).size.width / 1.7,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  //callDialog();
-                                                },
-                                                child: Text(
-                                                  oC.order!.acceptedApplication?.driver.phoneNumber.toString() ??
-                                                      "accepted application is null",
-                                                  style: tt.titleSmall!.copyWith(
-                                                    color: Colors.blue,
-                                                    decoration: TextDecoration.underline,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 3,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                              // if (isCustomer && oC.order!.acceptedApplication != null)
+                              //   Padding(
+                              //     padding: const EdgeInsets.only(top: 12.0),
+                              //     child: Card(
+                              //       color: cs.secondaryContainer,
+                              //       elevation: 2,
+                              //       child: Padding(
+                              //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              //         child: Column(
+                              //           crossAxisAlignment: CrossAxisAlignment.start,
+                              //           children: [
+                              //             Row(
+                              //               children: [
+                              //                 Icon(Icons.person, color: cs.primary),
+                              //                 const SizedBox(width: 8),
+                              //                 Text(
+                              //                   "driver info".tr,
+                              //                   style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
+                              //                   overflow: TextOverflow.ellipsis,
+                              //                 ),
+                              //               ],
+                              //             ),
+                              //             const SizedBox(height: 12),
+                              //             Padding(
+                              //               padding: const EdgeInsets.symmetric(vertical: 4),
+                              //               child: SizedBox(
+                              //                 width: MediaQuery.of(context).size.width / 1.7,
+                              //                 child: Text(
+                              //                   oC.order!.acceptedApplication?.driver.name ??
+                              //                       "accepted application is null",
+                              //                   style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              //                   overflow: TextOverflow.ellipsis,
+                              //                   maxLines: 3,
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //             Padding(
+                              //               padding: const EdgeInsets.symmetric(vertical: 4),
+                              //               child: SizedBox(
+                              //                 width: MediaQuery.of(context).size.width / 1.7,
+                              //                 child: GestureDetector(
+                              //                   onTap: () {
+                              //                     //callDialog();
+                              //                   },
+                              //                   child: Text(
+                              //                     oC.order!.acceptedApplication?.driver.phoneNumber.toString() ??
+                              //                         "accepted application is null",
+                              //                     style: tt.titleSmall!.copyWith(
+                              //                       color: Colors.blue,
+                              //                       decoration: TextDecoration.underline,
+                              //                     ),
+                              //                     overflow: TextOverflow.ellipsis,
+                              //                     maxLines: 3,
+                              //                   ),
+                              //                 ),
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
 
                               ///customer info
                               ///

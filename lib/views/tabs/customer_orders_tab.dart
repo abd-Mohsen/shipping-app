@@ -194,7 +194,7 @@ class CustomerOrdersTab extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
+                        ).reversed.toList(),
                       ),
                     ),
                   ),
