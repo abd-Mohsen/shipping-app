@@ -35,11 +35,14 @@ class NotificationsView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 4, right: 4),
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: cs.onSurface,
-                        size: 30,
+                      padding: const EdgeInsets.only(top: 20, left: 8, right: 8),
+                      child: GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: cs.onSurface,
+                          size: 25,
+                        ),
                       ),
                     ),
                     Padding(
@@ -99,7 +102,7 @@ class NotificationsView extends StatelessWidget {
                               : ListView.builder(
                                   controller: controller.scrollController,
                                   physics: const AlwaysScrollableScrollPhysics(),
-                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  //padding: const EdgeInsets.symmetric(horizontal: 12),
                                   itemCount: controller.allNotifications.length + 1,
                                   itemBuilder: (context, i) => i < controller.allNotifications.length
                                       ? NotificationCard(

@@ -37,7 +37,7 @@ class DriverOrdersTab extends StatelessWidget {
                     centerTitle: true,
                     leading: IconButton(
                       onPressed: () {
-                        controller.homeNavigationController.changeTab(1);
+                        controller.homeNavigationController.changeTab(0);
                       },
                       icon: Icon(
                         Icons.arrow_back,

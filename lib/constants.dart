@@ -203,3 +203,5 @@ MarkerIcon kMapDriverMarker = const MarkerIcon(
 );
 
 const Color kNotificationColor = Color(0xff00ff00);
+const Color kNotificationUnreadDarkColor = Color(0xff343436);
+const Color kNotificationUnreadLightColor = Color(0xfff5f5f5);

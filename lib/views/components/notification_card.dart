@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shipment/constants.dart';
 // import 'package:jiffy/jiffy.dart';
+import 'package:get/get.dart';
 import 'package:shipment/models/notification_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -28,25 +29,29 @@ class NotificationCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              // border: Border.all(
-              //   color: cs.surface,
-              //   width: 0.5,
-              // ),
-              borderRadius: BorderRadius.circular(20),
-              color: cs.surface,
+              border: Border.all(
+                color: cs.surface,
+                width: 0,
+              ),
+              //borderRadius: BorderRadius.circular(20),
+              color: notification.isRead
+                  ? cs.surface
+                  : Get.isDarkMode
+                      ? kNotificationUnreadDarkColor
+                      : kNotificationUnreadLightColor,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                if (notification.isRead) const SizedBox(width: 4),
-                if (!notification.isRead)
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: 4,
-                      backgroundColor: kNotificationColor,
-                    ),
-                  ),
+                // if (notification.isRead) const SizedBox(width: 4),
+                // if (!notification.isRead)
+                //   const Padding(
+                //     padding: EdgeInsets.all(8.0),
+                //     child: CircleAvatar(
+                //       radius: 4,
+                //       backgroundColor: kNotificationColor,
+                //     ),
+                //   ),
                 //todo: image not loading sometimes, se a fallback and prolong timeout like in vehicle card
                 notification.iconUrl != null
                     ? SizedBox(
@@ -113,12 +118,12 @@ class NotificationCard extends StatelessWidget {
               ],
             ),
           ),
-          if (!isLast)
-            Divider(
-              thickness: 0.8,
-              color: cs.onSurface.withOpacity(0.2),
-              indent: 12,
-            )
+          // if (!isLast)
+          //   Divider(
+          //     thickness: 0.8,
+          //     color: cs.onSurface.withOpacity(0.2),
+          //     indent: 12,
+          //   )
         ],
       ),
     );

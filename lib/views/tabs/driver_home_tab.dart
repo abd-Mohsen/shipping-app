@@ -311,22 +311,20 @@ class DriverHomeTab extends StatelessWidget {
                                 child: RefreshIndicator(
                                   onRefresh: controller.refreshRecentOrders,
                                   child: TitledScrollingCard(
-                                    radius: 20,
                                     title: "recent delivery".tr,
-                                    content: ListView.builder(
-                                      //physics: NeverScrollableScrollPhysics(),
-                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                      itemCount: controller.recentOrders.length,
-                                      itemBuilder: (context, i) => OrderCard2(
+                                    isEmpty: controller.recentOrders.isEmpty,
+                                    onClickSeeAll: () {
+                                      controller.setOrderType("type", true, selectAll: true);
+                                    },
+                                    itemCount: controller.recentOrders.length,
+                                    children: List.generate(
+                                      controller.recentOrders.length,
+                                      (i) => OrderCard2(
                                         order: controller.recentOrders[i],
                                         isCustomer: true,
                                         isLast: i == controller.recentOrders.length - 1,
                                       ),
                                     ),
-                                    isEmpty: controller.recentOrders.isEmpty,
-                                    onClickSeeAll: () {
-                                      controller.setOrderType("type", true, selectAll: true);
-                                    },
                                   ),
                                 ),
                               ),

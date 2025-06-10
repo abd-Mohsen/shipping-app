@@ -52,7 +52,7 @@ class CustomerOrdersTab extends StatelessWidget {
                     centerTitle: true,
                     leading: IconButton(
                       onPressed: () {
-                        controller.homeNavigationController.changeTab(1);
+                        controller.homeNavigationController.changeTab(0);
                       },
                       icon: Icon(
                         Icons.arrow_back,
@@ -243,14 +243,15 @@ class CustomerOrdersTab extends StatelessWidget {
                                           )
                                         : Center(
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 24),
-                                              child: controller.hasMore
-                                                  ? CircularProgressIndicator(color: cs.primary)
-                                                  : CircleAvatar(
-                                                      radius: 5,
-                                                      backgroundColor: cs.onSurface.withOpacity(0.7),
-                                                    ),
-                                            ),
+                                                padding: const EdgeInsets.symmetric(vertical: 24),
+                                                child: controller.hasMore
+                                                    ? CircularProgressIndicator(color: cs.primary)
+                                                    : SizedBox.shrink()
+                                                // CircleAvatar( //todo: refactor or keep or remove in all
+                                                //         radius: 5,
+                                                //         backgroundColor: cs.onSurface.withOpacity(0.7),
+                                                //       ),
+                                                ),
                                           ),
                                   ),
                           ),

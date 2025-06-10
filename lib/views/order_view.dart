@@ -735,146 +735,144 @@ class OrderView extends StatelessWidget {
                               if (isCustomer && controller.order!.driversApplications.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                                  child: SizedBox(
-                                    height: 250,
-                                    child: TitledScrollingCard(
-                                      title: "drivers applications".tr,
-                                      content: ListView.builder(
-                                        //physics: NeverScrollableScrollPhysics(),
-                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                        itemCount: controller.order!.driversApplications.length,
-                                        itemBuilder: (context, i) => ApplicationCard(
-                                          showButtons: controller.order!.status == "waiting_approval",
-                                          application: controller.order!.driversApplications[i],
-                                          onTapCall: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => callDialog(
-                                                  controller.order!.driversApplications[i].driver.phoneNumber),
-                                            );
-                                          },
-                                          onTapAccept: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => alertDialog(
-                                                onPressed: () {
-                                                  Get.back();
-                                                  controller.confirmOrderCustomer(
-                                                      controller.order!.driversApplications[i].id);
-                                                },
-                                                title: "accept the order?".tr,
-                                              ),
-                                            );
-                                          },
-                                          onTapRefuse: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => alertDialog(
-                                                onPressed: () {
-                                                  Get.back();
-                                                  controller.refuseOrderCustomer();
-                                                },
-                                                title: "refuse the order?".tr,
-                                              ),
-                                            );
-                                            //todo: don't let user click either buttons if one is loading
-                                          },
-                                          isLast: i == controller.order!.driversApplications.length - 1,
-                                        ),
+                                  child: TitledScrollingCard(
+                                    title: "drivers applications".tr,
+                                    itemCount: controller.order!.driversApplications.length,
+                                    isEmpty: controller.order!.driversApplications.isEmpty,
+                                    onClickSeeAll: () {
+                                      // Add your see all functionality here if needed
+                                    },
+                                    children: List.generate(
+                                      controller.order!.driversApplications.length,
+                                      (i) => ApplicationCard(
+                                        showButtons: controller.order!.status == "waiting_approval",
+                                        application: controller.order!.driversApplications[i],
+                                        onTapCall: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                callDialog(controller.order!.driversApplications[i].driver.phoneNumber),
+                                          );
+                                        },
+                                        onTapAccept: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => alertDialog(
+                                              onPressed: () {
+                                                Get.back();
+                                                controller
+                                                    .confirmOrderCustomer(controller.order!.driversApplications[i].id);
+                                              },
+                                              title: "accept the order?".tr,
+                                            ),
+                                          );
+                                        },
+                                        onTapRefuse: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => alertDialog(
+                                              onPressed: () {
+                                                Get.back();
+                                                controller.refuseOrderCustomer();
+                                              },
+                                              title: "refuse the order?".tr,
+                                            ),
+                                          );
+                                        },
+                                        isLast: i == controller.order!.driversApplications.length - 1,
                                       ),
-                                      isEmpty: controller.order!.driversApplications.isEmpty,
                                     ),
                                   ),
                                 ),
 
                               ///stepper
                               ///
-                              Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 4),
-                                decoration: BoxDecoration(
-                                  color: cs.secondaryContainer,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2), // Shadow color
-                                      blurRadius: 2, // Soften the shadow
-                                      spreadRadius: 1, // Extend the shadow
-                                      offset: Offset(1, 1), // Shadow direction (x, y)
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                                      child: Text(
-                                        "order status".tr,
-                                        style:
-                                            tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    Divider(
-                                      thickness: 1.5,
-                                      color: cs.onSecondaryContainer.withOpacity(0.1),
-                                      indent: 12,
-                                      endIndent: 12,
-                                    ),
-                                    Stepper(
-                                      controlsBuilder: (BuildContext context, ControlsDetails details) {
-                                        return const SizedBox.shrink(); // Removes buttons
-                                      },
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      steps: List.generate(
-                                        controller.statuses.length,
-                                        (i) {
-                                          List icons = [
-                                            StepState.complete,
-                                            StepState.complete,
-                                            StepState.complete,
-                                            StepState.disabled,
-                                            StepState.disabled,
-                                          ];
-                                          return Step(
-                                              state: icons[i], // Shows simple circle instead of interactive
-                                              // icon
-                                              isActive: false, // Makes step appear inactive
-                                              title: Text(
-                                                controller.statuses[i].tr,
-                                                style: tt.labelMedium!.copyWith(
-                                                    color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                              ),
-                                              content: SizedBox(
-                                                width: double.infinity,
-                                                height: 0,
-                                              ),
-                                              subtitle: Text(
-                                                i % 2 == 0
-                                                    ? controller.order!.fullDate()
-                                                    : controller.order!.fullCreationDate(),
-                                                style: tt.labelSmall!.copyWith(
-                                                    color: cs.onSecondaryContainer, fontWeight: FontWeight.normal),
-                                              ),
-                                              stepStyle: StepStyle(
-                                                color: i > 2 ? Colors.grey : cs.primary,
-                                              )
-                                              // subtitle: Text(
-                                              //   "",
-                                              //   style: tt.labelMedium!
-                                              //       .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                              // ),
-                                              );
-                                        },
-                                      ),
-
-                                      onStepTapped: null, // Disables tapping on steps
-                                      onStepCancel: null, // Disables cancel action
-                                      onStepContinue: null, // Disables continue action
-                                      currentStep: 2, // Set to whatever step should appear as "current"
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              // Container(
+                              //   margin: const EdgeInsets.symmetric(horizontal: 4),
+                              //   decoration: BoxDecoration(
+                              //     color: cs.secondaryContainer,
+                              //     borderRadius: BorderRadius.circular(10),
+                              //     boxShadow: [
+                              //       BoxShadow(
+                              //         color: Colors.black.withOpacity(0.2), // Shadow color
+                              //         blurRadius: 2, // Soften the shadow
+                              //         spreadRadius: 1, // Extend the shadow
+                              //         offset: Offset(1, 1), // Shadow direction (x, y)
+                              //       ),
+                              //     ],
+                              //   ),
+                              //   child: Column(
+                              //     crossAxisAlignment: CrossAxisAlignment.start,
+                              //     children: [
+                              //       Padding(
+                              //         padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                              //         child: Text(
+                              //           "order status".tr,
+                              //           style:
+                              //               tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                              //         ),
+                              //       ),
+                              //       Divider(
+                              //         thickness: 1.5,
+                              //         color: cs.onSecondaryContainer.withOpacity(0.1),
+                              //         indent: 12,
+                              //         endIndent: 12,
+                              //       ),
+                              //       Stepper(
+                              //         controlsBuilder: (BuildContext context, ControlsDetails details) {
+                              //           return const SizedBox.shrink(); // Removes buttons
+                              //         },
+                              //         physics: const NeverScrollableScrollPhysics(),
+                              //         steps: List.generate(
+                              //           controller.statuses.length,
+                              //           (i) {
+                              //             List icons = [
+                              //               StepState.complete,
+                              //               StepState.complete,
+                              //               StepState.complete,
+                              //               StepState.disabled,
+                              //               StepState.disabled,
+                              //             ];
+                              //             return Step(
+                              //                 state: icons[i], // Shows simple circle instead of interactive
+                              //                 // icon
+                              //                 isActive: false, // Makes step appear inactive
+                              //                 title: Text(
+                              //                   controller.statuses[i].tr,
+                              //                   style: tt.labelMedium!.copyWith(
+                              //                       color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                              //                 ),
+                              //                 content: SizedBox(
+                              //                   width: double.infinity,
+                              //                   height: 0,
+                              //                 ),
+                              //                 subtitle: Text(
+                              //                   i % 2 == 0
+                              //                       ? controller.order!.fullDate()
+                              //                       : controller.order!.fullCreationDate(),
+                              //                   style: tt.labelSmall!.copyWith(
+                              //                       color: cs.onSecondaryContainer, fontWeight: FontWeight.normal),
+                              //                 ),
+                              //                 stepStyle: StepStyle(
+                              //                   color: i > 2 ? Colors.grey : cs.primary,
+                              //                 )
+                              //                 // subtitle: Text(
+                              //                 //   "",
+                              //                 //   style: tt.labelMedium!
+                              //                 //       .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                              //                 // ),
+                              //                 );
+                              //           },
+                              //         ),
+                              //
+                              //         onStepTapped: null, // Disables tapping on steps
+                              //         onStepCancel: null, // Disables cancel action
+                              //         onStepContinue: null, // Disables continue action
+                              //         currentStep: 2, // Set to whatever step should appear as "current"
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
                               // EasyStepper(
                               //   activeStep: controller.statusIndex,
                               //   activeStepTextColor: cs.primary,
