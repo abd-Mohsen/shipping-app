@@ -1,3 +1,7 @@
+plugins {
+    // These are applied only at the app level, not root. Keep empty here or omit entirely.
+}
+
 allprojects {
     repositories {
         google()
