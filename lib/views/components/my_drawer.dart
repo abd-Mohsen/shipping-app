@@ -147,7 +147,7 @@ class MyDrawer extends StatelessWidget {
                                               style: tt.titleSmall!.copyWith(color: cs.primary),
                                               overflow: TextOverflow.ellipsis,
                                             ),
-                                            if (role == "company")
+                                            if (role == "company" || role == "company_employee")
                                               Column(
                                                 children: [
                                                   const SizedBox(height: 4),

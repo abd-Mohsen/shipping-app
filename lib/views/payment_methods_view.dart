@@ -123,66 +123,84 @@ class PaymentMethodsView extends StatelessWidget {
                                       builder: (controller) {
                                         return SizedBox(
                                           height: MediaQuery.of(context).size.height * 0.95,
-                                          child: controller.isLoadingBranches && controller.page == 1
-                                              ? SpinKitSquareCircle(color: cs.primary)
-                                              : RefreshIndicator(
-                                                  onRefresh: controller.refreshBranches,
-                                                  child: controller.branches.isEmpty
-                                                      ? Center(
-                                                          child: ListView(
-                                                            shrinkWrap: true,
-                                                            children: [
-                                                              Lottie.asset("assets/animations/simple truck.json",
-                                                                  height: 200),
-                                                              Padding(
-                                                                padding: const EdgeInsets.symmetric(horizontal: 32),
-                                                                child: Center(
-                                                                  child: Text(
-                                                                    "no data, pull down to refresh".tr,
-                                                                    style: tt.titleMedium!.copyWith(
-                                                                        color: cs.onSurface,
-                                                                        fontWeight: FontWeight.bold),
-                                                                    textAlign: TextAlign.center,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )
-                                                      : Column(
-                                                          children: [
-                                                            Expanded(
-                                                              child: ListView.builder(
-                                                                controller: controller.scrollController,
-                                                                physics: const AlwaysScrollableScrollPhysics(),
-                                                                padding: const EdgeInsets.symmetric(
-                                                                    vertical: 12, horizontal: 16),
-                                                                itemCount: controller.branches.length + 1,
-                                                                itemBuilder: (context, i) => i <
-                                                                        controller.branches.length
-                                                                    ? BranchCard(
-                                                                        branch: controller.branches[i],
-                                                                        isLast: i == controller.branches.length - 1,
-                                                                      )
-                                                                    : Center(
-                                                                        child: Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.symmetric(vertical: 24),
-                                                                          child: controller.hasMore
-                                                                              ? CircularProgressIndicator(
-                                                                                  color: cs.primary)
-                                                                              : CircleAvatar(
-                                                                                  radius: 5,
-                                                                                  backgroundColor:
-                                                                                      cs.onSurface.withOpacity(0.7),
-                                                                                ),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Get.back();
+                                                },
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                                                  child: Icon(Icons.close, color: cs.error),
+                                                ),
+                                              ),
+                                              controller.isLoadingBranches && controller.page == 1
+                                                  ? Center(child: SpinKitSquareCircle(color: cs.primary))
+                                                  : Expanded(
+                                                      child: RefreshIndicator(
+                                                        onRefresh: controller.refreshBranches,
+                                                        child: controller.branches.isEmpty
+                                                            ? Center(
+                                                                child: ListView(
+                                                                  shrinkWrap: true,
+                                                                  children: [
+                                                                    Lottie.asset("assets/animations/simple truck.json",
+                                                                        height: 200),
+                                                                    Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.symmetric(horizontal: 32),
+                                                                      child: Center(
+                                                                        child: Text(
+                                                                          "no data, pull down to refresh".tr,
+                                                                          style: tt.titleMedium!.copyWith(
+                                                                              color: cs.onSurface,
+                                                                              fontWeight: FontWeight.bold),
+                                                                          textAlign: TextAlign.center,
                                                                         ),
                                                                       ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            : Column(
+                                                                children: [
+                                                                  Expanded(
+                                                                    child: ListView.builder(
+                                                                      controller: controller.scrollController,
+                                                                      physics: const AlwaysScrollableScrollPhysics(),
+                                                                      padding:
+                                                                          const EdgeInsets.symmetric(horizontal: 16),
+                                                                      itemCount: controller.branches.length + 1,
+                                                                      itemBuilder: (context, i) => i <
+                                                                              controller.branches.length
+                                                                          ? BranchCard(
+                                                                              branch: controller.branches[i],
+                                                                              isLast:
+                                                                                  i == controller.branches.length - 1,
+                                                                            )
+                                                                          : Center(
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.symmetric(
+                                                                                    vertical: 24),
+                                                                                child: controller.hasMore
+                                                                                    ? CircularProgressIndicator(
+                                                                                        color: cs.primary)
+                                                                                    : CircleAvatar(
+                                                                                        radius: 5,
+                                                                                        backgroundColor: cs.onSurface
+                                                                                            .withOpacity(0.7),
+                                                                                      ),
+                                                                              ),
+                                                                            ),
+                                                                    ),
+                                                                  )
+                                                                ],
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                ),
+                                                      ),
+                                                    ),
+                                            ],
+                                          ),
                                         );
                                       },
                                     ),

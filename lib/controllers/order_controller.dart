@@ -304,7 +304,7 @@ class OrderController extends GetxController {
         : await RemoteServices.driverFinishOrder(order!.id);
     if (success) {
       //if (Get.routing.current == "/OrderView") Get.back();
-      //todo: if user clicks and return before processing, app closes (i fixed it here, fix in all the app)
+      //todo(later): if user clicks and return before processing, app closes (i fixed it here, fix in all the app)
       refreshOrder();
       driverHomeController!.refreshOrders();
       driverHomeController!.refreshRecentOrders();
@@ -324,7 +324,7 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.companyAcceptOrder(order!.id, selectedEmployee?.id);
     if (success) {
-      Get.back();
+      if (!isEmployee) Get.back();
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       isEmployee ? driverHomeController!.refreshOrders() : companyHomeController!.refreshOrders();
@@ -352,7 +352,7 @@ class OrderController extends GetxController {
       phoneNumber.text,
     );
     if (success) {
-      Get.back();
+      if (!isEmployee) Get.back();
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       companyHomeController!.refreshOrders();

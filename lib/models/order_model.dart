@@ -157,6 +157,10 @@ class OrderModel {
   String fullWeight() {
     return "$weight $weightUnit";
   }
+
+  String fullPrice() {
+    return "$price ${currency.symbol}";
+  }
 }
 
 class OrderLocation {

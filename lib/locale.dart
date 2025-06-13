@@ -432,7 +432,7 @@ class MyLocale extends Translations {
           "address": "العنوان",
           "covered vehicle is required": "يجب أن تكون السيارة بغطاء",
           "weight": "الوزن",
-          "draft": "مسودة",
+          "draft": "قيد المعالجة",
           "available": "متاح",
           "pending": " في الانتظار",
           "approved": "بانتظار التأكيد",

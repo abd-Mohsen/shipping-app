@@ -7,6 +7,7 @@ import 'package:shipment/views/tabs/company_vehicles_tab.dart';
 class CompanyManageTab extends StatelessWidget {
   const CompanyManageTab({super.key});
 
+  //todo: when refreshing, some times employees load before vehicles
   @override
   Widget build(BuildContext context) {
     CompanyHomeController hC = Get.find();

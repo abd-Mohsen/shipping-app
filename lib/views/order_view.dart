@@ -549,7 +549,7 @@ class OrderView extends StatelessWidget {
                               ///map
                               ///
                               Padding(
-                                padding: const EdgeInsets.only(top: 8, bottom: 16, left: 4, right: 4),
+                                padding: const EdgeInsets.only(top: 8, bottom: 4, left: 4, right: 4),
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: cs.secondaryContainer,
@@ -610,62 +610,6 @@ class OrderView extends StatelessWidget {
                                                   .copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      Divider(
-                                        color: cs.onSecondaryContainer.withOpacity(0.1),
-                                        thickness: 1.5,
-                                        indent: 12,
-                                        endIndent: 12,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "order name".tr.toUpperCase(),
-                                                  style: tt.labelMedium!.copyWith(
-                                                      color: cs.onSecondaryContainer.withOpacity(0.5),
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                                SizedBox(height: 4),
-                                                Text(
-                                                  oC.order!.description.toUpperCase(),
-                                                  style: tt.labelMedium!.copyWith(
-                                                      color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "expected price".tr.toUpperCase(),
-                                                  style: tt.labelMedium!.copyWith(
-                                                    color: cs.onSecondaryContainer.withOpacity(0.5),
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 4),
-                                                Text(
-                                                  oC.order!.price.toInt().toString() + " " + "SYP",
-                                                  style: tt.labelMedium!.copyWith(
-                                                      color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
                                         ),
                                       ),
                                       Divider(
@@ -978,18 +922,18 @@ class OrderView extends StatelessWidget {
 
                               ///customer info
                               ///
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16.0, right: 4, left: 4),
-                                child: TitledCard(
-                                  title: "owner info".tr,
-                                  content: ApplicationCard2(
-                                    title: oC.order!.orderOwner?.name ?? "",
-                                    showButtons:
-                                        (!isCustomer && ["processing", "done", "approved"].contains(oC.order!.status)),
-                                    isLast: true,
+                              if (!isCustomer)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0, right: 4, left: 4),
+                                  child: TitledCard(
+                                    title: "owner info".tr,
+                                    content: ApplicationCard2(
+                                      title: oC.order!.orderOwner?.name ?? "",
+                                      showButtons: (["processing", "done", "approved"].contains(oC.order!.status)),
+                                      isLast: true,
+                                    ),
                                   ),
                                 ),
-                              ),
 
                               ///details
                               ///
@@ -1002,6 +946,82 @@ class OrderView extends StatelessWidget {
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            "order name".tr.toUpperCase(),
+                                                            style: tt.labelMedium!.copyWith(
+                                                                color: cs.onSecondaryContainer.withOpacity(0.5),
+                                                                fontWeight: FontWeight.bold),
+                                                          ),
+                                                          const SizedBox(height: 4),
+                                                          Text(
+                                                            oC.order!.description.toUpperCase(),
+                                                            maxLines: 4,
+                                                            overflow: TextOverflow.ellipsis,
+                                                            style: tt.labelMedium!.copyWith(
+                                                                color: cs.onSecondaryContainer,
+                                                                fontWeight: FontWeight.bold),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 12),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            "expected price".tr.toUpperCase(),
+                                                            style: tt.labelMedium!.copyWith(
+                                                              color: cs.onSecondaryContainer.withOpacity(0.5),
+                                                              fontWeight: FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(height: 4),
+                                                          Text(
+                                                            oC.order!.fullPrice(),
+                                                            maxLines: 2,
+                                                            style: tt.labelMedium!.copyWith(
+                                                                color: cs.onSecondaryContainer,
+                                                                fontWeight: FontWeight.bold),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(
+                                          color: cs.onSecondaryContainer.withOpacity(0.1),
+                                          thickness: 1.5,
+                                          indent: 12,
+                                          endIndent: 12,
+                                        ),
+                                        if (oC.order!.extraInfo.isNotEmpty || oC.order!.otherInfo != null)
+                                          const SizedBox(height: 8),
                                         if (oC.order!.extraInfo.isNotEmpty)
                                           Text(
                                             oC.order!.formatExtraInfo(),
@@ -1083,30 +1103,30 @@ class OrderView extends StatelessWidget {
                                                           maxLines: 1,
                                                         ),
                                                         const SizedBox(width: 12),
-                                                        Visibility(
-                                                          visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
-                                                              !["draft", "done"].contains(oC.order!.status),
-                                                          child: GestureDetector(
-                                                            onTap: () {
-                                                              showPopover(
-                                                                context: context,
-                                                                backgroundColor: cs.surface,
-                                                                bodyBuilder: (context) => Padding(
-                                                                  padding: const EdgeInsets.symmetric(
-                                                                      horizontal: 12, vertical: 16),
-                                                                  child: Text(
-                                                                    "order was not accepted in time".tr,
-                                                                    style:
-                                                                        tt.titleMedium!.copyWith(color: cs.onSurface),
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 2,
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                            child: Icon(Icons.info, color: cs.error, size: 18),
-                                                          ),
-                                                        ),
+                                                        // Visibility(
+                                                        //   visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                                                        //       !["draft", "done"].contains(oC.order!.status),
+                                                        //   child: GestureDetector(
+                                                        //     onTap: () {
+                                                        //       showPopover(
+                                                        //         context: context,
+                                                        //         backgroundColor: cs.surface,
+                                                        //         bodyBuilder: (context) => Padding(
+                                                        //           padding: const EdgeInsets.symmetric(
+                                                        //               horizontal: 12, vertical: 16),
+                                                        //           child: Text(
+                                                        //             "order was not accepted in time".tr,
+                                                        //             style:
+                                                        //                 tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                        //             overflow: TextOverflow.ellipsis,
+                                                        //             maxLines: 2,
+                                                        //           ),
+                                                        //         ),
+                                                        //       );
+                                                        //     },
+                                                        //     child: Icon(Icons.info, color: cs.error, size: 18),
+                                                        //   ),
+                                                        // ),
                                                       ],
                                                     ),
                                                     const SizedBox(height: 4),

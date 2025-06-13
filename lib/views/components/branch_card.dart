@@ -93,7 +93,7 @@ class BranchCard extends StatelessWidget {
                 //   width: order.status == "processing" ? 1.5 : 0.5,
                 // ),
                 // borderRadius: BorderRadius.circular(10),
-                color: cs.secondaryContainer,
+                color: cs.surface,
               ),
               // padding: const EdgeInsets.all(12),
               // decoration: BoxDecoration(
