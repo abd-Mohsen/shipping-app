@@ -46,7 +46,7 @@ class CompanyHomeTab extends StatelessWidget {
                         },
                       ),
                       SelectionCircle(
-                        iconData: Icons.done,
+                        iconData: Icons.task_alt,
                         title: "accepted".tr,
                         isSelected: false,
                         onTap: () {

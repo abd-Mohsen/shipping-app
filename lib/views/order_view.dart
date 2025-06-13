@@ -683,9 +683,6 @@ class OrderView extends StatelessWidget {
                                     title: "drivers applications".tr,
                                     itemCount: controller.order!.driversApplications.length,
                                     isEmpty: controller.order!.driversApplications.isEmpty,
-                                    onClickSeeAll: () {
-                                      // Add your see all functionality here if needed
-                                    },
                                     children: List.generate(
                                       controller.order!.driversApplications.length,
                                       (i) => ApplicationCard(

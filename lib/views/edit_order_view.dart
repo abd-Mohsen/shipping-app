@@ -20,7 +20,6 @@
 //   final OrderModel order;
 //   const EditOrderView({super.key, required this.order});
 //
-//   //todo: remove and combine with make order
 //   @override
 //   Widget build(BuildContext context) {
 //     ColorScheme cs = Theme.of(context).colorScheme;
@@ -81,7 +80,7 @@
 //                   padding: const EdgeInsets.symmetric(vertical: 8),
 //                   child: controller.isLoadingVehicle
 //                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
-//                       //todo: it is not getting prepopulated after editing, and some times the page gives a weird error
+//
 //                       : DropdownSearch<VehicleTypeModel>(
 //                           validator: (type) {
 //                             if (type == null) return "you must select a type".tr;
@@ -175,7 +174,7 @@
 //                 ),
 //                 Padding(
 //                   padding: const EdgeInsets.symmetric(vertical: 8),
-//                   child: controller.isLoadingPayment //todo: load again after failing, do it also in vehicle type
+//                   child: controller.isLoadingPayment
 //                       ? SpinKitThreeBounce(color: cs.primary, size: 20)
 //                       : MultiDropdown<PaymentMethodModel>(
 //                           items: controller.paymentMethods

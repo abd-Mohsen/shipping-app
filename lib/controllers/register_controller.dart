@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shipment/models/login_model.dart';
 import '../models/user_model.dart';
 import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
@@ -120,7 +121,7 @@ class RegisterController extends GetxController {
     File? lFrontFile = dLicenseFront == null ? null : File(dLicenseFront!.path);
     File? lRearFile = dLicenseRear == null ? null : File(dLicenseRear!.path);
 
-    bool success = (await RemoteServices.register(
+    LoginModel? loginModel = (await RemoteServices.register(
       userName.text,
       firstName.text,
       lastName.text,
@@ -135,8 +136,8 @@ class RegisterController extends GetxController {
       ["driver", "employee"].contains(roles[roleIndex]) ? lFrontFile : null,
       ["driver", "employee"].contains(roles[roleIndex]) ? lRearFile : null,
     ));
-    if (success) {
-      Get.back();
+    if (loginModel != null) {
+      Get.back(); //todo: go to login and do not send another otp
       Get.showSnackbar(GetSnackBar(
         message: "done successfully".tr,
         duration: const Duration(milliseconds: 2500),

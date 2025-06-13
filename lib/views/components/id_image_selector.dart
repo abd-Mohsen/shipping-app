@@ -65,8 +65,8 @@ class IdImageSelector extends StatelessWidget {
               //     :
               () async {
             bool cameraAllowed = await PermissionService().requestPermission(Permission.camera);
-            bool storageAllowed = await PermissionService().requestPermission(Permission.storage);
-
+            //bool storageAllowed = await PermissionService().requestPermission(Permission.storage); //todo
+            bool storageAllowed = true;
             if (!cameraAllowed || !storageAllowed) return;
             Get.bottomSheet(
               Container(

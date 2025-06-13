@@ -238,7 +238,7 @@ class DriverHomeController extends GetxController {
     toggleLoadingExplore(true);
     List<OrderModel2> newItems = isEmployee
         ? await RemoteServices.fetchCompanyOrders(
-              governorateID: selectedGovernorate!.id, types: ["available"],
+              governorateID: selectedGovernorate!.id, types: ["available", "waiting_approval"],
               page: 1, //todo:pagination
               searchQuery: searchQueryMyOrders.text.trim(),
               minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
@@ -249,7 +249,7 @@ class DriverHomeController extends GetxController {
             ) ??
             []
         : await RemoteServices.fetchDriverOrders(
-              governorateID: selectedGovernorate!.id, types: ["available"],
+              governorateID: selectedGovernorate!.id, types: ["available", "waiting_approval"],
               page: 1, //todo:pagination
               searchQuery: searchQueryMyOrders.text.trim(),
               minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,

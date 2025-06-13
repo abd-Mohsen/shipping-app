@@ -82,31 +82,28 @@ class CustomerHomeTab extends StatelessWidget {
                     ),
             ),
             // This is the scrollable section
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: controller.isLoadingRecent
-                  ? SpinKitSquareCircle(color: cs.primary)
-                  : Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
-                      child: TitledScrollingCard(
-                        minHeight: 250,
-                        title: "recent delivery".tr,
-                        isEmpty: controller.recentOrders.isEmpty,
-                        onClickSeeAll: () {
-                          controller.setOrderType("type", true, selectAll: true);
-                        },
-                        itemCount: controller.recentOrders.length,
-                        children: List.generate(
-                          controller.recentOrders.length,
-                          (i) => OrderCard2(
-                            order: controller.recentOrders[i],
-                            isCustomer: true,
-                            isLast: i == controller.recentOrders.length - 1,
-                          ),
+            controller.isLoadingRecent
+                ? SpinKitSquareCircle(color: cs.primary)
+                : Padding(
+                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
+                    child: TitledScrollingCard(
+                      minHeight: 250,
+                      title: "recent delivery".tr,
+                      isEmpty: controller.recentOrders.isEmpty,
+                      onClickSeeAll: () {
+                        controller.setOrderType("type", true, selectAll: true);
+                      },
+                      itemCount: controller.recentOrders.length,
+                      children: List.generate(
+                        controller.recentOrders.length,
+                        (i) => OrderCard2(
+                          order: controller.recentOrders[i],
+                          isCustomer: true,
+                          isLast: i == controller.recentOrders.length - 1,
                         ),
                       ),
                     ),
-            ),
+                  ),
           ],
         );
       },

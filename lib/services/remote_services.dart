@@ -40,7 +40,7 @@ class RemoteServices {
 
   static var client = http.Client();
 
-  static Future<bool> register(
+  static Future<LoginModel?> register(
     String userName,
     String firstName,
     String lastName,
@@ -73,10 +73,9 @@ class RemoteServices {
       "driving_license_photo_rare": licenseRear,
     };
     String? json = await api.requestWithFiles("auth/register/", images, body, auth: false, utf8Decode: false);
-    if (json == null) {
-      return false;
-    }
-    return true;
+    if (json == null) return null;
+
+    return LoginModel.fromJson(jsonDecode(json));
   }
 
   static Future<LoginModel?> login(String phone, String password) async {
