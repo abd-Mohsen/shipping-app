@@ -23,6 +23,7 @@ class _RedirectPageState extends State<RedirectPage> {
   @override
   void initState() {
     super.initState();
+    getStorage.remove("from_register");
     _checkForUpdates();
   }
 
@@ -111,8 +112,9 @@ class _RedirectPageState extends State<RedirectPage> {
     );
   }
 
+  GetStorage getStorage = GetStorage();
+
   void _navigateToApp() {
-    GetStorage getStorage = GetStorage();
     Get.offAll(
       () => !getStorage.hasData("token")
           ? const LoginView()

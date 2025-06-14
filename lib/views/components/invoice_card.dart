@@ -59,7 +59,7 @@ class InvoiceCard extends StatelessWidget {
                 style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
               ),
               trailing: Text(
-                invoice.amount,
+                invoice.formatedAmount(),
                 style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
@@ -99,7 +99,7 @@ class InvoiceCard extends StatelessWidget {
                             Expanded(
                               child: SheetDetailsTile(
                                 title: "paid amount".tr,
-                                subtitle: invoice.amount,
+                                subtitle: invoice.formatedAmount(),
                               ),
                             ),
                             Expanded(

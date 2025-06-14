@@ -325,9 +325,10 @@ class DriverHomeTab extends StatelessWidget {
                       controller.isLoadingRecent
                           ? SpinKitSquareCircle(color: cs.primary)
                           : Padding(
-                              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 4),
+                              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8, top: 4),
                               child: TitledScrollingCard(
                                 //minHeight: 250,
+                                radius: 20,
                                 title: "recent delivery".tr,
                                 isEmpty: controller.recentOrders.isEmpty,
                                 onClickSeeAll: () {

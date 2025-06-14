@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:shipment/models/currency_model.dart';
+
 import 'branch_model.dart';
 
 List<InvoiceModel> invoiceModelFromJson(String str) =>
@@ -9,22 +11,25 @@ String invoiceModelToJson(List<InvoiceModel> data) => json.encode(List<dynamic>.
 
 class InvoiceModel {
   final int id;
-  final String amount;
+  final double amount;
   final DateTime paymentDate;
   final BranchModel? branch;
+  final CurrencyModel? currency;
 
   InvoiceModel({
     required this.id,
     required this.amount,
     required this.paymentDate,
     required this.branch,
+    required this.currency,
   });
 
   factory InvoiceModel.fromJson(Map<String, dynamic> json) => InvoiceModel(
         id: json["id"],
-        amount: json["amount"],
+        amount: json["amount"] ?? 0.0,
         paymentDate: DateTime.parse(json["payment_date"]),
         branch: json["branch"] == null ? null : BranchModel.fromJson(json["branch"]),
+        currency: json["currency"] == null ? null : CurrencyModel.fromJson(json["currency"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,4 +38,8 @@ class InvoiceModel {
         "payment_date": paymentDate.toIso8601String(),
         "branch": branch!.toJson(),
       };
+
+  String formatedAmount() {
+    return amount.toStringAsFixed(2) + currency!.symbol;
+  }
 }

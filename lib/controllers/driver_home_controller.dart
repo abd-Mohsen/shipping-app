@@ -382,6 +382,7 @@ class DriverHomeController extends GetxController {
   }
 
   void reconnectTracking() async {
+    if (trackingID == 0) return;
     await _cleanUpWebSocket(); // Clean everything up first
     _connectTrackingSocket(); // Then connect again
   }

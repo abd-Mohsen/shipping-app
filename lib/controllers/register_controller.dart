@@ -2,11 +2,15 @@ import 'dart:async';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shipment/models/login_model.dart';
 import '../models/user_model.dart';
 import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
+import '../views/company_home_view.dart';
+import '../views/customer_home_view.dart';
+import '../views/driver_home_view.dart';
 
 class RegisterController extends GetxController {
   @override
@@ -44,6 +48,8 @@ class RegisterController extends GetxController {
   final password = TextEditingController();
   final rePassword = TextEditingController();
   final phone = TextEditingController();
+
+  final GetStorage _getStorage = GetStorage();
 
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   bool buttonPressed = false;
@@ -121,7 +127,7 @@ class RegisterController extends GetxController {
     File? lFrontFile = dLicenseFront == null ? null : File(dLicenseFront!.path);
     File? lRearFile = dLicenseRear == null ? null : File(dLicenseRear!.path);
 
-    LoginModel? loginModel = (await RemoteServices.register(
+    LoginModel? registerData = (await RemoteServices.register(
       userName.text,
       firstName.text,
       lastName.text,
@@ -136,14 +142,24 @@ class RegisterController extends GetxController {
       ["driver", "employee"].contains(roles[roleIndex]) ? lFrontFile : null,
       ["driver", "employee"].contains(roles[roleIndex]) ? lRearFile : null,
     ));
-    if (loginModel != null) {
-      Get.back(); //todo: go to login and do not send another otp
-      Get.showSnackbar(GetSnackBar(
-        message: "done successfully".tr,
-        duration: const Duration(milliseconds: 2500),
-        backgroundColor: Colors.green,
-      ));
+    if (registerData != null) {
+      Get.back();
+      _getStorage.write("token", registerData.token);
+      _getStorage.write("role", registerData.role.type);
+      _getStorage.write("from_register", true);
+      print(_getStorage.read("token"));
+      if (registerData.role.type == "driver" || registerData.role.type == "company_employee") {
+        Get.offAll(() => const DriverHomeView());
+      } else if (registerData.role.type == "customer") {
+        Get.offAll(() => const CustomerHomeView());
+      } else if (registerData.role.type == "company") {
+        Get.offAll(() => const CompanyHomeView());
+      } else {
+        print("wrong role");
+        return; // other role
+      }
     }
+
     toggleLoadingRegister(false);
   }
 }
