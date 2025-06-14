@@ -80,10 +80,10 @@ class CustomerHomeController extends GetxController {
     });
   }
 
-  void getOrders() async {
+  void getOrders({bool showLoading = true}) async {
     hasMore = true;
     if (isLoading) return;
-    toggleLoading(true);
+    if (showLoading) toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("not taken")) typesToFetch.addAll(["available", "draft"]);
     if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved", "waiting_approval"]);
@@ -109,11 +109,11 @@ class CustomerHomeController extends GetxController {
     toggleLoading(false);
   }
 
-  Future<void> refreshOrders() async {
+  Future<void> refreshOrders({bool showLoading = true}) async {
     page = 1;
     hasMore = true;
     myOrders.clear();
-    getOrders();
+    getOrders(showLoading: showLoading);
   }
 
   Timer? _debounce;
@@ -124,9 +124,9 @@ class CustomerHomeController extends GetxController {
     });
   }
 
-  void getRecentOrders() async {
+  void getRecentOrders({bool showLoading = true}) async {
     if (isLoadingRecent) return;
-    toggleLoadingRecent(true);
+    if (showLoading) toggleLoadingRecent(true);
     List<String> typesToFetch = ["available", "draft", "waiting_approval", "pending", "approved", "done", "canceled"];
     List<OrderModel2> newProcessingOrders = await RemoteServices.fetchCustomerOrders(types: ["processing"]) ?? [];
     List<OrderModel2> newOrders = await RemoteServices.fetchCustomerOrders(types: typesToFetch) ?? [];
@@ -137,10 +137,10 @@ class CustomerHomeController extends GetxController {
     toggleLoadingRecent(false);
   }
 
-  Future<void> refreshRecentOrders() async {
+  Future<void> refreshRecentOrders({bool showLoading = true}) async {
     currentOrder = null;
     recentOrders.clear();
-    getRecentOrders();
+    getRecentOrders(showLoading: showLoading);
   }
 
   void deleteOrder(int id) async {

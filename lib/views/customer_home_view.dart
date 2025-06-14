@@ -24,7 +24,7 @@ class CustomerHomeView extends StatelessWidget {
       homeNavigationController: hNC,
       filterController: fC,
     ));
-    Get.put(NotificationsController());
+    Get.put(NotificationsController(homeController: hC));
 
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;

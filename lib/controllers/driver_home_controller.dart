@@ -29,7 +29,7 @@ class DriverHomeController extends GetxController {
     getCurrentUser();
     getGovernorates();
     getRecentOrders();
-    getMyOrders();
+    getOrders();
     super.onInit();
   }
 
@@ -83,9 +83,9 @@ class DriverHomeController extends GetxController {
     refreshOrders();
   }
 
-  void getMyOrders() async {
+  void getOrders({bool showLoading = true}) async {
     if (isLoading) return;
-    toggleLoading(true);
+    if (showLoading) toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
     if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "waiting_approval"]);
@@ -118,14 +118,14 @@ class DriverHomeController extends GetxController {
     toggleLoading(false);
   }
 
-  Future<void> refreshOrders() async {
+  Future<void> refreshOrders({bool showLoading = true}) async {
     myOrders.clear();
-    getMyOrders();
+    getOrders(showLoading: showLoading);
   }
 
-  void getRecentOrders() async {
+  void getRecentOrders({bool showLoading = true}) async {
     if (isLoadingRecent) return;
-    toggleLoadingRecent(true);
+    if (showLoading) toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled", "waiting_approval"];
     List<OrderModel2> newProcessingOrders = isEmployee
         ? await RemoteServices.fetchCompanyOrders(types: ["processing"]) ?? []
@@ -149,12 +149,12 @@ class DriverHomeController extends GetxController {
     //
   }
 
-  Future<void> refreshRecentOrders() async {
+  Future<void> refreshRecentOrders({bool showLoading = true}) async {
     currentOrder = null;
     recentOrders.clear();
 
     await _cleanUpWebSocket(); // Make sure everything's cleaned up first
-    getRecentOrders();
+    getRecentOrders(showLoading: showLoading);
     //_connectTrackingSocket(); // Call this directly instead of getRecentOrders()
   }
   //

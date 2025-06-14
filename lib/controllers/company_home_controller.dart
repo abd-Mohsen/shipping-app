@@ -42,7 +42,7 @@ class CompanyHomeController extends GetxController {
     getGovernorates();
     getCompanyStats();
     getRecentOrders();
-    getMyOrders();
+    getOrders();
     super.onInit();
   }
 
@@ -150,9 +150,9 @@ class CompanyHomeController extends GetxController {
     refreshOrders();
   }
 
-  void getMyOrders() async {
+  void getOrders({bool showLoading = true}) async {
     if (isLoading) return;
-    toggleLoading(true);
+    if (showLoading) toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
     if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "waiting_approval"]);
@@ -173,9 +173,9 @@ class CompanyHomeController extends GetxController {
     toggleLoading(false);
   }
 
-  Future<void> refreshOrders() async {
+  Future<void> refreshOrders({bool showLoading = true}) async {
     myOrders.clear();
-    getMyOrders();
+    getOrders(showLoading: showLoading);
   }
 
   bool isLoadingRecent = false;
@@ -184,9 +184,9 @@ class CompanyHomeController extends GetxController {
     update();
   }
 
-  void getRecentOrders() async {
+  void getRecentOrders({bool showLoading = true}) async {
     if (isLoadingRecent) return;
-    toggleLoadingRecent(true);
+    if (showLoading) toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled", "approved", "waiting_approval"];
     List<OrderModel2> newProcessingOrders = await RemoteServices.fetchCompanyOrders(types: ["processing"]) ?? [];
     List<OrderModel2> newOrders = await RemoteServices.fetchCompanyOrders(types: typesToFetch) ?? [];
@@ -197,10 +197,10 @@ class CompanyHomeController extends GetxController {
     toggleLoadingRecent(false);
   }
 
-  Future<void> refreshRecentOrders() async {
+  Future<void> refreshRecentOrders({bool showLoading = true}) async {
     currentOrder = null;
     recentOrders.clear();
-    getRecentOrders();
+    getRecentOrders(showLoading: showLoading);
   }
 
   // -----------------employees-----------------------

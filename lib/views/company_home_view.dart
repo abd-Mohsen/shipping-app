@@ -23,7 +23,6 @@ class CompanyHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
-    Get.put(NotificationsController());
     HomeNavigationController hNC = Get.put(HomeNavigationController());
     FilterController fC = Get.put(FilterController());
     MyVehiclesController mVC = Get.put(MyVehiclesController());
@@ -32,6 +31,7 @@ class CompanyHomeView extends StatelessWidget {
       filterController: fC,
       myVehiclesController: mVC,
     ));
+    Get.put(NotificationsController(homeController: cHC));
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;

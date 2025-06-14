@@ -17,13 +17,13 @@ class DriverHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(NotificationsController());
     HomeNavigationController hNC = Get.put(HomeNavigationController());
     FilterController fC = Get.put(FilterController());
     DriverHomeController hC = Get.put(DriverHomeController(
       homeNavigationController: hNC,
       filterController: fC,
     ));
+    Get.put(NotificationsController(homeController: hC));
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 

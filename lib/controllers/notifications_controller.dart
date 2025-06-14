@@ -11,6 +11,8 @@ import '../services/remote_services.dart';
 import '../views/redirect_page.dart';
 
 class NotificationsController extends GetxController {
+  final dynamic homeController;
+  NotificationsController({required this.homeController});
   @override
   onInit() {
     requestPermissionFCM();
@@ -49,7 +51,7 @@ class NotificationsController extends GetxController {
 
     websocket!.listen(
       (message) {
-        // print('Message from server: $message');
+        print('Message from server: $message');
         // message = jsonDecode(message);
         // notificationService.showNotification(
         //   id: notificationID,
@@ -57,6 +59,8 @@ class NotificationsController extends GetxController {
         //   body: message["text"],
         // );
         // notificationID++;
+        homeController.refreshOrders(showLoading: false);
+        homeController.refreshRecentOrders(showLoading: false);
       },
       onDone: () {
         print('WebSocket connection closed');

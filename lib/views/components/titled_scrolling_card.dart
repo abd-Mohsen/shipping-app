@@ -11,6 +11,8 @@ class TitledScrollingCard extends StatelessWidget {
   final double? maxHeight;
   final double? minHeight;
 
+  //todo: show more in sheet, show just x (new widget for applications)
+
   const TitledScrollingCard({
     super.key,
     required this.title,
