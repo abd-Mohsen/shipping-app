@@ -67,6 +67,7 @@ class Api {
     bool canRefresh = true,
     bool showTimeout = true,
     bool toMyServer = true,
+    bool utf8Decode = true,
   }) async {
     print("sending to ${toMyServer ? "$_hostIP/" : ""}$endPoint");
     if (auth) print("Token $accessToken");
@@ -84,8 +85,7 @@ class Api {
             body: jsonEncode(body),
           )
           .timeout(kTimeOutDuration2);
-      //String responseBody = utf8.decode(latin1.encode(response.body));
-      String responseBody = response.body;
+      String responseBody = utf8Decode ? utf8.decode(latin1.encode(response.body)) : response.body;
       print("$responseBody =========== ${response.statusCode}");
 
       handleSessionExpired(response.statusCode, canRefresh);

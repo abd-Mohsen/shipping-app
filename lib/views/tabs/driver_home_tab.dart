@@ -28,8 +28,21 @@ class DriverHomeTab extends StatelessWidget {
       builder: (controller) {
         return Stack(
           children: [
-            Container(
-              color: cs.primary,
+            Column(
+              children: [
+                Expanded(
+                  flex: 15,
+                  child: Container(
+                    color: cs.primary,
+                  ),
+                ),
+                Expanded(
+                  flex: 25,
+                  child: Container(
+                    color: cs.surface,
+                  ),
+                ),
+              ],
             ),
             ListView(
               children: [
@@ -139,41 +152,46 @@ class DriverHomeTab extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16, left: 12, right: 12),
-                  child: Card(
-                    color: Color.lerp(cs.primary, Colors.white, 0.33),
-                    elevation: 5,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     controller.refreshMap();
-                          //   },
-                          //   child: CircleAvatar(
-                          //     backgroundColor: cs.primary,
-                          //     foregroundColor: cs.onPrimary,
-                          //     child: Icon(Icons.refresh),
-                          //     radius: 20,
-                          //   ),
-                          // ),
-                          Icon(
-                            Icons.location_on_outlined,
-                            color: controller.trackingStatus == "tracking" ? const Color(0xff00ff00) : cs.primary,
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            //width: MediaQuery.of(context).size.width / 1.2,
-                            child: Text(
-                              controller.trackingStatus.tr,
-                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
+                  child: GestureDetector(
+                    onTap: () {
+                      controller.reconnectTracking();
+                    },
+                    child: Card(
+                      color: Color.lerp(cs.primary, Colors.white, 0.33),
+                      elevation: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     controller.refreshMap();
+                            //   },
+                            //   child: CircleAvatar(
+                            //     backgroundColor: cs.primary,
+                            //     foregroundColor: cs.onPrimary,
+                            //     child: Icon(Icons.refresh),
+                            //     radius: 20,
+                            //   ),
+                            // ),
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: controller.trackingStatus == "tracking" ? const Color(0xff00ff00) : cs.primary,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 12),
+                            Expanded(
+                              //width: MediaQuery.of(context).size.width / 1.2,
+                              child: Text(
+                                controller.trackingStatus.tr,
+                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -295,40 +313,37 @@ class DriverHomeTab extends StatelessWidget {
                           ),
                         ),
                       ),
-                      controller.isLoadingRecent
-                          ? SpinKitThreeBounce(color: cs.surface, size: 20)
-                          : Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                              child: CurrOrderCard(
-                                  order: controller.currentOrder, borderRadius: BorderRadius.circular(20)),
-                            ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 1.5,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                         child: controller.isLoadingRecent
-                            ? SpinKitSquareCircle(color: cs.primary)
-                            : Padding(
-                                padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 4),
-                                child: RefreshIndicator(
-                                  onRefresh: controller.refreshRecentOrders,
-                                  child: TitledScrollingCard(
-                                    title: "recent delivery".tr,
-                                    isEmpty: controller.recentOrders.isEmpty,
-                                    onClickSeeAll: () {
-                                      controller.setOrderType("type", true, selectAll: true);
-                                    },
-                                    itemCount: controller.recentOrders.length,
-                                    children: List.generate(
-                                      controller.recentOrders.length,
-                                      (i) => OrderCard2(
-                                        order: controller.recentOrders[i],
-                                        isCustomer: true,
-                                        isLast: i == controller.recentOrders.length - 1,
-                                      ),
-                                    ),
+                            ? SpinKitThreeBounce(color: cs.surface, size: 20)
+                            : CurrOrderCard(
+                                order: controller.currentOrder,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                      ),
+                      controller.isLoadingRecent
+                          ? SpinKitSquareCircle(color: cs.primary)
+                          : Padding(
+                              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8, top: 4),
+                              child: TitledScrollingCard(
+                                //minHeight: 250,
+                                title: "recent delivery".tr,
+                                isEmpty: controller.recentOrders.isEmpty,
+                                onClickSeeAll: () {
+                                  controller.setOrderType("type", true, selectAll: true);
+                                },
+                                itemCount: controller.recentOrders.length,
+                                children: List.generate(
+                                  controller.recentOrders.length,
+                                  (i) => OrderCard2(
+                                    order: controller.recentOrders[i],
+                                    isCustomer: true,
+                                    isLast: i == controller.recentOrders.length - 1,
                                   ),
                                 ),
                               ),
-                      ),
+                            ),
                     ],
                   ),
                 ),

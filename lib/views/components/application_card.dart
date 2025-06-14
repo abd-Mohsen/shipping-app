@@ -154,25 +154,26 @@ class ApplicationCard extends StatelessWidget {
                             )),
                       ),
                     ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                    child: GestureDetector(
-                      onTap: onTapCall,
-                      child: Container(
-                          width: 35,
-                          height: 35,
-                          decoration: BoxDecoration(
-                            color: cs.secondaryContainer,
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(width: 0.3),
-                          ),
-                          child: Icon(
-                            CupertinoIcons.phone,
-                            size: 20,
-                            color: cs.onSecondaryContainer,
-                          )),
+                  if (isAccepted ?? true)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                      child: GestureDetector(
+                        onTap: onTapCall,
+                        child: Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: cs.secondaryContainer,
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(width: 0.3),
+                            ),
+                            child: Icon(
+                              CupertinoIcons.phone,
+                              size: 20,
+                              color: cs.onSecondaryContainer,
+                            )),
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

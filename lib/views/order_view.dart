@@ -355,7 +355,7 @@ class OrderView extends StatelessWidget {
                             children: [
                               /// accept order
                               ///
-                              if (!isCustomer && oC.order!.status == "available")
+                              if (!isCustomer && ["available", "waiting_approval"].contains(oC.order!.status))
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   child: CustomButton(
@@ -445,37 +445,38 @@ class OrderView extends StatelessWidget {
                                                   Get.back();
                                                   controller.acceptOrderDriver();
                                                 },
-                                                content: controller.isLoadingCurr
-                                                    ? SpinKitSquareCircle(color: cs.primary, size: 26)
-                                                    : controller.currOrders.isEmpty
-                                                        ? null
-                                                        : Padding(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                            child: SizedBox(
-                                                              height: MediaQuery.of(context).size.height / 2,
-                                                              width: MediaQuery.of(context).size.width / 1.5,
-                                                              child: Column(
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.all(8.0),
-                                                                    child: Text(
-                                                                      "you currently have these orders".tr,
-                                                                      style:
-                                                                          tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                                    ),
-                                                                  ),
-                                                                  Expanded(
-                                                                    child: ListView.builder(
-                                                                      itemCount: controller.currOrders.length,
-                                                                      itemBuilder: (context, i) => MiniOrderCard(
-                                                                        order: controller.currOrders[i],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
+                                                //todo: handle cache orders
+                                                // content: controller.isLoadingCurr
+                                                //     ? SpinKitSquareCircle(color: cs.primary, size: 26)
+                                                //     : controller.currOrders.isEmpty
+                                                //         ? null
+                                                //         : Padding(
+                                                //             padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                //             child: SizedBox(
+                                                //               height: MediaQuery.of(context).size.height / 2,
+                                                //               width: MediaQuery.of(context).size.width / 1.5,
+                                                //               child: Column(
+                                                //                 children: [
+                                                //                   Padding(
+                                                //                     padding: const EdgeInsets.all(8.0),
+                                                //                     child: Text(
+                                                //                       "you currently have these orders".tr,
+                                                //                       style:
+                                                //                           tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                //                     ),
+                                                //                   ),
+                                                //                   Expanded(
+                                                //                     child: ListView.builder(
+                                                //                       itemCount: controller.currOrders.length,
+                                                //                       itemBuilder: (context, i) => MiniOrderCard(
+                                                //                         order: controller.currOrders[i],
+                                                //                       ),
+                                                //                     ),
+                                                //                   ),
+                                                //                 ],
+                                                //               ),
+                                                //             ),
+                                                //           ),
                                               );
                                             },
                                           ),
@@ -688,6 +689,8 @@ class OrderView extends StatelessWidget {
                                       (i) => ApplicationCard(
                                         showButtons: controller.order!.status == "waiting_approval",
                                         application: controller.order!.driversApplications[i],
+                                        isAccepted: controller.order!.driversApplications[i].id ==
+                                            controller.order!.acceptedApplication?.id,
                                         onTapCall: () {
                                           showDialog(
                                             context: context,

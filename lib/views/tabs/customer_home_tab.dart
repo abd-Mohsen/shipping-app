@@ -87,7 +87,7 @@ class CustomerHomeTab extends StatelessWidget {
                 : Padding(
                     padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
                     child: TitledScrollingCard(
-                      minHeight: 250,
+                      //minHeight: 250,
                       title: "recent delivery".tr,
                       isEmpty: controller.recentOrders.isEmpty,
                       onClickSeeAll: () {

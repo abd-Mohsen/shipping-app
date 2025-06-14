@@ -540,7 +540,7 @@ class MyLocale extends Translations {
           "accepted": "تم القبول",
           "tracking in progress": "تتبع الموقع يعمل",
           "your location is being sent to order owner": "يتم ارسال موقعك لصاحب الطلبية",
-          "turn location on": "شغل خدمة الموقع وحدث الطلبيات",
+          "turn location on": "شغل خدمة الموقع ثم اضغط للتحديث",
           "location permission is denied": "اذونات الموقع مرفوضة من اعدادات التطبيق",
           "Location permission is permanently denied": "اذونات الموقع مرفوضة من اعدادات التطبيق",
           "connecting": "يتم الاتصال",

@@ -152,11 +152,10 @@ class DriverHomeController extends GetxController {
   Future<void> refreshRecentOrders() async {
     currentOrder = null;
     recentOrders.clear();
-    _shouldReconnect = false; // Temporarily disable reconnection
-    await websocket?.close();
-    websocket = null;
-    _shouldReconnect = true;
+
+    await _cleanUpWebSocket(); // Make sure everything's cleaned up first
     getRecentOrders();
+    //_connectTrackingSocket(); // Call this directly instead of getRecentOrders()
   }
   //
 
@@ -373,17 +372,31 @@ class DriverHomeController extends GetxController {
 
   String trackingStatus = "your location is not tracked";
 
+  bool _isWebSocketConnected() {
+    return websocket != null && websocket!.readyState == WebSocket.open;
+  }
+
   void setTrackingStatus(String s) {
     trackingStatus = s;
     update();
   }
 
+  void reconnectTracking() async {
+    await _cleanUpWebSocket(); // Clean everything up first
+    _connectTrackingSocket(); // Then connect again
+  }
+
   void _startSendingLocation() async {
+    if (subscription != null) {
+      return; // Already streaming
+    }
+
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       setTrackingStatus("turn location on");
       return;
     }
+
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -411,16 +424,16 @@ class DriverHomeController extends GetxController {
 
     subscription = Geolocator.getPositionStream(locationSettings: locationSettings).listen(
       (Position position) {
-        Map pos = {
+        final pos = {
           'latitude': position.latitude,
           'longitude': position.longitude,
         };
         print(pos);
-        websocket!.add(
-          jsonEncode(pos),
-        );
+        if (_isWebSocketConnected()) {
+          websocket!.add(jsonEncode(pos));
+        }
       },
-      cancelOnError: false, // Continue listening even if an error occurs
+      cancelOnError: false,
     );
   }
 
@@ -468,32 +481,26 @@ class DriverHomeController extends GetxController {
   //   });
   // }
 
-  bool _shouldReconnect = true;
+  //bool _shouldReconnect = true;
   final Duration _initialReconnectDelay = Duration(seconds: 5);
 
   bool _isConnecting = false;
 
   void _connectTrackingSocket() async {
-    // Prevent multiple simultaneous connection attempts
-    if (_isConnecting || !_shouldReconnect) return;
+    if (_isConnecting) return;
+    if (_isWebSocketConnected()) return;
 
     _isConnecting = true;
 
     try {
-      // Close existing connection if any
-      if (websocket != null && websocket!.readyState == WebSocket.open) {
-        await websocket!.close();
-      }
+      await _cleanUpWebSocket();
 
       String socketUrl =
           'wss://shipping.adadevs.com/ws/location-tracking/$trackingID?token=${_getStorage.read("token")}';
 
       setTrackingStatus("connecting");
-      websocket = await WebSocket.connect(
-        socketUrl,
-      ).timeout(const Duration(seconds: 20));
 
-      _startSendingLocation();
+      websocket = await WebSocket.connect(socketUrl).timeout(Duration(seconds: 20));
 
       websocket!.listen(
         (message) {
@@ -502,52 +509,54 @@ class DriverHomeController extends GetxController {
         },
         onDone: () {
           _cleanUpWebSocket();
-          if (_shouldReconnect) {
-            _scheduleReconnect();
-          }
+          _scheduleReconnect();
         },
         onError: (error) {
           _cleanUpWebSocket();
-          if (_shouldReconnect) {
-            _scheduleReconnect();
-          }
+          _scheduleReconnect();
         },
       );
+
+      _startSendingLocation();
     } catch (e) {
       print('Connection attempt failed: $e');
       _cleanUpWebSocket();
-      if (_shouldReconnect) {
-        _scheduleReconnect();
-      }
+      _scheduleReconnect();
     } finally {
       _isConnecting = false;
     }
   }
 
-  void _cleanUpWebSocket() {
+  Future<void> _cleanUpWebSocket() async {
     _locationTimer?.cancel();
-    setTrackingStatus("disconnected");
+    _locationTimer = null;
+
+    if (subscription != null) {
+      await subscription!.cancel(); // Always cancel
+      subscription = null;
+    }
+
     if (websocket != null) {
-      websocket!.close(); // Close if not already closed
+      try {
+        await websocket!.close();
+      } catch (_) {}
       websocket = null;
     }
+
+    setTrackingStatus("disconnected");
   }
 
   void _scheduleReconnect() {
-    if (!_shouldReconnect) return;
-
     Future.delayed(_initialReconnectDelay, () {
       _connectTrackingSocket();
     });
   }
 
   @override
-  void onClose() {
-    _shouldReconnect = false;
-    _cleanUpWebSocket();
-    if (websocket != null) websocket!.close();
-    if (_locationTimer != null) _locationTimer!.cancel();
-    if (subscription != null) subscription!.cancel();
+  void onClose() async {
+    //todo: not disposing (notification still appears)
+    //todo: things go to shit when i refresh (realme x)
+    await _cleanUpWebSocket();
     super.dispose();
   }
 }

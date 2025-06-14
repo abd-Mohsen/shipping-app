@@ -66,7 +66,7 @@ class DriverHomeView extends StatelessWidget {
               // ),
 
               bottomNavigationBar: SizedBox(
-                height: MediaQuery.of(context).size.height / 14,
+                height: MediaQuery.of(context).size.height / 13.5,
                 child: BottomNavigationBar(
                   items: [
                     BottomNavigationBarItem(

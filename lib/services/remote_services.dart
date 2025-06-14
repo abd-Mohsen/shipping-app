@@ -215,7 +215,7 @@ class RemoteServices {
   }
 
   static Future<bool> makeOrder(body) async {
-    String? json = await api.postRequest("customer_order/", body, auth: true);
+    String? json = await api.postRequest("customer_order/", body, auth: true, utf8Decode: false);
     return json != null;
   }
 
