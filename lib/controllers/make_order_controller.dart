@@ -284,16 +284,16 @@ class MakeOrderController extends GetxController {
       selectedTime!.hour,
       selectedTime!.minute,
     );
-    DateTime thresholdDate = DateTime.now().add(const Duration(hours: 1));
-    print(desiredDate.toIso8601String());
-    print(thresholdDate.toIso8601String());
-    if (desiredDate.isBefore(thresholdDate)) {
-      Get.showSnackbar(GetSnackBar(
-        message: "pick a time at least 1 hr from now".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
-      return;
-    }
+    // DateTime thresholdDate = DateTime.now().add(const Duration(hours: 1));
+    // print(desiredDate.toIso8601String());
+    // print(thresholdDate.toIso8601String());
+    // if (desiredDate.isBefore(thresholdDate)) {
+    //   Get.showSnackbar(GetSnackBar(
+    //     message: "pick a time at least 1 hr from now".tr,
+    //     duration: const Duration(milliseconds: 2500),
+    //   ));
+    //   return;
+    // }
     toggleLoading(true);
     Map<String, dynamic> order = {
       "discription": description.text,
@@ -315,10 +315,13 @@ class MakeOrderController extends GetxController {
       customerHomeController.refreshOrders();
       customerHomeController.refreshRecentOrders();
       Get.back();
-      Get.showSnackbar(GetSnackBar(
-        message: "order added successfully".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      Get.snackbar(
+        "order added successfully".tr,
+        "${"order commission".tr} $applicationCommission${selectedCurrency!.symbol}",
+        colorText: Colors.white,
+        backgroundColor: Colors.green,
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+      );
     }
     toggleLoading(false);
   }
@@ -357,16 +360,16 @@ class MakeOrderController extends GetxController {
       selectedTime!.hour,
       selectedTime!.minute,
     );
-    DateTime thresholdDate = DateTime.now().add(const Duration(hours: 1));
-    print(desiredDate.toIso8601String());
-    print(thresholdDate.toIso8601String());
-    if (desiredDate.isBefore(thresholdDate)) {
-      Get.showSnackbar(GetSnackBar(
-        message: "pick a time at least 1 hr from now".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
-      return;
-    }
+    // DateTime thresholdDate = DateTime.now().add(const Duration(hours: 1));
+    // print(desiredDate.toIso8601String());
+    // print(thresholdDate.toIso8601String());
+    // if (desiredDate.isBefore(thresholdDate)) {
+    //   Get.showSnackbar(GetSnackBar(
+    //     message: "pick a time at least 1 hr from now".tr,
+    //     duration: const Duration(milliseconds: 2500),
+    //   ));
+    //   return;
+    // }
     toggleLoading(true);
     Map<String, dynamic> newOrder = {
       "discription": description.text,

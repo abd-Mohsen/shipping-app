@@ -366,6 +366,7 @@ class MakeOrderView extends StatelessWidget {
                         ),
                 ),
                 CustomButton(
+                  elevation: 10,
                   onTap: () {
                     //print(GetStorage().read("token"));
                     edit ? controller.editOrder() : controller.makeOrder();

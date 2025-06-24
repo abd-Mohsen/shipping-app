@@ -59,8 +59,9 @@ class NotificationsController extends GetxController {
         //   body: message["text"],
         // );
         // notificationID++;
-        homeController.refreshOrders(showLoading: false);
-        homeController.refreshRecentOrders(showLoading: false);
+        // homeController.refreshOrders(showLoading: false);
+        // homeController.refreshRecentOrders(showLoading: false);
+        //todo:
       },
       onDone: () {
         print('WebSocket connection closed');

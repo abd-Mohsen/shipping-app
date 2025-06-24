@@ -83,7 +83,7 @@ class DriverHomeController extends GetxController {
     refreshOrders();
   }
 
-  void getOrders({bool showLoading = true}) async {
+  Future<void> getOrders({bool showLoading = true}) async {
     if (isLoading) return;
     if (showLoading) toggleLoading(true);
     List<String> typesToFetch = [];
@@ -123,7 +123,7 @@ class DriverHomeController extends GetxController {
     getOrders(showLoading: showLoading);
   }
 
-  void getRecentOrders({bool showLoading = true}) async {
+  Future<void> getRecentOrders({bool showLoading = true}) async {
     if (isLoadingRecent) return;
     if (showLoading) toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled", "waiting_approval"];

@@ -1,5 +1,5 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/views/components/my_drawer.dart';
@@ -33,6 +33,9 @@ class CustomerHomeView extends StatelessWidget {
       const CustomerHomeTab(),
       const CustomerOrdersTab(),
     ];
+
+    List<IconData> iconsList = [Icons.home, Icons.list];
+    List<String> titlesList = ["home".tr, "orders".tr];
 
     return PopScope(
       canPop: false,
@@ -79,39 +82,75 @@ class CustomerHomeView extends StatelessWidget {
               // ),
               key: hC.scaffoldKey,
               backgroundColor: cs.surface,
-              bottomNavigationBar: SizedBox(
-                height: MediaQuery.of(context).size.height / 14,
-                child: BottomNavigationBar(
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: const Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: FaIcon(FontAwesomeIcons.house),
+              // bottomNavigationBar: SizedBox(
+              //   height: MediaQuery.of(context).size.height / 14,
+              //   child: BottomNavigationBar(
+              //     items: [
+              //       BottomNavigationBarItem(
+              //         icon: const Padding(
+              //           padding: EdgeInsets.all(2.0),
+              //           child: FaIcon(FontAwesomeIcons.house),
+              //         ),
+              //         label: "home".tr,
+              //       ),
+              //       BottomNavigationBarItem(
+              //         icon: const Padding(
+              //           padding: EdgeInsets.all(2.0),
+              //           child: FaIcon(FontAwesomeIcons.list),
+              //         ),
+              //         label: "orders".tr,
+              //       ),
+              //     ],
+              //     //height: MediaQuery.of(context).size.height / 11,
+              //     backgroundColor: cs.secondaryContainer,
+              //     selectedItemColor: cs.primary,
+              //     unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
+              //     iconSize: 18,
+              //     selectedFontSize: 10,
+              //     unselectedFontSize: 10,
+              //     elevation: 0,
+              //     onTap: (i) {
+              //       controller.changeTab(i);
+              //       hC.filterController.clearFilters();
+              //     },
+              //     currentIndex: controller.tabIndex,
+              //   ),
+              // ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+              bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+                backgroundColor: cs.secondaryContainer,
+                splashRadius: 0,
+                itemCount: iconsList.length,
+                tabBuilder: (int i, bool isActive) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        iconsList[i],
+                        size: 24,
+                        color: isActive ? cs.primary : cs.onSecondaryContainer.withValues(alpha: 0.7),
                       ),
-                      label: "home".tr,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: const Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: FaIcon(FontAwesomeIcons.list),
-                      ),
-                      label: "orders".tr,
-                    ),
-                  ],
-                  //height: MediaQuery.of(context).size.height / 11,
-                  backgroundColor: cs.secondaryContainer,
-                  selectedItemColor: cs.primary,
-                  unselectedItemColor: cs.onSurface.withOpacity(0.5),
-                  iconSize: 18,
-                  selectedFontSize: 10,
-                  unselectedFontSize: 10,
-                  elevation: 0,
-                  onTap: (i) {
-                    controller.changeTab(i);
-                    hC.filterController.clearFilters();
-                  },
-                  currentIndex: controller.tabIndex,
-                ),
+                      Text(
+                        titlesList[i],
+                        style: tt.labelSmall!.copyWith(
+                          color: isActive ? cs.primary : cs.onSecondaryContainer.withValues(alpha: 0.7),
+                        ),
+                      )
+                    ],
+                  );
+                },
+                elevation: 0,
+                gapLocation: GapLocation.center,
+                notchSmoothness: NotchSmoothness.defaultEdge,
+                gapWidth: 0,
+                notchMargin: 0,
+                leftCornerRadius: 0,
+                rightCornerRadius: 0,
+                onTap: (i) {
+                  controller.changeTab(i);
+                  hC.filterController.clearFilters();
+                },
+                activeIndex: controller.tabIndex,
               ),
               body: Stack(
                 children: [
@@ -140,7 +179,7 @@ class CustomerHomeView extends StatelessWidget {
                           alignment: Alignment.centerLeft, // Show left half
                           widthFactor: 0.5, // Clip to 50% width
                           child: CircleAvatar(
-                            backgroundColor: cs.primary.withOpacity(0.7),
+                            backgroundColor: cs.primary.withValues(alpha: 0.7),
                             foregroundColor: cs.onPrimary,
                             child: const Padding(
                               padding: EdgeInsets.only(right: 16),
@@ -179,10 +218,12 @@ class CustomerHomeView extends StatelessWidget {
               //   ],
               // ),
               floatingActionButton: FloatingActionButton(
+                elevation: 10,
                 onPressed: () {
                   Get.to(() => const MakeOrderView(edit: false));
                 },
                 foregroundColor: cs.onPrimary,
+                shape: const CircleBorder(),
                 child: Icon(Icons.add, color: cs.onPrimary),
               ),
               drawer: GetBuilder<CustomerHomeController>(

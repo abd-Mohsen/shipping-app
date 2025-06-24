@@ -52,6 +52,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   app_settings: ^6.0.0
   modal_bottom_sheet: ^3.0.0
+  animated_bottom_navigation_bar: ^1.4.0
 
 
 dev_dependencies:

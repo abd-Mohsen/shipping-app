@@ -353,6 +353,8 @@ class OrderView extends StatelessWidget {
                           ListView(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             children: [
+                              //todo: add a button for driver, company and employee to refuse order
+                              //todo: when refusing show how many times he has left
                               /// accept order
                               ///
                               if (!isCustomer && ["available", "waiting_approval"].contains(oC.order!.status))

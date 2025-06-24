@@ -56,7 +56,7 @@ class InvoiceCard extends StatelessWidget {
                 invoice.branch?.name ?? "paid by bank transfer".tr,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
               ),
               trailing: Text(
                 invoice.formatedAmount(),
@@ -68,7 +68,7 @@ class InvoiceCard extends StatelessWidget {
                 showMaterialModalBottomSheet(
                   context: context,
                   backgroundColor: Colors.transparent,
-                  barrierColor: Colors.black.withOpacity(0.5),
+                  barrierColor: Colors.black.withValues(alpha: 0.5),
                   enableDrag: true,
                   builder: (context) => BlurredSheet(
                     title: "#${invoice.id.toString()}",
@@ -77,6 +77,7 @@ class InvoiceCard extends StatelessWidget {
                       Get.back();
                     },
                     content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [

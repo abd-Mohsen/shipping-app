@@ -22,6 +22,7 @@ class TimeSelector extends StatelessWidget {
           TimeOfDay? newTime = await showTimePicker(
             context: context,
             initialTime: TimeOfDay.now(),
+            helpText: "pick a time at least 1 hr from now".tr,
           );
           selectTimeCallback(newTime!);
         },
