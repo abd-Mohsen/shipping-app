@@ -8,6 +8,7 @@ import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/views/components/filter_button.dart';
 import '../components/filter_sheet.dart';
 import '../components/my_search_field.dart';
+import '../components/order_card.dart';
 import '../components/order_card_3.dart';
 
 class CustomerOrdersTab extends StatelessWidget {
@@ -236,10 +237,10 @@ class CustomerOrdersTab extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                     itemCount: controller.myOrders.length + 1,
                                     itemBuilder: (context, i) => i < controller.myOrders.length
-                                        ? OrderCard3(
+                                        ? OrderCard(
                                             order: controller.myOrders[i],
                                             isCustomer: true,
-                                            isLast: i == controller.myOrders.length - 1,
+                                            //isLast: i == controller.myOrders.length - 1,
                                           )
                                         : Center(
                                             child: Padding(

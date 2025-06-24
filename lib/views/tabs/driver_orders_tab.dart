@@ -8,6 +8,7 @@ import '../../controllers/filter_controller.dart';
 import '../components/filter_button.dart';
 import '../components/filter_sheet.dart';
 import '../components/my_search_field.dart';
+import '../components/order_card.dart';
 import '../components/order_card_3.dart';
 
 class DriverOrdersTab extends StatelessWidget {
@@ -269,10 +270,10 @@ class DriverOrdersTab extends StatelessWidget {
                                 : ListView.builder(
                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                     itemCount: controller.myOrders.length,
-                                    itemBuilder: (context, i) => OrderCard3(
+                                    itemBuilder: (context, i) => OrderCard(
                                       order: controller.myOrders[i],
                                       isCustomer: false,
-                                      isLast: i == controller.myOrders.length - 1,
+                                      // isLast: i == controller.myOrders.length - 1,
                                     ),
                                   ),
                           ),
