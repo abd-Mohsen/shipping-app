@@ -49,7 +49,7 @@ class NotificationsController extends GetxController {
     websocket = await WebSocket.connect(
       socketUrl,
       //protocols: ['Token', _getStorage.read("token")],
-    ).timeout(const Duration(seconds: 20));
+    ).timeout(const Duration(seconds: 40));
 
     websocket!.listen(
       (message) {
@@ -74,7 +74,7 @@ class NotificationsController extends GetxController {
   void _connectRefreshSocket() async {
     String socketUrl = 'wss://shipping.adadevs.com/ws/changes/?token=${_getStorage.read("token")}';
 
-    websocket = await WebSocket.connect(socketUrl).timeout(const Duration(seconds: 20));
+    websocket = await WebSocket.connect(socketUrl).timeout(const Duration(seconds: 40));
 
     websocket!.listen(
       (message) async {
@@ -126,8 +126,7 @@ class NotificationsController extends GetxController {
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('Notification opened: ${message.notification?.title}');
-      Get.offAll(() => const RedirectPage());
-      Get.to(NotificationsView()); //todo
+      Get.offAll(() => const RedirectPage(toNotifications: true));
     });
   }
 
