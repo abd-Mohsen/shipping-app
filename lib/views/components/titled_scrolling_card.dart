@@ -101,6 +101,7 @@ class TitledScrollingCard extends StatelessWidget {
                       padding: const EdgeInsets.all(4),
                       child: Text(
                         "no data, pull down to refresh".tr,
+                        //todo: add refresh indicator here, refactor loading animation and handle it there too
                         style: tt.titleSmall!.copyWith(
                           color: cs.onSurface,
                           fontWeight: FontWeight.bold,

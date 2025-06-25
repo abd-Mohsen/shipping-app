@@ -968,7 +968,7 @@ class OrderView extends StatelessWidget {
                                                           ),
                                                           const SizedBox(height: 4),
                                                           Text(
-                                                            oC.order!.description.toUpperCase(),
+                                                            oC.order!.description,
                                                             maxLines: 4,
                                                             overflow: TextOverflow.ellipsis,
                                                             style: tt.labelMedium!.copyWith(

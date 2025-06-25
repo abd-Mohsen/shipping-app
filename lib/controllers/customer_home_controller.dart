@@ -80,7 +80,7 @@ class CustomerHomeController extends GetxController {
     });
   }
 
-  void getOrders({bool showLoading = true}) async {
+  Future getOrders({bool showLoading = true}) async {
     hasMore = true;
     if (isLoading) return;
     if (showLoading) toggleLoading(true);
@@ -106,14 +106,14 @@ class CustomerHomeController extends GetxController {
     } else {
       hasMore = false;
     }
-    toggleLoading(false);
+    if (showLoading) toggleLoading(false);
   }
 
   Future<void> refreshOrders({bool showLoading = true}) async {
     page = 1;
     hasMore = true;
     myOrders.clear();
-    getOrders(showLoading: showLoading);
+    await getOrders(showLoading: showLoading);
   }
 
   Timer? _debounce;
@@ -124,7 +124,7 @@ class CustomerHomeController extends GetxController {
     });
   }
 
-  void getRecentOrders({bool showLoading = true}) async {
+  Future getRecentOrders({bool showLoading = true}) async {
     if (isLoadingRecent) return;
     if (showLoading) toggleLoadingRecent(true);
     List<String> typesToFetch = ["available", "draft", "waiting_approval", "pending", "approved", "done", "canceled"];
@@ -134,13 +134,20 @@ class CustomerHomeController extends GetxController {
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
     //currentOrder = newOrders.first;
-    toggleLoadingRecent(false);
+    if (showLoading) toggleLoadingRecent(false);
   }
 
   Future<void> refreshRecentOrders({bool showLoading = true}) async {
     currentOrder = null;
     recentOrders.clear();
-    getRecentOrders(showLoading: showLoading);
+    await getRecentOrders(showLoading: showLoading);
+  }
+
+  Future refreshEverything() async {
+    await refreshOrders(showLoading: false);
+    await refreshRecentOrders(showLoading: false);
+    print("update============================");
+    update();
   }
 
   void deleteOrder(int id) async {
@@ -163,6 +170,7 @@ class CustomerHomeController extends GetxController {
   bool _isLoadingRecent = false;
   bool get isLoadingRecent => _isLoadingRecent;
   void toggleLoadingRecent(bool value) {
+    print("loading recent " + value.toString());
     _isLoadingRecent = value;
     update();
   }

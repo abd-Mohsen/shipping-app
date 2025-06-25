@@ -184,7 +184,7 @@ class CompanyHomeController extends GetxController {
     update();
   }
 
-  void getRecentOrders({bool showLoading = true}) async {
+  Future getRecentOrders({bool showLoading = true}) async {
     if (isLoadingRecent) return;
     if (showLoading) toggleLoadingRecent(true);
     List<String> typesToFetch = ["pending", "done", "canceled", "approved", "waiting_approval"];
