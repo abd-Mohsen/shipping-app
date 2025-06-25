@@ -722,4 +722,10 @@ class RemoteServices {
     );
     return json != null;
   }
+
+  static Future<bool> allowPhone(int orderID, int applicationID) async {
+    Map<String, dynamic> body = {"application_id": applicationID};
+    String? json = await api.postRequest("customer_order/$orderID/allow-phone-visibility/", body, auth: true);
+    return json != null;
+  }
 }

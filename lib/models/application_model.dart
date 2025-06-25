@@ -5,14 +5,12 @@ import 'package:shipment/models/vehicle_type_model.dart';
 List<ApplicationModel> applicationModelFromJson(String str) =>
     List<ApplicationModel>.from(json.decode(str).map((x) => ApplicationModel.fromJson(x)));
 
-String applicationModelToJson(List<ApplicationModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class ApplicationModel {
   final int id;
   final User driver;
   final User? acceptedBy;
   final Vehicle vehicle;
+  final bool canSeePhone;
   final DateTime appliedAt; //todo: 10 min
   final DateTime? deletedAt;
 
@@ -21,26 +19,20 @@ class ApplicationModel {
     required this.driver,
     required this.acceptedBy,
     required this.vehicle,
+    required this.canSeePhone,
     required this.appliedAt,
     required this.deletedAt,
   });
 
   factory ApplicationModel.fromJson(Map<String, dynamic> json) => ApplicationModel(
         id: json["id"],
+        canSeePhone: json["can_see_customer_phone"],
         driver: User.fromJson(json["driver"]),
         acceptedBy: User.fromJson(json["accepted_by"]),
         vehicle: Vehicle.fromJson(json["vehicle"]),
         appliedAt: DateTime.parse(json["applied_at"]),
         deletedAt: json["deleted_at"] == null ? null : DateTime.parse(json["deleted_at"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "driver": driver.toJson(),
-        "accepted_by": acceptedBy?.toJson(),
-        "vehicle": vehicle.toJson(),
-        "applied_at": appliedAt.toIso8601String(),
-      };
 }
 
 class User {

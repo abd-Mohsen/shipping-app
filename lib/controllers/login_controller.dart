@@ -53,6 +53,7 @@ class LoginController extends GetxController {
     }
     _getStorage.write("token", loginData.token);
     _getStorage.write("role", loginData.role.type);
+    _getStorage.write("id", loginData.id);
     print(_getStorage.read("token"));
     if (loginData.role.type == "driver" || loginData.role.type == "company_employee") {
       Get.offAll(() => const DriverHomeView());

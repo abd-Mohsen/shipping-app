@@ -68,7 +68,7 @@ class OrderView extends StatelessWidget {
             ? OrderController(orderID: orderID, companyHomeController: cHC2)
             : OrderController(orderID: orderID, driverHomeController: dHC));
 
-    alertDialog({required onPressed, required String title, Widget? content}) => AlertDialog(
+    alertDialog({required onPressed, required String title, onPressedWhatsApp, Widget? content}) => AlertDialog(
           title: Text(
             title,
             style: tt.titleMedium!.copyWith(color: cs.onSurface),
@@ -82,6 +82,14 @@ class OrderView extends StatelessWidget {
                 style: tt.titleSmall!.copyWith(color: Colors.red),
               ),
             ),
+            if (onPressedWhatsApp != null)
+              TextButton(
+                onPressed: onPressedWhatsApp,
+                child: Text(
+                  "whatsapp".tr,
+                  style: tt.titleSmall!.copyWith(color: Colors.green),
+                ),
+              ),
             TextButton(
               onPressed: () {
                 Get.back();
@@ -103,6 +111,10 @@ class OrderView extends StatelessWidget {
               //     ? oC.order!.acceptedApplication!.driver.phoneNumber
               //     : oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
             );
+          },
+          onPressedWhatsApp: () {
+            Get.back();
+            oC.openWhatsApp(phone);
           },
           title: 'do you want to call this person?'.tr,
         );
@@ -357,7 +369,10 @@ class OrderView extends StatelessWidget {
                               //todo: when refusing show how many times he has left
                               /// accept order
                               ///
-                              if (!isCustomer && ["available", "waiting_approval"].contains(oC.order!.status))
+                              if (!isCustomer &&
+                                  (["available"].contains(oC.order!.status) ||
+                                      (["waiting_approval"].contains(oC.order!.status) &&
+                                          controller.didThisDriverAcceptThisOrder)))
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   child: CustomButton(
@@ -713,6 +728,18 @@ class OrderView extends StatelessWidget {
                                             ),
                                           );
                                         },
+                                        onSeePhone: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => alertDialog(
+                                              onPressed: () {
+                                                Get.back();
+                                                controller.allowToSeePhone(controller.order!.driversApplications[i].id);
+                                              },
+                                              title: "allow driver to see your phone".tr,
+                                            ),
+                                          );
+                                        },
                                         onTapRefuse: () {
                                           showDialog(
                                             context: context,
@@ -931,8 +958,15 @@ class OrderView extends StatelessWidget {
                                     title: "owner info".tr,
                                     content: ApplicationCard2(
                                       title: oC.order!.orderOwner?.name ?? "",
-                                      showButtons: (["processing", "done", "approved"].contains(oC.order!.status)),
+                                      //showButtons: (["processing", "done", "approved"].contains(oC.order!.status)),
+                                      showButtons: controller.order!.driversApplications.first.canSeePhone,
                                       isLast: true,
+                                      onTapCall: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => callDialog(controller.order!.orderOwner!.phoneNumber),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),

@@ -13,6 +13,7 @@ import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shipment/models/vehicle_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../services/remote_services.dart';
 
 class OrderController extends GetxController {
@@ -470,6 +471,40 @@ class OrderController extends GetxController {
     bool? res = await FlutterPhoneDirectCaller.callNumber(number);
     if (res != true) {
       print("failed");
+    }
+  }
+
+  void allowToSeePhone(int applicationID) async {
+    bool success = await RemoteServices.allowPhone(order!.id, applicationID);
+    if (success) {
+      //if (Get.routing.current == "/OrderView") Get.back();
+      refreshOrder();
+      driverHomeController!.refreshExploreOrders();
+      driverHomeController!.refreshOrders();
+      driverHomeController!.refreshRecentOrders();
+      Get.showSnackbar(GetSnackBar(
+        message: "user can now see your phone".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+    }
+    toggleLoadingSubmit(false);
+  }
+
+  bool get didThisDriverAcceptThisOrder {
+    return order!.driversApplications.map((a) => a.driver.id).contains(_getStorage.read("id"));
+  }
+
+  void openWhatsApp(String phoneNumber) async {
+    if (phoneNumber.startsWith('0')) {
+      phoneNumber = '963${phoneNumber.substring(1)}';
+    }
+    final Uri whatsappUrl = Uri.parse("https://wa.me/$phoneNumber");
+
+    if (await canLaunchUrl(whatsappUrl)) {
+      await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+    } else {
+      // Handle the error
+      print("WhatsApp not installed or cannot launch URL");
     }
   }
 }

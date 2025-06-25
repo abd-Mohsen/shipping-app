@@ -35,15 +35,18 @@ class CompanyInfo {
 }
 
 class LoginModel {
+  final int id;
   final String token;
   final Role role;
 
   LoginModel({
     required this.token,
+    required this.id,
     required this.role,
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+        id: json["id"],
         token: json["token"],
         role: Role.fromJson(json["role"]),
       );

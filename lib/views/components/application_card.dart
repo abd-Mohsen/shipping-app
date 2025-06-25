@@ -8,6 +8,7 @@ class ApplicationCard extends StatelessWidget {
   final ApplicationModel application;
   final void Function()? onTapCall;
   final void Function()? onTapAccept;
+  final void Function()? onSeePhone;
   final void Function()? onTapRefuse;
   final bool? showButtons;
   final bool? isAccepted;
@@ -21,6 +22,7 @@ class ApplicationCard extends StatelessWidget {
     this.showButtons,
     this.onTapAccept,
     this.onTapRefuse,
+    this.onSeePhone,
     this.isAccepted,
   });
 
@@ -114,27 +116,27 @@ class ApplicationCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (showButtons ?? false)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                      child: GestureDetector(
-                        onTap: onTapRefuse,
-                        child: Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(width: 0.3),
-                            ),
-                            child: Icon(
-                              Icons.close,
-                              size: 20,
-                              color: cs.onPrimary,
-                            )),
-                      ),
-                    ),
-                  if (showButtons ?? false)
+                  // if (showButtons ?? false) //todo there is no refuse
+                  //   Padding(
+                  //     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                  //     child: GestureDetector(
+                  //       onTap: onTapRefuse,
+                  //       child: Container(
+                  //           width: 35,
+                  //           height: 35,
+                  //           decoration: BoxDecoration(
+                  //             color: Colors.red,
+                  //             borderRadius: BorderRadius.circular(100),
+                  //             border: Border.all(width: 0.3),
+                  //           ),
+                  //           child: Icon(
+                  //             Icons.close,
+                  //             size: 20,
+                  //             color: cs.onPrimary,
+                  //           )),
+                  //     ),
+                  //   ),
+                  if ((showButtons ?? false) && application.canSeePhone)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                       child: GestureDetector(
@@ -154,7 +156,27 @@ class ApplicationCard extends StatelessWidget {
                             )),
                       ),
                     ),
-                  if (isAccepted ?? true)
+                  if ((showButtons ?? false) && !application.canSeePhone)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                      child: GestureDetector(
+                        onTap: onSeePhone,
+                        child: Container(
+                            width: 35,
+                            height: 35,
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(100),
+                              border: Border.all(width: 0.3),
+                            ),
+                            child: Icon(
+                              Icons.contact_phone_rounded,
+                              size: 20,
+                              color: cs.onPrimary,
+                            )),
+                      ),
+                    ),
+                  if (application.canSeePhone)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                       child: GestureDetector(
@@ -165,7 +187,7 @@ class ApplicationCard extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: cs.secondaryContainer,
                               borderRadius: BorderRadius.circular(100),
-                              border: Border.all(width: 0.3),
+                              border: Border.all(width: 0.6, color: cs.onSecondaryContainer),
                             ),
                             child: Icon(
                               CupertinoIcons.phone,
