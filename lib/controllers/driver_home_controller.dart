@@ -115,12 +115,12 @@ class DriverHomeController extends GetxController {
             ) ??
             [];
     myOrders.addAll(newItems);
-    toggleLoading(false);
+    if (showLoading) toggleLoading(false);
   }
 
   Future<void> refreshOrders({bool showLoading = true}) async {
     myOrders.clear();
-    getOrders(showLoading: showLoading);
+    await getOrders(showLoading: showLoading);
   }
 
   Future<void> getRecentOrders({bool showLoading = true}) async {
@@ -137,12 +137,12 @@ class DriverHomeController extends GetxController {
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
     //currentOrder = newOrders.first;
-    toggleLoadingRecent(false);
+    if (showLoading) toggleLoadingRecent(false);
     //
     if (currentOrder != null) trackingID = currentOrder!.id;
     print("tracking order with ID ${trackingID.toString()}");
     if (trackingID != 0) {
-      _connectTrackingSocket();
+      _connectTrackingSocket(); //todo(later): if refreshed in real time, handle reconnection
     } else {
       setTrackingStatus("no running order");
     }
@@ -153,11 +153,18 @@ class DriverHomeController extends GetxController {
     currentOrder = null;
     recentOrders.clear();
 
-    await _cleanUpWebSocket(); // Make sure everything's cleaned up first
-    getRecentOrders(showLoading: showLoading);
+    if (showLoading) await _cleanUpWebSocket(); // Make sure everything's cleaned up first
+    await getRecentOrders(showLoading: showLoading);
     //_connectTrackingSocket(); // Call this directly instead of getRecentOrders()
   }
   //
+
+  Future refreshEverything() async {
+    await refreshOrders(showLoading: false);
+    await refreshRecentOrders(showLoading: false);
+    print("update============================");
+    update();
+  }
 
   bool isEmployee = false;
 

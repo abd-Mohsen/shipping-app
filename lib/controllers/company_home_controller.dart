@@ -150,7 +150,7 @@ class CompanyHomeController extends GetxController {
     refreshOrders();
   }
 
-  void getOrders({bool showLoading = true}) async {
+  Future getOrders({bool showLoading = true}) async {
     if (isLoading) return;
     if (showLoading) toggleLoading(true);
     List<String> typesToFetch = [];
@@ -170,12 +170,12 @@ class CompanyHomeController extends GetxController {
         ) ??
         [];
     myOrders.addAll(newItems);
-    toggleLoading(false);
+    if (showLoading) toggleLoading(false);
   }
 
   Future<void> refreshOrders({bool showLoading = true}) async {
     myOrders.clear();
-    getOrders(showLoading: showLoading);
+    await getOrders(showLoading: showLoading);
   }
 
   bool isLoadingRecent = false;
@@ -194,13 +194,20 @@ class CompanyHomeController extends GetxController {
     recentOrders.addAll(newOrders);
     if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
     //currentOrder = newOrders.first;
-    toggleLoadingRecent(false);
+    if (showLoading) toggleLoadingRecent(false);
   }
 
   Future<void> refreshRecentOrders({bool showLoading = true}) async {
     currentOrder = null;
     recentOrders.clear();
-    getRecentOrders(showLoading: showLoading);
+    await getRecentOrders(showLoading: showLoading);
+  }
+
+  Future refreshEverything() async {
+    await refreshOrders(showLoading: false);
+    await refreshRecentOrders(showLoading: false);
+    print("update============================");
+    update();
   }
 
   // -----------------employees-----------------------
