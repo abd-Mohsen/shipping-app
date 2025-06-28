@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/constants.dart';
@@ -281,6 +282,12 @@ class OrderController extends GetxController {
   }
 
   void beginOrderDriver() async {
+    //todo check if location is on
+    bool locationEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!locationEnabled) {
+      Geolocator.openLocationSettings();
+      return;
+    }
     if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingSubmit(true);
     bool success = isEmployee

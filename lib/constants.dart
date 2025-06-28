@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/login_view.dart';
 
@@ -53,7 +54,7 @@ AlertDialog kSessionExpiredDialog() => AlertDialog(
 AlertDialog kActivateAccountDialog() => AlertDialog(
       backgroundColor: Colors.white,
       title: const Text("حسابك غير مفعل", style: TextStyle(color: Colors.black)),
-      content: const Text("يرجى التواصل مع شركة ليليا لتفعيل حسابك", style: TextStyle(color: Colors.black)),
+      content: const Text("يرجى التواصل مع شركة لتفعيل حسابك", style: TextStyle(color: Colors.black)),
       actions: [
         TextButton(
             onPressed: () {
@@ -61,6 +62,29 @@ AlertDialog kActivateAccountDialog() => AlertDialog(
             },
             child: const Text("تسجيل خروج", style: TextStyle(color: Colors.red))),
       ],
+    );
+
+Widget kEnableLocationDialog() => PopScope(
+      canPop: false,
+      child: AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text('location Required'.tr, style: TextStyle(color: Colors.black)),
+        content: Text('please enable location services then press ok'.tr, style: TextStyle(color: Colors.black)),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Geolocator.openLocationSettings();
+            },
+            child: Text("open settings".tr, style: TextStyle(color: Colors.black)),
+          ),
+          TextButton(
+            onPressed: () async {
+              if (await Geolocator.isLocationServiceEnabled()) Get.back();
+            },
+            child: Text("ok".tr, style: TextStyle(color: Colors.black)),
+          ),
+        ],
+      ),
     );
 
 kTimeOutDialog() => Get.defaultDialog(

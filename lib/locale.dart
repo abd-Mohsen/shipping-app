@@ -320,6 +320,8 @@ class MyLocale extends Translations {
           "all": "all",
           "pick a time at least 1 hr from now": "pick a time at least 1 hr from now",
           'swipe to choose your role': 'swipe to choose your role',
+          'location Required': 'location required',
+          'please enable location services then press ok': 'please enable location services then press ok',
         },
         "ar": {
           "Arabic": "العربية",
@@ -635,6 +637,8 @@ class MyLocale extends Translations {
           "all": "الكل",
           "pick a time at least 1 hr from now": "اختر وقت بعد ساعة على الاقل",
           'swipe to choose your role': 'اسحب لاختيار نوع حسابك',
+          'location Required': 'خدمات الموقع مطلوبة',
+          'please enable location services then press ok': 'من فضلك قم بتشغيل خدمات الموقع ثم اضغط موافق',
         },
       };
 }

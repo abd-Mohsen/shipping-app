@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/views/complete_account_view.dart';
@@ -430,6 +431,7 @@ class DriverHomeController extends GetxController {
       timeLimit: null,
     );
 
+    startCheckingLocation();
     subscription = Geolocator.getPositionStream(locationSettings: locationSettings).listen(
       (Position position) {
         final pos = {
@@ -491,6 +493,19 @@ class DriverHomeController extends GetxController {
 
   //bool _shouldReconnect = true;
   final Duration _initialReconnectDelay = Duration(seconds: 5);
+
+  void startCheckingLocation() {
+    _locationTimer?.cancel();
+
+    _locationTimer = Timer.periodic(const Duration(seconds: 10), (timer) async {
+      bool locationEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!locationEnabled) {
+        Get.dialog(kEnableLocationDialog(), barrierDismissible: false);
+        _cleanUpWebSocket();
+        setTrackingStatus("turn location on");
+      }
+    });
+  }
 
   bool _isConnecting = false;
 
