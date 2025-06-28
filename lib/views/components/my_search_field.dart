@@ -7,6 +7,7 @@ class MySearchField extends StatelessWidget {
   final void Function(String?)? onSubmit;
   final void Function(PointerDownEvent)? onTapOutside;
   final void Function()? onTapField;
+  final void Function()? onTapSuffix;
   final void Function(String?)? onChanged;
 
   const MySearchField({
@@ -17,6 +18,7 @@ class MySearchField extends StatelessWidget {
     this.onSubmit,
     this.onTapOutside,
     this.onTapField,
+    this.onTapSuffix,
     this.onChanged,
   });
 
@@ -37,6 +39,15 @@ class MySearchField extends StatelessWidget {
             padding: const EdgeInsets.all(6.0),
             child: icon,
           ),
+          suffixIcon: onTapSuffix == null
+              ? null
+              : GestureDetector(
+                  onTap: onTapSuffix,
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Icon(Icons.close, color: cs.primary),
+                  ),
+                ),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           filled: true,
           //fillColor: Color.lerp(cs.primary.withOpacity(0.5), Colors.white, 0.5),

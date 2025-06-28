@@ -325,6 +325,7 @@ class MyLocale extends Translations {
           "select this location": "select this location",
           'how do you want to call this person?': 'how do you want to call this person?',
           "open map": "open map",
+          "no results": "no results",
         },
         "ar": {
           "Arabic": "العربية",
@@ -645,6 +646,7 @@ class MyLocale extends Translations {
           "select this location": "اخنر الموقع",
           'how do you want to call this person?': 'كيف تريد التواصل؟',
           "open map": "عرض الخريطة",
+          "no results": "لا يوجد نتائج",
         },
       };
 }

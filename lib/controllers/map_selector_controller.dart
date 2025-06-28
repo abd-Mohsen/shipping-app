@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
@@ -87,6 +88,14 @@ class MapSelectorController extends GetxController {
     update();
   }
 
+  Timer? _debounce;
+  triggerSearch() {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 1000), () {
+      search();
+    });
+  }
+
   void search() async {
     if (searchQuery.text.trim().isEmpty) return;
     toggleLoadingSearch(true);
@@ -96,11 +105,11 @@ class MapSelectorController extends GetxController {
     searchResults.addAll(newItems);
     toggleLoadingSearch(false);
     if (searchResults.isEmpty) {
-      Get.showSnackbar(GetSnackBar(
-        message: "no result".tr,
-        duration: const Duration(milliseconds: 6000),
-        backgroundColor: Colors.red,
-      ));
+      // Get.showSnackbar(GetSnackBar(
+      //   message: "no result".tr,
+      //   duration: const Duration(milliseconds: 6000),
+      //   backgroundColor: Colors.red,
+      // ));
     }
     // else {
     //   traverseSearchResults(true);
