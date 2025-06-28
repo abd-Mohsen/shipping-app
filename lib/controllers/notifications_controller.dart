@@ -9,6 +9,8 @@ import '../main.dart';
 import '../services/remote_services.dart';
 import '../views/redirect_page.dart';
 
+//todo: i once got: notification controller was called after being disposed, how was it disposed?
+
 class NotificationsController extends GetxController {
   @override
   onInit() {

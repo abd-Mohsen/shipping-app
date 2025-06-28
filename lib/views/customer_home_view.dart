@@ -55,6 +55,7 @@ class CustomerHomeView extends StatelessWidget {
         child: GetBuilder<HomeNavigationController>(
           builder: (controller) {
             return Scaffold(
+              resizeToAvoidBottomInset: false,
               // appBar: AppBar(
               //   backgroundColor: cs.primary,
               //   iconTheme: IconThemeData(

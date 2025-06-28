@@ -4,6 +4,7 @@ import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
@@ -102,7 +103,55 @@ class OrderView extends StatelessWidget {
           ],
         );
 
-    callDialog(String phone) => alertDialog(
+    alertDialogWithIcons({required onPressed, required String title, onPressedWhatsApp, Widget? content}) =>
+        AlertDialog(
+          title: Text(
+            title,
+            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+          ),
+          content: content,
+          actions: [
+            GestureDetector(
+              onTap: onPressedWhatsApp,
+              child: Row(
+                children: [
+                  Icon(Icons.call, color: cs.onSurface),
+                  const SizedBox(width: 8),
+                  Text(
+                    "phone".tr,
+                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
+            if (onPressedWhatsApp != null)
+              GestureDetector(
+                onTap: onPressedWhatsApp,
+                child: Row(
+                  children: [
+                    const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                    const SizedBox(width: 8),
+                    Text(
+                      "whatsapp".tr,
+                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                    ),
+                  ],
+                ),
+              ),
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text(
+                "cancel".tr,
+                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+              ),
+            ),
+          ],
+        );
+
+    callDialog(String phone) => alertDialogWithIcons(
           onPressed: () {
             Get.back();
             oC.callPhone(
@@ -116,7 +165,7 @@ class OrderView extends StatelessWidget {
             Get.back();
             oC.openWhatsApp(phone);
           },
-          title: 'do you want to call this person?'.tr,
+          title: 'how do you want to call this person?'.tr,
         );
 
     mainButton({required alertDialog, required bool isLoading, required String buttonText}) => Padding(

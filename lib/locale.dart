@@ -323,6 +323,7 @@ class MyLocale extends Translations {
           'location Required': 'location required',
           'please enable location services then press ok': 'please enable location services then press ok',
           "select this location": "select this location",
+          'how do you want to call this person?': 'how do you want to call this person?',
         },
         "ar": {
           "Arabic": "العربية",
@@ -641,6 +642,7 @@ class MyLocale extends Translations {
           'location Required': 'خدمات الموقع مطلوبة',
           'please enable location services then press ok': 'من فضلك قم بتشغيل خدمات الموقع ثم اضغط موافق',
           "select this location": "اخنر الموقع",
+          'how do you want to call this person?': 'كيف تريد التواصل؟',
         },
       };
 }

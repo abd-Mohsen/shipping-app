@@ -53,6 +53,7 @@ class DriverHomeView extends StatelessWidget {
         builder: (controller) {
           return SafeArea(
             child: Scaffold(
+              resizeToAvoidBottomInset: false,
               key: hC.scaffoldKey,
               // bottomNavigationBar: NavigationBar(
               //   destinations: [
