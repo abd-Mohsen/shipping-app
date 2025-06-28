@@ -40,7 +40,7 @@ class MakeOrderController extends GetxController {
 
   @override
   void onClose() {
-    saveDraft();
+    if (order == null) saveDraft();
     super.onClose();
   }
 
@@ -94,7 +94,7 @@ class MakeOrderController extends GetxController {
       "start_point": sourceAddress?.toJson(),
       "end_point": targetAddress?.toJson(),
       "weight": weight.text,
-      "weight_unit": selectedWeightUnit!.toJson(),
+      "weight_unit": selectedWeightUnit?.toJson(),
       "price": price.text,
       "currency": selectedCurrency?.toJson(),
       "DateTime": desiredDate.toIso8601String(),
@@ -133,9 +133,6 @@ class MakeOrderController extends GetxController {
   }
 
   Future prePopulate() async {
-    List currentPaymentMethodsIDs = order!.paymentMethods.map((p) => p.id).toList();
-    await Future.delayed(const Duration(milliseconds: 600));
-    paymentMethodController.selectWhere((item) => currentPaymentMethodsIDs.contains(item.value.id));
     sourceAddress = order!.startPoint;
     targetAddress = order!.endPoint;
     description.text = order!.description;
@@ -148,8 +145,13 @@ class MakeOrderController extends GetxController {
     DateTime orderDate = order!.dateTime;
     selectedDate = orderDate;
     selectedTime = TimeOfDay(hour: orderDate.hour, minute: orderDate.minute);
+    //paymentMethodController.selectAll();
     calculateApplicationCommission();
     prePopulateExtraInfo();
+    List currentPaymentMethodsValues = order!.paymentMethods.map((p) => p.payment.methodValue).toList();
+    await Future.delayed(const Duration(milliseconds: 600));
+    paymentMethodController.selectWhere((item) => currentPaymentMethodsValues.contains(item.value.value));
+    print(currentPaymentMethodsValues);
     update();
   }
 
