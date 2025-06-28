@@ -33,7 +33,7 @@ class OrderCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2), // Shadow color
+                color: Colors.black.withValues(alpha: 0.2), // Shadow color
                 blurRadius: 4, // Soften the shadow
                 spreadRadius: 1, // Extend the shadow
                 offset: Offset(1.5, 1.5), // Shadow direction (x, y)
@@ -44,8 +44,10 @@ class OrderCard extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               border: Border.all(
-                color: order.status == "processing" ? cs.primary : cs.surface,
-                width: order.status == "processing" ? 1.5 : 0.5,
+                // color: order.status == "processing" ? cs.primary : cs.surface,
+                // width: order.status == "processing" ? 1.5 : 0.5,
+                color: cs.surface,
+                width: 0.5,
               ),
               borderRadius: BorderRadius.circular(10),
               color: cs.secondaryContainer,
@@ -143,14 +145,14 @@ class OrderCard extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: tt.labelSmall!.copyWith(
-                              color: cs.onSurface.withOpacity(0.5),
+                              color: cs.onSurface.withValues(alpha: 0.5),
                             ),
                           ),
                           const SizedBox(height: 8),
                           Text(
                             "arrive date".tr,
                             style: tt.labelSmall!.copyWith(
-                              color: cs.onSurface.withOpacity(0.5),
+                              color: cs.onSurface.withValues(alpha: 0.5),
                             ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -159,7 +161,7 @@ class OrderCard extends StatelessWidget {
                           Text(
                             "expected price".tr,
                             style: tt.labelSmall!.copyWith(
-                              color: cs.onSurface.withOpacity(0.5),
+                              color: cs.onSurface.withValues(alpha: 0.5),
                             ),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,

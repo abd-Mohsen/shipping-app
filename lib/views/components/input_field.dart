@@ -13,6 +13,7 @@ class InputField extends StatelessWidget {
     this.suffixIcon,
     required this.validator,
     required this.onChanged,
+    this.onTapOutside,
     this.minLines,
     this.maxLines,
     this.floatingLabelBehavior,
@@ -29,6 +30,7 @@ class InputField extends StatelessWidget {
   final Widget? suffixIcon;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
+  final void Function(PointerDownEvent)? onTapOutside;
   final FloatingLabelBehavior? floatingLabelBehavior;
 
   @override
@@ -84,6 +86,7 @@ class InputField extends StatelessWidget {
         style: tt.titleSmall!.copyWith(color: cs.onSurface),
         validator: validator,
         onChanged: onChanged,
+        onTapOutside: onTapOutside,
       ),
     );
   }

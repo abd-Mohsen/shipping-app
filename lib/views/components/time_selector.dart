@@ -19,6 +19,8 @@ class TimeSelector extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
         onTap: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
+
           TimeOfDay? newTime = await showTimePicker(
             context: context,
             initialTime: TimeOfDay.now(),

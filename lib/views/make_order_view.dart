@@ -178,6 +178,9 @@ class MakeOrderView extends StatelessWidget {
                           if (controller.buttonPressed) controller.formKey.currentState!.validate();
                           controller.calculateApplicationCommission();
                         },
+                        onTapOutside: (_) {
+                          FocusScope.of(context).unfocus();
+                        },
                       ),
                     ),
                     const SizedBox(width: 8),

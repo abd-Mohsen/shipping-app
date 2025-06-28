@@ -322,6 +322,7 @@ class MyLocale extends Translations {
           'swipe to choose your role': 'swipe to choose your role',
           'location Required': 'location required',
           'please enable location services then press ok': 'please enable location services then press ok',
+          "select this location": "select this location",
         },
         "ar": {
           "Arabic": "العربية",
@@ -639,6 +640,7 @@ class MyLocale extends Translations {
           'swipe to choose your role': 'اسحب لاختيار نوع حسابك',
           'location Required': 'خدمات الموقع مطلوبة',
           'please enable location services then press ok': 'من فضلك قم بتشغيل خدمات الموقع ثم اضغط موافق',
+          "select this location": "اخنر الموقع",
         },
       };
 }

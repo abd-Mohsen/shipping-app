@@ -76,9 +76,9 @@ class MapSheet extends StatelessWidget {
                         blendMode: BlendMode.dstOut,
                         child: ColorFiltered(
                           colorFilter: const ColorFilter.matrix([
-                            0.8, 0.1, 0.1, 0, 0, // Red channel (80% red, 10% green/blue)
-                            0.1, 0.8, 0.1, 0, 0, // Green channel
-                            0.1, 0.1, 0.8, 0, 0, // Blue channel
+                            0.9, 0.1, 0.1, 0, 0, // Red channel (80% red, 10% green/blue)
+                            0.1, 0.9, 0.1, 0, 0, // Green channel
+                            0.1, 0.1, 0.9, 0, 0, // Blue channel
                             0, 0, 0, 1, 0, // Alpha (unchanged)
                           ]),
                           child: OSMFlutter(
@@ -326,14 +326,18 @@ class MapSheet extends StatelessWidget {
                           visible: controller.selectedPosition != null,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                            child: FloatingActionButton(
+                            child: FloatingActionButton.extended(
                               heroTag: "pick address",
                               onPressed: () {
                                 onDone(controller.selectedPosition!, start ?? true);
                               },
                               foregroundColor: cs.onPrimary,
                               backgroundColor: Colors.green,
-                              child: Icon(Icons.check),
+                              icon: Icon(Icons.check),
+                              label: Text(
+                                "select this location".tr,
+                                style: tt.labelMedium!.copyWith(color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
@@ -344,12 +348,16 @@ class MapSheet extends StatelessWidget {
                           left: 0,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                            child: FloatingActionButton(
+                            child: FloatingActionButton.extended(
                               heroTag: "open my address page",
                               onPressed: onTapMyAddresses,
                               foregroundColor: cs.onPrimary,
                               backgroundColor: cs.primary,
-                              child: Icon(Icons.location_on_outlined),
+                              icon: Icon(Icons.location_on_outlined),
+                              label: Text(
+                                "my addresses".tr,
+                                style: tt.labelMedium!.copyWith(color: Colors.white),
+                              ),
                               // Text(
                               //   "select from my addresses".tr.toUpperCase(),
                               //   style: tt.titleSmall!.copyWith(color: cs.onPrimary),

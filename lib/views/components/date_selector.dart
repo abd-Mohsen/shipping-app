@@ -20,6 +20,7 @@ class DateSelector extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ListTile(
         onTap: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
           DateTime? newDate = await showDatePicker(
             context: context,
             initialDate: DateTime.now(),
