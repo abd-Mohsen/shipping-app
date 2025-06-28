@@ -10,6 +10,7 @@ import '../constants.dart';
 import '../controllers/filter_controller.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../controllers/notifications_controller.dart';
+import '../controllers/online_socket_controller.dart';
 import 'edit_profile_view.dart';
 
 class CustomerHomeView extends StatelessWidget {
@@ -25,6 +26,7 @@ class CustomerHomeView extends StatelessWidget {
       filterController: fC,
     ));
     Get.put(NotificationsController(homeController: hC));
+    Get.put(OnlineSocketController());
 
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;

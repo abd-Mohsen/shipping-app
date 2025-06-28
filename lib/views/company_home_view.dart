@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
+import 'package:shipment/controllers/online_socket_controller.dart';
 import 'package:shipment/views/tabs/company_explore_tab.dart';
 import 'package:shipment/views/tabs/company_home_tab.dart';
 import 'package:shipment/views/tabs/company_manage_tab.dart';
@@ -32,6 +33,7 @@ class CompanyHomeView extends StatelessWidget {
       myVehiclesController: mVC,
     ));
     Get.put(NotificationsController(homeController: cHC));
+    Get.put(OnlineSocketController());
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;

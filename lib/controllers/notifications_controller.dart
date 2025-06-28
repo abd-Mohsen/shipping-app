@@ -12,14 +12,15 @@ import '../views/redirect_page.dart';
 
 class NotificationsController extends GetxController {
   final dynamic homeController;
+
   NotificationsController({required this.homeController});
+
   @override
   onInit() {
     requestPermissionFCM();
     getFCMToken();
     setupFCMListeners();
     getNotifications();
-    _connectNotificationSocket();
     _connectRefreshSocket();
     setPaginationListener();
     super.onInit();
@@ -27,8 +28,6 @@ class NotificationsController extends GetxController {
 
   @override
   void onClose() {
-    websocket!.close();
-    websocket = null;
     super.dispose();
   }
 
@@ -37,58 +36,6 @@ class NotificationsController extends GetxController {
   int notificationID = 0;
 
   bool newNotifications = true;
-
-  //todo(later): implement reconnection logic for both
-
-  WebSocket? websocket;
-  WebSocket? websocket2;
-
-  void _connectNotificationSocket() async {
-    String socketUrl = 'wss://shipping.adadevs.com/ws/connected-users/?token=${_getStorage.read("token")}';
-
-    websocket = await WebSocket.connect(
-      socketUrl,
-      //protocols: ['Token', _getStorage.read("token")],
-    ).timeout(const Duration(seconds: 40));
-
-    websocket!.listen(
-      (message) {
-        //print('Message from server: $message');
-        // message = jsonDecode(message);
-        // notificationService.showNotification(
-        //   id: notificationID,
-        //   title: message["type"] + notificationID.toString(),
-        //   body: message["text"],
-        // );
-        // notificationID++;
-      },
-      onDone: () {
-        print('WebSocket connection closed');
-      },
-      onError: (error) {
-        print('WebSocket error: $error');
-      },
-    );
-  }
-
-  void _connectRefreshSocket() async {
-    String socketUrl = 'wss://shipping.adadevs.com/ws/changes/?token=${_getStorage.read("token")}';
-
-    websocket = await WebSocket.connect(socketUrl).timeout(const Duration(seconds: 40));
-
-    websocket!.listen(
-      (message) async {
-        print("refreshed orders");
-        await homeController.refreshEverything();
-      },
-      onDone: () {
-        print('WebSocket connection closed');
-      },
-      onError: (error) {
-        print('WebSocket error: $error');
-      },
-    );
-  }
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
@@ -133,7 +80,9 @@ class NotificationsController extends GetxController {
   //-------------------------notifications page--------------------------------
 
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
+
   void toggleLoading(bool value) {
     _isLoading = value;
     update();
@@ -146,6 +95,7 @@ class NotificationsController extends GetxController {
 
   int page = 1, limit = 10;
   bool hasMore = true;
+
   //bool failed = false;
 
   void setPaginationListener() {
@@ -194,5 +144,30 @@ class NotificationsController extends GetxController {
       unreadCount--;
       update();
     }
+  }
+
+//-------------------------------- global sockets ----------------------------
+
+//todo(later): implement reconnection logic for both
+
+  WebSocket? refreshWebsocket;
+
+  void _connectRefreshSocket() async {
+    String socketUrl = 'wss://shipping.adadevs.com/ws/changes/?token=${_getStorage.read("token")}';
+
+    refreshWebsocket = await WebSocket.connect(socketUrl).timeout(const Duration(seconds: 40));
+
+    refreshWebsocket!.listen(
+      (message) async {
+        print("refreshed orders");
+        await homeController.refreshEverything();
+      },
+      onDone: () {
+        print('WebSocket connection closed');
+      },
+      onError: (error) {
+        print('WebSocket error: $error');
+      },
+    );
   }
 }
