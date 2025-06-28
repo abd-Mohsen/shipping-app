@@ -57,7 +57,7 @@ class TrackingView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.2), // Shadow color
+                      color: Colors.black.withValues(alpha: 0.2), // Shadow color
                       blurRadius: 4, // Soften the shadow
                       spreadRadius: 2, // Extend the shadow
                       offset: Offset(1, 1), // Shadow direction (x, y)
@@ -69,7 +69,7 @@ class TrackingView extends StatelessWidget {
                     ListTile(
                       title: Text(
                         "order".tr,
-                        style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+                        style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                       ),
                       subtitle: Text(
                         controller.order!.description,
@@ -104,7 +104,7 @@ class TrackingView extends StatelessWidget {
                               children: [
                                 Text(
                                   "weight".tr,
-                                  style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+                                  style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
@@ -123,7 +123,7 @@ class TrackingView extends StatelessWidget {
                                 children: [
                                   Text(
                                     "from".tr,
-                                    style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+                                    style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
@@ -143,7 +143,7 @@ class TrackingView extends StatelessWidget {
                                 children: [
                                   Text(
                                     "to".tr,
-                                    style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+                                    style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
@@ -161,14 +161,16 @@ class TrackingView extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Divider(
-                      color: cs.onSurface.withOpacity(0.2),
+                      color: cs.onSurface.withValues(alpha: 0.2),
                       indent: 12,
                       endIndent: 20,
                     ),
-                    ApplicationCard(
-                      application: controller.order?.acceptedApplication ?? controller.order!.driversApplications.first,
-                      isLast: true,
-                    ),
+                    if (controller.order!.driversApplications.isNotEmpty)
+                      ApplicationCard(
+                        application:
+                            controller.order?.acceptedApplication ?? controller.order!.driversApplications.first,
+                        isLast: true,
+                      ),
                   ],
                 ),
               ),

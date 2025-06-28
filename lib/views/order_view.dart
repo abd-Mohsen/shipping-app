@@ -648,19 +648,18 @@ class OrderView extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 12.0, right: 12, top: 4),
                                         child: CustomButton(
-                                          onTap: isCustomer && oC.order!.status == "processing"
-                                              ? () async {
-                                                  Get.to(TrackingView(map: map()));
-                                                  //controller.connectTrackingSocket();
-                                                }
-                                              : null,
+                                          onTap: () async {
+                                            Get.to(TrackingView(map: map()));
+                                            //controller.connectTrackingSocket();
+                                          },
                                           isShort: true,
                                           isGradiant: true,
-                                          color:
-                                              isCustomer && oC.order!.status == "processing" ? cs.primary : Colors.grey,
+                                          color: cs.primary,
                                           child: Center(
                                             child: Text(
-                                              "live tracking".tr.toUpperCase(),
+                                              isCustomer && oC.order!.status == "processing"
+                                                  ? "live tracking".tr.toUpperCase()
+                                                  : "open map".tr,
                                               style: tt.labelMedium!
                                                   .copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
                                             ),
