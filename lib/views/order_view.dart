@@ -1009,6 +1009,68 @@ class OrderView extends StatelessWidget {
                                   ),
                                 ),
 
+                              /// available payment methods
+                              ///
+                              Padding(
+                                padding: const EdgeInsets.only(top: 16.0, bottom: 16, right: 4, left: 4),
+                                child: TitledCard(
+                                  title: "payment methods".tr,
+                                  content: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                      child: Wrap(
+                                        spacing: 8,
+                                        children: List.generate(
+                                          controller.order!.paymentMethods.length,
+                                          (i) => GestureDetector(
+                                            onTap: () {
+                                              if (["approved", "processing", "done"]
+                                                      .contains(controller.order!.status) &&
+                                                  controller.order!.paymentMethods[i].payment.fullName != null) {
+                                                Get.defaultDialog(
+                                                    backgroundColor: cs.surface,
+                                                    title: "details".tr,
+                                                    titleStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                    content: Text(
+                                                      "${controller.order!.paymentMethods[i].payment.fullName!}\n"
+                                                      "${controller.order!.paymentMethods[i].payment.phoneNumber ?? controller.order!.paymentMethods[i].payment.accountDetails ?? ''}",
+                                                      style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 4,
+                                                    ));
+
+                                                // showPopover(
+                                                //   context: context,
+                                                //   backgroundColor: cs.surface,
+                                                //   bodyBuilder: (context) => Padding(
+                                                //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                                                //     child: Text(
+                                                //       controller.order!.paymentMethods[i].payment.fullName! +
+                                                //           "\n" +
+                                                //           (controller.order!.paymentMethods[i].payment.phoneNumber ??
+                                                //               controller
+                                                //                   .order!.paymentMethods[i].payment.accountDetails ??
+                                                //               ''),
+                                                //       style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                //       overflow: TextOverflow.ellipsis,
+                                                //       maxLines: 4,
+                                                //     ),
+                                                //   ),
+                                                // );
+                                              }
+                                            },
+                                            child: Chip(
+                                              label: Text(
+                                                controller.order!.paymentMethods[i].payment.methodName,
+                                                style: tt.labelSmall!.copyWith(color: cs.onPrimary),
+                                              ),
+                                              backgroundColor: cs.primary,
+                                            ),
+                                          ),
+                                        ),
+                                      )),
+                                ),
+                              ),
+
                               ///details
                               ///
                               Padding(

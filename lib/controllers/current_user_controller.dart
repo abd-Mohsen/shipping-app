@@ -39,7 +39,8 @@ class CurrentUserController extends GetxController {
       'Pending', 'Verified', 'Refused', 'No_Input',
     */
     if (!refresh && currentUser != null) {
-      if (currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+      if (["driver", "company_employee"].contains(currentUser!.role.type) &&
+          currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
         Get.put(CompleteAccountController(homeController: this));
         Get.to(const CompleteAccountView());
       }
