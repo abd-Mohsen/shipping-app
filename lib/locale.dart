@@ -319,6 +319,7 @@ class MyLocale extends Translations {
               "and remove it from the other user",
           "all": "all",
           "pick a time at least 1 hr from now": "pick a time at least 1 hr from now",
+          'swipe to choose your role': 'swipe to choose your role',
         },
         "ar": {
           "Arabic": "العربية",
@@ -632,7 +633,8 @@ class MyLocale extends Translations {
           "do you want to assign here anyway and remove it from the other user": "هل تريد تعيينها على أية حال؟ و "
               "إزالتها من السائق الآخر؟",
           "all": "الكل",
-          "pick a time at least 1 hr from now": "اختر وقت بعد ساعة على الاقل"
+          "pick a time at least 1 hr from now": "اختر وقت بعد ساعة على الاقل",
+          'swipe to choose your role': 'اسحب لاختيار نوع حسابك',
         },
       };
 }

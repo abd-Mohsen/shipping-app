@@ -53,6 +53,7 @@ dependencies:
   app_settings: ^6.0.0
   modal_bottom_sheet: ^3.0.0
   animated_bottom_navigation_bar: ^1.4.0
+  video_player: ^2.10.0
 
 
 dev_dependencies:
@@ -68,6 +69,7 @@ flutter:
     - .env
     - assets/images/
     - assets/animations/
+    - assets/videos/register_role.mp4
   fonts:
     - family: Alexandria
       fonts:

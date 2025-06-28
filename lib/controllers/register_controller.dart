@@ -9,6 +9,7 @@ import '../models/user_model.dart';
 import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
 import '../views/company_home_view.dart';
+import '../views/components/show_video_dialog.dart';
 import '../views/customer_home_view.dart';
 import '../views/driver_home_view.dart';
 
@@ -34,8 +35,12 @@ class RegisterController extends GetxController {
   }
 
   @override
-  void onInit() {
-    //getSupervisorsNames();
+  void onInit() async {
+    if (!_getStorage.hasData("viewed_register_dialog")) {
+      await Future.delayed(const Duration(milliseconds: 1500));
+      Get.dialog(const AssetVideoDialog());
+    }
+    _getStorage.write("viewed_register_dialog", true);
     super.onInit();
   }
 

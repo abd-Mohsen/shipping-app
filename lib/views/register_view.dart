@@ -10,6 +10,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'components/auth_background.dart';
 import 'components/auth_field.dart';
+import 'components/show_video_dialog.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -30,9 +31,21 @@ class RegisterView extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20, top: 52),
-                    child: Text(
-                      "Register as:".tr,
-                      style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Register as:".tr,
+                          style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                        ),
+                        SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: () {
+                            Get.dialog(AssetVideoDialog());
+                          },
+                          child: Icon(Icons.info, color: cs.primary),
+                        )
+                      ],
                     ),
                   ),
                   Row(

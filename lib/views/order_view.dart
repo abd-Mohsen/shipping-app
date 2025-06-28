@@ -959,7 +959,8 @@ class OrderView extends StatelessWidget {
                                     content: ApplicationCard2(
                                       title: oC.order!.orderOwner?.name ?? "",
                                       //showButtons: (["processing", "done", "approved"].contains(oC.order!.status)),
-                                      showButtons: controller.order!.driversApplications.first.canSeePhone,
+                                      showButtons: controller.order!.driversApplications.isNotEmpty &&
+                                          controller.order!.driversApplications.first.canSeePhone,
                                       isLast: true,
                                       onTapCall: () {
                                         showDialog(
