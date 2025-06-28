@@ -9,7 +9,8 @@ import '../main.dart';
 import '../services/remote_services.dart';
 import '../views/redirect_page.dart';
 
-//todo: i once got: notification controller was called after being disposed, how was it disposed?
+//todo: i once got: home controller was called after being disposed, how was it disposed?
+// its 90% a memory problem
 
 class NotificationsController extends GetxController {
   @override

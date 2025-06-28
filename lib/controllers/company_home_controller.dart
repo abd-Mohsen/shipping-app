@@ -136,8 +136,9 @@ class CompanyHomeController extends GetxController {
 
   void setOrderType(String? type, bool clear, {bool selectAll = false}) {
     if (type == null) return;
+    if (!selectAll) selectedOrderTypes.clear();
     if (clear) {
-      selectedOrderTypes.clear();
+      //selectedOrderTypes.clear();
       homeNavigationController.changeTab(1);
     }
     if (selectAll) {

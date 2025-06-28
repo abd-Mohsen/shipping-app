@@ -33,13 +33,11 @@ import 'make_order_view.dart';
 
 class OrderView extends StatelessWidget {
   //todo: show payment methods
-  //todo: show vehicle type and plate
+  //todo: show vehicle type and plate (show application info in blurred sheet)
   //todo: show rate box for customer when status is done (and if not rated before)
   //todo: show to customer: the driver is offline when there is no connection to web socket
   //todo: map is not scrollable
   //todo: show currency here and in order cards
-  //todo: refactor this shit
-  //todo: tracking page
 
   final int orderID;
   const OrderView({
@@ -111,32 +109,22 @@ class OrderView extends StatelessWidget {
           ),
           content: content,
           actions: [
-            GestureDetector(
-              onTap: onPressedWhatsApp,
-              child: Row(
-                children: [
-                  Icon(Icons.call, color: cs.onSurface),
-                  const SizedBox(width: 8),
-                  Text(
-                    "phone".tr,
-                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                  ),
-                ],
+            ListTile(
+              onTap: onPressed,
+              leading: Icon(Icons.call, color: cs.onSurface),
+              title: Text(
+                "phone".tr,
+                style: tt.titleSmall!.copyWith(color: cs.onSurface),
               ),
             ),
-            const SizedBox(height: 8),
+            //const SizedBox(height: 8),
             if (onPressedWhatsApp != null)
-              GestureDetector(
+              ListTile(
                 onTap: onPressedWhatsApp,
-                child: Row(
-                  children: [
-                    const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
-                    const SizedBox(width: 8),
-                    Text(
-                      "whatsapp".tr,
-                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                    ),
-                  ],
+                leading: const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                title: Text(
+                  "whatsapp".tr,
+                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
                 ),
               ),
             TextButton(

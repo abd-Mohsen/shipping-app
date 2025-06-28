@@ -86,7 +86,9 @@ class OnlineSocketController extends GetxController {
     if (websocket != null) {
       try {
         await websocket!.close();
-      } catch (_) {}
+      } catch (e) {
+        print(e.toString());
+      }
       websocket = null;
     }
   }
@@ -99,6 +101,7 @@ class OnlineSocketController extends GetxController {
 
   @override
   void onClose() async {
+    //todo: not disposing (because 2 instances are running?)
     await _cleanUpWebSocket();
     super.dispose();
   }
