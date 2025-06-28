@@ -581,7 +581,7 @@ class OrderView extends StatelessWidget {
 
                               /// finish order button
                               ///
-                              if (!isCustomer && oC.order!.status == "processing")
+                              if (!isCustomer && !isCompany && oC.order!.status == "processing")
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   child: mainButton(
