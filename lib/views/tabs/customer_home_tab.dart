@@ -77,25 +77,24 @@ class CustomerHomeTab extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: CarouselSlider(
-                items: List.generate(
-                  controller.currOrders.isEmpty ? 1 : controller.currOrders.length,
-                  (i) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: controller.isLoadingRecent
-                        ? SpinKitThreeBounce(color: cs.surface, size: 20)
-                        : CurrOrderCard(
-                            order: controller.currOrders.isEmpty ? null : controller.currOrders[i],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                  ),
+            //todo: giving errors in console
+            CarouselSlider(
+              items: List.generate(
+                controller.currOrders.isEmpty ? 1 : controller.currOrders.length,
+                (i) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: controller.isLoadingRecent
+                      ? SpinKitThreeBounce(color: cs.surface, size: 20)
+                      : CurrOrderCard(
+                          order: controller.currOrders.isEmpty ? null : controller.currOrders[i],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                 ),
-                options: CarouselOptions(
-                  enableInfiniteScroll: false,
-                  //aspectRatio: 16 / 8,
-                  viewportFraction: 1,
-                ),
+              ),
+              options: CarouselOptions(
+                enableInfiniteScroll: false,
+                //aspectRatio: 16 / 8,
+                viewportFraction: 1,
               ),
             ),
             // This is the scrollable section

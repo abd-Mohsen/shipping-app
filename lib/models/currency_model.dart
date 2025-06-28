@@ -31,7 +31,7 @@ class CurrencyModel {
         "code": code,
         "name": name,
         "symbol": symbol,
-        "exchange_rate_to_usd": exchangeRateToUsd,
+        "exchange_rate_to_usd": exchangeRateToUsd.toString(),
         "is_active": isActive,
       };
 

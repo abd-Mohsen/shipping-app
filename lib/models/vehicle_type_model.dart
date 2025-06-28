@@ -24,4 +24,13 @@ class VehicleTypeModel {
         "id": id,
         "type": type,
       };
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is VehicleTypeModel && other.runtimeType == runtimeType && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

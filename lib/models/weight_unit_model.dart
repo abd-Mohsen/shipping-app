@@ -21,4 +21,13 @@ class WeightUnitModel {
   String toString() {
     return label;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is WeightUnitModel && other.runtimeType == runtimeType && other.value == value;
+  }
+
+  @override
+  int get hashCode => value.hashCode;
 }

@@ -63,6 +63,14 @@ class MakeOrderView extends StatelessWidget {
           statusBarColor: cs.surface, // Match your AppBar
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              mOC.resetForm();
+            },
+            icon: Icon(Icons.refresh, color: cs.onSurface),
+          )
+        ],
       ),
       body: GetBuilder<MakeOrderController>(
         builder: (controller) {

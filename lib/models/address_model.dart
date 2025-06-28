@@ -43,8 +43,8 @@ class AddressModel {
         "city": city,
         "district": district,
         "street": street,
-        "latitude": latitude,
-        "longitude": longitude,
+        "latitude": latitude.toString(),
+        "longitude": longitude.toString(),
       };
 
   @override
@@ -61,4 +61,13 @@ class AddressModel {
     res = res.substring(0, res.length - 2);
     return res;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is AddressModel && other.runtimeType == runtimeType && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

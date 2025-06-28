@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
@@ -24,10 +27,85 @@ class MakeOrderController extends GetxController {
 
   @override
   void onInit() async {
+    selectedDate = DateTime.now().add(Duration(hours: 24));
+    selectedTime = TimeOfDay.now();
     await getMakeOrderInfo();
     if (order != null) await prePopulate();
+    await loadDraft();
     await PermissionService().requestPermission(Permission.location); //todo: test if showing properly
     super.onInit();
+  }
+
+  final GetStorage _getStorage = GetStorage();
+
+  @override
+  void onClose() {
+    saveDraft();
+    super.onClose();
+  }
+
+  Future loadDraft() async {
+    if (!_getStorage.hasData("order_draft") || order != null) return;
+    Map<String, dynamic> savedOrder = jsonDecode(_getStorage.read("order_draft"));
+
+    DateTime desiredDate = DateTime.parse(savedOrder["DateTime"]);
+    VehicleTypeModel? vehicleType =
+        savedOrder["type_vehicle"] == null ? null : VehicleTypeModel.fromJson(savedOrder["type_vehicle"]);
+
+    WeightUnitModel? weightUnit =
+        savedOrder["weight_unit"] == null ? null : WeightUnitModel.fromJson(savedOrder["weight_unit"]);
+    CurrencyModel? currency = savedOrder["currency"] == null ? null : CurrencyModel.fromJson(savedOrder["currency"]);
+
+    description.text = savedOrder["discription"];
+    List<int> selectedPayments = savedOrder["payment_methods"].cast<int>();
+
+    if (vehicleTypes.contains(vehicleType)) selectedVehicleType = vehicleType;
+
+    sourceAddress = savedOrder["start_point"] == null ? null : AddressModel.fromJson(savedOrder["start_point"]);
+    targetAddress = savedOrder["end_point"] == null ? null : AddressModel.fromJson(savedOrder["end_point"]);
+    weight.text = savedOrder["weight"];
+    price.text = savedOrder["price"];
+    otherInfo.text = savedOrder["other_info"];
+    if (weightUnits.contains(weightUnit)) selectedWeightUnit = weightUnit;
+    if (currencies.contains(currency)) selectedCurrency = currency;
+    selectedDate = desiredDate;
+    selectedTime = TimeOfDay(hour: desiredDate.hour, minute: desiredDate.minute);
+    extraInfoSelection = savedOrder["order_extra_info"].cast<bool>();
+    await Future.delayed(const Duration(milliseconds: 600));
+    paymentMethodController.selectWhere((sI) =>
+        selectedPayments.contains(sI.value.id) && paymentMethods.map((p) => p.id).toList().contains(sI.value.id));
+    //paymentMethodController.selectWhere((sI) => sI.value.id == 1);
+    calculateApplicationCommission();
+  }
+
+  void saveDraft() {
+    print("-====================");
+    DateTime desiredDate = DateTime(
+      selectedDate!.year,
+      selectedDate!.month,
+      selectedDate!.day,
+      selectedTime!.hour,
+      selectedTime!.minute,
+    );
+
+    Map<String, dynamic> order = {
+      "discription": description.text,
+      "type_vehicle": selectedVehicleType?.toJson(),
+      "start_point": sourceAddress?.toJson(),
+      "end_point": targetAddress?.toJson(),
+      "weight": weight.text,
+      "weight_unit": selectedWeightUnit!.toJson(),
+      "price": price.text,
+      "currency": selectedCurrency?.toJson(),
+      "DateTime": desiredDate.toIso8601String(),
+      "other_info": otherInfo.text,
+      "order_extra_info": extraInfoSelection,
+      "payment_methods": paymentMethodController.selectedItems.map((sI) => sI.value.id).toList(),
+    };
+
+    print(order);
+
+    _getStorage.write("order_draft", jsonEncode(order));
   }
 
   GeoPoint? startPosition;
@@ -36,9 +114,27 @@ class MakeOrderController extends GetxController {
   LocationModel? sourceLocation;
   LocationModel? targetLocation;
 
+  void resetForm() {
+    paymentMethodController.clearAll();
+    sourceAddress = null;
+    targetAddress = null;
+    description.text = "";
+    price.text = "";
+    weight.text = "";
+    otherInfo.text = "";
+    selectedCurrency = null;
+    selectedWeightUnit = null;
+    selectedVehicleType = null;
+    selectedDate = DateTime.now().add(Duration(hours: 24));
+    selectedTime = TimeOfDay.now();
+    calculateApplicationCommission();
+    clearExtraInfo();
+    update();
+  }
+
   Future prePopulate() async {
     List currentPaymentMethodsIDs = order!.paymentMethods.map((p) => p.id).toList();
-    await Future.delayed(const Duration(milliseconds: 400));
+    await Future.delayed(const Duration(milliseconds: 600));
     paymentMethodController.selectWhere((item) => currentPaymentMethodsIDs.contains(item.value.id));
     sourceAddress = order!.startPoint;
     targetAddress = order!.endPoint;
@@ -244,9 +340,14 @@ class MakeOrderController extends GetxController {
   }
 
   prePopulateExtraInfo() {
-    print("object===================");
     for (int i = 0; i < extraInfo.length; i++) {
       if (order!.extraInfo.contains(extraInfo[i])) extraInfoSelection[i] = true;
+    }
+  }
+
+  clearExtraInfo() {
+    for (int i = 0; i < extraInfo.length; i++) {
+      extraInfoSelection[i] = false;
     }
   }
 
