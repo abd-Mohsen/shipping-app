@@ -14,6 +14,7 @@ import '../controllers/filter_controller.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../controllers/locale_controller.dart';
 import '../controllers/my_vehicles_controller.dart';
+import '../controllers/refresh_socket_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'components/my_drawer.dart';
 import 'edit_profile_view.dart';
@@ -27,13 +28,15 @@ class CompanyHomeView extends StatelessWidget {
     HomeNavigationController hNC = Get.put(HomeNavigationController());
     FilterController fC = Get.put(FilterController());
     MyVehiclesController mVC = Get.put(MyVehiclesController());
-    CompanyHomeController cHC = Get.put(CompanyHomeController(
+    CompanyHomeController hC = Get.put(CompanyHomeController(
       homeNavigationController: hNC,
       filterController: fC,
       myVehiclesController: mVC,
     ));
-    Get.put(NotificationsController(homeController: cHC));
+    Get.put(NotificationsController());
     Get.put(OnlineSocketController());
+    Get.put(RefreshSocketController(homeController: hC));
+
     LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
@@ -61,7 +64,7 @@ class CompanyHomeView extends StatelessWidget {
         builder: (controller) {
           return SafeArea(
             child: Scaffold(
-              key: cHC.scaffoldKey,
+              key: hC.scaffoldKey,
               bottomNavigationBar: BottomNavigationBar(
                 items: [
                   BottomNavigationBarItem(
@@ -111,7 +114,7 @@ class CompanyHomeView extends StatelessWidget {
                 elevation: 0,
                 onTap: (i) {
                   controller.changeTab(i);
-                  cHC.filterController.clearFilters();
+                  hC.filterController.clearFilters();
                 },
                 currentIndex: controller.tabIndex,
               ),
@@ -199,7 +202,7 @@ class CompanyHomeView extends StatelessWidget {
                     top: MediaQuery.of(context).size.height / 2,
                     child: GestureDetector(
                       onTap: () {
-                        cHC.scaffoldKey.currentState!.openDrawer();
+                        hC.scaffoldKey.currentState!.openDrawer();
                       },
                       child: ClipRect(
                         child: Align(
@@ -229,7 +232,7 @@ class CompanyHomeView extends StatelessWidget {
                       controller.getCurrentUser();
                     },
                     onEditProfileClick: () {
-                      Get.to(EditProfileView(user: controller.currentUser!, homeController: cHC));
+                      Get.to(EditProfileView(user: controller.currentUser!, homeController: hC));
                     },
                     onLogout: () {
                       controller.logout();

@@ -2,7 +2,10 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class OnlineSocketController extends GetxController {
+class RefreshSocketController extends GetxController {
+  final dynamic homeController;
+  RefreshSocketController({required this.homeController});
+
   @override
   void onInit() {
     _connectSocket();
@@ -30,13 +33,14 @@ class OnlineSocketController extends GetxController {
     try {
       await _cleanUpWebSocket();
 
-      String socketUrl = 'wss://shipping.adadevs.com/ws/connected-users/?token=${_getStorage.read("token")}';
+      String socketUrl = 'wss://shipping.adadevs.com/ws/changes/?token=${_getStorage.read("token")}';
 
       websocket = await WebSocket.connect(socketUrl).timeout(const Duration(seconds: 20));
 
       websocket!.listen(
-        (message) {
+        (message) async {
           print('Message from server: $message');
+          await homeController.refreshEverything();
         },
         onDone: () {
           _cleanUpWebSocket();

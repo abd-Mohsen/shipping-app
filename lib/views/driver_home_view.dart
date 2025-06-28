@@ -11,6 +11,7 @@ import 'package:shipment/views/tabs/driver_orders_tab.dart';
 import 'package:shipment/views/tabs/driver_home_tab.dart';
 import '../constants.dart';
 import '../controllers/online_socket_controller.dart';
+import '../controllers/refresh_socket_controller.dart';
 import 'components/my_drawer.dart';
 
 class DriverHomeView extends StatelessWidget {
@@ -24,8 +25,10 @@ class DriverHomeView extends StatelessWidget {
       homeNavigationController: hNC,
       filterController: fC,
     ));
-    Get.put(NotificationsController(homeController: hC));
+    Get.put(NotificationsController());
     Get.put(OnlineSocketController());
+    Get.put(RefreshSocketController(homeController: hC));
+
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 

@@ -2,6 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
+import 'package:shipment/controllers/refresh_socket_controller.dart';
 import 'package:shipment/views/components/my_drawer.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/tabs/customer_home_tab.dart';
@@ -25,8 +26,9 @@ class CustomerHomeView extends StatelessWidget {
       homeNavigationController: hNC,
       filterController: fC,
     ));
-    Get.put(NotificationsController(homeController: hC));
+    Get.put(NotificationsController());
     Get.put(OnlineSocketController());
+    Get.put(RefreshSocketController(homeController: hC));
 
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;

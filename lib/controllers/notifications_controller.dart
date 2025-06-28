@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -11,17 +10,12 @@ import '../services/remote_services.dart';
 import '../views/redirect_page.dart';
 
 class NotificationsController extends GetxController {
-  final dynamic homeController;
-
-  NotificationsController({required this.homeController});
-
   @override
   onInit() {
     requestPermissionFCM();
     getFCMToken();
     setupFCMListeners();
     getNotifications();
-    _connectRefreshSocket();
     setPaginationListener();
     super.onInit();
   }
@@ -144,30 +138,5 @@ class NotificationsController extends GetxController {
       unreadCount--;
       update();
     }
-  }
-
-//-------------------------------- global sockets ----------------------------
-
-//todo(later): implement reconnection logic for both
-
-  WebSocket? refreshWebsocket;
-
-  void _connectRefreshSocket() async {
-    String socketUrl = 'wss://shipping.adadevs.com/ws/changes/?token=${_getStorage.read("token")}';
-
-    refreshWebsocket = await WebSocket.connect(socketUrl).timeout(const Duration(seconds: 40));
-
-    refreshWebsocket!.listen(
-      (message) async {
-        print("refreshed orders");
-        await homeController.refreshEverything();
-      },
-      onDone: () {
-        print('WebSocket connection closed');
-      },
-      onError: (error) {
-        print('WebSocket error: $error');
-      },
-    );
   }
 }
