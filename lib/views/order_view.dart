@@ -412,7 +412,7 @@ class OrderView extends StatelessWidget {
                               if (!isCustomer &&
                                   (["available"].contains(oC.order!.status) ||
                                       (["waiting_approval"].contains(oC.order!.status) &&
-                                          controller.didThisDriverAcceptThisOrder)))
+                                          !controller.didThisDriverAcceptThisOrder)))
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   child: CustomButton(

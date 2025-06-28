@@ -82,8 +82,15 @@ class EmployeeSelector extends StatelessWidget {
         ),
       ),
       items: (filter, infiniteScrollProps) => items,
-      itemAsString: (EmployeeModel e) => e.user.toString(),
+      itemAsString: (EmployeeModel e) =>
+          e.user.toString() + "\n" + e.vehicle!.vehicleType + " #" + e.vehicle!.vehicleRegistrationNumber,
       onChanged: onChanged,
+      // dropdownBuilder: (_, e) => ListTile(
+      //   title: Text(
+      //     e!.user.toString(),
+      //     style: tt.titleSmall!.copyWith(color: cs.onSurface),
+      //   ),
+      // ),
       //enabled: !con.enabled,
     );
   }
