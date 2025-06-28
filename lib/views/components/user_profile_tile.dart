@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
+import 'package:shipment/views/invoices_view.dart';
 import '../../controllers/notifications_controller.dart';
 import '../../models/user_model.dart';
 import '../notifications_view.dart';
@@ -25,6 +27,8 @@ class UserProfileTile extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
+    CurrentUserController cUC = Get.find();
+
     return Container(
       margin: const EdgeInsets.only(left: 12, right: 12, top: 16, bottom: 10),
       decoration: BoxDecoration(
@@ -32,7 +36,7 @@ class UserProfileTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withValues(alpha: 0.5),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(-1, 1),
@@ -73,7 +77,7 @@ class UserProfileTile extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Text(
                                   user!.phoneNumber,
-                                  style: tt.labelMedium!.copyWith(color: cs.onPrimary.withOpacity(0.8)),
+                                  style: tt.labelMedium!.copyWith(color: cs.onPrimary.withValues(alpha: 0.8)),
                                 ),
                               ],
                             )
@@ -119,24 +123,29 @@ class UserProfileTile extends StatelessWidget {
               }),
             ],
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            margin: const EdgeInsets.only(left: 12, right: 12, bottom: 16, top: 4),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Color.lerp(cs.primary, Colors.black, 0.22),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.wallet_outlined, color: cs.onPrimary),
-                SizedBox(width: 12),
-                Text(
-                  isLoadingUser ? "0.00" : user?.wallet?.balance ?? "0.00",
-                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                )
-              ],
+          GestureDetector(
+            onTap: () {
+              if (cUC.currentUser != null) Get.to(InvoicesView(user: cUC.currentUser!));
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              margin: const EdgeInsets.only(left: 12, right: 12, bottom: 16, top: 4),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Color.lerp(cs.primary, Colors.black, 0.22),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.wallet_outlined, color: cs.onPrimary),
+                  SizedBox(width: 12),
+                  Text(
+                    isLoadingUser ? "0.00" : user?.wallet?.balance ?? "0.00",
+                    style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                  )
+                ],
+              ),
             ),
           ),
         ],

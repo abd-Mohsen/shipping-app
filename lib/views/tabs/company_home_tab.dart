@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
 import 'package:shipment/views/components/selection_circle.dart';
 import 'package:shipment/views/components/titled_card.dart';
@@ -23,13 +24,15 @@ class CompanyHomeTab extends StatelessWidget {
       builder: (controller) {
         return ListView(
           children: [
-            UserProfileTile(
-              onTapProfile: () {
-                controller.scaffoldKey.currentState?.openDrawer();
-              },
-              isLoadingUser: controller.isLoadingUser,
-              user: controller.currentUser,
-            ),
+            GetBuilder<CurrentUserController>(builder: (innerController) {
+              return UserProfileTile(
+                onTapProfile: () {
+                  innerController.scaffoldKey.currentState?.openDrawer();
+                },
+                isLoadingUser: innerController.isLoadingUser,
+                user: innerController.currentUser,
+              );
+            }),
             Padding(
                 padding: const EdgeInsets.only(bottom: 8, left: 12, right: 12),
                 child: TitledCard(

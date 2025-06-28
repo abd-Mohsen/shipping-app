@@ -522,7 +522,7 @@ class MyLocale extends Translations {
           "no new images were selected": "لم يتم اختيار صور جديدة",
           "payment history": "التقرير المالي",
           "N/A": "لا يوجد",
-          "current shipping": "ملخص اليوم",
+          "current shipping": "طلبياتي الجارية",
           "recent delivery": "آخر الطلبيات",
           "see all": "عرض المزيد",
           "location": "الموقع",

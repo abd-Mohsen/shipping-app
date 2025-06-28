@@ -8,6 +8,7 @@ import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/tabs/customer_home_tab.dart';
 import 'package:shipment/views/tabs/customer_orders_tab.dart';
 import '../constants.dart';
+import '../controllers/current_user_controller.dart';
 import '../controllers/filter_controller.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../controllers/notifications_controller.dart';
@@ -22,6 +23,8 @@ class CustomerHomeView extends StatelessWidget {
     //ThemeController tC = Get.find();
     HomeNavigationController hNC = Get.put(HomeNavigationController());
     FilterController fC = Get.put(FilterController());
+    CurrentUserController cUC = Get.put(CurrentUserController());
+
     CustomerHomeController hC = Get.put(CustomerHomeController(
       homeNavigationController: hNC,
       filterController: fC,
@@ -85,7 +88,7 @@ class CustomerHomeView extends StatelessWidget {
               //     })
               //   ],
               // ),
-              key: hC.scaffoldKey,
+              key: cUC.scaffoldKey,
               backgroundColor: cs.surface,
               // bottomNavigationBar: SizedBox(
               //   height: MediaQuery.of(context).size.height / 14,
@@ -122,6 +125,7 @@ class CustomerHomeView extends StatelessWidget {
               //   ),
               // ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+              //todo: use this bottom bar in company and driver
               bottomNavigationBar: AnimatedBottomNavigationBar.builder(
                 backgroundColor: cs.secondaryContainer,
                 splashRadius: 0,
@@ -177,7 +181,7 @@ class CustomerHomeView extends StatelessWidget {
                     top: MediaQuery.of(context).size.height / 2,
                     child: GestureDetector(
                       onTap: () {
-                        hC.scaffoldKey.currentState!.openDrawer();
+                        cUC.scaffoldKey.currentState!.openDrawer();
                       },
                       child: ClipRect(
                         child: Align(
@@ -231,23 +235,23 @@ class CustomerHomeView extends StatelessWidget {
                 shape: const CircleBorder(),
                 child: Icon(Icons.add, color: cs.onPrimary),
               ),
-              drawer: GetBuilder<CustomerHomeController>(
+              drawer: GetBuilder<CurrentUserController>(
                 builder: (controller) {
                   return MyDrawer(
                     onClose: () {
-                      hC.scaffoldKey.currentState!.closeDrawer();
+                      controller.scaffoldKey.currentState!.closeDrawer();
                     },
                     onRefreshUser: () {
-                      hC.getCurrentUser();
+                      controller.getCurrentUser();
                     },
                     onEditProfileClick: () {
-                      Get.to(EditProfileView(user: hC.currentUser!, homeController: hC));
+                      Get.to(EditProfileView(user: controller.currentUser!, homeController: hC));
                     },
                     onLogout: () {
-                      hC.logout();
+                      controller.logout();
                     },
-                    isLoadingUser: hC.isLoadingUser,
-                    currentUser: hC.currentUser,
+                    isLoadingUser: controller.isLoadingUser,
+                    currentUser: controller.currentUser,
                   );
                 },
               ),

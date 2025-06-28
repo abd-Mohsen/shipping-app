@@ -21,14 +21,11 @@ class CustomerHomeController extends GetxController {
 
   @override
   onInit() {
-    getCurrentUser();
     getOrders();
     getRecentOrders();
     setPaginationListener();
     super.onInit();
   }
-
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   TextEditingController searchQuery = TextEditingController();
 
@@ -159,8 +156,6 @@ class CustomerHomeController extends GetxController {
     }
   }
 
-  final GetStorage _getStorage = GetStorage();
-
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   void toggleLoading(bool value) {
@@ -176,13 +171,6 @@ class CustomerHomeController extends GetxController {
     update();
   }
 
-  bool _isLoadingUser = false;
-  bool get isLoadingUser => _isLoadingUser;
-  void toggleLoadingUser(bool value) {
-    _isLoadingUser = value;
-    update();
-  }
-
   bool _isLoadingSubmit = false;
   bool get isLoadingSubmit => _isLoadingSubmit;
   void toggleLoadingSubmit(bool value) {
@@ -190,34 +178,5 @@ class CustomerHomeController extends GetxController {
     update();
   }
 
-  UserModel? _currentUser;
-  UserModel? get currentUser => _currentUser;
-
-  void getCurrentUser({bool refresh = false}) async {
-    if (isLoadingUser) return;
-    toggleLoadingUser(true);
-    _currentUser = await RemoteServices.fetchCurrentUser();
-    if (!refresh && _currentUser != null) {
-      if (!_currentUser!.isVerified) {
-        Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
-        Get.to(() => const OTPView(source: "register"));
-      }
-    }
-    if (currentUser == null) {
-      await Future.delayed(Duration(seconds: 10));
-      getCurrentUser();
-    }
-    toggleLoadingUser(false);
-  }
-
   Position? position;
-
-  void logout() async {
-    if (currentUser != null && await RemoteServices.logout()) {
-      _getStorage.remove("token");
-      _getStorage.remove("role");
-      Get.put(LoginController());
-      Get.offAll(() => const LoginView());
-    }
-  }
 }

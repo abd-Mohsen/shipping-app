@@ -37,7 +37,6 @@ class CompanyHomeController extends GetxController {
 
   @override
   onInit() {
-    getCurrentUser();
     getMyEmployees();
     getGovernorates();
     getCompanyStats();
@@ -45,8 +44,6 @@ class CompanyHomeController extends GetxController {
     getOrders();
     super.onInit();
   }
-
-  final GetStorage _getStorage = GetStorage();
 
   TextEditingController searchQueryMyOrders = TextEditingController();
   TextEditingController searchQueryExploreOrders = TextEditingController();
@@ -66,53 +63,11 @@ class CompanyHomeController extends GetxController {
     update();
   }
 
-  bool _isLoadingUser = false;
-  bool get isLoadingUser => _isLoadingUser;
-  void toggleLoadingUser(bool value) {
-    _isLoadingUser = value;
-    update();
-  }
-
   bool _isLoadingSubmit = false;
   bool get isLoadingSubmit => _isLoadingSubmit;
   void toggleLoadingSubmit(bool value) {
     _isLoadingSubmit = value;
     update();
-  }
-
-  UserModel? _currentUser;
-  UserModel? get currentUser => _currentUser;
-
-  void getCurrentUser({bool refresh = false}) async {
-    if (isLoadingUser) return;
-    toggleLoadingUser(true);
-    _currentUser = await RemoteServices.fetchCurrentUser();
-    if (!refresh && _currentUser != null) {
-      // if (_currentUser!.idStatus.toLowerCase() != "verified") {
-      //   CompleteAccountController cAC = Get.put(CompleteAccountController(homeController: this));
-      //   Get.to(const CompleteAccountView());
-      // }
-      if (!_currentUser!.isVerified) {
-        Get.put(OTPController(_currentUser!.phoneNumber, "register", null));
-        Get.to(() => const OTPView(source: "register"));
-      }
-    }
-
-    if (currentUser == null) {
-      await Future.delayed(Duration(seconds: 10));
-      getCurrentUser();
-    }
-
-    toggleLoadingUser(false);
-  }
-
-  void logout() async {
-    if (currentUser != null && await RemoteServices.logout()) {
-      _getStorage.remove("token");
-      _getStorage.remove("role");
-      Get.put(LoginController());
-      Get.offAll(() => const LoginView());
-    }
   }
 
   //-------------------------------------------------
@@ -226,8 +181,6 @@ class CompanyHomeController extends GetxController {
     _isLoadingEmployeesAdd = value;
     update();
   }
-
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   GlobalKey<FormState> addEmployeeFormKey = GlobalKey<FormState>();
   bool employeeButtonPressed = false;

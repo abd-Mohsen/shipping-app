@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/controllers/online_socket_controller.dart';
 import 'package:shipment/views/tabs/company_explore_tab.dart';
@@ -26,13 +27,16 @@ class CompanyHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeController tC = Get.find();
     HomeNavigationController hNC = Get.put(HomeNavigationController());
+    CurrentUserController cUC = Get.put(CurrentUserController());
     FilterController fC = Get.put(FilterController());
+
     MyVehiclesController mVC = Get.put(MyVehiclesController());
     CompanyHomeController hC = Get.put(CompanyHomeController(
       homeNavigationController: hNC,
       filterController: fC,
       myVehiclesController: mVC,
     ));
+
     Get.put(NotificationsController());
     Get.put(OnlineSocketController());
     Get.put(RefreshSocketController(homeController: hC));
@@ -65,7 +69,7 @@ class CompanyHomeView extends StatelessWidget {
           return SafeArea(
             child: Scaffold(
               resizeToAvoidBottomInset: false,
-              key: hC.scaffoldKey,
+              key: cUC.scaffoldKey,
               bottomNavigationBar: BottomNavigationBar(
                 items: [
                   BottomNavigationBarItem(
@@ -108,7 +112,7 @@ class CompanyHomeView extends StatelessWidget {
                 //height: MediaQuery.of(context).size.height / 11,
                 backgroundColor: cs.secondaryContainer, //todo: fix color in dark mode
                 selectedItemColor: cs.primary,
-                unselectedItemColor: cs.onSurface.withOpacity(0.5),
+                unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
                 iconSize: 18,
                 selectedFontSize: 10,
                 unselectedFontSize: 10,
@@ -203,14 +207,14 @@ class CompanyHomeView extends StatelessWidget {
                     top: MediaQuery.of(context).size.height / 2,
                     child: GestureDetector(
                       onTap: () {
-                        hC.scaffoldKey.currentState!.openDrawer();
+                        cUC.scaffoldKey.currentState!.openDrawer();
                       },
                       child: ClipRect(
                         child: Align(
                           alignment: Alignment.centerLeft, // Show left half
                           widthFactor: 0.5, // Clip to 50% width
                           child: CircleAvatar(
-                            backgroundColor: cs.primary.withOpacity(0.7),
+                            backgroundColor: cs.primary.withValues(alpha: 0.7),
                             foregroundColor: cs.onPrimary,
                             child: const Padding(
                               padding: EdgeInsets.only(right: 16),
@@ -223,7 +227,7 @@ class CompanyHomeView extends StatelessWidget {
                   ),
                 ],
               ),
-              drawer: GetBuilder<CompanyHomeController>(
+              drawer: GetBuilder<CurrentUserController>(
                 builder: (controller) {
                   return MyDrawer(
                     onClose: () {

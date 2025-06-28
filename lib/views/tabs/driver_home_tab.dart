@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/constants.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
 import 'package:shipment/views/components/titled_card.dart';
@@ -53,91 +54,95 @@ class DriverHomeTab extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  controller.scaffoldKey.currentState?.openDrawer();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                                  child: badges.Badge(
-                                    showBadge: controller.currentUser != null &&
-                                        controller.currentUser!.role.type == "driver" &&
-                                        ["refused", "No_Input"]
-                                            .contains(controller.currentUser!.driverInfo?.vehicleStatus),
-                                    position: badges.BadgePosition.topStart(
-                                      top: -2, // Negative value moves it up
-                                      start: -4, // Negative value moves it left
-                                    ),
-                                    badgeStyle: badges.BadgeStyle(
-                                      shape: badges.BadgeShape.circle,
-                                      badgeColor: kNotificationColor,
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(6),
-                                      decoration: BoxDecoration(
-                                        color: Color.lerp(cs.primary, Colors.white, 0.33),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Icon(Icons.person_outline, color: cs.onPrimary),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              //SizedBox(width: 4),
-                              controller.isLoadingUser
-                                  ? SpinKitThreeBounce(color: cs.onPrimary, size: 15)
-                                  : controller.currentUser == null
-                                      ? const SizedBox.shrink()
-                                      : Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "${controller.currentUser!.firstName} ${controller.currentUser!.lastName}",
-                                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              controller.currentUser!.phoneNumber,
-                                              style: tt.labelMedium!.copyWith(color: cs.onPrimary.withOpacity(0.8)),
-                                            ),
-                                          ],
-                                        )
-                            ],
-                          ),
-                          GetBuilder<NotificationsController>(builder: (controller) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                              child: badges.Badge(
-                                showBadge: controller.unreadCount > 0,
-                                position: badges.BadgePosition.topStart(
-                                  top: -2, // Negative value moves it up
-                                  start: -4, // Negative value moves it left
-                                ),
-                                badgeStyle: badges.BadgeStyle(
-                                  shape: badges.BadgeShape.circle,
-                                  badgeColor: kNotificationColor,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: GestureDetector(
+                          GetBuilder<CurrentUserController>(builder: (innerController) {
+                            return Row(
+                              children: [
+                                GestureDetector(
                                   onTap: () {
-                                    Get.to(() => const NotificationsView());
+                                    innerController.scaffoldKey.currentState?.openDrawer();
                                   },
-                                  child: GetBuilder<NotificationsController>(
-                                    builder: (controller) {
-                                      return Icon(
-                                        Icons.notifications,
-                                        color: cs.onPrimary,
-                                        //size: 30,
-                                      );
-                                    },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                                    child: badges.Badge(
+                                      showBadge: innerController.currentUser != null &&
+                                          innerController.currentUser!.role.type == "driver" &&
+                                          ["refused", "No_Input"]
+                                              .contains(innerController.currentUser!.driverInfo?.vehicleStatus),
+                                      position: badges.BadgePosition.topStart(
+                                        top: -2, // Negative value moves it up
+                                        start: -4, // Negative value moves it left
+                                      ),
+                                      badgeStyle: badges.BadgeStyle(
+                                        shape: badges.BadgeShape.circle,
+                                        badgeColor: kNotificationColor,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(6),
+                                        decoration: BoxDecoration(
+                                          color: Color.lerp(cs.primary, Colors.white, 0.33),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: Icon(Icons.person_outline, color: cs.onPrimary),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                //SizedBox(width: 4),
+                                innerController.isLoadingUser
+                                    ? SpinKitThreeBounce(color: cs.onPrimary, size: 15)
+                                    : innerController.currentUser == null
+                                        ? const SizedBox.shrink()
+                                        : Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${innerController.currentUser!.firstName} ${innerController.currentUser!.lastName}",
+                                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                innerController.currentUser!.phoneNumber,
+                                                style: tt.labelMedium!.copyWith(color: cs.onPrimary.withOpacity(0.8)),
+                                              ),
+                                            ],
+                                          )
+                              ],
                             );
                           }),
+                          GetBuilder<NotificationsController>(
+                            builder: (innerController) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                                child: badges.Badge(
+                                  showBadge: innerController.unreadCount > 0,
+                                  position: badges.BadgePosition.topStart(
+                                    top: -2, // Negative value moves it up
+                                    start: -4, // Negative value moves it left
+                                  ),
+                                  badgeStyle: badges.BadgeStyle(
+                                    shape: badges.BadgeShape.circle,
+                                    badgeColor: kNotificationColor,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => const NotificationsView());
+                                    },
+                                    child: GetBuilder<NotificationsController>(
+                                      builder: (controller) {
+                                        return Icon(
+                                          Icons.notifications,
+                                          color: cs.onPrimary,
+                                          //size: 30,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ],
@@ -197,67 +202,69 @@ class DriverHomeTab extends StatelessWidget {
                   ),
                 ),
                 //
-                Visibility(
-                  visible: controller.currentUser != null &&
-                      controller.currentUser!.role.type == "driver" &&
-                      ["refused", "No_Input"].contains(controller.currentUser!.driverInfo?.vehicleStatus),
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(const MyVehiclesView(openSheet: true));
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
-                      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFFF5E5C4),
-                            Color(0xFFF1C68B),
+                GetBuilder<CurrentUserController>(builder: (innerController) {
+                  return Visibility(
+                    visible: innerController.currentUser != null &&
+                        innerController.currentUser!.role.type == "driver" &&
+                        ["refused", "No_Input"].contains(innerController.currentUser!.driverInfo?.vehicleStatus),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(const MyVehiclesView(openSheet: true));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12),
+                        margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFFF5E5C4),
+                              Color(0xFFF1C68B),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            stops: [0, 1],
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.warning_amber,
+                                  color: Color(0xFF92833C),
+                                  size: 30,
+                                ),
+                                const SizedBox(width: 12),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "you dont have a vehicle".tr,
+                                      style: tt.titleSmall!
+                                          .copyWith(color: const Color(0xFF92833C), fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "click here to go to vehicles page".tr,
+                                      style: tt.labelMedium!.copyWith(color: const Color(0xFF92833C)),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            const Icon(
+                              Icons.add,
+                              color: Color(0xFF92833C),
+                              size: 35,
+                            ),
                           ],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          stops: [0, 1],
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.warning_amber,
-                                color: Color(0xFF92833C),
-                                size: 30,
-                              ),
-                              const SizedBox(width: 12),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "you dont have a vehicle".tr,
-                                    style: tt.titleSmall!
-                                        .copyWith(color: const Color(0xFF92833C), fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    "click here to go to vehicles page".tr,
-                                    style: tt.labelMedium!.copyWith(color: const Color(0xFF92833C)),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          const Icon(
-                            Icons.add,
-                            color: Color(0xFF92833C),
-                            size: 35,
-                          ),
-                        ],
-                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
                 //
                 Container(
                   padding: EdgeInsets.only(top: 20),

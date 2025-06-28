@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,7 @@ import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
 
 class MyVehiclesController extends GetxController {
-  DriverHomeController? driverHomeController;
-
-  MyVehiclesController({this.driverHomeController});
+  CurrentUserController currentUserController = Get.find();
 
   List<VehicleModel> myVehicles = [];
 
@@ -117,7 +116,8 @@ class MyVehiclesController extends GetxController {
     );
     if (res) {
       myVehicles.removeWhere((vehicle) => vehicle.id == id);
-      if (driverHomeController != null) driverHomeController!.getCurrentUser(refresh: true);
+
+      currentUserController.getCurrentUser(refresh: true);
       update();
     }
   }
@@ -175,7 +175,7 @@ class MyVehiclesController extends GetxController {
       ));
       resetForm();
       refreshMyVehicles();
-      if (driverHomeController != null) driverHomeController!.getCurrentUser(refresh: true);
+      currentUserController.getCurrentUser(refresh: true);
     }
     toggleLoadingSubmit(false);
   }

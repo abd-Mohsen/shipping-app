@@ -27,7 +27,6 @@ class DriverHomeController extends GetxController {
   @override
   onInit() async {
     isEmployee = await _getStorage.read("role") == "company_employee";
-    getCurrentUser();
     getGovernorates();
     getRecentOrders();
     getOrders();
@@ -35,8 +34,6 @@ class DriverHomeController extends GetxController {
   }
 
   final GetStorage _getStorage = GetStorage();
-
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   //
   TextEditingController searchQueryMyOrders = TextEditingController();
@@ -204,21 +201,12 @@ class DriverHomeController extends GetxController {
     update();
   }
 
-  bool _isLoadingUser = false;
-  bool get isLoadingUser => _isLoadingUser;
-  void toggleLoadingUser(bool value) {
-    _isLoadingUser = value;
-    update();
-  }
-
   bool _isLoadingSubmit = false;
   bool get isLoadingSubmit => _isLoadingSubmit;
   void toggleLoadingSubmit(bool value) {
     _isLoadingSubmit = value;
     update();
   }
-
-  UserModel? currentUser;
 
   List<GovernorateModel> governorates = [];
   GovernorateModel? selectedGovernorate;
@@ -325,49 +313,6 @@ class DriverHomeController extends GetxController {
   //   historyOrders.clear();
   //   getHistoryOrders();
   // }
-
-  Future<void> getCurrentUser({bool refresh = false}) async {
-    if (isLoadingUser) return;
-    toggleLoadingUser(true);
-    currentUser = await RemoteServices.fetchCurrentUser();
-    /*
-      'Pending', 'Verified', 'Refused', 'No_Input',
-    */
-    if (!refresh && currentUser != null) {
-      if (!isEmployee && currentUser!.driverInfo!.vehicleStatus.toLowerCase() != "verified") {
-        // Get.showSnackbar(GetSnackBar(
-        //   message: "you need to add a car to use the app".tr,
-        //   duration: const Duration(milliseconds: 6000),
-        // ));
-      }
-      if (currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
-        Get.put(CompleteAccountController(homeController: this));
-        Get.to(const CompleteAccountView());
-      }
-      if (!currentUser!.isVerified) {
-        Get.put(OTPController(currentUser!.phoneNumber, "register", null));
-        Get.to(() => const OTPView(source: "register"));
-      }
-    }
-
-    if (currentUser == null) {
-      //todo(later): put first to get correct loading (in all roles)
-      await Future.delayed(Duration(seconds: 10));
-      getCurrentUser();
-    }
-
-    toggleLoadingUser(false);
-  }
-
-  //todo: create logout service and add loading to it
-  void logout() async {
-    if (currentUser != null && await RemoteServices.logout()) {
-      _getStorage.remove("token");
-      _getStorage.remove("role");
-      Get.put(LoginController());
-      Get.offAll(() => const LoginView());
-    }
-  }
 
   //-----------------------------------Real Time-------------------------------------------
 
