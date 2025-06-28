@@ -87,7 +87,7 @@ class CompanyHomeController extends GetxController {
   List<String> selectedOrderTypes = ["current"];
   //String selectedOrderType = "current";
 
-  OrderModel2? currentOrder;
+  //OrderModel2? currentOrder;
 
   void setOrderType(String? type, bool clear, {bool selectAll = false}) {
     if (type == null) return;
@@ -148,13 +148,13 @@ class CompanyHomeController extends GetxController {
     List<OrderModel2> newOrders = await RemoteServices.fetchCompanyOrders(types: typesToFetch) ?? [];
     recentOrders.addAll(newProcessingOrders);
     recentOrders.addAll(newOrders);
-    if (newProcessingOrders.isNotEmpty) currentOrder = newProcessingOrders.first;
+    if (newProcessingOrders.isNotEmpty) currOrders.addAll(newProcessingOrders);
     //currentOrder = newOrders.first;
     if (showLoading) toggleLoadingRecent(false);
   }
 
   Future<void> refreshRecentOrders({bool showLoading = true}) async {
-    currentOrder = null;
+    currOrders.clear();
     recentOrders.clear();
     await getRecentOrders(showLoading: showLoading);
   }

@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -302,14 +304,25 @@ class CompanyHomeTab extends StatelessWidget {
             //     ),
             //   ),
             // ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: controller.isLoadingRecent
-                  ? SpinKitThreeBounce(color: cs.surface, size: 20)
-                  : CurrOrderCard(
-                      order: controller.currentOrder,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+
+            CarouselSlider(
+              items: List.generate(
+                controller.currOrders.isEmpty ? 1 : controller.currOrders.length,
+                (i) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: controller.isLoadingRecent
+                      ? SpinKitThreeBounce(color: cs.surface, size: 20)
+                      : CurrOrderCard(
+                          order: controller.currOrders.isEmpty ? null : controller.currOrders[i],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                ),
+              ),
+              options: CarouselOptions(
+                enableInfiniteScroll: false,
+                aspectRatio: 16 / 8,
+                viewportFraction: 1,
+              ),
             ),
             controller.isLoadingRecent
                 ? SpinKitSquareCircle(color: cs.primary)
