@@ -324,6 +324,7 @@ class MyLocale extends Translations {
           'please enable location services then press ok': 'please enable location services then press ok',
           "select this location": "select this location",
           'how do you want to call this person?': 'how do you want to call this person?',
+          "open map": "open map",
         },
         "ar": {
           "Arabic": "العربية",
@@ -643,6 +644,7 @@ class MyLocale extends Translations {
           'please enable location services then press ok': 'من فضلك قم بتشغيل خدمات الموقع ثم اضغط موافق',
           "select this location": "اخنر الموقع",
           'how do you want to call this person?': 'كيف تريد التواصل؟',
+          "open map": "عرض الخريطة",
         },
       };
 }

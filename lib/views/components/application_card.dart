@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shipment/models/application_model.dart';
-import 'package:shipment/views/order_view.dart';
 
 class ApplicationCard extends StatelessWidget {
   final ApplicationModel application;
@@ -10,6 +8,7 @@ class ApplicationCard extends StatelessWidget {
   final void Function()? onTapAccept;
   final void Function()? onSeePhone;
   final void Function()? onTapRefuse;
+  final void Function()? onTapCard;
   final bool? showButtons;
   final bool? isAccepted;
   final bool isLast;
@@ -22,6 +21,7 @@ class ApplicationCard extends StatelessWidget {
     this.showButtons,
     this.onTapAccept,
     this.onTapRefuse,
+    this.onTapCard,
     this.onSeePhone,
     this.isAccepted,
   });
@@ -32,9 +32,7 @@ class ApplicationCard extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     return GestureDetector(
-      // onTap: () {
-      //   Get.to(() => OrderView(orderID: application.id));
-      // },
+      onTap: onTapCard,
       child: Column(
         children: [
           Padding(
@@ -102,7 +100,7 @@ class ApplicationCard extends StatelessWidget {
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: tt.labelSmall!.copyWith(
-                                    color: cs.onSurface.withOpacity(0.5),
+                                    color: cs.onSurface.withValues(alpha: 0.5),
                                     fontSize: 10,
                                     decoration: application.deletedAt != null
                                         ? TextDecoration.lineThrough
@@ -204,7 +202,7 @@ class ApplicationCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Divider(
-                color: cs.onSurface.withOpacity(0.2),
+                color: cs.onSurface.withValues(alpha: 0.2),
                 // indent: MediaQuery.of(context).size.width / 15,
                 // endIndent: MediaQuery.of(context).size.width / 15,
               ),

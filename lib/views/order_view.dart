@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:lottie/lottie.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:popover/popover.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
@@ -28,7 +29,9 @@ import 'package:shipment/views/components/vehicle_selector.dart';
 import 'package:shipment/views/tracking_view.dart';
 
 import 'components/auth_field.dart';
+import 'components/blurred_sheet.dart';
 import 'components/input_field.dart';
+import 'components/sheet_details_tile.dart';
 import 'make_order_view.dart';
 
 class OrderView extends StatelessWidget {
@@ -785,6 +788,82 @@ class OrderView extends StatelessWidget {
                                                 controller.refuseOrderCustomer();
                                               },
                                               title: "refuse the order?".tr,
+                                            ),
+                                          );
+                                        },
+                                        onTapCard: () {
+                                          showMaterialModalBottomSheet(
+                                            context: context,
+                                            backgroundColor: Colors.transparent,
+                                            barrierColor: Colors.black.withValues(alpha: 0.5),
+                                            enableDrag: true,
+                                            builder: (context) => BlurredSheet(
+                                              title: "driver info".tr,
+                                              confirmText: "ok".tr,
+                                              onConfirm: () {
+                                                Get.back();
+                                              },
+                                              content: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: SheetDetailsTile(
+                                                          title: "name".tr,
+                                                          subtitle:
+                                                              controller.order!.driversApplications[i].driver.name,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: SheetDetailsTile(
+                                                          title: "phone".tr,
+                                                          subtitle: controller
+                                                              .order!.driversApplications[i].driver.phoneNumber,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: SheetDetailsTile(
+                                                          title: "date".tr,
+                                                          subtitle: Jiffy.parseFromDateTime(
+                                                                  controller.order!.driversApplications[i].appliedAt)
+                                                              .format(pattern: "d / M / y"),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: SheetDetailsTile(
+                                                          title: "time".tr,
+                                                          subtitle: Jiffy.parseFromDateTime(
+                                                                  controller.order!.driversApplications[i].appliedAt)
+                                                              .jm,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: SheetDetailsTile(
+                                                          title: "vehicle type".tr,
+                                                          subtitle: controller
+                                                              .order!.driversApplications[i].vehicle.vehicleType.type,
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: SheetDetailsTile(
+                                                          title: "license plate".tr,
+                                                          subtitle: controller.order!.driversApplications[i].vehicle
+                                                              .vehicleRegistrationNumber,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           );
                                         },
