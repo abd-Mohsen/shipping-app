@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -6,6 +8,7 @@ class OnlineSocketController extends GetxController {
   @override
   void onInit() {
     _connectSocket();
+    startPinging();
     super.onInit();
   }
 
@@ -56,7 +59,30 @@ class OnlineSocketController extends GetxController {
     }
   }
 
+  Timer? timer;
+
+  void startPinging() async {
+    timer?.cancel();
+
+    timer = Timer.periodic(Duration(seconds: 15), (timer) async {
+      try {
+        if (_isWebSocketConnected()) {
+          websocket!.add(json.encode({"type": "ping"})); //todo: not sending
+          print("ping");
+        } else {
+          // Handle reconnection
+          //_reconnectWebSocket();
+        }
+      } catch (e) {
+        print("Error getting location: $e");
+      }
+    });
+  }
+
   Future<void> _cleanUpWebSocket() async {
+    timer?.cancel();
+    timer = null;
+
     if (websocket != null) {
       try {
         await websocket!.close();

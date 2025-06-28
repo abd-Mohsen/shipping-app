@@ -148,3 +148,4 @@ class MyAddressesView extends StatelessWidget {
     );
   }
 }
+//todo: this page needs locale and loader
