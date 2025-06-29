@@ -154,7 +154,7 @@ class MyOrdersTab extends StatelessWidget {
                                         : Colors.transparent,
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
-                                  color: cs.onSurface.withOpacity(0.2),
+                                  color: cs.onSurface.withValues(alpha: 0.2),
                                   width: 0.5,
                                 ),
                                 // boxShadow: [
@@ -248,7 +248,7 @@ class MyOrdersTab extends StatelessWidget {
                                                   ? CircularProgressIndicator(color: cs.primary)
                                                   : CircleAvatar(
                                                       radius: 5,
-                                                      backgroundColor: cs.onSurface.withOpacity(0.7),
+                                                      backgroundColor: cs.onSurface.withValues(alpha: 0.7),
                                                     ),
                                             ),
                                           ),

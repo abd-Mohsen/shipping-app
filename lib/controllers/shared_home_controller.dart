@@ -75,7 +75,7 @@ class SharedHomeController extends GetxController {
   void setPaginationListenerExploreOrders() {
     exploreOrdersScrollController.addListener(() {
       if (exploreOrdersScrollController.position.pixels == exploreOrdersScrollController.position.maxScrollExtent) {
-        //todo:
+        getExploreOrders();
       }
     });
   }
@@ -222,11 +222,6 @@ class SharedHomeController extends GetxController {
     refreshExploreOrders();
   }
 
-  Future<void> refreshExploreOrders() async {
-    exploreOrders.clear();
-    getExploreOrders();
-  }
-
   void getGovernorates() async {
     if (isLoadingGovernorates) return;
     toggleLoadingGovernorate(true);
@@ -236,9 +231,9 @@ class SharedHomeController extends GetxController {
     toggleLoadingGovernorate(false);
   }
 
-  void getExploreOrders() async {
+  Future getExploreOrders({bool showLoading = true}) async {
     if (isLoadingExplore || selectedGovernorate == null) return;
-    toggleLoadingExplore(true);
+    if (showLoading) toggleLoadingExplore(true);
     List<OrderModel2> newItems = await RemoteServices.fetchExploreOrders(
           role: roleText,
           governorateID: selectedGovernorate!.id,
@@ -252,13 +247,18 @@ class SharedHomeController extends GetxController {
         ) ??
         [];
     exploreOrders.addAll(newItems);
-    toggleLoadingExplore(false);
+    if (showLoading) toggleLoadingExplore(false);
+  }
+
+  Future<void> refreshExploreOrders({bool showLoading = true}) async {
+    exploreOrders.clear();
+    await getExploreOrders(showLoading: showLoading);
   }
 
   Future refreshEverything() async {
     await refreshOrders(showLoading: false);
     await refreshRecentOrders(showLoading: false);
-    if (roleText != "customer") await refreshExploreOrders(); //todo: fix the refresh thingy
+    if (roleText != "customer") await refreshExploreOrders(showLoading: false);
     //print("update============================");
     update();
   }

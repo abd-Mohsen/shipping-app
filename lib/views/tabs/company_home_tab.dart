@@ -10,7 +10,6 @@ import 'package:shipment/views/components/selection_circle.dart';
 import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/components/titled_scrolling_card.dart';
 import 'package:shipment/views/components/user_profile_tile.dart';
-import '../../controllers/company_home_controller.dart';
 import '../components/order_card_2.dart';
 
 class CompanyHomeTab extends StatelessWidget {
@@ -18,9 +17,9 @@ class CompanyHomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CompanyHomeController hC = Get.find();
+    //CompanyHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
+    //TextTheme tt = Theme.of(context).textTheme;
 
     return GetBuilder<SharedHomeController>(
       //init: HomeController(),
