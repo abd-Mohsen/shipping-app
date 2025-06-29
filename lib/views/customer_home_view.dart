@@ -22,6 +22,10 @@ class CustomerHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //ThemeController tC = Get.find();
+    Get.put(NotificationsController());
+    Get.put(OnlineSocketController());
+    Get.put(RefreshSocketController());
+
     HomeNavigationController hNC = Get.put(HomeNavigationController());
     FilterController fC = Get.put(FilterController());
     CurrentUserController cUC = Get.put(CurrentUserController());
@@ -31,9 +35,6 @@ class CustomerHomeView extends StatelessWidget {
       homeNavigationController: hNC,
       filterController: fC,
     ));
-    Get.put(NotificationsController());
-    Get.put(OnlineSocketController());
-    Get.put(RefreshSocketController(homeController: hC));
 
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;

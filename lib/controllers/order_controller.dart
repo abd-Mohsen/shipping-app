@@ -164,22 +164,14 @@ class OrderController extends GetxController {
 
   /// interacting with order
   ///
-  /// todo remove refreshing home from here
 
   void acceptOrderDriver() async {
     if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.driverAcceptOrder(order!.id);
     if (success) {
-      //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      driverHomeController!.refreshExploreOrders();
-      driverHomeController!.refreshOrders();
-      driverHomeController!.refreshRecentOrders();
-      Get.showSnackbar(GetSnackBar(
-        message: "request was submitted, waiting for response".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingSubmit(false);
   }
@@ -189,12 +181,8 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(true);
     bool success = await RemoteServices.customerAcceptOrder(order!.id, applicationID);
     if (success) {
-      //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      Get.showSnackbar(GetSnackBar(
-        message: "request was submitted, waiting for response".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingSubmit(false);
   }
@@ -204,12 +192,8 @@ class OrderController extends GetxController {
     toggleLoadingRefuse(true);
     bool success = await RemoteServices.customerRefuseOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      Get.showSnackbar(GetSnackBar(
-        message: "order is cancelled".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingRefuse(false);
   }
@@ -221,14 +205,9 @@ class OrderController extends GetxController {
         ? await RemoteServices.companyRefuseOrder(order!.id)
         : await RemoteServices.driverRefuseOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
+      //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      driverHomeController!.refreshOrders();
-      driverHomeController!.refreshRecentOrders();
-      Get.showSnackbar(GetSnackBar(
-        message: "order is cancelled".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingRefuse(false);
   }
@@ -238,14 +217,9 @@ class OrderController extends GetxController {
     toggleLoadingRefuse(true);
     bool success = await RemoteServices.companyRefuseOrder(order!.id);
     if (success) {
-      if (Get.routing.current == "/OrderView") Get.back();
+      //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      companyHomeController!.refreshOrders();
-      companyHomeController!.refreshRecentOrders();
-      Get.showSnackbar(GetSnackBar(
-        message: "order is cancelled".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingRefuse(false);
   }
@@ -265,20 +239,14 @@ class OrderController extends GetxController {
     );
     if (success) {
       Get.back();
-      //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      driverHomeController!.refreshOrders();
-      driverHomeController!.refreshRecentOrders();
-      Get.showSnackbar(GetSnackBar(
-        message: "success".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingSubmit(false);
   }
 
   void beginOrderDriver() async {
-    //todo check if location is on
+    //todo check if location is on (test)
     bool locationEnabled = await Geolocator.isLocationServiceEnabled();
     if (!locationEnabled) {
       Geolocator.openLocationSettings();
@@ -290,14 +258,8 @@ class OrderController extends GetxController {
         ? await RemoteServices.companyBeginOrder(order!.id)
         : await RemoteServices.driverBeginOrder(order!.id);
     if (success) {
-      //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      driverHomeController!.refreshOrders();
-      driverHomeController!.refreshRecentOrders();
-      Get.showSnackbar(GetSnackBar(
-        message: "shipping started, user can track your location".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingSubmit(false);
   }
@@ -309,15 +271,9 @@ class OrderController extends GetxController {
         ? await RemoteServices.companyFinishOrder(order!.id)
         : await RemoteServices.driverFinishOrder(order!.id);
     if (success) {
-      //if (Get.routing.current == "/OrderView") Get.back();
       //todo(later): if user clicks and return before processing, app closes (i fixed it here, fix in all the app)
       refreshOrder();
-      driverHomeController!.refreshOrders();
-      driverHomeController!.refreshRecentOrders();
-      Get.showSnackbar(GetSnackBar(
-        message: "ordered delivered".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingSubmit(false);
   }
@@ -331,15 +287,8 @@ class OrderController extends GetxController {
     bool success = await RemoteServices.companyAcceptOrder(order!.id, selectedEmployee?.id);
     if (success) {
       if (!isEmployee) Get.back();
-      //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      isEmployee ? driverHomeController!.refreshOrders() : companyHomeController!.refreshOrders();
-      isEmployee ? driverHomeController!.refreshExploreOrders() : companyHomeController!.refreshExploreOrders();
-      isEmployee ? driverHomeController!.refreshRecentOrders() : companyHomeController!.refreshRecentOrders();
-      Get.showSnackbar(GetSnackBar(
-        message: "request was submitted, waiting for response".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingSubmit(false);
   }
@@ -359,14 +308,8 @@ class OrderController extends GetxController {
     );
     if (success) {
       if (!isEmployee) Get.back();
-      //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      companyHomeController!.refreshOrders();
-      companyHomeController!.refreshRecentOrders();
-      Get.showSnackbar(GetSnackBar(
-        message: "success".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingSubmit(false);
   }
@@ -375,13 +318,17 @@ class OrderController extends GetxController {
     bool success = await RemoteServices.deleteCustomerOrder(id);
     if (success) {
       // todo: not showing even though response is 200
-      Get.showSnackbar(GetSnackBar(
-        message: "request was submitted, waiting for response".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
       Get.back();
     }
   }
+
+  showSuccessSnackbar() => Get.showSnackbar(
+        GetSnackBar(
+          message: "success".tr,
+          duration: const Duration(milliseconds: 2500),
+        ),
+      );
 
   //-------------------------------------vehicle and employees-----------------------
 
@@ -494,9 +441,6 @@ class OrderController extends GetxController {
     if (success) {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      driverHomeController!.refreshExploreOrders();
-      driverHomeController!.refreshOrders();
-      driverHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "user can now see your phone".tr,
         duration: const Duration(milliseconds: 2500),

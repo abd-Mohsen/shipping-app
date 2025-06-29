@@ -98,7 +98,7 @@ class MyOrdersTab extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: MySearchField(
                           label: "search".tr,
-                          textEditingController: controller.searchQuery,
+                          textEditingController: controller.searchQueryMyOrders,
                           icon: Icon(Icons.search, color: cs.primary),
                           onChanged: (s) {
                             controller.searchMyOrders();
@@ -231,7 +231,7 @@ class MyOrdersTab extends StatelessWidget {
                                     ),
                                   )
                                 : ListView.builder(
-                                    controller: controller.scrollController,
+                                    controller: controller.myOrdersScrollController,
                                     physics: const AlwaysScrollableScrollPhysics(),
                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                     itemCount: controller.myOrders.length + 1,

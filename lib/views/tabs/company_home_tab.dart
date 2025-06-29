@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
+import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
 import 'package:shipment/views/components/selection_circle.dart';
 import 'package:shipment/views/components/titled_card.dart';
@@ -21,7 +22,7 @@ class CompanyHomeTab extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    return GetBuilder<CompanyHomeController>(
+    return GetBuilder<SharedHomeController>(
       //init: HomeController(),
       builder: (controller) {
         return ListView(

@@ -6,7 +6,7 @@ import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/views/edit_profile_view.dart';
-import 'package:shipment/views/tabs/driver_explore_tab.dart';
+import 'package:shipment/views/tabs/explore_orders_tab.dart';
 import 'package:shipment/views/tabs/driver_home_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
 import '../constants.dart';
@@ -25,17 +25,14 @@ class DriverHomeView extends StatelessWidget {
     FilterController fC = Get.put(FilterController());
     CurrentUserController cUC = Get.put(CurrentUserController());
 
-    DriverHomeController hC = Get.put(DriverHomeController(
-      homeNavigationController: hNC,
-      filterController: fC,
-    ));
+    DriverHomeController hC = Get.put(DriverHomeController());
     SharedHomeController sHC = Get.put(SharedHomeController(
       homeNavigationController: hNC,
       filterController: fC,
     ));
     Get.put(NotificationsController());
     Get.put(OnlineSocketController());
-    Get.put(RefreshSocketController(homeController: hC));
+    Get.put(RefreshSocketController());
 
     ColorScheme cs = Theme.of(context).colorScheme;
     //TextTheme tt = Theme.of(context).textTheme;
@@ -43,7 +40,7 @@ class DriverHomeView extends StatelessWidget {
     List<Widget> tabs = [
       const DriverHomeTab(),
       const MyOrdersTab(),
-      const DriverExploreTab(),
+      const ExploreOrdersTab(),
     ];
 
     return PopScope(
@@ -115,7 +112,7 @@ class DriverHomeView extends StatelessWidget {
                   elevation: 0,
                   onTap: (i) {
                     controller.changeTab(i);
-                    hC.filterController.clearFilters();
+                    sHC.filterController.clearFilters();
                   },
                   currentIndex: controller.tabIndex,
                 ),

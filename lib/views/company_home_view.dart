@@ -5,8 +5,8 @@ import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/controllers/online_socket_controller.dart';
-import 'package:shipment/views/tabs/company_explore_tab.dart';
 import 'package:shipment/views/tabs/company_home_tab.dart';
+import 'package:shipment/views/tabs/explore_orders_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
 import '../constants.dart';
 import '../controllers/filter_controller.dart';
@@ -14,7 +14,6 @@ import '../controllers/home_navigation_controller.dart';
 import '../controllers/my_vehicles_controller.dart';
 import '../controllers/refresh_socket_controller.dart';
 import '../controllers/shared_home_controller.dart';
-import '../controllers/theme_controller.dart';
 import 'components/my_drawer.dart';
 import 'edit_profile_view.dart';
 
@@ -23,25 +22,21 @@ class CompanyHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeController tC = Get.find();
+    //ThemeController tC = Get.find();
+    Get.put(NotificationsController());
+    Get.put(OnlineSocketController());
+    Get.put(RefreshSocketController());
+    Get.put(MyVehiclesController());
+
     HomeNavigationController hNC = Get.put(HomeNavigationController());
     CurrentUserController cUC = Get.put(CurrentUserController());
     FilterController fC = Get.put(FilterController());
 
-    MyVehiclesController mVC = Get.put(MyVehiclesController());
-    CompanyHomeController hC = Get.put(CompanyHomeController(
-      homeNavigationController: hNC,
-      filterController: fC,
-      myVehiclesController: mVC,
-    ));
+    CompanyHomeController hC = Get.put(CompanyHomeController());
     SharedHomeController sHC = Get.put(SharedHomeController(
       homeNavigationController: hNC,
       filterController: fC,
     ));
-
-    Get.put(NotificationsController());
-    Get.put(OnlineSocketController());
-    Get.put(RefreshSocketController(homeController: hC));
 
     //LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
@@ -52,7 +47,7 @@ class CompanyHomeView extends StatelessWidget {
       const MyOrdersTab(),
       //const CompanyStatsTab(),
       //const CompanyManageTab(), //todo: return from sidebar
-      const CompanyExploreTab(),
+      const ExploreOrdersTab(),
     ];
 
     return PopScope(
@@ -121,7 +116,7 @@ class CompanyHomeView extends StatelessWidget {
                 elevation: 0,
                 onTap: (i) {
                   controller.changeTab(i);
-                  hC.filterController.clearFilters();
+                  sHC.filterController.clearFilters();
                 },
                 currentIndex: controller.tabIndex,
               ),

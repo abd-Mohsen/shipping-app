@@ -592,8 +592,9 @@ class RemoteServices {
     return OrderModel.fromJson(jsonDecode(json));
   }
 
-  static Future<List<OrderModel2>?> fetchCustomerOrders({
+  static Future<List<OrderModel2>?> fetchMyOrders({
     required List<String> types,
+    required String role,
     int page = 1,
     String? searchQuery,
     double? minPrice,
@@ -612,14 +613,14 @@ class RemoteServices {
     if (vehicleType != null) addedTypes += "&type_vehicle=$vehicleType";
     if (governorate != null) addedTypes += "&order_location=$governorate";
     if (currency != null) addedTypes += "&currency_id=$currency";
-    String? json = await api.getRequest("customer_order/?$addedTypes&page=$page", auth: true);
+    String? json = await api.getRequest("${role}_order/?$addedTypes&page=$page", auth: true);
     if (json == null) return null;
     return orderModel2FromJson(json);
   }
 
-  static Future<List<OrderModel2>?> fetchDriverOrders({
-    int? governorateID,
-    required List<String> types,
+  static Future<List<OrderModel2>?> fetchExploreOrders({
+    required int governorateID,
+    required String role,
     int page = 1,
     String? searchQuery,
     double? minPrice,
@@ -629,7 +630,7 @@ class RemoteServices {
     int? currency,
   }) async {
     String addedTypes = "";
-    for (String type in types) {
+    for (String type in ["available", "waiting_approval"]) {
       addedTypes += "&order_status=$type";
     }
     if (searchQuery != null && searchQuery.isNotEmpty) addedTypes += "&search=$searchQuery";
@@ -639,36 +640,7 @@ class RemoteServices {
     if (governorate != null) addedTypes += "&order_location=$governorate";
     if (currency != null) addedTypes += "&currency_id=$currency";
     String? json = await api.getRequest(
-      "driver_order/?${governorateID == null ? "" : "order_location=$governorateID"}&$addedTypes&page=$page",
-      auth: true,
-    );
-    if (json == null) return null;
-    return orderModel2FromJson(json);
-  }
-
-  static Future<List<OrderModel2>?> fetchCompanyOrders({
-    int? governorateID,
-    required List<String> types,
-    int page = 1,
-    String? searchQuery,
-    double? minPrice,
-    double? maxPrice,
-    int? vehicleType,
-    int? governorate,
-    int? currency,
-  }) async {
-    String addedTypes = "";
-    for (String type in types) {
-      addedTypes += "&order_status=$type";
-    }
-    if (searchQuery != null && searchQuery.isNotEmpty) addedTypes += "&search=$searchQuery";
-    if (minPrice != null) addedTypes += "&min_price=$minPrice";
-    if (maxPrice != null) addedTypes += "&max_price=$maxPrice";
-    if (vehicleType != null) addedTypes += "&type_vehicle=$vehicleType";
-    if (governorate != null) addedTypes += "&order_location=$governorate";
-    if (currency != null) addedTypes += "&currency_id=$currency";
-    String? json = await api.getRequest(
-      "company_order/?${governorateID == null ? "" : "order_location=$governorateID"}&$addedTypes&page=$page",
+      "${role}_order/?order_location=$governorateID&$addedTypes&page=$page",
       auth: true,
     );
     if (json == null) return null;

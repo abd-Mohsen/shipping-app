@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/controllers/shared_home_controller.dart';
 
 class RefreshSocketController extends GetxController {
-  final dynamic homeController;
-  RefreshSocketController({required this.homeController});
+  SharedHomeController sHC = Get.find();
 
   @override
   void onInit() {
@@ -40,7 +40,7 @@ class RefreshSocketController extends GetxController {
       websocket!.listen(
         (message) async {
           print('Message from server: $message');
-          await homeController.refreshEverything();
+          await sHC.refreshEverything();
         },
         onDone: () {
           _cleanUpWebSocket();

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/filter_sheet.dart';
 import 'package:shipment/views/components/governorate_selector.dart';
 import '../../controllers/driver_home_controller.dart';
@@ -11,18 +12,19 @@ import '../components/filter_button.dart';
 import '../components/my_search_field.dart';
 import '../components/order_card.dart';
 
-class DriverExploreTab extends StatelessWidget {
-  const DriverExploreTab({super.key});
+class ExploreOrdersTab extends StatelessWidget {
+  const ExploreOrdersTab({super.key});
   //todo:search not working (from backend)
 
   @override
   Widget build(BuildContext context) {
-    DriverHomeController hC = Get.find();
+    //DriverHomeController hC = Get.find();
+    SharedHomeController sHC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return GetBuilder<DriverHomeController>(builder: (controller) {
+    return GetBuilder<SharedHomeController>(builder: (controller) {
       return Column(
         children: [
           Padding(
@@ -121,7 +123,7 @@ class DriverExploreTab extends StatelessWidget {
                                     showVehicleType: true,
                                     onConfirm: () {
                                       Get.back();
-                                      hC.refreshExploreOrders();
+                                      sHC.refreshExploreOrders();
                                     },
                                   ),
                                 );
@@ -141,7 +143,7 @@ class DriverExploreTab extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(top: 16.0),
                             child: Divider(
-                              color: cs.onSurface.withOpacity(0.2),
+                              color: cs.onSurface.withValues(alpha: 0.2),
                               thickness: 1.5,
                               indent: screenWidth / 4,
                               endIndent: screenWidth / 4,
