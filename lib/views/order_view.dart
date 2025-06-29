@@ -1135,9 +1135,14 @@ class OrderView extends StatelessWidget {
                                             child: Chip(
                                               label: Text(
                                                 controller.order!.paymentMethods[i].payment.methodName,
-                                                style: tt.labelSmall!.copyWith(color: cs.onPrimary),
+                                                style: tt.labelSmall!.copyWith(
+                                                    color: controller.order!.paymentMethods[i].isActive
+                                                        ? cs.onPrimary
+                                                        : cs.onSecondaryContainer),
                                               ),
-                                              backgroundColor: cs.primary,
+                                              backgroundColor: controller.order!.paymentMethods[i].isActive
+                                                  ? cs.primary
+                                                  : cs.secondaryContainer,
                                             ),
                                           ),
                                         ),
