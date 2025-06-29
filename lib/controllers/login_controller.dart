@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:shipment/views/company_home_view.dart';
 import 'package:shipment/views/customer_home_view.dart';
 import 'package:shipment/views/driver_home_view.dart';
+import 'package:shipment/views/redirect_page.dart';
 
 import '../models/login_model.dart';
 import '../services/remote_services.dart';
@@ -56,11 +57,11 @@ class LoginController extends GetxController {
     _getStorage.write("id", loginData.id);
     print(_getStorage.read("token"));
     if (loginData.role.type == "driver" || loginData.role.type == "company_employee") {
-      Get.offAll(() => const DriverHomeView());
+      Get.offAll(() => const DriverHomeView(), binding: DriverBindings());
     } else if (loginData.role.type == "customer") {
-      Get.offAll(() => const CustomerHomeView());
+      Get.offAll(() => const CustomerHomeView(), binding: CustomerBindings());
     } else if (loginData.role.type == "company") {
-      Get.offAll(() => const CompanyHomeView());
+      Get.offAll(() => const CompanyHomeView(), binding: CompanyBindings());
     } else {
       print("wrong role");
       return; // other role

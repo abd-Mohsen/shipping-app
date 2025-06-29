@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/models/user_model.dart';
 import 'package:flutter/material.dart';
 
@@ -9,15 +10,15 @@ class EditProfileController extends GetxController {
 
   @override
   void onInit() {
-    firstName.text = user.firstName;
-    lastName.text = user.lastName;
-    if (user.role.type == "company") companyName.text = user.companyInfo!.name;
+    user = cUC.currentUser;
+    firstName.text = user!.firstName;
+    lastName.text = user!.lastName;
+    if (user!.role.type == "company") companyName.text = user!.companyInfo!.name;
     super.onInit();
   }
 
-  UserModel user;
-  dynamic homeController;
-  EditProfileController({required this.user, required this.homeController});
+  UserModel? user;
+  CurrentUserController cUC = Get.find();
 
   //loading and editing controllers and pics
   GlobalKey<FormState> profileFormKey = GlobalKey<FormState>();
@@ -72,7 +73,7 @@ class EditProfileController extends GetxController {
         firstName: firstName.text, lastName: lastName.text, companyName: companyName.text);
     if (success) {
       if (Get.routing.current == "/EditProfileView") Get.back();
-      homeController.getCurrentUser();
+      cUC.getCurrentUser();
       Get.showSnackbar(GetSnackBar(
         message: "done successfully".tr,
         duration: const Duration(milliseconds: 2500),
@@ -91,7 +92,7 @@ class EditProfileController extends GetxController {
     bool success = await RemoteServices.changePassword(oldPass.text, newPass.text, reNewPass.text);
     if (success) {
       if (Get.routing.current == "/EditProfileView") Get.back();
-      homeController.getCurrentUser();
+      cUC.getCurrentUser();
       Get.showSnackbar(GetSnackBar(
         message: "done successfully".tr,
         duration: const Duration(milliseconds: 2500),

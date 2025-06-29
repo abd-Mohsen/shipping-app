@@ -9,9 +9,8 @@ import '../models/order_model_2.dart';
 import '../services/remote_services.dart';
 
 class SharedHomeController extends GetxController {
-  HomeNavigationController homeNavigationController;
-  FilterController filterController;
-  SharedHomeController({required this.homeNavigationController, required this.filterController});
+  HomeNavigationController homeNavigationController = Get.find();
+  FilterController filterController = Get.find();
 
   @override
   onInit() {

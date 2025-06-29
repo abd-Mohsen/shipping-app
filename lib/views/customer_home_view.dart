@@ -22,19 +22,16 @@ class CustomerHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //ThemeController tC = Get.find();
-    Get.put(NotificationsController());
-    Get.put(OnlineSocketController());
-    Get.put(RefreshSocketController());
+    // Get.put(NotificationsController());
+    // Get.put(OnlineSocketController());
+    // Get.put(RefreshSocketController());
 
-    HomeNavigationController hNC = Get.put(HomeNavigationController());
-    FilterController fC = Get.put(FilterController());
-    CurrentUserController cUC = Get.put(CurrentUserController());
+    HomeNavigationController hNC = Get.find();
+    //FilterController fC = Get.put(FilterController());
+    CurrentUserController cUC = Get.find();
 
-    CustomerHomeController hC = Get.put(CustomerHomeController());
-    SharedHomeController sHC = Get.put(SharedHomeController(
-      homeNavigationController: hNC,
-      filterController: fC,
-    ));
+    //CustomerHomeController hC = Get.put(CustomerHomeController());
+    SharedHomeController sHC = Get.find();
 
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
@@ -248,7 +245,7 @@ class CustomerHomeView extends StatelessWidget {
                       controller.getCurrentUser();
                     },
                     onEditProfileClick: () {
-                      Get.to(EditProfileView(user: controller.currentUser!, homeController: hC));
+                      Get.to(EditProfileView());
                     },
                     onLogout: () {
                       controller.logout();

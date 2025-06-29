@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/controllers/online_socket_controller.dart';
+import 'package:shipment/views/components/my_bottom_bar.dart';
 import 'package:shipment/views/tabs/company_home_tab.dart';
+import 'package:shipment/views/tabs/company_manage_tab.dart';
 import 'package:shipment/views/tabs/explore_orders_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
 import '../constants.dart';
@@ -23,20 +24,17 @@ class CompanyHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //ThemeController tC = Get.find();
-    Get.put(NotificationsController());
-    Get.put(OnlineSocketController());
-    Get.put(RefreshSocketController());
-    Get.put(MyVehiclesController());
+    HomeNavigationController hNC = Get.find();
+    CurrentUserController cUC = Get.find();
+    //FilterController fC = Get.put(FilterController());
 
-    HomeNavigationController hNC = Get.put(HomeNavigationController());
-    CurrentUserController cUC = Get.put(CurrentUserController());
-    FilterController fC = Get.put(FilterController());
+    //CompanyHomeController hC = Get.put(CompanyHomeController());
+    SharedHomeController sHC = Get.put(SharedHomeController());
 
-    CompanyHomeController hC = Get.put(CompanyHomeController());
-    SharedHomeController sHC = Get.put(SharedHomeController(
-      homeNavigationController: hNC,
-      filterController: fC,
-    ));
+    // Get.put(NotificationsController());
+    // Get.put(OnlineSocketController());
+    // Get.put(RefreshSocketController());
+    // Get.put(MyVehiclesController());
 
     //LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
@@ -46,7 +44,7 @@ class CompanyHomeView extends StatelessWidget {
       const CompanyHomeTab(),
       const MyOrdersTab(),
       //const CompanyStatsTab(),
-      //const CompanyManageTab(), //todo: return from sidebar
+      const CompanyManageTab(), //todo: return from sidebar
       const ExploreOrdersTab(),
     ];
 
@@ -67,59 +65,67 @@ class CompanyHomeView extends StatelessWidget {
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               key: cUC.scaffoldKey,
-              bottomNavigationBar: BottomNavigationBar(
-                items: [
-                  BottomNavigationBarItem(
-                    icon: const Padding(
-                      padding: EdgeInsets.all(2.0),
-                      child: FaIcon(FontAwesomeIcons.house),
-                    ),
-                    label: "home".tr,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: const Padding(
-                      padding: EdgeInsets.all(2.0),
-                      child: FaIcon(FontAwesomeIcons.list),
-                    ),
-                    label: "orders".tr,
-                  ),
-                  // BottomNavigationBarItem(
-                  //   icon: const Padding(
-                  //     padding: EdgeInsets.all(2.0),
-                  //     child: FaIcon(FontAwesomeIcons.chartLine),
-                  //   ),
-                  //   label: "statistics".tr,
-                  // ),
-                  // BottomNavigationBarItem(
-                  //   icon: const Padding(
-                  //     padding: EdgeInsets.all(2.0),
-                  //     child: FaIcon(Icons.manage_accounts),
-                  //   ),
-                  //   label: "manage".tr,
-                  // ),
-                  BottomNavigationBarItem(
-                    icon: const Padding(
-                      padding: EdgeInsets.all(2.0),
-                      child: FaIcon(Icons.search),
-                    ),
-                    label: "explore".tr,
-                  ),
-                ],
-                showUnselectedLabels: true,
-                //height: MediaQuery.of(context).size.height / 11,
-                backgroundColor: cs.secondaryContainer,
-                selectedItemColor: cs.primary,
-                unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
-                iconSize: 18,
-                selectedFontSize: 10,
-                unselectedFontSize: 10,
-                elevation: 0,
-                onTap: (i) {
+              bottomNavigationBar: MyBottomBar(
+                onChanged: (i) {
                   controller.changeTab(i);
                   sHC.filterController.clearFilters();
                 },
                 currentIndex: controller.tabIndex,
               ),
+              // BottomNavigationBar(
+              //   items: [
+              //     BottomNavigationBarItem(
+              //       icon: const Padding(
+              //         padding: EdgeInsets.all(2.0),
+              //         child: FaIcon(FontAwesomeIcons.house),
+              //       ),
+              //       label: "home".tr,
+              //     ),
+              //     BottomNavigationBarItem(
+              //       icon: const Padding(
+              //         padding: EdgeInsets.all(2.0),
+              //         child: FaIcon(FontAwesomeIcons.list),
+              //       ),
+              //       label: "orders".tr,
+              //     ),
+              //     // BottomNavigationBarItem(
+              //     //   icon: const Padding(
+              //     //     padding: EdgeInsets.all(2.0),
+              //     //     child: FaIcon(FontAwesomeIcons.chartLine),
+              //     //   ),
+              //     //   label: "statistics".tr,
+              //     // ),
+              //     // BottomNavigationBarItem(
+              //     //   icon: const Padding(
+              //     //     padding: EdgeInsets.all(2.0),
+              //     //     child: FaIcon(Icons.manage_accounts),
+              //     //   ),
+              //     //   label: "manage".tr,
+              //     // ),
+              //     BottomNavigationBarItem(
+              //       icon: const Padding(
+              //         padding: EdgeInsets.all(2.0),
+              //         child: FaIcon(Icons.search),
+              //       ),
+              //       label: "explore".tr,
+              //     ),
+              //   ],
+              //   showUnselectedLabels: true,
+              //   //height: MediaQuery.of(context).size.height / 11,
+              //   backgroundColor: cs.secondaryContainer,
+              //   selectedItemColor: cs.primary,
+              //   unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
+              //   iconSize: 18,
+              //   selectedFontSize: 10,
+              //   unselectedFontSize: 10,
+              //   elevation: 0,
+              //   onTap: (i) {
+              //     controller.changeTab(i);
+              //     sHC.filterController.clearFilters();
+              //   },
+              //   currentIndex: controller.tabIndex,
+              // ),
+              //--------------------------------
               // appBar: controller.tabIndex == 3
               //     ? AppBar(
               //         backgroundColor: cs.secondaryContainer,
@@ -233,7 +239,7 @@ class CompanyHomeView extends StatelessWidget {
                       controller.getCurrentUser();
                     },
                     onEditProfileClick: () {
-                      Get.to(EditProfileView(user: controller.currentUser!, homeController: hC));
+                      Get.to(EditProfileView());
                     },
                     onLogout: () {
                       controller.logout();

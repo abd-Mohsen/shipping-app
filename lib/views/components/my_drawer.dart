@@ -156,12 +156,12 @@ class MyDrawer extends StatelessWidget {
                                                   ),
                                                 ],
                                               ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              "دمشق, ركن الدين, صلاح الدين",
-                                              style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.4)),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                            // const SizedBox(height: 4),
+                                            // Text(
+                                            //   "دمشق, ركن الدين, صلاح الدين",
+                                            //   style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.4)),
+                                            //   overflow: TextOverflow.ellipsis,
+                                            // ),
                                           ],
                                         ),
                                       ),
@@ -242,19 +242,19 @@ class MyDrawer extends StatelessWidget {
                     },
                   ),
                 ),
-                Visibility(
-                  visible: role == "company",
-                  child: DrawerCard(
-                    title: "manage".tr,
-                    icon: Icons.manage_accounts_outlined,
-                    onTap: () {
-                      //Get.to(const PaymentsView());
-                      Get.to(
-                        const CompanyManageTab(),
-                      );
-                    },
-                  ),
-                ),
+                // Visibility(
+                //   visible: role == "company",
+                //   child: DrawerCard(
+                //     title: "manage".tr,
+                //     icon: Icons.manage_accounts_outlined,
+                //     onTap: () {
+                //       //Get.to(const PaymentsView());
+                //       Get.to(
+                //         const CompanyManageTab(),
+                //       );
+                //     },
+                //   ),
+                // ),
 
                 // BottomNavigationBarItem(
                 //   icon: const Padding(

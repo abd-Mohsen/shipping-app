@@ -32,7 +32,7 @@ class CurrentUserController extends GetxController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<void> getCurrentUser({bool refresh = false}) async {
-    if (isLoadingUser) return;
+    //if (isLoadingUser) return;
     toggleLoadingUser(true);
     currentUser = await RemoteServices.fetchCurrentUser();
     /*

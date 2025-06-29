@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/edit_profile_controller.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/input_field.dart';
@@ -11,15 +12,14 @@ import '../models/user_model.dart';
 import 'components/auth_field.dart';
 
 class EditProfileView extends StatelessWidget {
-  final UserModel user;
-  final dynamic homeController;
-  const EditProfileView({super.key, required this.user, required this.homeController});
+  const EditProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    EditProfileController mOC = Get.put(EditProfileController(user: user, homeController: homeController));
+    EditProfileController mOC = Get.put(EditProfileController());
+    CurrentUserController cUC = Get.find();
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -112,7 +112,7 @@ class EditProfileView extends StatelessWidget {
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
                       Visibility(
-                        visible: user.role.type == "company",
+                        visible: cUC.currentUser!.role.type == "company",
                         child: InputField(
                           controller: controller.companyName,
                           label: "company name".tr,

@@ -14,6 +14,7 @@ import '../controllers/current_user_controller.dart';
 import '../controllers/online_socket_controller.dart';
 import '../controllers/refresh_socket_controller.dart';
 import '../controllers/shared_home_controller.dart';
+import 'components/my_bottom_bar.dart';
 import 'components/my_drawer.dart';
 
 class DriverHomeView extends StatelessWidget {
@@ -21,18 +22,15 @@ class DriverHomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeNavigationController hNC = Get.put(HomeNavigationController());
-    FilterController fC = Get.put(FilterController());
-    CurrentUserController cUC = Get.put(CurrentUserController());
+    HomeNavigationController hNC = Get.find();
+    //FilterController fC = Get.put(FilterController());
+    CurrentUserController cUC = Get.find();
 
-    DriverHomeController hC = Get.put(DriverHomeController());
-    SharedHomeController sHC = Get.put(SharedHomeController(
-      homeNavigationController: hNC,
-      filterController: fC,
-    ));
-    Get.put(NotificationsController());
-    Get.put(OnlineSocketController());
-    Get.put(RefreshSocketController());
+    // DriverHomeController hC = Get.put(DriverHomeController());
+    SharedHomeController sHC = Get.find();
+    // Get.put(NotificationsController());
+    // Get.put(OnlineSocketController());
+    // Get.put(RefreshSocketController());
 
     ColorScheme cs = Theme.of(context).colorScheme;
     //TextTheme tt = Theme.of(context).textTheme;
@@ -76,47 +74,55 @@ class DriverHomeView extends StatelessWidget {
               //   selectedIndex: controller.tabIndex,
               // ),
 
-              bottomNavigationBar: SizedBox(
-                height: MediaQuery.of(context).size.height / 13.5,
-                child: BottomNavigationBar(
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: const Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: FaIcon(FontAwesomeIcons.house),
-                      ),
-                      label: "home".tr,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: const Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: FaIcon(FontAwesomeIcons.list),
-                      ),
-                      label: "orders".tr,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: const Padding(
-                        padding: EdgeInsets.all(2.0),
-                        child: FaIcon(Icons.search),
-                      ),
-                      label: "explore".tr,
-                    ),
-                  ],
-                  //height: MediaQuery.of(context).size.height / 11,
-                  backgroundColor: cs.secondaryContainer,
-                  selectedItemColor: cs.primary,
-                  unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
-                  iconSize: 18,
-                  selectedFontSize: 10,
-                  unselectedFontSize: 10,
-                  elevation: 0,
-                  onTap: (i) {
-                    controller.changeTab(i);
-                    sHC.filterController.clearFilters();
-                  },
-                  currentIndex: controller.tabIndex,
-                ),
+              bottomNavigationBar: MyBottomBar(
+                onChanged: (i) {
+                  controller.changeTab(i);
+                  sHC.filterController.clearFilters();
+                },
+                currentIndex: controller.tabIndex,
               ),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height / 13.5,
+              //   child: BottomNavigationBar(
+              //     items: [
+              //       BottomNavigationBarItem(
+              //         icon: const Padding(
+              //           padding: EdgeInsets.all(2.0),
+              //           child: FaIcon(FontAwesomeIcons.house),
+              //         ),
+              //         label: "home".tr,
+              //       ),
+              //       BottomNavigationBarItem(
+              //         icon: const Padding(
+              //           padding: EdgeInsets.all(2.0),
+              //           child: FaIcon(FontAwesomeIcons.list),
+              //         ),
+              //         label: "orders".tr,
+              //       ),
+              //       BottomNavigationBarItem(
+              //         icon: const Padding(
+              //           padding: EdgeInsets.all(2.0),
+              //           child: FaIcon(Icons.search),
+              //         ),
+              //         label: "explore".tr,
+              //       ),
+              //     ],
+              //     //height: MediaQuery.of(context).size.height / 11,
+              //     backgroundColor: cs.secondaryContainer,
+              //     selectedItemColor: cs.primary,
+              //     unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
+              //     iconSize: 18,
+              //     selectedFontSize: 10,
+              //     unselectedFontSize: 10,
+              //     elevation: 0,
+              //     onTap: (i) {
+              //       controller.changeTab(i);
+              //       sHC.filterController.clearFilters();
+              //     },
+              //     currentIndex: controller.tabIndex,
+              //   ),
+              // ),
+              //-----------------------------
               // appBar: AppBar(
               //   backgroundColor: cs.primary,
               //   iconTheme: IconThemeData(
@@ -201,7 +207,7 @@ class DriverHomeView extends StatelessWidget {
                       controller.getCurrentUser();
                     },
                     onEditProfileClick: () {
-                      Get.to(EditProfileView(user: controller.currentUser!, homeController: hC));
+                      Get.to(EditProfileView());
                     },
                     onLogout: () {
                       controller.logout();

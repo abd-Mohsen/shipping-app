@@ -78,6 +78,7 @@ class CustomerHomeTab extends StatelessWidget {
               ),
             ),
             //todo: giving errors in console
+            //todo: add dots
             CarouselSlider(
               items: List.generate(
                 controller.currOrders.isEmpty ? 1 : controller.currOrders.length,
@@ -92,10 +93,10 @@ class CustomerHomeTab extends StatelessWidget {
                 ),
               ),
               options: CarouselOptions(
-                enableInfiniteScroll: false,
-                //aspectRatio: 16 / 8,
-                viewportFraction: 1,
-              ),
+                  enableInfiniteScroll: false,
+                  //aspectRatio: 16 / 8,
+                  viewportFraction: 1,
+                  height: MediaQuery.of(context).size.height / 3.5), //todo: make it not fixed
             ),
             // This is the scrollable section
             controller.isLoadingRecent
