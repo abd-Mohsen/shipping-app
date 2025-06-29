@@ -375,6 +375,17 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
+  void deleteOrder(int id) async {
+    bool success = await RemoteServices.deleteCustomerOrder(id);
+    if (success) {
+      Get.showSnackbar(GetSnackBar(
+        message: "request was submitted, waiting for response".tr,
+        duration: const Duration(milliseconds: 2500),
+      ));
+      Get.back();
+    }
+  }
+
   //-------------------------------------vehicle and employees-----------------------
 
   List<VehicleModel> availableVehicles = [];

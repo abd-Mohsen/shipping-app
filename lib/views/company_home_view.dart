@@ -49,7 +49,7 @@ class CompanyHomeView extends StatelessWidget {
       const CompanyHomeTab(),
       const CompanyOrdersTab(),
       //const CompanyStatsTab(),
-      //const CompanyManageTab(), //todo: move to sidebar
+      //const CompanyManageTab(), //todo: return from sidebar
       const CompanyExploreTab(),
     ];
 
@@ -110,7 +110,7 @@ class CompanyHomeView extends StatelessWidget {
                 ],
                 showUnselectedLabels: true,
                 //height: MediaQuery.of(context).size.height / 11,
-                backgroundColor: cs.secondaryContainer, //todo: fix color in dark mode
+                backgroundColor: cs.secondaryContainer,
                 selectedItemColor: cs.primary,
                 unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
                 iconSize: 18,
@@ -186,7 +186,6 @@ class CompanyHomeView extends StatelessWidget {
               //       )
               //     : null,
               backgroundColor: cs.surface,
-              //todo: add fade and sidebar arrow
               body: Stack(
                 children: [
                   ShaderMask(

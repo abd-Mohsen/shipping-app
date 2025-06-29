@@ -311,7 +311,6 @@ class Api {
     // {"phone_number":["This field must be unique."]}
   }
 
-  //todo(later): test
   void handleSessionExpired(int statusCode, bool canRefresh) {
     if (!canRefresh || statusCode != 401) return;
     _getStorage.remove("token");

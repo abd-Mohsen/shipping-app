@@ -43,7 +43,6 @@ class MyDrawer extends StatelessWidget {
     final getStorage = GetStorage();
     String role = getStorage.read("role");
 
-    //todo: handle all roles case (add specific tabs for each role)
     //todo(later): switch language
     return Drawer(
       shape: RoundedRectangleBorder(

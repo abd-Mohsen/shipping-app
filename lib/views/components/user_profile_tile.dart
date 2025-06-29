@@ -87,7 +87,7 @@ class UserProfileTile extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                   child: badges.Badge(
-                    showBadge: controller.unreadCount > 0, //todo in all
+                    showBadge: controller.unreadCount > 0,
                     position: badges.BadgePosition.topStart(),
                     // smallSize: 10,
                     // backgroundColor: const Color(0xff00ff00),

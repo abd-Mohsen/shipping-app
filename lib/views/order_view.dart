@@ -35,12 +35,9 @@ import 'components/sheet_details_tile.dart';
 import 'make_order_view.dart';
 
 class OrderView extends StatelessWidget {
-  //todo: show payment methods
-  //todo: show vehicle type and plate (show application info in blurred sheet)
+  //todo: show payment methods (enhance and show selected)
   //todo: show rate box for customer when status is done (and if not rated before)
   //todo: show to customer: the driver is offline when there is no connection to web socket
-  //todo: map is not scrollable
-  //todo: show currency here and in order cards
 
   final int orderID;
   const OrderView({
@@ -180,7 +177,6 @@ class OrderView extends StatelessWidget {
           ),
         );
 
-    //todo: don't let user click either buttons if one is loading
     alertStack({
       required String title,
       required onPressedGreen,
@@ -334,7 +330,7 @@ class OrderView extends StatelessWidget {
                     confirm: TextButton(
                       onPressed: () {
                         Get.back();
-                        cHC.deleteOrder(oC.order!.id);
+                        controller.deleteOrder(oC.order!.id);
                       },
                       child: Text(
                         "yes".tr,
@@ -1690,7 +1686,6 @@ class OrderView extends StatelessWidget {
                                 onPressedRed: () {
                                   Get.back();
                                   controller.refuseOrderCustomer();
-                                  //todo: don't let user click either buttons if one is loading
                                 },
                                 isLoadingGreen: controller.isLoadingSubmit,
                                 isLoadingRed: controller.isLoadingRefuse,

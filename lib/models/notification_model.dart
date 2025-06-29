@@ -3,7 +3,6 @@ import 'dart:convert';
 List<NotificationModel> notificationModelFromJson(String str) =>
     List<NotificationModel>.from(json.decode(str)["results"].map((x) => NotificationModel.fromJson(x)));
 
-//todo: change
 class NotificationModel {
   final int id;
   final String title;
