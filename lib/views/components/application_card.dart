@@ -114,7 +114,7 @@ class ApplicationCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // if (showButtons ?? false) //todo there is no refuse
+                  // if (showButtons ?? false)
                   //   Padding(
                   //     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                   //     child: GestureDetector(

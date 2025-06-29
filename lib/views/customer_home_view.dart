@@ -125,7 +125,6 @@ class CustomerHomeView extends StatelessWidget {
               //   ),
               // ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-              //todo: use this bottom bar in company and driver
               bottomNavigationBar: AnimatedBottomNavigationBar.builder(
                 backgroundColor: cs.secondaryContainer,
                 splashRadius: 0,

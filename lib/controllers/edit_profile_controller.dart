@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../services/remote_services.dart';
 
 class EditProfileController extends GetxController {
-  //todo add delete profile
+  //todo(later) add delete profile
 
   @override
   void onInit() {

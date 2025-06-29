@@ -44,7 +44,7 @@ class CompanyHomeView extends StatelessWidget {
       const CompanyHomeTab(),
       const MyOrdersTab(),
       //const CompanyStatsTab(),
-      const CompanyManageTab(), //todo: return from sidebar
+      const CompanyManageTab(),
       const ExploreOrdersTab(),
     ];
 

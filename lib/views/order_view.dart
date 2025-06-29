@@ -35,7 +35,6 @@ import 'components/sheet_details_tile.dart';
 import 'make_order_view.dart';
 
 class OrderView extends StatelessWidget {
-  //todo: show payment methods (enhance and show selected)
   //todo: show rate box for customer when status is done (and if not rated before)
   //todo: show to customer: the driver is offline when there is no connection to web socket
 

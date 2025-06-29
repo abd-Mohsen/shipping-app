@@ -52,12 +52,14 @@ class NotificationCard extends StatelessWidget {
                 //       backgroundColor: kNotificationColor,
                 //     ),
                 //   ),
-                //todo: image not loading sometimes, se a fallback and prolong timeout like in vehicle card
                 notification.iconUrl != null
                     ? SizedBox(
                         width: 40,
                         height: 40,
-                        child: Image.network("$kHostIP${notification.iconUrl!}"),
+                        child: Image.network(
+                          "$kHostIP${notification.iconUrl!}",
+                          headers: const {"Keep-Alive": "timeout=5, max=1000"},
+                        ),
                       )
                     : Icon(
                         Icons.notifications_active,

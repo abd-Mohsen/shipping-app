@@ -135,8 +135,8 @@ String? validateInput(
   if (pass != rePass) return "passwords don't match".tr;
 
   if (english) {
-    final RegExp englishRegExp = RegExp(r'^[a-zA-Z\d_\-]+$');
-    if (!englishRegExp.hasMatch(val)) return "must be english".tr; // todo doesnt accept empty spaces
+    final RegExp englishRegExp = RegExp(r'^[a-zA-Z\d_\-\s]+$');
+    if (!englishRegExp.hasMatch(val)) return "must be english".tr; // todo doesnt accept empty spaces (test)
   }
 
   return null;
