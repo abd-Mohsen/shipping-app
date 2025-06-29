@@ -7,12 +7,13 @@ import 'package:shipment/controllers/home_navigation_controller.dart';
 import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/views/edit_profile_view.dart';
 import 'package:shipment/views/tabs/driver_explore_tab.dart';
-import 'package:shipment/views/tabs/driver_orders_tab.dart';
 import 'package:shipment/views/tabs/driver_home_tab.dart';
+import 'package:shipment/views/tabs/my_orders_tab.dart';
 import '../constants.dart';
 import '../controllers/current_user_controller.dart';
 import '../controllers/online_socket_controller.dart';
 import '../controllers/refresh_socket_controller.dart';
+import '../controllers/shared_home_controller.dart';
 import 'components/my_drawer.dart';
 
 class DriverHomeView extends StatelessWidget {
@@ -28,16 +29,20 @@ class DriverHomeView extends StatelessWidget {
       homeNavigationController: hNC,
       filterController: fC,
     ));
+    SharedHomeController sHC = Get.put(SharedHomeController(
+      homeNavigationController: hNC,
+      filterController: fC,
+    ));
     Get.put(NotificationsController());
     Get.put(OnlineSocketController());
     Get.put(RefreshSocketController(homeController: hC));
 
     ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
+    //TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
       const DriverHomeTab(),
-      const DriverOrdersTab(),
+      const MyOrdersTab(),
       const DriverExploreTab(),
     ];
 
@@ -103,7 +108,7 @@ class DriverHomeView extends StatelessWidget {
                   //height: MediaQuery.of(context).size.height / 11,
                   backgroundColor: cs.secondaryContainer,
                   selectedItemColor: cs.primary,
-                  unselectedItemColor: cs.onSurface.withOpacity(0.5),
+                  unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
                   iconSize: 18,
                   selectedFontSize: 10,
                   unselectedFontSize: 10,
@@ -176,7 +181,7 @@ class DriverHomeView extends StatelessWidget {
                           alignment: Alignment.centerLeft, // Show left half
                           widthFactor: 0.5, // Clip to 50% width
                           child: CircleAvatar(
-                            backgroundColor: cs.primary.withOpacity(0.7),
+                            backgroundColor: cs.primary.withValues(alpha: 0.7),
                             foregroundColor: cs.onPrimary,
                             child: const Padding(
                               padding: EdgeInsets.only(right: 16),

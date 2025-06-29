@@ -106,10 +106,10 @@ class SharedHomeController extends GetxController {
     await getOrders(showLoading: showLoading);
   }
 
-  Timer? _debounce;
-  search() {
-    if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
+  Timer? _debounceMyOrders;
+  searchMyOrders() {
+    if (_debounceMyOrders?.isActive ?? false) _debounceMyOrders?.cancel();
+    _debounceMyOrders = Timer(const Duration(milliseconds: 500), () {
       refreshOrders();
     });
   }
@@ -150,7 +150,6 @@ class SharedHomeController extends GetxController {
   bool _isLoadingRecent = false;
   bool get isLoadingRecent => _isLoadingRecent;
   void toggleLoadingRecent(bool value) {
-    print("loading recent " + value.toString());
     _isLoadingRecent = value;
     update();
   }

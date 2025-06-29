@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/refresh_socket_controller.dart';
+import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/my_drawer.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/tabs/customer_home_tab.dart';
-import 'package:shipment/views/tabs/customer_orders_tab.dart';
+import 'package:shipment/views/tabs/my_orders_tab.dart';
 import '../constants.dart';
 import '../controllers/current_user_controller.dart';
 import '../controllers/filter_controller.dart';
@@ -25,7 +26,8 @@ class CustomerHomeView extends StatelessWidget {
     FilterController fC = Get.put(FilterController());
     CurrentUserController cUC = Get.put(CurrentUserController());
 
-    CustomerHomeController hC = Get.put(CustomerHomeController(
+    CustomerHomeController hC = Get.put(CustomerHomeController());
+    SharedHomeController sHC = Get.put(SharedHomeController(
       homeNavigationController: hNC,
       filterController: fC,
     ));
@@ -38,7 +40,7 @@ class CustomerHomeView extends StatelessWidget {
 
     List<Widget> tabs = [
       const CustomerHomeTab(),
-      const CustomerOrdersTab(),
+      const MyOrdersTab(),
     ];
 
     List<IconData> iconsList = [Icons.home, Icons.list];
@@ -157,7 +159,7 @@ class CustomerHomeView extends StatelessWidget {
                 rightCornerRadius: 0,
                 onTap: (i) {
                   controller.changeTab(i);
-                  hC.filterController.clearFilters();
+                  sHC.filterController.clearFilters();
                 },
                 activeIndex: controller.tabIndex,
               ),

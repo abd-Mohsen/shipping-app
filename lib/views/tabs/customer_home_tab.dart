@@ -1,9 +1,8 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:shipment/controllers/customer_home_controller.dart';
+import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
 import 'package:shipment/views/components/selection_circle.dart';
 import 'package:shipment/views/components/titled_card.dart';
@@ -17,11 +16,12 @@ class CustomerHomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CustomerHomeController hC = Get.find();
+    //CustomerHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
+    //SharedHomeController sHC = Get.find();
 
-    return GetBuilder<CustomerHomeController>(
+    return GetBuilder<SharedHomeController>(
       builder: (controller) {
         return ListView(
           children: [

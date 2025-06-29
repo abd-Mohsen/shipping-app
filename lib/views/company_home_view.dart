@@ -7,15 +7,13 @@ import 'package:shipment/controllers/notifications_controller.dart';
 import 'package:shipment/controllers/online_socket_controller.dart';
 import 'package:shipment/views/tabs/company_explore_tab.dart';
 import 'package:shipment/views/tabs/company_home_tab.dart';
-import 'package:shipment/views/tabs/company_manage_tab.dart';
-import 'package:shipment/views/tabs/company_orders_tab.dart';
-import 'package:shipment/views/tabs/company_stats_tab.dart';
+import 'package:shipment/views/tabs/my_orders_tab.dart';
 import '../constants.dart';
 import '../controllers/filter_controller.dart';
 import '../controllers/home_navigation_controller.dart';
-import '../controllers/locale_controller.dart';
 import '../controllers/my_vehicles_controller.dart';
 import '../controllers/refresh_socket_controller.dart';
+import '../controllers/shared_home_controller.dart';
 import '../controllers/theme_controller.dart';
 import 'components/my_drawer.dart';
 import 'edit_profile_view.dart';
@@ -36,18 +34,22 @@ class CompanyHomeView extends StatelessWidget {
       filterController: fC,
       myVehiclesController: mVC,
     ));
+    SharedHomeController sHC = Get.put(SharedHomeController(
+      homeNavigationController: hNC,
+      filterController: fC,
+    ));
 
     Get.put(NotificationsController());
     Get.put(OnlineSocketController());
     Get.put(RefreshSocketController(homeController: hC));
 
-    LocaleController lC = Get.find();
+    //LocaleController lC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
+    //TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
       const CompanyHomeTab(),
-      const CompanyOrdersTab(),
+      const MyOrdersTab(),
       //const CompanyStatsTab(),
       //const CompanyManageTab(), //todo: return from sidebar
       const CompanyExploreTab(),

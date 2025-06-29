@@ -3,24 +3,23 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/filter_controller.dart';
+import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/filter_button.dart';
 import '../components/filter_sheet.dart';
 import '../components/my_search_field.dart';
 import '../components/order_card.dart';
-import '../components/order_card_3.dart';
 
-class CustomerOrdersTab extends StatelessWidget {
-  const CustomerOrdersTab({super.key});
+class MyOrdersTab extends StatelessWidget {
+  const MyOrdersTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    CustomerHomeController hC = Get.find();
+    SharedHomeController sHC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    return GetBuilder<CustomerHomeController>(
+    return GetBuilder<SharedHomeController>(
       builder: (controller) {
         return Stack(
           children: [
@@ -102,7 +101,7 @@ class CustomerOrdersTab extends StatelessWidget {
                           textEditingController: controller.searchQuery,
                           icon: Icon(Icons.search, color: cs.primary),
                           onChanged: (s) {
-                            controller.search();
+                            controller.searchMyOrders();
                           },
                         ),
                       ),
@@ -118,7 +117,7 @@ class CustomerOrdersTab extends StatelessWidget {
                             showVehicleType: true,
                             onConfirm: () {
                               Get.back();
-                              hC.refreshOrders();
+                              sHC.refreshOrders();
                             },
                           ),
                         );

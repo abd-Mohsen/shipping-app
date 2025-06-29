@@ -191,8 +191,6 @@ class OrderController extends GetxController {
     if (success) {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      customerHomeController!.refreshOrders();
-      customerHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
         duration: const Duration(milliseconds: 2500),
@@ -208,8 +206,6 @@ class OrderController extends GetxController {
     if (success) {
       if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      customerHomeController!.refreshOrders();
-      customerHomeController!.refreshRecentOrders();
       Get.showSnackbar(GetSnackBar(
         message: "order is cancelled".tr,
         duration: const Duration(milliseconds: 2500),
@@ -378,6 +374,7 @@ class OrderController extends GetxController {
   void deleteOrder(int id) async {
     bool success = await RemoteServices.deleteCustomerOrder(id);
     if (success) {
+      // todo: not showing even though response is 200
       Get.showSnackbar(GetSnackBar(
         message: "request was submitted, waiting for response".tr,
         duration: const Duration(milliseconds: 2500),
