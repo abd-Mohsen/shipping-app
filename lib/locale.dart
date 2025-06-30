@@ -651,7 +651,7 @@ class MyLocale extends Translations {
           'swipe to choose your role': 'اسحب لاختيار نوع حسابك',
           'location Required': 'خدمات الموقع مطلوبة',
           'please enable location services then press ok': 'من فضلك قم بتشغيل خدمات الموقع ثم اضغط موافق',
-          "select this location": "اخنر الموقع",
+          "select this location": "اختر الموقع",
           'how do you want to call this person?': 'كيف تريد التواصل؟',
           "open map": "عرض الخريطة",
           "no results": "لا يوجد نتائج",

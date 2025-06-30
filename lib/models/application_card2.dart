@@ -102,7 +102,7 @@ class ApplicationCard2 extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: cs.secondaryContainer,
                               borderRadius: BorderRadius.circular(100),
-                              border: Border.all(width: 0.3),
+                              border: Border.all(width: 0.6, color: cs.onSecondaryContainer),
                             ),
                             child: Icon(
                               CupertinoIcons.phone,

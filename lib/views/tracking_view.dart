@@ -165,11 +165,14 @@ class TrackingView extends StatelessWidget {
                       indent: 12,
                       endIndent: 20,
                     ),
-                    if (controller.order!.driversApplications.isNotEmpty)
-                      ApplicationCard(
-                        application:
-                            controller.order?.acceptedApplication ?? controller.order!.driversApplications.first,
-                        isLast: true,
+                    if (controller.order?.acceptedApplication != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: ApplicationCard(
+                          application: controller.order!.acceptedApplication!,
+                          isLast: true,
+                          showPhone: false,
+                        ),
                       ),
                   ],
                 ),

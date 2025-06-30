@@ -33,9 +33,12 @@ class OrderView extends StatelessWidget {
   //todo: show to customer: the driver is offline when there is no connection to web socket
 
   final int orderID;
+  final bool? openTracking;
+
   const OrderView({
     super.key,
     required this.orderID,
+    this.openTracking,
   });
 
   @override
@@ -273,6 +276,22 @@ class OrderView extends StatelessWidget {
           },
         );
 
+    if (openTracking ?? false) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        // Optional: wait 1 second before navigating
+        await Future.delayed(const Duration(milliseconds: 400));
+
+        // Optional: Wait for controller to be ready
+        await Future.delayed(const Duration(milliseconds: 600));
+        // You can adjust this or use a proper "isInitialized" check
+
+        if (Get.isRegistered<OrderController>()) {
+          // Or check for controller.isInitialized if you have that flag
+          Get.to(() => TrackingView(map: map()));
+        }
+      });
+    }
+
     return GetBuilder<OrderController>(builder: (controller) {
       return Scaffold(
         backgroundColor: cs.surface,
@@ -396,9 +415,9 @@ class OrderView extends StatelessWidget {
                               /// accept order
                               ///
                               if (!isCustomer &&
-                                  ((["available"].contains(oC.order!.status) ||
-                                      ["waiting_approval"].contains(oC.order!.status))) &&
-                                  !controller.order!.isAppliedByMe)
+                                  ["available", "waiting_approval"].contains(oC.order!.status) &&
+                                  !controller.order!.isAppliedByMe &&
+                                  !controller.order!.isCancelledByMe)
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   child: CustomButton(
@@ -719,20 +738,22 @@ class OrderView extends StatelessWidget {
 
                               ///drivers applications
                               ///
-                              if (isCustomer && controller.order!.driversApplications.isNotEmpty)
+                              if ((isCustomer || isCompany) && controller.order!.driversApplications.isNotEmpty)
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                                  padding: const EdgeInsets.only(right: 4, left: 4, top: 12, bottom: 4),
                                   child: TitledScrollingCard(
-                                    title: "drivers applications".tr,
+                                    title: isCompany ? "employee".tr : "drivers applications".tr,
                                     itemCount: controller.order!.driversApplications.length,
                                     isEmpty: controller.order!.driversApplications.isEmpty,
                                     children: List.generate(
                                       controller.order!.driversApplications.length,
                                       (i) => ApplicationCard(
-                                        showButtons: controller.order!.status == "waiting_approval",
+                                        showButtons: isCompany ? false : controller.order!.status == "waiting_approval",
                                         application: controller.order!.driversApplications[i],
-                                        isAccepted: controller.order!.driversApplications[i].id ==
-                                            controller.order!.acceptedApplication?.id,
+                                        isAccepted: isCompany
+                                            ? false
+                                            : controller.order!.driversApplications[i].id ==
+                                                controller.order!.acceptedApplication?.id,
                                         onTapCall: () {
                                           showDialog(
                                             context: context,
@@ -1054,7 +1075,7 @@ class OrderView extends StatelessWidget {
                               ///
                               if (!isCustomer)
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 16.0, right: 4, left: 4),
+                                  padding: const EdgeInsets.only(top: 12.0, right: 4, left: 4),
                                   child: TitledCard(
                                     title: "owner info".tr,
                                     content: ApplicationCard2(
@@ -1076,7 +1097,7 @@ class OrderView extends StatelessWidget {
                               /// available payment methods
                               ///
                               Padding(
-                                padding: const EdgeInsets.only(top: 16.0, bottom: 12, right: 4, left: 4),
+                                padding: const EdgeInsets.only(top: 16.0, bottom: 4, right: 4, left: 4),
                                 child: TitledCard(
                                   title: "payment methods".tr,
                                   content: Padding(

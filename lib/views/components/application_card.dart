@@ -13,6 +13,7 @@ class ApplicationCard extends StatelessWidget {
   final bool? showButtons;
   final bool? isAccepted;
   final bool isLast;
+  final bool? showPhone;
 
   const ApplicationCard({
     super.key,
@@ -25,6 +26,7 @@ class ApplicationCard extends StatelessWidget {
     this.onTapCard,
     this.onSeePhone,
     this.isAccepted,
+    this.showPhone,
   });
 
   @override
@@ -147,7 +149,7 @@ class ApplicationCard extends StatelessWidget {
                             maxLines: 2,
                           ),
                         ),
-                      if (application.canSeePhone)
+                      if (application.canSeePhone && (showPhone ?? true))
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                           child: GestureDetector(

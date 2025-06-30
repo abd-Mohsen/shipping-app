@@ -35,7 +35,7 @@ class CurrOrderCard extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             if (order == null) return;
-            Get.to(() => OrderView(orderID: order!.id));
+            Get.to(() => OrderView(orderID: order!.id, openTracking: true));
           },
           child: Container(
             decoration: BoxDecoration(
