@@ -36,6 +36,12 @@ class DriverHomeController extends GetxController {
   //String selectedOrderType = "current";
 
   int trackingID = 0;
+
+  void setTrackingID(int id) {
+    trackingID = id;
+    update();
+  }
+
   OrderModel2? currentOrder;
 
   Future<void> getRecentOrders({bool showLoading = true}) async {
@@ -43,7 +49,7 @@ class DriverHomeController extends GetxController {
     if (currentOrder != null) trackingID = currentOrder!.id;
     print("tracking order with ID ${trackingID.toString()}");
     if (trackingID != 0) {
-      _connectTrackingSocket(); //todo(later): if refreshed in real time, handle reconnection
+      connectTrackingSocket(); //todo(later): if refreshed in real time, handle reconnection
     } else {
       setTrackingStatus("no running order");
     }
@@ -84,7 +90,7 @@ class DriverHomeController extends GetxController {
   void reconnectTracking() async {
     if (trackingID == 0) return;
     await _cleanUpWebSocket(); // Clean everything up first
-    _connectTrackingSocket(); // Then connect again
+    connectTrackingSocket(); // Then connect again
   }
 
   void _startSendingLocation() async {
@@ -201,7 +207,7 @@ class DriverHomeController extends GetxController {
 
   bool _isConnecting = false;
 
-  void _connectTrackingSocket() async {
+  void connectTrackingSocket() async {
     if (_isConnecting) return;
     if (_isWebSocketConnected()) return;
 
@@ -263,7 +269,7 @@ class DriverHomeController extends GetxController {
 
   void _scheduleReconnect() {
     Future.delayed(_initialReconnectDelay, () {
-      _connectTrackingSocket();
+      connectTrackingSocket();
     });
   }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
 import '../models/governorate_model.dart';
@@ -11,12 +12,14 @@ import '../services/remote_services.dart';
 class SharedHomeController extends GetxController {
   HomeNavigationController homeNavigationController = Get.find();
   FilterController filterController = Get.find();
+  late DriverHomeController dHC;
 
   @override
   onInit() {
     String role = _getStorage.read("role");
     if (role != "customer") orderTypes = ["taken", "accepted", "current", "finished"];
     if (role != "customer") orderIcons = [Icons.watch_later, Icons.done, Icons.local_shipping, Icons.done_all];
+    if (["driver", "company_employee"].contains(role)) dHC = Get.find();
     getOrders();
     getRecentOrders();
     setPaginationListenerMyOrders();
@@ -26,9 +29,10 @@ class SharedHomeController extends GetxController {
   }
 
   final GetStorage _getStorage = GetStorage();
+  late String role;
 
   String get roleText {
-    String role = _getStorage.read("role");
+    role = _getStorage.read("role");
     if (role == "customer") {
       return "customer";
     } else if (role == "driver") {
@@ -185,6 +189,19 @@ class SharedHomeController extends GetxController {
     if (newProcessingOrders.isNotEmpty) currOrders.addAll(newProcessingOrders);
     //currentOrder = newOrders.first;
     if (showLoading) toggleLoadingRecent(false);
+
+    if (["driver", "company_employee"].contains(role)) {
+      print(role);
+      if (currOrders.isNotEmpty) {
+        dHC.setTrackingID(currOrders.first.id);
+        print("tracking order with ID ${currOrders.first.id.toString()}");
+      }
+      if (dHC.trackingID != 0) {
+        dHC.connectTrackingSocket(); //todo(later): if refreshed in real time, handle reconnection
+      } else {
+        dHC.setTrackingStatus("no running order");
+      }
+    }
   }
 
   Future<void> refreshRecentOrders({bool showLoading = true}) async {
