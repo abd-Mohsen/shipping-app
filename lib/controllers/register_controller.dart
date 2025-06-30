@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shipment/models/login_model.dart';
+import 'package:shipment/views/redirect_page.dart';
 import '../models/user_model.dart';
 import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
@@ -134,7 +135,7 @@ class RegisterController extends GetxController {
     File? lRearFile = dLicenseRear == null ? null : File(dLicenseRear!.path);
 
     LoginModel? registerData = (await RemoteServices.register(
-      " ",
+      ".",
       firstName.text,
       lastName.text,
       roles[roleIndex] == "employee" ? "company_employee" : roles[roleIndex],
@@ -155,11 +156,11 @@ class RegisterController extends GetxController {
       _getStorage.write("from_register", true);
       print(_getStorage.read("token"));
       if (registerData.role.type == "driver" || registerData.role.type == "company_employee") {
-        Get.offAll(() => const DriverHomeView());
+        Get.offAll(() => const DriverHomeView(), binding: DriverBindings());
       } else if (registerData.role.type == "customer") {
-        Get.offAll(() => const CustomerHomeView());
+        Get.offAll(() => const CustomerHomeView(), binding: CustomerBindings());
       } else if (registerData.role.type == "company") {
-        Get.offAll(() => const CompanyHomeView());
+        Get.offAll(() => const CompanyHomeView(), binding: CompanyBindings());
       } else {
         print("wrong role");
         return; // other role

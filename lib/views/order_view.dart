@@ -1652,8 +1652,8 @@ class OrderView extends StatelessWidget {
                                                           .contains(controller.selectedPayment.payment.methodValue)) {
                                                         return null;
                                                       }
-                                                      return validateInput(controller.phoneNumber.text, 4, 15, "",
-                                                          wholeNumber: true);
+                                                      return validateInput(
+                                                          controller.phoneNumber.text, 10, 10, "phone");
                                                     },
                                                     onChanged: (val) {
                                                       if (controller.buttonPressed) {

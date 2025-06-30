@@ -96,6 +96,7 @@ class OTPController extends GetxController {
     toggleLoading(false);
   }
 
+  //todo(later) logout from current user controller
   void logout() async {
     if (await RemoteServices.logout()) {
       _getStorage.remove("token");
