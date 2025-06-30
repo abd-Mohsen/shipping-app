@@ -134,7 +134,7 @@ class RegisterController extends GetxController {
     File? lRearFile = dLicenseRear == null ? null : File(dLicenseRear!.path);
 
     LoginModel? registerData = (await RemoteServices.register(
-      userName.text,
+      " ",
       firstName.text,
       lastName.text,
       roles[roleIndex] == "employee" ? "company_employee" : roles[roleIndex],

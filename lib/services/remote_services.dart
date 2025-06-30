@@ -58,7 +58,7 @@ class RemoteServices {
     Map<String, String> body = {
       "first_name": firstName,
       "last_name": lastName,
-      "username": userName,
+      "middle_name": userName,
       "phone_number": phone,
       "password": password,
       "confirmation_password": passwordConfirmation,

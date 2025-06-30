@@ -155,22 +155,22 @@ class RegisterView extends StatelessWidget {
                               if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
                             },
                           ),
-                          AuthField(
-                            controller: rC.userName,
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.next,
-                            label: "user name".tr,
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Icon(Icons.person, color: cs.primary),
-                            ),
-                            validator: (val) {
-                              return validateInput(rC.userName.text, 2, 50, "", english: true);
-                            },
-                            onChanged: (val) {
-                              if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
-                            },
-                          ),
+                          // AuthField(
+                          //   controller: rC.userName,
+                          //   keyboardType: TextInputType.text,
+                          //   textInputAction: TextInputAction.next,
+                          //   label: "user name".tr,
+                          //   prefixIcon: Padding(
+                          //     padding: const EdgeInsets.symmetric(horizontal: 16),
+                          //     child: Icon(Icons.person, color: cs.primary),
+                          //   ),
+                          //   validator: (val) {
+                          //     return validateInput(rC.userName.text, 2, 50, "", english: true);
+                          //   },
+                          //   onChanged: (val) {
+                          //     if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                          //   },
+                          // ),
                           AuthField(
                             controller: rC.phone,
                             keyboardType: TextInputType.phone,
