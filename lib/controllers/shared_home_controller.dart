@@ -15,6 +15,8 @@ class SharedHomeController extends GetxController {
   @override
   onInit() {
     String role = _getStorage.read("role");
+    if (role != "customer") orderTypes = ["taken", "accepted", "current", "finished"];
+    if (role != "customer") orderIcons = [Icons.watch_later, Icons.done, Icons.local_shipping, Icons.done_all];
     getOrders();
     getRecentOrders();
     setPaginationListenerMyOrders();
@@ -53,13 +55,6 @@ class SharedHomeController extends GetxController {
     Icons.local_shipping,
     Icons.done_all,
   ];
-
-  // List<IconData> orderIcons = [
-  //   Icons.watch_later,
-  //   Icons.done,
-  //   Icons.local_shipping,
-  //   Icons.done_all,
-  // ];
 
   List<String> selectedOrderTypes = ["current"];
 
@@ -116,11 +111,14 @@ class SharedHomeController extends GetxController {
     if (showLoading) toggleLoading(true);
     List<String> typesToFetch = [];
     if (selectedOrderTypes.contains("not taken")) typesToFetch.addAll(["available", "draft"]);
-    if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "approved", "waiting_approval"]);
+    if (selectedOrderTypes.contains("taken")) {
+      typesToFetch.addAll(
+        roleText == "customer" ? ["pending", "approved", "waiting_approval"] : ["pending", "waiting_approval"],
+      );
+    }
     if (selectedOrderTypes.contains("current")) typesToFetch.addAll(["processing"]);
     if (selectedOrderTypes.contains("finished")) typesToFetch.addAll(["done", "canceled"]);
-    // if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]); //todo
-    // if (selectedOrderTypes.contains("taken")) typesToFetch.addAll(["pending", "waiting_approval"]);
+    if (selectedOrderTypes.contains("accepted")) typesToFetch.addAll(["approved"]);
     List<OrderModel2>? newItems = await RemoteServices.fetchMyOrders(
       types: typesToFetch,
       role: roleText,

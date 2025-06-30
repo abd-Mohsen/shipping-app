@@ -331,6 +331,7 @@ class MyLocale extends Translations {
           "rate your experience": "rate your experience",
           "comment": "comment",
           "comment (optional)": "comment (optional)",
+          "waiting_approval": "waiting approval",
         },
         "ar": {
           "Arabic": "العربية",
@@ -656,6 +657,7 @@ class MyLocale extends Translations {
           "rate your experience": "قيم تجربتك",
           "comment": "تعليق",
           "comment (optional)": "تعليق (اختياري)",
+          "waiting_approval": "بانتظار القبول",
         },
       };
 }

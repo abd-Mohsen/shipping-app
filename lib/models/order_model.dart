@@ -99,8 +99,8 @@ class OrderModel {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         customerWannaCancel: json["customer_wanna_cancel"],
         driverWannaCancel: json["driver_wanna_cancel"],
-        isRatedByMe: json["is_rated_by_me"],
-        isCancelledByMe: json["is_canceled_by_me"],
+        isRatedByMe: json["is_rated_by_me"] ?? false,
+        isCancelledByMe: json["is_canceled_by_me"] ?? false,
         isAppliedByMe: json["?"] ?? false, //todo
         driversApplications: json["drivers_applications"] == null
             ? []
