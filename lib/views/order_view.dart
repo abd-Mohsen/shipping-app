@@ -396,9 +396,9 @@ class OrderView extends StatelessWidget {
                               /// accept order
                               ///
                               if (!isCustomer &&
-                                  (["available"].contains(oC.order!.status) ||
-                                      (["waiting_approval"].contains(oC.order!.status) &&
-                                          !controller.didThisDriverAcceptThisOrder)))
+                                  ((["available"].contains(oC.order!.status) ||
+                                      ["waiting_approval"].contains(oC.order!.status))) &&
+                                  !controller.order!.isAppliedByMe)
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   child: CustomButton(
@@ -761,7 +761,7 @@ class OrderView extends StatelessWidget {
                                                 Get.back();
                                                 controller.allowToSeePhone(controller.order!.driversApplications[i].id);
                                               },
-                                              title: "allow driver to see your phone".tr,
+                                              title: "allow driver to see your phone?".tr,
                                             ),
                                           );
                                         },

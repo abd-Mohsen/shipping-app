@@ -332,6 +332,8 @@ class MyLocale extends Translations {
           "comment": "comment",
           "comment (optional)": "comment (optional)",
           "waiting_approval": "waiting approval",
+          "allow driver to see your phone?": "allow driver to see your phone?",
+          "show number": "show number",
         },
         "ar": {
           "Arabic": "العربية",
@@ -658,6 +660,8 @@ class MyLocale extends Translations {
           "comment": "تعليق",
           "comment (optional)": "تعليق (اختياري)",
           "waiting_approval": "بانتظار القبول",
+          "allow driver to see your phone?": "هل تريد السماح للسائق برؤية رقم هاتفك؟",
+          "show number": "عرض الرقم للسائق",
         },
       };
 }

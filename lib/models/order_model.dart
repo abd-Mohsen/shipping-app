@@ -101,7 +101,7 @@ class OrderModel {
         driverWannaCancel: json["driver_wanna_cancel"],
         isRatedByMe: json["is_rated_by_me"] ?? false,
         isCancelledByMe: json["is_canceled_by_me"] ?? false,
-        isAppliedByMe: json["?"] ?? false, //todo
+        isAppliedByMe: json["is_applied_by_this_user"] ?? false, //todo
         driversApplications: json["drivers_applications"] == null
             ? []
             : List<ApplicationModel>.from(json["drivers_applications"].map((x) => ApplicationModel.fromJson(x))),
