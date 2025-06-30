@@ -77,19 +77,23 @@ class MapSelector extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2), // Shadow color
+              color: Colors.black.withValues(alpha: 0.2), // Shadow color
               blurRadius: 2, // Soften the shadow
               spreadRadius: 1, // Extend the shadow
-              offset: Offset(1, 1), // Shadow direction (x, y)
+              offset: const Offset(1, 1), // Shadow direction (x, y)
             ),
           ],
         ),
         child: GestureDetector(
           onTap: () {
-            showMaterialModalBottomSheet(
+            showModalBottomSheet(
               context: context,
               enableDrag: false,
-              //isScrollControlled: true,
+              transitionAnimationController: AnimationController(
+                vsync: Scaffold.of(context), // or use TickerProvider
+                duration: const Duration(milliseconds: 200), // control speed here
+              ),
+              isScrollControlled: true,
               builder: (context) => BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: MapSheet(

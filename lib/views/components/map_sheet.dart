@@ -91,7 +91,7 @@ class MapSheet extends StatelessWidget {
                         ]),
                         child: OSMFlutter(
                           controller: controller.mapController,
-                          mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+                          mapIsLoading: SpinKitRing(color: cs.primary),
                           onMapIsReady: (v) {
                             controller.setIsMapReady(true);
                           },
