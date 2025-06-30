@@ -43,7 +43,6 @@ class MyDrawer extends StatelessWidget {
     final getStorage = GetStorage();
     String role = getStorage.read("role");
 
-    //todo(later): switch language
     return Drawer(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(0),

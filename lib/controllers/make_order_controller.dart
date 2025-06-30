@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/location_model.dart';
@@ -24,6 +25,8 @@ class MakeOrderController extends GetxController {
   OrderModel? order;
 
   MakeOrderController({required this.customerHomeController, this.order});
+
+  CurrentUserController cUC = Get.find();
 
   @override
   void onInit() async {
@@ -425,6 +428,7 @@ class MakeOrderController extends GetxController {
         backgroundColor: Colors.green,
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       );
+      cUC.getCurrentUser();
     }
     toggleLoading(false);
   }
