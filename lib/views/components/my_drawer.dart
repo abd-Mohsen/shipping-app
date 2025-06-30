@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/models/user_model.dart';
 import 'package:shipment/views/payment_methods_view.dart';
+import '../../controllers/locale_controller.dart';
 import '../../controllers/theme_controller.dart';
 import '../about_us_page.dart';
 import '../invoices_view.dart';
 import '../my_addresses_view.dart';
 import '../my_vehicles_view.dart';
-import '../tabs/company_manage_tab.dart';
 import '../tabs/company_stats_tab.dart';
 import 'drawer_card.dart';
 
@@ -38,7 +38,7 @@ class MyDrawer extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     ThemeController tC = Get.find();
-    //LocaleController lC = Get.find();
+    LocaleController lC = Get.find();
 
     final getStorage = GetStorage();
     String role = getStorage.read("role");
@@ -113,7 +113,8 @@ class MyDrawer extends StatelessWidget {
                                           children: [
                                             Text(
                                               currentUser!.role.type.tr,
-                                              style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.4)),
+                                              style:
+                                                  tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.4)),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                             const SizedBox(height: 8),
@@ -169,47 +170,53 @@ class MyDrawer extends StatelessWidget {
                                   ),
                                   Divider(
                                     thickness: 1,
-                                    color: cs.onSurface.withOpacity(0.2),
+                                    color: cs.onSurface.withValues(alpha: 0.2),
                                   )
                                 ],
                               ),
                   ],
                 ),
 
-                // ListTile(
-                //   leading: Icon(
-                //     Icons.language,
-                //     color: cs.onSurface,
-                //   ),
-                //   title: DropdownButton(
-                //     elevation: 10,
-                //     iconEnabledColor: cs.onSurface,
-                //     dropdownColor: Colors.grey[300],
-                //     hint: Text(
-                //       lC.getCurrentLanguageLabel(),
-                //       style: tt.labelLarge!.copyWith(color: cs.onSurface),
-                //     ),
-                //     items: [
-                //       DropdownMenuItem(
-                //         value: "ar",
-                //         child: Text(
-                //           "Arabic".tr,
-                //           style: tt.labelLarge!.copyWith(color: Colors.black),
-                //         ),
-                //       ),
-                //       DropdownMenuItem(
-                //         value: "en",
-                //         child: Text(
-                //           "English".tr,
-                //           style: tt.labelLarge!.copyWith(color: Colors.black),
-                //         ),
-                //       ),
-                //     ],
-                //     onChanged: (val) {
-                //       lC.updateLocale(val!);
-                //     },
-                //   ),
-                // ),
+                ListTile(
+                  leading: Material(
+                    elevation: 2,
+                    borderRadius: BorderRadius.circular(100),
+                    child: CircleAvatar(
+                      radius: 18,
+                      backgroundColor: cs.surface,
+                      foregroundColor: cs.primary,
+                      child: Icon(Icons.language, size: 22, color: cs.primary),
+                    ),
+                  ),
+                  title: DropdownButton(
+                    elevation: 10,
+                    iconEnabledColor: cs.onSurface,
+                    dropdownColor: Colors.grey[300],
+                    hint: Text(
+                      lC.getCurrentLanguageLabel(),
+                      style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                    ),
+                    items: [
+                      DropdownMenuItem(
+                        value: "ar",
+                        child: Text(
+                          "Arabic".tr,
+                          style: tt.labelLarge!.copyWith(color: Colors.black),
+                        ),
+                      ),
+                      DropdownMenuItem(
+                        value: "en",
+                        child: Text(
+                          "English".tr,
+                          style: tt.labelLarge!.copyWith(color: Colors.black),
+                        ),
+                      ),
+                    ],
+                    onChanged: (val) {
+                      lC.updateLocale(val!);
+                    },
+                  ),
+                ),
                 const SizedBox(height: 4),
                 Visibility(
                   visible: role == "customer",
@@ -308,7 +315,7 @@ class MyDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 12.0),
             child: Text(
               "${"all rights reserved".tr} ®",
-              style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+              style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
             ),
           ),
         ],

@@ -11,7 +11,7 @@ import 'constants.dart';
 //todo(later) handle handshake exception when ssl is expired
 class Api {
   var client = http.Client();
-  final String _hostIP = "$kHostIP/ar/api";
+  String get _hostIP => "$kHostIP/${Get.locale!.languageCode}/api";
   final _getStorage = GetStorage();
   String get accessToken => _getStorage.read("token");
 

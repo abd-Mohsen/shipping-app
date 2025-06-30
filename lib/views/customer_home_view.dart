@@ -1,8 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shipment/controllers/customer_home_controller.dart';
-import 'package:shipment/controllers/refresh_socket_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/my_drawer.dart';
 import 'package:shipment/views/make_order_view.dart';
@@ -10,10 +8,7 @@ import 'package:shipment/views/tabs/customer_home_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
 import '../constants.dart';
 import '../controllers/current_user_controller.dart';
-import '../controllers/filter_controller.dart';
 import '../controllers/home_navigation_controller.dart';
-import '../controllers/notifications_controller.dart';
-import '../controllers/online_socket_controller.dart';
 import 'edit_profile_view.dart';
 
 class CustomerHomeView extends StatelessWidget {
@@ -54,209 +49,211 @@ class CustomerHomeView extends StatelessWidget {
         } else
           Get.dialog(kCloseAppDialog());
       },
-      child: SafeArea(
-        child: GetBuilder<HomeNavigationController>(
-          builder: (controller) {
-            return Scaffold(
-              resizeToAvoidBottomInset: false,
-              // appBar: AppBar(
-              //   backgroundColor: cs.primary,
-              //   iconTheme: IconThemeData(
-              //     color: cs.onPrimary,
-              //   ),
-              //   title: Text(
-              //     'my orders'.tr,
-              //     style: tt.titleMedium!.copyWith(letterSpacing: 2, color: cs.onPrimary),
-              //   ),
-              //   centerTitle: true,
-              //   actions: [
-              //     GetBuilder<NotificationsController>(builder: (controller) {
-              //       return IconButton(
-              //         onPressed: () {
-              //           Get.to(() => const NotificationsView());
-              //         },
-              //         icon: Badge(
-              //           smallSize: 10,
-              //           backgroundColor: const Color(0xff00ff00),
-              //           alignment: Alignment.topRight,
-              //           child: Icon(
-              //             Icons.notifications,
-              //             color: cs.onPrimary,
-              //           ),
-              //         ),
-              //       );
-              //     })
-              //   ],
-              // ),
-              key: cUC.scaffoldKey,
-              backgroundColor: cs.surface,
-              // bottomNavigationBar: SizedBox(
-              //   height: MediaQuery.of(context).size.height / 14,
-              //   child: BottomNavigationBar(
-              //     items: [
-              //       BottomNavigationBarItem(
-              //         icon: const Padding(
-              //           padding: EdgeInsets.all(2.0),
-              //           child: FaIcon(FontAwesomeIcons.house),
-              //         ),
-              //         label: "home".tr,
-              //       ),
-              //       BottomNavigationBarItem(
-              //         icon: const Padding(
-              //           padding: EdgeInsets.all(2.0),
-              //           child: FaIcon(FontAwesomeIcons.list),
-              //         ),
-              //         label: "orders".tr,
-              //       ),
-              //     ],
-              //     //height: MediaQuery.of(context).size.height / 11,
-              //     backgroundColor: cs.secondaryContainer,
-              //     selectedItemColor: cs.primary,
-              //     unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
-              //     iconSize: 18,
-              //     selectedFontSize: 10,
-              //     unselectedFontSize: 10,
-              //     elevation: 0,
-              //     onTap: (i) {
-              //       controller.changeTab(i);
-              //       hC.filterController.clearFilters();
-              //     },
-              //     currentIndex: controller.tabIndex,
-              //   ),
-              // ),
-              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-              bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-                backgroundColor: cs.secondaryContainer,
-                splashRadius: 0,
-                itemCount: iconsList.length,
-                tabBuilder: (int i, bool isActive) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        iconsList[i],
-                        size: 24,
+      child: GetBuilder<HomeNavigationController>(
+        builder: (controller) {
+          return Scaffold(
+            resizeToAvoidBottomInset: false,
+            // appBar: AppBar(
+            //   backgroundColor: cs.primary,
+            //   iconTheme: IconThemeData(
+            //     color: cs.onPrimary,
+            //   ),
+            //   title: Text(
+            //     'my orders'.tr,
+            //     style: tt.titleMedium!.copyWith(letterSpacing: 2, color: cs.onPrimary),
+            //   ),
+            //   centerTitle: true,
+            //   actions: [
+            //     GetBuilder<NotificationsController>(builder: (controller) {
+            //       return IconButton(
+            //         onPressed: () {
+            //           Get.to(() => const NotificationsView());
+            //         },
+            //         icon: Badge(
+            //           smallSize: 10,
+            //           backgroundColor: const Color(0xff00ff00),
+            //           alignment: Alignment.topRight,
+            //           child: Icon(
+            //             Icons.notifications,
+            //             color: cs.onPrimary,
+            //           ),
+            //         ),
+            //       );
+            //     })
+            //   ],
+            // ),
+            key: cUC.scaffoldKey,
+            backgroundColor: cs.surface,
+            // bottomNavigationBar: SizedBox(
+            //   height: MediaQuery.of(context).size.height / 14,
+            //   child: BottomNavigationBar(
+            //     items: [
+            //       BottomNavigationBarItem(
+            //         icon: const Padding(
+            //           padding: EdgeInsets.all(2.0),
+            //           child: FaIcon(FontAwesomeIcons.house),
+            //         ),
+            //         label: "home".tr,
+            //       ),
+            //       BottomNavigationBarItem(
+            //         icon: const Padding(
+            //           padding: EdgeInsets.all(2.0),
+            //           child: FaIcon(FontAwesomeIcons.list),
+            //         ),
+            //         label: "orders".tr,
+            //       ),
+            //     ],
+            //     //height: MediaQuery.of(context).size.height / 11,
+            //     backgroundColor: cs.secondaryContainer,
+            //     selectedItemColor: cs.primary,
+            //     unselectedItemColor: cs.onSurface.withValues(alpha: 0.5),
+            //     iconSize: 18,
+            //     selectedFontSize: 10,
+            //     unselectedFontSize: 10,
+            //     elevation: 0,
+            //     onTap: (i) {
+            //       controller.changeTab(i);
+            //       hC.filterController.clearFilters();
+            //     },
+            //     currentIndex: controller.tabIndex,
+            //   ),
+            // ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+              backgroundColor: cs.secondaryContainer,
+              splashRadius: 0,
+              itemCount: iconsList.length,
+              tabBuilder: (int i, bool isActive) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      iconsList[i],
+                      size: 24,
+                      color: isActive ? cs.primary : cs.onSecondaryContainer.withValues(alpha: 0.7),
+                    ),
+                    Text(
+                      titlesList[i],
+                      style: tt.labelSmall!.copyWith(
                         color: isActive ? cs.primary : cs.onSecondaryContainer.withValues(alpha: 0.7),
                       ),
-                      Text(
-                        titlesList[i],
-                        style: tt.labelSmall!.copyWith(
-                          color: isActive ? cs.primary : cs.onSecondaryContainer.withValues(alpha: 0.7),
-                        ),
-                      )
-                    ],
-                  );
-                },
-                elevation: 0,
-                gapLocation: GapLocation.center,
-                notchSmoothness: NotchSmoothness.defaultEdge,
-                gapWidth: 0,
-                notchMargin: 0,
-                leftCornerRadius: 0,
-                rightCornerRadius: 0,
-                onTap: (i) {
-                  controller.changeTab(i);
-                  sHC.filterController.clearFilters();
-                },
-                activeIndex: controller.tabIndex,
-              ),
-              body: Stack(
-                children: [
-                  ShaderMask(
-                    shaderCallback: (Rect rect) {
-                      return const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, Colors.white],
-                        //set stops as par your requirement
-                        stops: [0.92, 1], // 50% transparent, 50% white
-                      ).createShader(rect);
+                    )
+                  ],
+                );
+              },
+              elevation: 0,
+              gapLocation: GapLocation.center,
+              notchSmoothness: NotchSmoothness.defaultEdge,
+              gapWidth: 0,
+              notchMargin: 0,
+              leftCornerRadius: 0,
+              rightCornerRadius: 0,
+              onTap: (i) {
+                controller.changeTab(i);
+                sHC.filterController.clearFilters();
+              },
+              activeIndex: controller.tabIndex,
+            ),
+            body: Stack(
+              children: [
+                ShaderMask(
+                  shaderCallback: (Rect rect) {
+                    return const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.transparent, Colors.white],
+                      //set stops as par your requirement
+                      stops: [0.92, 1], // 50% transparent, 50% white
+                    ).createShader(rect);
+                  },
+                  blendMode: BlendMode.dstOut,
+                  child: tabs[controller.tabIndex],
+                ),
+                // arrow to indicate that there is a drawer
+                Positioned(
+                  top: MediaQuery.of(context).size.height / 2,
+                  child: GestureDetector(
+                    onTap: () {
+                      cUC.scaffoldKey.currentState!.openDrawer();
                     },
-                    blendMode: BlendMode.dstOut,
-                    child: tabs[controller.tabIndex],
-                  ),
-                  // arrow to indicate that there is a drawer
-                  Positioned(
-                    top: MediaQuery.of(context).size.height / 2,
-                    child: GestureDetector(
-                      onTap: () {
-                        cUC.scaffoldKey.currentState!.openDrawer();
-                      },
-                      child: ClipRect(
-                        child: Align(
-                          alignment: Alignment.centerLeft, // Show left half
-                          widthFactor: 0.5, // Clip to 50% width
-                          child: CircleAvatar(
-                            backgroundColor: cs.primary.withValues(alpha: 0.7),
-                            foregroundColor: cs.onPrimary,
-                            child: const Padding(
-                              padding: EdgeInsets.only(right: 16),
-                              child: Icon(Icons.arrow_forward_ios, size: 18),
-                            ),
+                    child: ClipRect(
+                      child: Align(
+                        alignment: Directionality.of(context) == TextDirection.rtl
+                            ? Alignment.centerLeft // Clip to right half for RTL
+                            : Alignment.centerRight, // Clip to left half for LTR
+                        widthFactor: 0.5,
+                        child: CircleAvatar(
+                          backgroundColor: cs.primary.withValues(alpha: 0.7),
+                          foregroundColor: cs.onPrimary,
+                          child: Padding(
+                            padding: Directionality.of(context) == TextDirection.rtl
+                                ? const EdgeInsets.only(right: 16)
+                                : const EdgeInsets.only(left: 16),
+                            child: Icon(Icons.arrow_forward_ios, size: 18),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              // Stack(
-              //   children: [
-              //     // Main content behind the blur
-              //     tabs[controller.tabIndex],
-              //
-              //     // Positioned blur effect above bottom nav bar
-              //     Positioned(
-              //       bottom: 0, // height of bottom nav bar
-              //       left: 0,
-              //       right: 0,
-              //       child: Padding(
-              //         padding: const EdgeInsets.symmetric(horizontal: 16),
-              //         child: ClipRect(
-              //           child: BackdropFilter(
-              //             filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-              //             child: Container(
-              //               height: 20,
-              //               color: Colors.white.withOpacity(0.005), // semi-transparent
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              floatingActionButton: FloatingActionButton(
-                elevation: 10,
-                onPressed: () {
-                  Get.to(() => const MakeOrderView(edit: false));
-                },
-                foregroundColor: cs.onPrimary,
-                shape: const CircleBorder(),
-                child: Icon(Icons.add, color: cs.onPrimary),
-              ),
-              drawer: GetBuilder<CurrentUserController>(
-                builder: (controller) {
-                  return MyDrawer(
-                    onClose: () {
-                      controller.scaffoldKey.currentState!.closeDrawer();
-                    },
-                    onRefreshUser: () {
-                      controller.getCurrentUser();
-                    },
-                    onEditProfileClick: () {
-                      Get.to(EditProfileView());
-                    },
-                    onLogout: () {
-                      controller.logout();
-                    },
-                    isLoadingUser: controller.isLoadingUser,
-                    currentUser: controller.currentUser,
-                  );
-                },
-              ),
-            );
-          },
-        ),
+                ),
+              ],
+            ),
+            // Stack(
+            //   children: [
+            //     // Main content behind the blur
+            //     tabs[controller.tabIndex],
+            //
+            //     // Positioned blur effect above bottom nav bar
+            //     Positioned(
+            //       bottom: 0, // height of bottom nav bar
+            //       left: 0,
+            //       right: 0,
+            //       child: Padding(
+            //         padding: const EdgeInsets.symmetric(horizontal: 16),
+            //         child: ClipRect(
+            //           child: BackdropFilter(
+            //             filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+            //             child: Container(
+            //               height: 20,
+            //               color: Colors.white.withOpacity(0.005), // semi-transparent
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            floatingActionButton: FloatingActionButton(
+              elevation: 10,
+              onPressed: () {
+                Get.to(() => const MakeOrderView(edit: false));
+              },
+              foregroundColor: cs.onPrimary,
+              shape: const CircleBorder(),
+              child: Icon(Icons.add, color: cs.onPrimary),
+            ),
+            drawer: GetBuilder<CurrentUserController>(
+              builder: (controller) {
+                return MyDrawer(
+                  onClose: () {
+                    controller.scaffoldKey.currentState!.closeDrawer();
+                  },
+                  onRefreshUser: () {
+                    controller.getCurrentUser();
+                  },
+                  onEditProfileClick: () {
+                    Get.to(EditProfileView());
+                  },
+                  onLogout: () {
+                    controller.logout();
+                  },
+                  isLoadingUser: controller.isLoadingUser,
+                  currentUser: controller.currentUser,
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }
