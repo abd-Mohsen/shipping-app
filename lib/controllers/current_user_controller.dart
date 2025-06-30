@@ -29,6 +29,8 @@ class CurrentUserController extends GetxController {
 
   final GetStorage _getStorage = GetStorage();
 
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   Future<void> getCurrentUser({bool refresh = false}) async {
     //if (isLoadingUser) return;
     toggleLoadingUser(true);

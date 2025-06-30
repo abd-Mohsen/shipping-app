@@ -17,8 +17,7 @@ import '../components/titled_scrolling_card.dart';
 import '../notifications_view.dart';
 
 class DriverHomeTab extends StatelessWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
-  const DriverHomeTab({super.key, required this.scaffoldKey});
+  const DriverHomeTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +61,7 @@ class DriverHomeTab extends StatelessWidget {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      scaffoldKey.currentState?.openDrawer();
+                                      innerController.scaffoldKey.currentState?.openDrawer();
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
