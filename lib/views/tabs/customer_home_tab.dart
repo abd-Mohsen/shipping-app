@@ -12,7 +12,8 @@ import '../../controllers/current_user_controller.dart';
 import '../components/order_card_2.dart';
 
 class CustomerHomeTab extends StatelessWidget {
-  const CustomerHomeTab({super.key});
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  const CustomerHomeTab({super.key, required this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class CustomerHomeTab extends StatelessWidget {
             GetBuilder<CurrentUserController>(builder: (innerController) {
               return UserProfileTile(
                 onTapProfile: () {
-                  innerController.scaffoldKey.currentState?.openDrawer();
+                  scaffoldKey.currentState?.openDrawer();
                 },
                 isLoadingUser: innerController.isLoadingUser,
                 user: innerController.currentUser,

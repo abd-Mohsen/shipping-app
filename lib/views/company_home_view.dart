@@ -24,6 +24,7 @@ class CompanyHomeView extends StatelessWidget {
 
     //CompanyHomeController hC = Get.put(CompanyHomeController());
     SharedHomeController sHC = Get.put(SharedHomeController());
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     // Get.put(NotificationsController());
     // Get.put(OnlineSocketController());
@@ -35,7 +36,7 @@ class CompanyHomeView extends StatelessWidget {
     //TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
-      const CompanyHomeTab(),
+      CompanyHomeTab(scaffoldKey: scaffoldKey),
       const MyOrdersTab(),
       //const CompanyStatsTab(),
       const CompanyManageTab(),
@@ -57,7 +58,7 @@ class CompanyHomeView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
-            key: cUC.scaffoldKey,
+            key: scaffoldKey,
             bottomNavigationBar: MyBottomBar(
               onChanged: (i) {
                 controller.changeTab(i);
@@ -202,7 +203,7 @@ class CompanyHomeView extends StatelessWidget {
                   top: MediaQuery.of(context).size.height / 2,
                   child: GestureDetector(
                     onTap: () {
-                      cUC.scaffoldKey.currentState!.openDrawer();
+                      scaffoldKey.currentState!.openDrawer();
                     },
                     child: ClipRect(
                       child: Align(
@@ -230,7 +231,7 @@ class CompanyHomeView extends StatelessWidget {
               builder: (controller) {
                 return MyDrawer(
                   onClose: () {
-                    controller.scaffoldKey.currentState!.closeDrawer();
+                    scaffoldKey.currentState!.closeDrawer();
                   },
                   onRefreshUser: () {
                     controller.getCurrentUser();

@@ -20,6 +20,7 @@ class CustomerHomeView extends StatelessWidget {
     // Get.put(NotificationsController());
     // Get.put(OnlineSocketController());
     // Get.put(RefreshSocketController());
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     HomeNavigationController hNC = Get.find();
     //FilterController fC = Get.put(FilterController());
@@ -32,7 +33,7 @@ class CustomerHomeView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
-      const CustomerHomeTab(),
+      CustomerHomeTab(scaffoldKey: scaffoldKey),
       const MyOrdersTab(),
     ];
 
@@ -82,7 +83,7 @@ class CustomerHomeView extends StatelessWidget {
             //     })
             //   ],
             // ),
-            key: cUC.scaffoldKey,
+            key: scaffoldKey,
             backgroundColor: cs.surface,
             // bottomNavigationBar: SizedBox(
             //   height: MediaQuery.of(context).size.height / 14,
@@ -174,7 +175,7 @@ class CustomerHomeView extends StatelessWidget {
                   top: MediaQuery.of(context).size.height / 2,
                   child: GestureDetector(
                     onTap: () {
-                      cUC.scaffoldKey.currentState!.openDrawer();
+                      scaffoldKey.currentState!.openDrawer();
                     },
                     child: ClipRect(
                       child: Align(
@@ -236,7 +237,7 @@ class CustomerHomeView extends StatelessWidget {
               builder: (controller) {
                 return MyDrawer(
                   onClose: () {
-                    controller.scaffoldKey.currentState!.closeDrawer();
+                    scaffoldKey.currentState!.closeDrawer();
                   },
                   onRefreshUser: () {
                     controller.getCurrentUser();

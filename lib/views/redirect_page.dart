@@ -58,6 +58,49 @@ class RedirectPage extends StatelessWidget {
   }
 }
 
+class CompanyBindings extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(HomeNavigationController());
+    Get.put(CurrentUserController());
+    Get.put(MyVehiclesController());
+    Get.put(FilterController());
+    Get.put(CompanyHomeController());
+    Get.put(SharedHomeController());
+    Get.put(NotificationsController());
+    Get.put(OnlineSocketController());
+    Get.put(RefreshSocketController());
+  }
+}
+
+class CustomerBindings extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(HomeNavigationController());
+    Get.put(CurrentUserController());
+    Get.put(FilterController());
+    Get.put(CustomerHomeController());
+    Get.put(SharedHomeController());
+    Get.put(NotificationsController());
+    Get.put(OnlineSocketController());
+    Get.put(RefreshSocketController());
+  }
+}
+
+class DriverBindings extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(HomeNavigationController());
+    Get.put(CurrentUserController());
+    Get.put(FilterController());
+    Get.put(DriverHomeController());
+    Get.put(SharedHomeController());
+    Get.put(NotificationsController());
+    Get.put(OnlineSocketController());
+    Get.put(RefreshSocketController());
+  }
+}
+
 //bool _isLoading = false;
 
 // @override
@@ -152,46 +195,3 @@ class RedirectPage extends StatelessWidget {
 //     },
 //   );
 // }
-
-class CompanyBindings extends Bindings {
-  @override
-  void dependencies() {
-    Get.put(HomeNavigationController());
-    Get.put(CurrentUserController());
-    Get.put(MyVehiclesController());
-    Get.put(FilterController());
-    Get.put(CompanyHomeController());
-    Get.put(SharedHomeController());
-    Get.put(NotificationsController());
-    Get.put(OnlineSocketController());
-    Get.put(RefreshSocketController());
-  }
-}
-
-class CustomerBindings extends Bindings {
-  @override
-  void dependencies() {
-    Get.put(HomeNavigationController());
-    Get.put(CurrentUserController());
-    Get.put(FilterController());
-    Get.put(CustomerHomeController());
-    Get.put(SharedHomeController());
-    Get.put(NotificationsController());
-    Get.put(OnlineSocketController());
-    Get.put(RefreshSocketController());
-  }
-}
-
-class DriverBindings extends Bindings {
-  @override
-  void dependencies() {
-    Get.put(HomeNavigationController());
-    Get.put(CurrentUserController());
-    Get.put(FilterController());
-    Get.put(DriverHomeController());
-    Get.put(SharedHomeController());
-    Get.put(NotificationsController());
-    Get.put(OnlineSocketController());
-    Get.put(RefreshSocketController());
-  }
-}

@@ -28,9 +28,10 @@ class DriverHomeView extends StatelessWidget {
 
     ColorScheme cs = Theme.of(context).colorScheme;
     //TextTheme tt = Theme.of(context).textTheme;
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     List<Widget> tabs = [
-      const DriverHomeTab(),
+      DriverHomeTab(scaffoldKey: scaffoldKey),
       const MyOrdersTab(),
       const ExploreOrdersTab(),
     ];
@@ -50,7 +51,7 @@ class DriverHomeView extends StatelessWidget {
         builder: (controller) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
-            key: cUC.scaffoldKey,
+            key: scaffoldKey,
             // bottomNavigationBar: NavigationBar(
             //   destinations: [
             //     NavigationDestination(icon: Icon(Icons.history), label: "history".tr),
@@ -170,7 +171,7 @@ class DriverHomeView extends StatelessWidget {
                   top: MediaQuery.of(context).size.height / 2,
                   child: GestureDetector(
                     onTap: () {
-                      cUC.scaffoldKey.currentState!.openDrawer();
+                      scaffoldKey.currentState!.openDrawer();
                     },
                     child: ClipRect(
                       child: Align(
@@ -198,7 +199,7 @@ class DriverHomeView extends StatelessWidget {
               builder: (controller) {
                 return MyDrawer(
                   onClose: () {
-                    controller.scaffoldKey.currentState!.closeDrawer();
+                    scaffoldKey.currentState!.closeDrawer();
                   },
                   onRefreshUser: () {
                     controller.getCurrentUser();
