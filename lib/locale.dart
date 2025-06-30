@@ -326,6 +326,11 @@ class MyLocale extends Translations {
           'how do you want to call this person?': 'how do you want to call this person?',
           "open map": "open map",
           "no results": "no results",
+          "do you want to rate your experience with the driver?":
+              "do you want to rate your experience with the driver?",
+          "rate your experience": "rate your experience",
+          "comment": "comment",
+          "comment (optional)": "comment (optional)",
         },
         "ar": {
           "Arabic": "العربية",
@@ -647,6 +652,10 @@ class MyLocale extends Translations {
           'how do you want to call this person?': 'كيف تريد التواصل؟',
           "open map": "عرض الخريطة",
           "no results": "لا يوجد نتائج",
+          "do you want to rate your experience with the driver?": "هل تود تقييم تجربتك مع السائق؟",
+          "rate your experience": "قيم تجربتك",
+          "comment": "تعليق",
+          "comment (optional)": "تعليق (اختياري)",
         },
       };
 }

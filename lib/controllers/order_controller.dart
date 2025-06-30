@@ -21,22 +21,27 @@ class OrderController extends GetxController {
   OrderModel? order;
 
   final int orderID;
-  final DriverHomeController? driverHomeController; // handle company and customer case
-  final CustomerHomeController? customerHomeController;
-  final CompanyHomeController? companyHomeController;
+
   OrderController({
     required this.orderID,
-    this.driverHomeController,
-    this.customerHomeController,
-    this.companyHomeController,
   });
+
+  late String role;
 
   @override
   void onInit() async {
-    isEmployee = await _getStorage.read("role") == "company_employee";
-    if (companyHomeController != null || isEmployee) getAvailableVehiclesAndEmployees();
-    getOrder();
+    role = await _getStorage.read("role");
+    isEmployee = role == "company_employee";
+    if (role == "company" || isEmployee) getAvailableVehiclesAndEmployees();
+    await getOrder();
+    if (order != null && !order!.isRatedByMe) setShowRatingBox(true);
     super.onInit();
+  }
+
+  bool showRatingBox = false;
+  setShowRatingBox(bool val) {
+    showRatingBox = val;
+    update();
   }
 
   bool isLoadingOrder = false;
@@ -45,7 +50,7 @@ class OrderController extends GetxController {
     update();
   }
 
-  void getOrder() async {
+  Future getOrder() async {
     toggleLoadingOrder(true);
     order = await RemoteServices.getSingleOrder(orderID, _getStorage.read("role"));
     if (order != null) {
@@ -90,7 +95,7 @@ class OrderController extends GetxController {
     );
     //todo(later): draw path
     //todo(later): connect when button is pressed
-    if (customerHomeController != null && ["processing"].contains(order!.status)) connectTrackingSocket();
+    if (role == "customer" && ["processing"].contains(order!.status)) connectTrackingSocket();
     update();
   }
 
@@ -321,6 +326,29 @@ class OrderController extends GetxController {
       showSuccessSnackbar();
       Get.back();
     }
+  }
+
+  //-------------------------- rating ----------------------------
+
+  TextEditingController comment = TextEditingController();
+  int rating = 0;
+
+  void setRating(int rating) {
+    this.rating = rating;
+    update();
+  }
+
+  void rateOrder() async {
+    if (isLoadingSubmit || isLoadingRefuse) return;
+    toggleLoadingSubmit(true);
+    bool success = await RemoteServices.customerRateOrder(order!.id, comment.text, rating);
+    if (success) {
+      //if (Get.routing.current == "/OrderView") Get.back();
+      setShowRatingBox(false);
+      refreshOrder();
+      showSuccessSnackbar();
+    }
+    toggleLoadingSubmit(false);
   }
 
   showSuccessSnackbar() => Get.showSnackbar(

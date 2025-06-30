@@ -1,6 +1,4 @@
-import 'dart:ui';
-
-import 'package:easy_stepper/easy_stepper.dart';
+//import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -10,29 +8,25 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:popover/popover.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/application_card2.dart';
 import 'package:shipment/models/employee_model.dart';
-import 'package:shipment/models/vehicle_model.dart';
 import 'package:shipment/views/components/application_card.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/employee_selector.dart';
-import 'package:shipment/views/components/mini_order_card.dart';
 import 'package:shipment/views/components/order_page_map.dart';
 import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/components/titled_scrolling_card.dart';
-import 'package:shipment/views/components/vehicle_selector.dart';
 import 'package:shipment/views/tracking_view.dart';
-
 import 'components/auth_field.dart';
 import 'components/blurred_sheet.dart';
 import 'components/input_field.dart';
 import 'components/sheet_details_tile.dart';
 import 'make_order_view.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class OrderView extends StatelessWidget {
   //todo: show rate box for customer when status is done (and if not rated before)
@@ -52,19 +46,7 @@ class OrderView extends StatelessWidget {
     bool isCompany = getStorage.read("role") == "company";
     bool isEmployee = getStorage.read("role") == "company_employee";
     bool isCustomer = getStorage.read("role") == "customer";
-    late CustomerHomeController cHC;
-    late DriverHomeController dHC;
-    late CompanyHomeController cHC2;
-    isCustomer
-        ? cHC = Get.find()
-        : isCompany
-            ? cHC2 = Get.find()
-            : dHC = Get.find();
-    OrderController oC = Get.put(isCustomer
-        ? OrderController(orderID: orderID, customerHomeController: cHC)
-        : isCompany
-            ? OrderController(orderID: orderID, companyHomeController: cHC2)
-            : OrderController(orderID: orderID, driverHomeController: dHC));
+    OrderController oC = Get.put(OrderController(orderID: orderID));
 
     alertDialog({required onPressed, required String title, onPressedWhatsApp, Widget? content}) => AlertDialog(
           title: Text(
@@ -182,19 +164,22 @@ class OrderView extends StatelessWidget {
       required onPressedRed,
       required bool isLoadingGreen,
       required bool isLoadingRed,
+      required String greenText,
+      required String redText,
+      bool showWarningDialogs = true,
     }) =>
         Container(
           padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
           decoration: BoxDecoration(
             color: const Color(0xFFFFC400),
             //color: cs.secondaryContainer,
-            borderRadius: BorderRadius.circular(20),
+            // borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2), // Shadow color
+                color: Colors.black.withValues(alpha: 0.2), // Shadow color
                 blurRadius: 2, // Soften the shadow
                 spreadRadius: 1, // Extend the shadow
-                offset: Offset(1, 1), // Shadow direction (x, y)
+                offset: const Offset(1, 1), // Shadow direction (x, y)
               ),
             ],
             // gradient: const LinearGradient(
@@ -225,22 +210,23 @@ class OrderView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        print("greeen");
-                        showDialog(
-                          context: context,
-                          builder: (context) => alertDialog(
-                            onPressed: onPressedGreen,
-                            title: "accept the order?".tr,
-                          ),
-                        );
-                      },
+                      onPressed: !showWarningDialogs
+                          ? onPressedGreen
+                          : () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => alertDialog(
+                                  onPressed: onPressedGreen,
+                                  title: "accept the order?".tr,
+                                ),
+                              );
+                            },
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all<Color>(Color(0xff10AB43)),
                       ),
                       child: !isLoadingGreen
                           ? Text(
-                              "accept".tr,
+                              greenText,
                               style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                             )
                           : SpinKitThreeBounce(
@@ -249,21 +235,23 @@ class OrderView extends StatelessWidget {
                             ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => alertDialog(
-                            onPressed: onPressedRed,
-                            title: "refuse the order?".tr,
-                          ),
-                        );
-                      },
+                      onPressed: !showWarningDialogs
+                          ? onPressedRed
+                          : () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => alertDialog(
+                                  onPressed: onPressedRed,
+                                  title: "refuse the order?".tr,
+                                ),
+                              );
+                            },
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all<Color>(Colors.redAccent),
                       ),
                       child: !isLoadingRed
                           ? Text(
-                              "refuse".tr,
+                              redText,
                               style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                             )
                           : SpinKitThreeBounce(
@@ -347,7 +335,10 @@ class OrderView extends StatelessWidget {
                     ),
                   );
                 },
-                icon: Icon(Icons.delete),
+                icon: Icon(
+                  Icons.delete,
+                  color: cs.onSurface,
+                ),
               )
           ],
         ),
@@ -609,10 +600,10 @@ class OrderView extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.2), // Shadow color
+                                        color: Colors.black.withValues(alpha: 0.2), // Shadow color
                                         blurRadius: 2, // Soften the shadow
                                         spreadRadius: 1, // Extend the shadow
-                                        offset: Offset(1, 1), // Shadow direction (x, y)
+                                        offset: const Offset(1, 1), // Shadow direction (x, y)
                                       ),
                                     ],
                                   ),
@@ -629,7 +620,7 @@ class OrderView extends StatelessWidget {
                                       ),
                                       Divider(
                                         thickness: 1.5,
-                                        color: cs.onSecondaryContainer.withOpacity(0.1),
+                                        color: cs.onSecondaryContainer.withValues(alpha: 0.1),
                                         indent: 12,
                                         endIndent: 12,
                                       ),
@@ -665,7 +656,7 @@ class OrderView extends StatelessWidget {
                                         ),
                                       ),
                                       Divider(
-                                        color: cs.onSecondaryContainer.withOpacity(0.1),
+                                        color: cs.onSecondaryContainer.withValues(alpha: 0.1),
                                         thickness: 1.5,
                                         indent: 12,
                                         endIndent: 12,
@@ -680,11 +671,11 @@ class OrderView extends StatelessWidget {
                                                 Text(
                                                   "starting point".tr.toUpperCase(),
                                                   style: tt.labelMedium!.copyWith(
-                                                    color: cs.onSecondaryContainer.withOpacity(0.5),
+                                                    color: cs.onSecondaryContainer.withValues(alpha: 0.5),
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                SizedBox(height: 4),
+                                                const SizedBox(height: 4),
                                                 Text(
                                                   oC.order!.startPoint.toString(),
                                                   style: tt.labelMedium!.copyWith(
@@ -705,11 +696,11 @@ class OrderView extends StatelessWidget {
                                                 Text(
                                                   "destination point".tr.toUpperCase(),
                                                   style: tt.labelMedium!.copyWith(
-                                                    color: cs.onSecondaryContainer.withOpacity(0.5),
+                                                    color: cs.onSecondaryContainer.withValues(alpha: 0.5),
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                SizedBox(height: 4),
+                                                const SizedBox(height: 4),
                                                 Text(
                                                   oC.order!.endPoint.toString(),
                                                   style: tt.labelMedium!.copyWith(
@@ -720,7 +711,7 @@ class OrderView extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 8),
+                                      const SizedBox(height: 8),
                                     ],
                                   ),
                                 ),
@@ -1085,7 +1076,7 @@ class OrderView extends StatelessWidget {
                               /// available payment methods
                               ///
                               Padding(
-                                padding: const EdgeInsets.only(top: 16.0, bottom: 16, right: 4, left: 4),
+                                padding: const EdgeInsets.only(top: 16.0, bottom: 12, right: 4, left: 4),
                                 child: TitledCard(
                                   title: "payment methods".tr,
                                   content: Padding(
@@ -1175,7 +1166,7 @@ class OrderView extends StatelessWidget {
                                                           Text(
                                                             "order name".tr.toUpperCase(),
                                                             style: tt.labelMedium!.copyWith(
-                                                                color: cs.onSecondaryContainer.withOpacity(0.5),
+                                                                color: cs.onSecondaryContainer.withValues(alpha: 0.5),
                                                                 fontWeight: FontWeight.bold),
                                                           ),
                                                           const SizedBox(height: 4),
@@ -1207,7 +1198,7 @@ class OrderView extends StatelessWidget {
                                                           Text(
                                                             "expected price".tr.toUpperCase(),
                                                             style: tt.labelMedium!.copyWith(
-                                                              color: cs.onSecondaryContainer.withOpacity(0.5),
+                                                              color: cs.onSecondaryContainer.withValues(alpha: 0.5),
                                                               fontWeight: FontWeight.bold,
                                                             ),
                                                           ),
@@ -1229,7 +1220,7 @@ class OrderView extends StatelessWidget {
                                           ],
                                         ),
                                         Divider(
-                                          color: cs.onSecondaryContainer.withOpacity(0.1),
+                                          color: cs.onSecondaryContainer.withValues(alpha: 0.1),
                                           thickness: 1.5,
                                           indent: 12,
                                           endIndent: 12,
@@ -1291,7 +1282,7 @@ class OrderView extends StatelessWidget {
                                                   //
                                                 ],
                                               ),
-                                              SizedBox(width: 16),
+                                              const SizedBox(width: 16),
                                               Expanded(
                                                 child: Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1527,14 +1518,15 @@ class OrderView extends StatelessWidget {
                               oC.order!.ownerApproved &&
                               !oC.order!.driverApproved)
                             Positioned(
-                              top: 10,
-                              left: 30,
-                              right: 30,
+                              top: 0,
+                              left: 0,
+                              right: 0,
                               child: alertStack(
                                 title: "${oC.order!.orderOwner?.name ?? "order owner is null"}"
                                     " ${"accepted your request".tr}",
+                                greenText: 'accept'.tr,
+                                redText: 'cancel'.tr,
                                 onPressedGreen: () {
-                                  print("green");
                                   Get.back();
                                   Get.bottomSheet(
                                     GetBuilder<OrderController>(
@@ -1590,13 +1582,15 @@ class OrderView extends StatelessWidget {
                                                     prefixIcon: Icons.person,
                                                     validator: (val) {
                                                       if (!["Bank Account", "Money Transfer"]
-                                                          .contains(controller.selectedPayment.payment.methodValue))
+                                                          .contains(controller.selectedPayment.payment.methodValue)) {
                                                         return null;
+                                                      }
                                                       return validateInput(controller.fullName.text, 0, 100, "");
                                                     },
                                                     onChanged: (val) {
-                                                      if (controller.buttonPressed)
+                                                      if (controller.buttonPressed) {
                                                         controller.formKey.currentState!.validate();
+                                                      }
                                                     },
                                                   ),
                                                 ),
@@ -1611,13 +1605,15 @@ class OrderView extends StatelessWidget {
                                                     prefixIcon: Icons.short_text_outlined,
                                                     validator: (val) {
                                                       if (!["Bank Account"]
-                                                          .contains(controller.selectedPayment.payment.methodValue))
+                                                          .contains(controller.selectedPayment.payment.methodValue)) {
                                                         return null;
+                                                      }
                                                       return validateInput(controller.accountDetails.text, 0, 100, "");
                                                     },
                                                     onChanged: (val) {
-                                                      if (controller.buttonPressed)
+                                                      if (controller.buttonPressed) {
                                                         controller.formKey.currentState!.validate();
+                                                      }
                                                     },
                                                   ),
                                                 ),
@@ -1632,14 +1628,16 @@ class OrderView extends StatelessWidget {
                                                     prefixIcon: Icons.phone_android,
                                                     validator: (val) {
                                                       if (!["Money Transfer"]
-                                                          .contains(controller.selectedPayment.payment.methodValue))
+                                                          .contains(controller.selectedPayment.payment.methodValue)) {
                                                         return null;
+                                                      }
                                                       return validateInput(controller.phoneNumber.text, 4, 15, "",
                                                           wholeNumber: true);
                                                     },
                                                     onChanged: (val) {
-                                                      if (controller.buttonPressed)
+                                                      if (controller.buttonPressed) {
                                                         controller.formKey.currentState!.validate();
+                                                      }
                                                     },
                                                   ),
                                                 ),
@@ -1675,24 +1673,83 @@ class OrderView extends StatelessWidget {
                               ),
                             ),
 
-                          if (isCustomer && oC.order!.status == "pending" && !oC.order!.ownerApproved)
+                          if (isCustomer && oC.order!.status == "done" && controller.showRatingBox)
                             Positioned(
                               top: 0,
                               left: 0,
                               right: 0,
                               child: alertStack(
-                                title: "${oC.order!.acceptedApplication?.driver.name ?? ""} "
-                                    "${"wants to take this order".tr}",
+                                title: "do you want to rate your experience with the driver?".tr,
                                 onPressedGreen: () {
-                                  Get.back();
-                                  //controller.confirmOrderCustomer();
+                                  Get.dialog(AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    title: Text(
+                                      "rate your experience".tr,
+                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                    ),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        RatingBar.builder(
+                                          initialRating: 0, //show the user previous rating
+                                          glow: false,
+                                          itemSize: 25,
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: false,
+                                          itemCount: 5,
+                                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                          itemBuilder: (context, _) => const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (rating) {
+                                            controller.setRating(rating.toInt());
+                                          },
+                                        ),
+                                        SingleChildScrollView(
+                                          child: TextField(
+                                            controller: controller.comment,
+                                            minLines: 1,
+                                            maxLines: 4,
+                                            keyboardType: TextInputType.multiline,
+                                            decoration: InputDecoration(
+                                              hintText: "comment (optional)".tr,
+                                              hintStyle:
+                                                  tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                                              label: Text("comment".tr),
+                                            ),
+                                            onChanged: (String? s) {
+                                              //
+                                            },
+                                            obscureText: false,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          controller.rateOrder();
+                                        },
+                                        child: Text(
+                                          "submit".tr,
+                                          style: tt.titleSmall!.copyWith(color: cs.primary),
+                                        ),
+                                      ),
+                                    ],
+                                  ));
                                 },
                                 onPressedRed: () {
-                                  Get.back();
-                                  controller.refuseOrderCustomer();
+                                  controller.setShowRatingBox(false);
                                 },
                                 isLoadingGreen: controller.isLoadingSubmit,
                                 isLoadingRed: controller.isLoadingRefuse,
+                                greenText: 'yes'.tr,
+                                redText: 'no'.tr,
+                                showWarningDialogs: false,
                               ),
                             ),
                         ],

@@ -37,6 +37,9 @@ class OrderModel {
   final DateTime? updatedAt;
   final bool customerWannaCancel;
   final bool driverWannaCancel;
+  final bool isRatedByMe;
+  final bool isCancelledByMe;
+  final bool isAppliedByMe;
   final List<ApplicationModel> driversApplications;
 
   OrderModel({
@@ -64,6 +67,9 @@ class OrderModel {
     required this.updatedAt,
     required this.customerWannaCancel,
     required this.driverWannaCancel,
+    required this.isRatedByMe,
+    required this.isCancelledByMe,
+    required this.isAppliedByMe,
     required this.driversApplications,
   });
 
@@ -93,6 +99,9 @@ class OrderModel {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         customerWannaCancel: json["customer_wanna_cancel"],
         driverWannaCancel: json["driver_wanna_cancel"],
+        isRatedByMe: json["is_rated_by_me"],
+        isCancelledByMe: json["is_canceled_by_me"],
+        isAppliedByMe: json["?"] ?? false, //todo
         driversApplications: json["drivers_applications"] == null
             ? []
             : List<ApplicationModel>.from(json["drivers_applications"].map((x) => ApplicationModel.fromJson(x))),
@@ -123,7 +132,7 @@ class OrderModel {
         "updated_at": updatedAt,
         "customer_wanna_cancel": customerWannaCancel,
         "driver_wanna_cancel": driverWannaCancel,
-        "drivers_applications": List<dynamic>.from(driversApplications!.map((x) => x)),
+        "drivers_applications": List<dynamic>.from(driversApplications.map((x) => x)),
       };
 
   String formatExtraInfo() {

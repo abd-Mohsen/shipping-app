@@ -700,4 +700,17 @@ class RemoteServices {
     String? json = await api.postRequest("customer_order/$orderID/allow-phone-visibility/", body, auth: true);
     return json != null;
   }
+
+  static Future<bool> customerRateOrder(int orderID, String comment, int rating) async {
+    String? json = await api.postRequest(
+      "driver-rating/",
+      {
+        "order": orderID,
+        "rating": rating,
+        "comment": comment,
+      },
+      auth: true,
+    );
+    return json != null;
+  }
 }
