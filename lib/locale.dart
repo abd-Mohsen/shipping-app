@@ -670,7 +670,10 @@ class MyLocale extends Translations {
           "show number": "عرض الرقم للسائق",
           "finish": "انهاء",
           "close": "اغلاق",
-          "browse": "تصفح",
+          "browse": "استعراض",
+          "submission date": "تاريخ التقديم",
+          "submission time": "وقت التقديم",
+          "name": "الاسم",
         },
       };
 }

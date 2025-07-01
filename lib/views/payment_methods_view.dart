@@ -224,7 +224,7 @@ class PaymentMethodsView extends StatelessWidget {
                                           title: controller.selectedOption!.value == "Bank Account"
                                               ? "bank payment methods".tr
                                               : "money transfer payment methods".tr,
-                                          confirmText: "ok".tr,
+                                          confirmText: "close".tr,
                                           onConfirm: () {
                                             Get.back();
                                           },
@@ -302,7 +302,7 @@ class PaymentMethodsView extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              "proceed".tr.toUpperCase(),
+                              "browse".tr.toUpperCase(),
                               style: tt.labelMedium!.copyWith(color: cs.onPrimary),
                             ),
                           ),

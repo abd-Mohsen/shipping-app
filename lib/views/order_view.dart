@@ -26,9 +26,6 @@ import 'make_order_view.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class OrderView extends StatelessWidget {
-  //todo: show rate box for customer when status is done (and if not rated before)
-  //todo: show to customer: the driver is offline when there is no connection to web socket
-
   final int orderID;
   final bool? openTracking;
 
@@ -222,7 +219,7 @@ class OrderView extends StatelessWidget {
                               );
                             },
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(Color(0xff10AB43)),
+                        backgroundColor: WidgetStateProperty.all<Color>(const Color(0xff10AB43)),
                       ),
                       child: !isLoadingGreen
                           ? Text(
