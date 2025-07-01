@@ -35,7 +35,7 @@ class MakeOrderController extends GetxController {
     await getMakeOrderInfo();
     if (order != null) await prePopulate();
     await loadDraft();
-    await PermissionService().requestPermission(Permission.location); //todo: test if showing properly
+    await PermissionService().requestPermission(Permission.location);
     super.onInit();
   }
 

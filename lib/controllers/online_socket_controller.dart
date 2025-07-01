@@ -101,7 +101,7 @@ class OnlineSocketController extends GetxController {
 
   @override
   void onClose() async {
-    //todo: not disposing (because 2 instances are running?)
+    //todo(later): not disposing (because 2 instances are running?)
     await _cleanUpWebSocket();
     super.dispose();
   }

@@ -119,7 +119,7 @@ class OrderController extends GetxController {
     statusIndex = statuses.indexOf(order!.status);
   }
 
-  //todo there is cancelled and 6th status
+  //there is cancelled and 6th status
   List<String> statuses = ["available", "pending", "approved", "processing", "done"];
 
   late PaymentMethod selectedPayment;
@@ -202,23 +202,15 @@ class OrderController extends GetxController {
     toggleLoadingRefuse(false);
   }
 
-  void cancelOrderCustomer() async {
-    if (isLoadingRefuse || isLoadingSubmit) return;
-    toggleLoadingRefuse(true);
-    bool success = await RemoteServices.customerCancelOrder(order!.id);
-    if (success) {
-      refreshOrder();
-      showSuccessSnackbar();
-    }
-    toggleLoadingRefuse(false);
-  }
-
-  void refuseOrderDriver() async {
+  void cancelOrder() async {
     if (isLoadingSubmit || isLoadingRefuse) return;
     toggleLoadingRefuse(true);
-    bool success = isEmployee
-        ? await RemoteServices.companyRefuseOrder(order!.id)
-        : await RemoteServices.driverRefuseOrder(order!.id);
+
+    bool success = role == "customer"
+        ? await RemoteServices.customerCancelOrder(order!.id)
+        : role == "driver"
+            ? await RemoteServices.driverCancelOrder(order!.id)
+            : await RemoteServices.companyCancelOrder(order!.id);
     if (success) {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
@@ -227,17 +219,17 @@ class OrderController extends GetxController {
     toggleLoadingRefuse(false);
   }
 
-  void refuseOrderCompany() async {
-    if (isLoadingSubmit || isLoadingRefuse) return;
-    toggleLoadingRefuse(true);
-    bool success = await RemoteServices.companyRefuseOrder(order!.id);
-    if (success) {
-      //if (Get.routing.current == "/OrderView") Get.back();
-      refreshOrder();
-      showSuccessSnackbar();
-    }
-    toggleLoadingRefuse(false);
-  }
+  // void refuseOrderCompany() async {
+  //   if (isLoadingSubmit || isLoadingRefuse) return;
+  //   toggleLoadingRefuse(true);
+  //   bool success = await RemoteServices.companyRefuseOrder(order!.id);
+  //   if (success) {
+  //     //if (Get.routing.current == "/OrderView") Get.back();
+  //     refreshOrder();
+  //     showSuccessSnackbar();
+  //   }
+  //   toggleLoadingRefuse(false);
+  // }
 
   void confirmOrderDriver() async {
     if (isLoadingSubmit || isLoadingRefuse) return;
@@ -407,7 +399,7 @@ class OrderController extends GetxController {
 
   //--------------------------------------Real time-----------------------------------
 
-  //todo implement reconnection logic
+  //todo(later) implement reconnection logic
   bool isLoadingMap = false;
   void toggleLoadingMap(bool value) {
     isLoadingMap = value;

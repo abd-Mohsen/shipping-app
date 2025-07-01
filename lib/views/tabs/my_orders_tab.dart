@@ -48,7 +48,6 @@ class MyOrdersTab extends StatelessWidget {
                     elevation: 0,
                     surfaceTintColor: Colors.transparent, // Add this line
                     systemOverlayStyle: SystemUiOverlayStyle(
-                      //todo: do this for every app bar
                       statusBarColor: cs.surface, // Match your AppBar
                     ),
                     centerTitle: true,

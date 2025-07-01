@@ -137,7 +137,6 @@ class OrderView extends StatelessWidget {
     mainButton({required alertDialog, required bool isLoading, required String buttonText}) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
           child: CustomButton(
-            //todo: make sure all is wrapped with getBuilder
             onTap: () {
               showDialog(
                 context: context,
@@ -614,6 +613,35 @@ class OrderView extends StatelessWidget {
                                     ),
                                     isLoading: controller.isLoadingSubmit,
                                     buttonText: "finish".tr.toUpperCase(),
+                                  ),
+                                ),
+
+                              /// cancel order button
+                              ///
+                              if (!isCustomer &&
+                                  oC.order!.status == "waiting_approval" &&
+                                  !oC.order!.isCancelledByMe &&
+                                  oC.order!.isAppliedByMe)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  child: mainButton(
+                                    alertDialog: alertDialog(
+                                      onPressed: () {
+                                        Get.back();
+
+                                        controller.cancelOrder();
+                                      },
+                                      content: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: Text(
+                                          "do you want to cancel the order?".tr,
+                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                        ),
+                                      ),
+                                      title: "cancel the order?".tr,
+                                    ),
+                                    isLoading: controller.isLoadingSubmit,
+                                    buttonText: "cancel".tr.toUpperCase(),
                                   ),
                                 ),
 
@@ -1695,7 +1723,7 @@ class OrderView extends StatelessWidget {
                                 },
                                 onPressedRed: () {
                                   Get.back();
-                                  controller.refuseOrderDriver();
+                                  controller.cancelOrder();
                                 },
                                 isLoadingGreen: controller.isLoadingSubmit,
                                 isLoadingRed: controller.isLoadingRefuse,

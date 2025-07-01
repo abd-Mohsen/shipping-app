@@ -19,7 +19,7 @@ class InvoiceController extends GetxController {
   List<InvoiceModel> invoices = [];
 
   void getInvoices() async {
-    //todo: implement pagination if necessary
+    //todo(later): tell backend to implement pagination if necessary
     toggleLoading(true);
     List<InvoiceModel> newItems = await RemoteServices.fetchInvoices() ?? [];
     invoices.addAll(newItems);
