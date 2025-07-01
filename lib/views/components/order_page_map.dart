@@ -24,7 +24,7 @@ class _OrderPageMapState extends State<OrderPageMap> with AutomaticKeepAliveClie
     super.build(context);
     return OSMFlutter(
       controller: widget.mapController,
-      mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+      mapIsLoading: SpinKitRing(color: cs.primary),
       onMapIsReady: widget.onMapIsReady,
       osmOption: OSMOption(
         isPicker: false,

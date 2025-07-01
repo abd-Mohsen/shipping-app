@@ -6,7 +6,12 @@ import '../notifications_view.dart';
 
 class NotificationButton extends StatelessWidget {
   final bool showBadge;
-  const NotificationButton({super.key, required this.showBadge});
+  final Color color;
+  const NotificationButton({
+    super.key,
+    required this.showBadge,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +36,7 @@ class NotificationButton extends StatelessWidget {
           },
           child: Icon(
             Icons.notifications,
-            color: cs.onPrimary,
+            color: color,
             //size: 30,
           ),
         ),

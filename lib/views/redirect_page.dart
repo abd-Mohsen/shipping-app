@@ -43,8 +43,8 @@ class RedirectPage extends StatelessWidget {
                       ? Get.to(() => const CompanyHomeView(), binding: CompanyBindings())
                       : Get.to(() => const Placeholder());
 
-      await Future.delayed(const Duration(milliseconds: 1200));
-      if ((toNotifications ?? false) && !getStorage.hasData("token")) Get.to(const NotificationsView());
+      await Future.delayed(const Duration(milliseconds: 600));
+      if ((toNotifications ?? false) && getStorage.hasData("token")) Get.to(const NotificationsView());
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {

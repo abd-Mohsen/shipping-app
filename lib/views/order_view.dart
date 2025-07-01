@@ -273,24 +273,38 @@ class OrderView extends StatelessWidget {
           mapController: oC.mapController,
           onMapIsReady: (v) {
             oC.setMapReady(true);
+            if (openTracking ?? false) {
+              WidgetsBinding.instance.addPostFrameCallback((_) async {
+                // Optional: wait 1 second before navigating
+                await Future.delayed(const Duration(milliseconds: 400));
+                //
+                // // Optional: Wait for controller to be ready
+                // await Future.delayed(const Duration(milliseconds: 600));
+                // // You can adjust this or use a proper "isInitialized" check
+                if (Get.isRegistered<OrderController>()) {
+                  // Or check for controller.isInitialized if you have that flag
+                  Get.to(() => TrackingView(map: map()));
+                }
+              });
+            }
           },
         );
 
-    if (openTracking ?? false) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        // Optional: wait 1 second before navigating
-        await Future.delayed(const Duration(milliseconds: 400));
-
-        // Optional: Wait for controller to be ready
-        await Future.delayed(const Duration(milliseconds: 600));
-        // You can adjust this or use a proper "isInitialized" check
-
-        if (Get.isRegistered<OrderController>()) {
-          // Or check for controller.isInitialized if you have that flag
-          Get.to(() => TrackingView(map: map()));
-        }
-      });
-    }
+    // if (openTracking ?? false) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //     // Optional: wait 1 second before navigating
+    //     await Future.delayed(const Duration(milliseconds: 400));
+    //
+    //     // Optional: Wait for controller to be ready
+    //     await Future.delayed(const Duration(milliseconds: 600));
+    //     // You can adjust this or use a proper "isInitialized" check
+    //
+    //     if (Get.isRegistered<OrderController>()) {
+    //       // Or check for controller.isInitialized if you have that flag
+    //       Get.to(() => TrackingView(map: map()));
+    //     }
+    //   });
+    // }
 
     return GetBuilder<OrderController>(builder: (controller) {
       return Scaffold(
@@ -657,7 +671,7 @@ class OrderView extends StatelessWidget {
                                         padding: const EdgeInsets.only(left: 12.0, right: 12, top: 4),
                                         child: CustomButton(
                                           onTap: () async {
-                                            Get.to(TrackingView(map: map()));
+                                            if (controller.isMapReady) Get.to(TrackingView(map: map()));
                                             //controller.connectTrackingSocket();
                                           },
                                           isShort: true,

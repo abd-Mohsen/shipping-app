@@ -284,6 +284,9 @@ class Api {
     } else if (response.containsKey("message")) {
       title = "error";
       content = response["message"];
+    } else if (response.containsKey("detail")) {
+      title = "error";
+      content = response["detail"];
     } else {
       title = response.keys.first;
       content = response.values.first.first;

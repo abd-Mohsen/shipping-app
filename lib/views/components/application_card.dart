@@ -144,7 +144,7 @@ class ApplicationCard extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(
                             "accepted".tr,
-                            style: tt.labelMedium!.copyWith(color: Colors.white),
+                            style: tt.labelMedium!.copyWith(color: cs.onSecondaryContainer),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                           ),

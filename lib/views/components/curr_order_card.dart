@@ -76,7 +76,7 @@ class CurrOrderCard extends StatelessWidget {
                               width: MediaQuery.of(context).size.width / 2,
                               child: Text(
                                 order == null ? "N/A".tr : "#${order!.id} - ${order!.description}",
-                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -113,14 +113,14 @@ class CurrOrderCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   SizedBox(
-                    height: 90,
+                    height: 80,
                     //width: double.infinity,
                     child: EasyStepper(
                       activeStep: statusIndex,
                       padding: const EdgeInsets.symmetric(vertical: 0),
                       activeStepTextColor: cs.primary,
                       finishedStepTextColor: cs.onSurface,
-                      unreachedStepTextColor: cs.onSurface.withOpacity(0.6),
+                      unreachedStepTextColor: cs.onSurface.withValues(alpha: 0.6),
                       finishedStepBackgroundColor: cs.secondaryContainer,
                       internalPadding: 0, // Removes padding around the whole stepper
                       showLoadingAnimation: false,
@@ -171,15 +171,13 @@ class CurrOrderCard extends StatelessWidget {
                                         pattern: "d / M / y",
                                       ),
                                 style: tt.labelSmall!.copyWith(
-                                  color: cs.onSurface.withOpacity(0.6),
+                                  color: cs.onSurface.withValues(alpha: 0.6),
                                 ),
                               ),
                               const SizedBox(height: 2),
                               Text(
                                 order?.startPoint.toString() ?? "-",
-                                style: tt.labelSmall!.copyWith(
-                                  color: cs.onSurface,
-                                ),
+                                style: tt.labelSmall!.copyWith(color: cs.onSurface, fontSize: 10.5),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.right,
@@ -199,15 +197,13 @@ class CurrOrderCard extends StatelessWidget {
                                         pattern: "d / M / y",
                                       ),
                                 style: tt.labelSmall!.copyWith(
-                                  color: cs.onSurface.withOpacity(0.6),
+                                  color: cs.onSurface.withValues(alpha: 0.6),
                                 ),
                               ),
                               const SizedBox(height: 2),
                               Text(
                                 order?.endPoint.toString() ?? "-",
-                                style: tt.labelSmall!.copyWith(
-                                  color: cs.onSurface,
-                                ),
+                                style: tt.labelSmall!.copyWith(color: cs.onSurface, fontSize: 10.5),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,

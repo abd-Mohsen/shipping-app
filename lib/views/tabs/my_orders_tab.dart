@@ -64,7 +64,10 @@ class MyOrdersTab extends StatelessWidget {
                     actions: [
                       GetBuilder<NotificationsController>(
                         builder: (innerController) {
-                          return NotificationButton(showBadge: innerController.unreadCount > 0);
+                          return NotificationButton(
+                            showBadge: innerController.unreadCount > 0,
+                            color: cs.onSecondaryContainer,
+                          );
                         },
                       ),
                     ],

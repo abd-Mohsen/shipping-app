@@ -116,7 +116,10 @@ class DriverHomeTab extends StatelessWidget {
                           ),
                           GetBuilder<NotificationsController>(
                             builder: (innerController) {
-                              return NotificationButton(showBadge: innerController.unreadCount > 0);
+                              return NotificationButton(
+                                showBadge: innerController.unreadCount > 0,
+                                color: cs.onPrimary,
+                              );
                             },
                           ),
                         ],

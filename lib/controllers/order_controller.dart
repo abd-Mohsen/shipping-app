@@ -54,7 +54,7 @@ class OrderController extends GetxController {
     toggleLoadingOrder(true);
     order = await RemoteServices.getSingleOrder(orderID, _getStorage.read("role"));
     if (order != null) {
-      selectedPayment = order!.paymentMethods[0];
+      if (order!.paymentMethods.isNotEmpty) selectedPayment = order!.paymentMethods[0];
       setStatusIndex();
       print(order!.driversApplications.length);
     }
@@ -72,7 +72,7 @@ class OrderController extends GetxController {
     ),
   );
 
-  void initMap() {
+  void initMap() async {
     mapController.moveTo(
       GeoPoint(
         latitude: order!.startPoint.latitude,
@@ -86,6 +86,8 @@ class OrderController extends GetxController {
       ),
       markerIcon: kMapDefaultMarker,
     );
+
+    await Future.delayed(Duration(milliseconds: 1000));
     mapController.addMarker(
       GeoPoint(
         latitude: order!.endPoint.latitude,
@@ -447,7 +449,7 @@ class OrderController extends GetxController {
     print("${message["latitude"]}, ${message["longitude"]}");
     if (currPosition != null) mapController.removeMarker(currPosition!);
     currPosition = GeoPoint(latitude: message["latitude"], longitude: message["longitude"]);
-    mapController.moveTo(currPosition!);
+    //mapController.moveTo(currPosition!);
     await Future.delayed(Duration(milliseconds: 300)); //todo not smooth at all
     mapController.addMarker(
       currPosition!,
