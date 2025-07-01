@@ -337,6 +337,9 @@ class MyLocale extends Translations {
           "finish": "finish",
           "close": "close",
           "browse": "browse",
+          "submission date": "submission date",
+          "submission time": "submission time",
+          "name": "name",
         },
         "ar": {
           "Arabic": "العربية",

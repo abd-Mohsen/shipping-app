@@ -89,9 +89,8 @@ class ApplicationCard extends StatelessWidget {
                                       application.driver.name,
                                       style: tt.labelMedium!.copyWith(
                                         color: cs.onSurface,
-                                        decoration: application.deletedAt != null
-                                            ? TextDecoration.lineThrough
-                                            : TextDecoration.none,
+                                        decoration:
+                                            application.isRejected ? TextDecoration.lineThrough : TextDecoration.none,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
@@ -107,9 +106,8 @@ class ApplicationCard extends StatelessWidget {
                                       style: tt.labelSmall!.copyWith(
                                         color: cs.onSurface.withValues(alpha: 0.5),
                                         fontSize: 10,
-                                        decoration: application.deletedAt != null
-                                            ? TextDecoration.lineThrough
-                                            : TextDecoration.none,
+                                        decoration:
+                                            application.isRejected ? TextDecoration.lineThrough : TextDecoration.none,
                                       ),
                                     ),
                                   ),
@@ -119,26 +117,6 @@ class ApplicationCard extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // if (showButtons ?? false)
-                      //   Padding(
-                      //     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-                      //     child: GestureDetector(
-                      //       onTap: onTapRefuse,
-                      //       child: Container(
-                      //           width: 35,
-                      //           height: 35,
-                      //           decoration: BoxDecoration(
-                      //             color: Colors.red,
-                      //             borderRadius: BorderRadius.circular(100),
-                      //             border: Border.all(width: 0.3),
-                      //           ),
-                      //           child: Icon(
-                      //             Icons.close,
-                      //             size: 20,
-                      //             color: cs.onPrimary,
-                      //           )),
-                      //     ),
-                      //   ),
                       if (isAccepted ?? false)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -149,7 +127,10 @@ class ApplicationCard extends StatelessWidget {
                             maxLines: 2,
                           ),
                         ),
-                      if (application.canSeePhone && (showPhone ?? true))
+                      if (application.canSeePhone &&
+                          (showPhone ?? true) &&
+                          !application.isRejected &&
+                          (isAccepted ?? false))
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                           child: GestureDetector(
@@ -177,7 +158,7 @@ class ApplicationCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          if (application.canSeePhone)
+                          if (application.canSeePhone && !application.isRejected)
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                               child: GestureDetector(
@@ -208,7 +189,7 @@ class ApplicationCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          if (!application.canSeePhone)
+                          if (!application.canSeePhone && !application.isRejected)
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                               child: GestureDetector(
@@ -230,6 +211,37 @@ class ApplicationCard extends StatelessWidget {
                                       SizedBox(width: 8),
                                       Text(
                                         "show number".tr,
+                                        style: tt.labelMedium!.copyWith(color: Colors.white),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (!application.isRejected && !(isAccepted ?? false))
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                              child: GestureDetector(
+                                onTap: onTapRefuse,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(width: 0.3),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.close,
+                                        size: 20,
+                                        color: cs.onPrimary,
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        "refuse".tr,
                                         style: tt.labelMedium!.copyWith(color: Colors.white),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,

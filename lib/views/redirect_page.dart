@@ -23,34 +23,51 @@ import '../controllers/online_socket_controller.dart';
 import '../controllers/refresh_socket_controller.dart';
 import '../controllers/shared_home_controller.dart';
 
-class RedirectPage extends StatelessWidget {
+class RedirectPage extends StatefulWidget {
   final bool? toNotifications;
   const RedirectPage({super.key, this.toNotifications});
 
   @override
-  Widget build(BuildContext context) {
-    GetStorage getStorage = GetStorage();
+  State<RedirectPage> createState() => _RedirectPageState();
+}
+
+class _RedirectPageState extends State<RedirectPage> {
+  GetStorage getStorage = GetStorage();
+
+  @override
+  void initState() {
     getStorage.remove("from_register");
 
-    Future navigateToApp() async {
-      !getStorage.hasData("token")
-          ? Get.to(() => const LoginView())
-          : getStorage.read("role") == "driver" || getStorage.read("role") == "company_employee"
-              ? Get.to(() => const DriverHomeView(), binding: DriverBindings())
-              : getStorage.read("role") == "customer"
-                  ? Get.to(() => const CustomerHomeView(), binding: CustomerBindings())
-                  : getStorage.read("role") == "company"
-                      ? Get.to(() => const CompanyHomeView(), binding: CompanyBindings())
-                      : Get.to(() => const Placeholder());
-
-      await Future.delayed(const Duration(milliseconds: 600));
-      if ((toNotifications ?? false) && getStorage.hasData("token")) Get.to(const NotificationsView());
+    if ((widget.toNotifications ?? false) && getStorage.hasData("token")) {
+      Get.deleteAll();
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       navigateToApp();
     });
 
+    super.initState();
+  }
+
+  Future navigateToApp() async {
+    !getStorage.hasData("token")
+        ? Get.to(() => const LoginView())
+        : getStorage.read("role") == "driver" || getStorage.read("role") == "company_employee"
+            ? Get.to(() => const DriverHomeView(), binding: DriverBindings())
+            : getStorage.read("role") == "customer"
+                ? Get.to(() => const CustomerHomeView(), binding: CustomerBindings())
+                : getStorage.read("role") == "company"
+                    ? Get.to(() => const CompanyHomeView(), binding: CompanyBindings())
+                    : Get.to(() => const Placeholder());
+
+    await Future.delayed(const Duration(milliseconds: 600));
+    if ((widget.toNotifications ?? false) && getStorage.hasData("token")) {
+      Get.to(const NotificationsView());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(child: Lottie.asset("assets/animations/simple truck.json") // Show loading indicator
           ),

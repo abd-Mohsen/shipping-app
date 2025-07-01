@@ -11,6 +11,7 @@ class ApplicationModel {
   final User? acceptedBy;
   final Vehicle vehicle;
   final bool canSeePhone;
+  final bool isRejected;
   final DateTime appliedAt; //todo: 10 min
   final DateTime? deletedAt;
 
@@ -20,6 +21,7 @@ class ApplicationModel {
     required this.acceptedBy,
     required this.vehicle,
     required this.canSeePhone,
+    required this.isRejected,
     required this.appliedAt,
     required this.deletedAt,
   });
@@ -30,6 +32,7 @@ class ApplicationModel {
         acceptedBy: User.fromJson(json["accepted_by"]),
         vehicle: Vehicle.fromJson(json["vehicle"]),
         canSeePhone: json["can_see_customer_phone"],
+        isRejected: json["is_reject"] ?? false,
         appliedAt: DateTime.parse(json["applied_at"]),
         deletedAt: json["deleted_at"] == null ? null : DateTime.parse(json["deleted_at"]),
       );

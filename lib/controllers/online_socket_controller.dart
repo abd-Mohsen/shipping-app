@@ -8,7 +8,7 @@ class OnlineSocketController extends GetxController {
   @override
   void onInit() {
     _connectSocket();
-    startPinging();
+    //startPinging();
     super.onInit();
   }
 
@@ -67,7 +67,7 @@ class OnlineSocketController extends GetxController {
     timer = Timer.periodic(Duration(seconds: 15), (timer) async {
       try {
         if (_isWebSocketConnected()) {
-          websocket!.add(json.encode({"type": "ping"})); //todo: not sending
+          websocket!.add(json.encode({"type": "ping"}));
           print("ping");
         } else {
           // Handle reconnection

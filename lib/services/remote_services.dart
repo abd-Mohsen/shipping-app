@@ -348,6 +348,15 @@ class RemoteServices {
     return json != null;
   }
 
+  static Future<bool> customerRejectOrder(int orderID, int applicationID) async {
+    String? json = await api.postRequest(
+      "customer_order/$orderID/reject/",
+      {"application_id": applicationID},
+      auth: true,
+    );
+    return json != null;
+  }
+
   static Future<bool> driverConfirmOrder(
     int orderID,
     int paymentID,
@@ -471,7 +480,7 @@ class RemoteServices {
     return json != null;
   }
 
-  static Future<bool> customerRefuseOrder(int orderID) async {
+  static Future<bool> customerCancelOrder(int orderID) async {
     String? json = await api.postRequest("customer_order/$orderID/cancel/", {}, auth: true);
     return json != null;
   }

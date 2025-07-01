@@ -8,9 +8,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:shipment/controllers/company_home_controller.dart';
-import 'package:shipment/controllers/customer_home_controller.dart';
-import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/application_card2.dart';
 import 'package:shipment/models/employee_model.dart';
@@ -806,7 +803,8 @@ class OrderView extends StatelessWidget {
                                             builder: (context) => alertDialog(
                                               onPressed: () {
                                                 Get.back();
-                                                controller.refuseOrderCustomer();
+                                                controller
+                                                    .rejectOrderCustomer(controller.order!.driversApplications[i].id);
                                               },
                                               title: "refuse the order?".tr,
                                             ),
@@ -849,7 +847,7 @@ class OrderView extends StatelessWidget {
                                                     children: [
                                                       Expanded(
                                                         child: SheetDetailsTile(
-                                                          title: "date".tr,
+                                                          title: "submission date".tr,
                                                           subtitle: Jiffy.parseFromDateTime(
                                                                   controller.order!.driversApplications[i].appliedAt)
                                                               .format(pattern: "d / M / y"),
@@ -857,7 +855,7 @@ class OrderView extends StatelessWidget {
                                                       ),
                                                       Expanded(
                                                         child: SheetDetailsTile(
-                                                          title: "time".tr,
+                                                          title: "submission time".tr,
                                                           subtitle: Jiffy.parseFromDateTime(
                                                                   controller.order!.driversApplications[i].appliedAt)
                                                               .jm,

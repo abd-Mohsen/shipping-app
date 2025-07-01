@@ -6,9 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/constants.dart';
-import 'package:shipment/controllers/company_home_controller.dart';
-import 'package:shipment/controllers/customer_home_controller.dart';
-import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/mini_order_model.dart';
 import 'package:shipment/models/order_model.dart';
@@ -194,10 +191,21 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  void refuseOrderCustomer() async {
+  void rejectOrderCustomer(int applicationID) async {
+    if (isLoadingSubmit || isLoadingRefuse) return;
+    toggleLoadingRefuse(true);
+    bool success = await RemoteServices.customerRejectOrder(order!.id, applicationID);
+    if (success) {
+      refreshOrder();
+      showSuccessSnackbar();
+    }
+    toggleLoadingRefuse(false);
+  }
+
+  void cancelOrderCustomer() async {
     if (isLoadingRefuse || isLoadingSubmit) return;
     toggleLoadingRefuse(true);
-    bool success = await RemoteServices.customerRefuseOrder(order!.id);
+    bool success = await RemoteServices.customerCancelOrder(order!.id);
     if (success) {
       refreshOrder();
       showSuccessSnackbar();
