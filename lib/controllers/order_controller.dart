@@ -91,7 +91,7 @@ class OrderController extends GetxController {
         latitude: order!.endPoint.latitude,
         longitude: order!.endPoint.longitude,
       ),
-      markerIcon: kMapDefaultMarker,
+      markerIcon: kMapDefaultMarkerBlue,
     );
     //todo(later): draw path
     //todo(later): connect when button is pressed
@@ -493,5 +493,11 @@ class OrderController extends GetxController {
       // Handle the error
       print("WhatsApp not installed or cannot launch URL");
     }
+  }
+
+  @override
+  void onClose() {
+    mapController.dispose();
+    super.onClose();
   }
 }

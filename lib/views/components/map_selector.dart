@@ -9,6 +9,7 @@ import 'package:shipment/controllers/make_order_controller.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/views/components/map_sheet.dart';
 
+import '../../controllers/map_selector_controller.dart';
 import '../my_addresses_view.dart';
 
 class MapSelector extends StatelessWidget {
@@ -110,6 +111,8 @@ class MapSelector extends StatelessWidget {
                   selectedPoint: selectedPoint,
                 ),
               ),
+            ).then(
+              (a) => Get.delete<MapSelectorController>(),
             );
             //.whenComplete(makeOrderController!.setPosition);
           },

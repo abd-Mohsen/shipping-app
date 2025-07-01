@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 
+import '../constants.dart';
 import '../models/location_search_model.dart';
 import '../services/remote_services.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +22,7 @@ class MapSelectorController extends GetxController {
             selectedPosition = mapController.listenerMapSingleTapping.value!;
             await mapController.addMarker(
               selectedPosition!,
-              markerIcon: const MarkerIcon(
-                icon: Icon(
-                  Icons.location_on,
-                  color: Colors.red,
-                  size: 40,
-                ),
-              ),
+              markerIcon: kMapDefaultMarker,
             );
             update();
           },
@@ -67,13 +62,7 @@ class MapSelectorController extends GetxController {
       mapController.moveTo(selectedPosition!);
       mapController.addMarker(
         selectedPosition!,
-        markerIcon: const MarkerIcon(
-          icon: Icon(
-            Icons.location_on,
-            color: Colors.red,
-            size: 40,
-          ),
-        ),
+        markerIcon: kMapDefaultMarker,
       );
     }
 
@@ -130,13 +119,7 @@ class MapSelectorController extends GetxController {
     mapController.moveTo(geoPoint);
     await mapController.addMarker(
       selectedPosition!,
-      markerIcon: const MarkerIcon(
-        icon: Icon(
-          Icons.location_on,
-          color: Colors.red,
-          size: 40,
-        ),
-      ),
+      markerIcon: kMapDefaultMarker,
     );
     update();
   }
@@ -147,13 +130,7 @@ class MapSelectorController extends GetxController {
     mapController.moveTo(geoPoint);
     await mapController.addMarker(
       selectedPosition!,
-      markerIcon: const MarkerIcon(
-        icon: Icon(
-          Icons.location_on,
-          color: Color(0xFFFF0000),
-          size: 40,
-        ),
-      ),
+      markerIcon: kMapDefaultMarker,
     );
     searchEnabled = false;
     update();

@@ -211,18 +211,25 @@ TextTheme kMyTextTheme = TextTheme(
 );
 
 MarkerIcon kMapDefaultMarker = const MarkerIcon(
-  icon: Icon(
-    Icons.location_pin,
-    color: Colors.red,
-    size: 30,
+  iconWidget: Icon(
+    Icons.location_on,
+    color: Color(0xFFFF0000),
+    size: 100,
+  ),
+);
+MarkerIcon kMapDefaultMarkerBlue = const MarkerIcon(
+  iconWidget: Icon(
+    Icons.location_on,
+    color: Color(0xFF38B6FF),
+    size: 100,
   ),
 );
 
 MarkerIcon kMapDriverMarker = const MarkerIcon(
-  icon: Icon(
+  iconWidget: Icon(
     Icons.local_shipping,
-    color: Colors.red,
-    size: 30,
+    color: Color(0xFFFF0000),
+    size: 90,
   ),
 );
 
