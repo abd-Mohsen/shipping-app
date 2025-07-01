@@ -252,7 +252,7 @@ class SharedHomeController extends GetxController {
           role: roleText,
           governorateID: selectedGovernorate!.id,
           page: 1, //todo:pagination
-          searchQuery: searchQueryMyOrders.text.trim(),
+          searchQuery: searchQueryExploreOrders.text.trim(),
           minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
           maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
           vehicleType: filterController.selectedVehicleType?.id,

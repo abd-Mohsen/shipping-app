@@ -1776,8 +1776,12 @@ class OrderView extends StatelessWidget {
                                               hintText: "comment (optional)".tr,
                                               hintStyle:
                                                   tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
-                                              label: Text("comment".tr),
+                                              label: Text(
+                                                "comment".tr,
+                                                style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                              ),
                                             ),
+                                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                             onChanged: (String? s) {
                                               //
                                             },

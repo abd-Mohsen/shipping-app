@@ -22,7 +22,13 @@ class RefreshSocketController extends GetxController {
 
   final Duration _initialReconnectDelay = const Duration(seconds: 5);
 
+  int get governorateID => sHC.selectedGovernorate?.id ?? 0;
+
   bool _isConnecting = false;
+
+  void sendLocationID() {
+    //todo how to trigger it? i cant access to here from sharedHomeController
+  }
 
   void _connectSocket() async {
     if (_isConnecting) return;
@@ -33,7 +39,8 @@ class RefreshSocketController extends GetxController {
     try {
       await _cleanUpWebSocket();
 
-      String socketUrl = 'wss://shipping.adadevs.com/ws/changes/?token=${_getStorage.read("token")}';
+      String socketUrl = 'wss://shipping.adadevs.com/ws/changes/?token=${_getStorage.read("token")}&';
+      //'${governorateID == 0 ? "" : "location_id=$governorateID"}';
 
       websocket = await WebSocket.connect(socketUrl).timeout(const Duration(seconds: 20));
 

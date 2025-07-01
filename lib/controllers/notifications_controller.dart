@@ -72,7 +72,7 @@ class NotificationsController extends GetxController {
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('Notification opened: ${message.notification?.title}');
-      Get.offAll(() => const RedirectPage(toNotifications: true));
+      //Get.offAll(() => const RedirectPage(toNotifications: true)); //todo
     });
   }
 
