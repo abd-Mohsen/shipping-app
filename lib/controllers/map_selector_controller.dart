@@ -158,4 +158,10 @@ class MapSelectorController extends GetxController {
     searchEnabled = false;
     update();
   }
+
+  @override
+  void onClose() {
+    mapController.dispose();
+    super.onClose();
+  }
 }

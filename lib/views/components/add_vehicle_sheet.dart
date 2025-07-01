@@ -75,6 +75,7 @@ class AddVehicleSheet extends StatelessWidget {
                               items: controller.vehicleTypes,
                               floatingLabelBehavior: FloatingLabelBehavior.auto,
                               onChanged: (VehicleTypeModel? type) async {
+                                FocusScope.of(context).requestFocus(FocusNode());
                                 controller.selectVehicleType(type);
                                 await Future.delayed(const Duration(milliseconds: 1000));
                                 if (controller.buttonPressed) controller.formKey.currentState!.validate();

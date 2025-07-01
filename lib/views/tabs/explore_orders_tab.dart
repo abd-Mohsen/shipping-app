@@ -7,8 +7,10 @@ import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/filter_sheet.dart';
 import 'package:shipment/views/components/governorate_selector.dart';
 import '../../controllers/filter_controller.dart';
+import '../../controllers/notifications_controller.dart';
 import '../components/filter_button.dart';
 import '../components/my_search_field.dart';
+import '../components/notification_button.dart';
 import '../components/order_card.dart';
 
 class ExploreOrdersTab extends StatelessWidget {
@@ -36,15 +38,22 @@ class ExploreOrdersTab extends StatelessWidget {
                 statusBarColor: cs.surface, // Match your AppBar
               ),
               centerTitle: true,
-              leading: IconButton(
-                onPressed: () {
-                  controller.homeNavigationController.changeTab(1);
-                },
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: cs.onSurface,
+              // leading: IconButton(
+              //   onPressed: () {
+              //     controller.homeNavigationController.changeTab(1);
+              //   },
+              //   icon: Icon(
+              //     Icons.arrow_back,
+              //     color: cs.onSurface,
+              //   ),
+              // ),
+              actions: [
+                GetBuilder<NotificationsController>(
+                  builder: (innerController) {
+                    return NotificationButton(showBadge: innerController.unreadCount > 0);
+                  },
                 ),
-              ),
+              ],
               title: Text(
                 "new order".tr,
                 style: tt.titleMedium!.copyWith(

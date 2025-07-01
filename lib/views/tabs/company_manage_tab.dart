@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/tabs/company_employees_tab.dart';
 import 'package:shipment/views/tabs/company_vehicles_tab.dart';
+
+import '../../controllers/notifications_controller.dart';
+import '../components/notification_button.dart';
 
 class CompanyManageTab extends StatelessWidget {
   const CompanyManageTab({super.key});
@@ -10,7 +14,7 @@ class CompanyManageTab extends StatelessWidget {
   //todo: when refreshing, some times employees load before vehicles
   @override
   Widget build(BuildContext context) {
-    CompanyHomeController hC = Get.find();
+    CurrentUserController cUC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
@@ -23,6 +27,22 @@ class CompanyManageTab extends StatelessWidget {
             iconTheme: IconThemeData(
               color: cs.onSecondaryContainer,
             ),
+            leading: IconButton(
+              onPressed: () {
+                cUC.scaffoldKey.currentState!.openDrawer();
+              },
+              icon: Icon(
+                Icons.menu,
+                color: cs.onSecondaryContainer,
+              ),
+            ),
+            actions: [
+              GetBuilder<NotificationsController>(
+                builder: (innerController) {
+                  return NotificationButton(showBadge: innerController.unreadCount > 0);
+                },
+              ),
+            ],
             title: GetBuilder<CompanyHomeController>(
               builder: (controller) {
                 return Text(

@@ -57,7 +57,7 @@ class VehicleCard extends StatelessWidget {
             backgroundColor: cs.secondaryContainer,
             collapsedBackgroundColor: cs.secondaryContainer,
             leading: Icon(
-              Icons.directions_car_filled,
+              Icons.local_shipping,
               color: vehicle.registrationStatus.toLowerCase() == "verified" ? Colors.green : cs.primary,
               size: 35,
             ),

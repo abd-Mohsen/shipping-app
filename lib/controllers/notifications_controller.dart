@@ -10,7 +10,9 @@ import '../services/remote_services.dart';
 import '../views/redirect_page.dart';
 
 //todo: i once got: home controller was called after being disposed, how was it disposed?
-// its 90% a memory problem
+// its 90% a memory problem,
+// todo a grey screen appeared once when auto refresh order on driver, try to recreate it
+// it happened after an order begun (maybe)
 
 class NotificationsController extends GetxController {
   @override

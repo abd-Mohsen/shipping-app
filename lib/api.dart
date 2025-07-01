@@ -280,7 +280,7 @@ class Api {
     String content = "";
     if (response.containsKey("error")) {
       title = "error";
-      content = response["error"];
+      response["error"] is List ? content = response["error"].first : content = response["error"];
     } else if (response.containsKey("message")) {
       title = "error";
       content = response["message"];

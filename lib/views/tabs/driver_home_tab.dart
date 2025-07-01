@@ -6,6 +6,7 @@ import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
+import 'package:shipment/views/components/notification_button.dart';
 import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import '../../controllers/notifications_controller.dart';
@@ -14,7 +15,6 @@ import 'package:badges/badges.dart' as badges;
 
 import '../components/selection_circle.dart';
 import '../components/titled_scrolling_card.dart';
-import '../notifications_view.dart';
 
 class DriverHomeTab extends StatelessWidget {
   const DriverHomeTab({super.key});
@@ -116,35 +116,7 @@ class DriverHomeTab extends StatelessWidget {
                           ),
                           GetBuilder<NotificationsController>(
                             builder: (innerController) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-                                child: badges.Badge(
-                                  showBadge: innerController.unreadCount > 0,
-                                  position: badges.BadgePosition.topStart(
-                                    top: -2, // Negative value moves it up
-                                    start: -4, // Negative value moves it left
-                                  ),
-                                  badgeStyle: badges.BadgeStyle(
-                                    shape: badges.BadgeShape.circle,
-                                    badgeColor: kNotificationColor,
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Get.to(() => const NotificationsView());
-                                    },
-                                    child: GetBuilder<NotificationsController>(
-                                      builder: (controller) {
-                                        return Icon(
-                                          Icons.notifications,
-                                          color: cs.onPrimary,
-                                          //size: 30,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              );
+                              return NotificationButton(showBadge: innerController.unreadCount > 0);
                             },
                           ),
                         ],

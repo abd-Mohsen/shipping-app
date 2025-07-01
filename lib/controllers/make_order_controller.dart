@@ -428,6 +428,7 @@ class MakeOrderController extends GetxController {
         backgroundColor: Colors.green,
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       );
+      resetForm();
       cUC.getCurrentUser();
     }
     toggleLoading(false);
