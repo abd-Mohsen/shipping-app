@@ -20,13 +20,13 @@ class MyBottomBar extends StatelessWidget {
         ? [Icons.home, Icons.list]
         : role == "company"
             ? [Icons.home, Icons.list, Icons.manage_accounts, Icons.search]
-            : [Icons.home, Icons.list, Icons.search];
+            : [Icons.home, Icons.list, Icons.search, Icons.directions_car];
 
     List<String> titlesList = role == "customer"
         ? ["home".tr, "orders".tr]
         : role == "company"
             ? ["home".tr, "orders".tr, "manage".tr, "explore".tr]
-            : ["home".tr, "orders".tr, "explore".tr];
+            : ["home".tr, "orders".tr, "explore".tr, "new"];
 
     return AnimatedBottomNavigationBar.builder(
       backgroundColor: cs.secondaryContainer,

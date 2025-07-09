@@ -139,7 +139,7 @@ class MyVehiclesController extends GetxController {
 
   final GetStorage _getStorage = GetStorage();
 
-  void submit(bool edit) async {
+  void submit(int? vehicleID) async {
     if (isLoading || isLoadingVehicle || isLoadingSubmit || isLoadingImage) return;
     buttonPressed = true;
     bool valid = formKey.currentState!.validate();
@@ -152,8 +152,9 @@ class MyVehiclesController extends GetxController {
       return;
     }
     toggleLoadingSubmit(true);
-    bool success = edit
+    bool success = vehicleID != null
         ? await RemoteServices.editVehicle(
+            vehicleID,
             vehicleOwner.text,
             selectedVehicleType!.id,
             licensePlate.text,

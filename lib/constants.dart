@@ -233,6 +233,29 @@ MarkerIcon kMapDriverMarker = const MarkerIcon(
   ),
 );
 
+MarkerIcon kMapSmallMarker = const MarkerIcon(
+  iconWidget: Icon(
+    Icons.location_on,
+    color: Color(0xFFFF0000),
+    size: 45,
+  ),
+);
+MarkerIcon kMapSmallMarkerBlue = const MarkerIcon(
+  iconWidget: Icon(
+    Icons.location_on,
+    color: Color(0xFF38B6FF),
+    size: 45,
+  ),
+);
+
+MarkerIcon kMapDriverSmallMarker = const MarkerIcon(
+  iconWidget: Icon(
+    Icons.local_shipping,
+    color: Color(0xFFFF0000),
+    size: 40,
+  ),
+);
+
 const Color kNotificationColor = Color(0xff00ff00);
 const Color kNotificationUnreadDarkColor = Color(0xff343436);
 const Color kNotificationUnreadLightColor = Color(0xfff5f5f5);

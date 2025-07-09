@@ -131,7 +131,8 @@ class AddVehicleSheet extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: CustomButton(
                     onTap: () {
-                      controller.submit(vehicle != null);
+                      print(vehicle);
+                      controller.submit(vehicle!.id);
                     },
                     child: Center(
                       child: controller.isLoadingSubmit

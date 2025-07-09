@@ -239,6 +239,7 @@ class RemoteServices {
   }
 
   static Future<bool> editVehicle(
+    int vehicleID,
     String ownerName,
     int vehicleTypeID,
     String vehicleRegistrationNumber,
@@ -253,8 +254,8 @@ class RemoteServices {
     Map<String, File?> images = {
       "vehicle_registration_photo": vehicleRegistrationPhoto,
     };
-    String? json =
-        await api.requestWithFiles("$role/vehicles/", methodType: "PUT", images, body, auth: true, utf8Decode: false);
+    String? json = await api.requestWithFiles(
+        "$role/vehicles/$vehicleID/", methodType: "PUT", images, body, auth: true, utf8Decode: false);
     return json != null;
   }
 

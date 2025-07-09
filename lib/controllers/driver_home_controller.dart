@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:shipment/constants.dart';
 import '../models/order_model_2.dart';
 
@@ -12,6 +14,7 @@ class DriverHomeController extends GetxController {
   @override
   onInit() async {
     getRecentOrders();
+    getUserLocation();
     super.onInit();
   }
 
@@ -63,11 +66,38 @@ class DriverHomeController extends GetxController {
     await getRecentOrders(showLoading: showLoading);
     //_connectTrackingSocket(); // Call this directly instead of getRecentOrders()
   }
-  //
+  //----------------------------------- map -----------------------------------------------
+
+  // km = 423
+  final double km = Distance().as(
+    LengthUnit.Kilometer,
+    LatLng(52.518611, 13.408056),
+    LatLng(51.519475, 7.46694444),
+  );
+
+  MapController mapController = MapController();
+
+  List<Marker> currMarkers = [];
+  List<LatLng> road = [];
+
+  Marker? driverMarker;
+
+  void onMapReady() {
+    //  if(currentOrder){}
+    //  GeoPoint currLocation = LatLng(o, longitude);
+    //  GeoPoint destinationLocation = GeoPoint(latitude: 33.5221612, longitude: 36.2768708);
+    // // mapController.move(center, 7);
+    //  currMarkers.add(Marker(point: point, child: child))
+    //  mapController.addMarker(currLocation, markerIcon: kMapDefaultMarker);
+    //  mapController.drawRoad(
+    //    currLocation,
+    //    destinationLocation,
+    //    roadOption: RoadOption(roadColor: Colors.red, roadWidth: 20),
+    //  );
+  }
 
   //-----------------------------------Real Time-------------------------------------------
 
-  //
   Position? currLocation;
   StreamSubscription? subscription;
   //
@@ -90,6 +120,30 @@ class DriverHomeController extends GetxController {
     if (trackingID == 0) return;
     await _cleanUpWebSocket(); // Clean everything up first
     connectTrackingSocket(); // Then connect again
+  }
+
+  void getUserLocation() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      setTrackingStatus("turn location on");
+      return;
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        setTrackingStatus("location permission is denied");
+        return;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      setTrackingStatus("Location permission is permanently denied");
+      return;
+    }
+    Position p = await Geolocator.getCurrentPosition();
+
+    updateDriverMarker(p.latitude, p.longitude);
   }
 
   void _startSendingLocation() async {
@@ -135,6 +189,7 @@ class DriverHomeController extends GetxController {
           'latitude': position.latitude,
           'longitude': position.longitude,
         };
+        updateDriverMarker(position.latitude, position.longitude);
         print(pos);
         if (_isWebSocketConnected()) {
           websocket!.add(jsonEncode(pos));
@@ -142,6 +197,17 @@ class DriverHomeController extends GetxController {
       },
       cancelOnError: false,
     );
+  }
+
+  void updateDriverMarker(double lat, double long) {
+    mapController.move(LatLng(lat - 0.0002, long), 18.5);
+    if (driverMarker != null) currMarkers.remove(driverMarker);
+    driverMarker = Marker(
+      point: LatLng(lat, long),
+      child: kMapDriverSmallMarker,
+    );
+    currMarkers.add(driverMarker!);
+    update();
   }
 
   // void _startPeriodicLocationUpdates() async {

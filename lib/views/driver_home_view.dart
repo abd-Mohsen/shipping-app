@@ -5,6 +5,7 @@ import 'package:shipment/views/edit_profile_view.dart';
 import 'package:shipment/views/tabs/explore_orders_tab.dart';
 import 'package:shipment/views/tabs/driver_home_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
+import 'package:shipment/views/tabs/new_driver_tab.dart';
 import '../constants.dart';
 import '../controllers/current_user_controller.dart';
 import '../controllers/shared_home_controller.dart';
@@ -33,6 +34,7 @@ class DriverHomeView extends StatelessWidget {
       const DriverHomeTab(),
       const MyOrdersTab(),
       const ExploreOrdersTab(),
+      const NewDriverTab(),
     ];
 
     return PopScope(
@@ -159,11 +161,14 @@ class DriverHomeView extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [Colors.transparent, Colors.white],
                       //set stops as par your requirement
-                      stops: [0.92, 1], // 50% transparent, 50% white
+                      stops: [0.95, 1], // 50% transparent, 50% white
                     ).createShader(rect);
                   },
                   blendMode: BlendMode.dstOut,
-                  child: tabs[controller.tabIndex],
+                  child: IndexedStack(
+                    index: controller.tabIndex,
+                    children: tabs,
+                  ),
                 ),
                 // arrow to indicate that there is a drawer
                 Positioned(

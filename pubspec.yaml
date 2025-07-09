@@ -55,6 +55,8 @@ dependencies:
   animated_bottom_navigation_bar: ^1.4.0
 #  video_player: ^2.9.0
   flutter_rating_bar: ^4.0.1
+  flutter_map: ^8.1.1
+  latlong2: ^0.9.1
 
 
 dev_dependencies:
