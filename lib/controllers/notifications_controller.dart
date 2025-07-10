@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/notification_model.dart';
 import 'package:shipment/views/notifications_view.dart';
 import 'package:shipment/views/order_view.dart';
@@ -68,6 +69,10 @@ class NotificationsController extends GetxController {
         title: message.notification?.title,
         body: message.notification?.body,
       );
+      if (Get.routing.current == "/OrderView") {
+        OrderController oC = Get.find();
+        oC.refreshOrder();
+      }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {

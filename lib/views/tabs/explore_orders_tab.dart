@@ -165,7 +165,7 @@ class ExploreOrdersTab extends StatelessWidget {
           ),
           //
           Expanded(
-            child: controller.isLoadingExplore
+            child: controller.isLoadingExplore && controller.pageExplore == 1
                 ? SpinKitSquareCircle(color: cs.primary)
                 : RefreshIndicator(
                     onRefresh: controller.refreshExploreOrders,
@@ -189,12 +189,26 @@ class ExploreOrdersTab extends StatelessWidget {
                             ),
                           )
                         : ListView.builder(
+                            controller: controller.exploreOrdersScrollController,
+                            physics: const AlwaysScrollableScrollPhysics(),
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                            itemCount: controller.exploreOrders.length,
-                            itemBuilder: (context, i) => OrderCard(
-                              order: controller.exploreOrders[i],
-                              isCustomer: false,
-                            ),
+                            itemCount: controller.exploreOrders.length + 1,
+                            itemBuilder: (context, i) => i < controller.exploreOrders.length
+                                ? OrderCard(
+                                    order: controller.exploreOrders[i],
+                                    isCustomer: false,
+                                  )
+                                : Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 24),
+                                      child: controller.hasMoreExplore
+                                          ? CircularProgressIndicator(color: cs.primary)
+                                          : CircleAvatar(
+                                              radius: 5,
+                                              backgroundColor: cs.onSurface.withValues(alpha: 0.7),
+                                            ),
+                                    ),
+                                  ),
                           ),
                   ),
           ),

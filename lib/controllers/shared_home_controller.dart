@@ -245,26 +245,37 @@ class SharedHomeController extends GetxController {
     toggleLoadingGovernorate(false);
   }
 
+  int pageExplore = 1, limitExplore = 10;
+  bool hasMoreExplore = true;
+
   Future getExploreOrders({bool showLoading = true}) async {
+    hasMoreExplore = true;
     if (isLoadingExplore || selectedGovernorate == null) return;
     if (showLoading) toggleLoadingExplore(true);
-    List<OrderModel2> newItems = await RemoteServices.fetchExploreOrders(
-          role: roleText,
-          governorateID: selectedGovernorate!.id,
-          page: 1, //todo:pagination
-          searchQuery: searchQueryExploreOrders.text.trim(),
-          minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
-          maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
-          vehicleType: filterController.selectedVehicleType?.id,
-          governorate: null,
-          currency: filterController.selectedCurrency?.id,
-        ) ??
-        [];
-    exploreOrders.addAll(newItems);
+    List<OrderModel2>? newItems = await RemoteServices.fetchExploreOrders(
+      role: roleText,
+      governorateID: selectedGovernorate!.id,
+      page: pageExplore,
+      searchQuery: searchQueryExploreOrders.text.trim(),
+      minPrice: filterController.minPrice == filterController.sliderMinPrice ? null : filterController.minPrice,
+      maxPrice: filterController.maxPrice == filterController.sliderMaxPrice ? null : filterController.maxPrice,
+      vehicleType: filterController.selectedVehicleType?.id,
+      governorate: null,
+      currency: filterController.selectedCurrency?.id,
+    );
+    if (newItems != null) {
+      if (newItems.length < limitExplore) hasMoreExplore = false;
+      exploreOrders.addAll(newItems);
+      pageExplore++;
+    } else {
+      hasMoreExplore = false;
+    }
     if (showLoading) toggleLoadingExplore(false);
   }
 
   Future<void> refreshExploreOrders({bool showLoading = true}) async {
+    pageExplore = 1;
+    hasMoreExplore = true;
     exploreOrders.clear();
     await getExploreOrders(showLoading: showLoading);
   }
