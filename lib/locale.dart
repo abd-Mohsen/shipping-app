@@ -349,6 +349,7 @@ class MyLocale extends Translations {
           "cancel the order?": "cancel the order?",
           "do you want to cancel the order?": "do you want to cancel the order?",
           "distance": "distance",
+          "order added successfully": "order added successfully",
         },
         "ar": {
           "Arabic": "العربية",
@@ -692,6 +693,7 @@ class MyLocale extends Translations {
           "cancel the order?": "إلغاء الطلبية؟",
           "do you want to cancel the order?": "هل تريد إلغاء الطلبية؟",
           "distance": "المسافة",
+          "order added successfully": "تم إضافة الطلب بنجاح",
         },
       };
 }

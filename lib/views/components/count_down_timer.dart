@@ -1,57 +1,60 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class CountdownTimer extends StatefulWidget {
-  final DateTime startTime;
+class CountDownTimer extends StatefulWidget {
+  final Duration duration;
+  final TextStyle textStyle;
 
-  CountdownTimer({required this.startTime});
+  const CountDownTimer({
+    super.key,
+    required this.duration,
+    required this.textStyle,
+  });
 
   @override
-  _CountdownTimerState createState() => _CountdownTimerState();
+  _CountDownTimerState createState() => _CountDownTimerState();
 }
 
-class _CountdownTimerState extends State<CountdownTimer> {
-  late Timer _timer;
-  String _timeLeft = "10:00";
+class _CountDownTimerState extends State<CountDownTimer> {
+  late Duration remaining;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    _startCountdown();
+    remaining = widget.duration;
+    _startTimer();
   }
 
-  void _startCountdown() {
+  void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      final now = DateTime.now();
-      final endTime = widget.startTime.add(Duration(minutes: 10));
-      final remaining = endTime.difference(now);
-
-      if (remaining.isNegative) {
-        setState(() {
-          _timeLeft = "00:00";
-        });
-        _timer.cancel();
-      } else {
-        final minutes = remaining.inMinutes.remainder(60).toString().padLeft(2, '0');
-        final seconds = remaining.inSeconds.remainder(60).toString().padLeft(2, '0');
-        setState(() {
-          _timeLeft = "$minutes:$seconds";
-        });
-      }
+      setState(() {
+        if (remaining > Duration.zero) {
+          remaining -= Duration(seconds: 1);
+        } else {
+          _timer?.cancel();
+        }
+      });
     });
+  }
+
+  String _formatDuration(Duration d) {
+    final minutes = d.inMinutes.remainder(60).toString().padLeft(2, '0');
+    final seconds = d.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return "$minutes:$seconds";
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      _timeLeft,
-      style: TextStyle(fontSize: 24),
+      _formatDuration(remaining),
+      style: widget.textStyle,
     );
   }
 }

@@ -33,9 +33,9 @@ class MakeOrderController extends GetxController {
     selectedDate = DateTime.now().add(Duration(hours: 24));
     selectedTime = TimeOfDay.now();
     await getMakeOrderInfo();
+    await PermissionService().requestPermission(Permission.location);
     if (order != null) await prePopulate();
     await loadDraft();
-    await PermissionService().requestPermission(Permission.location);
     super.onInit();
   }
 

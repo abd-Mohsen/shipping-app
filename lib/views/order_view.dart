@@ -159,7 +159,10 @@ class OrderView extends StatelessWidget {
                         //     oC.order!.status == "waiting_approval" &&
                         //     !oC.order!.isCancelledByMe &&
                         //     oC.order!.isAppliedByMe)
-                        //   CountdownTimer(startTime: oC.order!.driversApplications.last.appliedAt)
+                        //   CountDownTimer(
+                        //     duration: DateTime.now().difference(oC.order!.driversApplications.last.appliedAt),
+                        //     textStyle: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                        //   ),
                       ],
                     ),
             ),
