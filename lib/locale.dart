@@ -344,6 +344,10 @@ class MyLocale extends Translations {
           "duration": "duration",
           "select an address": "select an address",
           "rating": "rating",
+          "if you cancel you will get penalty after": "if you cancel you will get penalty after",
+          "times of cancel": "times of cancel",
+          "cancel the order?": "cancel the order?",
+          "do you want to cancel the order?": "do you want to cancel the order?",
         },
         "ar": {
           "Arabic": "العربية",
@@ -682,6 +686,10 @@ class MyLocale extends Translations {
           "duration": "المدة",
           "select an address": "اختر عنواناً",
           "rating": "التقيم",
+          "if you cancel you will get penalty after": "اذا قمت بالإلغاء سوف يتم الخصم منك بعد",
+          "times of cancel": "مرة من الإلغاء",
+          "cancel the order?": "إلغاء الطلبية؟",
+          "do you want to cancel the order?": "هل تريد إلغاء الطلبية؟",
         },
       };
 }

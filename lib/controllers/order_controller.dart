@@ -31,6 +31,7 @@ class OrderController extends GetxController {
     isEmployee = role == "company_employee";
     if (role == "company" || isEmployee) getAvailableVehiclesAndEmployees();
     await getOrder();
+    await getRemainingCancels();
     if (order != null && !order!.isRatedByMe) setShowRatingBox(true);
     super.onInit();
   }
@@ -215,6 +216,7 @@ class OrderController extends GetxController {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
       showSuccessSnackbar();
+      getRemainingCancels();
     }
     toggleLoadingRefuse(false);
   }
@@ -496,6 +498,11 @@ class OrderController extends GetxController {
       // Handle the error
       print("WhatsApp not installed or cannot launch URL");
     }
+  }
+
+  int remainingCancels = -1;
+  Future getRemainingCancels() async {
+    remainingCancels = await RemoteServices.getRemainingCancels() ?? -1;
   }
 
   @override

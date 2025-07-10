@@ -12,6 +12,7 @@ import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/application_card2.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/views/components/application_card.dart';
+import 'package:shipment/views/components/count_down_timer.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/employee_selector.dart';
 import 'package:shipment/views/components/order_page_map.dart';
@@ -134,7 +135,7 @@ class OrderView extends StatelessWidget {
           title: 'how do you want to call this person?'.tr,
         );
 
-    mainButton({required alertDialog, required bool isLoading, required String buttonText}) => Padding(
+    mainButton({required alertDialog, required bool isLoading, required String buttonText, Color? color}) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
           child: CustomButton(
             onTap: () {
@@ -143,12 +144,23 @@ class OrderView extends StatelessWidget {
                 builder: (context) => alertDialog,
               );
             },
+            color: color,
             child: Center(
               child: isLoading
                   ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                  : Text(
-                      buttonText,
-                      style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          buttonText,
+                          style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                        ),
+                        // if (!isCustomer &&
+                        //     oC.order!.status == "waiting_approval" &&
+                        //     !oC.order!.isCancelledByMe &&
+                        //     oC.order!.isAppliedByMe)
+                        //   CountdownTimer(startTime: oC.order!.driversApplications.last.appliedAt)
+                      ],
                     ),
             ),
           ),
@@ -616,12 +628,38 @@ class OrderView extends StatelessWidget {
                                   ),
                                 ),
 
-                              /// cancel order button
+                              /// cancel order button (wait 10 minutes to cancel if not approved yet)
                               ///
                               if (!isCustomer &&
                                   oC.order!.status == "waiting_approval" &&
                                   !oC.order!.isCancelledByMe &&
                                   oC.order!.isAppliedByMe)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                                  child: mainButton(
+                                    alertDialog: alertDialog(
+                                      onPressed: () {
+                                        Get.back();
+                                        controller.cancelOrder();
+                                      },
+                                      content: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: Text(
+                                          "do you want to cancel the order?".tr,
+                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                        ),
+                                      ),
+                                      title: "cancel the order?".tr,
+                                    ),
+                                    isLoading: controller.isLoadingSubmit,
+                                    buttonText: "cancel".tr.toUpperCase(),
+                                  ),
+                                ),
+
+                              /// cancel with penalty
+                              ///
+                              if ((isCustomer && oC.order!.status == "waiting_approval") ||
+                                  (!isCustomer && oC.order!.status == "approved"))
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   child: mainButton(
@@ -634,7 +672,9 @@ class OrderView extends StatelessWidget {
                                       content: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                         child: Text(
-                                          "do you want to cancel the order?".tr,
+                                          "${"if you cancel you will get penalty after".tr}  ${3 - controller.remainingCancels} "
+                                                  " ${"times of cancel".tr}"
+                                              .tr,
                                           style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                         ),
                                       ),

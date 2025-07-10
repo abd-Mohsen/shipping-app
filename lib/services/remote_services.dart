@@ -358,6 +358,15 @@ class RemoteServices {
     return json != null;
   }
 
+  static Future<bool> rejectOrder(int orderID, int applicationID) async {
+    String? json = await api.postRequest(
+      "customer_order/$orderID/reject/",
+      {"application_id": applicationID},
+      auth: true,
+    );
+    return json != null;
+  }
+
   static Future<bool> driverConfirmOrder(
     int orderID,
     int paymentID,
@@ -722,5 +731,10 @@ class RemoteServices {
       auth: true,
     );
     return json != null;
+  }
+
+  static Future<int?> getRemainingCancels() async {
+    String? json = await api.getRequest("user-cancel-count/", auth: true);
+    return json == null ? null : jsonDecode(json)["cancel_count"];
   }
 }
