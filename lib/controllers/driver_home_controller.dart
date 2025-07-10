@@ -82,7 +82,10 @@ class DriverHomeController extends GetxController {
 
   Marker? driverMarker;
 
+  bool mapIsReady = false;
+
   void onMapReady() {
+    mapIsReady = true;
     //  if(currentOrder){}
     //  GeoPoint currLocation = LatLng(o, longitude);
     //  GeoPoint destinationLocation = GeoPoint(latitude: 33.5221612, longitude: 36.2768708);
@@ -94,6 +97,14 @@ class DriverHomeController extends GetxController {
     //    destinationLocation,
     //    roadOption: RoadOption(roadColor: Colors.red, roadWidth: 20),
     //  );
+  }
+
+  Future drawOnMap(LatLng start, LatLng end) async {
+    currMarkers.add(Marker(point: start, child: kMapSmallMarker));
+    currMarkers.add(Marker(point: end, child: kMapSmallMarkerBlue));
+
+    //await mapController.drawRoad(start, end);
+    update();
   }
 
   //-----------------------------------Real Time-------------------------------------------

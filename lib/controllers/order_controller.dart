@@ -70,7 +70,7 @@ class OrderController extends GetxController {
     ),
   );
 
-  double pathDistance = 0.0;
+  double? pathDistance;
 
   Future getDistance() async {
     double? distance = await RemoteServices.distanceBetween2Points(
@@ -79,11 +79,11 @@ class OrderController extends GetxController {
       endLat: order!.endPoint.latitude,
       endLng: order!.endPoint.longitude,
     );
-    if (distance != null) pathDistance = distance;
+    pathDistance = distance;
   }
 
   void initMap() async {
-    if (pathDistance == 0.0) getDistance();
+    if (pathDistance == null) getDistance();
     GeoPoint start = GeoPoint(
       latitude: order!.startPoint.latitude,
       longitude: order!.startPoint.longitude,

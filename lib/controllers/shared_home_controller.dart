@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
@@ -193,6 +194,10 @@ class SharedHomeController extends GetxController {
     if (["driver", "company_employee"].contains(role)) {
       print(role);
       if (currOrders.isNotEmpty) {
+        dHC.drawOnMap(
+          LatLng(currOrders.first.startPoint.latitude, currOrders.first.startPoint.longitude),
+          LatLng(currOrders.first.endPoint.latitude, currOrders.first.endPoint.longitude),
+        );
         dHC.setTrackingID(currOrders.first.id);
         print("tracking order with ID ${currOrders.first.id.toString()}");
       }

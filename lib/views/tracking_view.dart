@@ -156,7 +156,7 @@ class TrackingView extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      '${(controller.pathDistance / 1000).toStringAsFixed(2)} KM',
+                                      '${((controller.pathDistance ?? 0.0) / 1000).toStringAsFixed(2)} KM',
                                       style: tt.labelSmall!.copyWith(color: cs.onSurface),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,

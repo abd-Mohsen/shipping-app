@@ -136,7 +136,7 @@ class OrderView extends StatelessWidget {
         );
 
     mainButton({required alertDialog, required bool isLoading, required String buttonText, Color? color}) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           child: CustomButton(
             onTap: () {
               showDialog(
