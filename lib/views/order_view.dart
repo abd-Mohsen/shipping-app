@@ -906,6 +906,12 @@ class OrderView extends StatelessWidget {
                                                       ),
                                                     ],
                                                   ),
+                                                  SheetDetailsTile(
+                                                    title: "rating".tr,
+                                                    subtitle: controller
+                                                        .order!.driversApplications[i].driver.overallRating
+                                                        .toStringAsPrecision(2),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -1197,6 +1203,26 @@ class OrderView extends StatelessWidget {
                                       )),
                                 ),
                               ),
+
+                              /// required vehicle type
+                              ///
+                              if (!isCustomer && ["available", "waiting_approval"].contains(oC.order!.status))
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0, bottom: 4, right: 4, left: 4),
+                                  child: TitledCard(
+                                    title: "required vehicle type".tr,
+                                    content: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                      child: Text(
+                                        controller.order!.typeVehicle.type,
+                                        style: tt.labelSmall!.copyWith(
+                                          color: cs.onSecondaryContainer,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
 
                               ///details
                               ///

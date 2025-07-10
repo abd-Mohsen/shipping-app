@@ -348,6 +348,7 @@ class OrderController extends GetxController {
       //if (Get.routing.current == "/OrderView") Get.back();
       setShowRatingBox(false);
       refreshOrder();
+      if (Get.routing.current == "/OrderView") Get.back();
       showSuccessSnackbar();
     }
     toggleLoadingSubmit(false);

@@ -343,6 +343,7 @@ class MyLocale extends Translations {
           "current order": "current order",
           "duration": "duration",
           "select an address": "select an address",
+          "rating": "rating",
         },
         "ar": {
           "Arabic": "العربية",
@@ -680,6 +681,7 @@ class MyLocale extends Translations {
           "current order": "الطلبية الحالية",
           "duration": "المدة",
           "select an address": "اختر عنواناً",
+          "rating": "التقيم",
         },
       };
 }
