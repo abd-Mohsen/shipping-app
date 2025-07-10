@@ -341,7 +341,8 @@ class MyLocale extends Translations {
           "submission time": "submission time",
           "name": "name",
           "current order": "current order",
-          "duration": "duration"
+          "duration": "duration",
+          "select an address": "select an address",
         },
         "ar": {
           "Arabic": "العربية",
@@ -677,7 +678,8 @@ class MyLocale extends Translations {
           "submission time": "وقت التقديم",
           "name": "الاسم",
           "current order": "الطلبية الحالية",
-          "duration": "المدة"
+          "duration": "المدة",
+          "select an address": "اختر عنواناً",
         },
       };
 }

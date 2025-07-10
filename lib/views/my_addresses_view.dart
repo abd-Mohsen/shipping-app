@@ -8,6 +8,7 @@ import 'package:shipment/controllers/make_order_controller.dart';
 import 'package:shipment/controllers/my_addresses_controller.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/components/address_card.dart';
+import 'package:shipment/views/components/my_loading_animation.dart';
 
 import 'components/map_sheet.dart';
 
@@ -54,35 +55,37 @@ class MyAddressesView extends StatelessWidget {
                   ? SpinKitSquareCircle(color: cs.primary)
                   : RefreshIndicator(
                       onRefresh: controller.refreshMyAddress,
-                      child: ListView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                        itemCount: controller.myAddresses.length,
-                        itemBuilder: (context, i) => AddressCard(
-                          myAddress: controller.myAddresses[i],
-                          selectMode: selectionMode,
-                          onDelete: () {
-                            controller.deleteAddress(controller.myAddresses[i].id);
-                          },
-                          onSelect: () {
-                            if (!selectionMode) return;
-                            if (makeOrderController != null) {
-                              if (isStart!) {
-                                makeOrderController!.selectStartAddress(controller.myAddresses[i].address);
-                              } else {
-                                makeOrderController!.selectEndAddress(controller.myAddresses[i].address);
-                              }
-                            }
-                            // else if (editOrderController != null) {
-                            //   if (isStart!) {
-                            //     editOrderController!.selectStartAddress(controller.myAddresses[i]);
-                            //   } else {
-                            //     editOrderController!.selectEndAddress(controller.myAddresses[i]);
-                            //   }
-                            // }
-                          },
-                          isLast: controller.myAddresses.length - 1 == i,
-                        ),
-                      ),
+                      child: controller.myAddresses.isEmpty
+                          ? MyLoadingAnimation()
+                          : ListView.builder(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                              itemCount: controller.myAddresses.length,
+                              itemBuilder: (context, i) => AddressCard(
+                                myAddress: controller.myAddresses[i],
+                                selectMode: selectionMode,
+                                onDelete: () {
+                                  controller.deleteAddress(controller.myAddresses[i].id);
+                                },
+                                onSelect: () {
+                                  if (!selectionMode) return;
+                                  if (makeOrderController != null) {
+                                    if (isStart!) {
+                                      makeOrderController!.selectStartAddress(controller.myAddresses[i].address);
+                                    } else {
+                                      makeOrderController!.selectEndAddress(controller.myAddresses[i].address);
+                                    }
+                                  }
+                                  // else if (editOrderController != null) {
+                                  //   if (isStart!) {
+                                  //     editOrderController!.selectStartAddress(controller.myAddresses[i]);
+                                  //   } else {
+                                  //     editOrderController!.selectEndAddress(controller.myAddresses[i]);
+                                  //   }
+                                  // }
+                                },
+                                isLast: controller.myAddresses.length - 1 == i,
+                              ),
+                            ),
                     );
             },
           ),
@@ -148,4 +151,3 @@ class MyAddressesView extends StatelessWidget {
     );
   }
 }
-//todo: this page needs locale and loader

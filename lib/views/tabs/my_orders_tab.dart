@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/filter_button.dart';
+import 'package:shipment/views/components/my_loading_animation.dart';
 import '../../controllers/notifications_controller.dart';
 import '../components/filter_sheet.dart';
 import '../components/my_search_field.dart';
@@ -218,29 +219,7 @@ class MyOrdersTab extends StatelessWidget {
                         : RefreshIndicator(
                             onRefresh: controller.refreshOrders,
                             child: controller.myOrders.isEmpty
-                                ? Center(
-                                    child: ListView(
-                                      shrinkWrap: true,
-                                      //mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Lottie.asset("assets/animations/simple truck.json", height: 200),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4),
-                                          child: Center(
-                                            child: Text(
-                                              "no data, pull down to refresh".tr,
-                                              style: tt.titleMedium!.copyWith(
-                                                color: cs.onSurface,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 72),
-                                      ],
-                                    ),
-                                  )
+                                ? MyLoadingAnimation()
                                 : ListView.builder(
                                     controller: controller.myOrdersScrollController,
                                     physics: const AlwaysScrollableScrollPhysics(),
