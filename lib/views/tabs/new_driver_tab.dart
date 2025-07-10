@@ -56,7 +56,7 @@ class NewDriverTab extends StatelessWidget {
                   TileLayer(
                     //urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                     urlTemplate: "https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-                    // urlTemplate: "https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=CPMtVdB0p80R8FxJ8jdU",
+                    // urlTemplate: "https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=",
                   ),
                   MarkerLayer(
                     markers: controller.currMarkers,
@@ -77,11 +77,11 @@ class NewDriverTab extends StatelessWidget {
                 top: 0,
                 left: 0,
                 right: 0,
-                child: GetBuilder<CurrentUserController>(builder: (controller) {
+                child: GetBuilder<CurrentUserController>(builder: (innerController) {
                   return UserProfileTile(
                     onTapProfile: () {},
-                    isLoadingUser: controller.isLoadingUser,
-                    user: controller.currentUser,
+                    isLoadingUser: innerController.isLoadingUser,
+                    user: innerController.currentUser,
                     isPrimaryColor: false,
                   );
                 }),
@@ -105,10 +105,10 @@ class NewDriverTab extends StatelessWidget {
                     ],
                   ),
                   child: GetBuilder<SharedHomeController>(
-                    builder: (controller) {
+                    builder: (innerController) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 12.0),
-                        child: controller.currOrders.isNotEmpty
+                        child: innerController.currOrders.isNotEmpty
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
@@ -126,7 +126,7 @@ class NewDriverTab extends StatelessWidget {
                                           ),
                                         ),
                                         Text(
-                                          "#${controller.currOrders.first.id}",
+                                          "#${innerController.currOrders.first.id}",
                                           style: tt.titleMedium!.copyWith(
                                             color: cs.onSurface.withValues(alpha: 0.5),
                                           ),
@@ -149,9 +149,10 @@ class NewDriverTab extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
+                                          //todo: pass begin time instead of creation time
                                           child: CountUpTimer(
                                             startDuration:
-                                                DateTime.now().difference(controller.currOrders.first.createdAt),
+                                                DateTime.now().difference(innerController.currOrders.first.createdAt),
                                             textStyle: tt.headlineLarge!
                                                 .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                           ),
@@ -179,10 +180,16 @@ class NewDriverTab extends StatelessWidget {
                                                     const SizedBox(width: 4),
                                                     GestureDetector(
                                                       onTap: () {
-                                                        //
+                                                        controller.drawPath(
+                                                          true,
+                                                          LatLng(
+                                                            innerController.currOrders.first.startPoint.latitude,
+                                                            innerController.currOrders.first.startPoint.longitude,
+                                                          ),
+                                                        );
                                                       },
                                                       child: Text(
-                                                        controller.currOrders.first.startPoint.governorate,
+                                                        innerController.currOrders.first.startPoint.governorate,
                                                         style: tt.titleSmall!.copyWith(
                                                           color: Colors.blue,
                                                           decoration: TextDecoration.underline,
@@ -207,10 +214,16 @@ class NewDriverTab extends StatelessWidget {
                                                     const SizedBox(width: 4),
                                                     GestureDetector(
                                                       onTap: () {
-                                                        //
+                                                        controller.drawPath(
+                                                          false,
+                                                          LatLng(
+                                                            innerController.currOrders.first.endPoint.latitude,
+                                                            innerController.currOrders.first.endPoint.longitude,
+                                                          ),
+                                                        );
                                                       },
                                                       child: Text(
-                                                        controller.currOrders.first.endPoint.governorate,
+                                                        innerController.currOrders.first.endPoint.governorate,
                                                         style: tt.titleSmall!.copyWith(
                                                           color: Colors.blue,
                                                           decoration: TextDecoration.underline,
@@ -227,7 +240,8 @@ class NewDriverTab extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                          child: OrderCard3(order: controller.recentOrders.first, isCustomer: false),
+                                          child:
+                                              OrderCard3(order: innerController.recentOrders.first, isCustomer: false),
                                         ),
                                         const SizedBox(height: 8),
                                       ],
@@ -264,17 +278,17 @@ class NewDriverTab extends StatelessWidget {
                                   // ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                    child: controller.isLoadingGovernorates
+                                    child: innerController.isLoadingGovernorates
                                         ? Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                                             child: SpinKitThreeBounce(color: cs.primary, size: 20),
                                           )
-                                        : controller.selectedGovernorate == null
+                                        : innerController.selectedGovernorate == null
                                             ? Padding(
                                                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                                                 child: ElevatedButton(
                                                   onPressed: () {
-                                                    controller.getGovernorates();
+                                                    innerController.getGovernorates();
                                                   },
                                                   style: ButtonStyle(
                                                     backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
@@ -340,10 +354,10 @@ class NewDriverTab extends StatelessWidget {
                                                   Padding(
                                                     padding: const EdgeInsets.symmetric(horizontal: 4),
                                                     child: GovernorateSelector(
-                                                      selectedItem: controller.selectedGovernorate,
-                                                      items: controller.governorates,
+                                                      selectedItem: innerController.selectedGovernorate,
+                                                      items: innerController.governorates,
                                                       onChanged: (g) {
-                                                        controller.setGovernorate(g);
+                                                        innerController.setGovernorate(g);
                                                       },
                                                     ),
                                                   ),
@@ -360,11 +374,11 @@ class NewDriverTab extends StatelessWidget {
                                               ),
                                   ),
                                   Expanded(
-                                    child: controller.isLoadingExplore
+                                    child: innerController.isLoadingExplore
                                         ? SpinKitSquareCircle(color: cs.primary)
                                         : RefreshIndicator(
-                                            onRefresh: controller.refreshExploreOrders,
-                                            child: controller.exploreOrders.isEmpty
+                                            onRefresh: innerController.refreshExploreOrders,
+                                            child: innerController.exploreOrders.isEmpty
                                                 ? Center(
                                                     child: ListView(
                                                       shrinkWrap: true,
@@ -385,9 +399,9 @@ class NewDriverTab extends StatelessWidget {
                                                   )
                                                 : ListView.builder(
                                                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                                    itemCount: controller.exploreOrders.length,
+                                                    itemCount: innerController.exploreOrders.length,
                                                     itemBuilder: (context, i) => OrderCard3(
-                                                      order: controller.exploreOrders[i],
+                                                      order: innerController.exploreOrders[i],
                                                       isCustomer: false,
                                                     ),
                                                   ),

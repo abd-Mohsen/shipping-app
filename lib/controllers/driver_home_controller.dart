@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shipment/constants.dart';
+import 'package:shipment/services/remote_services.dart';
 import '../models/order_model_2.dart';
 
 class DriverHomeController extends GetxController {
@@ -78,6 +79,8 @@ class DriverHomeController extends GetxController {
   MapController mapController = MapController();
 
   List<Marker> currMarkers = [];
+  List<LatLng> roadToSource = [];
+  List<LatLng> roadToDestination = [];
   List<LatLng> road = [];
 
   Marker? driverMarker;
@@ -104,6 +107,24 @@ class DriverHomeController extends GetxController {
     currMarkers.add(Marker(point: end, child: kMapSmallMarkerBlue));
 
     //await mapController.drawRoad(start, end);
+    update();
+  }
+
+  Future<void> drawPath(bool source, LatLng end) async {
+    if (driverMarker == null) return;
+    if ((source && roadToSource.isNotEmpty) || (!source && roadToDestination.isNotEmpty)) {
+      road = source ? roadToSource : roadToDestination;
+      update();
+      return;
+    }
+    List<LatLng> newRoad = await RemoteServices.getRoadPoints(
+            startLat: driverMarker!.point.latitude,
+            startLng: driverMarker!.point.longitude,
+            endLat: end.latitude,
+            endLng: end.longitude) ??
+        [];
+    source ? roadToSource.addAll(newRoad) : roadToDestination.addAll(newRoad);
+    road = source ? roadToSource : roadToDestination;
     update();
   }
 

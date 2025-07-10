@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/bank_details_model.dart';
@@ -739,7 +740,7 @@ class RemoteServices {
     return json == null ? null : jsonDecode(json)["cancel_count"];
   }
 
-  static Future<double?> distanceBetween2Points({
+  static Future<List<LatLng>?> getRoadPoints({
     required double startLat,
     required double startLng,
     required double endLat,
@@ -760,9 +761,45 @@ class RemoteServices {
         'Accept': 'application/geo+json',
       },
     );
+
     if (json == null) return null;
+
     final data = jsonDecode(json);
-    final distanceInMeters = data['features'][0]['properties']['summary']['distance'];
+    final List<dynamic> points = data['features'][0]['geometry']['coordinates'];
+    return points.map((p) => LatLng(p[1], p[0])).toList();
+  }
+
+  static Future<double?> distanceBetween2Points({
+    required double startLat,
+    required double startLng,
+    required double endLat,
+    required double endLng,
+  }) async {
+    final body = {
+      "coordinates": [
+        [startLng, startLat],
+        [endLng, endLat]
+      ],
+      "radiuses": [500, 500], // optional, meters: expand radius to catch nearby roads
+    };
+
+    String? json = await api.postRequest(
+      'https://api.openrouteservice.org/v2/directions/driving-car',
+      body,
+      toMyServer: false,
+      auth: false,
+      utf8Decode: true,
+      customHeaders: {
+        'Authorization': routeServiceApiKey ?? "",
+        'Content-Type': 'application/json',
+        'Accept': 'application/geo+json',
+      },
+    );
+
+    if (json == null) return null;
+
+    final data = jsonDecode(json);
+    final distanceInMeters = data['routes'][0]['summary']['distance'];
     return distanceInMeters;
   }
 }
