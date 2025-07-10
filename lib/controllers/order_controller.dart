@@ -321,12 +321,11 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  void deleteOrder(int id) async {
-    bool success = await RemoteServices.deleteCustomerOrder(id);
+  void deleteOrder() async {
+    bool success = await RemoteServices.deleteCustomerOrder(orderID);
     if (success) {
-      // todo: not showing even though response is 200
-      showSuccessSnackbar();
       Get.back();
+      showSuccessSnackbar();
     }
   }
 

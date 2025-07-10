@@ -57,6 +57,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   flutter_map: ^8.1.1
   latlong2: ^0.9.1
+  flutter_timer_countdown: ^1.0.7
 
 
 dev_dependencies:

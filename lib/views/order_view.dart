@@ -343,7 +343,7 @@ class OrderView extends StatelessWidget {
                     confirm: TextButton(
                       onPressed: () {
                         Get.back();
-                        controller.deleteOrder(oC.order!.id);
+                        controller.deleteOrder();
                       },
                       child: Text(
                         "yes".tr,
