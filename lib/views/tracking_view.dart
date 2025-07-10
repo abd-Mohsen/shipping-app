@@ -147,6 +147,24 @@ class TrackingView extends StatelessWidget {
                                 ),
                               ),
                               Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "distance".tr,
+                                      style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '${(controller.pathDistance / 1000).toStringAsFixed(2)} KM',
+                                      style: tt.labelSmall!.copyWith(color: cs.onSurface),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
                                 child: Center(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,

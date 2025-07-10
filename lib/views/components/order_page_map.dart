@@ -40,6 +40,10 @@ class _OrderPageMapState extends State<OrderPageMap> with AutomaticKeepAliveClie
           //initZoom: 17.65,
           initZoom: 6,
         ),
+        roadConfiguration: RoadOption(
+          roadColor: cs.primary,
+          roadWidth: 4,
+        ),
       ),
     );
   }

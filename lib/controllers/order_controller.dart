@@ -70,30 +70,35 @@ class OrderController extends GetxController {
     ),
   );
 
-  void initMap() async {
-    mapController.moveTo(
-      GeoPoint(
-        latitude: order!.startPoint.latitude,
-        longitude: order!.startPoint.longitude,
-      ),
-    );
-    mapController.addMarker(
-      GeoPoint(
-        latitude: order!.startPoint.latitude,
-        longitude: order!.startPoint.longitude,
-      ),
-      markerIcon: kMapDefaultMarker,
-    );
+  double pathDistance = 0.0;
 
-    await Future.delayed(Duration(milliseconds: 1000));
-    mapController.addMarker(
-      GeoPoint(
-        latitude: order!.endPoint.latitude,
-        longitude: order!.endPoint.longitude,
-      ),
-      markerIcon: kMapDefaultMarkerBlue,
+  Future getDistance() async {
+    double? distance = await RemoteServices.distanceBetween2Points(
+      startLat: order!.startPoint.latitude,
+      startLng: order!.startPoint.longitude,
+      endLat: order!.endPoint.latitude,
+      endLng: order!.endPoint.longitude,
     );
-    //todo(later): draw path
+    if (distance != null) pathDistance = distance;
+  }
+
+  void initMap() async {
+    if (pathDistance == 0.0) getDistance();
+    GeoPoint start = GeoPoint(
+      latitude: order!.startPoint.latitude,
+      longitude: order!.startPoint.longitude,
+    );
+    GeoPoint end = GeoPoint(
+      latitude: order!.endPoint.latitude,
+      longitude: order!.endPoint.longitude,
+    );
+    await mapController.moveTo(start);
+    await mapController.addMarker(start, markerIcon: kMapDefaultMarker);
+
+    await Future.delayed(Duration(milliseconds: 800));
+    await mapController.addMarker(end, markerIcon: kMapDefaultMarkerBlue);
+    await mapController.drawRoad(start, end);
+    //todo(later): draw stored path
     //todo(later): connect when button is pressed
     if (role == "customer" && ["processing"].contains(order!.status)) connectTrackingSocket();
     update();

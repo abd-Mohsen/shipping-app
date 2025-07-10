@@ -348,6 +348,7 @@ class MyLocale extends Translations {
           "times of cancel": "times of cancel",
           "cancel the order?": "cancel the order?",
           "do you want to cancel the order?": "do you want to cancel the order?",
+          "distance": "distance",
         },
         "ar": {
           "Arabic": "العربية",
@@ -690,6 +691,7 @@ class MyLocale extends Translations {
           "times of cancel": "مرة من الإلغاء",
           "cancel the order?": "إلغاء الطلبية؟",
           "do you want to cancel the order?": "هل تريد إلغاء الطلبية؟",
+          "distance": "المسافة",
         },
       };
 }

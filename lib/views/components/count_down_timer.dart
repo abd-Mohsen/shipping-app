@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CountdownTimer extends StatefulWidget {
   final DateTime startTime;
 
-  const CountdownTimer({required this.startTime});
+  CountdownTimer({required this.startTime});
 
   @override
   _CountdownTimerState createState() => _CountdownTimerState();
@@ -12,24 +12,23 @@ class CountdownTimer extends StatefulWidget {
 
 class _CountdownTimerState extends State<CountdownTimer> {
   late Timer _timer;
-  late DateTime _endTime;
   String _timeLeft = "10:00";
 
   @override
   void initState() {
     super.initState();
-    _endTime = widget.startTime.add(Duration(minutes: 10));
     _startCountdown();
   }
 
   void _startCountdown() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       final now = DateTime.now();
-      final remaining = _endTime.difference(now);
+      final endTime = widget.startTime.add(Duration(minutes: 10));
+      final remaining = endTime.difference(now);
 
-      if (remaining <= Duration(seconds: 0)) {
+      if (remaining.isNegative) {
         setState(() {
-          _timeLeft = "0:0";
+          _timeLeft = "00:00";
         });
         _timer.cancel();
       } else {
@@ -50,11 +49,9 @@ class _CountdownTimerState extends State<CountdownTimer> {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
     return Text(
       _timeLeft,
-      style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+      style: TextStyle(fontSize: 24),
     );
   }
 }

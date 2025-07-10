@@ -37,6 +37,7 @@ class RemoteServices {
   };
 
   static String? mapApiKey = dotenv.env['LOCATIONIQ_API_KEY'];
+  static String? routeServiceApiKey = dotenv.env['OPEN_ROUTE_SERVICE_API_KEY'];
 
   static var client = http.Client();
 
@@ -736,5 +737,32 @@ class RemoteServices {
   static Future<int?> getRemainingCancels() async {
     String? json = await api.getRequest("user-cancel-count/", auth: true);
     return json == null ? null : jsonDecode(json)["cancel_count"];
+  }
+
+  static Future<double?> distanceBetween2Points({
+    required double startLat,
+    required double startLng,
+    required double endLat,
+    required double endLng,
+  }) async {
+    String? json = await api.getRequest(
+      'https://api.openrouteservice.org/v2/directions/driving-car?api_key=$routeServiceApiKey&start=${startLng},${startLat}&end=${endLng},${endLat}',
+      // {
+      //   "coordinates": [
+      //     [startLng, startLat], // Notice: lng first, then lat
+      //     [endLng, endLat]
+      //   ],
+      // },
+      toMyServer: false,
+      auth: false,
+      utf8Decode: false,
+      customHeaders: {
+        'Accept': 'application/geo+json',
+      },
+    );
+    if (json == null) return null;
+    final data = jsonDecode(json);
+    final distanceInMeters = data['features'][0]['properties']['summary']['distance'];
+    return distanceInMeters;
   }
 }

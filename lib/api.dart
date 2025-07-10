@@ -28,6 +28,7 @@ class Api {
     bool showTimeout = true,
     bool toMyServer = true,
     bool utf8Decode = true,
+    Map<String, String>? customHeaders,
   }) async {
     print("sending to ${toMyServer ? "$_hostIP/" : ""}$endPoint");
     print("Token $accessToken");
@@ -35,7 +36,7 @@ class Api {
       var response = await client
           .get(
             Uri.parse("${toMyServer ? "$_hostIP/" : ""}$endPoint"),
-            headers: !auth ? headers : {...headers, "Authorization": "Token $accessToken"},
+            headers: customHeaders ?? (!auth ? headers : {...headers, "Authorization": "Token $accessToken"}),
           )
           .timeout(kTimeOutDuration);
 
