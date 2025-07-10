@@ -83,6 +83,7 @@ class OrderController extends GetxController {
   }
 
   void initMap() async {
+    // todo: is called twice (consumes double the api calls)
     if (pathDistance == null) getDistance();
     GeoPoint start = GeoPoint(
       latitude: order!.startPoint.latitude,

@@ -16,6 +16,7 @@ import 'package:shipment/views/components/user_profile_tile.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
 import '../../controllers/filter_controller.dart';
 import '../../controllers/notifications_controller.dart';
+import '../components/count_up_timer.dart';
 import '../components/filter_button.dart';
 import '../components/filter_sheet.dart';
 import '../components/governorate_selector.dart';
@@ -148,12 +149,18 @@ class NewDriverTab extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
-                                          child: Text(
-                                            "00 : 23 : 01".tr,
-                                            style: tt.headlineLarge!.copyWith(
-                                              color: cs.onSurface,
-                                            ),
+                                          child: CountUpTimer(
+                                            startDuration:
+                                                DateTime.now().difference(controller.currOrders.first.createdAt),
+                                            textStyle: tt.headlineLarge!
+                                                .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                           ),
+                                          // child: Text(
+                                          //   "00 : 23 : 01".tr,
+                                          //   style: tt.headlineLarge!.copyWith(
+                                          //     color: cs.onSurface,
+                                          //   ),
+                                          // ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -170,11 +177,19 @@ class NewDriverTab extends StatelessWidget {
                                                           .copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                                                     ),
                                                     const SizedBox(width: 4),
-                                                    Text(
-                                                      controller.currOrders.first.startPoint.governorate,
-                                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                      maxLines: 2,
-                                                      overflow: TextOverflow.ellipsis,
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        //
+                                                      },
+                                                      child: Text(
+                                                        controller.currOrders.first.startPoint.governorate,
+                                                        style: tt.titleSmall!.copyWith(
+                                                          color: Colors.blue,
+                                                          decoration: TextDecoration.underline,
+                                                        ),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -190,11 +205,19 @@ class NewDriverTab extends StatelessWidget {
                                                           .copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                                                     ),
                                                     const SizedBox(width: 4),
-                                                    Text(
-                                                      controller.currOrders.first.endPoint.governorate,
-                                                      style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                      maxLines: 2,
-                                                      overflow: TextOverflow.ellipsis,
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        //
+                                                      },
+                                                      child: Text(
+                                                        controller.currOrders.first.endPoint.governorate,
+                                                        style: tt.titleSmall!.copyWith(
+                                                          color: Colors.blue,
+                                                          decoration: TextDecoration.underline,
+                                                        ),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),

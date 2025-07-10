@@ -58,14 +58,12 @@ class UserProfileTile extends StatelessWidget {
                       padding: const EdgeInsets.all(6),
                       margin: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
                       decoration: BoxDecoration(
-                        color: (isPrimaryColor ?? true)
-                            ? Color.lerp(cs.primary, Colors.white, 0.33)
-                            : cs.onSecondaryContainer,
+                        color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.33) : cs.primary,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(
                         Icons.person_outline,
-                        color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.secondaryContainer,
+                        color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary,
                       ),
                     ),
                   ),
@@ -116,16 +114,14 @@ class UserProfileTile extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color: (isPrimaryColor ?? true)
-                              ? Color.lerp(cs.primary, Colors.white, 0.33)
-                              : cs.onSecondaryContainer,
+                          color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.33) : cs.primary,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: GetBuilder<NotificationsController>(
                           builder: (controller) {
                             return Icon(
                               Icons.notifications_outlined,
-                              color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.secondaryContainer,
+                              color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary,
                             );
                           },
                         ),
@@ -145,18 +141,17 @@ class UserProfileTile extends StatelessWidget {
               margin: const EdgeInsets.only(left: 12, right: 12, bottom: 16, top: 4),
               width: double.infinity,
               decoration: BoxDecoration(
-                color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.black, 0.22) : cs.onSecondaryContainer,
+                color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.black, 0.22) : cs.primary,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(Icons.wallet_outlined, color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.secondaryContainer),
+                  Icon(Icons.wallet_outlined, color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary),
                   SizedBox(width: 12),
                   Text(
                     isLoadingUser ? "0.00" : user?.wallet?.balance ?? "0.00",
-                    style:
-                        tt.titleSmall!.copyWith(color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.secondaryContainer),
+                    style: tt.titleSmall!.copyWith(color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary),
                   )
                 ],
               ),

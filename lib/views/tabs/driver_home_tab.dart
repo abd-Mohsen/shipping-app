@@ -19,6 +19,7 @@ import '../components/titled_scrolling_card.dart';
 class DriverHomeTab extends StatelessWidget {
   const DriverHomeTab({super.key});
 
+  //todo: show location and car_warning tiles in the new page
   @override
   Widget build(BuildContext context) {
     //DriverHomeController hC = Get.find();
