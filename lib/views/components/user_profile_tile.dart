@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/invoices_view.dart';
 import '../../controllers/notifications_controller.dart';
@@ -56,7 +57,7 @@ class UserProfileTile extends StatelessWidget {
                     onTap: onTapProfile,
                     child: Container(
                       padding: const EdgeInsets.all(6),
-                      margin: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                       decoration: BoxDecoration(
                         color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.33) : cs.primary,
                         borderRadius: BorderRadius.circular(8),
@@ -94,7 +95,7 @@ class UserProfileTile extends StatelessWidget {
               ),
               GetBuilder<NotificationsController>(builder: (controller) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                   child: badges.Badge(
                     showBadge: controller.unreadCount > 0,
                     position: badges.BadgePosition.topStart(),
@@ -104,7 +105,7 @@ class UserProfileTile extends StatelessWidget {
                     // offset: const Offset(-5, -5),
                     badgeStyle: badges.BadgeStyle(
                       shape: badges.BadgeShape.circle,
-                      badgeColor: const Color(0xff00ff00),
+                      badgeColor: kNotificationColor,
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: GestureDetector(
@@ -138,7 +139,7 @@ class UserProfileTile extends StatelessWidget {
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              margin: const EdgeInsets.only(left: 12, right: 12, bottom: 16, top: 4),
+              margin: const EdgeInsets.only(left: 12, right: 12, bottom: 16),
               width: double.infinity,
               decoration: BoxDecoration(
                 color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.black, 0.22) : cs.primary,
@@ -147,11 +148,12 @@ class UserProfileTile extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(Icons.wallet_outlined, color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary),
+                  Icon(Icons.wallet_outlined, color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
                   SizedBox(width: 12),
                   Text(
                     isLoadingUser ? "0.00" : user?.wallet?.balance ?? "0.00",
-                    style: tt.titleSmall!.copyWith(color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary),
+                    style:
+                        tt.titleSmall!.copyWith(color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
                   )
                 ],
               ),

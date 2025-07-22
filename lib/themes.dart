@@ -10,7 +10,7 @@ class MyThemes {
     colorScheme: const ColorScheme(
       brightness: Brightness.dark,
       // primary: Color(0xff3864d7),
-      primary: Color(0xffa80a0a),
+      primary: Color(0xff274a6c),
       onPrimary: Colors.white,
       secondary: Color(0xffcb3b36),
       onSecondary: Colors.black,
@@ -18,10 +18,11 @@ class MyThemes {
       onError: Colors.white70,
       background: Color(0xff1e234c),
       onBackground: Color(0xffA4A4A4),
-      surface: Color(0xff151515),
+      surface: Color(0xff262424),
       onSurface: Color(0xffD7D7D7),
-      secondaryContainer: Color(0xff232323),
+      secondaryContainer: Color(0xff323333),
       onSecondaryContainer: Colors.white,
+      primaryContainer: Color(0xffFFA500),
     ),
     textTheme: kMyTextTheme,
   );

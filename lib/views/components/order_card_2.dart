@@ -9,12 +9,14 @@ class OrderCard2 extends StatelessWidget {
   final OrderModel2 order;
   final bool isCustomer;
   final bool isLast;
+  final Color? color;
 
   const OrderCard2({
     super.key,
     required this.order,
     required this.isCustomer,
     required this.isLast,
+    this.color,
   });
 
   @override
@@ -38,7 +40,7 @@ class OrderCard2 extends StatelessWidget {
                 //   width: order.status == "processing" ? 1.5 : 0.5,
                 // ),
                 // borderRadius: BorderRadius.circular(10),
-                color: cs.secondaryContainer,
+                color: color ?? cs.secondaryContainer,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,12 +52,13 @@ class OrderCard2 extends StatelessWidget {
                           width: 37,
                           height: 37,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xffD8D8D9), Color(0xffC8C8C8)],
-                              stops: [0, 1],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
+                            color: cs.primary,
+                            // gradient: const LinearGradient(
+                            //   colors: [Color(0xffD8D8D9), Color(0xffC8C8C8)],
+                            //   stops: [0, 1],
+                            //   begin: Alignment.topCenter,
+                            //   end: Alignment.bottomCenter,
+                            // ),
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: Center(

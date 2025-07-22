@@ -16,12 +16,48 @@ class DriverHomeController extends GetxController {
   onInit() async {
     getRecentOrders();
     getUserLocation();
+    //
+    mapContainerScrollController.addListener(() {
+      double offset = mapContainerScrollController.offset;
+
+      // Increase height as user scrolls down, clamp between base and max
+      if (offset > 0) {
+        double newHeight = (baseHeight + offset).clamp(baseHeight, maxHeight);
+        if (containerHeight != newHeight) {
+          containerHeight = newHeight;
+        }
+      }
+
+      // Optionally reset height when scroll position is near top
+      if (mapContainerScrollController.position.pixels <= 0 && containerHeight != baseHeight) {
+        containerHeight = baseHeight;
+      }
+      // Reset only when scrolled all the way to the top
+      update();
+    });
+    //
     super.onInit();
   }
 
-  final GetStorage _getStorage = GetStorage();
+  final ScrollController mapContainerScrollController = ScrollController();
+
+  double baseHeight = 300;
+  double maxHeight = 500;
+  double containerHeight = 300;
+
+  void expandContainer() {
+    containerHeight = maxHeight;
+    update();
+  }
+
+  void foldContainer() {
+    containerHeight = baseHeight;
+    update();
+  }
 
   //
+
+  final GetStorage _getStorage = GetStorage();
 
   List<OrderModel2> myOrders = [];
 
@@ -157,6 +193,7 @@ class DriverHomeController extends GetxController {
   void getUserLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      Get.dialog(kEnableLocationDialog(), barrierDismissible: false);
       setTrackingStatus("turn location on");
       return;
     }
@@ -236,7 +273,7 @@ class DriverHomeController extends GetxController {
     if (driverMarker != null) currMarkers.remove(driverMarker);
     driverMarker = Marker(
       point: LatLng(lat, long),
-      child: kMapDriverSmallMarker,
+      child: kCurrLocation,
     );
     currMarkers.add(driverMarker!);
     update();
@@ -375,6 +412,7 @@ class DriverHomeController extends GetxController {
     //todo: not disposing (notification still appears)
     //todo: things go to shit when i refresh (realme x)
     await _cleanUpWebSocket();
+    mapContainerScrollController.dispose();
     super.dispose();
   }
 }

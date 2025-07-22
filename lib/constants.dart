@@ -256,6 +256,37 @@ MarkerIcon kMapDriverSmallMarker = const MarkerIcon(
   ),
 );
 
-const Color kNotificationColor = Color(0xff00ff00);
+MarkerIcon kCurrLocation = const MarkerIcon(
+    iconWidget: CircleAvatar(
+  backgroundColor: Color(0x660B5BA8),
+  radius: 30,
+  child: CircleAvatar(
+    backgroundColor: Color(0xff0e5aa6),
+    radius: 7,
+  ),
+));
+
+const Color kNotificationColor = Color(0xff57B4DD);
 const Color kNotificationUnreadDarkColor = Color(0xff343436);
 const Color kNotificationUnreadLightColor = Color(0xfff5f5f5);
+
+Widget kEnableLocationDialog2(onConfirm) => PopScope(
+      canPop: false,
+      child: AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text('location Required'.tr, style: TextStyle(color: Colors.black)),
+        content: Text('please enable location services then press ok'.tr, style: TextStyle(color: Colors.black)),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Geolocator.openLocationSettings();
+            },
+            child: Text("open settings".tr, style: TextStyle(color: Colors.black)),
+          ),
+          TextButton(
+            onPressed: onConfirm,
+            child: Text("ok".tr, style: TextStyle(color: Colors.black)),
+          ),
+        ],
+      ),
+    );
