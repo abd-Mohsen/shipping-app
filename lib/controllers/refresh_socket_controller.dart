@@ -28,6 +28,7 @@ class RefreshSocketController extends GetxController {
   bool _isConnecting = false;
 
   void sendLocationID(int id) {
+    if (!_isWebSocketConnected()) return;
     websocket!.add(json.encode({
       "type": "switch_location",
       "location_id": id,

@@ -22,6 +22,7 @@ class CompanyManageTab extends StatelessWidget {
       length: 2,
       initialIndex: 0,
       child: Scaffold(
+        backgroundColor: cs.surface,
         appBar: AppBar(
             backgroundColor: cs.secondaryContainer,
             iconTheme: IconThemeData(
