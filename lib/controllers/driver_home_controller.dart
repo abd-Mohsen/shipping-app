@@ -43,7 +43,7 @@ class DriverHomeController extends GetxController {
 
   double baseHeight = 300;
   double maxHeight = 500;
-  double containerHeight = 300;
+  double containerHeight = 350;
 
   void expandContainer() {
     containerHeight = maxHeight;
@@ -166,7 +166,7 @@ class DriverHomeController extends GetxController {
 
   //-----------------------------------Real Time-------------------------------------------
 
-  Position? currLocation;
+  LatLng? currLocation;
   StreamSubscription? subscription;
   //
 
@@ -212,7 +212,9 @@ class DriverHomeController extends GetxController {
     }
     Position p = await Geolocator.getCurrentPosition();
 
-    updateDriverMarker(p.latitude, p.longitude);
+    currLocation = LatLng(p.latitude, p.longitude);
+
+    updateDriverMarker(p.latitude, p.longitude, true);
   }
 
   void _startSendingLocation() async {
@@ -258,7 +260,7 @@ class DriverHomeController extends GetxController {
           'latitude': position.latitude,
           'longitude': position.longitude,
         };
-        updateDriverMarker(position.latitude, position.longitude);
+        updateDriverMarker(position.latitude, position.longitude, false);
         print(pos);
         if (_isWebSocketConnected()) {
           websocket!.add(jsonEncode(pos));
@@ -268,8 +270,9 @@ class DriverHomeController extends GetxController {
     );
   }
 
-  void updateDriverMarker(double lat, double long) {
-    mapController.move(LatLng(lat - 0.0002, long), 18.5);
+  void updateDriverMarker(double lat, double long, bool moveCamera) {
+    currLocation = LatLng(lat, long);
+    if (moveCamera) mapController.move(LatLng(lat - 0.0002, long), 18.5);
     if (driverMarker != null) currMarkers.remove(driverMarker);
     driverMarker = Marker(
       point: LatLng(lat, long),
@@ -277,6 +280,12 @@ class DriverHomeController extends GetxController {
     );
     currMarkers.add(driverMarker!);
     update();
+  }
+
+  void pointToMyLocation() {
+    if (currLocation != null)
+      mapController.move(LatLng(currLocation!.latitude - 0.0002, currLocation!.longitude), 18.5);
+    //update();
   }
 
   // void _startPeriodicLocationUpdates() async {

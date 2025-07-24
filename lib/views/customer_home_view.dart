@@ -130,12 +130,12 @@ class CustomerHomeView extends StatelessWidget {
                     Icon(
                       iconsList[i],
                       size: 24,
-                      color: isActive ? cs.primary : cs.onSecondaryContainer.withValues(alpha: 0.7),
+                      color: isActive ? cs.primaryContainer : cs.onSecondaryContainer.withValues(alpha: 0.7),
                     ),
                     Text(
                       titlesList[i],
                       style: tt.labelSmall!.copyWith(
-                        color: isActive ? cs.primary : cs.onSecondaryContainer.withValues(alpha: 0.7),
+                        color: isActive ? cs.primaryContainer : cs.onSecondaryContainer.withValues(alpha: 0.7),
                       ),
                     )
                   ],

@@ -90,375 +90,415 @@ class NewDriverTab extends StatelessWidget {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: AnimatedContainer(
-                  height: controller.containerHeight,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                    color: cs.surface,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2), // Shadow color
-                        blurRadius: 5, // Soften the shadow
-                        spreadRadius: 2, // Extend the shadow
-                        offset: Offset(-2, -2), // Shadow direction (x, y)
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                      child: Material(
+                        elevation: 3,
+                        borderRadius: BorderRadius.circular(100),
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.pointToMyLocation();
+                          },
+                          child: CircleAvatar(
+                            radius: 18,
+                            backgroundColor: cs.primary,
+                            foregroundColor: cs.onPrimary,
+                            child: Icon(Icons.my_location_outlined, size: 22),
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                  duration: Duration(milliseconds: 200),
-                  child: GetBuilder<SharedHomeController>(
-                    builder: (innerController) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 12.0),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              child: Divider(
-                                thickness: 3,
-                                color: cs.onSurface,
-                                indent: 150,
-                                endIndent: 150,
-                              ),
-                              onTap: () {
-                                print("tap");
-                              },
-                              // onPanStart: (details) {
-                              //   print('Pan started');
-                              // },
-                              // onPanEnd: (details) {
-                              //   print('Pan ended');
-                              //   // You can use velocity here to infer drag direction
-                              //   if (details.velocity.pixelsPerSecond.dy > 0) {
-                              //     controller.foldContainer();
-                              //   } else {
-                              //     controller.expandContainer();
-                              //   }
-                              // },
-                              onVerticalDragUpdate: (details) {
-                                if (details.delta.dy > 0) {
-                                  controller.foldContainer();
-                                } else if (details.delta.dy < 0) {
-                                  controller.expandContainer();
-                                }
-                              },
-                              // onLongPressDown: (_) {
-                              //   controller.foldContainer();
-                              // },
-                            ),
-                            Expanded(
-                              child: innerController.currOrders.isNotEmpty
-                                  ? Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "current order".tr,
-                                                style: tt.titleMedium!.copyWith(
-                                                  color: cs.onSurface,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Text(
-                                                "#${innerController.currOrders.first.id}",
-                                                style: tt.titleMedium!.copyWith(
-                                                  color: cs.onSurface.withValues(alpha: 0.5),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(right: 12.0, left: 12, top: 8),
-                                                child: Text(
-                                                  "duration".tr,
-                                                  style: tt.titleSmall!.copyWith(
-                                                    color: cs.onSurface.withValues(alpha: 0.4),
+                    ),
+                    AnimatedContainer(
+                      height: controller.containerHeight,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                        color: cs.surface,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2), // Shadow color
+                            blurRadius: 5, // Soften the shadow
+                            spreadRadius: 2, // Extend the shadow
+                            offset: Offset(-2, -2), // Shadow direction (x, y)
+                          ),
+                        ],
+                      ),
+                      duration: Duration(milliseconds: 200),
+                      child: GetBuilder<SharedHomeController>(
+                        builder: (innerController) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 12.0),
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  child: Divider(
+                                    thickness: 3,
+                                    color: cs.onSurface,
+                                    indent: 150,
+                                    endIndent: 150,
+                                  ),
+                                  onTap: () {
+                                    print("tap");
+                                  },
+                                  // onPanStart: (details) {
+                                  //   print('Pan started');
+                                  // },
+                                  // onPanEnd: (details) {
+                                  //   print('Pan ended');
+                                  //   // You can use velocity here to infer drag direction
+                                  //   if (details.velocity.pixelsPerSecond.dy > 0) {
+                                  //     controller.foldContainer();
+                                  //   } else {
+                                  //     controller.expandContainer();
+                                  //   }
+                                  // },
+                                  onVerticalDragUpdate: (details) {
+                                    if (details.delta.dy > 0) {
+                                      controller.foldContainer();
+                                    } else if (details.delta.dy < 0) {
+                                      controller.expandContainer();
+                                    }
+                                  },
+                                  // onLongPressDown: (_) {
+                                  //   controller.foldContainer();
+                                  // },
+                                ),
+                                Expanded(
+                                  child: innerController.currOrders.isNotEmpty
+                                      ? Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "current order".tr,
+                                                    style: tt.titleMedium!.copyWith(
+                                                      color: cs.onSurface,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                   ),
-                                                ),
+                                                  Text(
+                                                    "#${innerController.currOrders.first.id}",
+                                                    style: tt.titleMedium!.copyWith(
+                                                      color: cs.onSurface.withValues(alpha: 0.5),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
-                                                //todo: pass begin time instead of creation time
-                                                child: CountUpTimer(
-                                                  startDuration: DateTime.now()
-                                                      .difference(innerController.currOrders.first.createdAt),
-                                                  textStyle: tt.headlineLarge!
-                                                      .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                ),
-                                                // child: Text(
-                                                //   "00 : 23 : 01".tr,
-                                                //   style: tt.headlineLarge!.copyWith(
-                                                //     color: cs.onSurface,
-                                                //   ),
-                                                // ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 20.0),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: [
-                                                          const Icon(Icons.location_on,
-                                                              size: 20, color: Color(0xFFFF0000)),
-                                                          Text(
-                                                            "from".tr,
-                                                            style: tt.labelMedium!
-                                                                .copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
-                                                          ),
-                                                          const SizedBox(width: 4),
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              controller.drawPath(
-                                                                true,
-                                                                LatLng(
-                                                                  innerController.currOrders.first.startPoint.latitude,
-                                                                  innerController.currOrders.first.startPoint.longitude,
-                                                                ),
-                                                              );
-                                                            },
-                                                            child: Text(
-                                                              innerController.currOrders.first.startPoint.governorate,
-                                                              style: tt.titleSmall!.copyWith(
-                                                                color: Colors.blue,
-                                                                decoration: TextDecoration.underline,
-                                                              ),
-                                                              maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
-                                                            ),
-                                                          ),
-                                                        ],
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 12.0, left: 12, top: 8),
+                                                    child: Text(
+                                                      "duration".tr,
+                                                      style: tt.titleSmall!.copyWith(
+                                                        color: cs.onSurface.withValues(alpha: 0.4),
                                                       ),
                                                     ),
-                                                    Expanded(
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: [
-                                                          const Icon(Icons.location_on,
-                                                              size: 20, color: Color(0xFF38B6FF)),
-                                                          Text(
-                                                            "to".tr,
-                                                            style: tt.labelMedium!
-                                                                .copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
-                                                          ),
-                                                          const SizedBox(width: 4),
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              controller.drawPath(
-                                                                false,
-                                                                LatLng(
-                                                                  innerController.currOrders.first.endPoint.latitude,
-                                                                  innerController.currOrders.first.endPoint.longitude,
-                                                                ),
-                                                              );
-                                                            },
-                                                            child: Text(
-                                                              innerController.currOrders.first.endPoint.governorate,
-                                                              style: tt.titleSmall!.copyWith(
-                                                                color: Colors.blue,
-                                                                decoration: TextDecoration.underline,
-                                                              ),
-                                                              maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
+                                                    //todo: pass begin time instead of creation time
+                                                    child: CountUpTimer(
+                                                      startDuration: DateTime.now()
+                                                          .difference(innerController.currOrders.first.createdAt),
+                                                      textStyle: tt.headlineLarge!
+                                                          .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                                     ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                                child: OrderCard3(
-                                                    order: innerController.recentOrders.first, isCustomer: false),
-                                              ),
-                                              const SizedBox(height: 8),
-                                            ],
-                                          ),
-                                        ),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                        //   child: CustomButton(
-                                        //     onTap: () {},
-                                        //     child: Center(
-                                        //       child: Text(
-                                        //         "finish".tr,
-                                        //         style: tt.titleSmall!.copyWith(
-                                        //           color: cs.onSurface,
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ],
-                                    )
-                                  : Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        // Padding(
-                                        //   padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
-                                        //   child: Text(
-                                        //     "new order".tr,
-                                        //     style: tt.titleMedium!.copyWith(
-                                        //       color: cs.onSurface,
-                                        //       fontWeight: FontWeight.bold,
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                          child: innerController.isLoadingGovernorates
-                                              ? Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                                  child: SpinKitThreeBounce(color: cs.primary, size: 20),
-                                                )
-                                              : innerController.selectedGovernorate == null
-                                                  ? Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                                      child: ElevatedButton(
-                                                        onPressed: () {
-                                                          innerController.getGovernorates();
-                                                        },
-                                                        style: ButtonStyle(
-                                                          backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
-                                                        ),
-                                                        child: Text(
-                                                          'خطأ, انقر للتحديث',
-                                                          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                    // child: Text(
+                                                    //   "00 : 23 : 01".tr,
+                                                    //   style: tt.headlineLarge!.copyWith(
+                                                    //     color: cs.onSurface,
+                                                    //   ),
+                                                    // ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
+                                                    child: Row(
                                                       children: [
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(top: 32, bottom: 12, left: 8, right: 8),
-                                                        //   child: Row(
-                                                        //     children: [
-                                                        //       Icon(Icons.circle, size: 10, color: cs.onSurface),
-                                                        //       const SizedBox(width: 8),
-                                                        //       Text(
-                                                        //         "show orders in governorate:".tr,
-                                                        //         style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                        //         textAlign: TextAlign.start,
-                                                        //       ),
-                                                        //     ],
-                                                        //   ),
-                                                        // ),
-                                                        // Row(
-                                                        //   crossAxisAlignment: CrossAxisAlignment.center,
-                                                        //   children: [
-                                                        //     Expanded(
-                                                        //       child: Padding(
-                                                        //         padding: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
-                                                        //         child: MySearchField(
-                                                        //           label: "search".tr,
-                                                        //           textEditingController: controller.searchQueryExploreOrders,
-                                                        //           icon: Padding(
-                                                        //             padding: const EdgeInsets.only(right: 20.0, left: 12),
-                                                        //             child: Icon(Icons.search, color: cs.primary),
-                                                        //           ),
-                                                        //           onChanged: (s) {
-                                                        //             controller.search(explore: true);
-                                                        //           },
-                                                        //         ),
-                                                        //       ),
-                                                        //     ),
-                                                        //     // GetBuilder<FilterController>(builder: (controller) {
-                                                        //     //   return FilterButton(
-                                                        //     //     showBadge: controller.isFilterApplied,
-                                                        //     //     sheet: FilterSheet(
-                                                        //     //       showGovernorate: false,
-                                                        //     //       showPrice: false,
-                                                        //     //       showVehicleType: true,
-                                                        //     //       onConfirm: () {
-                                                        //     //         Get.back();
-                                                        //     //         controller.refreshExploreOrders();
-                                                        //     //       },
-                                                        //     //     ),
-                                                        //     //   );
-                                                        //     // }),
-                                                        //   ],
-                                                        // ),
-                                                        Padding(
-                                                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                                                          child: GovernorateSelector(
-                                                            selectedItem: innerController.selectedGovernorate,
-                                                            items: innerController.governorates,
-                                                            onChanged: (g) {
-                                                              innerController.setGovernorate(g);
-                                                            },
-                                                          ),
-                                                        ),
-                                                        // Padding(
-                                                        //   padding: const EdgeInsets.only(top: 16.0),
-                                                        //   child: Divider(
-                                                        //     color: cs.onSurface.withValues(alpha: 0.2),
-                                                        //     thickness: 1.5,
-                                                        //     indent: screenWidth / 4,
-                                                        //     endIndent: screenWidth / 4,
-                                                        //   ),
-                                                        // )
-                                                      ],
-                                                    ),
-                                        ),
-                                        Expanded(
-                                          child: innerController.isLoadingExplore
-                                              ? SpinKitSquareCircle(color: cs.primary)
-                                              : RefreshIndicator(
-                                                  onRefresh: innerController.refreshExploreOrders,
-                                                  child: innerController.exploreOrders.isEmpty
-                                                      ? Center(
-                                                          child: ListView(
-                                                            shrinkWrap: true,
+                                                        Expanded(
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
                                                             children: [
-                                                              Padding(
-                                                                padding: const EdgeInsets.all(24),
-                                                                child: Center(
+                                                              const Icon(Icons.location_on,
+                                                                  size: 20, color: Color(0xFFFF0000)),
+                                                              Text(
+                                                                "from".tr,
+                                                                style: tt.labelMedium!.copyWith(
+                                                                    color: cs.onSurface.withValues(alpha: 0.6)),
+                                                              ),
+                                                              const SizedBox(width: 4),
+                                                              Expanded(
+                                                                child: GestureDetector(
+                                                                  onTap: () {
+                                                                    controller.drawPath(
+                                                                      true,
+                                                                      LatLng(
+                                                                        innerController
+                                                                            .currOrders.first.startPoint.latitude,
+                                                                        innerController
+                                                                            .currOrders.first.startPoint.longitude,
+                                                                      ),
+                                                                    );
+                                                                  },
                                                                   child: Text(
-                                                                    "no data, pull down to refresh".tr,
-                                                                    style: tt.titleMedium!.copyWith(
-                                                                        color: cs.onSurface,
-                                                                        fontWeight: FontWeight.bold),
-                                                                    textAlign: TextAlign.center,
+                                                                    innerController.currOrders.first.startPoint
+                                                                        .toString(),
+                                                                    style: tt.labelMedium!.copyWith(
+                                                                      color: Colors.blue,
+                                                                      decoration: TextDecoration.underline,
+                                                                    ),
+                                                                    maxLines: 2,
+                                                                    overflow: TextOverflow.ellipsis,
                                                                   ),
                                                                 ),
                                                               ),
                                                             ],
                                                           ),
-                                                        )
-                                                      : ListView.builder(
-                                                          padding:
-                                                              const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                                          controller: controller.mapContainerScrollController,
-                                                          itemCount: innerController.exploreOrders.length,
-                                                          itemBuilder: (context, i) => OrderCard2(
-                                                            order: innerController.exploreOrders[i],
-                                                            isCustomer: false,
-                                                            isLast: i == innerController.exploreOrders.length - 1,
-                                                            color: cs.surface,
+                                                        ),
+                                                        const SizedBox(width: 8),
+                                                        Expanded(
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              const Icon(Icons.location_on,
+                                                                  size: 20, color: Color(0xFF38B6FF)),
+                                                              Text(
+                                                                "to".tr,
+                                                                style: tt.labelMedium!.copyWith(
+                                                                    color: cs.onSurface.withValues(alpha: 0.6)),
+                                                              ),
+                                                              const SizedBox(width: 4),
+                                                              Expanded(
+                                                                child: GestureDetector(
+                                                                  onTap: () {
+                                                                    controller.drawPath(
+                                                                      false,
+                                                                      LatLng(
+                                                                        innerController
+                                                                            .currOrders.first.endPoint.latitude,
+                                                                        innerController
+                                                                            .currOrders.first.endPoint.longitude,
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                  child: Text(
+                                                                    innerController.currOrders.first.endPoint
+                                                                        .toString(),
+                                                                    style: tt.labelMedium!.copyWith(
+                                                                      color: Colors.blue,
+                                                                      decoration: TextDecoration.underline,
+                                                                    ),
+                                                                    maxLines: 2,
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                                    child: OrderCard2(
+                                                      order: innerController.recentOrders.first,
+                                                      isCustomer: false,
+                                                      isLast: true,
+                                                      color: cs.surface,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                ],
+                                              ),
+                                            ),
+                                            // Padding(
+                                            //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                            //   child: CustomButton(
+                                            //     onTap: () {},
+                                            //     child: Center(
+                                            //       child: Text(
+                                            //         "finish".tr,
+                                            //         style: tt.titleSmall!.copyWith(
+                                            //           color: cs.onSurface,
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                          ],
+                                        )
+                                      : Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            // Padding(
+                                            //   padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                                            //   child: Text(
+                                            //     "new order".tr,
+                                            //     style: tt.titleMedium!.copyWith(
+                                            //       color: cs.onSurface,
+                                            //       fontWeight: FontWeight.bold,
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                              child: innerController.isLoadingGovernorates
+                                                  ? Padding(
+                                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                                      child: SpinKitThreeBounce(color: cs.primary, size: 20),
+                                                    )
+                                                  : innerController.selectedGovernorate == null
+                                                      ? Padding(
+                                                          padding:
+                                                              const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                                                          child: ElevatedButton(
+                                                            onPressed: () {
+                                                              innerController.getGovernorates();
+                                                            },
+                                                            style: ButtonStyle(
+                                                              backgroundColor:
+                                                                  WidgetStateProperty.all<Color>(cs.primary),
+                                                            ),
+                                                            child: Text(
+                                                              'خطأ, انقر للتحديث',
+                                                              style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            // Padding(
+                                                            //   padding: const EdgeInsets.only(top: 32, bottom: 12, left: 8, right: 8),
+                                                            //   child: Row(
+                                                            //     children: [
+                                                            //       Icon(Icons.circle, size: 10, color: cs.onSurface),
+                                                            //       const SizedBox(width: 8),
+                                                            //       Text(
+                                                            //         "show orders in governorate:".tr,
+                                                            //         style: tt.titleSmall!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                                            //         textAlign: TextAlign.start,
+                                                            //       ),
+                                                            //     ],
+                                                            //   ),
+                                                            // ),
+                                                            // Row(
+                                                            //   crossAxisAlignment: CrossAxisAlignment.center,
+                                                            //   children: [
+                                                            //     Expanded(
+                                                            //       child: Padding(
+                                                            //         padding: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
+                                                            //         child: MySearchField(
+                                                            //           label: "search".tr,
+                                                            //           textEditingController: controller.searchQueryExploreOrders,
+                                                            //           icon: Padding(
+                                                            //             padding: const EdgeInsets.only(right: 20.0, left: 12),
+                                                            //             child: Icon(Icons.search, color: cs.primary),
+                                                            //           ),
+                                                            //           onChanged: (s) {
+                                                            //             controller.search(explore: true);
+                                                            //           },
+                                                            //         ),
+                                                            //       ),
+                                                            //     ),
+                                                            //     // GetBuilder<FilterController>(builder: (controller) {
+                                                            //     //   return FilterButton(
+                                                            //     //     showBadge: controller.isFilterApplied,
+                                                            //     //     sheet: FilterSheet(
+                                                            //     //       showGovernorate: false,
+                                                            //     //       showPrice: false,
+                                                            //     //       showVehicleType: true,
+                                                            //     //       onConfirm: () {
+                                                            //     //         Get.back();
+                                                            //     //         controller.refreshExploreOrders();
+                                                            //     //       },
+                                                            //     //     ),
+                                                            //     //   );
+                                                            //     // }),
+                                                            //   ],
+                                                            // ),
+                                                            Padding(
+                                                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                                                              child: GovernorateSelector(
+                                                                selectedItem: innerController.selectedGovernorate,
+                                                                items: innerController.governorates,
+                                                                onChanged: (g) {
+                                                                  innerController.setGovernorate(g);
+                                                                },
+                                                              ),
+                                                            ),
+                                                            // Padding(
+                                                            //   padding: const EdgeInsets.only(top: 16.0),
+                                                            //   child: Divider(
+                                                            //     color: cs.onSurface.withValues(alpha: 0.2),
+                                                            //     thickness: 1.5,
+                                                            //     indent: screenWidth / 4,
+                                                            //     endIndent: screenWidth / 4,
+                                                            //   ),
+                                                            // )
+                                                          ],
+                                                        ),
+                                            ),
+                                            Expanded(
+                                              child: innerController.isLoadingExplore
+                                                  ? SpinKitSquareCircle(color: cs.primary)
+                                                  : RefreshIndicator(
+                                                      onRefresh: innerController.refreshExploreOrders,
+                                                      child: innerController.exploreOrders.isEmpty
+                                                          ? Center(
+                                                              child: ListView(
+                                                                shrinkWrap: true,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.all(24),
+                                                                    child: Center(
+                                                                      child: Text(
+                                                                        "no data, pull down to refresh".tr,
+                                                                        style: tt.titleMedium!.copyWith(
+                                                                            color: cs.onSurface,
+                                                                            fontWeight: FontWeight.bold),
+                                                                        textAlign: TextAlign.center,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          : ListView.builder(
+                                                              padding: const EdgeInsets.symmetric(
+                                                                  horizontal: 12, vertical: 4),
+                                                              controller: controller.mapContainerScrollController,
+                                                              itemCount: innerController.exploreOrders.length,
+                                                              itemBuilder: (context, i) => OrderCard2(
+                                                                order: innerController.exploreOrders[i],
+                                                                isCustomer: false,
+                                                                isLast: i == innerController.exploreOrders.length - 1,
+                                                                color: cs.surface,
+                                                              ),
+                                                            ),
+                                                    ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],
