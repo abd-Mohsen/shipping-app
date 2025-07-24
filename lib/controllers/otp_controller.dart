@@ -96,13 +96,13 @@ class OTPController extends GetxController {
     toggleLoading(false);
   }
 
-  //todo(later) logout from current user controller
-  void logout() async {
-    if (await RemoteServices.logout()) {
-      _getStorage.remove("token");
-      _getStorage.remove("role");
-      Get.put(LoginController());
-      Get.offAll(() => const LoginView());
-    }
-  }
+  // logout from current user controller instead
+  // void logout() async {
+  //   if (await RemoteServices.logout()) {
+  //     _getStorage.remove("token");
+  //     _getStorage.remove("role");
+  //     Get.put(LoginController());
+  //     Get.offAll(() => const LoginView());
+  //   }
+  // }
 }

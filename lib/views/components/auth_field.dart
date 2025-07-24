@@ -136,7 +136,7 @@ String? validateInput(
 
   if (english) {
     final RegExp englishRegExp = RegExp(r'^[a-zA-Z\d_\-\s]+$');
-    if (!englishRegExp.hasMatch(val)) return "must be english".tr; // todo doesnt accept empty spaces (test)
+    if (!englishRegExp.hasMatch(val)) return "must be english".tr; // doesnt accept empty spaces (test)
   }
 
   return null;

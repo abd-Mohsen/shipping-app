@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import '../controllers/otp_controller.dart';
@@ -20,6 +21,7 @@ class OTPView extends StatelessWidget {
     // late ResetPassController rPC;
     // if (source == "reset") rPC = Get.find();
     OTPController oC = Get.find();
+    CurrentUserController cUC = Get.find();
 
     return SafeArea(
       child: PopScope(
@@ -169,7 +171,7 @@ class OTPView extends StatelessWidget {
                                 size: 25,
                               ),
                               onTap: () {
-                                oC.logout();
+                                cUC.logout(); //todo test
                               },
                               title: Text(
                                 "logout".tr,

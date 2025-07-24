@@ -15,7 +15,6 @@ import '../components/order_card.dart';
 
 class ExploreOrdersTab extends StatelessWidget {
   const ExploreOrdersTab({super.key});
-  //todo:search not working (from backend)
 
   @override
   Widget build(BuildContext context) {

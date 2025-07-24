@@ -261,7 +261,6 @@ class OrderController extends GetxController {
   }
 
   void beginOrderDriver() async {
-    //todo check if location is on (test)
     bool locationEnabled = await Geolocator.isLocationServiceEnabled();
     if (!locationEnabled) {
       Geolocator.openLocationSettings();

@@ -132,7 +132,7 @@ class AddVehicleSheet extends StatelessWidget {
                   child: CustomButton(
                     onTap: () {
                       print(vehicle);
-                      controller.submit(vehicle!.id);
+                      controller.submit(vehicle?.id);
                     },
                     child: Center(
                       child: controller.isLoadingSubmit
