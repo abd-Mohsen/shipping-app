@@ -457,11 +457,11 @@ class OrderController extends GetxController {
     if (currPosition != null) mapController.removeMarker(currPosition!);
     currPosition = GeoPoint(latitude: message["latitude"], longitude: message["longitude"]);
     //mapController.moveTo(currPosition!);
-    await Future.delayed(Duration(milliseconds: 600)); //todo not smooth at all (try to decrease withou missing up
+    //await Future.delayed(Duration(milliseconds: 600)); //todo not smooth at all (try to decrease withou missing up
     // markers)
     mapController.addMarker(
       currPosition!,
-      markerIcon: kMapDriverMarker,
+      markerIcon: kCurrLocationBig,
     );
   }
 

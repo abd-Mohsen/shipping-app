@@ -40,7 +40,7 @@ class TrackingView extends StatelessWidget {
                   },
                   child: Icon(
                     Icons.arrow_back,
-                    color: cs.primary,
+                    color: cs.onSecondaryContainer,
                     size: 25,
                   ),
                 ),
@@ -75,7 +75,7 @@ class TrackingView extends StatelessWidget {
                         },
                         child: Icon(
                           Icons.my_location,
-                          color: cs.primary,
+                          color: cs.onSecondaryContainer,
                           size: 30,
                         ),
                       ),

@@ -266,6 +266,16 @@ MarkerIcon kCurrLocation = const MarkerIcon(
   ),
 ));
 
+MarkerIcon kCurrLocationBig = const MarkerIcon(
+    iconWidget: CircleAvatar(
+  backgroundColor: Color(0x660B5BA8),
+  radius: 40,
+  child: CircleAvatar(
+    backgroundColor: Color(0xff0e5aa6),
+    radius: 15,
+  ),
+));
+
 const Color kNotificationColor = Color(0xff57B4DD);
 const Color kNotificationUnreadDarkColor = Color(0xff343436);
 const Color kNotificationUnreadLightColor = Color(0xfff5f5f5);
