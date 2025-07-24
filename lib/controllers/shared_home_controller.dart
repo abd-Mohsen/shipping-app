@@ -6,6 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/filter_controller.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
+import 'package:shipment/controllers/refresh_socket_controller.dart';
 import '../models/governorate_model.dart';
 import '../models/order_model_2.dart';
 import '../services/remote_services.dart';
@@ -237,7 +238,10 @@ class SharedHomeController extends GetxController {
   }
 
   void setGovernorate(GovernorateModel? governorate) {
+    if (governorate == null) return;
     selectedGovernorate = governorate;
+    RefreshSocketController rSC = Get.find();
+    rSC.sendLocationID(governorate.id);
     refreshExploreOrders();
   }
 

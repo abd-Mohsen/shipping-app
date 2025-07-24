@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -26,8 +27,11 @@ class RefreshSocketController extends GetxController {
 
   bool _isConnecting = false;
 
-  void sendLocationID() {
-    //todo how to trigger it? i cant access to here from sharedHomeController
+  void sendLocationID(int id) {
+    websocket!.add(json.encode({
+      "type": "switch_location",
+      "location_id": id,
+    }));
   }
 
   void _connectSocket() async {
