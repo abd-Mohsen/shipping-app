@@ -20,20 +20,17 @@ class DriverHomeController extends GetxController {
     mapContainerScrollController.addListener(() {
       double offset = mapContainerScrollController.offset;
 
-      // Increase height as user scrolls down, clamp between base and max
-      if (offset > 0) {
-        double newHeight = (baseHeight + offset).clamp(baseHeight, maxHeight);
-        if (containerHeight != newHeight) {
-          containerHeight = newHeight;
-        }
+      // If user scrolls down and height is not already maxHeight
+      if (offset > 0 && containerHeight != maxHeight) {
+        containerHeight = maxHeight;
+        update(); // Call setState or equivalent update function
       }
 
-      // Optionally reset height when scroll position is near top
-      if (mapContainerScrollController.position.pixels <= 0 && containerHeight != baseHeight) {
+      // If user scrolls to top and height is not already baseHeight
+      if (offset <= 0 && containerHeight != baseHeight) {
         containerHeight = baseHeight;
+        update(); // Call setState or equivalent update function
       }
-      // Reset only when scrolled all the way to the top
-      update();
     });
     //
     super.onInit();
