@@ -352,6 +352,7 @@ class MyLocale extends Translations {
           "order added successfully": "order added successfully",
           "finish the order?": "finish the order?",
           "press yes if you reached your destination": "press yes if you reached your destination",
+          "middle name": "middle name",
         },
         "ar": {
           "Arabic": "العربية",
@@ -698,6 +699,7 @@ class MyLocale extends Translations {
           "order added successfully": "تم إضافة الطلب بنجاح",
           "finish the order?": "هل تريد إنهاء الطلبية؟",
           "press yes if you reached your destination": "اضغط نعم اذا وصلت الى الموقع المطلوب",
+          "middle name": "اسم الأب",
         },
       };
 }

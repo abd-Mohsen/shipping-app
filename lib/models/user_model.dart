@@ -8,6 +8,7 @@ String userModelToJson(List<UserModel> data) => json.encode(List<dynamic>.from(d
 class UserModel {
   final int id;
   final String firstName;
+  final String middleName;
   final String lastName;
   final String phoneNumber;
   final Role role;
@@ -22,6 +23,7 @@ class UserModel {
   UserModel({
     required this.id,
     required this.firstName,
+    required this.middleName,
     required this.lastName,
     required this.phoneNumber,
     required this.role,
@@ -37,6 +39,7 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],
         firstName: json["first_name"],
+        middleName: json["middel_name"] ?? "",
         lastName: json["last_name"],
         phoneNumber: json["phone_number"],
         idPhotoFront: json["ID_photo_front"],

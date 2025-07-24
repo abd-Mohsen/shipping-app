@@ -49,7 +49,7 @@ class RegisterController extends GetxController {
   final otp = TextEditingController();
   final firstName = TextEditingController();
   final lastName = TextEditingController();
-  final userName = TextEditingController();
+  final middleName = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
   final rePassword = TextEditingController();
@@ -135,8 +135,8 @@ class RegisterController extends GetxController {
     File? lRearFile = dLicenseRear == null ? null : File(dLicenseRear!.path);
 
     LoginModel? registerData = (await RemoteServices.register(
-      ".",
       firstName.text,
+      middleName.text,
       lastName.text,
       roles[roleIndex] == "employee" ? "company_employee" : roles[roleIndex],
       phone.text,

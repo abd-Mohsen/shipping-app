@@ -43,8 +43,8 @@ class RemoteServices {
   static var client = http.Client();
 
   static Future<LoginModel?> register(
-    String userName,
     String firstName,
+    String middleName,
     String lastName,
     String role,
     String phone,
@@ -60,7 +60,7 @@ class RemoteServices {
     Map<String, String> body = {
       "first_name": firstName,
       "last_name": lastName,
-      "middel_name": userName,
+      "middel_name": middleName,
       "phone_number": phone,
       "password": password,
       "confirmation_password": passwordConfirmation,
@@ -314,6 +314,7 @@ class RemoteServices {
 
   static Future<bool> editProfile({
     String? firstName,
+    String? middleName,
     String? lastName,
     String? companyName,
     File? idFront,
@@ -324,6 +325,7 @@ class RemoteServices {
     Map<String, String> body = {
       "first_name": firstName ?? "",
       "last_name": lastName ?? "",
+      "middel_name": middleName ?? "",
       "company_name": companyName ?? "",
     };
     Map<String, File?> images = {

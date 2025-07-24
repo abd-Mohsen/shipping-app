@@ -98,6 +98,20 @@ class EditProfileView extends StatelessWidget {
                         floatingLabelBehavior: FloatingLabelBehavior.auto,
                       ),
                       InputField(
+                        controller: controller.middleName,
+                        label: "middle name".tr,
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.next,
+                        prefixIcon: Icons.person,
+                        validator: (val) {
+                          return validateInput(controller.middleName.text, 2, 200, "text");
+                        },
+                        onChanged: (val) {
+                          if (controller.button1Pressed) controller.profileFormKey.currentState!.validate();
+                        },
+                        floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      ),
+                      InputField(
                         controller: controller.lastName,
                         label: "last name".tr,
                         keyboardType: TextInputType.text,

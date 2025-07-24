@@ -13,6 +13,7 @@ class EditProfileController extends GetxController {
     user = cUC.currentUser;
     firstName.text = user!.firstName;
     lastName.text = user!.lastName;
+    middleName.text = user!.middleName;
     if (user!.role.type == "company") companyName.text = user!.companyInfo!.name;
     super.onInit();
   }
@@ -28,6 +29,7 @@ class EditProfileController extends GetxController {
   bool button2Pressed = false;
 
   TextEditingController firstName = TextEditingController();
+  TextEditingController middleName = TextEditingController();
   TextEditingController lastName = TextEditingController();
   TextEditingController companyName = TextEditingController();
 
