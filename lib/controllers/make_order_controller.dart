@@ -425,7 +425,8 @@ class MakeOrderController extends GetxController {
         "order added successfully".tr,
         "${"order commission".tr} $applicationCommission${selectedCurrency!.symbol}",
         colorText: Colors.white,
-        backgroundColor: Colors.green,
+        backgroundColor: const Color(0xffFFA500),
+        icon: Icon(Icons.done_all, color: Colors.white),
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       );
       resetForm();

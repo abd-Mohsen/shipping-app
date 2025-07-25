@@ -51,6 +51,8 @@ class RefreshSocketController extends GetxController {
 
       websocket!.listen(
         (message) async {
+          //todo: separate
+          //todo: the list appears empty in recent and in driver new tab
           print('Message from server: $message');
           await sHC.refreshEverything();
         },

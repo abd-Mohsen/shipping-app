@@ -136,7 +136,7 @@ class CurrOrderCard extends StatelessWidget {
                         (i) => EasyStep(
                           customStep: CircleAvatar(
                             radius: statusIndex == i ? 20 : 14,
-                            backgroundColor: statusIndex >= i ? Color.lerp(cs.primary, Colors.white, 0.1) : Colors.grey,
+                            backgroundColor: statusIndex == i ? cs.primaryContainer : cs.primary,
                             child: FaIcon(
                               stepperIcons[i],
                               size: statusIndex == i ? 18 : 13,

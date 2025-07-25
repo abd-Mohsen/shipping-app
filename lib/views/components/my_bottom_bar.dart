@@ -29,7 +29,7 @@ class MyBottomBar extends StatelessWidget {
             : ["home".tr, "orders".tr, "explore".tr, "new"];
 
     return AnimatedBottomNavigationBar.builder(
-      backgroundColor: cs.secondaryContainer,
+      backgroundColor: Get.isDarkMode ? cs.secondaryFixed : cs.primary,
       splashRadius: 0,
       itemCount: iconsList.length,
       tabBuilder: (int i, bool isActive) {

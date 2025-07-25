@@ -120,7 +120,7 @@ class CustomerHomeView extends StatelessWidget {
             // ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-              backgroundColor: cs.secondaryContainer,
+              backgroundColor: Get.isDarkMode ? cs.secondaryFixed : cs.primary,
               splashRadius: 0,
               itemCount: iconsList.length,
               tabBuilder: (int i, bool isActive) {
@@ -130,12 +130,12 @@ class CustomerHomeView extends StatelessWidget {
                     Icon(
                       iconsList[i],
                       size: 24,
-                      color: isActive ? cs.primaryContainer : cs.onSecondaryContainer.withValues(alpha: 0.7),
+                      color: isActive ? cs.primaryContainer : cs.onPrimary.withValues(alpha: 0.7),
                     ),
                     Text(
                       titlesList[i],
                       style: tt.labelSmall!.copyWith(
-                        color: isActive ? cs.primaryContainer : cs.onSecondaryContainer.withValues(alpha: 0.7),
+                        color: isActive ? cs.primaryContainer : cs.onPrimary.withValues(alpha: 0.7),
                       ),
                     )
                   ],
@@ -230,7 +230,7 @@ class CustomerHomeView extends StatelessWidget {
               },
               foregroundColor: cs.onPrimary,
               shape: const CircleBorder(),
-              child: Icon(Icons.add, color: cs.onPrimary),
+              child: Icon(Icons.add, color: Get.isDarkMode ? cs.secondaryFixed : cs.primary),
             ),
             drawer: GetBuilder<CurrentUserController>(
               builder: (controller) {

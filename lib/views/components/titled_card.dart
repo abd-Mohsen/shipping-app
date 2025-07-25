@@ -17,7 +17,7 @@ class TitledCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius ?? 10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2), // Shadow color
+            color: Colors.black.withValues(alpha: 0.2), // Shadow color
             blurRadius: 2, // Soften the shadow
             spreadRadius: 1, // Extend the shadow
             offset: Offset(1, 1), // Shadow direction (x, y)
@@ -36,7 +36,7 @@ class TitledCard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Divider(color: cs.onSurface.withOpacity(0.2)),
+            child: Divider(color: cs.onSurface.withValues(alpha: 0.2)),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0, top: 8),

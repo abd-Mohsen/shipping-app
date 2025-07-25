@@ -35,7 +35,7 @@ class UserProfileTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 12, right: 12, top: 16, bottom: 10),
       decoration: BoxDecoration(
-        color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.025) : cs.surface,
+        color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.025) : cs.secondaryContainer,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
