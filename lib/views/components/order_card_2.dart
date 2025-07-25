@@ -31,7 +31,7 @@ class OrderCard2 extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            padding: const EdgeInsets.symmetric(vertical: 0),
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -66,24 +66,24 @@ class OrderCard2 extends StatelessWidget {
                                 ? FaIcon(
                                     FontAwesomeIcons.box,
                                     color: cs.onPrimary,
-                                    size: 18,
+                                    size: 16,
                                   )
                                 : order.status == "canceled"
                                     ? FaIcon(
                                         Icons.close,
                                         color: cs.onPrimary,
-                                        size: 18,
+                                        size: 16,
                                       )
                                     : order.status == "processing"
                                         ? FaIcon(
                                             FontAwesomeIcons.truckMoving,
                                             color: cs.onPrimary,
-                                            size: 18,
+                                            size: 16,
                                           )
                                         : FaIcon(
                                             FontAwesomeIcons.clock,
                                             color: cs.onPrimary,
-                                            size: 18,
+                                            size: 16,
                                           ),
                           ),
                         ),
@@ -170,8 +170,9 @@ class OrderCard2 extends StatelessWidget {
                           : order.status == "done"
                               ? Color.lerp(Colors.green, Colors.white, 0.15)
                               : order.status == "processing"
-                                  ? Color.lerp(Colors.blue, Colors.white, 0.3)
-                                  : Color.lerp(Colors.black, Colors.white, 0.55),
+                                  ? Color.lerp(cs.primaryContainer, Colors.white, 0.3)
+                                  // : Color.lerp(Colors.black, Colors.white, 0.55),
+                                  : cs.primary,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Padding(
@@ -221,7 +222,7 @@ class OrderCard2 extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Divider(
-                color: cs.onSurface.withOpacity(0.2),
+                color: cs.onSurface.withValues(alpha: 0.2),
                 // indent: MediaQuery.of(context).size.width / 15,
                 // endIndent: MediaQuery.of(context).size.width / 15,
               ),

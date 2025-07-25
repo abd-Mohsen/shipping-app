@@ -21,9 +21,19 @@ class BranchModel {
   });
 
   factory BranchModel.fromJson(Map<String, dynamic> json) => BranchModel(
-        id: json["id"],
+        id: json["id"] ?? 0,
         name: json["name"],
-        address: AddressModel.fromJson(json["address"]),
+        address: json["address"] == null
+            ? AddressModel(
+                country: "country",
+                governorate: "governorate",
+                city: "city",
+                district: "district",
+                street: "street",
+                latitude: 6,
+                longitude: 9,
+              )
+            : AddressModel.fromJson(json["address"]),
         isActive: json["is_active"],
       );
 

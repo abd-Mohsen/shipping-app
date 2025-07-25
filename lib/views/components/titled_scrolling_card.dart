@@ -36,7 +36,7 @@ class TitledScrollingCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius ?? 10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             blurRadius: 2,
             spreadRadius: 1,
             offset: const Offset(1, 1),
@@ -83,7 +83,7 @@ class TitledScrollingCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Divider(color: cs.onSurface.withOpacity(0.2)),
+                  child: Divider(color: cs.onSurface.withValues(alpha: 0.2)),
                 ),
               ],
             ),
@@ -134,7 +134,7 @@ class TitledScrollingCard extends StatelessWidget {
               height: maxHeight,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: children,

@@ -141,12 +141,12 @@ class ApplicationCard extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: cs.secondaryContainer,
                                   borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(width: 0.6, color: cs.onSecondaryContainer),
+                                  border: Border.all(width: 1.5, color: cs.primaryContainer),
                                 ),
                                 child: Icon(
-                                  CupertinoIcons.phone,
+                                  CupertinoIcons.phone_fill,
                                   size: 20,
-                                  color: cs.onSecondaryContainer,
+                                  color: cs.primaryContainer,
                                 )),
                           ),
                         ),

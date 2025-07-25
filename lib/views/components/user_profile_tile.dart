@@ -88,7 +88,7 @@ class UserProfileTile extends StatelessWidget {
                       ),
                       child: Container(
                         padding: const EdgeInsets.all(6),
-                        margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
                         decoration: BoxDecoration(
                           color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.33) : cs.primary,
                           borderRadius: BorderRadius.circular(8),
@@ -134,7 +134,7 @@ class UserProfileTile extends StatelessWidget {
                     ),
                   GetBuilder<NotificationsController>(builder: (controller) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                       child: badges.Badge(
                         showBadge: controller.unreadCount > 0,
                         position: badges.BadgePosition.topStart(),
@@ -179,8 +179,8 @@ class UserProfileTile extends StatelessWidget {
               if (cUC.currentUser != null) Get.to(InvoicesView(user: cUC.currentUser!));
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-              margin: const EdgeInsets.only(left: 12, right: 12, bottom: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              margin: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
               width: double.infinity,
               decoration: BoxDecoration(
                 color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.black, 0.22) : cs.primary,

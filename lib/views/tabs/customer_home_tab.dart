@@ -45,10 +45,10 @@ class CustomerHomeTab extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2), // Shadow color
-                      blurRadius: 2, // Soften the shadow
-                      spreadRadius: 1, // Extend the shadow
-                      offset: const Offset(1, 1), // Shadow direction (x, y)
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 2,
+                      spreadRadius: 1,
+                      offset: const Offset(1, 1),
                     ),
                   ],
                 ),
@@ -57,16 +57,19 @@ class CustomerHomeTab extends StatelessWidget {
                   child: Container(
                     height: 150,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xff0c8ce9), width: 2.5),
+                      border: Border.all(color: Color(0xff0e5aa6), width: 2.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: OrderPageMap(
-                      mapController: MapController.withPosition(
-                        initPosition: GeoPoint(latitude: 33.5132, longitude: 36.2768),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: OrderPageMap(
+                        mapController: MapController.withPosition(
+                          initPosition: GeoPoint(latitude: 33.5132, longitude: 36.2768),
+                        ),
+                        onMapIsReady: (v) {
+                          //
+                        },
                       ),
-                      onMapIsReady: (v) {
-                        //
-                      },
                     ),
                   ),
                 ),
