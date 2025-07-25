@@ -62,12 +62,13 @@ class ApplicationCard extends StatelessWidget {
                               width: 37,
                               height: 37,
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [isAccepted ?? true ? cs.primary : Colors.grey, Color(0xffC8C8C8)],
-                                  stops: [0, 1],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                ),
+                                // gradient: LinearGradient(
+                                //   colors: [isAccepted ?? true ? cs.primary : Colors.grey, Color(0xffC8C8C8)],
+                                //   stops: [0, 1],
+                                //   begin: Alignment.topCenter,
+                                //   end: Alignment.bottomCenter,
+                                // ),
+                                color: cs.primary,
                                 borderRadius: BorderRadius.circular(100),
                               ),
                               child: Center(

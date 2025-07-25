@@ -84,9 +84,9 @@ class OrderCard3 extends StatelessWidget {
                                     )
                                   : order.status == "processing"
                                       ? FaIcon(
-                                          FontAwesomeIcons.truckMoving,
+                                          Icons.local_shipping,
                                           color: cs.onPrimary,
-                                          size: 18,
+                                          size: 20,
                                         )
                                       : FaIcon(
                                           FontAwesomeIcons.clock,
@@ -177,7 +177,7 @@ class OrderCard3 extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                     child: Text(
                       order.status.tr,
                       maxLines: 1,

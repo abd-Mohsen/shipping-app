@@ -1353,12 +1353,32 @@ class OrderView extends StatelessWidget {
                                         if (oC.order!.extraInfo.isNotEmpty || oC.order!.otherInfo != null)
                                           const SizedBox(height: 8),
                                         if (oC.order!.extraInfo.isNotEmpty)
-                                          Text(
-                                            oC.order!.formatExtraInfo(),
-                                            style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1000,
-                                          ),
+                                          Wrap(
+                                              children: oC.order!.extraInfo
+                                                  .map(
+                                                    (e) => Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.only(top: 4.0),
+                                                          child: CircleAvatar(
+                                                            foregroundColor: cs.secondaryContainer,
+                                                            backgroundColor: cs.primaryContainer,
+                                                            radius: 6,
+                                                            child: const Icon(Icons.done, size: 10),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(width: 4),
+                                                        Text(
+                                                          oC.order!.formatExtraInfo(),
+                                                          style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 1000,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                  .toList()),
                                         if (oC.order!.otherInfo != null)
                                           Text(
                                             oC.order!.otherInfo!,

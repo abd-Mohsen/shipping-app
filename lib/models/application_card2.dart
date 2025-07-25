@@ -53,12 +53,13 @@ class ApplicationCard2 extends StatelessWidget {
                           width: 37,
                           height: 37,
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [isAccepted ?? true ? cs.primary : Colors.grey, Color(0xffC8C8C8)],
-                              stops: [0, 1],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
+                            // gradient: LinearGradient(
+                            //   colors: [isAccepted ?? true ? cs.primary : Colors.grey, Color(0xffC8C8C8)],
+                            //   stops: [0, 1],
+                            //   begin: Alignment.topCenter,
+                            //   end: Alignment.bottomCenter,
+                            // ),
+                            color: cs.primary,
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: Center(
@@ -102,12 +103,12 @@ class ApplicationCard2 extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: cs.secondaryContainer,
                               borderRadius: BorderRadius.circular(100),
-                              border: Border.all(width: 0.6, color: cs.onSecondaryContainer),
+                              border: Border.all(width: 1.5, color: cs.primaryContainer),
                             ),
                             child: Icon(
-                              CupertinoIcons.phone,
+                              CupertinoIcons.phone_fill,
                               size: 20,
-                              color: cs.onSecondaryContainer,
+                              color: cs.primaryContainer,
                             )),
                       ),
                     ),

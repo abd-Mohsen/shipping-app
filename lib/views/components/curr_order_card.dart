@@ -92,12 +92,12 @@ class CurrOrderCard extends StatelessWidget {
                                 : order!.status == "done"
                                     ? Color.lerp(Colors.green, Colors.white, 0.15)
                                     : order!.status == "processing"
-                                        ? Color.lerp(cs.primaryContainer, Colors.white, 0.3)
-                                        : Color.lerp(Colors.black, Colors.white, 0.55),
+                                        ? cs.primaryContainer
+                                        : cs.primary,
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                             child: Text(
                               order!.status.tr,
                               maxLines: 1,

@@ -107,7 +107,7 @@ class MakeOrderView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: controller.isLoadingInfo
-                      ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                      ? SpinKitThreeBounce(color: cs.primaryContainer, size: 20)
                       : VehicleTypeSelector(
                           padding: EdgeInsets.zero,
                           selectedItem: controller.selectedVehicleType,
@@ -156,7 +156,7 @@ class MakeOrderView extends StatelessWidget {
                       child: controller.isLoadingInfo
                           ? Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: SpinKitThreeBounce(color: cs.primary, size: 20),
+                              child: SpinKitThreeBounce(color: cs.primaryContainer, size: 20),
                             )
                           : CustomDropdownButton<WeightUnitModel>(
                               items: controller.weightUnits,
@@ -196,7 +196,7 @@ class MakeOrderView extends StatelessWidget {
                       child: controller.isLoadingInfo
                           ? Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: SpinKitThreeBounce(color: cs.primary, size: 20),
+                              child: SpinKitThreeBounce(color: cs.primaryContainer, size: 20),
                             )
                           : CustomDropdownButton<CurrencyModel>(
                               items: controller.currencies,
@@ -219,7 +219,7 @@ class MakeOrderView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: controller.isLoadingInfo
-                      ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                      ? SpinKitThreeBounce(color: cs.primaryContainer, size: 20)
                       : MultiDropdown<PaymentMethodModel>(
                           items: controller.paymentMethods
                               .map(
@@ -246,7 +246,7 @@ class MakeOrderView extends StatelessWidget {
                               padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
                               child: Icon(
                                 FontAwesomeIcons.ccMastercard,
-                                color: cs.primary,
+                                color: cs.primaryContainer,
                               ),
                             ),
                             showClearIcon: false,
@@ -267,7 +267,7 @@ class MakeOrderView extends StatelessWidget {
                             selectedBackgroundColor: cs.secondaryContainer,
                             textColor: cs.onSurface,
                             selectedTextColor: cs.onSurface,
-                            selectedIcon: Icon(Icons.check_box, color: cs.primary),
+                            selectedIcon: Icon(Icons.check_box, color: cs.primaryContainer),
                             //disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
                           ),
                           validator: (value) {
@@ -349,7 +349,7 @@ class MakeOrderView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: controller.isLoadingInfo
-                      ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                      ? SpinKitThreeBounce(color: cs.primaryContainer, size: 20)
                       : ExpansionTile(
                           title: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -363,6 +363,8 @@ class MakeOrderView extends StatelessWidget {
                             (i) => Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: CheckboxListTile(
+                                activeColor: cs.primaryContainer,
+                                checkColor: cs.primary,
                                 value: controller.extraInfoSelection[i],
                                 onChanged: (val) {
                                   controller.toggleExtraInfo(i, val!);
