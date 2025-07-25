@@ -4,12 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:pie_chart/pie_chart.dart' as pie;
 import 'package:shipment/views/components/export_file_sheet.dart';
+import 'package:shipment/views/components/my_loading_animation.dart';
 import 'package:shipment/views/components/stats_tile.dart';
 
 class CompanyStatsTab extends StatelessWidget {
@@ -54,7 +54,7 @@ class CompanyStatsTab extends StatelessWidget {
               showMaterialModalBottomSheet(
                 context: context,
                 backgroundColor: Colors.transparent,
-                barrierColor: Colors.black.withOpacity(0.5),
+                barrierColor: Colors.black.withValues(alpha: 0.5),
                 enableDrag: false,
                 builder: (context) => Padding(
                   padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -77,27 +77,7 @@ class CompanyStatsTab extends StatelessWidget {
             : RefreshIndicator(
                 onRefresh: controller.getCompanyStats,
                 child: controller.companyStats == null
-                    ? Center(
-                        child: ListView(
-                          shrinkWrap: true,
-                          children: [
-                            Lottie.asset("assets/animations/stats3.json", height: 200),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 32),
-                              child: Center(
-                                child: Text(
-                                  "no data, pull down to refresh".tr,
-                                  style: tt.titleMedium!.copyWith(
-                                    color: cs.onSurface,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                    ? MyLoadingAnimation(file: "stats4", height: 300)
                     : ListView(
                         children: [
                           Column(
@@ -109,7 +89,7 @@ class CompanyStatsTab extends StatelessWidget {
                                   child: BarChart(
                                     BarChartData(
                                       borderData: FlBorderData(
-                                        border: Border(
+                                        border: const Border(
                                           top: BorderSide.none,
                                           right: BorderSide.none,
                                           // left: BorderSide(width: 2, color: cs.surface),
@@ -152,7 +132,7 @@ class CompanyStatsTab extends StatelessWidget {
                                                 child: Text(
                                                   text.substring(0, 3).toUpperCase(),
                                                   style: tt.labelSmall!.copyWith(
-                                                    color: cs.onSurface.withOpacity(0.5),
+                                                    color: cs.onSurface.withValues(alpha: 0.5),
                                                     fontSize: 10,
                                                   ),
                                                 ),
@@ -170,7 +150,8 @@ class CompanyStatsTab extends StatelessWidget {
                                                 padding: const EdgeInsets.all(8.0),
                                                 child: Text(
                                                   text,
-                                                  style: tt.labelLarge!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                                                  style: tt.labelLarge!
+                                                      .copyWith(color: cs.onSurface.withValues(alpha: 0.5)),
                                                 ),
                                               );
                                             },
@@ -189,7 +170,7 @@ class CompanyStatsTab extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 8),
                                 child: Text(
                                   "orders taken last week".tr,
-                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
                                 ),
                               ),
                             ],
@@ -288,7 +269,7 @@ class CompanyStatsTab extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.black.withOpacity(0.2), // Shadow color
+                                          color: Colors.black.withValues(alpha: 0.2), // Shadow color
                                           blurRadius: 4, // Soften the shadow
                                           spreadRadius: 1, // Extend the shadow
                                           offset: Offset(2, 2), // Shadow direction (x, y)
@@ -307,27 +288,27 @@ class CompanyStatsTab extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        Divider(color: cs.onSurface.withOpacity(0.2)),
+                                        Divider(color: cs.onSurface.withValues(alpha: 0.2)),
                                         pie.PieChart(
                                           dataMap: controller.companyStats!.decodedOrdersPerCity(false),
-                                          animationDuration: Duration(milliseconds: 800),
+                                          animationDuration: const Duration(milliseconds: 800),
                                           chartLegendSpacing: 12,
                                           chartRadius: MediaQuery.of(context).size.width / 1.5,
-                                          colorList: [
-                                            const Color(0xfffdcb6e), // Yellow
-                                            const Color(0xffe17055), // Orange
-                                            const Color(0xffd63031), // Red
-                                            const Color(0xffe84393), // Pink
-                                            const Color(0xff6c5ce7), // Purple
-                                            const Color(0xff0984e3), // Blue
-                                            const Color(0xff00cec9), // Teal
-                                            const Color(0xff00b894), // Green
-                                            const Color(0xff55efc4), // Mint
-                                            const Color(0xff74b9ff), // Light Blue
-                                            const Color(0xffa29bfe), // Lavender
-                                            const Color(0xffdfe6e9), // Light Gray
-                                            const Color(0xff636e72), // Dark Gray
-                                            const Color(0xff2d3436) // Almost Black
+                                          colorList: const [
+                                            Color(0xfffdcb6e), // Yellow
+                                            Color(0xffe17055), // Orange
+                                            Color(0xffd63031), // Red
+                                            Color(0xffe84393), // Pink
+                                            Color(0xff6c5ce7), // Purple
+                                            Color(0xff0984e3), // Blue
+                                            Color(0xff00cec9), // Teal
+                                            Color(0xff00b894), // Green
+                                            Color(0xff55efc4), // Mint
+                                            Color(0xff74b9ff), // Light Blue
+                                            Color(0xffa29bfe), // Lavender
+                                            Color(0xffdfe6e9), // Light Gray
+                                            Color(0xff636e72), // Dark Gray
+                                            Color(0xff2d3436) // Almost Black
                                           ],
                                           initialAngleInDegree: 0,
                                           chartType: ChartType.disc,

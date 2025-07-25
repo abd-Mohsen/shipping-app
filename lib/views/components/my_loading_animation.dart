@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 class MyLoadingAnimation extends StatelessWidget {
   final String file;
   final double? height;
-  const MyLoadingAnimation({super.key, this.file = "simple truck", this.height});
+  const MyLoadingAnimation({super.key, this.file = "simple truck2", this.height});
 
   @override
   Widget build(BuildContext context) {
