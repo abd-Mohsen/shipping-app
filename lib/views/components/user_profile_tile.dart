@@ -15,6 +15,8 @@ class UserProfileTile extends StatelessWidget {
   final UserModel? user;
   final bool? company;
   final bool? isPrimaryColor;
+  final bool? showBadge;
+  final String? locationIndicator;
 
   const UserProfileTile({
     super.key,
@@ -23,6 +25,8 @@ class UserProfileTile extends StatelessWidget {
     required this.user,
     this.company,
     this.isPrimaryColor,
+    this.showBadge,
+    this.locationIndicator,
   });
 
   @override
@@ -31,6 +35,22 @@ class UserProfileTile extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
 
     CurrentUserController cUC = Get.find();
+
+    iconWithBorder() => Container(
+          width: 35,
+          height: 35,
+          decoration: BoxDecoration(
+            color: cs.secondaryContainer,
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(
+              width: 2,
+              color: locationIndicator == "tracking" ? Colors.green : Colors.red,
+            ),
+          ),
+          child: locationIndicator == "tracking"
+              ? const Icon(Icons.done, color: Colors.green, size: 30)
+              : const Icon(Icons.close, color: Colors.red, size: 30),
+        );
 
     return Container(
       margin: const EdgeInsets.only(left: 12, right: 12, top: 16, bottom: 10),
@@ -55,16 +75,28 @@ class UserProfileTile extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: onTapProfile,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                      decoration: BoxDecoration(
-                        color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.33) : cs.primary,
-                        borderRadius: BorderRadius.circular(8),
+                    child: badges.Badge(
+                      showBadge: showBadge ?? false,
+                      position: badges.BadgePosition.topStart(
+                        top: 6, // Negative value moves it up
+                        start: 6, // Negative value moves it left
                       ),
-                      child: Icon(
-                        Icons.person_outline,
-                        color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary,
+                      badgeStyle: badges.BadgeStyle(
+                        shape: badges.BadgeShape.circle,
+                        badgeColor: kNotificationColor,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                        decoration: BoxDecoration(
+                          color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.33) : cs.primary,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.person_outline,
+                          color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary,
+                        ),
                       ),
                     ),
                   ),
@@ -93,44 +125,53 @@ class UserProfileTile extends StatelessWidget {
                             )
                 ],
               ),
-              GetBuilder<NotificationsController>(builder: (controller) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
-                  child: badges.Badge(
-                    showBadge: controller.unreadCount > 0,
-                    position: badges.BadgePosition.topStart(),
-                    // smallSize: 10,
-                    // backgroundColor: const Color(0xff00ff00),
-                    // alignment: Alignment.topRight,
-                    // offset: const Offset(-5, -5),
-                    badgeStyle: badges.BadgeStyle(
-                      shape: badges.BadgeShape.circle,
-                      badgeColor: kNotificationColor,
-                      borderRadius: BorderRadius.circular(4),
+              Row(
+                children: [
+                  if (locationIndicator != null)
+                    GestureDetector(
+                      onTap: () {},
+                      child: iconWithBorder(),
                     ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Get.to(() => const NotificationsView());
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.33) : cs.primary,
-                          borderRadius: BorderRadius.circular(8),
+                  GetBuilder<NotificationsController>(builder: (controller) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      child: badges.Badge(
+                        showBadge: controller.unreadCount > 0,
+                        position: badges.BadgePosition.topStart(),
+                        // smallSize: 10,
+                        // backgroundColor: const Color(0xff00ff00),
+                        // alignment: Alignment.topRight,
+                        // offset: const Offset(-5, -5),
+                        badgeStyle: badges.BadgeStyle(
+                          shape: badges.BadgeShape.circle,
+                          badgeColor: kNotificationColor,
+                          borderRadius: BorderRadius.circular(4),
                         ),
-                        child: GetBuilder<NotificationsController>(
-                          builder: (controller) {
-                            return Icon(
-                              Icons.notifications_outlined,
-                              color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary,
-                            );
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => const NotificationsView());
                           },
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                              color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.white, 0.33) : cs.primary,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: GetBuilder<NotificationsController>(
+                              builder: (controller) {
+                                return Icon(
+                                  Icons.notifications_outlined,
+                                  color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onPrimary,
+                                );
+                              },
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }),
+                    );
+                  }),
+                ],
+              ),
             ],
           ),
           GestureDetector(

@@ -79,10 +79,16 @@ class NewDriverTab extends StatelessWidget {
                 right: 0,
                 child: GetBuilder<CurrentUserController>(builder: (innerController) {
                   return UserProfileTile(
-                    onTapProfile: () {},
+                    onTapProfile: () {
+                      innerController.scaffoldKey.currentState?.openDrawer();
+                    },
+                    locationIndicator: controller.trackingID == 1 ? null : controller.trackingStatus,
                     isLoadingUser: innerController.isLoadingUser,
                     user: innerController.currentUser,
                     isPrimaryColor: false,
+                    showBadge: innerController.currentUser != null &&
+                        innerController.currentUser!.role.type == "driver" &&
+                        ["refused", "No_Input"].contains(innerController.currentUser!.driverInfo?.vehicleStatus),
                   );
                 }),
               ),
@@ -129,15 +135,15 @@ class NewDriverTab extends StatelessWidget {
                       child: GetBuilder<SharedHomeController>(
                         builder: (innerController) {
                           return Padding(
-                            padding: const EdgeInsets.only(top: 12.0),
+                            padding: const EdgeInsets.only(top: 8.0),
                             child: Column(
                               children: [
                                 GestureDetector(
                                   child: Divider(
-                                    thickness: 3,
+                                    thickness: 2,
                                     color: cs.onSurface,
-                                    indent: 150,
-                                    endIndent: 150,
+                                    indent: 170,
+                                    endIndent: 170,
                                   ),
                                   onTap: () {
                                     print("tap");
@@ -352,7 +358,7 @@ class NewDriverTab extends StatelessWidget {
                                             //   ),
                                             // ),
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                                               child: innerController.isLoadingGovernorates
                                                   ? Padding(
                                                       padding: const EdgeInsets.symmetric(vertical: 16.0),
