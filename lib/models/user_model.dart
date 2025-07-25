@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:shipment/models/balance_model.dart';
+
 List<UserModel> userModelFromJson(String str) =>
     List<UserModel>.from(json.decode(str).map((x) => UserModel.fromJson(x)));
 
@@ -153,24 +155,20 @@ class CompanyInfo {
 }
 
 class Wallet {
-  final String balance;
   final String reservedCommission;
-  final List balances;
+  final List<BalanceModel> balances;
 
   Wallet({
-    required this.balance,
     required this.reservedCommission,
     required this.balances,
   });
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
-        balance: json["total_balance_usd"] ?? "",
         reservedCommission: json["reserved_commission_usd"] ?? "",
-        balances: [], //todo: needs modification
+        balances: List<BalanceModel>.from(json["balances"].map((x) => BalanceModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "balance": balance,
         "reserved_commission": reservedCommission,
       };
 }

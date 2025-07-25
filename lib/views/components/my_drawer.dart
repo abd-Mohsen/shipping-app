@@ -288,7 +288,7 @@ class MyDrawer extends StatelessWidget {
                     title: "payment history".tr,
                     icon: Icons.text_snippet_outlined,
                     onTap: () {
-                      Get.to(InvoicesView(user: currentUser!));
+                      Get.to(InvoicesView());
                     },
                   ),
                 ),

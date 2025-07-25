@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/invoice_controller.dart';
 import 'package:shipment/models/user_model.dart';
 import 'package:shipment/views/components/invoice_card.dart';
 
 class InvoicesView extends StatelessWidget {
-  final UserModel user;
-  const InvoicesView({super.key, required this.user});
+  const InvoicesView({super.key});
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     InvoiceController iC = Get.put(InvoiceController());
+    CurrentUserController cUC = Get.find();
 
     return Scaffold(
       backgroundColor: cs.surface,
@@ -68,9 +69,9 @@ class InvoicesView extends StatelessWidget {
                                     "الرصيد الحالي".tr,
                                     style: tt.labelMedium!.copyWith(color: cs.onPrimary),
                                   ),
-                                  if (user.wallet != null)
+                                  if (cUC.currentUser?.wallet != null)
                                     Text(
-                                      "${"reserved".tr}:  ${user.wallet!.reservedCommission}",
+                                      "${"reserved".tr}:  ${cUC.currentUser?.wallet!.reservedCommission}",
                                       style: tt.labelSmall!.copyWith(color: cs.onPrimary),
                                     ),
                                 ],
@@ -79,7 +80,8 @@ class InvoicesView extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(top: 4.0),
                                 child: Text(
-                                  "${user.wallet?.balance ?? "x"}\$",
+                                  "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? ""
+                                      "x" : cUC.currentUser?.wallet?.balances.first.amount}\$",
                                   style: tt.headlineLarge!.copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
                                 ),
                               ),

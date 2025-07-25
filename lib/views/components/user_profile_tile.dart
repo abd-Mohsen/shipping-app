@@ -194,7 +194,7 @@ class UserProfileTile extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              if (cUC.currentUser != null) Get.to(InvoicesView(user: cUC.currentUser!));
+              if (cUC.currentUser != null) Get.to(InvoicesView());
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -210,7 +210,10 @@ class UserProfileTile extends StatelessWidget {
                   Icon(Icons.wallet_outlined, color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
                   SizedBox(width: 12),
                   Text(
-                    isLoadingUser ? "0.00" : user?.wallet?.balance ?? "0.00",
+                    isLoadingUser
+                        ? ""
+                        : "${user?.wallet != null && user!.wallet!.balances.isEmpty ? ""
+                            "0.00" : user?.wallet?.balances.first.amount}\$",
                     style:
                         tt.titleSmall!.copyWith(color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
                   )
