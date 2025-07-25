@@ -54,6 +54,8 @@ class RefreshSocketController extends GetxController {
           //todo: separate
           //todo: the list appears empty in recent and in driver new tab
           print('Message from server: $message');
+          message = jsonDecode(message);
+          if (message["type"] == "group_switched") return;
           await sHC.refreshEverything();
         },
         onDone: () {

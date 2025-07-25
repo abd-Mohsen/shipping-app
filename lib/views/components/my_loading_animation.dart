@@ -4,7 +4,8 @@ import 'package:lottie/lottie.dart';
 
 class MyLoadingAnimation extends StatelessWidget {
   final String file;
-  const MyLoadingAnimation({super.key, this.file = "simple truck"});
+  final double? height;
+  const MyLoadingAnimation({super.key, this.file = "simple truck", this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class MyLoadingAnimation extends StatelessWidget {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Lottie.asset("assets/animations/$file.json", height: 200),
+          Lottie.asset("assets/animations/$file.json", height: height ?? 200),
           Padding(
             padding: const EdgeInsets.all(24),
             child: Center(

@@ -25,7 +25,7 @@ class GovernorateSelector extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         borderSide: BorderSide(
           width: width,
-          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade300), // Fake shadow color
+          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade400), // Fake shadow color
         ),
       );
     }
@@ -73,7 +73,7 @@ class GovernorateSelector extends StatelessWidget {
             child: Icon(Icons.location_city, color: cs.primaryContainer),
           ),
           labelText: "selected governorate".tr,
-          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           enabledBorder: border(width: 1.5),
           focusedBorder: border(width: 2),

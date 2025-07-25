@@ -199,133 +199,137 @@ class NewDriverTab extends StatelessWidget {
                                               ),
                                             ),
                                             Expanded(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(right: 12.0, left: 12, top: 8),
-                                                    child: Text(
-                                                      "duration".tr,
-                                                      style: tt.titleSmall!.copyWith(
-                                                        color: cs.onSurface.withValues(alpha: 0.4),
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(right: 12.0, left: 12, top: 8),
+                                                      child: Text(
+                                                        "duration".tr,
+                                                        style: tt.titleSmall!.copyWith(
+                                                          color: cs.onSurface.withValues(alpha: 0.4),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
-                                                    //todo: pass begin time instead of creation time
-                                                    child: CountUpTimer(
-                                                      startDuration: DateTime.now()
-                                                          .difference(innerController.currOrders.first.createdAt),
-                                                      textStyle: tt.headlineLarge!
-                                                          .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
+                                                      //todo: pass begin time instead of creation time
+                                                      child: CountUpTimer(
+                                                        startDuration: DateTime.now()
+                                                            .difference(innerController.currOrders.first.createdAt),
+                                                        textStyle: tt.headlineLarge!
+                                                            .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                                      ),
+                                                      // child: Text(
+                                                      //   "00 : 23 : 01".tr,
+                                                      //   style: tt.headlineLarge!.copyWith(
+                                                      //     color: cs.onSurface,
+                                                      //   ),
+                                                      // ),
                                                     ),
-                                                    // child: Text(
-                                                    //   "00 : 23 : 01".tr,
-                                                    //   style: tt.headlineLarge!.copyWith(
-                                                    //     color: cs.onSurface,
-                                                    //   ),
-                                                    // ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              const Icon(Icons.location_on,
-                                                                  size: 20, color: Color(0xFFFF0000)),
-                                                              Text(
-                                                                "from".tr,
-                                                                style: tt.labelMedium!.copyWith(
-                                                                    color: cs.onSurface.withValues(alpha: 0.6)),
-                                                              ),
-                                                              const SizedBox(width: 4),
-                                                              Expanded(
-                                                                child: GestureDetector(
-                                                                  onTap: () {
-                                                                    controller.drawPath(
-                                                                      true,
-                                                                      LatLng(
-                                                                        innerController
-                                                                            .currOrders.first.startPoint.latitude,
-                                                                        innerController
-                                                                            .currOrders.first.startPoint.longitude,
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                const Icon(Icons.location_on,
+                                                                    size: 20, color: Color(0xFFFF0000)),
+                                                                Text(
+                                                                  "from".tr,
+                                                                  style: tt.labelMedium!.copyWith(
+                                                                      color: cs.onSurface.withValues(alpha: 0.6)),
+                                                                ),
+                                                                const SizedBox(width: 4),
+                                                                Expanded(
+                                                                  child: GestureDetector(
+                                                                    onTap: () {
+                                                                      controller.drawPath(
+                                                                        true,
+                                                                        LatLng(
+                                                                          innerController
+                                                                              .currOrders.first.startPoint.latitude,
+                                                                          innerController
+                                                                              .currOrders.first.startPoint.longitude,
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                    child: Text(
+                                                                      innerController.currOrders.first.startPoint
+                                                                          .toString(),
+                                                                      style: tt.labelMedium!.copyWith(
+                                                                        color: Colors.blue,
+                                                                        decoration: TextDecoration.underline,
                                                                       ),
-                                                                    );
-                                                                  },
-                                                                  child: Text(
-                                                                    innerController.currOrders.first.startPoint
-                                                                        .toString(),
-                                                                    style: tt.labelMedium!.copyWith(
-                                                                      color: Colors.blue,
-                                                                      decoration: TextDecoration.underline,
+                                                                      maxLines: 2,
+                                                                      overflow: TextOverflow.ellipsis,
                                                                     ),
-                                                                    maxLines: 2,
-                                                                    overflow: TextOverflow.ellipsis,
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        const SizedBox(width: 8),
-                                                        Expanded(
-                                                          child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              const Icon(Icons.location_on,
-                                                                  size: 20, color: Color(0xFF38B6FF)),
-                                                              Text(
-                                                                "to".tr,
-                                                                style: tt.labelMedium!.copyWith(
-                                                                    color: cs.onSurface.withValues(alpha: 0.6)),
-                                                              ),
-                                                              const SizedBox(width: 4),
-                                                              Expanded(
-                                                                child: GestureDetector(
-                                                                  onTap: () {
-                                                                    controller.drawPath(
-                                                                      false,
-                                                                      LatLng(
-                                                                        innerController
-                                                                            .currOrders.first.endPoint.latitude,
-                                                                        innerController
-                                                                            .currOrders.first.endPoint.longitude,
+                                                          const SizedBox(width: 8),
+                                                          Expanded(
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                const Icon(Icons.location_on,
+                                                                    size: 20, color: Color(0xFF38B6FF)),
+                                                                Text(
+                                                                  "to".tr,
+                                                                  style: tt.labelMedium!.copyWith(
+                                                                      color: cs.onSurface.withValues(alpha: 0.6)),
+                                                                ),
+                                                                const SizedBox(width: 4),
+                                                                Expanded(
+                                                                  child: GestureDetector(
+                                                                    onTap: () {
+                                                                      controller.drawPath(
+                                                                        false,
+                                                                        LatLng(
+                                                                          innerController
+                                                                              .currOrders.first.endPoint.latitude,
+                                                                          innerController
+                                                                              .currOrders.first.endPoint.longitude,
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                    child: Text(
+                                                                      innerController.currOrders.first.endPoint
+                                                                          .toString(),
+                                                                      style: tt.labelMedium!.copyWith(
+                                                                        color: Colors.blue,
+                                                                        decoration: TextDecoration.underline,
                                                                       ),
-                                                                    );
-                                                                  },
-                                                                  child: Text(
-                                                                    innerController.currOrders.first.endPoint
-                                                                        .toString(),
-                                                                    style: tt.labelMedium!.copyWith(
-                                                                      color: Colors.blue,
-                                                                      decoration: TextDecoration.underline,
+                                                                      maxLines: 2,
+                                                                      overflow: TextOverflow.ellipsis,
                                                                     ),
-                                                                    maxLines: 2,
-                                                                    overflow: TextOverflow.ellipsis,
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ],
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                                    child: OrderCard2(
-                                                      order: innerController.recentOrders.first,
-                                                      isCustomer: false,
-                                                      isLast: true,
-                                                      color: cs.surface,
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                                      child: OrderCard2(
+                                                        order: innerController.recentOrders.first,
+                                                        isCustomer: false,
+                                                        isLast: true,
+                                                        color: cs.surface,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(height: 8),
-                                                ],
+                                                    const SizedBox(height: 8),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                             // Padding(

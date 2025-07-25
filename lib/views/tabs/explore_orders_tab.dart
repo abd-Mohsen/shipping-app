@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/filter_sheet.dart';
 import 'package:shipment/views/components/governorate_selector.dart';
+import 'package:shipment/views/components/my_loading_animation.dart';
 import '../../controllers/filter_controller.dart';
 import '../../controllers/notifications_controller.dart';
 import '../components/filter_button.dart';
@@ -169,28 +170,11 @@ class ExploreOrdersTab extends StatelessWidget {
                 : RefreshIndicator(
                     onRefresh: controller.refreshExploreOrders,
                     child: controller.exploreOrders.isEmpty
-                        ? Center(
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: [
-                                Lottie.asset("assets/animations/search.json", height: 300),
-                                Padding(
-                                  padding: const EdgeInsets.all(24),
-                                  child: Center(
-                                    child: Text(
-                                      "no data, pull down to refresh".tr,
-                                      style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
+                        ? MyLoadingAnimation(file: "search", height: 300)
                         : ListView.builder(
                             controller: controller.exploreOrdersScrollController,
                             physics: const AlwaysScrollableScrollPhysics(),
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
                             itemCount: controller.exploreOrders.length + 1,
                             itemBuilder: (context, i) => i < controller.exploreOrders.length
                                 ? OrderCard(

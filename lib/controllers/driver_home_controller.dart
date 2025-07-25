@@ -40,7 +40,7 @@ class DriverHomeController extends GetxController {
 
   double baseHeight = 300;
   double maxHeight = 500;
-  double containerHeight = 350;
+  double containerHeight = 300;
 
   void expandContainer() {
     containerHeight = maxHeight;

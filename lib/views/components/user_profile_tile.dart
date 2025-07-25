@@ -37,8 +37,8 @@ class UserProfileTile extends StatelessWidget {
     CurrentUserController cUC = Get.find();
 
     iconWithBorder() => Container(
-          width: 35,
-          height: 35,
+          width: 32,
+          height: 32,
           decoration: BoxDecoration(
             color: cs.secondaryContainer,
             borderRadius: BorderRadius.circular(100),
@@ -48,8 +48,8 @@ class UserProfileTile extends StatelessWidget {
             ),
           ),
           child: locationIndicator == "tracking"
-              ? const Icon(Icons.done, color: Colors.green, size: 30)
-              : const Icon(Icons.close, color: Colors.red, size: 30),
+              ? const Icon(Icons.done, color: Colors.green, size: 22)
+              : const Icon(Icons.close, color: Colors.red, size: 22),
         );
 
     return Container(
@@ -110,14 +110,14 @@ class UserProfileTile extends StatelessWidget {
                               children: [
                                 Text(
                                   "${user!.firstName} ${user!.lastName}",
-                                  style: tt.titleSmall!.copyWith(
+                                  style: tt.labelMedium!.copyWith(
                                     color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onSecondaryContainer,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   user!.phoneNumber,
-                                  style: tt.labelMedium!.copyWith(
+                                  style: tt.labelSmall!.copyWith(
                                     color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.onSecondaryContainer,
                                   ),
                                 ),
@@ -179,8 +179,8 @@ class UserProfileTile extends StatelessWidget {
               if (cUC.currentUser != null) Get.to(InvoicesView(user: cUC.currentUser!));
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              margin: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              margin: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
               width: double.infinity,
               decoration: BoxDecoration(
                 color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.black, 0.22) : cs.primary,

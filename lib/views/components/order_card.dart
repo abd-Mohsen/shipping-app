@@ -41,7 +41,7 @@ class OrderCard extends StatelessWidget {
             ],
           ),
           child: Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
             decoration: BoxDecoration(
               border: Border.all(
                 // color: order.status == "processing" ? cs.primary : cs.surface,
@@ -59,15 +59,16 @@ class OrderCard extends StatelessWidget {
                     width: 37,
                     height: 37,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Color.lerp(cs.primary, Colors.white, 0.1)!,
-                          Color.lerp(cs.primary, Colors.white, 0.6)!
-                        ],
-                        stops: const [0, 1],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
+                      color: cs.primary,
+                      // gradient: LinearGradient(
+                      //   colors: [
+                      //     Color.lerp(cs.primary, Colors.white, 0.1)!,
+                      //     Color.lerp(cs.primary, Colors.white, 0.6)!
+                      //   ],
+                      //   stops: const [0, 1],
+                      //   begin: Alignment.topCenter,
+                      //   end: Alignment.bottomCenter,
+                      // ),
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: Center(

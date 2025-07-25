@@ -29,7 +29,7 @@ class VehicleTypeSelector extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         borderSide: BorderSide(
           width: width,
-          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade300), // Fake shadow color
+          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade400), // Fake shadow color
         ),
       );
     }
@@ -65,7 +65,7 @@ class VehicleTypeSelector extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Icon(
                 Icons.fire_truck,
-                color: cs.primary,
+                color: cs.primaryContainer,
               ),
             ),
             filled: true,

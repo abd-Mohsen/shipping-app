@@ -31,10 +31,9 @@ class DriverHomeView extends StatelessWidget {
     //TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
-      const DriverHomeTab(),
+      const NewDriverTab(),
       const MyOrdersTab(),
       const ExploreOrdersTab(),
-      const NewDriverTab(),
     ];
 
     return PopScope(

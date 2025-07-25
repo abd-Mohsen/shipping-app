@@ -81,7 +81,7 @@ class VehicleSelector<T> extends StatelessWidget {
             borderRadius: BorderRadius.circular(32),
             borderSide: BorderSide(
               width: 0.5,
-              color: cs.onSurface.withOpacity(0.2),
+              color: cs.onSurface.withValues(alpha: 0.2),
             ),
           ),
           errorBorder: OutlineInputBorder(
