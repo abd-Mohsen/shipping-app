@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/constants.dart';
+import 'package:shipment/views/my_vehicles_view.dart';
 
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
@@ -47,6 +49,13 @@ class CurrentUserController extends GetxController {
       if (!currentUser!.isVerified) {
         Get.put(OTPController(currentUser!.phoneNumber, "register", null));
         Get.to(() => const OTPView(source: "register"));
+      }
+
+      bool noValidCar = currentUser!.role.type == "driver" &&
+          ["refused", "No_Input"].contains(currentUser!.driverInfo?.vehicleStatus);
+
+      if (noValidCar) {
+        Get.dialog(kNoValidCarDialog(() => Get.off(() => MyVehiclesView())), barrierDismissible: false);
       }
     }
 

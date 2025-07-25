@@ -353,6 +353,9 @@ class MyLocale extends Translations {
           "finish the order?": "finish the order?",
           "press yes if you reached your destination": "press yes if you reached your destination",
           "middle name": "middle name",
+          'cant use the app': 'you cant use the app',
+          'you do not have a vehicle associated with your account, please register a vehicle to continue': 'you do not'
+              ' have a vehicle associated with your account, please register a vehicle to continue',
         },
         "ar": {
           "Arabic": "العربية",
@@ -700,6 +703,9 @@ class MyLocale extends Translations {
           "finish the order?": "هل تريد إنهاء الطلبية؟",
           "press yes if you reached your destination": "اضغط نعم اذا وصلت الى الموقع المطلوب",
           "middle name": "اسم الأب",
+          'cant use the app': 'يتعذّر استخدام التطبيق',
+          'you do not have a vehicle associated with your account, please register a vehicle to continue':
+              'لم يتم العثور على مركبة مرتبطة بحسابك. يُرجى تسجيل مركبتك للمتابعة',
         },
       };
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:popover/popover.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/invoices_view.dart';
@@ -36,20 +37,37 @@ class UserProfileTile extends StatelessWidget {
 
     CurrentUserController cUC = Get.find();
 
-    iconWithBorder() => Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            color: cs.secondaryContainer,
-            borderRadius: BorderRadius.circular(100),
-            border: Border.all(
-              width: 2,
-              color: locationIndicator == "tracking" ? Colors.green : Colors.red,
+    iconWithBorder() => GestureDetector(
+          onTap: () {
+            showPopover(
+              context: context,
+              backgroundColor: cs.surface,
+              bodyBuilder: (context) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                child: Text(
+                  locationIndicator?.tr ?? "",
+                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+              ),
+            );
+          },
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: cs.secondaryContainer,
+              borderRadius: BorderRadius.circular(100),
+              border: Border.all(
+                width: 2,
+                color: locationIndicator == "tracking" ? Colors.green : Colors.red,
+              ),
             ),
+            child: locationIndicator == "tracking"
+                ? const Icon(Icons.done, color: Colors.green, size: 22)
+                : const Icon(Icons.close, color: Colors.red, size: 22),
           ),
-          child: locationIndicator == "tracking"
-              ? const Icon(Icons.done, color: Colors.green, size: 22)
-              : const Icon(Icons.close, color: Colors.red, size: 22),
         );
 
     return Container(

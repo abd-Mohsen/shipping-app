@@ -10,6 +10,7 @@ import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
 import 'package:shipment/views/components/custom_button.dart';
+import 'package:shipment/views/components/my_loading_animation.dart';
 import 'package:shipment/views/components/notification_button.dart';
 import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/components/user_profile_tile.dart';
@@ -233,6 +234,7 @@ class NewDriverTab extends StatelessWidget {
                                                       padding:
                                                           const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
                                                       child: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Expanded(
                                                             child: Row(
@@ -466,25 +468,7 @@ class NewDriverTab extends StatelessWidget {
                                                   : RefreshIndicator(
                                                       onRefresh: innerController.refreshExploreOrders,
                                                       child: innerController.exploreOrders.isEmpty
-                                                          ? Center(
-                                                              child: ListView(
-                                                                shrinkWrap: true,
-                                                                children: [
-                                                                  Padding(
-                                                                    padding: const EdgeInsets.all(24),
-                                                                    child: Center(
-                                                                      child: Text(
-                                                                        "no data, pull down to refresh".tr,
-                                                                        style: tt.titleMedium!.copyWith(
-                                                                            color: cs.onSurface,
-                                                                            fontWeight: FontWeight.bold),
-                                                                        textAlign: TextAlign.center,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            )
+                                                          ? MyLoadingAnimation(height: 80)
                                                           : ListView.builder(
                                                               padding: const EdgeInsets.symmetric(
                                                                   horizontal: 12, vertical: 4),

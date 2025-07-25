@@ -32,7 +32,7 @@ class MyVehiclesView extends StatelessWidget {
         context: context,
         isDismissible: false,
         backgroundColor: Colors.transparent,
-        barrierColor: Colors.black.withOpacity(0.5),
+        barrierColor: Colors.black.withValues(alpha: 0.5),
         enableDrag: true,
         builder: (context) => BackdropFilter(filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), child: AddVehicleSheet()),
       );

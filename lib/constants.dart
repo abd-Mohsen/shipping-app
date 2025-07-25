@@ -300,3 +300,20 @@ Widget kEnableLocationDialog2(onConfirm) => PopScope(
         ],
       ),
     );
+
+Widget kNoValidCarDialog(onConfirm) => PopScope(
+      canPop: false,
+      child: AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text('cant use the app'.tr, style: TextStyle(color: Colors.black)),
+        content: Text(
+            'you do not have a vehicle associated with your account, please register a vehicle to continue'.tr,
+            style: TextStyle(color: Colors.black)),
+        actions: [
+          TextButton(
+            onPressed: onConfirm,
+            child: Text("open settings".tr, style: TextStyle(color: Colors.black)),
+          ),
+        ],
+      ),
+    );

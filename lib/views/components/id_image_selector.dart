@@ -51,14 +51,14 @@ class IdImageSelector extends StatelessWidget {
           trailing: uploadStatus == null
               ? isSubmitted
                   ? const Icon(Icons.task_alt, color: Colors.green)
-                  : Icon(Icons.add_a_photo, color: cs.primary)
+                  : Icon(Icons.add_a_photo, color: cs.primaryContainer)
               : uploadStatus!.toLowerCase() == "verified"
                   ? const Icon(Icons.task_alt, color: Colors.green)
                   : uploadStatus!.toLowerCase() == "pending"
                       ? Icon(Icons.watch_later_outlined, color: cs.onSurface)
                       : uploadStatus!.toLowerCase() == "refused"
                           ? Icon(Icons.close, color: cs.error)
-                          : Icon(Icons.add_a_photo, color: cs.primary),
+                          : Icon(Icons.add_a_photo, color: cs.primaryContainer),
           onTap:
               // uploadStatus != null && uploadStatus!.toLowerCase() == "verified"
               //     ? null

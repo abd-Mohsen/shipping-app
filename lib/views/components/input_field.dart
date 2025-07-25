@@ -76,7 +76,7 @@ class InputField extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Icon(
               prefixIcon,
-              color: cs.primary,
+              color: cs.primaryContainer,
               size: 22,
             ),
           ),
