@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/make_order_controller.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/views/components/map_sheet.dart';

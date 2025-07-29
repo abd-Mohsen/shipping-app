@@ -2,8 +2,6 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../models/vehicle_model.dart';
-
 class VehicleSelector<T> extends StatelessWidget {
   final T? selectedItem;
   final List<T> items;
@@ -61,7 +59,7 @@ class VehicleSelector<T> extends StatelessWidget {
             child: Icon(Icons.local_shipping),
           ),
           labelText: title ?? "required vehicle".tr,
-          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
           floatingLabelBehavior: floatingLabelBehavior ?? FloatingLabelBehavior.never,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(32),

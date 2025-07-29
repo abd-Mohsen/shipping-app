@@ -178,7 +178,7 @@ class ApplicationCard extends StatelessWidget {
                                         size: 20,
                                         color: cs.onPrimary,
                                       ),
-                                      SizedBox(width: 8),
+                                      const SizedBox(width: 8),
                                       Text(
                                         "accept".tr,
                                         style: tt.labelMedium!.copyWith(color: Colors.white),
@@ -209,7 +209,7 @@ class ApplicationCard extends StatelessWidget {
                                         size: 20,
                                         color: cs.onPrimary,
                                       ),
-                                      SizedBox(width: 8),
+                                      const SizedBox(width: 8),
                                       Text(
                                         "show number".tr,
                                         style: tt.labelMedium!.copyWith(color: Colors.white),
@@ -240,7 +240,7 @@ class ApplicationCard extends StatelessWidget {
                                         size: 20,
                                         color: cs.onPrimary,
                                       ),
-                                      SizedBox(width: 8),
+                                      const SizedBox(width: 8),
                                       Text(
                                         "refuse".tr,
                                         style: tt.labelMedium!.copyWith(color: Colors.white),

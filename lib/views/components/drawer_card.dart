@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shipment/constants.dart';
 
 class DrawerCard extends StatelessWidget {
   final String title;

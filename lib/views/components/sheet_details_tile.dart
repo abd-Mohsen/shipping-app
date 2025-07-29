@@ -24,7 +24,7 @@ class SheetDetailsTile extends StatelessWidget {
         children: [
           Text(
             title,
-            style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+            style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.5)),
             textAlign: TextAlign.start,
           ),
           const SizedBox(height: 8),

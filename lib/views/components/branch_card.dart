@@ -35,7 +35,7 @@ class BranchCard extends StatelessWidget {
               showMaterialModalBottomSheet(
                 context: context,
                 backgroundColor: Colors.transparent,
-                barrierColor: Colors.black.withOpacity(0.5),
+                barrierColor: Colors.black.withValues(alpha: 0.5),
                 enableDrag: false,
                 builder: (context) => BlurredSheet(
                   title: "branch details".tr,
@@ -145,7 +145,7 @@ class BranchCard extends StatelessWidget {
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: tt.labelMedium!.copyWith(
-                              color: cs.onSurface.withOpacity(0.5),
+                              color: cs.onSurface.withValues(alpha: 0.5),
                             ),
                           ),
                         ),
@@ -172,7 +172,7 @@ class BranchCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Divider(
-                  color: cs.onSurface.withOpacity(0.2),
+                  color: cs.onSurface.withValues(alpha: 0.2),
                   // indent: MediaQuery.of(context).size.width / 15,
                   // endIndent: MediaQuery.of(context).size.width / 15,
                 ),

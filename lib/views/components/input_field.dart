@@ -71,7 +71,7 @@ class InputField extends StatelessWidget {
             borderSide: BorderSide(width: 1.5, color: Colors.red),
           ),
           labelText: label,
-          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.6)),
+          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
           prefixIcon: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Icon(

@@ -23,9 +23,9 @@ class _CountUpTimerState extends State<CountUpTimer> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        elapsed += Duration(seconds: 1);
+        elapsed += const Duration(seconds: 1);
       });
     });
   }

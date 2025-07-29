@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shipment/constants.dart';
-import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/my_address_model.dart';
 // import 'package:jiffy/jiffy.dart';
-import 'package:shipment/models/notification_model.dart';
 
 class AddressCard extends StatelessWidget {
   final MyAddressModel myAddress;
@@ -75,7 +72,7 @@ class AddressCard extends StatelessWidget {
           if (!isLast)
             Divider(
               thickness: 0.8,
-              color: cs.onSurface.withOpacity(0.2),
+              color: cs.onSurface.withValues(alpha: 0.2),
               indent: 12,
             )
         ],

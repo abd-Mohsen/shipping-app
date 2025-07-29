@@ -45,7 +45,7 @@ class VehicleTypeSelector extends StatelessWidget {
         compareFn: (type1, type2) => type1.id == type2.id,
         popupProps: PopupProps.menu(
           showSearchBox: false,
-          constraints: BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
+          constraints: const BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
           menuProps: MenuProps(
             elevation: 5,
             shape: const RoundedRectangleBorder(
@@ -71,7 +71,7 @@ class VehicleTypeSelector extends StatelessWidget {
             filled: true,
             fillColor: cs.secondaryContainer,
             labelText: "required vehicle type".tr,
-            labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+            labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
             floatingLabelBehavior: floatingLabelBehavior ?? FloatingLabelBehavior.never,
             enabledBorder: border(width: 1.5),
             focusedBorder: border(width: 2),

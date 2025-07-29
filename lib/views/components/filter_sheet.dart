@@ -163,7 +163,7 @@ class FilterSheet extends StatelessWidget {
                 child: Text(
                   "clear filters".tr,
                   style: tt.titleSmall!.copyWith(
-                    color: cs.onSurface.withOpacity(0.7),
+                    color: cs.onSurface.withValues(alpha: 0.7),
                     decoration: TextDecoration.underline,
                   ),
                 ),

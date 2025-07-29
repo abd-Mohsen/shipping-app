@@ -19,7 +19,7 @@ class _OrderPageMapState extends State<OrderPageMap> with AutomaticKeepAliveClie
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
+    //TextTheme tt = Theme.of(context).textTheme;
 
     super.build(context);
     return OSMFlutter(

@@ -70,7 +70,7 @@ class PaymentDetailsCard extends StatelessWidget {
                     Text(
                       "full name".tr,
                       style: tt.labelMedium!.copyWith(
-                        color: cs.onSurface.withOpacity(0.5),
+                        color: cs.onSurface.withValues(alpha: 0.5),
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
@@ -81,7 +81,7 @@ class PaymentDetailsCard extends StatelessWidget {
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: tt.labelMedium!.copyWith(
-                        color: cs.onSurface.withOpacity(0.5),
+                        color: cs.onSurface.withValues(alpha: 0.5),
                       ),
                     ),
                   ],
@@ -114,7 +114,7 @@ class PaymentDetailsCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Divider(
-                color: cs.onSurface.withOpacity(0.2),
+                color: cs.onSurface.withValues(alpha: 0.2),
                 // indent: MediaQuery.of(context).size.width / 15,
                 // endIndent: MediaQuery.of(context).size.width / 15,
               ),

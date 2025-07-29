@@ -76,7 +76,9 @@ class AuthField extends StatelessWidget {
           focusedErrorBorder: border2(color: Colors.red, width: 2),
           //hintText: "password".tr,
           hintText: label,
-          hintStyle: tt.titleSmall!.copyWith(color: fontColor?.withOpacity(0.5) ?? Colors.black.withOpacity(0.5)),
+          hintStyle: tt.titleSmall!.copyWith(
+            color: fontColor?.withValues(alpha: 0.5) ?? Colors.black.withValues(alpha: 0.5),
+          ),
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           floatingLabelBehavior: FloatingLabelBehavior.never,

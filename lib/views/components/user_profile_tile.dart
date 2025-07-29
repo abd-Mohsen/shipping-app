@@ -195,7 +195,7 @@ class UserProfileTile extends StatelessWidget {
           if (cUC.currentUser?.role.type != "company_employee")
             GestureDetector(
               onTap: () {
-                if (cUC.currentUser != null) Get.to(InvoicesView());
+                if (cUC.currentUser != null) Get.to(const InvoicesView());
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -209,7 +209,7 @@ class UserProfileTile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(Icons.wallet_outlined, color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Text(
                       isLoadingUser
                           ? ""

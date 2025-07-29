@@ -15,7 +15,7 @@ class NotificationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ColorScheme cs = Theme.of(context).colorScheme;
+    //ColorScheme cs = Theme.of(context).colorScheme;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),

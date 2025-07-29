@@ -87,7 +87,7 @@ class NotificationCard extends StatelessWidget {
                         maxLines: 10,
                         overflow: TextOverflow.ellipsis,
                         style: tt.labelMedium!.copyWith(
-                          color: cs.onSurface.withOpacity(0.5),
+                          color: cs.onSurface.withValues(alpha: 0.5),
                         ),
                       ),
                     ),
@@ -109,7 +109,7 @@ class NotificationCard extends StatelessWidget {
                       child: Text(
                         timeago.format(notification.timestamp, locale: 'en_short'),
                         style: tt.labelMedium!.copyWith(
-                          color: cs.onSurface.withOpacity(0.8),
+                          color: cs.onSurface.withValues(alpha: 0.8),
                         ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,

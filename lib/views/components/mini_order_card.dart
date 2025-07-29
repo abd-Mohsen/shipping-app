@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shipment/models/mini_order_model.dart';
 
@@ -15,8 +14,8 @@ class MiniOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    GetStorage getStorage = GetStorage();
-    bool isCompany = getStorage.read("role") == "company";
+    //GetStorage getStorage = GetStorage();
+    //bool isCompany = getStorage.read("role") == "company";
 
     return Container(
       padding: const EdgeInsets.all(12),
@@ -48,7 +47,7 @@ class MiniOrderCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width / 2,
                 child: Text(
                   order.driverName,
-                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.9)),
+                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.9)),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),
@@ -71,7 +70,7 @@ class MiniOrderCard extends StatelessWidget {
                 child: Text(
                   " ${Jiffy.parseFromDateTime(order.dateTime).format(pattern: "d / M / y")}"
                   "  ${Jiffy.parseFromDateTime(order.dateTime).jm}",
-                  style: tt.labelLarge!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+                  style: tt.labelLarge!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),

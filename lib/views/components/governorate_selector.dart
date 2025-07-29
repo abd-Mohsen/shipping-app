@@ -38,7 +38,7 @@ class GovernorateSelector extends StatelessWidget {
       selectedItem: selectedItem,
       compareFn: (type1, type2) => type1.id == type2.id,
       popupProps: PopupProps.menu(
-        constraints: BoxConstraints(maxHeight: 200),
+        constraints: const BoxConstraints(maxHeight: 200),
         showSearchBox: false,
         menuProps: MenuProps(
           elevation: 5,
@@ -69,7 +69,7 @@ class GovernorateSelector extends StatelessWidget {
           filled: true,
           fillColor: cs.secondaryContainer,
           prefixIcon: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Icon(Icons.location_city, color: cs.primaryContainer),
           ),
           labelText: "selected governorate".tr,

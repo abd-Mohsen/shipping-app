@@ -61,7 +61,7 @@ class BlurredSheet extends StatelessWidget {
                 ),
                 Divider(
                   thickness: 1,
-                  color: cs.onSurface.withOpacity(0.2),
+                  color: cs.onSurface.withValues(alpha: 0.2),
                   indent: 20,
                   endIndent: 60,
                 ),

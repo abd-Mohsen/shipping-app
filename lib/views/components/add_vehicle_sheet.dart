@@ -21,7 +21,7 @@ class AddVehicleSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    MyVehiclesController mVC = Get.find();
+    //MyVehiclesController mVC = Get.find();
 
     return GetBuilder<MyVehiclesController>(
       builder: (controller) {
@@ -122,7 +122,7 @@ class AddVehicleSheet extends StatelessWidget {
                     child: Text(
                       "your register is refused, choose another image".tr,
                       style: tt.titleSmall!.copyWith(
-                        color: cs.onSurface.withOpacity(0.7),
+                        color: cs.onSurface.withValues(alpha: 0.7),
                       ),
                       textAlign: TextAlign.center,
                     ),

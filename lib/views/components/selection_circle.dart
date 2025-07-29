@@ -34,7 +34,7 @@ class SelectionCircle extends StatelessWidget {
                   colors: [cs.primary, Color.lerp(cs.primary, Colors.white, 0.4)!],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  stops: [0, 1],
+                  stops: const [0, 1],
                 ),
               ),
               child: Icon(

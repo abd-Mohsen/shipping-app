@@ -35,7 +35,7 @@ class VehicleCard extends StatelessWidget {
           color: cs.secondaryContainer,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2), // Shadow color
+              color: Colors.black.withValues(alpha: 0.2), // Shadow color
               blurRadius: 4, // Soften the shadow
               spreadRadius: 1, // Extend the shadow
               offset: const Offset(2, 2), // Shadow direction (x, y)
@@ -77,7 +77,7 @@ class VehicleCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: tt.titleSmall!.copyWith(
-                    color: cs.onSurface.withOpacity(0.5),
+                    color: cs.onSurface.withValues(alpha: 0.5),
                   ),
                 ),
               ),
@@ -214,7 +214,7 @@ class VehicleCard extends StatelessWidget {
                                 showMaterialModalBottomSheet(
                                   context: context,
                                   backgroundColor: Colors.transparent,
-                                  barrierColor: Colors.black.withOpacity(0.5),
+                                  barrierColor: Colors.black.withValues(alpha: 0.5),
                                   enableDrag: true,
                                   builder: (context) => BackdropFilter(
                                     filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
@@ -239,7 +239,7 @@ class VehicleCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Center(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),

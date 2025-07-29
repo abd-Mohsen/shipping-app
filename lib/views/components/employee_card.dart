@@ -60,7 +60,7 @@ class EmployeeCard extends StatelessWidget {
           color: cs.secondaryContainer,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2), // Shadow color
+              color: Colors.black.withValues(alpha: 0.2), // Shadow color
               blurRadius: 4, // Soften the shadow
               spreadRadius: 1, // Extend the shadow
               offset: const Offset(2, 2), // Shadow direction (x, y)
@@ -96,7 +96,7 @@ class EmployeeCard extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: tt.titleSmall!.copyWith(
-                  color: cs.onSurface.withOpacity(0.5),
+                  color: cs.onSurface.withValues(alpha: 0.5),
                 ),
               ),
             ),
@@ -130,7 +130,7 @@ class EmployeeCard extends StatelessWidget {
                     Expanded(
                       child: SheetDetailsTile(
                         title: "join date".tr,
-                        subtitle: "${Jiffy.parseFromDateTime(employee.joinDate).format(pattern: "d / M / y")}",
+                        subtitle: Jiffy.parseFromDateTime(employee.joinDate).format(pattern: "d / M / y"),
                       ),
                     ),
                   ],
@@ -153,12 +153,12 @@ class EmployeeCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Text(
                     "vehicle".tr,
-                    style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                    style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.5)),
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -192,7 +192,7 @@ class EmployeeCard extends StatelessWidget {
                                   content: Text(
                                     "${"vehicle is already assigned to".tr} '${selectedVehicle.employee!.fullName}' "
                                     "${"do you want to assign here anyway and remove it from the other user".tr}",
-                                    style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+                                    style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
                                     textAlign: TextAlign.start,
                                   ),
                                 ),

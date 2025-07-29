@@ -49,7 +49,7 @@ class EmployeeSelector extends StatelessWidget {
             child: Icon(Icons.person),
           ),
           labelText: "required employee".tr,
-          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(32),

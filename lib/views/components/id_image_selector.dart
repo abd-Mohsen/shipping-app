@@ -38,10 +38,10 @@ class IdImageSelector extends StatelessWidget {
           color: cs.secondaryContainer,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2), // Shadow color
+              color: Colors.black.withValues(alpha: 0.2), // Shadow color
               blurRadius: 4, // Soften the shadow
               spreadRadius: 1, // Extend the shadow
-              offset: Offset(2, 2), // Shadow direction (x, y)
+              offset: const Offset(2, 2), // Shadow direction (x, y)
             ),
           ],
         ),

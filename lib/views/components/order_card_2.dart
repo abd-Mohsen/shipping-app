@@ -109,7 +109,7 @@ class OrderCard2 extends StatelessWidget {
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: tt.labelSmall!.copyWith(
-                                    color: cs.onSurface.withOpacity(0.5),
+                                    color: cs.onSurface.withValues(alpha: 0.5),
                                     fontSize: 10,
                                   ),
                                 ),

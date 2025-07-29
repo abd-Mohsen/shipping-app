@@ -297,7 +297,7 @@ class MapSheet extends StatelessWidget {
                                                   radius: 17,
                                                   backgroundColor: cs.secondaryContainer,
                                                   foregroundColor: cs.onSecondaryContainer,
-                                                  child: Icon(Icons.location_on_outlined, size: 20),
+                                                  child: const Icon(Icons.location_on_outlined, size: 20),
                                                 ),
                                                 title: Text(
                                                   list[i].name == "" ? controller.searchQuery.text : list[i].name,
@@ -347,7 +347,7 @@ class MapSheet extends StatelessWidget {
                             },
                             foregroundColor: cs.onPrimary,
                             backgroundColor: Colors.green,
-                            icon: Icon(Icons.check),
+                            icon: const Icon(Icons.check),
                             label: Text(
                               "select this location".tr,
                               style: tt.labelMedium!.copyWith(color: Colors.white),
@@ -367,7 +367,7 @@ class MapSheet extends StatelessWidget {
                             onPressed: onTapMyAddresses,
                             foregroundColor: cs.onPrimary,
                             backgroundColor: cs.primary,
-                            icon: Icon(Icons.location_on_outlined),
+                            icon: const Icon(Icons.location_on_outlined),
                             label: Text(
                               "my addresses".tr,
                               style: tt.labelMedium!.copyWith(color: Colors.white),

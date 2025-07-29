@@ -27,10 +27,10 @@ class _CountDownTimerState extends State<CountDownTimer> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (remaining > Duration.zero) {
-          remaining -= Duration(seconds: 1);
+          remaining -= const Duration(seconds: 1);
         } else {
           _timer?.cancel();
         }

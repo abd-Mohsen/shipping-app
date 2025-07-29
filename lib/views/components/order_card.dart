@@ -36,7 +36,7 @@ class OrderCard extends StatelessWidget {
                 color: Colors.black.withValues(alpha: 0.2), // Shadow color
                 blurRadius: 4, // Soften the shadow
                 spreadRadius: 1, // Extend the shadow
-                offset: Offset(1.5, 1.5), // Shadow direction (x, y)
+                offset: const Offset(1.5, 1.5), // Shadow direction (x, y)
               ),
             ],
           ),
