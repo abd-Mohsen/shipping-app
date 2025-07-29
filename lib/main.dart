@@ -35,7 +35,7 @@ void main() async {
   print('Firebase app options: ${app.options}');
   await dotenv.load(fileName: ".env");
   notificationService.initNotification();
-  await Get.putAsync(() => ScreenService().init());
+  //await Get.putAsync(() => ScreenService().init());
   runApp(const MyApp());
 }
 

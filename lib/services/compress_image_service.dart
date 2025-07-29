@@ -32,7 +32,7 @@ class CompressImageService {
 
     XFile? result = await FlutterImageCompress.compressAndGetFile(
       file.path,
-      file.path + '_compressed.jpg',
+      '${file.path}_compressed.jpg',
       quality: quality,
     );
 
@@ -40,6 +40,6 @@ class CompressImageService {
     final resSize = await resFile.length();
     print("after compressing: ${resSize / (1024 * 1024)} mb");
 
-    return result ?? file;
+    return result;
   }
 }
