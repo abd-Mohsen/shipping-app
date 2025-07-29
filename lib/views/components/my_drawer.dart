@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/models/user_model.dart';
+import 'package:shipment/views/faq_page.dart';
 import 'package:shipment/views/payment_methods_view.dart';
 import '../../controllers/locale_controller.dart';
 import '../../controllers/theme_controller.dart';
@@ -223,7 +224,7 @@ class MyDrawer extends StatelessWidget {
                     title: "My Addresses".tr,
                     icon: Icons.maps_home_work_outlined,
                     onTap: () {
-                      Get.to(const MyAddressesView());
+                      Get.to(() => const MyAddressesView());
                     },
                   ),
                 ),
@@ -244,7 +245,7 @@ class MyDrawer extends StatelessWidget {
                     icon: Icons.monetization_on_outlined,
                     onTap: () {
                       //Get.to(const PaymentsView());
-                      Get.to(const PaymentMethodsView());
+                      Get.to(() => const PaymentMethodsView());
                     },
                   ),
                 ),
@@ -276,9 +277,7 @@ class MyDrawer extends StatelessWidget {
                     icon: FontAwesomeIcons.chartLine,
                     onTap: () {
                       //Get.to(const PaymentsView());
-                      Get.to(
-                        const CompanyStatsTab(),
-                      );
+                      Get.to(() => const CompanyStatsTab());
                     },
                   ),
                 ),
@@ -288,7 +287,7 @@ class MyDrawer extends StatelessWidget {
                     title: "payment history".tr,
                     icon: Icons.text_snippet_outlined,
                     onTap: () {
-                      Get.to(InvoicesView());
+                      Get.to(() => const InvoicesView());
                     },
                   ),
                 ),
@@ -297,7 +296,14 @@ class MyDrawer extends StatelessWidget {
                   title: "About app".tr,
                   icon: Icons.info_outline,
                   onTap: () {
-                    Get.to(const AboutUsPage());
+                    Get.to(() => const AboutUsPage());
+                  },
+                ),
+                DrawerCard(
+                  title: "FAQs".tr,
+                  icon: Icons.question_mark,
+                  onTap: () {
+                    Get.to(() => const FaqPage());
                   },
                 ),
                 DrawerCard(

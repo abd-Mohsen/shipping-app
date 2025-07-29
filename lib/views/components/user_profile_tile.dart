@@ -192,35 +192,36 @@ class UserProfileTile extends StatelessWidget {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: () {
-              if (cUC.currentUser != null) Get.to(InvoicesView());
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              margin: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.black, 0.22) : cs.primary,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(Icons.wallet_outlined, color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
-                  SizedBox(width: 12),
-                  Text(
-                    isLoadingUser
-                        ? ""
-                        : "${user?.wallet != null && user!.wallet!.balances.isEmpty ? ""
-                            "0.00" : user?.wallet?.balances.first.amount}\$",
-                    style:
-                        tt.titleSmall!.copyWith(color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
-                  )
-                ],
+          if (cUC.currentUser?.role.type != "company_employee")
+            GestureDetector(
+              onTap: () {
+                if (cUC.currentUser != null) Get.to(InvoicesView());
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                margin: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: (isPrimaryColor ?? true) ? Color.lerp(cs.primary, Colors.black, 0.22) : cs.primary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(Icons.wallet_outlined, color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
+                    SizedBox(width: 12),
+                    Text(
+                      isLoadingUser
+                          ? ""
+                          : "${user?.wallet != null && user!.wallet!.balances.isEmpty ? ""
+                              "0.00" : user?.wallet?.balances.first.amount}\$",
+                      style:
+                          tt.titleSmall!.copyWith(color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

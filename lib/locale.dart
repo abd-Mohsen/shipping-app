@@ -359,6 +359,7 @@ class MyLocale extends Translations {
           "no data": "no data",
           "terms and conditions": "terms and conditions",
           "privacy policy": "privacy policy",
+          "FAQs": "FAQs",
         },
         "ar": {
           "Arabic": "العربية",
@@ -712,6 +713,7 @@ class MyLocale extends Translations {
           "no data": "لا يوجد بيانات",
           "terms and conditions": "الشروط و الأحكام",
           "privacy policy": "سياسة الخصوصية",
+          "FAQs": "اسئلة شائعة",
         },
       };
 }

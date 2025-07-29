@@ -10,6 +10,7 @@ import 'package:shipment/models/branch_model.dart';
 import 'package:shipment/models/company_stats_model.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/models/extra_info_model.dart';
+import 'package:shipment/models/faq_model.dart';
 import 'package:shipment/models/governorate_model.dart';
 import 'package:shipment/models/invoice_model.dart';
 import 'package:shipment/models/location_model.dart';
@@ -803,5 +804,11 @@ class RemoteServices {
     final data = jsonDecode(json);
     final distanceInMeters = data['routes'][0]['summary']['distance'];
     return distanceInMeters;
+  }
+
+  static Future<List<FaqModel>?> fetchFAQs() async {
+    String? json = await api.getRequest("faqs/", auth: false);
+    if (json == null) return null;
+    return faqModelFromJson(json);
   }
 }
