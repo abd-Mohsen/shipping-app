@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:get/get.dart';
+import '../constants.dart';
 
 class WebViewPage extends StatelessWidget {
   final String title;
@@ -10,7 +12,8 @@ class WebViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final WebViewController controller = WebViewController()..loadRequest(Uri.parse(url));
+    final WebViewController controller = WebViewController()
+      ..loadRequest(Uri.parse("$kHostIP/${Get.locale!.languageCode}/$url/"));
 
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;

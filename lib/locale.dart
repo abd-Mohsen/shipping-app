@@ -357,6 +357,8 @@ class MyLocale extends Translations {
           'you do not have a vehicle associated with your account, please register a vehicle to continue': 'you do not'
               ' have a vehicle associated with your account, please register a vehicle to continue',
           "no data": "no data",
+          "terms and conditions": "terms and conditions",
+          "privacy policy": "privacy policy",
         },
         "ar": {
           "Arabic": "العربية",
@@ -708,6 +710,8 @@ class MyLocale extends Translations {
           'you do not have a vehicle associated with your account, please register a vehicle to continue':
               'لم يتم العثور على مركبة مرتبطة بحسابك. يُرجى تسجيل مركبتك للمتابعة',
           "no data": "لا يوجد بيانات",
+          "terms and conditions": "الشروط و الأحكام",
+          "privacy policy": "سياسة الخصوصية",
         },
       };
 }

@@ -47,7 +47,7 @@ class AuthBackground extends StatelessWidget {
                 Positioned(
                   bottom: 0,
                   right: 0,
-                  child: Image.asset(bottomImage, width: 120),
+                  child: Image.asset(bottomImage, width: 100),
                 ),
               SafeArea(child: child),
             ],

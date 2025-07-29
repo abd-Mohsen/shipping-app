@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/login_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/register_view.dart';
 import 'package:shipment/views/reset_pass_view1.dart';
+import 'package:shipment/views/web_view_page.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -109,7 +111,7 @@ class LoginView extends StatelessWidget {
                             },
                             child: Text(
                               "forgot password?".tr,
-                              style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                              style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
                               textAlign: TextAlign.end,
                             ),
                           ),
@@ -147,6 +149,34 @@ class LoginView extends StatelessWidget {
                               child: Text(
                                 "register here".tr,
                                 style: tt.titleSmall!.copyWith(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
+                              },
+                              child: Text(
+                                "privacy policy".tr,
+                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                              ),
+                            ),
+                            Text(
+                              " | ".tr,
+                              style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
+                              },
+                              child: Text(
+                                "terms and conditions".tr,
+                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                               ),
                             ),
                           ],
