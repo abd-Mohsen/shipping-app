@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:shipment/models/application_model.dart';
-import 'package:shipment/views/order_view.dart';
 
 class ApplicationCard2 extends StatelessWidget {
   final String title;
@@ -120,7 +117,7 @@ class ApplicationCard2 extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Divider(
-                color: cs.onSurface.withOpacity(0.2),
+                color: cs.onSurface.withValues(alpha: 0.2),
                 // indent: MediaQuery.of(context).size.width / 15,
                 // endIndent: MediaQuery.of(context).size.width / 15,
               ),

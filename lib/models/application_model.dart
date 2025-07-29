@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:shipment/models/vehicle_type_model.dart';
-
 List<ApplicationModel> applicationModelFromJson(String str) =>
     List<ApplicationModel>.from(json.decode(str).map((x) => ApplicationModel.fromJson(x)));
 

@@ -9,7 +9,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/order_controller.dart';
-import 'package:shipment/models/application_card2.dart';
+import 'package:shipment/views/components/application_card2.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/views/components/application_card.dart';
 import 'package:shipment/views/components/custom_button.dart';

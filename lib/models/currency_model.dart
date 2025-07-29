@@ -46,6 +46,6 @@ class CurrencyModel {
 
   @override
   String toString() {
-    return "$code";
+    return code;
   }
 }
