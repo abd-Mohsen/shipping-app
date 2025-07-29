@@ -33,7 +33,7 @@ class DriverHomeView extends StatelessWidget {
     List<Widget> tabs = [
       const NewDriverTab(),
       const MyOrdersTab(),
-      const ExploreOrdersTab(),
+      //const ExploreOrdersTab(),
     ];
 
     return PopScope(

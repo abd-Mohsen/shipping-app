@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shipment/constants.dart';
+import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/services/remote_services.dart';
 import '../models/order_model_2.dart';
 
@@ -28,6 +29,11 @@ class DriverHomeController extends GetxController {
         hasReachedTopOnce = false;
         isAtTop = false;
         update();
+      }
+
+      if (mapContainerScrollController.position.pixels == mapContainerScrollController.position.maxScrollExtent) {
+        SharedHomeController sHC = Get.find();
+        sHC.getExploreOrders();
       }
     });
     //

@@ -464,7 +464,8 @@ class NewDriverTab extends StatelessWidget {
                                                         ),
                                             ),
                                             Expanded(
-                                              child: innerController.isLoadingExplore
+                                              child: innerController.isLoadingExplore &&
+                                                      innerController.pageExplore == 1
                                                   ? SpinKitSquareCircle(color: cs.primary)
                                                   : innerController.exploreOrders.isEmpty
                                                       ? const MyLoadingAnimation(height: 80, title: "no data")
@@ -495,13 +496,28 @@ class NewDriverTab extends StatelessWidget {
                                                             padding:
                                                                 const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                                                             controller: controller.mapContainerScrollController,
-                                                            itemCount: innerController.exploreOrders.length,
-                                                            itemBuilder: (context, i) => OrderCard2(
-                                                              order: innerController.exploreOrders[i],
-                                                              isCustomer: false,
-                                                              isLast: i == innerController.exploreOrders.length - 1,
-                                                              color: cs.surface,
-                                                            ),
+                                                            itemCount: innerController.exploreOrders.length + 1,
+                                                            itemBuilder: (context, i) => i <
+                                                                    innerController.exploreOrders.length
+                                                                ? OrderCard2(
+                                                                    order: innerController.exploreOrders[i],
+                                                                    isCustomer: false,
+                                                                    isLast:
+                                                                        i == innerController.exploreOrders.length - 1,
+                                                                    color: cs.surface,
+                                                                  )
+                                                                : Center(
+                                                                    child: Padding(
+                                                                      padding: const EdgeInsets.symmetric(vertical: 24),
+                                                                      child: innerController.hasMoreExplore
+                                                                          ? CircularProgressIndicator(color: cs.primary)
+                                                                          : CircleAvatar(
+                                                                              radius: 5,
+                                                                              backgroundColor:
+                                                                                  cs.onSurface.withValues(alpha: 0.7),
+                                                                            ),
+                                                                    ),
+                                                                  ),
                                                           ),
                                                         ),
                                             ),
