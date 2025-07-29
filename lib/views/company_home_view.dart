@@ -50,8 +50,9 @@ class CompanyHomeView extends StatelessWidget {
         }
         if (hNC.tabIndex != 0) {
           hNC.changeTab(0);
-        } else
+        } else {
           Get.dialog(kCloseAppDialog());
+        }
       },
       child: GetBuilder<HomeNavigationController>(
         builder: (controller) {
@@ -217,7 +218,7 @@ class CompanyHomeView extends StatelessWidget {
                             padding: Directionality.of(context) == TextDirection.rtl
                                 ? const EdgeInsets.only(right: 16)
                                 : const EdgeInsets.only(left: 16),
-                            child: Icon(Icons.arrow_forward_ios, size: 18),
+                            child: const Icon(Icons.arrow_forward_ios, size: 18),
                           ),
                         ),
                       ),
@@ -236,7 +237,7 @@ class CompanyHomeView extends StatelessWidget {
                     controller.getCurrentUser();
                   },
                   onEditProfileClick: () {
-                    Get.to(EditProfileView());
+                    Get.to(() => const EditProfileView());
                   },
                   onLogout: () {
                     controller.logout();

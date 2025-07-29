@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
 import 'package:shipment/views/edit_profile_view.dart';
-import 'package:shipment/views/tabs/explore_orders_tab.dart';
-import 'package:shipment/views/tabs/driver_home_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
 import 'package:shipment/views/tabs/new_driver_tab.dart';
 import '../constants.dart';
@@ -43,8 +41,9 @@ class DriverHomeView extends StatelessWidget {
 
         if (hNC.tabIndex != 0) {
           hNC.changeTab(0);
-        } else
+        } else {
           Get.dialog(kCloseAppDialog());
+        }
       },
       child: GetBuilder<HomeNavigationController>(
         init: HomeNavigationController(),
@@ -189,7 +188,7 @@ class DriverHomeView extends StatelessWidget {
                             padding: Directionality.of(context) == TextDirection.rtl
                                 ? const EdgeInsets.only(right: 16)
                                 : const EdgeInsets.only(left: 16),
-                            child: Icon(Icons.arrow_forward_ios, size: 18),
+                            child: const Icon(Icons.arrow_forward_ios, size: 18),
                           ),
                         ),
                       ),
@@ -208,7 +207,7 @@ class DriverHomeView extends StatelessWidget {
                     controller.getCurrentUser();
                   },
                   onEditProfileClick: () {
-                    Get.to(EditProfileView());
+                    Get.to(() => const EditProfileView());
                   },
                   onLogout: () {
                     controller.logout();

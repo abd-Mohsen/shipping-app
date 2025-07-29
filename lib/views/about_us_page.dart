@@ -58,28 +58,28 @@ class AboutUsPage extends StatelessWidget {
             leading: Icon(Icons.phone, color: cs.primary),
             title: Text(
               "2222222",
-              style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+              style: tt.titleMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
             ),
           ),
           ListTile(
             leading: Icon(Icons.fax, color: cs.primary),
             title: Text(
               "2222222",
-              style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+              style: tt.titleMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
             ),
           ),
           ListTile(
             leading: Icon(Icons.language, color: cs.primary),
             title: Text(
               "example.sy",
-              style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+              style: tt.titleMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
             ),
           ),
           ListTile(
             leading: Icon(Icons.email, color: cs.primary),
             title: Text(
               "contact@example.com",
-              style: tt.titleMedium!.copyWith(color: cs.onSurface.withOpacity(0.8)),
+              style: tt.titleMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
             ),
           ),
           Divider(

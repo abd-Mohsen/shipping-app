@@ -30,7 +30,7 @@ class TrackingView extends StatelessWidget {
                       color: Colors.black.withValues(alpha: 0.2), // Shadow color
                       blurRadius: 3, // Soften the shadow
                       spreadRadius: 1.5, // Extend the shadow
-                      offset: Offset(1, 1), // Shadow direction (x, y)
+                      offset: const Offset(1, 1), // Shadow direction (x, y)
                     ),
                   ],
                 ),
@@ -81,7 +81,7 @@ class TrackingView extends StatelessWidget {
                       ),
                     ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     decoration: BoxDecoration(
                       color: cs.secondaryContainer,
                       borderRadius: BorderRadius.circular(24),
@@ -90,7 +90,7 @@ class TrackingView extends StatelessWidget {
                           color: Colors.black.withValues(alpha: 0.2), // Shadow color
                           blurRadius: 4, // Soften the shadow
                           spreadRadius: 2, // Extend the shadow
-                          offset: Offset(1, 1), // Shadow direction (x, y)
+                          offset: const Offset(1, 1), // Shadow direction (x, y)
                         ),
                       ],
                     ),

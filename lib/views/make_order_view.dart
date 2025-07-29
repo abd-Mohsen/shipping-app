@@ -1,4 +1,3 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -213,7 +212,8 @@ class MakeOrderView extends StatelessWidget {
                   child: Text(
                     "${"order commission".tr}: "
                     "${controller.applicationCommission.toPrecision(2)}${controller.selectedCurrency?.symbol ?? ""}",
-                    style: tt.labelMedium!.copyWith(color: cs.onSurface.withOpacity(0.7), fontWeight: FontWeight.bold),
+                    style: tt.labelMedium!
+                        .copyWith(color: cs.onSurface.withValues(alpha: 0.7), fontWeight: FontWeight.bold),
                   ),
                 ),
                 Padding(
@@ -241,9 +241,9 @@ class MakeOrderView extends StatelessWidget {
                           fieldDecoration: FieldDecoration(
                             backgroundColor: cs.secondaryContainer,
                             hintText: 'payment methods'.tr,
-                            hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+                            hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
                             prefixIcon: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
+                              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
                               child: Icon(
                                 FontAwesomeIcons.ccMastercard,
                                 color: cs.primaryContainer,
@@ -254,7 +254,7 @@ class MakeOrderView extends StatelessWidget {
                             focusedBorder: border(width: 2),
                             errorBorder: border(color: cs.error, width: 1.5),
                           ),
-                          dropdownDecoration: DropdownDecoration(
+                          dropdownDecoration: const DropdownDecoration(
                             elevation: 8,
                             marginTop: -4,
                             maxHeight: 500,

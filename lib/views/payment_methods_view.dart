@@ -189,7 +189,7 @@ class PaymentMethodsView extends StatelessWidget {
                                                                                     : CircleAvatar(
                                                                                         radius: 5,
                                                                                         backgroundColor: cs.onSurface
-                                                                                            .withOpacity(0.7),
+                                                                                            .withValues(alpha: 0.7),
                                                                                       ),
                                                                               ),
                                                                             ),
@@ -213,7 +213,7 @@ class PaymentMethodsView extends StatelessWidget {
                                   showMaterialModalBottomSheet(
                                     context: context,
                                     backgroundColor: Colors.transparent,
-                                    barrierColor: Colors.black.withOpacity(0.5),
+                                    barrierColor: Colors.black.withValues(alpha: 0.5),
                                     enableDrag: false,
                                     builder: (context) => GetBuilder<PaymentsController>(
                                       builder: (controller) {
@@ -343,11 +343,11 @@ class PaymentMethodSelectionCard extends StatelessWidget {
         onTap: onTap,
         title: Text(
           paymentSelectionModel.name,
-          style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.7)),
+          style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
         ),
         subtitle: Text(
           paymentSelectionModel.subtitle,
-          style: tt.labelSmall!.copyWith(color: cs.onSurface.withOpacity(0.45)),
+          style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.45)),
         ),
         trailing: Container(
           width: 37,

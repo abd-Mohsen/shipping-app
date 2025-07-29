@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/invoice_controller.dart';
-import 'package:shipment/models/user_model.dart';
 import 'package:shipment/views/components/invoice_card.dart';
 
 class InvoicesView extends StatelessWidget {
@@ -14,7 +13,7 @@ class InvoicesView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    InvoiceController iC = Get.put(InvoiceController());
+    //InvoiceController iC = Get.put(InvoiceController());
     CurrentUserController cUC = Get.find();
 
     return Scaffold(

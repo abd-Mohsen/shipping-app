@@ -25,7 +25,7 @@ class MyAddressesView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    MyAddressesController mAC = Get.put(MyAddressesController(
+    Get.put(MyAddressesController(
       makeOrderController: makeOrderController,
     ));
     bool selectionMode = makeOrderController != null;
@@ -56,7 +56,7 @@ class MyAddressesView extends StatelessWidget {
                   : RefreshIndicator(
                       onRefresh: controller.refreshMyAddress,
                       child: controller.myAddresses.isEmpty
-                          ? MyLoadingAnimation()
+                          ? const MyLoadingAnimation()
                           : ListView.builder(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                               itemCount: controller.myAddresses.length,
@@ -144,7 +144,7 @@ class MyAddressesView extends StatelessWidget {
                       );
                     },
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           )
         ],
       ),

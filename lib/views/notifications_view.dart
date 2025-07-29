@@ -13,7 +13,7 @@ class NotificationsView extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    NotificationsController nC = Get.find();
+    //NotificationsController nC = Get.find();
 
     return SafeArea(
       child: Scaffold(
@@ -61,7 +61,7 @@ class NotificationsView extends StatelessWidget {
                       children: [
                         Text(
                           "${'you have'.tr} ",
-                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.5)),
                         ),
                         Text(
                           '${controller.unreadCount} ${"unread notification".tr} ',
@@ -69,7 +69,7 @@ class NotificationsView extends StatelessWidget {
                         ),
                         Text(
                           "today".tr,
-                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withOpacity(0.5)),
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.5)),
                         ),
                       ],
                     ),
@@ -119,7 +119,7 @@ class NotificationsView extends StatelessWidget {
                                                 ? CircularProgressIndicator(color: cs.primary)
                                                 : CircleAvatar(
                                                     radius: 5,
-                                                    backgroundColor: cs.onSurface.withOpacity(0.4),
+                                                    backgroundColor: cs.onSurface.withValues(alpha: 0.4),
                                                   ),
                                           ),
                                         ),

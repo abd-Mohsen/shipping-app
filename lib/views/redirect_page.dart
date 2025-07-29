@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/views/notifications_view.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:shipment/views/company_home_view.dart';
 import 'package:shipment/views/customer_home_view.dart';
 import 'package:shipment/views/driver_home_view.dart';
