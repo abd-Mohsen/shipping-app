@@ -23,6 +23,7 @@ class FaqController extends GetxController {
     toggleLoading(true);
     List<FaqModel> newItems = await RemoteServices.fetchFAQs() ?? [];
     faqs.addAll(newItems);
+    faqs.sort((a, b) => a.order.compareTo(b.order));
     toggleLoading(false);
   }
 

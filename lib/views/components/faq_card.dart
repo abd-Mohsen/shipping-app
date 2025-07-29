@@ -1,16 +1,5 @@
-import 'dart:ui';
-import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:shipment/constants.dart';
-import 'package:shipment/controllers/my_vehicles_controller.dart';
 import 'package:shipment/models/faq_model.dart';
-import 'package:shipment/models/vehicle_model.dart';
-import 'package:shipment/views/components/sheet_details_tile.dart';
-import 'add_vehicle_sheet.dart';
 
 class FaqCard extends StatelessWidget {
   final FaqModel faq;
