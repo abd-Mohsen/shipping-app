@@ -112,7 +112,7 @@ class MapSelector extends StatelessWidget {
                 ),
               ),
             ).then(
-              (a) => Get.delete<MapSelectorController>(),
+              (_) => Get.delete<MapSelectorController>(),
             );
             //.whenComplete(makeOrderController!.setPosition);
           },

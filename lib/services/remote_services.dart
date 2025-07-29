@@ -811,4 +811,16 @@ class RemoteServices {
     if (json == null) return null;
     return faqModelFromJson(json);
   }
+
+  static Future<bool> sendReport(String subject, String message) async {
+    String? json = await api.postRequest(
+      "support/",
+      {
+        "subject": subject,
+        "message": message,
+      },
+      auth: true,
+    );
+    return json != null;
+  }
 }

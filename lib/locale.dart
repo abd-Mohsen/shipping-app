@@ -360,6 +360,10 @@ class MyLocale extends Translations {
           "terms and conditions": "terms and conditions",
           "privacy policy": "privacy policy",
           "FAQs": "FAQs",
+          "send a report": "send a report",
+          "subject": "subject",
+          "message": "message",
+          "report was sent to technical support": "report was sent to technical support",
         },
         "ar": {
           "Arabic": "العربية",
@@ -714,6 +718,10 @@ class MyLocale extends Translations {
           "terms and conditions": "الشروط و الأحكام",
           "privacy policy": "سياسة الخصوصية",
           "FAQs": "اسئلة شائعة",
+          "send a report": "إبلاغ عن مشكلة",
+          "subject": "الموضوع",
+          "message": "الرسالة",
+          "report was sent to technical support": "تم الارسال للدعم الفني",
         },
       };
 }

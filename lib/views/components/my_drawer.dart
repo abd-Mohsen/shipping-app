@@ -3,7 +3,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shipment/controllers/send_report_controller.dart';
 import 'package:shipment/models/user_model.dart';
+import 'package:shipment/views/components/send_report_sheet.dart';
 import 'package:shipment/views/faq_page.dart';
 import 'package:shipment/views/payment_methods_view.dart';
 import '../../controllers/locale_controller.dart';
@@ -297,6 +300,24 @@ class MyDrawer extends StatelessWidget {
                   icon: Icons.info_outline,
                   onTap: () {
                     Get.to(() => const AboutUsPage());
+                  },
+                ),
+                DrawerCard(
+                  title: "send a report".tr,
+                  icon: Icons.message_outlined,
+                  onTap: () {
+                    showMaterialModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      barrierColor: Colors.black.withValues(alpha: 0.5),
+                      enableDrag: false,
+                      builder: (context) => Padding(
+                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: const SendReportSheet(),
+                      ),
+                    ).then(
+                      (_) => Get.delete<SendReportController>(),
+                    );
                   },
                 ),
                 DrawerCard(
