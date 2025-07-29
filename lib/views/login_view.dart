@@ -172,7 +172,7 @@ class LoginView extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
+                                Get.to(() => WebViewPage(title: "terms and conditions".tr, url: "terms"));
                               },
                               child: Text(
                                 "terms and conditions".tr,

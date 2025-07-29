@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shipment/views/web_view_page.dart';
 
 //todo take data from api
 class AboutUsPage extends StatelessWidget {
@@ -85,6 +86,34 @@ class AboutUsPage extends StatelessWidget {
             color: cs.onSurface,
             indent: 75,
             endIndent: 75,
+          ),
+          const SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
+                },
+                child: Text(
+                  "privacy policy".tr,
+                  style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                ),
+              ),
+              Text(
+                " | ".tr,
+                style: tt.titleMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => WebViewPage(title: "terms and conditions".tr, url: "terms"));
+                },
+                child: Text(
+                  "terms and conditions".tr,
+                  style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                ),
+              ),
+            ],
           ),
           // Padding(
           //   padding: const EdgeInsets.only(right: 12, left: 12, top: 24, bottom: 12),
