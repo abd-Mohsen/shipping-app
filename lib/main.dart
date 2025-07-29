@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/services/notifications_service.dart';
-import 'package:shipment/services/screen_service.dart';
 import 'package:shipment/themes.dart';
 import 'package:shipment/views/redirect_page.dart';
 import 'api.dart';

@@ -23,7 +23,7 @@ AlertDialog kCloseAppDialog() => AlertDialog(
       actions: [
         TextButton(
             onPressed: () => SystemNavigator.pop(),
-            child: Text(
+            child: const Text(
               "نعم",
               style: TextStyle(color: Colors.red),
             )),
@@ -31,7 +31,7 @@ AlertDialog kCloseAppDialog() => AlertDialog(
             onPressed: () {
               Get.back();
             },
-            child: Text(
+            child: const Text(
               "لا",
               style: TextStyle(color: Colors.black),
             )),
@@ -68,18 +68,18 @@ Widget kEnableLocationDialog(onConfirm) => PopScope(
       canPop: false,
       child: AlertDialog(
         backgroundColor: Colors.white,
-        title: Text('location Required'.tr, style: TextStyle(color: Colors.black)),
-        content: Text('please enable location services then press ok'.tr, style: TextStyle(color: Colors.black)),
+        title: Text('location Required'.tr, style: const TextStyle(color: Colors.black)),
+        content: Text('please enable location services then press ok'.tr, style: const TextStyle(color: Colors.black)),
         actions: [
           TextButton(
             onPressed: () {
               Geolocator.openLocationSettings();
             },
-            child: Text("open settings".tr, style: TextStyle(color: Colors.black)),
+            child: Text("open settings".tr, style: const TextStyle(color: Colors.black)),
           ),
           TextButton(
             onPressed: onConfirm,
-            child: Text("ok".tr, style: TextStyle(color: Colors.black)),
+            child: Text("ok".tr, style: const TextStyle(color: Colors.black)),
           ),
         ],
       ),
@@ -282,18 +282,18 @@ Widget kEnableLocationDialog2(onConfirm) => PopScope(
       canPop: false,
       child: AlertDialog(
         backgroundColor: Colors.white,
-        title: Text('location Required'.tr, style: TextStyle(color: Colors.black)),
-        content: Text('please enable location services then press ok'.tr, style: TextStyle(color: Colors.black)),
+        title: Text('location Required'.tr, style: const TextStyle(color: Colors.black)),
+        content: Text('please enable location services then press ok'.tr, style: const TextStyle(color: Colors.black)),
         actions: [
           TextButton(
             onPressed: () {
               Geolocator.openLocationSettings();
             },
-            child: Text("open settings".tr, style: TextStyle(color: Colors.black)),
+            child: Text("open settings".tr, style: const TextStyle(color: Colors.black)),
           ),
           TextButton(
             onPressed: onConfirm,
-            child: Text("ok".tr, style: TextStyle(color: Colors.black)),
+            child: Text("ok".tr, style: const TextStyle(color: Colors.black)),
           ),
         ],
       ),
@@ -303,14 +303,14 @@ Widget kNoValidCarDialog(onConfirm) => PopScope(
       canPop: false,
       child: AlertDialog(
         backgroundColor: Colors.white,
-        title: Text('cant use the app'.tr, style: TextStyle(color: Colors.black)),
+        title: Text('cant use the app'.tr, style: const TextStyle(color: Colors.black)),
         content: Text(
             'you do not have a vehicle associated with your account, please register a vehicle to continue'.tr,
-            style: TextStyle(color: Colors.black)),
+            style: const TextStyle(color: Colors.black)),
         actions: [
           TextButton(
             onPressed: onConfirm,
-            child: Text("open settings".tr, style: TextStyle(color: Colors.black)),
+            child: Text("open settings".tr, style: const TextStyle(color: Colors.black)),
           ),
         ],
       ),

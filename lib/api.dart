@@ -146,7 +146,7 @@ class Api {
       if (response.statusCode >= 500) kServerErrorSnackBar();
 
       String responseBody = utf8.decode(latin1.encode(response.body));
-      print(responseBody + "===========" + response.statusCode.toString());
+      print("$responseBody===========${response.statusCode}");
 
       handleError(response.statusCode, responseBody);
       return (response.statusCode == 200 || response.statusCode == 201) ? responseBody : null;
@@ -292,8 +292,8 @@ class Api {
     Get.dialog(
         AlertDialog(
           backgroundColor: Colors.white,
-          title: Text(title.tr, style: TextStyle(color: Colors.black)),
-          content: Text(content.tr, style: TextStyle(color: Colors.black)),
+          title: Text(title.tr, style: const TextStyle(color: Colors.black)),
+          content: Text(content.tr, style: const TextStyle(color: Colors.black)),
           actions: [
             TextButton(
               onPressed: () {
