@@ -14,7 +14,7 @@ class CompanyEmployeesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CompanyHomeController hC = Get.find();
+    //CompanyHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
@@ -29,7 +29,7 @@ class CompanyEmployeesTab extends StatelessWidget {
                 showMaterialModalBottomSheet(
                   context: context,
                   backgroundColor: Colors.transparent,
-                  barrierColor: Colors.black.withOpacity(0.5),
+                  barrierColor: Colors.black.withValues(alpha: 0.5),
                   enableDrag: false,
                   builder: (BuildContext context) => Padding(
                     padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),

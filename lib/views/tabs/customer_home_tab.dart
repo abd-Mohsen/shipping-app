@@ -5,8 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
-import 'package:shipment/views/components/selection_circle.dart';
-import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/components/titled_scrolling_card.dart';
 import 'package:shipment/views/components/user_profile_tile.dart';
 import '../../controllers/current_user_controller.dart';
@@ -20,7 +18,7 @@ class CustomerHomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     //CustomerHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
+    //TextTheme tt = Theme.of(context).textTheme;
     //SharedHomeController sHC = Get.find();
 
     return GetBuilder<SharedHomeController>(
@@ -57,7 +55,7 @@ class CustomerHomeTab extends StatelessWidget {
                   child: Container(
                     height: 150,
                     decoration: BoxDecoration(
-                      border: Border.all(color: Color(0xff0e5aa6), width: 2.5),
+                      border: Border.all(color: const Color(0xff0e5aa6), width: 2.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ClipRRect(

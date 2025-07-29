@@ -5,7 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/views/components/add_vehicle_sheet.dart';
 
 import '../../controllers/my_vehicles_controller.dart';
@@ -17,7 +16,7 @@ class CompanyVehiclesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CompanyHomeController hC = Get.find();
+    //CompanyHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
@@ -33,11 +32,11 @@ class CompanyVehiclesTab extends StatelessWidget {
                   context: context,
                   isDismissible: true,
                   backgroundColor: Colors.transparent,
-                  barrierColor: Colors.black.withOpacity(0.5),
+                  barrierColor: Colors.black.withValues(alpha: 0.5),
                   enableDrag: true,
                   builder: (context) => BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: AddVehicleSheet(),
+                    child: const AddVehicleSheet(),
                   ),
                 );
               },

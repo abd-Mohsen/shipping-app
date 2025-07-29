@@ -17,7 +17,7 @@ class CompanyStatsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CompanyHomeController hC = Get.find();
+    //CompanyHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 

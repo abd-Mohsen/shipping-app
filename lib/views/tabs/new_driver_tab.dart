@@ -4,32 +4,14 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:lottie/lottie.dart' hide Marker;
-import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
-import 'package:shipment/views/components/curr_order_card.dart';
-import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/my_loading_animation.dart';
-import 'package:shipment/views/components/notification_button.dart';
-import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/components/user_profile_tile.dart';
-import 'package:shipment/views/my_vehicles_view.dart';
-import '../../controllers/filter_controller.dart';
-import '../../controllers/notifications_controller.dart';
 import '../components/count_up_timer.dart';
-import '../components/filter_button.dart';
-import '../components/filter_sheet.dart';
 import '../components/governorate_selector.dart';
-import '../components/my_search_field.dart';
-import '../components/order_card.dart';
 import '../components/order_card_2.dart';
-import 'package:badges/badges.dart' as badges;
-
-import '../components/order_card_3.dart';
-import '../components/selection_circle.dart';
-import '../components/titled_scrolling_card.dart';
 
 class NewDriverTab extends StatelessWidget {
   const NewDriverTab({super.key});
@@ -39,8 +21,8 @@ class NewDriverTab extends StatelessWidget {
     //DriverHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    // final screenWidth = MediaQuery.of(context).size.width;
+    // final screenHeight = MediaQuery.of(context).size.height;
 
     return GetBuilder<DriverHomeController>(
       //init: HomeController(),
@@ -50,7 +32,7 @@ class NewDriverTab extends StatelessWidget {
             children: [
               FlutterMap(
                 mapController: controller.mapController,
-                options: MapOptions(
+                options: const MapOptions(
                   initialCenter: LatLng(52.518611, 13.408056),
                   initialZoom: 13.0,
                 ),
@@ -114,7 +96,7 @@ class NewDriverTab extends StatelessWidget {
                             radius: 18,
                             backgroundColor: cs.primary,
                             foregroundColor: cs.onPrimary,
-                            child: Icon(Icons.my_location_outlined, size: 22),
+                            child: const Icon(Icons.my_location_outlined, size: 22),
                           ),
                         ),
                       ),
@@ -122,18 +104,18 @@ class NewDriverTab extends StatelessWidget {
                     AnimatedContainer(
                       height: controller.containerHeight,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                         color: cs.surface,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.2), // Shadow color
                             blurRadius: 5, // Soften the shadow
                             spreadRadius: 2, // Extend the shadow
-                            offset: Offset(-2, -2), // Shadow direction (x, y)
+                            offset: const Offset(-2, -2), // Shadow direction (x, y)
                           ),
                         ],
                       ),
-                      duration: Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 200),
                       child: GetBuilder<SharedHomeController>(
                         builder: (innerController) {
                           return Padding(

@@ -101,7 +101,7 @@ class CompanyManageTab extends StatelessWidget {
             )),
         body: GetBuilder<CompanyHomeController>(
           builder: (controller) {
-            return TabBarView(
+            return const TabBarView(
               children: [
                 CompanyVehiclesTab(),
                 CompanyEmployeesTab(),

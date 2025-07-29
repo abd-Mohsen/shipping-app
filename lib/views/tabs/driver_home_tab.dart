@@ -215,7 +215,7 @@ class DriverHomeTab extends StatelessWidget {
                                         style: tt.titleSmall!
                                             .copyWith(color: const Color(0xFF92833C), fontWeight: FontWeight.bold),
                                       ),
-                                      SizedBox(height: 4),
+                                      const SizedBox(height: 4),
                                       Text(
                                         "click here to go to vehicles page".tr,
                                         style: tt.labelMedium!.copyWith(color: const Color(0xFF92833C)),
