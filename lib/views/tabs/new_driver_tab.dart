@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -465,23 +466,44 @@ class NewDriverTab extends StatelessWidget {
                                             Expanded(
                                               child: innerController.isLoadingExplore
                                                   ? SpinKitSquareCircle(color: cs.primary)
-                                                  : RefreshIndicator(
-                                                      onRefresh: innerController.refreshExploreOrders,
-                                                      child: innerController.exploreOrders.isEmpty
-                                                          ? MyLoadingAnimation(height: 80)
-                                                          : ListView.builder(
-                                                              padding: const EdgeInsets.symmetric(
-                                                                  horizontal: 12, vertical: 4),
-                                                              controller: controller.mapContainerScrollController,
-                                                              itemCount: innerController.exploreOrders.length,
-                                                              itemBuilder: (context, i) => OrderCard2(
-                                                                order: innerController.exploreOrders[i],
-                                                                isCustomer: false,
-                                                                isLast: i == innerController.exploreOrders.length - 1,
-                                                                color: cs.surface,
-                                                              ),
+                                                  : innerController.exploreOrders.isEmpty
+                                                      ? const MyLoadingAnimation(height: 80, title: "no data")
+                                                      : NotificationListener<ScrollNotification>(
+                                                          onNotification: (notification) {
+                                                            if (notification is UserScrollNotification) {
+                                                              final direction = notification.direction;
+                                                              final offset =
+                                                                  controller.mapContainerScrollController.offset;
+                                                              if (offset <= 0) {
+                                                                // At top of list
+                                                                controller.isAtTop = true;
+                                                                if (!controller.hasReachedTopOnce) {
+                                                                  // First time reaching top, just mark it
+                                                                  controller.hasReachedTopOnce = true;
+                                                                } else if (direction == ScrollDirection.forward &&
+                                                                    controller.containerHeight !=
+                                                                        controller.baseHeight) {
+                                                                  // Second upward scroll while already at top → fold
+                                                                  controller.setContainerHeight(controller.baseHeight);
+                                                                }
+                                                              }
+                                                              return true; // handled
+                                                            }
+                                                            return false;
+                                                          },
+                                                          child: ListView.builder(
+                                                            padding:
+                                                                const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                                            controller: controller.mapContainerScrollController,
+                                                            itemCount: innerController.exploreOrders.length,
+                                                            itemBuilder: (context, i) => OrderCard2(
+                                                              order: innerController.exploreOrders[i],
+                                                              isCustomer: false,
+                                                              isLast: i == innerController.exploreOrders.length - 1,
+                                                              color: cs.surface,
                                                             ),
-                                                    ),
+                                                          ),
+                                                        ),
                                             ),
                                           ],
                                         ),

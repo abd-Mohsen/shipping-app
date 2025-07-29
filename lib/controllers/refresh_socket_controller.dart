@@ -52,6 +52,7 @@ class RefreshSocketController extends GetxController {
       websocket!.listen(
         (message) async {
           //todo: separate
+          //todo: in new driver tab, the list appears empty for seconds when refreshing
           //todo: the list appears empty in recent and in driver new tab
           print('Message from server: $message');
           message = jsonDecode(message);

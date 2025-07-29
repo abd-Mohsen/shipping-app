@@ -64,7 +64,7 @@ AlertDialog kActivateAccountDialog() => AlertDialog(
       ],
     );
 
-Widget kEnableLocationDialog() => PopScope(
+Widget kEnableLocationDialog(onConfirm) => PopScope(
       canPop: false,
       child: AlertDialog(
         backgroundColor: Colors.white,
@@ -78,9 +78,7 @@ Widget kEnableLocationDialog() => PopScope(
             child: Text("open settings".tr, style: TextStyle(color: Colors.black)),
           ),
           TextButton(
-            onPressed: () async {
-              if (await Geolocator.isLocationServiceEnabled()) Get.back();
-            },
+            onPressed: onConfirm,
             child: Text("ok".tr, style: TextStyle(color: Colors.black)),
           ),
         ],

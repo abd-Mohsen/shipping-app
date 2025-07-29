@@ -4,8 +4,14 @@ import 'package:lottie/lottie.dart';
 
 class MyLoadingAnimation extends StatelessWidget {
   final String file;
+  final String title;
   final double? height;
-  const MyLoadingAnimation({super.key, this.file = "simple truck2", this.height});
+  const MyLoadingAnimation({
+    super.key,
+    this.file = "simple truck2",
+    this.title = "no data, pull down to refresh",
+    this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class MyLoadingAnimation extends StatelessWidget {
             padding: const EdgeInsets.all(24),
             child: Center(
               child: Text(
-                "no data, pull down to refresh".tr,
+                title.tr,
                 style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),

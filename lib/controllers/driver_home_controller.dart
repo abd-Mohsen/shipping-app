@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
@@ -17,19 +18,16 @@ class DriverHomeController extends GetxController {
     getRecentOrders();
     getUserLocation();
     //
+    // Use controller for instant expansion
     mapContainerScrollController.addListener(() {
-      double offset = mapContainerScrollController.offset;
+      final offset = mapContainerScrollController.offset;
 
-      // If user scrolls down and height is not already maxHeight
+      // Expand immediately on scroll down
       if (offset > 0 && containerHeight != maxHeight) {
         containerHeight = maxHeight;
-        update(); // Call setState or equivalent update function
-      }
-
-      // If user scrolls to top and height is not already baseHeight
-      if (offset <= 0 && containerHeight != baseHeight) {
-        containerHeight = baseHeight;
-        update(); // Call setState or equivalent update function
+        hasReachedTopOnce = false;
+        isAtTop = false;
+        update();
       }
     });
     //
@@ -37,6 +35,9 @@ class DriverHomeController extends GetxController {
   }
 
   final ScrollController mapContainerScrollController = ScrollController();
+
+  bool hasReachedTopOnce = false;
+  bool isAtTop = false;
 
   double baseHeight = 300;
   double maxHeight = 500;
@@ -49,6 +50,11 @@ class DriverHomeController extends GetxController {
 
   void foldContainer() {
     containerHeight = baseHeight;
+    update();
+  }
+
+  void setContainerHeight(v) {
+    containerHeight = v;
     update();
   }
 
@@ -190,8 +196,15 @@ class DriverHomeController extends GetxController {
   void getUserLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      Get.dialog(kEnableLocationDialog(), barrierDismissible: false);
       setTrackingStatus("turn location on");
+      Get.dialog(kEnableLocationDialog(
+        () async {
+          if (await Geolocator.isLocationServiceEnabled()) {
+            getUserLocation();
+            Get.back();
+          }
+        },
+      ), barrierDismissible: false);
       return;
     }
 
@@ -338,7 +351,16 @@ class DriverHomeController extends GetxController {
     _locationTimer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       bool locationEnabled = await Geolocator.isLocationServiceEnabled();
       if (!locationEnabled) {
-        Get.dialog(kEnableLocationDialog(), barrierDismissible: false);
+        Get.dialog(
+            kEnableLocationDialog(Get.dialog(kEnableLocationDialog(
+              () async {
+                if (await Geolocator.isLocationServiceEnabled()) {
+                  getUserLocation();
+                  Get.back();
+                }
+              },
+            ), barrierDismissible: false)),
+            barrierDismissible: false);
         _cleanUpWebSocket();
         setTrackingStatus("turn location on");
       }

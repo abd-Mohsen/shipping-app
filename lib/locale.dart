@@ -356,6 +356,7 @@ class MyLocale extends Translations {
           'cant use the app': 'you cant use the app',
           'you do not have a vehicle associated with your account, please register a vehicle to continue': 'you do not'
               ' have a vehicle associated with your account, please register a vehicle to continue',
+          "no data": "no data",
         },
         "ar": {
           "Arabic": "العربية",
@@ -706,6 +707,7 @@ class MyLocale extends Translations {
           'cant use the app': 'يتعذّر استخدام التطبيق',
           'you do not have a vehicle associated with your account, please register a vehicle to continue':
               'لم يتم العثور على مركبة مرتبطة بحسابك. يُرجى تسجيل مركبتك للمتابعة',
+          "no data": "لا يوجد بيانات",
         },
       };
 }
