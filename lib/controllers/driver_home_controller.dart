@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
@@ -113,13 +112,6 @@ class DriverHomeController extends GetxController {
     //_connectTrackingSocket(); // Call this directly instead of getRecentOrders()
   }
   //----------------------------------- map -----------------------------------------------
-
-  // km = 423
-  final double km = Distance().as(
-    LengthUnit.Kilometer,
-    LatLng(52.518611, 13.408056),
-    LatLng(51.519475, 7.46694444),
-  );
 
   MapController mapController = MapController();
 
@@ -262,7 +254,7 @@ class DriverHomeController extends GetxController {
         notificationTitle: "tracking in progress".tr,
         notificationText: "your location is being sent to order owner".tr,
         enableWakeLock: true,
-        notificationIcon: AndroidResource(name: "ic_notification"),
+        notificationIcon: const AndroidResource(name: "ic_notification"),
       ),
       accuracy: LocationAccuracy.bestForNavigation,
       distanceFilter: 5,
@@ -299,8 +291,12 @@ class DriverHomeController extends GetxController {
   }
 
   void pointToMyLocation() {
-    if (currLocation != null)
-      mapController.move(LatLng(currLocation!.latitude - 0.0002, currLocation!.longitude), 18.5);
+    if (currLocation != null) {
+      mapController.move(
+        LatLng(currLocation!.latitude - 0.0002, currLocation!.longitude),
+        18.5,
+      );
+    }
     //update();
   }
 
@@ -349,7 +345,7 @@ class DriverHomeController extends GetxController {
   // }
 
   //bool _shouldReconnect = true;
-  final Duration _initialReconnectDelay = Duration(seconds: 5);
+  final Duration _initialReconnectDelay = const Duration(seconds: 5);
 
   void startCheckingLocation() {
     _locationTimer?.cancel();

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
-import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shipment/services/download_image_service.dart';

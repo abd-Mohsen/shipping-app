@@ -39,10 +39,10 @@ class RegisterView extends StatelessWidget {
                           "Register as:".tr,
                           style: tt.titleLarge!.copyWith(color: cs.onSurface),
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         GestureDetector(
                           onTap: () {
-                            Get.dialog(AssetVideoDialog());
+                            Get.dialog(const AssetVideoDialog());
                           },
                           child: Icon(Icons.info, color: cs.primary),
                         )

@@ -21,7 +21,7 @@ class OTPView extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
     // late ResetPassController rPC;
     // if (source == "reset") rPC = Get.find();
-    OTPController oC = Get.find();
+    //OTPController oC = Get.find();
     late CurrentUserController cUC;
     if (source == "register") cUC = Get.find();
 

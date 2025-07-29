@@ -58,7 +58,7 @@ class MapSelectorController extends GetxController {
     isMapReady = v;
 
     if (isMapReady && selectedPosition != null) {
-      print(selectedPosition);
+      //print(selectedPosition);
       mapController.moveTo(selectedPosition!);
       mapController.addMarker(
         selectedPosition!,
@@ -66,7 +66,7 @@ class MapSelectorController extends GetxController {
       );
     }
 
-    print("map is reay");
+    //print("map is reay");
     update();
   }
 
@@ -113,7 +113,7 @@ class MapSelectorController extends GetxController {
 
   void traverseSearchResults(bool next) async {
     resultIndex = next ? min(searchResults.length - 1, resultIndex + 1) : max(0, resultIndex - 1);
-    print(resultIndex);
+    //print(resultIndex);
     GeoPoint geoPoint = GeoPoint(latitude: searchResults[resultIndex].lat, longitude: searchResults[resultIndex].long);
     selectedPosition = geoPoint;
     mapController.moveTo(geoPoint);

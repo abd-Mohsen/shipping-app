@@ -5,10 +5,7 @@ import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/reset_pass_view2.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:flutter/material.dart';
-
 import '../services/remote_services.dart';
-import '../views/login_view.dart';
-import 'login_controller.dart';
 
 class OTPController extends GetxController {
   late String phone;
@@ -46,7 +43,7 @@ class OTPController extends GetxController {
     update();
   }
 
-  late String _verifyUrl;
+  //late String _verifyUrl;
 
   void resendOtp() async {
     if (!_isTimeUp || isLoading) return;

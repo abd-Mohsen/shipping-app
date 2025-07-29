@@ -96,7 +96,7 @@ class OrderController extends GetxController {
     await mapController.moveTo(start);
     await mapController.addMarker(start, markerIcon: kMapDefaultMarker);
 
-    await Future.delayed(Duration(milliseconds: 800));
+    await Future.delayed(const Duration(milliseconds: 800));
     await mapController.addMarker(end, markerIcon: kMapDefaultMarkerBlue);
     await mapController.drawRoad(start, end);
     //todo(later): draw stored path

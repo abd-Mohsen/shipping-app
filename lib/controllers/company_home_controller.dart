@@ -155,8 +155,8 @@ class CompanyHomeController extends GetxController {
     sheet.isRTL = true;
 
     // extracting date and time
-    String date = "${Jiffy.parseFromDateTime(DateTime.now()).format(pattern: "d/M/y")}";
-    String time = "${Jiffy.parseFromDateTime(DateTime.now()).jm}";
+    String date = Jiffy.parseFromDateTime(DateTime.now()).format(pattern: "d/M/y");
+    String time = Jiffy.parseFromDateTime(DateTime.now()).jm;
 
     // adding metadata to the beginning of the sheet
     sheet.appendRow(
@@ -277,7 +277,7 @@ class CompanyHomeController extends GetxController {
         backgroundColor: Colors.green,
       ));
       await myVehiclesController.refreshMyVehicles();
-      await Future.delayed(Duration(milliseconds: 400));
+      await Future.delayed(const Duration(milliseconds: 400));
       refreshMyEmployees();
     }
     toggleLoadingAssign(false);

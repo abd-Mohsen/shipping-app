@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/login_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
 import 'package:shipment/views/components/custom_button.dart';

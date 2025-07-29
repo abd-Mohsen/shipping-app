@@ -55,13 +55,13 @@ class CurrentUserController extends GetxController {
           ["refused", "No_Input"].contains(currentUser!.driverInfo?.vehicleStatus);
 
       if (noValidCar) {
-        Get.dialog(kNoValidCarDialog(() => Get.off(() => MyVehiclesView())), barrierDismissible: false);
+        Get.dialog(kNoValidCarDialog(() => Get.off(() => const MyVehiclesView())), barrierDismissible: false);
       }
     }
 
     if (currentUser == null) {
       //todo(later): put first to get correct loading (in all roles)
-      await Future.delayed(Duration(seconds: 10));
+      await Future.delayed(const Duration(seconds: 10));
       getCurrentUser();
     }
 

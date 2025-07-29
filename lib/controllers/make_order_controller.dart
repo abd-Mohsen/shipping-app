@@ -34,7 +34,7 @@ class MakeOrderController extends GetxController {
     await PermissionService().requestPermission(Permission.location);
     if (order != null) await prePopulate();
     await loadDraft();
-    selectedDate = DateTime.now().add(Duration(hours: 24));
+    selectedDate = DateTime.now().add(const Duration(hours: 24));
     selectedTime = TimeOfDay.now();
     super.onInit();
   }
@@ -82,7 +82,6 @@ class MakeOrderController extends GetxController {
   }
 
   void saveDraft() {
-    print("-====================");
     DateTime desiredDate = DateTime(
       selectedDate!.year,
       selectedDate!.month,
@@ -105,9 +104,6 @@ class MakeOrderController extends GetxController {
       "order_extra_info": extraInfoSelection,
       "payment_methods": paymentMethodController.selectedItems.map((sI) => sI.value.id).toList(),
     };
-
-    print(order);
-
     _getStorage.write("order_draft", jsonEncode(order));
   }
 
@@ -128,7 +124,7 @@ class MakeOrderController extends GetxController {
     selectedCurrency = null;
     selectedWeightUnit = null;
     selectedVehicleType = null;
-    selectedDate = DateTime.now().add(Duration(hours: 24));
+    selectedDate = DateTime.now().add(const Duration(hours: 24));
     selectedTime = TimeOfDay.now();
     calculateApplicationCommission();
     clearExtraInfo();
@@ -306,7 +302,7 @@ class MakeOrderController extends GetxController {
     toggleLoadingInfo(true);
     MakeOrderModel? model = await RemoteServices.fetchMakeOrderInfo();
     if (model == null) {
-      await Future.delayed(Duration(seconds: 10));
+      await Future.delayed(const Duration(seconds: 10));
       getMakeOrderInfo();
     } else {
       vehicleTypes = model.vehicleTypes;
@@ -426,7 +422,7 @@ class MakeOrderController extends GetxController {
         "${"order commission".tr} $applicationCommission${selectedCurrency!.symbol}",
         colorText: Colors.white,
         backgroundColor: const Color(0xffFFA500),
-        icon: Icon(Icons.done_all, color: Colors.white),
+        icon: const Icon(Icons.done_all, color: Colors.white),
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       );
       resetForm();

@@ -4,11 +4,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/notification_model.dart';
-import 'package:shipment/views/notifications_view.dart';
 import 'package:shipment/views/order_view.dart';
 import '../main.dart';
 import '../services/remote_services.dart';
-import '../views/redirect_page.dart';
 
 //todo: i once got: home controller was called after being disposed, how was it disposed?
 // its 90% a memory problem,
@@ -31,7 +29,7 @@ class NotificationsController extends GetxController {
     super.dispose();
   }
 
-  final GetStorage _getStorage = GetStorage();
+  //final GetStorage _getStorage = GetStorage();
 
   int notificationID = 0;
 

@@ -64,7 +64,7 @@ class OnlineSocketController extends GetxController {
   void startPinging() async {
     timer?.cancel();
 
-    timer = Timer.periodic(Duration(seconds: 15), (timer) async {
+    timer = Timer.periodic(const Duration(seconds: 15), (timer) async {
       try {
         if (_isWebSocketConnected()) {
           websocket!.add(json.encode({"type": "ping"}));

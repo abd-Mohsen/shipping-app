@@ -23,11 +23,11 @@ class ThemeController extends GetxController {
   ThemeMode getThemeMode() {
     //method being called twice at launch and once when changing language
     if (_getStorage.read('is dark') == "true") {
-      print("dark");
+      //print("dark");
       _switchValue = true;
       return ThemeMode.dark;
     } else {
-      print("light");
+      //print("light");
       _switchValue = false;
       return ThemeMode.light;
     }

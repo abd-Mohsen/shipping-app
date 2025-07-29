@@ -7,8 +7,6 @@ import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/edit_profile_controller.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/input_field.dart';
-
-import '../models/user_model.dart';
 import 'components/auth_field.dart';
 
 class EditProfileView extends StatelessWidget {
@@ -18,7 +16,7 @@ class EditProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    EditProfileController mOC = Get.put(EditProfileController());
+    Get.put(EditProfileController());
     CurrentUserController cUC = Get.find();
     return DefaultTabController(
       length: 2,
