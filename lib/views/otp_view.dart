@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
@@ -21,7 +22,8 @@ class OTPView extends StatelessWidget {
     // late ResetPassController rPC;
     // if (source == "reset") rPC = Get.find();
     OTPController oC = Get.find();
-    CurrentUserController cUC = Get.find();
+    late CurrentUserController cUC;
+    if (source == "register") cUC = Get.find();
 
     return SafeArea(
       child: PopScope(
@@ -79,7 +81,7 @@ class OTPView extends StatelessWidget {
                         flex: 12,
                         child: Hero(
                           tag: "auth_image",
-                          child: Image.asset('assets/images/sms1.png'),
+                          child: SvgPicture.asset("assets/images/otp.svg", height: 300),
                         ),
                       ),
                       const Spacer(),

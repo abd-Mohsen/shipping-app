@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:shipment/controllers/register_controller.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/components/custom_button.dart';
@@ -62,7 +63,7 @@ class RegisterView extends StatelessWidget {
                                   ...rC.roles.map(
                                     (role) => Column(
                                       children: [
-                                        SizedBox(height: 150, child: Image.asset('assets/images/$role.png')),
+                                        SvgPicture.asset("assets/images/$role.svg", height: 150),
                                         Text(
                                           role.tr,
                                           style: tt.titleMedium!.copyWith(color: cs.onSurface),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
@@ -28,7 +29,7 @@ class ResetPassView1 extends StatelessWidget {
                   "reset password".tr.toUpperCase(),
                   style: tt.titleLarge!.copyWith(color: cs.onSurface),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     const Spacer(),
@@ -36,7 +37,7 @@ class ResetPassView1 extends StatelessWidget {
                       flex: 12,
                       child: Hero(
                         tag: "auth_image",
-                        child: Image.asset('assets/images/sms1.png'),
+                        child: SvgPicture.asset("assets/images/otp.svg", height: 300),
                       ),
                     ),
                     const Spacer(),

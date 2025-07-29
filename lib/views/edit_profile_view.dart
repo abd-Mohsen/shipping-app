@@ -166,7 +166,7 @@ class EditProfileView extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: SvgPicture.asset("assets/images/edit_profile.svg", height: 200),
+                        child: SvgPicture.asset("assets/images/password.svg", height: 200),
                       ),
                       AuthField(
                         controller: controller.oldPass,

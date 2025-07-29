@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/login_controller.dart';
@@ -40,7 +41,7 @@ class LoginView extends StatelessWidget {
                       flex: 16,
                       child: Hero(
                         tag: "auth_image",
-                        child: Image.asset('assets/images/driver.png'),
+                        child: SvgPicture.asset("assets/images/driver.svg", height: 200),
                       ),
                     ),
                     const Spacer(),
@@ -153,7 +154,7 @@ class LoginView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 32),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

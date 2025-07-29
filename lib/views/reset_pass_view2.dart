@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
@@ -37,7 +38,7 @@ class ResetPassView2 extends StatelessWidget {
                       flex: 12,
                       child: Hero(
                         tag: "auth_image",
-                        child: Image.asset('assets/images/password.png'),
+                        child: SvgPicture.asset("assets/images/password.svg", height: 300),
                       ),
                     ),
                     const Spacer(),
