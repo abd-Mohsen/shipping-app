@@ -35,9 +35,9 @@ class NotificationButton extends StatelessWidget {
             Get.to(() => const NotificationsView());
           },
           child: Icon(
-            Icons.notifications,
+            Icons.notifications_outlined,
             color: color,
-            //size: 30,
+            size: 28,
           ),
         ),
       ),

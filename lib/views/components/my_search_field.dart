@@ -27,14 +27,24 @@ class MySearchField extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    return Material(
-      elevation: 2,
-      borderRadius: const BorderRadius.all(Radius.circular(15)),
+    return Container(
+      decoration: BoxDecoration(
+        color: cs.secondaryContainer,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.2), // Shadow color
+            blurRadius: 2, // Soften the shadow
+            spreadRadius: 1, // Extend the shadow
+            offset: const Offset(1, 1), // Shadow direction (x, y)
+          ),
+        ],
+      ),
       child: TextField(
         controller: textEditingController,
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
-          constraints: const BoxConstraints(maxHeight: 50),
+          constraints: const BoxConstraints(maxHeight: 43),
           prefixIcon: Padding(
             padding: const EdgeInsets.all(6.0),
             child: icon,

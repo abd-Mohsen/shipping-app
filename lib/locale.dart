@@ -364,6 +364,7 @@ class MyLocale extends Translations {
           "subject": "subject",
           "message": "message",
           "report was sent to technical support": "report was sent to technical support",
+          "my orders": "my orders",
         },
         "ar": {
           "Arabic": "العربية",
@@ -722,6 +723,7 @@ class MyLocale extends Translations {
           "subject": "الموضوع",
           "message": "الرسالة",
           "report was sent to technical support": "تم الارسال للدعم الفني",
+          "my orders": "طلبياتي",
         },
       };
 }

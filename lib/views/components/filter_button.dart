@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class FilterButton extends StatelessWidget {
@@ -45,12 +45,12 @@ class FilterButton extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: cs.primary,
+            color: cs.primaryContainer,
           ),
-          child: FaIcon(
-            FontAwesomeIcons.sliders,
+          child: Icon(
+            Icons.filter_list,
             color: cs.onPrimary,
-            size: 20,
+            size: 27,
           ),
         ),
       ),

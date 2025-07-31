@@ -42,7 +42,7 @@ class MyOrdersTab extends StatelessWidget {
               //crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: AppBar(
                     backgroundColor: cs.surface,
                     elevation: 0,
@@ -71,7 +71,7 @@ class MyOrdersTab extends StatelessWidget {
                       ),
                     ],
                     title: Text(
-                      "orders".tr,
+                      "my orders".tr,
                       style: tt.titleMedium!.copyWith(
                         color: cs.onSurface,
                         fontWeight: FontWeight.bold,
@@ -101,16 +101,16 @@ class MyOrdersTab extends StatelessWidget {
                 //   ],
                 // ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const SizedBox(width: 20),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: MySearchField(
                           label: "search".tr,
                           textEditingController: controller.searchQueryMyOrders,
-                          icon: Icon(Icons.search, color: cs.primary),
+                          icon: Icon(Icons.search, color: cs.primaryContainer),
                           onChanged: (s) {
                             controller.searchMyOrders();
                           },
@@ -134,11 +134,11 @@ class MyOrdersTab extends StatelessWidget {
                         );
                       },
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 8),
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 12),
+                  padding: const EdgeInsets.only(left: 16.0, right: 16),
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height / 14,
                     child: SingleChildScrollView(
@@ -156,48 +156,51 @@ class MyOrdersTab extends StatelessWidget {
                               margin: const EdgeInsets.symmetric(horizontal: 4),
                               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                               decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.2), // Shadow color
+                                    blurRadius: 2, // Soften the shadow
+                                    spreadRadius: 1, // Extend the shadow
+                                    offset: const Offset(1, 1), // Shadow direction (x, y)
+                                  ),
+                                ],
                                 color: i == controller.orderTypes.length
                                     ? controller.selectedOrderTypes.length == controller.orderTypes.length
                                         ? cs.primary
-                                        : Colors.transparent
-                                    : controller.selectedOrderTypes.contains(controller.orderTypes[i])
+                                        : cs.surface
+                                    : controller.selectedOrderTypes.contains(controller.orderTypes[i]) &&
+                                            controller.selectedOrderTypes.length != controller.orderTypes.length
                                         ? cs.primary
-                                        : Colors.transparent,
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(
-                                  color: cs.onSurface.withValues(alpha: 0.2),
-                                  width: 0.5,
-                                ),
-                                // boxShadow: [
-                                //   BoxShadow(
-                                //     color: Colors.black.withOpacity(0.5),
-                                //     spreadRadius: 0.5,
-                                //     blurRadius: 4,
-                                //     offset: const Offset(-1, 2),
-                                //   ),
-                                // ],
+                                        : cs.surface,
+                                borderRadius: BorderRadius.circular(10),
+                                // border: Border.all(
+                                //   color: cs.onSurface.withValues(alpha: 0.2),
+                                //   width: 0.5,
+                                // ),
                               ),
                               child: Row(
                                 children: [
                                   if (i != controller.orderTypes.length)
                                     Icon(
                                       controller.orderIcons[i],
-                                      color: controller.selectedOrderTypes.contains(controller.orderTypes[i])
+                                      color: controller.selectedOrderTypes.contains(controller.orderTypes[i]) &&
+                                              controller.selectedOrderTypes.length != controller.orderTypes.length
                                           ? cs.onPrimary
-                                          : cs.primary,
+                                          : cs.onSurface,
                                       size: 16,
                                     ),
-                                  SizedBox(width: 8),
+                                  const SizedBox(width: 8),
                                   Text(
                                     i == controller.orderTypes.length ? "all".tr : controller.orderTypes[i].tr,
                                     style: tt.labelSmall!.copyWith(
                                       color: i == controller.orderTypes.length
                                           ? controller.selectedOrderTypes.length == controller.orderTypes.length
                                               ? cs.onPrimary
-                                              : cs.primary
-                                          : controller.selectedOrderTypes.contains(controller.orderTypes[i])
+                                              : cs.onSurface
+                                          : controller.selectedOrderTypes.contains(controller.orderTypes[i]) &&
+                                                  controller.selectedOrderTypes.length != controller.orderTypes.length
                                               ? cs.onPrimary
-                                              : cs.primary,
+                                              : cs.onSurface,
                                       fontSize: 10,
                                     ),
                                   ),

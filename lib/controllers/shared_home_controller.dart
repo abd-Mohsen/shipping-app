@@ -88,9 +88,10 @@ class SharedHomeController extends GetxController {
       homeNavigationController.changeTab(1);
     }
     if (selectAll) {
-      selectedOrderTypes.length == orderTypes.length
-          ? selectedOrderTypes.clear()
-          : selectedOrderTypes = List.from(orderTypes);
+      // selectedOrderTypes.length == orderTypes.length
+      //     ? selectedOrderTypes.clear()
+      //     :
+      selectedOrderTypes = List.from(orderTypes);
     } else {
       selectedOrderTypes.contains(type) ? selectedOrderTypes.remove(type) : selectedOrderTypes.add(type);
     }
