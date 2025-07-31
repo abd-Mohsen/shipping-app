@@ -143,7 +143,7 @@ class OrderView extends StatelessWidget {
                 builder: (context) => alertDialog,
               );
             },
-            color: color,
+            color: cs.primaryContainer,
             child: Center(
               child: isLoading
                   ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
@@ -314,1035 +314,460 @@ class OrderView extends StatelessWidget {
     // }
 
     return GetBuilder<OrderController>(builder: (controller) {
-      return Scaffold(
-        backgroundColor: cs.surface,
-        appBar: AppBar(
+      return PopScope(
+        onPopInvokedWithResult: (bool didPop, res) {
+          Get.delete<OrderController>();
+        },
+        child: Scaffold(
           backgroundColor: cs.surface,
-          elevation: 0,
-          surfaceTintColor: Colors.transparent, // Add this line
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: cs.surface, // Match your AppBar
-          ),
-          title: Text(
-            'view order'.tr.toUpperCase(),
-            style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer),
-          ),
-          centerTitle: true,
-          actions: [
-            if (oC.order != null && isCustomer && ["draft", "available"].contains(oC.order!.status))
-              IconButton(
-                onPressed: () {
-                  Get.to(() => MakeOrderView(edit: true, order: oC.order));
-                },
-                icon: oC.order!.dateTime.isBefore(DateTime.now())
-                    ? const Badge(
-                        smallSize: 10,
-                        backgroundColor: Color(0xff00ff00),
-                        child: Icon(Icons.edit),
-                      )
-                    : const Icon(Icons.edit),
-              ),
-            if (oC.order != null && isCustomer && ["draft", "available"].contains(oC.order!.status))
-              IconButton(
-                onPressed: () {
-                  Get.defaultDialog(
-                    title: "",
-                    content: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        "delete the order?".tr,
-                        style: tt.titleLarge!.copyWith(color: cs.onSurface),
-                      ),
-                    ),
-                    confirm: TextButton(
-                      onPressed: () {
-                        Get.back();
-                        controller.deleteOrder();
-                      },
-                      child: Text(
-                        "yes".tr,
-                        style: tt.titleMedium!.copyWith(color: Colors.red),
-                      ),
-                    ),
-                    cancel: TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text(
-                        "no".tr,
-                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                      ),
-                    ),
-                  );
-                },
-                icon: Icon(
-                  Icons.delete,
-                  color: cs.onSurface,
+          appBar: AppBar(
+            backgroundColor: cs.surface,
+            elevation: 0,
+            surfaceTintColor: Colors.transparent, // Add this line
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: cs.surface, // Match your AppBar
+            ),
+            title: Text(
+              'view order'.tr.toUpperCase(),
+              style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer),
+            ),
+            centerTitle: true,
+            actions: [
+              if (oC.order != null && isCustomer && ["draft", "available"].contains(oC.order!.status))
+                IconButton(
+                  onPressed: () {
+                    Get.to(() => MakeOrderView(edit: true, order: oC.order));
+                  },
+                  icon: oC.order!.dateTime.isBefore(DateTime.now())
+                      ? const Badge(
+                          smallSize: 10,
+                          backgroundColor: Color(0xff00ff00),
+                          child: Icon(Icons.edit),
+                        )
+                      : const Icon(Icons.edit),
                 ),
-              )
-          ],
-        ),
-        body: controller.isLoadingOrder
-            ? SpinKitSquareCircle(color: cs.primary)
-            : RefreshIndicator(
-                onRefresh: controller.refreshOrder,
-                child: controller.order == null
-                    ? Center(
-                        child: ListView(
-                          shrinkWrap: true,
-                          children: [
-                            Lottie.asset("assets/animations/simple truck.json", height: 200),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 32),
-                              child: Center(
-                                child: Text(
-                                  "no data, pull down to refresh".tr,
-                                  style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                          ],
+              if (oC.order != null && isCustomer && ["draft", "available"].contains(oC.order!.status))
+                IconButton(
+                  onPressed: () {
+                    Get.defaultDialog(
+                      title: "",
+                      content: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          "delete the order?".tr,
+                          style: tt.titleLarge!.copyWith(color: cs.onSurface),
                         ),
-                      )
-                    : Stack(
-                        children: [
-                          // SizedBox(
-                          //   height: MediaQuery.of(context).size.height / 3,
-                          //   child: ShaderMask(
-                          //     shaderCallback: (rect) {
-                          //       return LinearGradient(
-                          //         colors: [
-                          //           cs.primary,
-                          //           Colors.black,
-                          //         ],
-                          //         stops: [0.4, 1.0],
-                          //       ).createShader(rect);
-                          //     },
-                          //     blendMode: BlendMode.multiply,
-                          //     child: Image.asset(
-                          //       "assets/images/background.jpg",
-                          //       fit: BoxFit.cover,
-                          //     ),
-                          //   ),
-                          // ),
-
-                          /// start of the page contents
-                          ListView(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                      ),
+                      confirm: TextButton(
+                        onPressed: () {
+                          Get.back();
+                          controller.deleteOrder();
+                        },
+                        child: Text(
+                          "yes".tr,
+                          style: tt.titleMedium!.copyWith(color: Colors.red),
+                        ),
+                      ),
+                      cancel: TextButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text(
+                          "no".tr,
+                          style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                        ),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: cs.onSurface,
+                  ),
+                )
+            ],
+            leading: IconButton(
+              onPressed: () {
+                Get.delete<OrderController>();
+                Get.back();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: cs.onSurface,
+              ),
+            ),
+          ),
+          body: controller.isLoadingOrder
+              ? SpinKitSquareCircle(color: cs.primary)
+              : RefreshIndicator(
+                  onRefresh: controller.refreshOrder,
+                  child: controller.order == null
+                      ? Center(
+                          child: ListView(
+                            shrinkWrap: true,
                             children: [
-                              //todo: there is no refuse for driver and company, i am using cancel for now
-                              /// accept order
-                              ///
-                              if (!isCustomer &&
-                                  ["available", "waiting_approval"].contains(oC.order!.status) &&
-                                  !controller.order!.isAppliedByMe &&
-                                  !controller.order!.isCancelledByMe)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                                  child: CustomButton(
-                                    onTap: () {
-                                      if (isEmployee) {
-                                        controller.acceptOrderCompany();
-                                      } else if (isCompany) {
-                                        Get.bottomSheet(
-                                          GetBuilder<OrderController>(
-                                            builder: (controller) {
-                                              return Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: const BorderRadius.only(
-                                                    topRight: Radius.circular(20),
-                                                    topLeft: Radius.circular(20),
-                                                  ),
-                                                  color: cs.surface,
-                                                ),
-                                                height: MediaQuery.of(context).size.height / 3,
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.all(16.0),
-                                                      child: Text(
-                                                        "select driver".tr,
-                                                        style: tt.titleMedium!
-                                                            .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                      ),
-                                                    ),
-                                                    Form(
-                                                      key: controller.formKey,
-                                                      child: Expanded(
-                                                        //padding: const EdgeInsets.symmetric(vertical: 12),
-                                                        child: controller.isLoadingVehicles
-                                                            ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                                                            : Column(
-                                                                children: [
-                                                                  //todo: fix UI in this sheet
-                                                                  const SizedBox(height: 12),
-                                                                  EmployeeSelector(
-                                                                    selectedItem: controller.selectedEmployee,
-                                                                    items: controller.availableEmployees,
-                                                                    onChanged: (EmployeeModel? e) async {
-                                                                      controller.selectEmployee(e);
-                                                                      await Future.delayed(
-                                                                          const Duration(milliseconds: 1000));
-                                                                      if (controller.buttonPressed) {
-                                                                        controller.formKey.currentState!.validate();
-                                                                      }
-                                                                    },
-                                                                  )
-                                                                ],
-                                                              ),
-                                                      ),
-                                                    ),
-                                                    CustomButton(
-                                                      onTap: () {
-                                                        controller.acceptOrderCompany();
-                                                      },
-                                                      child: Center(
-                                                        child: controller.isLoadingSubmit
-                                                            ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                                            : Text(
-                                                                "add".tr.toUpperCase(),
-                                                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                                              ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      } else {
-                                        controller.getCurrOrders();
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => GetBuilder<OrderController>(
-                                            builder: (controller) {
-                                              return alertDialog(
-                                                title: "accept the order?".tr,
-                                                onPressed: () {
-                                                  Get.back();
-                                                  controller.acceptOrderDriver();
-                                                },
-                                                //todo: handle cache orders
-                                                // content: controller.isLoadingCurr
-                                                //     ? SpinKitSquareCircle(color: cs.primary, size: 26)
-                                                //     : controller.currOrders.isEmpty
-                                                //         ? null
-                                                //         : Padding(
-                                                //             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                                //             child: SizedBox(
-                                                //               height: MediaQuery.of(context).size.height / 2,
-                                                //               width: MediaQuery.of(context).size.width / 1.5,
-                                                //               child: Column(
-                                                //                 children: [
-                                                //                   Padding(
-                                                //                     padding: const EdgeInsets.all(8.0),
-                                                //                     child: Text(
-                                                //                       "you currently have these orders".tr,
-                                                //                       style:
-                                                //                           tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                //                     ),
-                                                //                   ),
-                                                //                   Expanded(
-                                                //                     child: ListView.builder(
-                                                //                       itemCount: controller.currOrders.length,
-                                                //                       itemBuilder: (context, i) => MiniOrderCard(
-                                                //                         order: controller.currOrders[i],
-                                                //                       ),
-                                                //                     ),
-                                                //                   ),
-                                                //                 ],
-                                                //               ),
-                                                //             ),
-                                                //           ),
-                                              );
-                                            },
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Center(
-                                      child: controller.isLoadingSubmit
-                                          ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                          : Text(
-                                              "apply".tr.toUpperCase(),
-                                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                            ),
-                                    ),
-                                  ),
-                                ),
-                              //todo: for company: show the name of the driver ("driver" didnt start the order yet)
-                              /// start order
-                              ///
-                              if (!isCustomer &&
-                                  !isCompany &&
-                                  oC.order!.status == "approved" &&
-                                  oC.order!.driverApproved)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                                  child: mainButton(
-                                    alertDialog: alertDialog(
-                                      onPressed: () {
-                                        Get.back();
-                                        controller.beginOrderDriver();
-                                      },
-                                      content: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: Text(
-                                          "customer will track driver's progress".tr,
-                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                      ),
-                                      title: "begin the order?".tr,
-                                    ),
-                                    isLoading: controller.isLoadingSubmit,
-                                    buttonText: "begin".tr.toUpperCase(),
-                                  ),
-                                ),
-
-                              /// finish order button
-                              ///
-                              if (!isCustomer && !isCompany && oC.order!.status == "processing")
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                                  child: mainButton(
-                                    alertDialog: alertDialog(
-                                      onPressed: () {
-                                        Get.back();
-                                        controller.finishOrderDriver();
-                                      },
-                                      content: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: Text(
-                                          "press yes if you reached your destination".tr,
-                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                      ),
-                                      title: "finish the order?".tr,
-                                    ),
-                                    isLoading: controller.isLoadingSubmit,
-                                    buttonText: "finish".tr.toUpperCase(),
-                                  ),
-                                ),
-
-                              /// cancel order button (wait 10 minutes to cancel if not approved yet)
-                              ///
-                              if (!isCustomer &&
-                                  oC.order!.status == "waiting_approval" &&
-                                  !oC.order!.isCancelledByMe &&
-                                  oC.order!.isAppliedByMe)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                                  child: mainButton(
-                                    alertDialog: alertDialog(
-                                      onPressed: () {
-                                        Get.back();
-                                        controller.cancelOrder();
-                                      },
-                                      content: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: Text(
-                                          "do you want to cancel the order?".tr,
-                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                      ),
-                                      title: "cancel the order?".tr,
-                                    ),
-                                    isLoading: controller.isLoadingSubmit,
-                                    buttonText: "cancel".tr.toUpperCase(),
-                                  ),
-                                ),
-
-                              /// cancel with penalty
-                              ///
-                              if ((isCustomer && oC.order!.status == "waiting_approval") ||
-                                  (!isCustomer && oC.order!.status == "approved"))
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                                  child: mainButton(
-                                    alertDialog: alertDialog(
-                                      onPressed: () {
-                                        Get.back();
-
-                                        controller.cancelOrder();
-                                      },
-                                      content: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: Text(
-                                          "${"if you cancel you will get penalty after".tr}  ${3 - controller.remainingCancels} "
-                                                  " ${"times of cancel".tr}"
-                                              .tr,
-                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                        ),
-                                      ),
-                                      title: "cancel the order?".tr,
-                                    ),
-                                    isLoading: controller.isLoadingSubmit,
-                                    buttonText: "cancel".tr.toUpperCase(),
-                                  ),
-                                ),
-
-                              ///map
-                              ///
+                              Lottie.asset("assets/animations/simple truck.json", height: 200),
                               Padding(
-                                padding: const EdgeInsets.only(top: 8, bottom: 4, left: 4, right: 4),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: cs.secondaryContainer,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withValues(alpha: 0.2), // Shadow color
-                                        blurRadius: 2, // Soften the shadow
-                                        spreadRadius: 1, // Extend the shadow
-                                        offset: const Offset(1, 1), // Shadow direction (x, y)
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                                        child: Text(
-                                          "location".tr,
-                                          style: tt.labelMedium!
-                                              .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      Divider(
-                                        thickness: 1.5,
-                                        color: cs.onSecondaryContainer.withValues(alpha: 0.1),
-                                        indent: 12,
-                                        endIndent: 12,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 12, right: 12),
-                                        child: SizedBox(
-                                          height: MediaQuery.of(context).size.height / 5,
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(8),
-                                            child: map(),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 12.0, right: 12, top: 4),
-                                        child: CustomButton(
-                                          onTap: () async {
-                                            if (controller.isMapReady) Get.to(TrackingView(map: map()));
-                                            //controller.connectTrackingSocket();
-                                          },
-                                          isShort: true,
-                                          isGradiant: true,
-                                          color: cs.primary,
-                                          child: Center(
-                                            child: Text(
-                                              isCustomer && oC.order!.status == "processing"
-                                                  ? "live tracking".tr.toUpperCase()
-                                                  : "open map".tr,
-                                              style: tt.labelMedium!
-                                                  .copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Divider(
-                                        color: cs.onSecondaryContainer.withValues(alpha: 0.1),
-                                        thickness: 1.5,
-                                        indent: 12,
-                                        endIndent: 12,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "starting point".tr.toUpperCase(),
-                                                  style: tt.labelMedium!.copyWith(
-                                                    color: cs.onSecondaryContainer.withValues(alpha: 0.5),
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4),
-                                                Text(
-                                                  oC.order!.startPoint.toString(),
-                                                  style: tt.labelMedium!.copyWith(
-                                                      color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
-                                        child: Row(
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "destination point".tr.toUpperCase(),
-                                                  style: tt.labelMedium!.copyWith(
-                                                    color: cs.onSecondaryContainer.withValues(alpha: 0.5),
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 4),
-                                                Text(
-                                                  oC.order!.endPoint.toString(),
-                                                  style: tt.labelMedium!.copyWith(
-                                                      color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                    ],
+                                padding: const EdgeInsets.symmetric(horizontal: 32),
+                                child: Center(
+                                  child: Text(
+                                    "no data, pull down to refresh".tr,
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
+                            ],
+                          ),
+                        )
+                      : Stack(
+                          children: [
+                            // SizedBox(
+                            //   height: MediaQuery.of(context).size.height / 3,
+                            //   child: ShaderMask(
+                            //     shaderCallback: (rect) {
+                            //       return LinearGradient(
+                            //         colors: [
+                            //           cs.primary,
+                            //           Colors.black,
+                            //         ],
+                            //         stops: [0.4, 1.0],
+                            //       ).createShader(rect);
+                            //     },
+                            //     blendMode: BlendMode.multiply,
+                            //     child: Image.asset(
+                            //       "assets/images/background.jpg",
+                            //       fit: BoxFit.cover,
+                            //     ),
+                            //   ),
+                            // ),
 
-                              ///drivers applications
-                              ///
-                              if ((isCustomer || isCompany) && controller.order!.driversApplications.isNotEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 4, left: 4, top: 12, bottom: 4),
-                                  child: TitledScrollingCard(
-                                    title: isCompany ? "employee".tr : "drivers applications".tr,
-                                    itemCount: controller.order!.driversApplications.length,
-                                    isEmpty: controller.order!.driversApplications.isEmpty,
-                                    children: List.generate(
-                                      controller.order!.driversApplications.length,
-                                      (i) => ApplicationCard(
-                                        showButtons: isCompany ? false : controller.order!.status == "waiting_approval",
-                                        application: controller.order!.driversApplications[i],
-                                        isAccepted: isCompany
-                                            ? false
-                                            : controller.order!.driversApplications[i].id ==
-                                                controller.order!.acceptedApplication?.id,
-                                        onTapCall: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) =>
-                                                callDialog(controller.order!.driversApplications[i].driver.phoneNumber),
-                                          );
-                                        },
-                                        onTapAccept: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => alertDialog(
-                                              onPressed: () {
-                                                Get.back();
-                                                controller
-                                                    .confirmOrderCustomer(controller.order!.driversApplications[i].id);
-                                              },
-                                              title: "accept the order?".tr,
-                                            ),
-                                          );
-                                        },
-                                        onSeePhone: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => alertDialog(
-                                              onPressed: () {
-                                                Get.back();
-                                                controller.allowToSeePhone(controller.order!.driversApplications[i].id);
-                                              },
-                                              title: "allow driver to see your phone?".tr,
-                                            ),
-                                          );
-                                        },
-                                        onTapRefuse: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => alertDialog(
-                                              onPressed: () {
-                                                Get.back();
-                                                controller
-                                                    .rejectOrderCustomer(controller.order!.driversApplications[i].id);
-                                              },
-                                              title: "refuse the order?".tr,
-                                            ),
-                                          );
-                                        },
-                                        onTapCard: () {
-                                          showMaterialModalBottomSheet(
-                                            context: context,
-                                            backgroundColor: Colors.transparent,
-                                            barrierColor: Colors.black.withValues(alpha: 0.5),
-                                            enableDrag: true,
-                                            builder: (context) => BlurredSheet(
-                                              title: "driver info".tr,
-                                              confirmText: "ok".tr,
-                                              onConfirm: () {
-                                                Get.back();
-                                              },
-                                              content: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
+                            /// start of the page contents
+                            ListView(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              children: [
+                                //todo: there is no refuse for driver and company, i am using cancel for now
+                                /// accept order
+                                ///
+                                if (!isCustomer &&
+                                    ["available", "waiting_approval"].contains(oC.order!.status) &&
+                                    !controller.order!.isAppliedByMe &&
+                                    !controller.order!.isCancelledByMe)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    child: CustomButton(
+                                      onTap: () {
+                                        if (isEmployee) {
+                                          controller.acceptOrderCompany();
+                                        } else if (isCompany) {
+                                          Get.bottomSheet(
+                                            GetBuilder<OrderController>(
+                                              builder: (controller) {
+                                                return Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: const BorderRadius.only(
+                                                      topRight: Radius.circular(20),
+                                                      topLeft: Radius.circular(20),
+                                                    ),
+                                                    color: cs.surface,
+                                                  ),
+                                                  height: MediaQuery.of(context).size.height / 3,
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      Expanded(
-                                                        child: SheetDetailsTile(
-                                                          title: "name".tr,
-                                                          subtitle:
-                                                              controller.order!.driversApplications[i].driver.name,
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(16.0),
+                                                        child: Text(
+                                                          "select driver".tr,
+                                                          style: tt.titleMedium!.copyWith(
+                                                              color: cs.onSurface, fontWeight: FontWeight.bold),
                                                         ),
                                                       ),
-                                                      Expanded(
-                                                        child: SheetDetailsTile(
-                                                          title: "phone".tr,
-                                                          subtitle: controller
-                                                              .order!.driversApplications[i].driver.phoneNumber,
+                                                      Form(
+                                                        key: controller.formKey,
+                                                        child: Expanded(
+                                                          //padding: const EdgeInsets.symmetric(vertical: 12),
+                                                          child: controller.isLoadingVehicles
+                                                              ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                                                              : Column(
+                                                                  children: [
+                                                                    //todo: fix UI in this sheet
+                                                                    const SizedBox(height: 12),
+                                                                    EmployeeSelector(
+                                                                      selectedItem: controller.selectedEmployee,
+                                                                      items: controller.availableEmployees,
+                                                                      onChanged: (EmployeeModel? e) async {
+                                                                        controller.selectEmployee(e);
+                                                                        await Future.delayed(
+                                                                            const Duration(milliseconds: 1000));
+                                                                        if (controller.buttonPressed) {
+                                                                          controller.formKey.currentState!.validate();
+                                                                        }
+                                                                      },
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                        ),
+                                                      ),
+                                                      CustomButton(
+                                                        onTap: () {
+                                                          controller.acceptOrderCompany();
+                                                        },
+                                                        child: Center(
+                                                          child: controller.isLoadingSubmit
+                                                              ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                                              : Text(
+                                                                  "add".tr.toUpperCase(),
+                                                                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                                                ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: SheetDetailsTile(
-                                                          title: "submission date".tr,
-                                                          subtitle: Jiffy.parseFromDateTime(
-                                                                  controller.order!.driversApplications[i].appliedAt)
-                                                              .format(pattern: "d / M / y"),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: SheetDetailsTile(
-                                                          title: "submission time".tr,
-                                                          subtitle: Jiffy.parseFromDateTime(
-                                                                  controller.order!.driversApplications[i].appliedAt)
-                                                              .jm,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: SheetDetailsTile(
-                                                          title: "vehicle type".tr,
-                                                          subtitle: controller
-                                                              .order!.driversApplications[i].vehicle.vehicleType.type,
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: SheetDetailsTile(
-                                                          title: "license plate".tr,
-                                                          subtitle: controller.order!.driversApplications[i].vehicle
-                                                              .vehicleRegistrationNumber,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SheetDetailsTile(
-                                                    title: "rating".tr,
-                                                    subtitle: controller
-                                                        .order!.driversApplications[i].driver.overallRating
-                                                        .toStringAsPrecision(2),
-                                                  ),
-                                                ],
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        } else {
+                                          controller.getCurrOrders();
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => GetBuilder<OrderController>(
+                                              builder: (controller) {
+                                                return alertDialog(
+                                                  title: "accept the order?".tr,
+                                                  onPressed: () {
+                                                    Get.back();
+                                                    controller.acceptOrderDriver();
+                                                  },
+                                                  //todo: handle cache orders
+                                                  // content: controller.isLoadingCurr
+                                                  //     ? SpinKitSquareCircle(color: cs.primary, size: 26)
+                                                  //     : controller.currOrders.isEmpty
+                                                  //         ? null
+                                                  //         : Padding(
+                                                  //             padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                  //             child: SizedBox(
+                                                  //               height: MediaQuery.of(context).size.height / 2,
+                                                  //               width: MediaQuery.of(context).size.width / 1.5,
+                                                  //               child: Column(
+                                                  //                 children: [
+                                                  //                   Padding(
+                                                  //                     padding: const EdgeInsets.all(8.0),
+                                                  //                     child: Text(
+                                                  //                       "you currently have these orders".tr,
+                                                  //                       style:
+                                                  //                           tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                  //                     ),
+                                                  //                   ),
+                                                  //                   Expanded(
+                                                  //                     child: ListView.builder(
+                                                  //                       itemCount: controller.currOrders.length,
+                                                  //                       itemBuilder: (context, i) => MiniOrderCard(
+                                                  //                         order: controller.currOrders[i],
+                                                  //                       ),
+                                                  //                     ),
+                                                  //                   ),
+                                                  //                 ],
+                                                  //               ),
+                                                  //             ),
+                                                  //           ),
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      child: Center(
+                                        child: controller.isLoadingSubmit
+                                            ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                            : Text(
+                                                "apply".tr.toUpperCase(),
+                                                style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                        isLast: i == controller.order!.driversApplications.length - 1,
                                       ),
                                     ),
                                   ),
-                                ),
-
-                              ///stepper
-                              ///
-                              // Container(
-                              //   margin: const EdgeInsets.symmetric(horizontal: 4),
-                              //   decoration: BoxDecoration(
-                              //     color: cs.secondaryContainer,
-                              //     borderRadius: BorderRadius.circular(10),
-                              //     boxShadow: [
-                              //       BoxShadow(
-                              //         color: Colors.black.withOpacity(0.2), // Shadow color
-                              //         blurRadius: 2, // Soften the shadow
-                              //         spreadRadius: 1, // Extend the shadow
-                              //         offset: Offset(1, 1), // Shadow direction (x, y)
-                              //       ),
-                              //     ],
-                              //   ),
-                              //   child: Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       Padding(
-                              //         padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                              //         child: Text(
-                              //           "order status".tr,
-                              //           style:
-                              //               tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                              //         ),
-                              //       ),
-                              //       Divider(
-                              //         thickness: 1.5,
-                              //         color: cs.onSecondaryContainer.withOpacity(0.1),
-                              //         indent: 12,
-                              //         endIndent: 12,
-                              //       ),
-                              //       Stepper(
-                              //         controlsBuilder: (BuildContext context, ControlsDetails details) {
-                              //           return const SizedBox.shrink(); // Removes buttons
-                              //         },
-                              //         physics: const NeverScrollableScrollPhysics(),
-                              //         steps: List.generate(
-                              //           controller.statuses.length,
-                              //           (i) {
-                              //             List icons = [
-                              //               StepState.complete,
-                              //               StepState.complete,
-                              //               StepState.complete,
-                              //               StepState.disabled,
-                              //               StepState.disabled,
-                              //             ];
-                              //             return Step(
-                              //                 state: icons[i], // Shows simple circle instead of interactive
-                              //                 // icon
-                              //                 isActive: false, // Makes step appear inactive
-                              //                 title: Text(
-                              //                   controller.statuses[i].tr,
-                              //                   style: tt.labelMedium!.copyWith(
-                              //                       color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                              //                 ),
-                              //                 content: SizedBox(
-                              //                   width: double.infinity,
-                              //                   height: 0,
-                              //                 ),
-                              //                 subtitle: Text(
-                              //                   i % 2 == 0
-                              //                       ? controller.order!.fullDate()
-                              //                       : controller.order!.fullCreationDate(),
-                              //                   style: tt.labelSmall!.copyWith(
-                              //                       color: cs.onSecondaryContainer, fontWeight: FontWeight.normal),
-                              //                 ),
-                              //                 stepStyle: StepStyle(
-                              //                   color: i > 2 ? Colors.grey : cs.primary,
-                              //                 )
-                              //                 // subtitle: Text(
-                              //                 //   "",
-                              //                 //   style: tt.labelMedium!
-                              //                 //       .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
-                              //                 // ),
-                              //                 );
-                              //           },
-                              //         ),
-                              //
-                              //         onStepTapped: null, // Disables tapping on steps
-                              //         onStepCancel: null, // Disables cancel action
-                              //         onStepContinue: null, // Disables continue action
-                              //         currentStep: 2, // Set to whatever step should appear as "current"
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              // EasyStepper(
-                              //   activeStep: controller.statusIndex,
-                              //   activeStepTextColor: cs.primary,
-                              //   finishedStepTextColor: cs.onSurface,
-                              //   unreachedStepTextColor: cs.onSurface.withOpacity(0.7),
-                              //   internalPadding: 8,
-                              //   showLoadingAnimation: false,
-                              //   stepRadius: 8,
-                              //   showStepBorder: false,
-                              //   steps: List.generate(
-                              //     controller.statuses.length,
-                              //     (i) => EasyStep(
-                              //       customStep: CircleAvatar(
-                              //         radius: 8,
-                              //         backgroundColor: cs.primary,
-                              //         child: CircleAvatar(
-                              //           radius: 7,
-                              //           backgroundColor: controller.statusIndex >= i ? cs.primary : Colors.white,
-                              //         ),
-                              //       ),
-                              //       title: controller.statuses[i].tr,
-                              //       topTitle: i % 2 == 0,
-                              //     ),
-                              //   ),
-                              // ),
-
-                              // Padding(
-                              //   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              //   child: Divider(
-                              //     thickness: 2,
-                              //     color: cs.primary,
-                              //     indent: 80,
-                              //     endIndent: 80,
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 12),
-
-                              ///
-                              ///driver info
-                              ///
-                              // if (isCustomer && oC.order!.acceptedApplication != null)
-                              //   Padding(
-                              //     padding: const EdgeInsets.only(top: 12.0),
-                              //     child: Card(
-                              //       color: cs.secondaryContainer,
-                              //       elevation: 2,
-                              //       child: Padding(
-                              //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              //         child: Column(
-                              //           crossAxisAlignment: CrossAxisAlignment.start,
-                              //           children: [
-                              //             Row(
-                              //               children: [
-                              //                 Icon(Icons.person, color: cs.primary),
-                              //                 const SizedBox(width: 8),
-                              //                 Text(
-                              //                   "driver info".tr,
-                              //                   style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
-                              //                   overflow: TextOverflow.ellipsis,
-                              //                 ),
-                              //               ],
-                              //             ),
-                              //             const SizedBox(height: 12),
-                              //             Padding(
-                              //               padding: const EdgeInsets.symmetric(vertical: 4),
-                              //               child: SizedBox(
-                              //                 width: MediaQuery.of(context).size.width / 1.7,
-                              //                 child: Text(
-                              //                   oC.order!.acceptedApplication?.driver.name ??
-                              //                       "accepted application is null",
-                              //                   style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              //                   overflow: TextOverflow.ellipsis,
-                              //                   maxLines: 3,
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //             Padding(
-                              //               padding: const EdgeInsets.symmetric(vertical: 4),
-                              //               child: SizedBox(
-                              //                 width: MediaQuery.of(context).size.width / 1.7,
-                              //                 child: GestureDetector(
-                              //                   onTap: () {
-                              //                     //callDialog();
-                              //                   },
-                              //                   child: Text(
-                              //                     oC.order!.acceptedApplication?.driver.phoneNumber.toString() ??
-                              //                         "accepted application is null",
-                              //                     style: tt.titleSmall!.copyWith(
-                              //                       color: Colors.blue,
-                              //                       decoration: TextDecoration.underline,
-                              //                     ),
-                              //                     overflow: TextOverflow.ellipsis,
-                              //                     maxLines: 3,
-                              //                   ),
-                              //                 ),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-
-                              ///customer info
-                              ///
-                              if (!isCustomer)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 12.0, right: 4, left: 4),
-                                  child: TitledCard(
-                                    title: "owner info".tr,
-                                    content: ApplicationCard2(
-                                      title: oC.order!.orderOwner?.name ?? "",
-                                      //showButtons: (["processing", "done", "approved"].contains(oC.order!.status)),
-                                      showButtons: controller.order!.driversApplications.isNotEmpty &&
-                                          controller.order!.driversApplications.first.canSeePhone,
-                                      isLast: true,
-                                      onTapCall: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => callDialog(controller.order!.orderOwner!.phoneNumber),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ),
-
-                              /// available payment methods
-                              ///
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16.0, bottom: 4, right: 4, left: 4),
-                                child: TitledCard(
-                                  title: "payment methods".tr,
-                                  content: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                      child: Wrap(
-                                        spacing: 8,
-                                        children: List.generate(
-                                          controller.order!.paymentMethods.length,
-                                          (i) => GestureDetector(
-                                            onTap: () {
-                                              if (["approved", "processing", "done"]
-                                                      .contains(controller.order!.status) &&
-                                                  controller.order!.paymentMethods[i].payment.fullName != null) {
-                                                Get.defaultDialog(
-                                                    backgroundColor: cs.surface,
-                                                    title: "details".tr,
-                                                    titleStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                                    content: Text(
-                                                      "${controller.order!.paymentMethods[i].payment.fullName!}\n"
-                                                      "${controller.order!.paymentMethods[i].payment.phoneNumber ?? controller.order!.paymentMethods[i].payment.accountDetails ?? ''}",
-                                                      style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 4,
-                                                    ));
-
-                                                // showPopover(
-                                                //   context: context,
-                                                //   backgroundColor: cs.surface,
-                                                //   bodyBuilder: (context) => Padding(
-                                                //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                                                //     child: Text(
-                                                //       controller.order!.paymentMethods[i].payment.fullName! +
-                                                //           "\n" +
-                                                //           (controller.order!.paymentMethods[i].payment.phoneNumber ??
-                                                //               controller
-                                                //                   .order!.paymentMethods[i].payment.accountDetails ??
-                                                //               ''),
-                                                //       style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                                //       overflow: TextOverflow.ellipsis,
-                                                //       maxLines: 4,
-                                                //     ),
-                                                //   ),
-                                                // );
-                                              }
-                                            },
-                                            child: Chip(
-                                              label: Text(
-                                                controller.order!.paymentMethods[i].payment.methodName,
-                                                style: tt.labelSmall!.copyWith(
-                                                    color: controller.order!.paymentMethods[i].isActive
-                                                        ? cs.onPrimary
-                                                        : cs.onSecondaryContainer),
-                                              ),
-                                              backgroundColor: controller.order!.paymentMethods[i].isActive
-                                                  ? cs.primary
-                                                  : cs.secondaryContainer,
-                                            ),
+                                //todo: for company: show the name of the driver ("driver" didnt start the order yet)
+                                /// start order
+                                ///
+                                if (!isCustomer &&
+                                    !isCompany &&
+                                    oC.order!.status == "approved" &&
+                                    oC.order!.driverApproved)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    child: mainButton(
+                                      alertDialog: alertDialog(
+                                        onPressed: () {
+                                          Get.back();
+                                          controller.beginOrderDriver();
+                                        },
+                                        content: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                          child: Text(
+                                            "customer will track driver's progress".tr,
+                                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                           ),
                                         ),
-                                      )),
-                                ),
-                              ),
-
-                              /// required vehicle type
-                              ///
-                              if (!isCustomer && ["available", "waiting_approval"].contains(oC.order!.status))
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 16.0, bottom: 4, right: 4, left: 4),
-                                  child: TitledCard(
-                                    title: "required vehicle type".tr,
-                                    content: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                      child: Text(
-                                        controller.order!.typeVehicle.type,
-                                        style: tt.labelSmall!.copyWith(
-                                          color: cs.onSecondaryContainer,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        title: "begin the order?".tr,
                                       ),
+                                      isLoading: controller.isLoadingSubmit,
+                                      buttonText: "begin".tr.toUpperCase(),
                                     ),
                                   ),
-                                ),
 
-                              ///details
-                              ///
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16.0, bottom: 16, right: 4, left: 4),
-                                child: TitledCard(
-                                  title: "details".tr,
-                                  content: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                /// finish order button
+                                ///
+                                if (!isCustomer && !isCompany && oC.order!.status == "processing")
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    child: mainButton(
+                                      alertDialog: alertDialog(
+                                        onPressed: () {
+                                          Get.back();
+                                          controller.finishOrderDriver();
+                                        },
+                                        content: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                          child: Text(
+                                            "press yes if you reached your destination".tr,
+                                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                          ),
+                                        ),
+                                        title: "finish the order?".tr,
+                                      ),
+                                      isLoading: controller.isLoadingSubmit,
+                                      buttonText: "finish".tr.toUpperCase(),
+                                    ),
+                                  ),
+
+                                /// cancel order button (wait 10 minutes to cancel if not approved yet)
+                                ///
+                                if (!isCustomer &&
+                                    oC.order!.status == "waiting_approval" &&
+                                    !oC.order!.isCancelledByMe &&
+                                    oC.order!.isAppliedByMe)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    child: mainButton(
+                                      alertDialog: alertDialog(
+                                        onPressed: () {
+                                          Get.back();
+                                          controller.cancelOrder();
+                                        },
+                                        content: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                          child: Text(
+                                            "do you want to cancel the order?".tr,
+                                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                          ),
+                                        ),
+                                        title: "cancel the order?".tr,
+                                      ),
+                                      isLoading: controller.isLoadingSubmit,
+                                      buttonText: "cancel".tr.toUpperCase(),
+                                    ),
+                                  ),
+
+                                /// cancel with penalty
+                                ///
+                                if ((isCustomer && oC.order!.status == "waiting_approval") ||
+                                    (!isCustomer && oC.order!.status == "approved"))
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    child: mainButton(
+                                      alertDialog: alertDialog(
+                                        onPressed: () {
+                                          Get.back();
+
+                                          controller.cancelOrder();
+                                        },
+                                        content: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                          child: Text(
+                                            "${"if you cancel you will get penalty after".tr}  ${3 - controller.remainingCancels} "
+                                                    " ${"times of cancel".tr}"
+                                                .tr,
+                                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                          ),
+                                        ),
+                                        title: "cancel the order?".tr,
+                                      ),
+                                      isLoading: controller.isLoadingSubmit,
+                                      buttonText: "cancel".tr.toUpperCase(),
+                                    ),
+                                  ),
+
+                                ///map
+                                ///
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8, bottom: 4, left: 4, right: 4),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: cs.secondaryContainer,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(alpha: 0.2), // Shadow color
+                                          blurRadius: 2, // Soften the shadow
+                                          spreadRadius: 1, // Extend the shadow
+                                          offset: const Offset(1, 1), // Shadow direction (x, y)
+                                        ),
+                                      ],
+                                    ),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            "order name".tr.toUpperCase(),
-                                                            style: tt.labelMedium!.copyWith(
-                                                                color: cs.onSecondaryContainer.withValues(alpha: 0.5),
-                                                                fontWeight: FontWeight.bold),
-                                                          ),
-                                                          const SizedBox(height: 4),
-                                                          Text(
-                                                            oC.order!.description,
-                                                            maxLines: 4,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            style: tt.labelMedium!.copyWith(
-                                                                color: cs.onSecondaryContainer,
-                                                                fontWeight: FontWeight.bold),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                                        //   child: Text(
+                                        //     "location".tr,
+                                        //     style: tt.labelMedium!
+                                        //         .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                        //   ),
+                                        // ),
+                                        // Divider(
+                                        //   thickness: 1.5,
+                                        //   color: cs.onSecondaryContainer.withValues(alpha: 0.1),
+                                        //   indent: 12,
+                                        //   endIndent: 12,
+                                        // ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 12, right: 12, top: 16),
+                                          child: Container(
+                                            height: MediaQuery.of(context).size.height / 5,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: const Color(0xff0e5aa6), width: 2.5),
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(8),
+                                              child: map(),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 12.0, right: 12, top: 4),
+                                          child: CustomButton(
+                                            onTap: () async {
+                                              if (controller.isMapReady) Get.to(TrackingView(map: map()));
+                                              //controller.connectTrackingSocket();
+                                            },
+                                            isShort: true,
+                                            //isGradiant: true,
+                                            color: cs.primary,
+                                            child: Center(
+                                              child: Text(
+                                                isCustomer && oC.order!.status == "processing"
+                                                    ? "live tracking".tr.toUpperCase()
+                                                    : "open map".tr,
+                                                style: tt.labelMedium!
+                                                    .copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
                                               ),
                                             ),
-                                            const SizedBox(width: 12),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            "expected price".tr.toUpperCase(),
-                                                            style: tt.labelMedium!.copyWith(
-                                                              color: cs.onSecondaryContainer.withValues(alpha: 0.5),
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                          const SizedBox(height: 4),
-                                                          Text(
-                                                            oC.order!.fullPrice(),
-                                                            maxLines: 2,
-                                                            style: tt.labelMedium!.copyWith(
-                                                                color: cs.onSecondaryContainer,
-                                                                fontWeight: FontWeight.bold),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                          ),
                                         ),
                                         Divider(
                                           color: cs.onSecondaryContainer.withValues(alpha: 0.1),
@@ -1350,560 +775,1075 @@ class OrderView extends StatelessWidget {
                                           indent: 12,
                                           endIndent: 12,
                                         ),
-                                        if (oC.order!.extraInfo.isNotEmpty || oC.order!.otherInfo != null)
-                                          const SizedBox(height: 8),
-                                        if (oC.order!.extraInfo.isNotEmpty)
-                                          Wrap(
-                                              children: oC.order!.extraInfo
-                                                  .map(
-                                                    (e) => Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(top: 4.0),
-                                                          child: CircleAvatar(
-                                                            foregroundColor: cs.secondaryContainer,
-                                                            backgroundColor: cs.primaryContainer,
-                                                            radius: 6,
-                                                            child: const Icon(Icons.done, size: 10),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(width: 4),
-                                                        Text(
-                                                          oC.order!.formatExtraInfo(),
-                                                          style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 1000,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                  .toList()),
-                                        if (oC.order!.otherInfo != null)
-                                          Text(
-                                            oC.order!.otherInfo!,
-                                            style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1000,
-                                          ),
-                                        const SizedBox(height: 8),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(vertical: 4),
+                                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
                                           child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  //
-                                                  Text(
-                                                    "${"weight".tr}: ",
-                                                    style: tt.labelMedium!.copyWith(
-                                                      color: cs.onSecondaryContainer,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 3,
-                                                  ),
-                                                  const SizedBox(height: 4),
-                                                  Text(
-                                                    "${"arrive date".tr}: ",
-                                                    style: tt.labelMedium!.copyWith(
-                                                      color: cs.onSecondaryContainer,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 2,
-                                                  ),
-                                                  const SizedBox(height: 4),
-                                                  Text(
-                                                    "${"added at".tr}: ",
-                                                    style: tt.labelMedium!.copyWith(
-                                                      color: cs.onSecondaryContainer,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 2,
-                                                  ),
-                                                  //
-                                                ],
-                                              ),
-                                              const SizedBox(width: 16),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      oC.order!.fullWeight(),
-                                                      style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 1,
-                                                    ),
-                                                    const SizedBox(height: 4),
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          oC.order!.fullDate(),
-                                                          style: tt.labelMedium!.copyWith(
-                                                            color: oC.order!.dateTime.isBefore(DateTime.now()) &&
-                                                                    !["draft", "done"].contains(oC.order!.status)
-                                                                ? cs.error
-                                                                : cs.onSurface,
-                                                          ),
-                                                          overflow: TextOverflow.ellipsis,
-                                                          maxLines: 1,
-                                                        ),
-                                                        const SizedBox(width: 12),
-                                                        // Visibility(
-                                                        //   visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
-                                                        //       !["draft", "done"].contains(oC.order!.status),
-                                                        //   child: GestureDetector(
-                                                        //     onTap: () {
-                                                        //       showPopover(
-                                                        //         context: context,
-                                                        //         backgroundColor: cs.surface,
-                                                        //         bodyBuilder: (context) => Padding(
-                                                        //           padding: const EdgeInsets.symmetric(
-                                                        //               horizontal: 12, vertical: 16),
-                                                        //           child: Text(
-                                                        //             "order was not accepted in time".tr,
-                                                        //             style:
-                                                        //                 tt.titleMedium!.copyWith(color: cs.onSurface),
-                                                        //             overflow: TextOverflow.ellipsis,
-                                                        //             maxLines: 2,
-                                                        //           ),
-                                                        //         ),
-                                                        //       );
-                                                        //     },
-                                                        //     child: Icon(Icons.info, color: cs.error, size: 18),
-                                                        //   ),
-                                                        // ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(height: 4),
-                                                    Text(
-                                                      oC.order!.fullCreationDate(),
-                                                      style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                                      overflow: TextOverflow.ellipsis,
-                                                      maxLines: 2,
-                                                    ),
-                                                  ],
+                                              Text(
+                                                "${"starting point".tr.toUpperCase()}:",
+                                                style: tt.labelMedium!.copyWith(
+                                                  color: cs.onSecondaryContainer.withValues(alpha: 0.7),
+                                                  fontWeight: FontWeight.bold,
                                                 ),
-                                              )
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Expanded(
+                                                child: Text(
+                                                  oC.order!.startPoint.toString(),
+                                                  style: tt.labelMedium!.copyWith(
+                                                      color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "${"destination point".tr.toUpperCase()}:",
+                                                style: tt.labelMedium!.copyWith(
+                                                  color: cs.onSecondaryContainer.withValues(alpha: 0.7),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Expanded(
+                                                child: Text(
+                                                  oC.order!.endPoint.toString(),
+                                                  style: tt.labelMedium!.copyWith(
+                                                      color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
                                       ],
                                     ),
                                   ),
                                 ),
-                              ),
-                              // Container(
-                              //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                              //   margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(10),
-                              //     boxShadow: [
-                              //       BoxShadow(
-                              //         color: Colors.black.withOpacity(0.2), // Shadow color
-                              //         blurRadius: 3, // Soften the shadow
-                              //         spreadRadius: 1, // Extend the shadow
-                              //         //offset: const Offset(2, 2), // Shadow direction (x, y)
-                              //       ),
-                              //     ],
-                              //     color: cs.secondaryContainer,
-                              //   ),
-                              //   child: Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       Row(
-                              //         children: [
-                              //           Icon(Icons.text_snippet, color: cs.primary),
-                              //           const SizedBox(width: 8),
-                              //           Text(
-                              //             "details".tr,
-                              //             style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
-                              //             overflow: TextOverflow.ellipsis,
-                              //           ),
-                              //         ],
-                              //       ),
-                              //       const SizedBox(height: 16),
-                              //       if (oC.order!.extraInfo.isNotEmpty)
-                              //         Text(
-                              //           oC.order!.formatExtraInfo(),
-                              //           style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              //           overflow: TextOverflow.ellipsis,
-                              //           maxLines: 1000,
-                              //         ),
-                              //       if (oC.order!.otherInfo != null)
-                              //         Text(
-                              //           oC.order!.otherInfo!,
-                              //           style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                              //           overflow: TextOverflow.ellipsis,
-                              //           maxLines: 1000,
-                              //         ),
-                              //       const SizedBox(height: 12),
-                              //       Padding(
-                              //         padding: const EdgeInsets.symmetric(vertical: 4),
-                              //         child: Row(
-                              //           children: [
-                              //             Text(
-                              //               "${"weight".tr}: ",
-                              //               style: tt.titleSmall!.copyWith(
-                              //                 color: cs.onSecondaryContainer,
-                              //                 fontWeight: FontWeight.bold,
-                              //               ),
-                              //               overflow: TextOverflow.ellipsis,
-                              //               maxLines: 3,
-                              //             ),
-                              //             const SizedBox(width: 8),
-                              //             SizedBox(
-                              //               width: MediaQuery.of(context).size.width / 1.8,
-                              //               child: Text(
-                              //                 "${oC.order!.weight} ${oC.order!.weightUnit}",
-                              //                 style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                              //                 overflow: TextOverflow.ellipsis,
-                              //                 maxLines: 1,
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //       Padding(
-                              //         padding: const EdgeInsets.symmetric(vertical: 4),
-                              //         child: Row(
-                              //           children: [
-                              //             Expanded(
-                              //               child: Row(
-                              //                 children: [
-                              //                   Text(
-                              //                     "${"expected arrive date".tr}: ",
-                              //                     style: tt.titleSmall!.copyWith(
-                              //                       color: cs.onSecondaryContainer,
-                              //                       fontWeight: FontWeight.bold,
-                              //                     ),
-                              //                     overflow: TextOverflow.ellipsis,
-                              //                     maxLines: 2,
-                              //                   ),
-                              //                   const SizedBox(width: 8),
-                              //                   Text(
-                              //                     oC.order!.fullDate(),
-                              //                     style: tt.labelMedium!.copyWith(
-                              //                       color: oC.order!.dateTime.isBefore(DateTime.now()) &&
-                              //                               !["draft", "done"].contains(oC.order!.status)
-                              //                           ? cs.error
-                              //                           : cs.onSurface,
-                              //                     ),
-                              //                     overflow: TextOverflow.ellipsis,
-                              //                     maxLines: 1,
-                              //                   ),
-                              //                   const SizedBox(width: 12),
-                              //                   Visibility(
-                              //                     visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
-                              //                         !["draft", "done"].contains(oC.order!.status),
-                              //                     child: GestureDetector(
-                              //                       onTap: () {
-                              //                         showPopover(
-                              //                           context: context,
-                              //                           backgroundColor: cs.surface,
-                              //                           bodyBuilder: (context) => Padding(
-                              //                             padding:
-                              //                                 const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                              //                             child: Text(
-                              //                               "order was not accepted in time".tr,
-                              //                               style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                              //                               overflow: TextOverflow.ellipsis,
-                              //                               maxLines: 2,
-                              //                             ),
-                              //                           ),
-                              //                         );
-                              //                       },
-                              //                       child: Icon(Icons.info, color: cs.error, size: 18),
-                              //                     ),
-                              //                   ),
-                              //                 ],
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //       Padding(
-                              //         padding: const EdgeInsets.symmetric(vertical: 4),
-                              //         child: Row(
-                              //           children: [
-                              //             Text(
-                              //               "${"added at".tr}: ",
-                              //               style: tt.titleSmall!.copyWith(
-                              //                 color: cs.onSecondaryContainer,
-                              //                 fontWeight: FontWeight.bold,
-                              //               ),
-                              //               overflow: TextOverflow.ellipsis,
-                              //               maxLines: 2,
-                              //             ),
-                              //             const SizedBox(width: 8),
-                              //             Expanded(
-                              //               child: Text(
-                              //                 oC.order!.fullCreationDate(),
-                              //                 style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                              //                 overflow: TextOverflow.ellipsis,
-                              //                 maxLines: 2,
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 24),
-                            ],
-                          ),
 
-                          if (!isCustomer &&
-                              oC.order!.status == "pending" &&
-                              oC.order!.ownerApproved &&
-                              !oC.order!.driverApproved)
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              child: alertStack(
-                                title: "${oC.order!.orderOwner?.name ?? "order owner is null"}"
-                                    " ${"accepted your request".tr}",
-                                greenText: 'accept'.tr,
-                                redText: 'cancel'.tr,
-                                onPressedGreen: () {
-                                  Get.back();
-                                  Get.bottomSheet(
-                                    GetBuilder<OrderController>(
-                                      builder: (controller) {
-                                        return Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                                          decoration: BoxDecoration(
-                                            borderRadius: const BorderRadius.only(
-                                              topRight: Radius.circular(20),
-                                              topLeft: Radius.circular(20),
-                                            ),
-                                            color: cs.surface,
-                                          ),
-                                          //height: MediaQuery.of(context).size.height / 1.5,
-                                          child: Form(
-                                            key: controller.formKey,
-                                            child: Column(
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(16.0),
-                                                  child: Text(
-                                                    "select payment method".tr,
-                                                    style: tt.titleMedium!
-                                                        .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Scrollbar(
-                                                    child: ListView.builder(
-                                                      itemCount: oC.order!.paymentMethods.length,
-                                                      itemBuilder: (context, i) => RadioListTile(
-                                                        title: Text(
-                                                          oC.order!.paymentMethods[i].payment.methodName,
-                                                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                                        ),
-                                                        value: oC.order!.paymentMethods[i],
-                                                        groupValue: controller.selectedPayment,
-                                                        onChanged: (v) {
-                                                          controller.selectPayment(v!);
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                  visible: ["Bank Account", "Money Transfer"]
-                                                      .contains(controller.selectedPayment.payment.methodValue),
-                                                  child: InputField(
-                                                    controller: controller.fullName,
-                                                    label: "full name".tr,
-                                                    keyboardType: TextInputType.text,
-                                                    textInputAction: TextInputAction.next,
-                                                    prefixIcon: Icons.person,
-                                                    validator: (val) {
-                                                      if (!["Bank Account", "Money Transfer"]
-                                                          .contains(controller.selectedPayment.payment.methodValue)) {
-                                                        return null;
-                                                      }
-                                                      return validateInput(controller.fullName.text, 0, 100, "");
-                                                    },
-                                                    onChanged: (val) {
-                                                      if (controller.buttonPressed) {
-                                                        controller.formKey.currentState!.validate();
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                  visible: ["Bank Account"]
-                                                      .contains(controller.selectedPayment.payment.methodValue),
-                                                  child: InputField(
-                                                    controller: controller.accountDetails,
-                                                    label: "account details".tr,
-                                                    keyboardType: TextInputType.text,
-                                                    textInputAction: TextInputAction.next,
-                                                    prefixIcon: Icons.short_text_outlined,
-                                                    validator: (val) {
-                                                      if (!["Bank Account"]
-                                                          .contains(controller.selectedPayment.payment.methodValue)) {
-                                                        return null;
-                                                      }
-                                                      return validateInput(controller.accountDetails.text, 0, 100, "");
-                                                    },
-                                                    onChanged: (val) {
-                                                      if (controller.buttonPressed) {
-                                                        controller.formKey.currentState!.validate();
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                                Visibility(
-                                                  visible: ["Money Transfer"]
-                                                      .contains(controller.selectedPayment.payment.methodValue),
-                                                  child: InputField(
-                                                    controller: controller.phoneNumber,
-                                                    label: "phone number".tr,
-                                                    keyboardType: TextInputType.number,
-                                                    textInputAction: TextInputAction.next,
-                                                    prefixIcon: Icons.phone_android,
-                                                    validator: (val) {
-                                                      if (!["Money Transfer"]
-                                                          .contains(controller.selectedPayment.payment.methodValue)) {
-                                                        return null;
-                                                      }
-                                                      return validateInput(controller.phoneNumber.text, 0, 12, "phone");
-                                                    },
-                                                    onChanged: (val) {
-                                                      if (controller.buttonPressed) {
-                                                        controller.formKey.currentState!.validate();
-                                                      }
-                                                    },
-                                                  ),
-                                                ),
-                                                CustomButton(
-                                                  onTap: () {
-                                                    isCompany
-                                                        ? controller.confirmOrderCompany()
-                                                        : controller.confirmOrderDriver();
-                                                  },
-                                                  child: Center(
-                                                    child: controller.isLoadingSubmit
-                                                        ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                                        : Text(
-                                                            "add".tr.toUpperCase(),
-                                                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                ///drivers applications
+                                ///
+                                if ((isCustomer || isCompany) && controller.order!.driversApplications.isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 4, left: 4, top: 12, bottom: 4),
+                                    child: TitledScrollingCard(
+                                      title: isCompany ? "employee".tr : "drivers applications".tr,
+                                      itemCount: controller.order!.driversApplications.length,
+                                      isEmpty: controller.order!.driversApplications.isEmpty,
+                                      children: List.generate(
+                                        controller.order!.driversApplications.length,
+                                        (i) => ApplicationCard(
+                                          showButtons:
+                                              isCompany ? false : controller.order!.status == "waiting_approval",
+                                          application: controller.order!.driversApplications[i],
+                                          isAccepted: isCompany
+                                              ? false
+                                              : controller.order!.driversApplications[i].id ==
+                                                  controller.order!.acceptedApplication?.id,
+                                          onTapCall: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => callDialog(
+                                                  controller.order!.driversApplications[i].driver.phoneNumber),
+                                            );
+                                          },
+                                          onTapAccept: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => alertDialog(
+                                                onPressed: () {
+                                                  Get.back();
+                                                  controller.confirmOrderCustomer(
+                                                      controller.order!.driversApplications[i].id);
+                                                },
+                                                title: "accept the order?".tr,
+                                              ),
+                                            );
+                                          },
+                                          onSeePhone: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => alertDialog(
+                                                onPressed: () {
+                                                  Get.back();
+                                                  controller
+                                                      .allowToSeePhone(controller.order!.driversApplications[i].id);
+                                                },
+                                                title: "allow driver to see your phone?".tr,
+                                              ),
+                                            );
+                                          },
+                                          onTapRefuse: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => alertDialog(
+                                                onPressed: () {
+                                                  Get.back();
+                                                  controller
+                                                      .rejectOrderCustomer(controller.order!.driversApplications[i].id);
+                                                },
+                                                title: "refuse the order?".tr,
+                                              ),
+                                            );
+                                          },
+                                          onTapCard: () {
+                                            showMaterialModalBottomSheet(
+                                              context: context,
+                                              backgroundColor: Colors.transparent,
+                                              barrierColor: Colors.black.withValues(alpha: 0.5),
+                                              enableDrag: true,
+                                              builder: (context) => BlurredSheet(
+                                                title: "driver info".tr,
+                                                confirmText: "ok".tr,
+                                                onConfirm: () {
+                                                  Get.back();
+                                                },
+                                                content: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: SheetDetailsTile(
+                                                            title: "name".tr,
+                                                            subtitle:
+                                                                controller.order!.driversApplications[i].driver.name,
                                                           ),
-                                                  ),
+                                                        ),
+                                                        Expanded(
+                                                          child: SheetDetailsTile(
+                                                            title: "phone".tr,
+                                                            subtitle: controller
+                                                                .order!.driversApplications[i].driver.phoneNumber,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: SheetDetailsTile(
+                                                            title: "submission date".tr,
+                                                            subtitle: Jiffy.parseFromDateTime(
+                                                                    controller.order!.driversApplications[i].appliedAt)
+                                                                .format(pattern: "d / M / y"),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: SheetDetailsTile(
+                                                            title: "submission time".tr,
+                                                            subtitle: Jiffy.parseFromDateTime(
+                                                                    controller.order!.driversApplications[i].appliedAt)
+                                                                .jm,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: SheetDetailsTile(
+                                                            title: "vehicle type".tr,
+                                                            subtitle: controller
+                                                                .order!.driversApplications[i].vehicle.vehicleType.type,
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: SheetDetailsTile(
+                                                            title: "license plate".tr,
+                                                            subtitle: controller.order!.driversApplications[i].vehicle
+                                                                .vehicleRegistrationNumber,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SheetDetailsTile(
+                                                      title: "rating".tr,
+                                                      subtitle: controller
+                                                          .order!.driversApplications[i].driver.overallRating
+                                                          .toStringAsPrecision(2),
+                                                    ),
+                                                  ],
                                                 ),
+                                              ),
+                                            );
+                                          },
+                                          isLast: i == controller.order!.driversApplications.length - 1,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                ///stepper
+                                ///
+                                // Container(
+                                //   margin: const EdgeInsets.symmetric(horizontal: 4),
+                                //   decoration: BoxDecoration(
+                                //     color: cs.secondaryContainer,
+                                //     borderRadius: BorderRadius.circular(10),
+                                //     boxShadow: [
+                                //       BoxShadow(
+                                //         color: Colors.black.withOpacity(0.2), // Shadow color
+                                //         blurRadius: 2, // Soften the shadow
+                                //         spreadRadius: 1, // Extend the shadow
+                                //         offset: Offset(1, 1), // Shadow direction (x, y)
+                                //       ),
+                                //     ],
+                                //   ),
+                                //   child: Column(
+                                //     crossAxisAlignment: CrossAxisAlignment.start,
+                                //     children: [
+                                //       Padding(
+                                //         padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                                //         child: Text(
+                                //           "order status".tr,
+                                //           style:
+                                //               tt.labelMedium!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                //         ),
+                                //       ),
+                                //       Divider(
+                                //         thickness: 1.5,
+                                //         color: cs.onSecondaryContainer.withOpacity(0.1),
+                                //         indent: 12,
+                                //         endIndent: 12,
+                                //       ),
+                                //       Stepper(
+                                //         controlsBuilder: (BuildContext context, ControlsDetails details) {
+                                //           return const SizedBox.shrink(); // Removes buttons
+                                //         },
+                                //         physics: const NeverScrollableScrollPhysics(),
+                                //         steps: List.generate(
+                                //           controller.statuses.length,
+                                //           (i) {
+                                //             List icons = [
+                                //               StepState.complete,
+                                //               StepState.complete,
+                                //               StepState.complete,
+                                //               StepState.disabled,
+                                //               StepState.disabled,
+                                //             ];
+                                //             return Step(
+                                //                 state: icons[i], // Shows simple circle instead of interactive
+                                //                 // icon
+                                //                 isActive: false, // Makes step appear inactive
+                                //                 title: Text(
+                                //                   controller.statuses[i].tr,
+                                //                   style: tt.labelMedium!.copyWith(
+                                //                       color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                //                 ),
+                                //                 content: SizedBox(
+                                //                   width: double.infinity,
+                                //                   height: 0,
+                                //                 ),
+                                //                 subtitle: Text(
+                                //                   i % 2 == 0
+                                //                       ? controller.order!.fullDate()
+                                //                       : controller.order!.fullCreationDate(),
+                                //                   style: tt.labelSmall!.copyWith(
+                                //                       color: cs.onSecondaryContainer, fontWeight: FontWeight.normal),
+                                //                 ),
+                                //                 stepStyle: StepStyle(
+                                //                   color: i > 2 ? Colors.grey : cs.primary,
+                                //                 )
+                                //                 // subtitle: Text(
+                                //                 //   "",
+                                //                 //   style: tt.labelMedium!
+                                //                 //       .copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+                                //                 // ),
+                                //                 );
+                                //           },
+                                //         ),
+                                //
+                                //         onStepTapped: null, // Disables tapping on steps
+                                //         onStepCancel: null, // Disables cancel action
+                                //         onStepContinue: null, // Disables continue action
+                                //         currentStep: 2, // Set to whatever step should appear as "current"
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // EasyStepper(
+                                //   activeStep: controller.statusIndex,
+                                //   activeStepTextColor: cs.primary,
+                                //   finishedStepTextColor: cs.onSurface,
+                                //   unreachedStepTextColor: cs.onSurface.withOpacity(0.7),
+                                //   internalPadding: 8,
+                                //   showLoadingAnimation: false,
+                                //   stepRadius: 8,
+                                //   showStepBorder: false,
+                                //   steps: List.generate(
+                                //     controller.statuses.length,
+                                //     (i) => EasyStep(
+                                //       customStep: CircleAvatar(
+                                //         radius: 8,
+                                //         backgroundColor: cs.primary,
+                                //         child: CircleAvatar(
+                                //           radius: 7,
+                                //           backgroundColor: controller.statusIndex >= i ? cs.primary : Colors.white,
+                                //         ),
+                                //       ),
+                                //       title: controller.statuses[i].tr,
+                                //       topTitle: i % 2 == 0,
+                                //     ),
+                                //   ),
+                                // ),
+
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                //   child: Divider(
+                                //     thickness: 2,
+                                //     color: cs.primary,
+                                //     indent: 80,
+                                //     endIndent: 80,
+                                //   ),
+                                // ),
+                                // const SizedBox(height: 12),
+
+                                ///customer info
+                                ///
+                                if (!isCustomer)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 12.0, right: 4, left: 4),
+                                    child: TitledCard(
+                                      title: "owner info".tr,
+                                      content: ApplicationCard2(
+                                        title: oC.order!.orderOwner?.name ?? "",
+                                        //showButtons: (["processing", "done", "approved"].contains(oC.order!.status)),
+                                        showButtons: controller.order!.driversApplications.isNotEmpty &&
+                                            controller.order!.driversApplications.first.canSeePhone,
+                                        isLast: true,
+                                        onTapCall: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => callDialog(controller.order!.orderOwner!.phoneNumber),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+
+                                /// available payment methods
+                                ///
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0, bottom: 4, right: 4, left: 4),
+                                  child: TitledCard(
+                                    title: "payment methods".tr,
+                                    content: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                        child: Wrap(
+                                          spacing: 8,
+                                          children: List.generate(
+                                            controller.order!.paymentMethods.length,
+                                            (i) => GestureDetector(
+                                              onTap: () {
+                                                if (["approved", "processing", "done"]
+                                                        .contains(controller.order!.status) &&
+                                                    controller.order!.paymentMethods[i].payment.fullName != null) {
+                                                  Get.defaultDialog(
+                                                      backgroundColor: cs.surface,
+                                                      title: "details".tr,
+                                                      titleStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                      content: Text(
+                                                        "${controller.order!.paymentMethods[i].payment.fullName!}\n"
+                                                        "${controller.order!.paymentMethods[i].payment.phoneNumber ?? controller.order!.paymentMethods[i].payment.accountDetails ?? ''}",
+                                                        style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 4,
+                                                      ));
+
+                                                  // showPopover(
+                                                  //   context: context,
+                                                  //   backgroundColor: cs.surface,
+                                                  //   bodyBuilder: (context) => Padding(
+                                                  //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                                                  //     child: Text(
+                                                  //       controller.order!.paymentMethods[i].payment.fullName! +
+                                                  //           "\n" +
+                                                  //           (controller.order!.paymentMethods[i].payment.phoneNumber ??
+                                                  //               controller
+                                                  //                   .order!.paymentMethods[i].payment.accountDetails ??
+                                                  //               ''),
+                                                  //       style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                  //       overflow: TextOverflow.ellipsis,
+                                                  //       maxLines: 4,
+                                                  //     ),
+                                                  //   ),
+                                                  // );
+                                                }
+                                              },
+                                              child: Chip(
+                                                label: Text(
+                                                  controller.order!.paymentMethods[i].payment.methodName,
+                                                  style: tt.labelSmall!.copyWith(
+                                                      color: controller.order!.paymentMethods[i].isActive
+                                                          ? cs.onPrimary
+                                                          : cs.onSecondaryContainer),
+                                                ),
+                                                backgroundColor: controller.order!.paymentMethods[i].isActive
+                                                    ? cs.primary
+                                                    : cs.secondaryContainer,
+                                              ),
+                                            ),
+                                          ),
+                                        )),
+                                  ),
+                                ),
+
+                                ///details
+                                ///
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0, bottom: 16, right: 4, left: 4),
+                                  child: TitledCard(
+                                    title: "details".tr,
+                                    content: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          DetailsTile(
+                                            iconData: Icons.description_outlined,
+                                            title: "order name".tr,
+                                            subtitle: controller.order!.description,
+                                          ),
+                                          DetailsTile(
+                                            iconData: Icons.attach_money,
+                                            title: "price".tr,
+                                            subtitle: controller.order!.fullPrice(),
+                                          ),
+                                          DetailsTile(
+                                            iconData: Icons.local_shipping,
+                                            title: "required vehicle type".tr,
+                                            subtitle: controller.order!.typeVehicle.type,
+                                          ),
+                                          if (oC.order!.extraInfo.isNotEmpty)
+                                            Divider(
+                                              color: cs.onSecondaryContainer.withValues(alpha: 0.1),
+                                              thickness: 1.5,
+                                              indent: 12,
+                                              endIndent: 12,
+                                            ),
+                                          if (oC.order!.extraInfo.isNotEmpty || oC.order!.otherInfo != null)
+                                            const SizedBox(height: 8),
+                                          if (oC.order!.extraInfo.isNotEmpty)
+                                            Wrap(
+                                                children: oC.order!.extraInfo
+                                                    .map(
+                                                      (e) => Padding(
+                                                        padding: const EdgeInsets.only(left: 40.0, bottom: 12),
+                                                        child: Row(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(top: 4.0),
+                                                              child: CircleAvatar(
+                                                                foregroundColor: cs.secondaryContainer,
+                                                                backgroundColor: cs.primaryContainer,
+                                                                radius: 6,
+                                                                child: const Icon(Icons.done, size: 10),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(width: 4),
+                                                            Text(
+                                                              e.name,
+                                                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                              overflow: TextOverflow.ellipsis,
+                                                              maxLines: 1000,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                    .toList()),
+                                          if (oC.order!.otherInfo != null)
+                                            Text(
+                                              oC.order!.otherInfo!,
+                                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1000,
+                                            ),
+                                          if (oC.order!.otherInfo != null) const SizedBox(height: 8),
+                                          Divider(
+                                            color: cs.onSecondaryContainer.withValues(alpha: 0.1),
+                                            thickness: 1.5,
+                                            indent: 12,
+                                            endIndent: 12,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 4),
+                                            child: Row(
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    //
+                                                    Text(
+                                                      "${"weight".tr}: ",
+                                                      style: tt.labelMedium!.copyWith(
+                                                        color: cs.onSecondaryContainer,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 3,
+                                                    ),
+                                                    const SizedBox(height: 4),
+                                                    Text(
+                                                      "${"arrive date".tr}: ",
+                                                      style: tt.labelMedium!.copyWith(
+                                                        color: cs.onSecondaryContainer,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                    ),
+                                                    const SizedBox(height: 4),
+                                                    Text(
+                                                      "${"added at".tr}: ",
+                                                      style: tt.labelMedium!.copyWith(
+                                                        color: cs.onSecondaryContainer,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 2,
+                                                    ),
+                                                    //
+                                                  ],
+                                                ),
+                                                const SizedBox(width: 16),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        oC.order!.fullWeight(),
+                                                        style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                      const SizedBox(height: 4),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            oC.order!.fullDate(),
+                                                            style: tt.labelMedium!.copyWith(
+                                                              color: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                                                                      !["draft", "done"].contains(oC.order!.status)
+                                                                  ? cs.error
+                                                                  : cs.onSurface,
+                                                            ),
+                                                            overflow: TextOverflow.ellipsis,
+                                                            maxLines: 1,
+                                                          ),
+                                                          const SizedBox(width: 12),
+                                                          // Visibility(
+                                                          //   visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                                                          //       !["draft", "done"].contains(oC.order!.status),
+                                                          //   child: GestureDetector(
+                                                          //     onTap: () {
+                                                          //       showPopover(
+                                                          //         context: context,
+                                                          //         backgroundColor: cs.surface,
+                                                          //         bodyBuilder: (context) => Padding(
+                                                          //           padding: const EdgeInsets.symmetric(
+                                                          //               horizontal: 12, vertical: 16),
+                                                          //           child: Text(
+                                                          //             "order was not accepted in time".tr,
+                                                          //             style:
+                                                          //                 tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                          //             overflow: TextOverflow.ellipsis,
+                                                          //             maxLines: 2,
+                                                          //           ),
+                                                          //         ),
+                                                          //       );
+                                                          //     },
+                                                          //     child: Icon(Icons.info, color: cs.error, size: 18),
+                                                          //   ),
+                                                          // ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(height: 4),
+                                                      Text(
+                                                        oC.order!.fullCreationDate(),
+                                                        style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 2,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
-                                        );
-                                      },
+                                        ],
+                                      ),
                                     ),
-                                  );
-                                },
-                                onPressedRed: () {
-                                  Get.back();
-                                  controller.cancelOrder();
-                                },
-                                isLoadingGreen: controller.isLoadingSubmit,
-                                isLoadingRed: controller.isLoadingRefuse,
-                              ),
+                                  ),
+                                ),
+                                // Container(
+                                //   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                                //   margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.circular(10),
+                                //     boxShadow: [
+                                //       BoxShadow(
+                                //         color: Colors.black.withOpacity(0.2), // Shadow color
+                                //         blurRadius: 3, // Soften the shadow
+                                //         spreadRadius: 1, // Extend the shadow
+                                //         //offset: const Offset(2, 2), // Shadow direction (x, y)
+                                //       ),
+                                //     ],
+                                //     color: cs.secondaryContainer,
+                                //   ),
+                                //   child: Column(
+                                //     crossAxisAlignment: CrossAxisAlignment.start,
+                                //     children: [
+                                //       Row(
+                                //         children: [
+                                //           Icon(Icons.text_snippet, color: cs.primary),
+                                //           const SizedBox(width: 8),
+                                //           Text(
+                                //             "details".tr,
+                                //             style: tt.titleLarge!.copyWith(color: cs.onSecondaryContainer),
+                                //             overflow: TextOverflow.ellipsis,
+                                //           ),
+                                //         ],
+                                //       ),
+                                //       const SizedBox(height: 16),
+                                //       if (oC.order!.extraInfo.isNotEmpty)
+                                //         Text(
+                                //           oC.order!.formatExtraInfo(),
+                                //           style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                //           overflow: TextOverflow.ellipsis,
+                                //           maxLines: 1000,
+                                //         ),
+                                //       if (oC.order!.otherInfo != null)
+                                //         Text(
+                                //           oC.order!.otherInfo!,
+                                //           style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                //           overflow: TextOverflow.ellipsis,
+                                //           maxLines: 1000,
+                                //         ),
+                                //       const SizedBox(height: 12),
+                                //       Padding(
+                                //         padding: const EdgeInsets.symmetric(vertical: 4),
+                                //         child: Row(
+                                //           children: [
+                                //             Text(
+                                //               "${"weight".tr}: ",
+                                //               style: tt.titleSmall!.copyWith(
+                                //                 color: cs.onSecondaryContainer,
+                                //                 fontWeight: FontWeight.bold,
+                                //               ),
+                                //               overflow: TextOverflow.ellipsis,
+                                //               maxLines: 3,
+                                //             ),
+                                //             const SizedBox(width: 8),
+                                //             SizedBox(
+                                //               width: MediaQuery.of(context).size.width / 1.8,
+                                //               child: Text(
+                                //                 "${oC.order!.weight} ${oC.order!.weightUnit}",
+                                //                 style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                //                 overflow: TextOverflow.ellipsis,
+                                //                 maxLines: 1,
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       Padding(
+                                //         padding: const EdgeInsets.symmetric(vertical: 4),
+                                //         child: Row(
+                                //           children: [
+                                //             Expanded(
+                                //               child: Row(
+                                //                 children: [
+                                //                   Text(
+                                //                     "${"expected arrive date".tr}: ",
+                                //                     style: tt.titleSmall!.copyWith(
+                                //                       color: cs.onSecondaryContainer,
+                                //                       fontWeight: FontWeight.bold,
+                                //                     ),
+                                //                     overflow: TextOverflow.ellipsis,
+                                //                     maxLines: 2,
+                                //                   ),
+                                //                   const SizedBox(width: 8),
+                                //                   Text(
+                                //                     oC.order!.fullDate(),
+                                //                     style: tt.labelMedium!.copyWith(
+                                //                       color: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                                //                               !["draft", "done"].contains(oC.order!.status)
+                                //                           ? cs.error
+                                //                           : cs.onSurface,
+                                //                     ),
+                                //                     overflow: TextOverflow.ellipsis,
+                                //                     maxLines: 1,
+                                //                   ),
+                                //                   const SizedBox(width: 12),
+                                //                   Visibility(
+                                //                     visible: oC.order!.dateTime.isBefore(DateTime.now()) &&
+                                //                         !["draft", "done"].contains(oC.order!.status),
+                                //                     child: GestureDetector(
+                                //                       onTap: () {
+                                //                         showPopover(
+                                //                           context: context,
+                                //                           backgroundColor: cs.surface,
+                                //                           bodyBuilder: (context) => Padding(
+                                //                             padding:
+                                //                                 const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                                //                             child: Text(
+                                //                               "order was not accepted in time".tr,
+                                //                               style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                //                               overflow: TextOverflow.ellipsis,
+                                //                               maxLines: 2,
+                                //                             ),
+                                //                           ),
+                                //                         );
+                                //                       },
+                                //                       child: Icon(Icons.info, color: cs.error, size: 18),
+                                //                     ),
+                                //                   ),
+                                //                 ],
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       Padding(
+                                //         padding: const EdgeInsets.symmetric(vertical: 4),
+                                //         child: Row(
+                                //           children: [
+                                //             Text(
+                                //               "${"added at".tr}: ",
+                                //               style: tt.titleSmall!.copyWith(
+                                //                 color: cs.onSecondaryContainer,
+                                //                 fontWeight: FontWeight.bold,
+                                //               ),
+                                //               overflow: TextOverflow.ellipsis,
+                                //               maxLines: 2,
+                                //             ),
+                                //             const SizedBox(width: 8),
+                                //             Expanded(
+                                //               child: Text(
+                                //                 oC.order!.fullCreationDate(),
+                                //                 style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                                //                 overflow: TextOverflow.ellipsis,
+                                //                 maxLines: 2,
+                                //               ),
+                                //             ),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                // const SizedBox(height: 24),
+                              ],
                             ),
 
-                          if (isCustomer && oC.order!.status == "done" && controller.showRatingBox)
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              child: alertStack(
-                                title: "do you want to rate your experience with the driver?".tr,
-                                onPressedGreen: () {
-                                  Get.dialog(AlertDialog(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    title: Text(
-                                      "rate your experience".tr,
-                                      style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                    ),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        RatingBar.builder(
-                                          initialRating: 0, //show the user previous rating
-                                          glow: false,
-                                          itemSize: 25,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: false,
-                                          itemCount: 5,
-                                          itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                          itemBuilder: (context, _) => const Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
-                                          ),
-                                          onRatingUpdate: (rating) {
-                                            controller.setRating(rating.toInt());
-                                          },
-                                        ),
-                                        SingleChildScrollView(
-                                          child: TextField(
-                                            controller: controller.comment,
-                                            minLines: 1,
-                                            maxLines: 4,
-                                            keyboardType: TextInputType.multiline,
-                                            decoration: InputDecoration(
-                                              hintText: "comment (optional)".tr,
-                                              hintStyle:
-                                                  tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
-                                              label: Text(
-                                                "comment".tr,
-                                                style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                            if (!isCustomer &&
+                                oC.order!.status == "pending" &&
+                                oC.order!.ownerApproved &&
+                                !oC.order!.driverApproved)
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: alertStack(
+                                  title: "${oC.order!.orderOwner?.name ?? "order owner is null"}"
+                                      " ${"accepted your request".tr}",
+                                  greenText: 'accept'.tr,
+                                  redText: 'cancel'.tr,
+                                  onPressedGreen: () {
+                                    Get.back();
+                                    Get.bottomSheet(
+                                      GetBuilder<OrderController>(
+                                        builder: (controller) {
+                                          return Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                                            decoration: BoxDecoration(
+                                              borderRadius: const BorderRadius.only(
+                                                topRight: Radius.circular(20),
+                                                topLeft: Radius.circular(20),
+                                              ),
+                                              color: cs.surface,
+                                            ),
+                                            //height: MediaQuery.of(context).size.height / 1.5,
+                                            child: Form(
+                                              key: controller.formKey,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(16.0),
+                                                    child: Text(
+                                                      "select payment method".tr,
+                                                      style: tt.titleMedium!
+                                                          .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Scrollbar(
+                                                      child: ListView.builder(
+                                                        itemCount: oC.order!.paymentMethods.length,
+                                                        itemBuilder: (context, i) => RadioListTile(
+                                                          title: Text(
+                                                            oC.order!.paymentMethods[i].payment.methodName,
+                                                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                          ),
+                                                          value: oC.order!.paymentMethods[i],
+                                                          groupValue: controller.selectedPayment,
+                                                          onChanged: (v) {
+                                                            controller.selectPayment(v!);
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Visibility(
+                                                    visible: ["Bank Account", "Money Transfer"]
+                                                        .contains(controller.selectedPayment.payment.methodValue),
+                                                    child: InputField(
+                                                      controller: controller.fullName,
+                                                      label: "full name".tr,
+                                                      keyboardType: TextInputType.text,
+                                                      textInputAction: TextInputAction.next,
+                                                      prefixIcon: Icons.person,
+                                                      validator: (val) {
+                                                        if (!["Bank Account", "Money Transfer"]
+                                                            .contains(controller.selectedPayment.payment.methodValue)) {
+                                                          return null;
+                                                        }
+                                                        return validateInput(controller.fullName.text, 0, 100, "");
+                                                      },
+                                                      onChanged: (val) {
+                                                        if (controller.buttonPressed) {
+                                                          controller.formKey.currentState!.validate();
+                                                        }
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Visibility(
+                                                    visible: ["Bank Account"]
+                                                        .contains(controller.selectedPayment.payment.methodValue),
+                                                    child: InputField(
+                                                      controller: controller.accountDetails,
+                                                      label: "account details".tr,
+                                                      keyboardType: TextInputType.text,
+                                                      textInputAction: TextInputAction.next,
+                                                      prefixIcon: Icons.short_text_outlined,
+                                                      validator: (val) {
+                                                        if (!["Bank Account"]
+                                                            .contains(controller.selectedPayment.payment.methodValue)) {
+                                                          return null;
+                                                        }
+                                                        return validateInput(
+                                                            controller.accountDetails.text, 0, 100, "");
+                                                      },
+                                                      onChanged: (val) {
+                                                        if (controller.buttonPressed) {
+                                                          controller.formKey.currentState!.validate();
+                                                        }
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Visibility(
+                                                    visible: ["Money Transfer"]
+                                                        .contains(controller.selectedPayment.payment.methodValue),
+                                                    child: InputField(
+                                                      controller: controller.phoneNumber,
+                                                      label: "phone number".tr,
+                                                      keyboardType: TextInputType.number,
+                                                      textInputAction: TextInputAction.next,
+                                                      prefixIcon: Icons.phone_android,
+                                                      validator: (val) {
+                                                        if (!["Money Transfer"]
+                                                            .contains(controller.selectedPayment.payment.methodValue)) {
+                                                          return null;
+                                                        }
+                                                        return validateInput(
+                                                            controller.phoneNumber.text, 0, 12, "phone");
+                                                      },
+                                                      onChanged: (val) {
+                                                        if (controller.buttonPressed) {
+                                                          controller.formKey.currentState!.validate();
+                                                        }
+                                                      },
+                                                    ),
+                                                  ),
+                                                  CustomButton(
+                                                    onTap: () {
+                                                      isCompany
+                                                          ? controller.confirmOrderCompany()
+                                                          : controller.confirmOrderDriver();
+                                                    },
+                                                    child: Center(
+                                                      child: controller.isLoadingSubmit
+                                                          ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                                          : Text(
+                                                              "add".tr.toUpperCase(),
+                                                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                                            ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                                            onChanged: (String? s) {
-                                              //
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  onPressedRed: () {
+                                    Get.back();
+                                    controller.cancelOrder();
+                                  },
+                                  isLoadingGreen: controller.isLoadingSubmit,
+                                  isLoadingRed: controller.isLoadingRefuse,
+                                ),
+                              ),
+
+                            if (isCustomer && oC.order!.status == "done" && controller.showRatingBox)
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: alertStack(
+                                  title: "do you want to rate your experience with the driver?".tr,
+                                  onPressedGreen: () {
+                                    Get.dialog(AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      title: Text(
+                                        "rate your experience".tr,
+                                        style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                      ),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          RatingBar.builder(
+                                            initialRating: 0, //show the user previous rating
+                                            glow: false,
+                                            itemSize: 25,
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: false,
+                                            itemCount: 5,
+                                            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                            itemBuilder: (context, _) => const Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              controller.setRating(rating.toInt());
                                             },
-                                            obscureText: false,
+                                          ),
+                                          SingleChildScrollView(
+                                            child: TextField(
+                                              controller: controller.comment,
+                                              minLines: 1,
+                                              maxLines: 4,
+                                              keyboardType: TextInputType.multiline,
+                                              decoration: InputDecoration(
+                                                hintText: "comment (optional)".tr,
+                                                hintStyle:
+                                                    tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                                                label: Text(
+                                                  "comment".tr,
+                                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                ),
+                                              ),
+                                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                              onChanged: (String? s) {
+                                                //
+                                              },
+                                              obscureText: false,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            controller.rateOrder();
+                                          },
+                                          child: Text(
+                                            "submit".tr,
+                                            style: tt.titleSmall!.copyWith(color: cs.primary),
                                           ),
                                         ),
                                       ],
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          controller.rateOrder();
-                                        },
-                                        child: Text(
-                                          "submit".tr,
-                                          style: tt.titleSmall!.copyWith(color: cs.primary),
-                                        ),
-                                      ),
-                                    ],
-                                  ));
-                                },
-                                onPressedRed: () {
-                                  controller.setShowRatingBox(false);
-                                },
-                                isLoadingGreen: controller.isLoadingSubmit,
-                                isLoadingRed: controller.isLoadingRefuse,
-                                greenText: 'yes'.tr,
-                                redText: 'no'.tr,
-                                showWarningDialogs: false,
+                                    ));
+                                  },
+                                  onPressedRed: () {
+                                    controller.setShowRatingBox(false);
+                                  },
+                                  isLoadingGreen: controller.isLoadingSubmit,
+                                  isLoadingRed: controller.isLoadingRefuse,
+                                  greenText: 'yes'.tr,
+                                  redText: 'no'.tr,
+                                  showWarningDialogs: false,
+                                ),
                               ),
-                            ),
-                        ],
-                      ),
-              ),
+                          ],
+                        ),
+                ),
+        ),
       );
     });
+  }
+}
+
+class DetailsTile extends StatelessWidget {
+  final IconData? iconData;
+  final String title;
+  final String subtitle;
+
+  const DetailsTile({
+    super.key,
+    this.iconData,
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme cs = Theme.of(context).colorScheme;
+    TextTheme tt = Theme.of(context).textTheme;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          if (iconData != null)
+            Icon(
+              iconData,
+              color: cs.primaryContainer,
+              size: 20,
+            ),
+          if (iconData != null) const SizedBox(width: 6),
+          Text(
+            "$title: ",
+            style: tt.labelMedium!.copyWith(
+              color: cs.onSecondaryContainer.withValues(alpha: 0.7),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Expanded(
+            child: Text(
+              subtitle,
+              style: tt.labelMedium!.copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

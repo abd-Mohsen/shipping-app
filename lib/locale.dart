@@ -572,7 +572,7 @@ class MyLocale extends Translations {
           "invoice": "فاتورة",
           "date": "تاريخ",
           "time": "وقت",
-          "price": "price",
+          "price": "السعر",
           "paid amount": "القيمة المدفوعة",
           "branch name": "اسم الفرع",
           "branch address": "عنوان الفرع",
