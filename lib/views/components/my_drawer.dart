@@ -63,7 +63,7 @@ class MyDrawer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(top: 12, bottom: 4, left: 16, right: 16),
+                          padding: const EdgeInsets.only(top: 8, bottom: 4, left: 16, right: 16),
                           child: GestureDetector(
                             onTap: onClose,
                             child: Icon(
@@ -110,20 +110,20 @@ class MyDrawer extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.only(bottom: 8, right: 8, left: 8),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               currentUser!.role.type.tr,
                                               style:
-                                                  tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.4)),
+                                                  tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                             const SizedBox(height: 8),
                                             Row(
                                               children: [
-                                                Icon(Icons.person, color: cs.primary, size: 40),
+                                                Icon(Icons.person_outline, color: cs.primary, size: 40),
                                                 const SizedBox(width: 8),
                                                 Expanded(
                                                   child: Text(
@@ -147,7 +147,7 @@ class MyDrawer extends StatelessWidget {
                                             const SizedBox(height: 8),
                                             Text(
                                               currentUser!.phoneNumber,
-                                              style: tt.titleSmall!.copyWith(color: cs.primary),
+                                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                             if (role == "company" || role == "company_employee")
