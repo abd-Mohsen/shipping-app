@@ -42,7 +42,7 @@ class MakeOrderView extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         borderSide: BorderSide(
           width: width,
-          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade300), // Fake shadow color
+          color: color ?? (Get.isDarkMode ? cs.surface : Colors.grey.shade400), // Fake shadow color
         ),
       );
     }

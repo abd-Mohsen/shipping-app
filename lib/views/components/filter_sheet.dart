@@ -53,6 +53,7 @@ class FilterSheet extends StatelessWidget {
                         : VehicleTypeSelector(
                             selectedItem: controller.selectedVehicleType,
                             items: controller.vehicleTypes,
+                            iconColor: cs.primaryContainer,
                             onChanged: (VehicleTypeModel? type) async {
                               controller.selectVehicleType(type);
                               await Future.delayed(const Duration(milliseconds: 1000));

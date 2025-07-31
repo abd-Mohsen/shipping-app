@@ -25,7 +25,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           side: BorderSide(
             width: 1.5,
-            color: Get.isDarkMode ? cs.surface : Colors.grey.shade300, // Fake shadow color
+            color: Get.isDarkMode ? cs.surface : Colors.grey.shade400, // Fake shadow color
           ),
         ),
         child: DropdownButton<T>(

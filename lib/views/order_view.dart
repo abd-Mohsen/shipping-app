@@ -455,6 +455,7 @@ class OrderView extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
                                     child: CustomButton(
+                                      color: cs.primaryContainer,
                                       onTap: () {
                                         if (isEmployee) {
                                           controller.acceptOrderCompany();
@@ -514,6 +515,7 @@ class OrderView extends StatelessWidget {
                                                         onTap: () {
                                                           controller.acceptOrderCompany();
                                                         },
+                                                        color: cs.primaryContainer,
                                                         child: Center(
                                                           child: controller.isLoadingSubmit
                                                               ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
@@ -757,7 +759,7 @@ class OrderView extends StatelessWidget {
                                             },
                                             isShort: true,
                                             //isGradiant: true,
-                                            color: cs.primary,
+                                            color: cs.primaryContainer,
                                             child: Center(
                                               child: Text(
                                                 isCustomer && oC.order!.status == "processing"
@@ -1676,6 +1678,7 @@ class OrderView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   CustomButton(
+                                                    color: cs.primaryContainer,
                                                     onTap: () {
                                                       isCompany
                                                           ? controller.confirmOrderCompany()

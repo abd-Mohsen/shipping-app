@@ -124,7 +124,7 @@ class NewDriverTab extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   child: Divider(
-                                    thickness: 2,
+                                    thickness: 3,
                                     color: cs.onSurface,
                                     indent: 170,
                                     endIndent: 170,
@@ -144,13 +144,13 @@ class NewDriverTab extends StatelessWidget {
                                   //     controller.expandContainer();
                                   //   }
                                   // },
-                                  onVerticalDragUpdate: (details) {
-                                    if (details.delta.dy > 0) {
-                                      controller.foldContainer();
-                                    } else if (details.delta.dy < 0) {
-                                      controller.expandContainer();
-                                    }
-                                  },
+                                  // onVerticalDragUpdate: (details) {
+                                  //   if (details.delta.dy > 0) {
+                                  //     controller.foldContainer();
+                                  //   } else if (details.delta.dy < 0) {
+                                  //     controller.expandContainer();
+                                  //   }
+                                  // },
                                   // onLongPressDown: (_) {
                                   //   controller.foldContainer();
                                   // },

@@ -37,37 +37,20 @@ class UserProfileTile extends StatelessWidget {
 
     CurrentUserController cUC = Get.find();
 
-    iconWithBorder() => GestureDetector(
-          onTap: () {
-            showPopover(
-              context: context,
-              backgroundColor: cs.surface,
-              bodyBuilder: (context) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                child: Text(
-                  locationIndicator?.tr ?? "",
-                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-              ),
-            );
-          },
-          child: Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              color: cs.secondaryContainer,
-              borderRadius: BorderRadius.circular(100),
-              border: Border.all(
-                width: 2,
-                color: locationIndicator == "tracking" ? Colors.green : Colors.red,
-              ),
+    iconWithBorder() => Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: cs.secondaryContainer,
+            borderRadius: BorderRadius.circular(100),
+            border: Border.all(
+              width: 2,
+              color: locationIndicator == "tracking" ? Colors.green : Colors.red,
             ),
-            child: locationIndicator == "tracking"
-                ? const Icon(Icons.done, color: Colors.green, size: 22)
-                : const Icon(Icons.close, color: Colors.red, size: 22),
           ),
+          child: locationIndicator == "tracking"
+              ? const Icon(Icons.done, color: Colors.green, size: 22)
+              : const Icon(Icons.close, color: Colors.red, size: 22),
         );
 
     return Container(
@@ -147,7 +130,40 @@ class UserProfileTile extends StatelessWidget {
                 children: [
                   if (locationIndicator != null)
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.dialog(
+                          AlertDialog(
+                            title: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    "Tracking status".tr,
+                                    style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                  ),
+                                ),
+                                iconWithBorder(),
+                              ],
+                            ),
+                            content: Text(
+                              locationIndicator?.tr ?? "",
+                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Text(
+                                  "close".tr,
+                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                       child: iconWithBorder(),
                     ),
                   GetBuilder<NotificationsController>(builder: (controller) {

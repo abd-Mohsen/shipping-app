@@ -233,6 +233,17 @@ class DriverHomeController extends GetxController {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       setTrackingStatus("turn location on");
+      Get.dialog(
+        kEnableLocationDialog(
+          () async {
+            if (await Geolocator.isLocationServiceEnabled()) {
+              _startSendingLocation();
+              Get.back();
+            }
+          },
+        ),
+        barrierDismissible: false,
+      );
       return;
     }
 

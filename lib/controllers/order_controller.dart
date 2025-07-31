@@ -366,6 +366,7 @@ class OrderController extends GetxController {
         GetSnackBar(
           message: "success".tr,
           duration: const Duration(milliseconds: 2500),
+          backgroundColor: Colors.green,
         ),
       );
 

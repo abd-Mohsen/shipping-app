@@ -365,6 +365,7 @@ class MyLocale extends Translations {
           "message": "message",
           "report was sent to technical support": "report was sent to technical support",
           "my orders": "my orders",
+          "success": "success",
         },
         "ar": {
           "Arabic": "العربية",
@@ -587,7 +588,7 @@ class MyLocale extends Translations {
           "accepted": "تم القبول",
           "tracking in progress": "تتبع الموقع يعمل",
           "your location is being sent to order owner": "يتم ارسال موقعك لصاحب الطلبية",
-          "turn location on": "شغل خدمة الموقع ثم اضغط للتحديث",
+          "turn location on": "شغل خدمة الموقع",
           "location permission is denied": "اذونات الموقع مرفوضة من اعدادات التطبيق",
           "Location permission is permanently denied": "اذونات الموقع مرفوضة من اعدادات التطبيق",
           "connecting": "يتم الاتصال",
@@ -724,6 +725,7 @@ class MyLocale extends Translations {
           "message": "الرسالة",
           "report was sent to technical support": "تم الارسال للدعم الفني",
           "my orders": "طلبياتي",
+          "success": "تم بنجاح",
         },
       };
 }
