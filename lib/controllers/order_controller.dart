@@ -507,7 +507,7 @@ class OrderController extends GetxController {
     }
   }
 
-  int remainingCancels = -1;
+  int remainingCancels = 0;
   Future getRemainingCancels() async {
     remainingCancels = await RemoteServices.getRemainingCancels() ?? -1;
   }

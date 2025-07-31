@@ -277,7 +277,7 @@ class CompanyHomeController extends GetxController {
         backgroundColor: Colors.green,
       ));
       await myVehiclesController.refreshMyVehicles();
-      await Future.delayed(const Duration(milliseconds: 400));
+      await Future.delayed(const Duration(milliseconds: 800));
       refreshMyEmployees();
     }
     toggleLoadingAssign(false);

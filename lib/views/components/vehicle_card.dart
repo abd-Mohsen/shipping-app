@@ -182,15 +182,26 @@ class VehicleCard extends StatelessWidget {
                         child: Center(
                           child: GestureDetector(
                             onTap: onDelete,
-                            child: Text(
-                              "delete".tr,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: tt.titleSmall!.copyWith(
-                                color: cs.onSurface,
-                                decoration: TextDecoration.underline,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: cs.error,
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              textAlign: TextAlign.start,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.close, color: cs.onPrimary, size: 17),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    "delete".tr,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -222,15 +233,25 @@ class VehicleCard extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Text(
-                                  "edit".tr,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: tt.titleSmall!
-                                      .copyWith(color: cs.onSurface, decoration: TextDecoration.underline),
-                                  textAlign: TextAlign.start,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: cs.primary,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.edit, color: cs.onPrimary, size: 17),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      "edit".tr,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
