@@ -154,11 +154,11 @@ class PaymentsController extends GetxController {
 
   PaymentSelectionModel? selectedOption;
 
-  IconData iconDate = FontAwesomeIcons.dollarSign;
+  IconData iconData = FontAwesomeIcons.dollarSign;
 
   void selectOption(PaymentSelectionModel selectedOption) {
     this.selectedOption = selectedOption;
-    iconDate = selectedOption.value == "Bank Account"
+    iconData = selectedOption.value == "Bank Account"
         ? Icons.account_balance
         : selectedOption.value == "Cash"
             ? FontAwesomeIcons.moneyBill

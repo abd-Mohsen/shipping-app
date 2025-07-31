@@ -11,6 +11,7 @@ class InputField extends StatelessWidget {
     this.textInputAction,
     this.prefixIcon,
     this.suffixIcon,
+    this.iconColor,
     required this.validator,
     required this.onChanged,
     this.onTapOutside,
@@ -27,6 +28,7 @@ class InputField extends StatelessWidget {
   final int? maxLines;
   final TextInputAction? textInputAction;
   final IconData? prefixIcon;
+  final Color? iconColor;
   final Widget? suffixIcon;
   final String? Function(String?) validator;
   final void Function(String?) onChanged;
@@ -76,7 +78,7 @@ class InputField extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Icon(
               prefixIcon,
-              color: cs.primaryContainer,
+              color: iconColor ?? cs.primary,
               size: 22,
             ),
           ),

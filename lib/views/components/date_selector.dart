@@ -35,7 +35,7 @@ class DateSelector extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 6),
-              child: Icon(Icons.date_range, color: cs.primaryContainer),
+              child: Icon(Icons.date_range, color: cs.primary),
             ),
             Text(
               "desired day".tr,

@@ -129,7 +129,7 @@ class MapSelector extends StatelessWidget {
               children: [
                 Icon(
                   Icons.location_pin,
-                  color: cs.primaryContainer,
+                  color: cs.primary,
                   size: 35,
                 ),
                 const SizedBox(width: 24),
@@ -150,7 +150,7 @@ class MapSelector extends StatelessWidget {
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: tt.titleSmall!.copyWith(
-                                color: address == null ? cs.primaryContainer : cs.onSurface.withValues(alpha: 0.5),
+                                color: address == null ? cs.primary : cs.onSurface.withValues(alpha: 0.5),
                                 fontWeight: address == null ? FontWeight.bold : FontWeight.normal,
                               ),
                             ),

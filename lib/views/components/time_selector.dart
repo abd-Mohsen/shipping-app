@@ -33,7 +33,7 @@ class TimeSelector extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 6),
-              child: Icon(Icons.watch_later_outlined, color: cs.primaryContainer),
+              child: Icon(Icons.watch_later_outlined, color: cs.primary),
             ),
             Text(
               "desired time".tr,

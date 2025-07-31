@@ -13,7 +13,7 @@ class InvoicesView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    //InvoiceController iC = Get.put(InvoiceController());
+    Get.put(InvoiceController());
     CurrentUserController cUC = Get.find();
 
     return Scaffold(

@@ -9,6 +9,7 @@ class VehicleTypeSelector extends StatelessWidget {
   final void Function(VehicleTypeModel?) onChanged;
   final FloatingLabelBehavior? floatingLabelBehavior;
   final EdgeInsetsGeometry? padding;
+  final Color? iconColor;
 
   const VehicleTypeSelector({
     super.key,
@@ -17,6 +18,7 @@ class VehicleTypeSelector extends StatelessWidget {
     this.selectedItem,
     this.floatingLabelBehavior,
     this.padding,
+    this.iconColor,
   });
 
   @override
@@ -65,7 +67,7 @@ class VehicleTypeSelector extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Icon(
                 Icons.fire_truck,
-                color: cs.primaryContainer,
+                color: iconColor ?? cs.primary,
               ),
             ),
             filled: true,

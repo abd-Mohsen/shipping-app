@@ -43,7 +43,7 @@ class PaymentMethodsView extends StatelessWidget {
                     color: cs.primary,
                   ),
                   child: Icon(
-                    controller.iconDate,
+                    controller.iconData,
                     color: cs.onPrimary,
                     size: 100,
                   ),

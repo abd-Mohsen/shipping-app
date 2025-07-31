@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:multi_dropdown/multi_dropdown.dart';
@@ -245,8 +244,8 @@ class MakeOrderView extends StatelessWidget {
                             prefixIcon: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
                               child: Icon(
-                                FontAwesomeIcons.ccMastercard,
-                                color: cs.primaryContainer,
+                                Icons.credit_card,
+                                color: cs.primary,
                               ),
                             ),
                             showClearIcon: false,
@@ -380,6 +379,7 @@ class MakeOrderView extends StatelessWidget {
                 ),
                 CustomButton(
                   elevation: 10,
+                  color: cs.primaryContainer,
                   onTap: () {
                     //print(GetStorage().read("token"));
                     edit ? controller.editOrder() : controller.makeOrder();
