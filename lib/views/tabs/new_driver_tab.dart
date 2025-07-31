@@ -77,30 +77,34 @@ class NewDriverTab extends StatelessWidget {
                 }),
               ),
               Positioned(
+                bottom: controller.baseHeight,
+                left: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                  child: Material(
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(100),
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.pointToMyLocation();
+                      },
+                      child: CircleAvatar(
+                        radius: 18,
+                        backgroundColor: cs.primary,
+                        foregroundColor: cs.onPrimary,
+                        child: const Icon(Icons.my_location_outlined, size: 22),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                      child: Material(
-                        elevation: 3,
-                        borderRadius: BorderRadius.circular(100),
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.pointToMyLocation();
-                          },
-                          child: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: cs.primary,
-                            foregroundColor: cs.onPrimary,
-                            child: const Icon(Icons.my_location_outlined, size: 22),
-                          ),
-                        ),
-                      ),
-                    ),
                     AnimatedContainer(
                       height: controller.containerHeight,
                       decoration: BoxDecoration(
