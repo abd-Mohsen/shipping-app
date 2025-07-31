@@ -221,7 +221,7 @@ class MyOrdersTab extends StatelessWidget {
                         : RefreshIndicator(
                             onRefresh: controller.refreshOrders,
                             child: controller.myOrders.isEmpty
-                                ? MyLoadingAnimation()
+                                ? const MyLoadingAnimation()
                                 : ListView.builder(
                                     controller: controller.myOrdersScrollController,
                                     physics: const AlwaysScrollableScrollPhysics(),

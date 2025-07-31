@@ -87,7 +87,7 @@ class NotificationCard extends StatelessWidget {
                         maxLines: 10,
                         overflow: TextOverflow.ellipsis,
                         style: tt.labelMedium!.copyWith(
-                          color: cs.onSurface.withValues(alpha: 0.5),
+                          color: cs.onSurface.withValues(alpha: 0.7),
                         ),
                       ),
                     ),

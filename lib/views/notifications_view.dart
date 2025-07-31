@@ -61,15 +61,15 @@ class NotificationsView extends StatelessWidget {
                       children: [
                         Text(
                           "${'you have'.tr} ",
-                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.5)),
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
                         ),
                         Text(
-                          '${controller.unreadCount} ${"unread notification".tr} ',
-                          style: tt.titleSmall!.copyWith(color: cs.primary),
+                          '${controller.unreadCount} ',
+                          style: tt.titleSmall!.copyWith(color: cs.primaryContainer),
                         ),
                         Text(
-                          "today".tr,
-                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.5)),
+                          "unread notification".tr,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
                         ),
                       ],
                     ),
