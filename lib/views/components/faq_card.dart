@@ -77,7 +77,7 @@ class FaqCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                  padding: const EdgeInsets.only(right: 12.0, left: 12, bottom: 12, top: 8),
                   child: Text(
                     faq.answer,
                     style: tt.titleSmall!.copyWith(color: cs.onSurface),

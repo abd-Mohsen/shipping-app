@@ -175,6 +175,8 @@ class OrderController extends GetxController {
 
   /// interacting with order
   ///
+  ///
+  /// todo refresh current user after making order and after cancelling
 
   void acceptOrderDriver() async {
     if (isLoadingSubmit || isLoadingRefuse) return;

@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
-import 'package:shipment/views/components/selection_circle.dart';
-import 'package:shipment/views/components/titled_card.dart';
+// import 'package:shipment/views/components/selection_circle.dart';
+// import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/components/titled_scrolling_card.dart';
 import 'package:shipment/views/components/user_profile_tile.dart';
 import '../components/order_card_2.dart';
+import '../components/order_page_map.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class CompanyHomeTab extends StatelessWidget {
   const CompanyHomeTab({super.key});
@@ -31,50 +33,89 @@ class CompanyHomeTab extends StatelessWidget {
                 },
                 isLoadingUser: innerController.isLoadingUser,
                 user: innerController.currentUser,
+                isPrimaryColor: false,
               );
             }),
             Padding(
-                padding: const EdgeInsets.only(bottom: 8, left: 12, right: 12),
-                child: TitledCard(
-                  title: "orders status".tr,
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SelectionCircle(
-                        iconData: Icons.watch_later_outlined,
-                        title: "taken".tr,
-                        isSelected: false,
-                        onTap: () {
-                          controller.setOrderType("taken", true);
+              padding: const EdgeInsets.only(bottom: 8, left: 12, right: 12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: cs.secondaryContainer,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 2,
+                      spreadRadius: 1,
+                      offset: const Offset(1, 1),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  child: Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xff0e5aa6), width: 2.5),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: OrderPageMap(
+                        mapController: MapController.withPosition(
+                          initPosition: GeoPoint(latitude: 33.5132, longitude: 36.2768),
+                        ),
+                        onMapIsReady: (v) {
+                          //
                         },
                       ),
-                      SelectionCircle(
-                        iconData: Icons.task_alt,
-                        title: "accepted".tr,
-                        isSelected: false,
-                        onTap: () {
-                          controller.setOrderType("accepted", true);
-                        },
-                      ),
-                      SelectionCircle(
-                        iconData: Icons.local_shipping_outlined,
-                        title: "current".tr,
-                        isSelected: false,
-                        onTap: () {
-                          controller.setOrderType("current", true);
-                        },
-                      ),
-                      SelectionCircle(
-                        iconData: Icons.done_all,
-                        title: "finished".tr,
-                        isSelected: false,
-                        onTap: () {
-                          controller.setOrderType("finished", true);
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                )),
+                ),
+              ),
+            ),
+            // Padding(
+            //     padding: const EdgeInsets.only(bottom: 8, left: 12, right: 12),
+            //     child: TitledCard(
+            //       title: "orders status".tr,
+            //       content: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //         children: [
+            //           SelectionCircle(
+            //             iconData: Icons.watch_later_outlined,
+            //             title: "taken".tr,
+            //             isSelected: false,
+            //             onTap: () {
+            //               controller.setOrderType("taken", true);
+            //             },
+            //           ),
+            //           SelectionCircle(
+            //             iconData: Icons.task_alt,
+            //             title: "accepted".tr,
+            //             isSelected: false,
+            //             onTap: () {
+            //               controller.setOrderType("accepted", true);
+            //             },
+            //           ),
+            //           SelectionCircle(
+            //             iconData: Icons.local_shipping_outlined,
+            //             title: "current".tr,
+            //             isSelected: false,
+            //             onTap: () {
+            //               controller.setOrderType("current", true);
+            //             },
+            //           ),
+            //           SelectionCircle(
+            //             iconData: Icons.done_all,
+            //             title: "finished".tr,
+            //             isSelected: false,
+            //             onTap: () {
+            //               controller.setOrderType("finished", true);
+            //             },
+            //           ),
+            //         ],
+            //       ),
+            //     )),
             // controller.isLoading
             //     ? SpinKitThreeBounce(color: cs.primary, size: 20)
             //     : Padding(

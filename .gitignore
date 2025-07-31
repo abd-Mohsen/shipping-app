@@ -44,3 +44,7 @@ app.*.map.json
 
 # env file in flutter (from package)
 .env
+
+# release key files
+/android/key.properties
+/android/app/my-release-key.jks
