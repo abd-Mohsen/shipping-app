@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:shipment/constants.dart';
+import 'package:shipment/models/about_us_model.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/bank_details_model.dart';
 import 'package:shipment/models/branch_model.dart';
@@ -822,5 +823,11 @@ class RemoteServices {
       auth: true,
     );
     return json != null;
+  }
+
+  static Future<AboutUsModel?> fetchAboutUSInfo() async {
+    String? json = await api.getRequest("devsysinfo/", auth: true);
+    if (json == null) return null;
+    return AboutUsModel.fromJson(jsonDecode(json));
   }
 }

@@ -368,7 +368,14 @@ class MyLocale extends Translations {
           "success": "success",
           "package type": "package type",
           "reserved": "reserved",
+          "this software was developed for": "this software was developed for",
         },
+
+        ///
+        ///
+        ///
+        ///
+        ///
         "ar": {
           "Arabic": "العربية",
           "English": "الانكليزية",
@@ -730,6 +737,7 @@ class MyLocale extends Translations {
           "success": "تم بنجاح",
           "package type": "نوع البضاعة المنقولة",
           "reserved": "الذمة",
+          "this software was developed for": "تم تطوير هذا البرنامج لصالح شركة",
         },
       };
 }
