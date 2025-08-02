@@ -369,8 +369,35 @@ class MyLocale extends Translations {
           "package type": "package type",
           "reserved": "reserved",
           "this software was developed for": "this software was developed for",
+          "user can now see your phone": "user can now see your phone",
         },
 
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
         ///
         ///
         ///
@@ -738,6 +765,7 @@ class MyLocale extends Translations {
           "package type": "نوع البضاعة المنقولة",
           "reserved": "الذمة",
           "this software was developed for": "تم تطوير هذا البرنامج لصالح شركة",
+          "user can now see your phone": "أصبح السائق يمكنه رؤية هاتفك",
         },
       };
 }

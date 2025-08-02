@@ -488,10 +488,7 @@ class OrderController extends GetxController {
     if (success) {
       //if (Get.routing.current == "/OrderView") Get.back();
       refreshOrder();
-      Get.showSnackbar(GetSnackBar(
-        message: "user can now see your phone".tr,
-        duration: const Duration(milliseconds: 2500),
-      ));
+      showSuccessSnackbar();
     }
     toggleLoadingSubmit(false);
   }

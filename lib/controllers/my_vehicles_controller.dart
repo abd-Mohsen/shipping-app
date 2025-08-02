@@ -170,8 +170,9 @@ class MyVehiclesController extends GetxController {
     if (success) {
       Get.back();
       Get.showSnackbar(GetSnackBar(
-        message: "the car was added successfully".tr,
+        message: "success".tr,
         duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
       ));
       resetForm();
       refreshMyVehicles();
