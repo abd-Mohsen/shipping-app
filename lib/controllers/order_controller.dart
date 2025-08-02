@@ -13,8 +13,11 @@ import 'package:flutter/material.dart';
 import 'package:shipment/models/vehicle_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/remote_services.dart';
+import 'current_user_controller.dart';
 
 class OrderController extends GetxController {
+  CurrentUserController cUC = Get.find();
+
   OrderModel? order;
 
   final int orderID;
@@ -207,6 +210,7 @@ class OrderController extends GetxController {
     if (success) {
       refreshOrder();
       showSuccessSnackbar();
+      cUC.getCurrentUser();
     }
     toggleLoadingRefuse(false);
   }
@@ -225,6 +229,7 @@ class OrderController extends GetxController {
       refreshOrder();
       showSuccessSnackbar();
       getRemainingCancels();
+      cUC.getCurrentUser();
     }
     toggleLoadingRefuse(false);
   }
@@ -290,6 +295,7 @@ class OrderController extends GetxController {
       //todo(later): if user clicks and return before processing, app closes (i fixed it here, fix in all the app)
       refreshOrder();
       showSuccessSnackbar();
+      cUC.getCurrentUser();
     }
     toggleLoadingSubmit(false);
   }

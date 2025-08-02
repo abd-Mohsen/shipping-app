@@ -21,7 +21,7 @@ class CurrOrderCard extends StatelessWidget {
       Icons.done,
       Icons.watch_later,
       FontAwesomeIcons.truck,
-      Icons.done_all,
+      FontAwesomeIcons.box,
     ];
 
     List<String> orderTypes = ["not taken", "taken", "current", "finished"];

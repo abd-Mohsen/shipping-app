@@ -37,7 +37,7 @@ class CustomerHomeView extends StatelessWidget {
     ];
 
     List<IconData> iconsList = [Icons.home, Icons.list];
-    List<String> titlesList = ["home".tr, "orders".tr];
+    List<String> titlesList = ["home".tr, "my orders".tr];
 
     return PopScope(
       canPop: false,

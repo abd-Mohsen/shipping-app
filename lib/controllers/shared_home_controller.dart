@@ -253,6 +253,8 @@ class SharedHomeController extends GetxController {
     governorates.addAll(newItems);
     if (newItems.isNotEmpty) setGovernorate(governorates[0]);
     toggleLoadingGovernorate(false);
+    await Future.delayed(Duration(milliseconds: 900));
+    if (newItems.isNotEmpty) setGovernorate(governorates[0]);
   }
 
   int pageExplore = 1, limitExplore = 10;

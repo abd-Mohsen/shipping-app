@@ -87,24 +87,57 @@ class OrderView extends StatelessWidget {
           ),
           content: content,
           actions: [
-            ListTile(
-              onTap: onPressed,
-              leading: Icon(Icons.call, color: cs.onSurface),
-              title: Text(
-                "phone".tr,
-                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-              ),
-            ),
-            //const SizedBox(height: 8),
-            if (onPressedWhatsApp != null)
-              ListTile(
-                onTap: onPressedWhatsApp,
-                leading: const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
-                title: Text(
-                  "whatsapp".tr,
-                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: onPressed,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.call, color: cs.onSurface),
+                      const SizedBox(height: 4),
+                      Text(
+                        "phone".tr,
+                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                if (onPressedWhatsApp != null)
+                  GestureDetector(
+                    onTap: onPressedWhatsApp,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                        const SizedBox(height: 4),
+                        Text(
+                          "whatsapp".tr,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                        ),
+                      ],
+                    ),
+                  ),
+                // ListTile(
+                //   onTap: onPressedWhatsApp,
+                //   leading: const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                //   title: Text(
+                //     "whatsapp".tr,
+                //     style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                //   ),
+                // ),
+              ],
+            ),
+            // ListTile(
+            //   onTap: onPressed,
+            //   leading: Icon(Icons.call, color: cs.onSurface),
+            //   title: Text(
+            //     "phone".tr,
+            //     style: tt.titleSmall!.copyWith(color: cs.onSurface),
+            //   ),
+            // ),
+            //const SizedBox(height: 8),
             TextButton(
               onPressed: () {
                 Get.back();
@@ -339,9 +372,9 @@ class OrderView extends StatelessWidget {
                     Get.to(() => MakeOrderView(edit: true, order: oC.order));
                   },
                   icon: oC.order!.dateTime.isBefore(DateTime.now())
-                      ? const Badge(
+                      ? Badge(
                           smallSize: 10,
-                          backgroundColor: Color(0xff00ff00),
+                          backgroundColor: cs.primaryContainer,
                           child: Icon(Icons.edit),
                         )
                       : const Icon(Icons.edit),
@@ -759,7 +792,7 @@ class OrderView extends StatelessWidget {
                                             },
                                             isShort: true,
                                             //isGradiant: true,
-                                            color: cs.primaryContainer,
+                                            color: cs.primary,
                                             child: Center(
                                               child: Text(
                                                 isCustomer && oC.order!.status == "processing"
@@ -1210,7 +1243,7 @@ class OrderView extends StatelessWidget {
                                         children: [
                                           DetailsTile(
                                             iconData: Icons.description_outlined,
-                                            title: "order name".tr,
+                                            title: "package type".tr,
                                             subtitle: controller.order!.description,
                                           ),
                                           DetailsTile(
