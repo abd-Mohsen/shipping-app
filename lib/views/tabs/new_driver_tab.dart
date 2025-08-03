@@ -206,7 +206,7 @@ class NewDriverTab extends StatelessWidget {
                                                       //todo: pass begin time instead of creation time
                                                       child: CountUpTimer(
                                                         startDuration: DateTime.now()
-                                                            .difference(innerController.currOrders.first.createdAt),
+                                                            .difference(innerController.currOrders.first.startedAt),
                                                         textStyle: tt.headlineLarge!
                                                             .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                                                       ),

@@ -388,26 +388,32 @@ class OrderView extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           "delete the order?".tr,
-                          style: tt.titleLarge!.copyWith(color: cs.onSurface),
-                        ),
-                      ),
-                      confirm: TextButton(
-                        onPressed: () {
-                          Get.back();
-                          controller.deleteOrder();
-                        },
-                        child: Text(
-                          "yes".tr,
-                          style: tt.titleMedium!.copyWith(color: Colors.red),
-                        ),
-                      ),
-                      cancel: TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: Text(
-                          "no".tr,
                           style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                        ),
+                      ),
+                      confirm: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Get.back();
+                            controller.deleteOrder();
+                          },
+                          child: Text(
+                            "yes".tr,
+                            style: tt.titleSmall!.copyWith(color: Colors.red),
+                          ),
+                        ),
+                      ),
+                      cancel: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: Text(
+                            "no".tr,
+                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                          ),
                         ),
                       ),
                     );
@@ -1713,7 +1719,7 @@ class OrderView extends StatelessWidget {
                                                   CustomButton(
                                                     color: cs.primaryContainer,
                                                     onTap: () {
-                                                      isCompany
+                                                      isCompany || isEmployee
                                                           ? controller.confirmOrderCompany()
                                                           : controller.confirmOrderDriver();
                                                     },

@@ -16,6 +16,8 @@ class OrderModel2 {
   final DateTime dateTime;
   final String status;
   final DateTime createdAt;
+  final DateTime startedAt;
+  final DateTime? finishedAt;
 
   OrderModel2({
     required this.id,
@@ -27,6 +29,8 @@ class OrderModel2 {
     required this.dateTime,
     required this.status,
     required this.createdAt,
+    required this.startedAt,
+    required this.finishedAt,
   });
 
   factory OrderModel2.fromJson(Map<String, dynamic> json) => OrderModel2(
@@ -39,6 +43,8 @@ class OrderModel2 {
         dateTime: DateTime.parse(json["DateTime"]),
         status: json["status"],
         createdAt: DateTime.parse(json["created_at"]),
+        startedAt: json["started_at"] == null ? DateTime.now() : DateTime.parse(json["started_at"]),
+        finishedAt: json["finished_at"] == null ? null : DateTime.parse(json["finished_at"]),
       );
 
   String shortAddress() {

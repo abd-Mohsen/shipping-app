@@ -60,7 +60,7 @@ class CurrentUserController extends GetxController {
     }
 
     if (currentUser == null) {
-      //todo(later): put first to get correct loading (in all roles)
+      //put first to get correct loading (in all roles)
       await Future.delayed(const Duration(seconds: 10));
       getCurrentUser();
     }

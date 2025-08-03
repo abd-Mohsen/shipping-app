@@ -33,7 +33,7 @@ class FilterController extends GetxController {
   }
 
   Future getFilterInfo() async {
-    //if (isLoadingInfo) return; //todo(later): check if this prevents reloading
+    //if (isLoadingInfo) return;
     toggleLoadingInfo(true);
     FilterDataModel? model = await RemoteServices.fetchFilterInfo();
     if (model == null) {

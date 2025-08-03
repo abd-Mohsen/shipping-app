@@ -122,7 +122,6 @@ class CompanyHomeController extends GetxController {
     if (isLoadingStats) return;
     toggleLoadingStats(true);
     companyStats = await RemoteServices.fetchCompanyStats();
-    //todo(later): filter
     toggleLoadingStats(false);
   }
 

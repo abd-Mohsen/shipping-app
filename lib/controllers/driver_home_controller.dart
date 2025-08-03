@@ -451,7 +451,7 @@ class DriverHomeController extends GetxController {
   @override
   void onClose() async {
     //todo: not disposing (notification still appears)
-    //todo: things go to shit when i refresh (realme x)
+    //things go to shit when i refresh (realme x)
     await _cleanUpWebSocket();
     mapContainerScrollController.dispose();
     super.dispose();

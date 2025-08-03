@@ -500,8 +500,9 @@ class MakeOrderController extends GetxController {
       Get.back();
       Get.back();
       Get.showSnackbar(GetSnackBar(
-        message: "order edited successfully".tr,
+        message: "success".tr,
         duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
       ));
     }
     toggleLoading(false);

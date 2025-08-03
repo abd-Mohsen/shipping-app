@@ -35,6 +35,8 @@ class OrderModel {
   final List<PaymentMethod> paymentMethods;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  final DateTime? startedAt;
+  final DateTime? finishedAt;
   final bool customerWannaCancel;
   final bool driverWannaCancel;
   final bool isRatedByMe;
@@ -65,6 +67,8 @@ class OrderModel {
     required this.paymentMethods,
     required this.createdAt,
     required this.updatedAt,
+    required this.startedAt,
+    required this.finishedAt,
     required this.customerWannaCancel,
     required this.driverWannaCancel,
     required this.isRatedByMe,
@@ -97,6 +101,8 @@ class OrderModel {
         paymentMethods: List<PaymentMethod>.from(json["payment_methods"].map((x) => PaymentMethod.fromJson(x))),
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        startedAt: json["started_at"] == null ? DateTime.now() : DateTime.parse(json["started_at"]),
+        finishedAt: json["finished_at"] == null ? null : DateTime.parse(json["finished_at"]),
         customerWannaCancel: json["customer_wanna_cancel"],
         driverWannaCancel: json["driver_wanna_cancel"],
         isRatedByMe: json["is_rated_by_me"] ?? false,
