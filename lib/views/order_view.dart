@@ -581,7 +581,7 @@ class OrderView extends StatelessWidget {
                                             builder: (context) => GetBuilder<OrderController>(
                                               builder: (controller) {
                                                 return alertDialog(
-                                                  title: "accept the order?".tr,
+                                                  title: "do you want to apply?".tr,
                                                   onPressed: () {
                                                     Get.back();
                                                     controller.acceptOrderDriver();
