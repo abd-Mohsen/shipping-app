@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/models/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:shipment/views/login_view.dart';
 
 import '../services/remote_services.dart';
 
 class EditProfileController extends GetxController {
-  //todo(later) add delete profile
-
   @override
   void onInit() {
     user = cUC.currentUser;
@@ -106,5 +106,35 @@ class EditProfileController extends GetxController {
 
   //------------------------ delete profile ------------------------------
 
-  //
+  bool _isLoadingDelete = false;
+  bool get isLoadingDelete => _isLoadingDelete;
+  void toggleLoadingDelete(bool value) {
+    _isLoadingDelete = value;
+    update();
+  }
+
+  GlobalKey<FormState> deleteFormKey = GlobalKey<FormState>();
+  bool button3Pressed = false;
+
+  final GetStorage _getStorage = GetStorage();
+
+  void deleteAccount() async {
+    if (isLoadingDelete) return;
+    button3Pressed = true;
+    bool valid = deleteFormKey.currentState!.validate();
+    if (!valid) return;
+    toggleLoadingDelete(true);
+    bool success = await RemoteServices.deleteAccount(oldPass.text);
+    if (success) {
+      _getStorage.remove("token");
+      _getStorage.remove("role");
+      Get.offAll(() => const LoginView());
+      Get.showSnackbar(GetSnackBar(
+        message: "done successfully".tr,
+        duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.green,
+      ));
+    }
+    toggleLoadingDelete(false);
+  }
 }

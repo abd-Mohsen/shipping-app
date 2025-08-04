@@ -69,6 +69,7 @@ class Api {
     bool showTimeout = true,
     bool toMyServer = true,
     bool utf8Decode = true,
+    bool showErrorFromServer = true,
     Map<String, String>? customHeaders,
   }) async {
     print("sending to ${toMyServer ? "$_hostIP/" : ""}$endPoint");
@@ -83,13 +84,13 @@ class Api {
           )
           .timeout(kTimeOutDuration2);
       String responseBody = utf8Decode ? utf8.decode(latin1.encode(response.body)) : response.body;
-      print("$responseBody =========== ${response.statusCode}");
+      print("$responseBody ======$endPoint===== ${response.statusCode}");
 
       handleSessionExpired(response.statusCode, canRefresh);
 
       if (response.statusCode >= 500) kServerErrorSnackBar();
 
-      handleError(response.statusCode, responseBody);
+      if (showErrorFromServer) handleError(response.statusCode, responseBody);
       return (response.statusCode == 200 || response.statusCode == 201) ? responseBody : null;
     } on TimeoutException {
       if (showTimeout) kTimeOutSnackBar();
@@ -176,7 +177,7 @@ class Api {
           .delete(
             Uri.parse("$_hostIP/$endPoint"),
             headers: !auth ? headers : {...headers, "Authorization": "Token $accessToken"},
-            body: body, //todo: test if this messes up other delete requests
+            body: jsonEncode(body), //todo: test if this messes up other delete requests
           )
           .timeout(kTimeOutDuration2);
 

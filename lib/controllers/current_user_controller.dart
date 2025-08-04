@@ -10,7 +10,6 @@ import '../views/complete_account_view.dart';
 import '../views/login_view.dart';
 import '../views/otp_view.dart';
 import 'complete_account_controller.dart';
-import 'login_controller.dart';
 import 'otp_controller.dart';
 
 class CurrentUserController extends GetxController {
@@ -74,13 +73,13 @@ class CurrentUserController extends GetxController {
     update();
   }
 
-  void logout() async {
+  void logout({bool logoutAnyway = false}) async {
     if (isLoadingLogout) return;
     toggleLoadingLogout(true);
-    if (currentUser != null && await RemoteServices.logout()) {
+    if (logoutAnyway || (currentUser != null && await RemoteServices.logout())) {
       _getStorage.remove("token");
       _getStorage.remove("role");
-      Get.put(LoginController());
+      //Get.put(LoginController()); todo
       Get.offAll(() => const LoginView());
     }
     toggleLoadingLogout(false);

@@ -372,6 +372,9 @@ class MyLocale extends Translations {
           "user can now see your phone": "user can now see your phone",
           "company_employee": "company employee",
           "delete the order?": "delete the order?",
+          "warning": "warning",
+          "do you want to delete your account?": "do you want to delete your account?",
+          "enter your password to delete your account": "enter your password to delete your account",
         },
 
         ///
@@ -770,6 +773,9 @@ class MyLocale extends Translations {
           "user can now see your phone": "أصبح السائق يمكنه رؤية هاتفك",
           "company_employee": "كابتن",
           "delete the order?": "هل تريد حذف الطلبية",
+          "warning": "تحذير",
+          "do you want to delete your account?": "هل تريد حذف حسابك؟",
+          "enter your password to delete your account": "ادخل كلمة مرورك لحذف حسابك",
         },
       };
 }

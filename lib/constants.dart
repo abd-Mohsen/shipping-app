@@ -310,7 +310,7 @@ Widget kNoValidCarDialog(onConfirm) => PopScope(
         actions: [
           TextButton(
             onPressed: onConfirm,
-            child: Text("open settings".tr, style: const TextStyle(color: Colors.black)),
+            child: Text("ok".tr, style: const TextStyle(color: Colors.black)),
           ),
         ],
       ),

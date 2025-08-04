@@ -418,6 +418,7 @@ class RemoteServices {
       {"token": deviceToken},
       auth: true,
       toMyServer: false,
+      showErrorFromServer: false,
     );
     return json != null;
   }
@@ -831,7 +832,7 @@ class RemoteServices {
     return AboutUsModel.fromJson(jsonDecode(json));
   }
 
-  static Future<bool> deleteProfile(String password) async {
+  static Future<bool> deleteAccount(String password) async {
     bool json = await api.deleteRequest(
       "delete-account/",
       auth: true,

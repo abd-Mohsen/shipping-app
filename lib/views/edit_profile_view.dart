@@ -16,7 +16,7 @@ class EditProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    Get.put(EditProfileController());
+    EditProfileController ePC = Get.put(EditProfileController());
     CurrentUserController cUC = Get.find();
     return DefaultTabController(
       length: 2,
@@ -29,6 +29,125 @@ class EditProfileView extends StatelessWidget {
             style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer),
           ),
           centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.defaultDialog(
+                  title: "warning".tr,
+                  titleStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
+                  titlePadding: const EdgeInsets.symmetric(vertical: 12.0),
+                  content: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      "do you want to delete your account?".tr,
+                      style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                    ),
+                  ),
+                  confirm: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.back();
+                        Get.dialog(
+                          AlertDialog(
+                            title: Text(
+                              "enter your password to delete your account".tr,
+                              style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                            ),
+                            content: GetBuilder<EditProfileController>(
+                              builder: (controller) {
+                                return Form(
+                                  key: controller.deleteFormKey,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      AuthField(
+                                        controller: ePC.oldPass,
+                                        keyboardType: TextInputType.text,
+                                        textInputAction: TextInputAction.next,
+                                        obscure: !ePC.oldPasswordVisible,
+                                        label: "password".tr,
+                                        fillColor: cs.secondaryContainer,
+                                        bordered: true,
+                                        fontColor: cs.onSecondaryContainer,
+                                        prefixIcon: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                                          child: Icon(Icons.lock, color: cs.primary),
+                                        ),
+                                        suffixIcon: GestureDetector(
+                                          onTap: () => ePC.toggleOldPasswordVisibility(!ePC.oldPasswordVisible),
+                                          child: Icon(
+                                            ePC.oldPasswordVisible
+                                                ? CupertinoIcons.eye_slash_fill
+                                                : CupertinoIcons.eye_fill,
+                                            color: cs.primary,
+                                          ),
+                                        ),
+                                        validator: (val) {
+                                          return validateInput(ePC.oldPass.text, 0, 50, "");
+                                        },
+                                        onChanged: (val) {
+                                          if (ePC.button3Pressed) ePC.deleteFormKey.currentState!.validate();
+                                        },
+                                      ),
+                                      CustomButton(
+                                        onTap: () {
+                                          controller.deleteAccount();
+                                        },
+                                        child: Center(
+                                          child: controller.isLoadingDelete
+                                              ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                              : Text(
+                                                  "delete".tr.toUpperCase(),
+                                                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                                ),
+                                        ),
+                                      ),
+                                      CustomButton(
+                                        onTap: () {
+                                          Get.back();
+                                        },
+                                        child: Center(
+                                          child: Text(
+                                            "cancel".tr.toUpperCase(),
+                                            style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "yes".tr,
+                        style: tt.titleSmall!.copyWith(color: Colors.red),
+                      ),
+                    ),
+                  ),
+                  cancel: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        "no".tr,
+                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                      ),
+                    ),
+                  ),
+                );
+              },
+              icon: Icon(
+                Icons.delete,
+                color: cs.error,
+              ),
+            )
+          ],
           bottom: TabBar(
             indicatorColor: cs.primary,
             indicatorWeight: 4,
