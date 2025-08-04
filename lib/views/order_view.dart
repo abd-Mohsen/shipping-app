@@ -88,7 +88,7 @@ class OrderView extends StatelessWidget {
           content: content,
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              padding: const EdgeInsets.only(top: 12.0, bottom: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -97,7 +97,7 @@ class OrderView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.call, color: cs.onSurface),
+                        Icon(Icons.call, color: cs.onSurface, size: 32),
                         const SizedBox(height: 4),
                         Text(
                           "phone".tr,
@@ -112,7 +112,7 @@ class OrderView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                          const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 35),
                           const SizedBox(height: 4),
                           Text(
                             "whatsapp".tr,

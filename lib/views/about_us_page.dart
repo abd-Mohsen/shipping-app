@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:shipment/controllers/about_us_controller.dart';
 import 'package:shipment/views/web_view_page.dart';
 
@@ -12,47 +11,12 @@ import 'components/my_loading_animation.dart';
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
 
-  ///todo if possible, add url launcher for the phone an email. and add website when ready.
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
     AboutUsController aUC = Get.put(AboutUsController());
-
-    alertDialog({required onPressed, required String title, onPressedWhatsApp, Widget? content}) => AlertDialog(
-          title: Text(
-            title,
-            style: tt.titleMedium!.copyWith(color: cs.onSurface),
-          ),
-          content: content,
-          actions: [
-            TextButton(
-              onPressed: onPressed,
-              child: Text(
-                "yes".tr,
-                style: tt.titleSmall!.copyWith(color: Colors.red),
-              ),
-            ),
-            if (onPressedWhatsApp != null)
-              TextButton(
-                onPressed: onPressedWhatsApp,
-                child: Text(
-                  "whatsapp".tr,
-                  style: tt.titleSmall!.copyWith(color: Colors.green),
-                ),
-              ),
-            TextButton(
-              onPressed: () {
-                Get.back();
-              },
-              child: Text(
-                "no".tr,
-                style: tt.titleSmall!.copyWith(color: cs.onSurface),
-              ),
-            ),
-          ],
-        );
 
     alertDialogWithIcons({required onPressed, required String title, onPressedWhatsApp, Widget? content}) =>
         AlertDialog(
@@ -63,7 +27,7 @@ class AboutUsPage extends StatelessWidget {
           content: content,
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              padding: const EdgeInsets.only(top: 12.0, bottom: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -72,7 +36,7 @@ class AboutUsPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.call, color: cs.onSurface),
+                        Icon(Icons.call, color: cs.onSurface, size: 32),
                         const SizedBox(height: 4),
                         Text(
                           "phone".tr,
@@ -87,7 +51,7 @@ class AboutUsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                          const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 35),
                           const SizedBox(height: 4),
                           Text(
                             "whatsapp".tr,

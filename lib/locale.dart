@@ -375,6 +375,7 @@ class MyLocale extends Translations {
           "warning": "warning",
           "do you want to delete your account?": "do you want to delete your account?",
           "enter your password to delete your account": "enter your password to delete your account",
+          "whatsapp": "whatsapp",
         },
 
         ///
@@ -776,6 +777,7 @@ class MyLocale extends Translations {
           "warning": "تحذير",
           "do you want to delete your account?": "هل تريد حذف حسابك؟",
           "enter your password to delete your account": "ادخل كلمة مرورك لحذف حسابك",
+          "whatsapp": "واتساب",
         },
       };
 }
