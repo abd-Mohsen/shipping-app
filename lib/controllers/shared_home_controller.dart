@@ -22,6 +22,7 @@ class SharedHomeController extends GetxController {
     if (role != "customer") orderTypes = ["taken", "accepted", "current", "finished"];
     if (role != "customer") orderIcons = [Icons.watch_later, Icons.done, Icons.local_shipping, Icons.done_all];
     if (["driver", "company_employee"].contains(role)) dHC = Get.find();
+    selectedOrderTypes = List.from(orderTypes);
     getOrders();
     getRecentOrders();
     setPaginationListenerMyOrders();
