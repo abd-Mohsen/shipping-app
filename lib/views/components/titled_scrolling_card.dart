@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shipment/views/components/my_loading_animation.dart';
 
 class TitledScrollingCard extends StatelessWidget {
   final String title;
@@ -93,25 +94,11 @@ class TitledScrollingCard extends StatelessWidget {
           if (isEmpty)
             SizedBox(
               height: minHeight ?? 150, // Use minHeight if provided
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Text(
-                        "no data, pull down to refresh".tr,
-                        //todo: add refresh indicator here, refactor loading animation and handle it there too
-                        style: tt.titleSmall!.copyWith(
-                          color: cs.onSurface,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    const SizedBox(height: 72),
-                  ],
-                ),
+              child: const MyLoadingAnimation(
+                title: "no data",
+                height: 100,
+                paddingValue: 0,
+                showAnimation: false,
               ),
             )
           else if (itemCount < 3)

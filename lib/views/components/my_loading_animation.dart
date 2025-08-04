@@ -6,11 +6,15 @@ class MyLoadingAnimation extends StatelessWidget {
   final String file;
   final String title;
   final double? height;
+  final double? paddingValue;
+  final bool showAnimation;
   const MyLoadingAnimation({
     super.key,
     this.file = "simple truck2",
     this.title = "no data, pull down to refresh",
     this.height,
+    this.paddingValue,
+    this.showAnimation = true,
   });
 
   @override
@@ -22,9 +26,9 @@ class MyLoadingAnimation extends StatelessWidget {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Lottie.asset("assets/animations/$file.json", height: height ?? 200),
+          if (showAnimation) Lottie.asset("assets/animations/$file.json", height: height ?? 200),
           Padding(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(paddingValue ?? 24),
             child: Center(
               child: Text(
                 title.tr,
