@@ -31,7 +31,7 @@ class ApplicationCard2 extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 // border: Border.all(
                 //   color: order.status == "processing" ? cs.primary : cs.surface,

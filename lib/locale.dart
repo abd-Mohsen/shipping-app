@@ -376,6 +376,7 @@ class MyLocale extends Translations {
           "do you want to delete your account?": "do you want to delete your account?",
           "enter your password to delete your account": "enter your password to delete your account",
           "whatsapp": "whatsapp",
+          "responsible captain": "responsible captain",
         },
 
         ///
@@ -778,6 +779,7 @@ class MyLocale extends Translations {
           "do you want to delete your account?": "هل تريد حذف حسابك؟",
           "enter your password to delete your account": "ادخل كلمة مرورك لحذف حسابك",
           "whatsapp": "واتساب",
+          "responsible captain": "الكابتن المسؤول",
         },
       };
 }

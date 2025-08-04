@@ -878,7 +878,7 @@ class OrderView extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 4, left: 4, top: 12, bottom: 4),
                                     child: TitledScrollingCard(
-                                      title: isCompany ? "employee".tr : "drivers applications".tr,
+                                      title: isCompany ? "responsible captain".tr : "drivers applications".tr,
                                       itemCount: controller.order!.driversApplications.length,
                                       isEmpty: controller.order!.driversApplications.isEmpty,
                                       children: List.generate(
