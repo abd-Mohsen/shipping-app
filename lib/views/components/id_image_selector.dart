@@ -64,6 +64,7 @@ class IdImageSelector extends StatelessWidget {
               //     ? null
               //     :
               () async {
+            FocusScope.of(context).requestFocus(FocusNode());
             bool cameraAllowed = await PermissionService().requestPermission(Permission.camera);
             //bool storageAllowed = await PermissionService().requestPermission(Permission.storage); //todo
             bool storageAllowed = true;

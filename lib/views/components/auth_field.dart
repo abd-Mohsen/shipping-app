@@ -17,6 +17,7 @@ class AuthField extends StatelessWidget {
     this.fillColor,
     this.fontColor,
     this.bordered,
+    this.onTapOutside,
   });
 
   final TextEditingController controller;
@@ -32,6 +33,7 @@ class AuthField extends StatelessWidget {
   final Color? fillColor;
   final Color? fontColor;
   final bool? bordered;
+  final void Function(PointerDownEvent)? onTapOutside;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +89,7 @@ class AuthField extends StatelessWidget {
         validator: validator,
         onChanged: onChanged,
         onFieldSubmitted: onSubmit,
+        onTapOutside: onTapOutside,
       ),
     );
   }

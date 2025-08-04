@@ -246,6 +246,9 @@ class RegisterView extends StatelessWidget {
                                 onChanged: (val) {
                                   if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
                                 },
+                                onTapOutside: (_) {
+                                  FocusScope.of(context).unfocus();
+                                },
                               );
                             },
                           ),
@@ -280,6 +283,9 @@ class RegisterView extends StatelessWidget {
                               },
                               onChanged: (val) {
                                 if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                              },
+                              onTapOutside: (_) {
+                                FocusScope.of(context).unfocus();
                               },
                             ),
                           ),
