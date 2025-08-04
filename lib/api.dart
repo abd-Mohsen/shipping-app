@@ -165,6 +165,7 @@ class Api {
   Future<bool> deleteRequest(
     String endPoint, {
     bool auth = false,
+    Map<String, dynamic>? body,
     bool canRefresh = true,
     bool showTimeout = true,
   }) async {
@@ -175,6 +176,7 @@ class Api {
           .delete(
             Uri.parse("$_hostIP/$endPoint"),
             headers: !auth ? headers : {...headers, "Authorization": "Token $accessToken"},
+            body: body, //todo: test if this messes up other delete requests
           )
           .timeout(kTimeOutDuration2);
 

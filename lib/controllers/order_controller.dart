@@ -176,6 +176,8 @@ class OrderController extends GetxController {
     toggleLoadingCurr(false);
   }
 
+  //todo the app crashes sometime (due to osm, i get native android errors)
+
   /// interacting with order
   ///
   ///
@@ -329,7 +331,7 @@ class OrderController extends GetxController {
       phoneNumber.text,
     );
     if (success) {
-      if (!isEmployee) Get.back();
+      Get.back();
       refreshOrder();
       showSuccessSnackbar();
     }

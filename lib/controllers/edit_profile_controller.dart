@@ -103,4 +103,8 @@ class EditProfileController extends GetxController {
     }
     toggleLoading(false);
   }
+
+  //------------------------ delete profile ------------------------------
+
+  //
 }

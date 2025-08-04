@@ -33,7 +33,7 @@ class NewDriverTab extends StatelessWidget {
               FlutterMap(
                 mapController: controller.mapController,
                 options: const MapOptions(
-                  initialCenter: LatLng(52.518611, 13.408056),
+                  initialCenter: LatLng(33.5132, 36.2768),
                   initialZoom: 13.0,
                 ),
                 children: [

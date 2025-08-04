@@ -87,47 +87,50 @@ class OrderView extends StatelessWidget {
           ),
           content: content,
           actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  onTap: onPressed,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Icons.call, color: cs.onSurface),
-                      const SizedBox(height: 4),
-                      Text(
-                        "phone".tr,
-                        style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                      ),
-                    ],
-                  ),
-                ),
-                if (onPressedWhatsApp != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
                   GestureDetector(
-                    onTap: onPressedWhatsApp,
+                    onTap: onPressed,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                        Icon(Icons.call, color: cs.onSurface),
                         const SizedBox(height: 4),
                         Text(
-                          "whatsapp".tr,
+                          "phone".tr,
                           style: tt.titleSmall!.copyWith(color: cs.onSurface),
                         ),
                       ],
                     ),
                   ),
-                // ListTile(
-                //   onTap: onPressedWhatsApp,
-                //   leading: const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
-                //   title: Text(
-                //     "whatsapp".tr,
-                //     style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                //   ),
-                // ),
-              ],
+                  if (onPressedWhatsApp != null)
+                    GestureDetector(
+                      onTap: onPressedWhatsApp,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                          const SizedBox(height: 4),
+                          Text(
+                            "whatsapp".tr,
+                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                          ),
+                        ],
+                      ),
+                    ),
+                  // ListTile(
+                  //   onTap: onPressedWhatsApp,
+                  //   leading: const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                  //   title: Text(
+                  //     "whatsapp".tr,
+                  //     style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
             // ListTile(
             //   onTap: onPressed,
@@ -168,8 +171,9 @@ class OrderView extends StatelessWidget {
         );
 
     mainButton({required alertDialog, required bool isLoading, required String buttonText, Color? color}) => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          padding: const EdgeInsets.only(bottom: 8, right: 12, left: 12),
           child: CustomButton(
+            elevation: 2,
             onTap: () {
               showDialog(
                 context: context,
@@ -214,9 +218,9 @@ class OrderView extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 12),
           decoration: BoxDecoration(
-            color: const Color(0xFFFFC400),
-            //color: cs.secondaryContainer,
-            // borderRadius: BorderRadius.circular(20),
+            //color: const Color(0xFFFFC400),
+            color: cs.primaryContainer,
+            borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.2), // Shadow color
@@ -713,7 +717,7 @@ class OrderView extends StatelessWidget {
                                   ),
 
                                 /// cancel with penalty
-                                ///
+                                /// todo check if you can cancel when accepted in driver  case
                                 if ((isCustomer && oC.order!.status == "waiting_approval") ||
                                     (!isCustomer && oC.order!.status == "approved"))
                                   Padding(
@@ -895,6 +899,7 @@ class OrderView extends StatelessWidget {
                                             );
                                           },
                                           onTapAccept: () {
+                                            //todo: doesnt close sometimes after confirm
                                             showDialog(
                                               context: context,
                                               builder: (context) => alertDialog(
@@ -1593,8 +1598,8 @@ class OrderView extends StatelessWidget {
                                 !oC.order!.driverApproved)
                               Positioned(
                                 top: 0,
-                                left: 0,
-                                right: 0,
+                                left: 20,
+                                right: 20,
                                 child: alertStack(
                                   title: "${oC.order!.orderOwner?.name ?? "order owner is null"}"
                                       " ${"accepted your request".tr}",

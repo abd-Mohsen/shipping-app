@@ -830,4 +830,13 @@ class RemoteServices {
     if (json == null) return null;
     return AboutUsModel.fromJson(jsonDecode(json));
   }
+
+  static Future<bool> deleteProfile(String password) async {
+    bool json = await api.deleteRequest(
+      "delete-account/",
+      auth: true,
+      body: {"password": password},
+    );
+    return json;
+  }
 }

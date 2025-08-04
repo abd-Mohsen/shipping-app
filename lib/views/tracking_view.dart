@@ -103,6 +103,8 @@ class TrackingView extends StatelessWidget {
                           ),
                           subtitle: Text(
                             controller.order!.description,
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
                             style: tt.titleSmall!.copyWith(color: cs.onSurface),
                           ),
                           trailing: Container(
