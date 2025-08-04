@@ -19,13 +19,13 @@ class MyBottomBar extends StatelessWidget {
     List<IconData> iconsList = role == "customer"
         ? [Icons.home, Icons.list]
         : role == "company"
-            ? [Icons.home, Icons.list, Icons.manage_accounts, Icons.search]
+            ? [Icons.home, Icons.list, Icons.search]
             : [Icons.home, Icons.list];
 
     List<String> titlesList = role == "customer"
         ? ["home".tr, "my orders".tr]
         : role == "company"
-            ? ["home".tr, "my orders".tr, "manage".tr, "explore".tr]
+            ? ["home".tr, "my orders".tr, "explore".tr]
             : ["home".tr, "my orders".tr];
 
     return AnimatedBottomNavigationBar.builder(
@@ -51,7 +51,7 @@ class MyBottomBar extends StatelessWidget {
         );
       },
       elevation: 0,
-      gapLocation: ["driver", "company_employee"].contains(role) ? GapLocation.end : GapLocation.center,
+      gapLocation: ["driver", "company_employee", "company"].contains(role) ? GapLocation.end : GapLocation.center,
       notchSmoothness: NotchSmoothness.defaultEdge,
       gapWidth: 0,
       notchMargin: 0,

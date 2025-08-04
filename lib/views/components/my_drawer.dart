@@ -15,6 +15,7 @@ import '../about_us_page.dart';
 import '../invoices_view.dart';
 import '../my_addresses_view.dart';
 import '../my_vehicles_view.dart';
+import '../tabs/company_manage_tab.dart';
 import '../tabs/company_stats_tab.dart';
 import 'drawer_card.dart';
 
@@ -252,19 +253,19 @@ class MyDrawer extends StatelessWidget {
                     },
                   ),
                 ),
-                // Visibility(
-                //   visible: role == "company",
-                //   child: DrawerCard(
-                //     title: "manage".tr,
-                //     icon: Icons.manage_accounts_outlined,
-                //     onTap: () {
-                //       //Get.to(const PaymentsView());
-                //       Get.to(
-                //         const CompanyManageTab(),
-                //       );
-                //     },
-                //   ),
-                // ),
+                Visibility(
+                  visible: role == "company",
+                  child: DrawerCard(
+                    title: "manage".tr,
+                    icon: Icons.manage_accounts_outlined,
+                    onTap: () {
+                      //Get.to(const PaymentsView());
+                      Get.to(
+                        const CompanyManageTab(),
+                      );
+                    },
+                  ),
+                ),
 
                 // BottomNavigationBarItem(
                 //   icon: const Padding(

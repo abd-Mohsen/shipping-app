@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/components/my_bottom_bar.dart';
 import 'package:shipment/views/tabs/company_home_tab.dart';
-import 'package:shipment/views/tabs/company_manage_tab.dart';
 import 'package:shipment/views/tabs/explore_orders_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
 import '../constants.dart';
@@ -38,7 +37,7 @@ class CompanyHomeView extends StatelessWidget {
       const CompanyHomeTab(),
       const MyOrdersTab(),
       //const CompanyStatsTab(),
-      const CompanyManageTab(),
+      //const CompanyManageTab(),
       const ExploreOrdersTab(),
     ];
 
