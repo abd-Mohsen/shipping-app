@@ -55,7 +55,7 @@ class MySearchField extends StatelessWidget {
                   onTap: onTapSuffix,
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),
-                    child: Icon(Icons.close, color: cs.primary),
+                    child: Icon(Icons.close, color: cs.primaryContainer),
                   ),
                 ),
           floatingLabelBehavior: FloatingLabelBehavior.never,

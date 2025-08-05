@@ -97,10 +97,13 @@ class OrderController extends GetxController {
       longitude: order!.endPoint.longitude,
     );
     await mapController.moveTo(start);
-    await mapController.addMarker(start, markerIcon: kMapDefaultMarker);
+    await mapController.addMarker(start, markerIcon: kMapDefaultMarkerCustom(const Color(0xff003366)));
 
     await Future.delayed(const Duration(milliseconds: 800));
-    await mapController.addMarker(end, markerIcon: kMapDefaultMarkerBlue);
+    await mapController.addMarker(end,
+        markerIcon: kMapDefaultMarkerCustom(
+          Color(0xffFFA500),
+        ));
     await mapController.drawRoad(start, end);
     //todo(later): draw stored path
     //todo(later): connect when button is pressed

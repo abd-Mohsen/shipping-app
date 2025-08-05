@@ -223,6 +223,14 @@ MarkerIcon kMapDefaultMarkerBlue = const MarkerIcon(
   ),
 );
 
+MarkerIcon kMapDefaultMarkerCustom(color) => MarkerIcon(
+      iconWidget: Icon(
+        Icons.location_on,
+        color: color,
+        size: 100,
+      ),
+    );
+
 MarkerIcon kMapDriverMarker = const MarkerIcon(
   iconWidget: Icon(
     Icons.local_shipping,
@@ -245,6 +253,14 @@ MarkerIcon kMapSmallMarkerBlue = const MarkerIcon(
     size: 45,
   ),
 );
+
+MarkerIcon kMapSmallMarkerCustom(color) => MarkerIcon(
+      iconWidget: Icon(
+        Icons.location_on,
+        color: color,
+        size: 45,
+      ),
+    );
 
 MarkerIcon kMapDriverSmallMarker = const MarkerIcon(
   iconWidget: Icon(

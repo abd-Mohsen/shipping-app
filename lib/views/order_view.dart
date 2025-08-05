@@ -558,7 +558,7 @@ class OrderView extends StatelessWidget {
                                                           child: controller.isLoadingSubmit
                                                               ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                                               : Text(
-                                                                  "add".tr.toUpperCase(),
+                                                                  "ok".tr.toUpperCase(),
                                                                   style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                                                 ),
                                                         ),

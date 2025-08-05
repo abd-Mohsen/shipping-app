@@ -134,7 +134,7 @@ class MapSheet extends StatelessWidget {
                                         //         ),
                                         //       )
                                         //     :
-                                        Icon(Icons.search, color: cs.primary),
+                                        Icon(Icons.search, color: cs.primaryContainer),
                                     onSubmit: (s) {
                                       controller.search();
                                     },
@@ -316,6 +316,7 @@ class MapSheet extends StatelessWidget {
                                                   ),
                                                 ),
                                                 onTap: () {
+                                                  FocusScope.of(context).requestFocus(FocusNode());
                                                   controller.selectSearchResults(list[i]);
                                                 },
                                               ),

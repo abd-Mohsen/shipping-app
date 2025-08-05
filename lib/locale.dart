@@ -384,6 +384,8 @@ class MyLocale extends Translations {
           "select driver": "select driver",
           "required employee": "required employee",
           "you must select an employee": "you must select an employee",
+          "you must select a governorate": "you must select a governorate",
+          "you must select vehicle": "you must select vehicle",
         },
 
         ///
@@ -794,6 +796,8 @@ class MyLocale extends Translations {
           "select driver": "اختر كابتن",
           "required employee": "الكابتن المطلوب",
           "you must select an employee": "يجب ان تختار كابتن",
+          "you must select a governorate": "يجب أن تختار محافظة",
+          "you must select vehicle": "يجب أن تختار سيارة",
         },
       };
 }

@@ -174,7 +174,7 @@ class TrackingView extends StatelessWidget {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.location_on, size: 16, color: Color(0xFFFF0000)),
+                                          Icon(Icons.location_on, size: 16, color: cs.primary),
                                           Text(
                                             "from".tr,
                                             style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
@@ -200,7 +200,7 @@ class TrackingView extends StatelessWidget {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.location_on, size: 16, color: Color(0xFF38B6FF)),
+                                          Icon(Icons.location_on, size: 16, color: cs.primaryContainer),
                                           Text(
                                             "to".tr,
                                             style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
