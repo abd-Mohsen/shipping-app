@@ -101,7 +101,7 @@ class OrderView extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           "phone".tr,
-                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                          style: tt.labelMedium!.copyWith(color: cs.onSurface),
                         ),
                       ],
                     ),
@@ -116,7 +116,7 @@ class OrderView extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             "whatsapp".tr,
-                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                            style: tt.labelMedium!.copyWith(color: cs.onSurface),
                           ),
                         ],
                       ),
@@ -516,9 +516,10 @@ class OrderView extends StatelessWidget {
                                                     ),
                                                     color: cs.surface,
                                                   ),
-                                                  height: MediaQuery.of(context).size.height / 3,
+                                                  //height: MediaQuery.of(context).size.height / 3,
                                                   child: Column(
                                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                                    mainAxisSize: MainAxisSize.min,
                                                     children: [
                                                       Padding(
                                                         padding: const EdgeInsets.all(16.0),
@@ -530,29 +531,23 @@ class OrderView extends StatelessWidget {
                                                       ),
                                                       Form(
                                                         key: controller.formKey,
-                                                        child: Expanded(
-                                                          //padding: const EdgeInsets.symmetric(vertical: 12),
-                                                          child: controller.isLoadingVehicles
-                                                              ? SpinKitThreeBounce(color: cs.primary, size: 20)
-                                                              : Column(
-                                                                  children: [
-                                                                    //todo: fix UI in this sheet
-                                                                    const SizedBox(height: 12),
-                                                                    EmployeeSelector(
-                                                                      selectedItem: controller.selectedEmployee,
-                                                                      items: controller.availableEmployees,
-                                                                      onChanged: (EmployeeModel? e) async {
-                                                                        controller.selectEmployee(e);
-                                                                        await Future.delayed(
-                                                                            const Duration(milliseconds: 1000));
-                                                                        if (controller.buttonPressed) {
-                                                                          controller.formKey.currentState!.validate();
-                                                                        }
-                                                                      },
-                                                                    )
-                                                                  ],
+                                                        child: controller.isLoadingVehicles
+                                                            ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                                                            : Padding(
+                                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                                child: EmployeeSelector(
+                                                                  selectedItem: controller.selectedEmployee,
+                                                                  items: controller.availableEmployees,
+                                                                  onChanged: (EmployeeModel? e) async {
+                                                                    controller.selectEmployee(e);
+                                                                    await Future.delayed(
+                                                                        const Duration(milliseconds: 1000));
+                                                                    if (controller.buttonPressed) {
+                                                                      controller.formKey.currentState!.validate();
+                                                                    }
+                                                                  },
                                                                 ),
-                                                        ),
+                                                              ),
                                                       ),
                                                       CustomButton(
                                                         onTap: () {

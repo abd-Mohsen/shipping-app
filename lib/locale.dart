@@ -381,6 +381,9 @@ class MyLocale extends Translations {
           "pick positions first": "pick positions first",
           "pick a position in syria": "pick a position in syria",
           "pick a date and time first": "pick a date and time first",
+          "select driver": "select driver",
+          "required employee": "required employee",
+          "you must select an employee": "you must select an employee",
         },
 
         ///
@@ -788,6 +791,9 @@ class MyLocale extends Translations {
           "pick positions first": "اختر العناوين أولاً",
           "pick a position in syria": "اختر العناوين في سوريا",
           "pick a date and time first": "اختر تاريخ ووقت ",
+          "select driver": "اختر كابتن",
+          "required employee": "الكابتن المطلوب",
+          "you must select an employee": "يجب ان تختار كابتن",
         },
       };
 }

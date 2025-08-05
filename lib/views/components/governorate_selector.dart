@@ -39,6 +39,14 @@ class GovernorateSelector extends StatelessWidget {
       compareFn: (type1, type2) => type1.id == type2.id,
       popupProps: PopupProps.menu(
         constraints: const BoxConstraints(maxHeight: 200),
+        emptyBuilder: (context, searchEntry) {
+          return Center(
+            child: Text(
+              "no data".tr,
+              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+            ),
+          );
+        },
         showSearchBox: false,
         menuProps: MenuProps(
           elevation: 5,

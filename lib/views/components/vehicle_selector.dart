@@ -33,6 +33,15 @@ class VehicleSelector<T> extends StatelessWidget {
       enabled: enabled ?? true,
       compareFn: (type1, type2) => type1 == type2,
       popupProps: PopupProps.menu(
+        constraints: const BoxConstraints(maxHeight: 250),
+        emptyBuilder: (context, searchEntry) {
+          return Center(
+            child: Text(
+              "no data".tr,
+              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+            ),
+          );
+        },
         showSearchBox: false,
         menuProps: MenuProps(
           shape: RoundedRectangleBorder(

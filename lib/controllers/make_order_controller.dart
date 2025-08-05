@@ -121,8 +121,8 @@ class MakeOrderController extends GetxController {
     price.text = "";
     weight.text = "";
     otherInfo.text = "";
-    selectedCurrency = null;
-    selectedWeightUnit = null;
+    // selectedCurrency = null;
+    // selectedWeightUnit = null;
     selectedVehicleType = null;
     selectedDate = DateTime.now().add(const Duration(hours: 24));
     selectedTime = TimeOfDay.now();

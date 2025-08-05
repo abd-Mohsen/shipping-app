@@ -46,6 +46,14 @@ class VehicleTypeSelector extends StatelessWidget {
         },
         compareFn: (type1, type2) => type1.id == type2.id,
         popupProps: PopupProps.menu(
+          emptyBuilder: (context, searchEntry) {
+            return Center(
+              child: Text(
+                "no data".tr,
+                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+              ),
+            );
+          },
           showSearchBox: false,
           constraints: const BoxConstraints(maxHeight: 300), // Makes the dropdown shorter
           menuProps: MenuProps(
