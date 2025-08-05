@@ -48,7 +48,7 @@ class OrderView extends StatelessWidget {
     alertDialog({required onPressed, required String title, onPressedWhatsApp, Widget? content}) => AlertDialog(
           title: Text(
             title,
-            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+            style: tt.titleSmall!.copyWith(color: cs.onSurface),
           ),
           content: content,
           actions: [
@@ -180,7 +180,7 @@ class OrderView extends StatelessWidget {
                 builder: (context) => alertDialog,
               );
             },
-            color: cs.primaryContainer,
+            color: color ?? cs.primaryContainer,
             child: Center(
               child: isLoading
                   ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
@@ -697,6 +697,7 @@ class OrderView extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
                                     child: mainButton(
+                                      color: Colors.red,
                                       alertDialog: alertDialog(
                                         onPressed: () {
                                           Get.back();
@@ -723,6 +724,7 @@ class OrderView extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
                                     child: mainButton(
+                                      color: Colors.red,
                                       alertDialog: alertDialog(
                                         onPressed: () {
                                           Get.back();
@@ -904,9 +906,9 @@ class OrderView extends StatelessWidget {
                                               context: context,
                                               builder: (context) => alertDialog(
                                                 onPressed: () {
-                                                  Get.back();
                                                   controller.confirmOrderCustomer(
                                                       controller.order!.driversApplications[i].id);
+                                                  Get.back();
                                                 },
                                                 title: "accept the order?".tr,
                                               ),

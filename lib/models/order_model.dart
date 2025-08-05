@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/application_model.dart';
@@ -174,7 +175,7 @@ class OrderModel {
   }
 
   String fullPrice() {
-    return "$price ${currency.symbol}";
+    return "${NumberFormat('#,###').format(price)} ${currency.symbol}";
   }
 }
 

@@ -59,6 +59,7 @@ dependencies:
   latlong2: ^0.9.1
   flutter_timer_countdown: ^1.0.7
   webview_flutter: ^4.13.0
+  intl: ^0.20.2
 
 
 dev_dependencies:

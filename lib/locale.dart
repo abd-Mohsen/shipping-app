@@ -378,6 +378,9 @@ class MyLocale extends Translations {
           "whatsapp": "whatsapp",
           "responsible captain": "responsible captain",
           "do you want to apply?": "do you want to apply?",
+          "pick positions first": "pick positions first",
+          "pick a position in syria": "pick a position in syria",
+          "pick a date and time first": "pick a date and time first",
         },
 
         ///
@@ -548,7 +551,7 @@ class MyLocale extends Translations {
           "explore": "تصفح جديد",
           "my current orders": "طلبياتي الحالية",
           "show orders in governorate:": "عرض الطلبيات في المحافظة:",
-          "apply": "ابداء اهتمام",
+          "apply": "ابداء اهتمامك",
           "begin": "البدء",
           "employee": "كابتن شركة",
           "registration code": "رمز التسجيل",
@@ -728,7 +731,7 @@ class MyLocale extends Translations {
           'location Required': 'خدمات الموقع مطلوبة',
           'please enable location services then press ok': 'من فضلك قم بتشغيل خدمات الموقع ثم اضغط موافق',
           "select this location": "اختر الموقع",
-          'how do you want to call this person?': 'طريقة التواصل',
+          'how do you want to call this person?': 'كيف تريد ان تتواصل',
           "open map": "عرض الموقع",
           "no results": "لا يوجد نتائج",
           "do you want to rate your experience with the driver?": "هل تود تقييم تجربتك مع الكابتن؟",
@@ -782,6 +785,9 @@ class MyLocale extends Translations {
           "whatsapp": "واتساب",
           "responsible captain": "الكابتن المسؤول",
           "do you want to apply?": "هل تريد ابداء اهتمام للطلب؟",
+          "pick positions first": "اختر العناوين أولاً",
+          "pick a position in syria": "اختر العناوين في سوريا",
+          "pick a date and time first": "اختر تاريخ ووقت ",
         },
       };
 }

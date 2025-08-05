@@ -361,6 +361,7 @@ class MakeOrderController extends GetxController {
       Get.showSnackbar(GetSnackBar(
         message: "pick positions first".tr,
         duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.red,
       ));
       return;
     }
@@ -370,6 +371,7 @@ class MakeOrderController extends GetxController {
       Get.showSnackbar(GetSnackBar(
         message: "pick a position in syria".tr,
         duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.red,
       ));
       return;
     }
@@ -377,6 +379,7 @@ class MakeOrderController extends GetxController {
       Get.showSnackbar(GetSnackBar(
         message: "pick a date and time first".tr,
         duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.red,
       ));
     }
     DateTime desiredDate = DateTime(
@@ -440,6 +443,7 @@ class MakeOrderController extends GetxController {
       Get.showSnackbar(GetSnackBar(
         message: "pick positions first".tr,
         duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.red,
       ));
       return;
     }
@@ -449,6 +453,7 @@ class MakeOrderController extends GetxController {
       Get.showSnackbar(GetSnackBar(
         message: "pick a position in syria".tr,
         duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.red,
       ));
       return;
     }
@@ -456,6 +461,7 @@ class MakeOrderController extends GetxController {
       Get.showSnackbar(GetSnackBar(
         message: "pick a date and time first".tr,
         duration: const Duration(milliseconds: 2500),
+        backgroundColor: Colors.red,
       ));
     }
     DateTime desiredDate = DateTime(
