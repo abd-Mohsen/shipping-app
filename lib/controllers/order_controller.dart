@@ -34,6 +34,14 @@ class OrderController extends GetxController {
     isEmployee = role == "company_employee";
     if (role == "company" || isEmployee) getAvailableVehiclesAndEmployees();
     await getOrder();
+    checkForTimer();
+    await getRemainingCancels();
+    if (order != null && !order!.isRatedByMe) setShowRatingBox(true);
+    super.onInit();
+  }
+
+  checkForTimer() {
+    //to check if there is a timer r
     if (order != null &&
         role != "customer" &&
         order!.status == "waiting_approval" &&
@@ -42,9 +50,6 @@ class OrderController extends GetxController {
       final endTime = order!.driversApplications.last.appliedAt.add(const Duration(minutes: 10));
       if (DateTime.now().isBefore(endTime)) setCanCancel(false);
     }
-    await getRemainingCancels();
-    if (order != null && !order!.isRatedByMe) setShowRatingBox(true);
-    super.onInit();
   }
 
   bool canCancel = true;
@@ -77,7 +82,8 @@ class OrderController extends GetxController {
   }
 
   Future<void> refreshOrder() async {
-    getOrder();
+    await getOrder();
+    checkForTimer();
   }
 
   MapController mapController = MapController.withPosition(
