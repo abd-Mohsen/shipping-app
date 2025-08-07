@@ -34,9 +34,23 @@ class OrderController extends GetxController {
     isEmployee = role == "company_employee";
     if (role == "company" || isEmployee) getAvailableVehiclesAndEmployees();
     await getOrder();
+    if (order != null &&
+        role != "customer" &&
+        order!.status == "waiting_approval" &&
+        !order!.isCancelledByMe &&
+        order!.isAppliedByMe) {
+      final endTime = order!.driversApplications.last.appliedAt.add(const Duration(minutes: 10));
+      if (DateTime.now().isBefore(endTime)) setCanCancel(false);
+    }
     await getRemainingCancels();
     if (order != null && !order!.isRatedByMe) setShowRatingBox(true);
     super.onInit();
+  }
+
+  bool canCancel = true;
+  setCanCancel(bool v) {
+    canCancel = v;
+    update();
   }
 
   bool showRatingBox = false;

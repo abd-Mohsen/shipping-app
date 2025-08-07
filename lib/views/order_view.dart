@@ -20,6 +20,7 @@ import 'package:shipment/views/components/titled_scrolling_card.dart';
 import 'package:shipment/views/tracking_view.dart';
 import 'components/auth_field.dart';
 import 'components/blurred_sheet.dart';
+import 'components/count_down_timer.dart';
 import 'components/input_field.dart';
 import 'components/sheet_details_tile.dart';
 import 'make_order_view.dart';
@@ -170,15 +171,18 @@ class OrderView extends StatelessWidget {
           title: 'how do you want to call this person?'.tr,
         );
 
-    mainButton({required alertDialog, required bool isLoading, required String buttonText, Color? color}) => Padding(
+    mainButton({required alertDialog, required bool isLoading, required String buttonText, Color? color, onPressed}) =>
+        Padding(
           padding: const EdgeInsets.only(bottom: 8, right: 12, left: 12),
           child: CustomButton(
             elevation: 2,
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => alertDialog,
-              );
+              if (onPressed != null) {
+                showDialog(
+                  context: context,
+                  builder: (context) => alertDialog,
+                );
+              }
             },
             color: color ?? cs.primaryContainer,
             child: Center(
@@ -191,14 +195,21 @@ class OrderView extends StatelessWidget {
                           buttonText,
                           style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                         ),
-                        // if (!isCustomer &&
-                        //     oC.order!.status == "waiting_approval" &&
-                        //     !oC.order!.isCancelledByMe &&
-                        //     oC.order!.isAppliedByMe)
-                        //   CountDownTimer(
-                        //     duration: DateTime.now().difference(oC.order!.driversApplications.last.appliedAt),
-                        //     textStyle: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                        //   ),
+                        if (!isCustomer &&
+                            oC.order!.status == "waiting_approval" &&
+                            !oC.order!.isCancelledByMe &&
+                            oC.order!.isAppliedByMe)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: CountDownTimer(
+                              startTime: oC.order!.driversApplications.last.appliedAt,
+                              countdownDuration: const Duration(minutes: 10),
+                              textStyle: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                              onFinished: () {
+                                oC.setCanCancel(true);
+                              },
+                            ),
+                          )
                       ],
                     ),
             ),
@@ -714,7 +725,7 @@ class OrderView extends StatelessWidget {
                                   ),
 
                                 /// cancel order button (wait 10 minutes to cancel if not approved yet)
-                                ///
+                                /// todo(later) loading indicator not appearing in this button
                                 if (!isCustomer &&
                                     oC.order!.status == "waiting_approval" &&
                                     !oC.order!.isCancelledByMe &&
@@ -722,12 +733,20 @@ class OrderView extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
                                     child: mainButton(
-                                      color: Colors.red,
+                                      color: controller.canCancel ? Colors.red : Colors.grey,
+                                      onPressed: !controller.canCancel
+                                          ? null
+                                          : () {
+                                              Get.back();
+                                              controller.cancelOrder();
+                                            },
                                       alertDialog: alertDialog(
-                                        onPressed: () {
-                                          Get.back();
-                                          controller.cancelOrder();
-                                        },
+                                        onPressed: !controller.canCancel
+                                            ? null
+                                            : () {
+                                                Get.back();
+                                                controller.cancelOrder();
+                                              },
                                         content: Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                           child: Text(
