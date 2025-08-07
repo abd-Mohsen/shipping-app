@@ -386,6 +386,7 @@ class MyLocale extends Translations {
           "you must select an employee": "you must select an employee",
           "you must select a governorate": "you must select a governorate",
           "you must select vehicle": "you must select vehicle",
+          "order details": "order details",
         },
 
         ///
@@ -798,6 +799,7 @@ class MyLocale extends Translations {
           "you must select an employee": "يجب ان تختار كابتن",
           "you must select a governorate": "يجب أن تختار محافظة",
           "you must select vehicle": "يجب أن تختار سيارة",
+          "order details": "تفاصيل الطلبية",
         },
       };
 }

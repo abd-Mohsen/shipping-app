@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/driver_home_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
+import 'package:shipment/views/components/application_card2.dart';
 import 'package:shipment/views/components/my_loading_animation.dart';
 import 'package:shipment/views/components/user_profile_tile.dart';
 import 'package:shipment/views/order_view.dart';
@@ -25,6 +26,40 @@ class NewDriverTab extends StatelessWidget {
     TextTheme tt = Theme.of(context).textTheme;
     // final screenWidth = MediaQuery.of(context).size.width;
     // final screenHeight = MediaQuery.of(context).size.height;
+
+    alertDialog({required onPressed, required String title, onPressedWhatsApp, Widget? content}) => AlertDialog(
+          title: Text(
+            title,
+            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+          ),
+          content: content,
+          actions: [
+            TextButton(
+              onPressed: onPressed,
+              child: Text(
+                "yes".tr,
+                style: tt.titleSmall!.copyWith(color: Colors.red),
+              ),
+            ),
+            if (onPressedWhatsApp != null)
+              TextButton(
+                onPressed: onPressedWhatsApp,
+                child: Text(
+                  "whatsapp".tr,
+                  style: tt.titleSmall!.copyWith(color: Colors.green),
+                ),
+              ),
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text(
+                "no".tr,
+                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+              ),
+            ),
+          ],
+        );
 
     return GetBuilder<DriverHomeController>(
       //init: HomeController(),
@@ -181,23 +216,12 @@ class NewDriverTab extends StatelessWidget {
                                                     ),
                                                   ),
                                                   const SizedBox(width: 8),
-                                                  Expanded(
-                                                    child: GestureDetector(
-                                                      onTap: () {
-                                                        Get.to(() => OrderView(
-                                                              orderID: innerController.recentOrders.first.id,
-                                                            ));
-                                                      },
-                                                      child: Text(
-                                                        "#${innerController.currOrders.first.id}  ${innerController.currOrders.first.description}",
-                                                        style: tt.titleSmall!.copyWith(
-                                                          color: Colors.blueAccent,
-                                                          decoration: TextDecoration.underline,
-                                                        ),
-                                                        textAlign: TextAlign.end,
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow.ellipsis,
-                                                      ),
+                                                  CountUpTimer(
+                                                    startDuration: DateTime.now()
+                                                        .difference(innerController.currOrders.first.startedAt),
+                                                    textStyle: tt.titleLarge!.copyWith(
+                                                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                                                      fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
                                                 ],
@@ -227,23 +251,39 @@ class NewDriverTab extends StatelessWidget {
                                                 child: Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right: 12.0, left: 12, top: 8),
-                                                      child: Text(
-                                                        "duration".tr,
-                                                        style: tt.titleSmall!.copyWith(
-                                                          color: cs.onSurface.withValues(alpha: 0.4),
-                                                        ),
-                                                      ),
-                                                    ),
+                                                    // Padding(
+                                                    //   padding: const EdgeInsets.only(right: 12.0, left: 12, top: 8),
+                                                    //   child: Text(
+                                                    //     "order details".tr,
+                                                    //     style: tt.titleSmall!.copyWith(
+                                                    //       color: cs.onSurface.withValues(alpha: 0.4),
+                                                    //     ),
+                                                    //   ),
+                                                    // ),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
-                                                      child: CountUpTimer(
-                                                        startDuration: DateTime.now()
-                                                            .difference(innerController.currOrders.first.startedAt),
-                                                        textStyle: tt.headlineLarge!
-                                                            .copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 3,
+                                                            child: GestureDetector(
+                                                              onTap: () {
+                                                                Get.to(() => OrderView(
+                                                                      orderID: innerController.recentOrders.first.id,
+                                                                    ));
+                                                              },
+                                                              child: Text(
+                                                                innerController.currOrders.first.description,
+                                                                style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                                textAlign: TextAlign.start,
+                                                                maxLines: 1,
+                                                                overflow: TextOverflow.ellipsis,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const Spacer(flex: 1),
+                                                        ],
                                                       ),
                                                       // child: Text(
                                                       //   "00 : 23 : 01".tr,
@@ -253,8 +293,7 @@ class NewDriverTab extends StatelessWidget {
                                                       // ),
                                                     ),
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
+                                                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
                                                       child: Row(
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
@@ -342,27 +381,89 @@ class NewDriverTab extends StatelessWidget {
                                                         ],
                                                       ),
                                                     ),
+                                                    Divider(color: cs.onSurface, indent: 30, endIndent: 30),
                                                   ],
                                                 ),
                                               ),
                                             ),
+                                            //todo: fill with real data and show call dilog
+                                            ApplicationCard2(
+                                              title: "اسم الزبون",
+                                              isLast: true,
+                                              showButtons: true,
+                                              color: cs.surface,
+                                            ),
                                             Padding(
                                               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                              child: CustomButton(
-                                                onTap: () {
-                                                  controller.finishOrderDriver(
-                                                    innerController.currOrders.first.id,
-                                                  );
-                                                },
-                                                color: cs.primaryContainer,
-                                                child: Center(
-                                                  child: controller.isLoadingFinish
-                                                      ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
-                                                      : Text(
-                                                          "finish".tr.toUpperCase(),
-                                                          style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: CustomButton(
+                                                      onTap: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) => alertDialog(
+                                                            onPressed: () {
+                                                              Get.back();
+                                                              controller.finishOrderDriver(
+                                                                innerController.currOrders.first.id,
+                                                              );
+                                                            },
+                                                            content: Padding(
+                                                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                              child: Text(
+                                                                "press yes if you reached your destination".tr,
+                                                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                              ),
+                                                            ),
+                                                            title: "finish the order?".tr,
+                                                          ),
+                                                        );
+                                                      },
+                                                      color: cs.primaryContainer,
+                                                      child: Center(
+                                                        child: controller.isLoadingFinish
+                                                            ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
+                                                            : Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: [
+                                                                  Icon(Icons.done_all,
+                                                                      color: cs.onPrimaryContainer, size: 20),
+                                                                  const SizedBox(width: 4),
+                                                                  Text(
+                                                                    "finish".tr.toUpperCase(),
+                                                                    style: tt.titleSmall!
+                                                                        .copyWith(color: cs.onPrimaryContainer),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 12),
+                                                  Expanded(
+                                                    child: CustomButton(
+                                                      onTap: () {
+                                                        controller.finishOrderDriver(
+                                                          innerController.currOrders.first.id,
+                                                        );
+                                                      },
+                                                      child: Center(
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            Icon(Icons.notes, color: cs.onPrimary, size: 20),
+                                                            const SizedBox(width: 4),
+                                                            Text(
+                                                              "order details".tr.toUpperCase(),
+                                                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                                            ),
+                                                          ],
                                                         ),
-                                                ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                             const SizedBox(height: 8),

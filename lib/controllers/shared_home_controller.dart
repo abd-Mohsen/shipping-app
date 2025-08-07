@@ -242,6 +242,7 @@ class SharedHomeController extends GetxController {
   void setGovernorate(GovernorateModel? governorate) {
     if (governorate == null) return;
     selectedGovernorate = governorate;
+    dHC.foldContainer();
     RefreshSocketController rSC = Get.find();
     rSC.sendLocationID(governorate.id);
     refreshExploreOrders();

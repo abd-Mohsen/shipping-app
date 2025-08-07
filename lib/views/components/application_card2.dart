@@ -6,6 +6,7 @@ class ApplicationCard2 extends StatelessWidget {
   final void Function()? onTapCall;
   final bool? showButtons;
   final bool? isAccepted;
+  final Color? color;
   final bool isLast;
 
   const ApplicationCard2({
@@ -14,6 +15,7 @@ class ApplicationCard2 extends StatelessWidget {
     required this.isLast,
     this.onTapCall,
     this.showButtons,
+    this.color,
     this.isAccepted,
   });
 
@@ -38,7 +40,7 @@ class ApplicationCard2 extends StatelessWidget {
                 //   width: order.status == "processing" ? 1.5 : 0.5,
                 // ),
                 // borderRadius: BorderRadius.circular(10),
-                color: cs.secondaryContainer,
+                color: color ?? cs.secondaryContainer,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
