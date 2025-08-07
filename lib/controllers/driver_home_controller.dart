@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shipment/constants.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/services/remote_services.dart';
 import '../models/order_model_2.dart';
@@ -44,9 +45,9 @@ class DriverHomeController extends GetxController {
   bool hasReachedTopOnce = false;
   bool isAtTop = false;
 
-  double baseHeight = 300;
+  double baseHeight = 270;
   double maxHeight = 500;
-  double containerHeight = 300;
+  double containerHeight = 270;
 
   void expandContainer() {
     containerHeight = maxHeight;
@@ -121,6 +122,8 @@ class DriverHomeController extends GetxController {
   List<LatLng> road = [];
 
   Marker? driverMarker;
+  Marker? sourceMarker;
+  Marker? destinationMarker;
 
   bool mapIsReady = false;
 
@@ -140,9 +143,10 @@ class DriverHomeController extends GetxController {
   }
 
   Future drawOnMap(LatLng start, LatLng end) async {
-    currMarkers.add(Marker(point: start, child: kMapSmallMarker));
-    currMarkers.add(Marker(point: end, child: kMapSmallMarkerBlue));
-
+    sourceMarker = Marker(point: start, child: kMapSmallMarker);
+    destinationMarker = Marker(point: end, child: kMapSmallMarkerBlue);
+    currMarkers.add(sourceMarker!);
+    currMarkers.add(destinationMarker!);
     //await mapController.drawRoad(start, end);
     update();
   }
@@ -447,6 +451,44 @@ class DriverHomeController extends GetxController {
       connectTrackingSocket();
     });
   }
+
+  //--------------------------- finish order ------------------------------
+  bool _isLoadingFinish = false;
+  bool get isLoadingFinish => _isLoadingFinish;
+  void toggleLoadingFinish(bool value) {
+    _isLoadingFinish = value;
+    update();
+  }
+
+  void finishOrderDriver(int orderID) async {
+    if (isLoadingFinish) return;
+    toggleLoadingFinish(true);
+
+    bool success = (_getStorage.read("role") == "company_employee")
+        ? await RemoteServices.companyFinishOrder(orderID)
+        : await RemoteServices.driverFinishOrder(orderID);
+    if (success) {
+      showSuccessSnackbar();
+      CurrentUserController cUC = Get.find();
+      cUC.getCurrentUser();
+      currMarkers.remove(sourceMarker);
+      currMarkers.remove(destinationMarker);
+      road.clear();
+      roadToSource.clear();
+      roadToDestination.clear();
+    }
+    toggleLoadingFinish(false);
+  }
+
+  showSuccessSnackbar() => Get.showSnackbar(
+        GetSnackBar(
+          message: "success".tr,
+          duration: const Duration(milliseconds: 2500),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+  // ----------------------------------
 
   @override
   void onClose() async {

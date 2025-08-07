@@ -159,7 +159,7 @@ class DriverHomeView extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [Colors.transparent, Colors.white],
                       //set stops as par your requirement
-                      stops: [0.95, 1], // 50% transparent, 50% white
+                      stops: [0.97, 1], // 50% transparent, 50% white
                     ).createShader(rect);
                   },
                   blendMode: BlendMode.dstOut,

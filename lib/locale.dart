@@ -746,7 +746,7 @@ class MyLocale extends Translations {
           "waiting_approval": "بانتظار القبول",
           "allow driver to see your phone?": "هل تريد السماح للكابتن برؤية رقم هاتفك؟",
           "show number": "عرض الرقم للسائق",
-          "finish": "انهاء",
+          "finish": "انهاء التنفيذ",
           "close": "اغلاق",
           "browse": "استعراض",
           "submission date": "تاريخ التقديم",
