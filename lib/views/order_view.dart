@@ -500,9 +500,7 @@ class OrderView extends StatelessWidget {
                                     child: CustomButton(
                                       color: cs.primaryContainer,
                                       onTap: () {
-                                        if (isEmployee) {
-                                          controller.acceptOrderCompany();
-                                        } else if (isCompany) {
+                                        if (isCompany) {
                                           Get.bottomSheet(
                                             GetBuilder<OrderController>(
                                               builder: (controller) {
@@ -579,7 +577,9 @@ class OrderView extends StatelessWidget {
                                                   title: "do you want to apply?".tr,
                                                   onPressed: () {
                                                     Get.back();
-                                                    controller.acceptOrderDriver();
+                                                    isEmployee
+                                                        ? controller.acceptOrderCompany()
+                                                        : controller.acceptOrderDriver();
                                                   },
                                                   //todo: handle cache orders
                                                   // content: controller.isLoadingCurr
@@ -630,7 +630,7 @@ class OrderView extends StatelessWidget {
                                     ),
                                   ),
                                 //todo: for company: show the name of the driver ("driver" didnt start the order yet)
-                                /// start order
+                                /// start order & cancel with penalty
                                 ///
                                 if (!isCustomer &&
                                     !isCompany &&
@@ -638,23 +638,53 @@ class OrderView extends StatelessWidget {
                                     oC.order!.driverApproved)
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                                    child: mainButton(
-                                      alertDialog: alertDialog(
-                                        onPressed: () {
-                                          Get.back();
-                                          controller.beginOrderDriver();
-                                        },
-                                        content: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                          child: Text(
-                                            "customer will track driver's progress".tr,
-                                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: mainButton(
+                                            alertDialog: alertDialog(
+                                              onPressed: () {
+                                                Get.back();
+                                                controller.beginOrderDriver();
+                                              },
+                                              content: Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                child: Text(
+                                                  "customer will track driver's progress".tr,
+                                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                ),
+                                              ),
+                                              title: "begin the order?".tr,
+                                            ),
+                                            isLoading: controller.isLoadingSubmit,
+                                            buttonText: "begin".tr.toUpperCase(),
                                           ),
                                         ),
-                                        title: "begin the order?".tr,
-                                      ),
-                                      isLoading: controller.isLoadingSubmit,
-                                      buttonText: "begin".tr.toUpperCase(),
+                                        Expanded(
+                                          child: mainButton(
+                                            color: Colors.red,
+                                            alertDialog: alertDialog(
+                                              onPressed: () {
+                                                Get.back();
+
+                                                controller.cancelOrder();
+                                              },
+                                              content: Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                child: Text(
+                                                  "${"if you cancel you will get penalty after".tr}  ${3 - controller.remainingCancels} "
+                                                          " ${"times of cancel".tr}"
+                                                      .tr,
+                                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                ),
+                                              ),
+                                              title: "cancel the order?".tr,
+                                            ),
+                                            isLoading: controller.isLoadingSubmit,
+                                            buttonText: "cancel".tr.toUpperCase(),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
 
@@ -714,8 +744,9 @@ class OrderView extends StatelessWidget {
 
                                 /// cancel with penalty
                                 /// todo check if you can cancel when accepted in driver  case
-                                if ((isCustomer && oC.order!.status == "waiting_approval") ||
-                                    (!isCustomer && oC.order!.status == "approved"))
+                                // if ((isCustomer && oC.order!.status == "waiting_approval") ||
+                                //     (!isCustomer && oC.order!.status == "approved"))
+                                if (isCustomer && oC.order!.status == "waiting_approval")
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 12),
                                     child: mainButton(
