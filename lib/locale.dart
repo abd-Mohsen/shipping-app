@@ -387,6 +387,7 @@ class MyLocale extends Translations {
           "you must select a governorate": "you must select a governorate",
           "you must select vehicle": "you must select vehicle",
           "order details": "order details",
+          'error, click to refresh': 'error, click to refresh',
         },
 
         ///
@@ -660,7 +661,7 @@ class MyLocale extends Translations {
           "in service": "في الخدمة",
           "out of service": "خارج الخدمة",
           "branch details": "تفاصيل الفرع",
-          "selected governorate": "المحافظة المختارة",
+          "select governorate": "اختر محافظة",
           "max price": "السعر الأعلى",
           "min price": "السعر الأدنى",
           "clear filters": "مسح الفلاتر",
@@ -800,6 +801,7 @@ class MyLocale extends Translations {
           "you must select a governorate": "يجب أن تختار محافظة",
           "you must select vehicle": "يجب أن تختار سيارة",
           "order details": "تفاصيل الطلبية",
+          'error, click to refresh': 'خطأ, انقر للتحديث',
         },
       };
 }

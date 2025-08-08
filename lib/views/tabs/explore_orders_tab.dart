@@ -72,7 +72,7 @@ class ExploreOrdersTab extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: SpinKitThreeBounce(color: cs.primary, size: 20),
                   )
-                : controller.selectedGovernorate == null
+                : controller.governorates.isEmpty
                     ? Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                         child: ElevatedButton(
@@ -83,7 +83,7 @@ class ExploreOrdersTab extends StatelessWidget {
                             backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
                           ),
                           child: Text(
-                            'خطأ, انقر للتحديث',
+                            'error, click to refresh'.tr,
                             style: tt.titleMedium!.copyWith(color: cs.onPrimary),
                           ),
                         ),

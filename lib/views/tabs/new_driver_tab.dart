@@ -489,7 +489,7 @@ class NewDriverTab extends StatelessWidget {
                                                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                                                       child: SpinKitThreeBounce(color: cs.primary, size: 20),
                                                     )
-                                                  : innerController.selectedGovernorate == null
+                                                  : innerController.governorates.isEmpty
                                                       ? Padding(
                                                           padding:
                                                               const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -502,7 +502,7 @@ class NewDriverTab extends StatelessWidget {
                                                                   WidgetStateProperty.all<Color>(cs.primary),
                                                             ),
                                                             child: Text(
-                                                              'خطأ, انقر للتحديث',
+                                                              'error, click to refresh'.tr,
                                                               style: tt.titleMedium!.copyWith(color: cs.onPrimary),
                                                             ),
                                                           ),

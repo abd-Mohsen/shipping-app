@@ -99,7 +99,7 @@ class MyDrawer extends StatelessWidget {
                                     backgroundColor: WidgetStateProperty.all<Color>(cs.primary),
                                   ),
                                   child: Text(
-                                    'refresh'.tr,
+                                    'error, click to refresh'.tr,
                                     style: tt.titleMedium!.copyWith(color: cs.onPrimary),
                                   ),
                                 ),

@@ -40,21 +40,22 @@ class CurrentUserController extends GetxController {
       'Pending', 'Verified', 'Refused', 'No_Input',
     */
     if (!refresh && currentUser != null) {
-      if (["driver", "company_employee"].contains(currentUser!.role.type) &&
-          currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
-        Get.put(CompleteAccountController(homeController: this));
-        Get.to(const CompleteAccountView());
-      }
-      if (!currentUser!.isVerified) {
-        Get.put(OTPController(currentUser!.phoneNumber, "register", null));
-        Get.to(() => const OTPView(source: "register"));
-      }
-
       bool noValidCar = currentUser!.role.type == "driver" &&
           ["refused", "No_Input"].contains(currentUser!.driverInfo?.vehicleStatus);
 
       if (noValidCar) {
         Get.dialog(kNoValidCarDialog(() => Get.off(() => const MyVehiclesView())), barrierDismissible: false);
+      }
+      //
+      if (["driver", "company_employee"].contains(currentUser!.role.type) &&
+          currentUser!.driverInfo!.licenseStatus.toLowerCase() != "verified") {
+        Get.put(CompleteAccountController(homeController: this));
+        Get.to(const CompleteAccountView());
+      }
+      //
+      if (!currentUser!.isVerified) {
+        Get.put(OTPController(currentUser!.phoneNumber, "register", null));
+        Get.to(() => const OTPView(source: "register"));
       }
     }
 

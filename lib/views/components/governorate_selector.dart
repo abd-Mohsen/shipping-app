@@ -80,7 +80,7 @@ class GovernorateSelector extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Icon(Icons.location_city, color: cs.primaryContainer),
           ),
-          labelText: "selected governorate".tr,
+          labelText: "select governorate".tr,
           labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
           floatingLabelBehavior: FloatingLabelBehavior.never,
           enabledBorder: border(width: 1.5),
