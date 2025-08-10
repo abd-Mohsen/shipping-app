@@ -206,7 +206,9 @@ class OrderView extends StatelessWidget {
                               countdownDuration: const Duration(minutes: 10),
                               textStyle: tt.titleSmall!.copyWith(color: cs.onPrimary),
                               onFinished: () {
-                                oC.setCanCancel(true);
+                                WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  oC.setCanCancel(true);
+                                });
                               },
                             ),
                           )

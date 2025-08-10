@@ -301,8 +301,11 @@ class NewDriverTab extends StatelessWidget {
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                               children: [
-                                                                const Icon(Icons.location_on,
-                                                                    size: 20, color: Color(0xFFFF0000)),
+                                                                Icon(
+                                                                  Icons.location_on,
+                                                                  size: 20,
+                                                                  color: cs.primary,
+                                                                ),
                                                                 Text(
                                                                   "from".tr,
                                                                   style: tt.labelMedium!.copyWith(
@@ -342,8 +345,11 @@ class NewDriverTab extends StatelessWidget {
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                               children: [
-                                                                const Icon(Icons.location_on,
-                                                                    size: 20, color: Color(0xFF38B6FF)),
+                                                                Icon(
+                                                                  Icons.location_on,
+                                                                  size: 20,
+                                                                  color: cs.primaryContainer,
+                                                                ),
                                                                 Text(
                                                                   "to".tr,
                                                                   style: tt.labelMedium!.copyWith(

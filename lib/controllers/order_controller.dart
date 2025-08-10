@@ -34,7 +34,7 @@ class OrderController extends GetxController {
     isEmployee = role == "company_employee";
     if (role == "company" || isEmployee) getAvailableVehiclesAndEmployees();
     await getOrder();
-    checkForTimer();
+    await checkForTimer();
     await getRemainingCancels();
     if (order != null && !order!.isRatedByMe) setShowRatingBox(true);
     super.onInit();

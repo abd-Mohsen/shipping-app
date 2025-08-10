@@ -143,8 +143,8 @@ class DriverHomeController extends GetxController {
   }
 
   Future drawOnMap(LatLng start, LatLng end) async {
-    sourceMarker = Marker(point: start, child: kMapSmallMarker);
-    destinationMarker = Marker(point: end, child: kMapSmallMarkerBlue);
+    sourceMarker = Marker(point: start, child: kMapSmallMarkerCustom(const Color(0xff003366)));
+    destinationMarker = Marker(point: end, child: kMapSmallMarkerCustom(const Color(0xffFFA500)));
     currMarkers.add(sourceMarker!);
     currMarkers.add(destinationMarker!);
     //await mapController.drawRoad(start, end);
