@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,6 +12,7 @@ import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/services/remote_services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/order_model_2.dart';
 
 class DriverHomeController extends GetxController {
@@ -488,7 +490,28 @@ class DriverHomeController extends GetxController {
         ),
       );
 
-  // ----------------------------------
+  // ----------------------------------call------------------------
+
+  Future<void> callPhone(String number) async {
+    bool? res = await FlutterPhoneDirectCaller.callNumber(number);
+    if (res != true) {
+      print("failed");
+    }
+  }
+
+  void openWhatsApp(String phoneNumber) async {
+    if (phoneNumber.startsWith('0')) {
+      phoneNumber = '963${phoneNumber.substring(1)}';
+    }
+    final Uri whatsappUrl = Uri.parse("https://wa.me/$phoneNumber");
+
+    if (await canLaunchUrl(whatsappUrl)) {
+      await launchUrl(whatsappUrl, mode: LaunchMode.externalApplication);
+    } else {
+      // Handle the error
+      print("WhatsApp not installed or cannot launch URL");
+    }
+  }
 
   @override
   void onClose() async {

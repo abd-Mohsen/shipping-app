@@ -70,12 +70,12 @@ class InvoicesView extends StatelessWidget {
                                   ),
                                   if (cUC.currentUser?.wallet != null)
                                     Text(
-                                      "${"reserved".tr}:  ${cUC.currentUser?.wallet!.reservedCommission}",
+                                      "${"reserved".tr}:  ${cUC.currentUser?.wallet!.reservedCommission}\$",
                                       style: tt.labelSmall!.copyWith(color: cs.onPrimary),
                                     ),
                                 ],
                               ),
-                              SizedBox(height: 12),
+                              const SizedBox(height: 12),
                               Padding(
                                 padding: const EdgeInsets.only(top: 4.0),
                                 child: Text(

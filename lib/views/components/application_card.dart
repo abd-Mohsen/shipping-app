@@ -128,6 +128,26 @@ class ApplicationCard extends StatelessWidget {
                             maxLines: 2,
                           ),
                         ),
+                      if (application.isRejected)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "captain was rejected".tr,
+                            style: tt.labelSmall!.copyWith(color: cs.onSurface),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ),
+                      if (!application.isRejected && application.deletedAt != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "captain cancelled the order".tr,
+                            style: tt.labelSmall!.copyWith(color: cs.onSurface),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                          ),
+                        ),
                       if (application.canSeePhone &&
                           (showPhone ?? true) &&
                           !application.isRejected &&
@@ -153,7 +173,7 @@ class ApplicationCard extends StatelessWidget {
                         ),
                     ],
                   ),
-                  if ((showButtons ?? false))
+                  if (((showButtons ?? false) && application.deletedAt == null))
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: Row(

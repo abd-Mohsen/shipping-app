@@ -108,20 +108,21 @@ class OrderView extends StatelessWidget {
                     ),
                   ),
                   if (onPressedWhatsApp != null)
-                    GestureDetector(
-                      onTap: onPressedWhatsApp,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 35),
-                          const SizedBox(height: 4),
-                          Text(
-                            "whatsapp".tr,
-                            style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                          ),
-                        ],
+                    if (onPressedWhatsApp != null)
+                      GestureDetector(
+                        onTap: onPressedWhatsApp,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 35),
+                            const SizedBox(height: 4),
+                            Text(
+                              "whatsapp".tr,
+                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
                   // ListTile(
                   //   onTap: onPressedWhatsApp,
                   //   leading: const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
@@ -1211,7 +1212,8 @@ class OrderView extends StatelessWidget {
                                         title: oC.order!.orderOwner?.name ?? "",
                                         //showButtons: (["processing", "done", "approved"].contains(oC.order!.status)),
                                         showButtons: controller.order!.driversApplications.isNotEmpty &&
-                                            controller.order!.driversApplications.first.canSeePhone,
+                                            controller.order!.driversApplications.first.canSeePhone &&
+                                            !controller.order!.isCancelledByMe,
                                         isLast: true,
                                         onTapCall: () {
                                           showDialog(
@@ -1916,6 +1918,7 @@ class DetailsTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 6.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (iconData != null)
             Icon(

@@ -168,10 +168,10 @@ class OrderCard3 extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     color: order.status == "canceled"
-                        ? Color.lerp(cs.primary, Colors.white, 0.22)
+                        ? Color.lerp(Colors.red, Colors.white, 0.05)
                         : order.status == "done"
                             ? Color.lerp(Colors.green, Colors.white, 0.15)
-                            : order.status == "processing"
+                            : order.status == "processing" || order.status == "draft"
                                 ? cs.primaryContainer
                                 : cs.primary,
                     borderRadius: BorderRadius.circular(20),

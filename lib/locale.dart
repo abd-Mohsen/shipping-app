@@ -333,7 +333,7 @@ class MyLocale extends Translations {
           "comment (optional)": "comment (optional)",
           "waiting_approval": "waiting approval",
           "allow driver to see your phone?": "allow captain to see your phone?",
-          "show number": "show number",
+          "show number": "show number for captain",
           "finish": "finish",
           "close": "close",
           "browse": "browse",
@@ -391,6 +391,8 @@ class MyLocale extends Translations {
           'employee phone': 'employee phone',
           "an invitation code was send to the employee": "an invitation code was send to the employee",
           "phone call": "phone call",
+          "captain was rejected": "captain was rejected",
+          "captain cancelled the order": "cancelled by captain",
         },
 
         ///
@@ -750,7 +752,7 @@ class MyLocale extends Translations {
           "comment (optional)": "تعليق (اختياري)",
           "waiting_approval": "بانتظار القبول",
           "allow driver to see your phone?": "هل تريد السماح للكابتن برؤية رقم هاتفك؟",
-          "show number": "عرض الرقم للسائق",
+          "show number": "عرض الرقم للكابتن",
           "finish": "انهاء التنفيذ",
           "close": "اغلاق",
           "browse": "استعراض",
@@ -808,6 +810,8 @@ class MyLocale extends Translations {
           'employee phone': 'رقم هاتف الموظف',
           "an invitation code was send to the employee": "تم ارسال رمز دعوة الى الموظف",
           "phone call": "مكالمة هاتفية",
+          "captain was rejected": "تم رفض الكابتن",
+          "captain cancelled the order": "الكابتن قام بالالغاء",
         },
       };
 }

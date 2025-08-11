@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
@@ -21,7 +22,7 @@ class NewDriverTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //DriverHomeController hC = Get.find();
+    DriverHomeController hC = Get.find();
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     // final screenWidth = MediaQuery.of(context).size.width;
@@ -59,6 +60,98 @@ class NewDriverTab extends StatelessWidget {
               ),
             ),
           ],
+        );
+
+    alertDialogWithIcons({required onPressed, required String title, onPressedWhatsApp, Widget? content}) =>
+        AlertDialog(
+          title: Text(
+            title,
+            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+          ),
+          content: content,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(top: 12.0, bottom: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: onPressed,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.call, color: cs.onSurface, size: 32),
+                        const SizedBox(height: 4),
+                        Text(
+                          "phone call".tr,
+                          style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (onPressedWhatsApp != null)
+                    if (onPressedWhatsApp != null)
+                      GestureDetector(
+                        onTap: onPressedWhatsApp,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 35),
+                            const SizedBox(height: 4),
+                            Text(
+                              "whatsapp".tr,
+                              style: tt.labelMedium!.copyWith(color: cs.onSurface),
+                            ),
+                          ],
+                        ),
+                      ),
+                  // ListTile(
+                  //   onTap: onPressedWhatsApp,
+                  //   leading: const Icon(FontAwesomeIcons.whatsapp, color: Colors.green),
+                  //   title: Text(
+                  //     "whatsapp".tr,
+                  //     style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+            // ListTile(
+            //   onTap: onPressed,
+            //   leading: Icon(Icons.call, color: cs.onSurface),
+            //   title: Text(
+            //     "phone".tr,
+            //     style: tt.titleSmall!.copyWith(color: cs.onSurface),
+            //   ),
+            // ),
+            //const SizedBox(height: 8),
+            TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text(
+                "cancel".tr,
+                style: tt.titleSmall!.copyWith(color: cs.onSurface),
+              ),
+            ),
+          ],
+        );
+
+    callDialog(String phone) => alertDialogWithIcons(
+          onPressed: () {
+            Get.back();
+            hC.callPhone(
+              phone,
+              // isCustomer
+              //     ? oC.order!.acceptedApplication!.driver.phoneNumber
+              //     : oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
+            );
+          },
+          onPressedWhatsApp: () {
+            Get.back();
+            hC.openWhatsApp(phone);
+          },
+          title: 'how do you want to call this person?'.tr,
         );
 
     return GetBuilder<DriverHomeController>(
@@ -394,10 +487,17 @@ class NewDriverTab extends StatelessWidget {
                                             ),
                                             //todo: fill with real data and show call dilog
                                             ApplicationCard2(
-                                              title: "اسم الزبون",
+                                              title: innerController.currOrders.first.orderOwner!.name,
                                               isLast: true,
                                               showButtons: true,
                                               color: cs.surface,
+                                              onTapCall: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) => callDialog(
+                                                      innerController.currOrders.first.orderOwner!.phoneNumber),
+                                                );
+                                              },
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.symmetric(horizontal: 12.0),

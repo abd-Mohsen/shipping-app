@@ -662,7 +662,7 @@ class RemoteServices {
     int? currency,
   }) async {
     String addedTypes = "";
-    for (String type in ["available", "waiting_approval"]) {
+    for (String type in ["available"]) {
       addedTypes += "&order_status=$type";
     }
     if (searchQuery != null && searchQuery.isNotEmpty) addedTypes += "&search=$searchQuery";
