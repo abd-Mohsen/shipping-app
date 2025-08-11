@@ -59,6 +59,7 @@ class RegisterView extends StatelessWidget {
                           child: Column(
                             children: [
                               CarouselSlider(
+                                carouselController: rC.carouselController,
                                 items: [
                                   ...rC.roles.map(
                                     (role) => Column(
@@ -73,6 +74,7 @@ class RegisterView extends StatelessWidget {
                                   ),
                                 ],
                                 options: CarouselOptions(
+                                  initialPage: rC.roleIndex,
                                   enableInfiniteScroll: false,
                                   aspectRatio: 16 / 8,
                                   onPageChanged: (i, reason) => rC.setRole(i),

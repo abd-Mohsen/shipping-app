@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/complete_account_controller.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/id_image_selector.dart';
 
@@ -14,7 +15,8 @@ class CompleteAccountView extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    CompleteAccountController cAC = Get.find();
+    //CompleteAccountController cAC = Get.find();
+    CurrentUserController cUC = Get.find();
 
     GetStorage getStorage = GetStorage();
     bool isDriver = !["company", "customer"].contains(getStorage.read("role"));
@@ -44,7 +46,7 @@ class CompleteAccountView extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () => cAC.logout(),
+                onPressed: () => cUC.logout(),
                 child: Text(
                   'logout'.tr,
                   style: tt.titleSmall!.copyWith(color: cs.error),

@@ -46,7 +46,7 @@ class LoginModel {
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        id: json["id"],
+        id: json["id"] ?? 0,
         token: json["token"],
         role: Role.fromJson(json["role"]),
       );

@@ -2,19 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shipment/services/compress_image_service.dart';
 import 'package:shipment/services/download_image_service.dart';
 
 import '../constants.dart';
 import '../services/remote_services.dart';
-import '../views/login_view.dart';
-import 'login_controller.dart';
 
 class CompleteAccountController extends GetxController {
-  final GetStorage _getStorage = GetStorage();
-
   dynamic homeController;
   CompleteAccountController({required this.homeController});
 
@@ -142,14 +137,5 @@ class CompleteAccountController extends GetxController {
       ));
     }
     toggleLoading(false);
-  }
-
-  void logout() async {
-    if (await RemoteServices.logout()) {
-      _getStorage.remove("token");
-      _getStorage.remove("role");
-      Get.put(LoginController());
-      Get.offAll(() => const LoginView());
-    }
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -27,6 +28,8 @@ class RegisterController extends GetxController {
     "company",
     "employee",
   ];
+
+  final carouselController = CarouselSliderController();
 
   int roleIndex = 0;
 
