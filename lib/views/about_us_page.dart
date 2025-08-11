@@ -22,7 +22,7 @@ class AboutUsPage extends StatelessWidget {
         AlertDialog(
           title: Text(
             title,
-            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+            style: tt.titleMedium!.copyWith(color: cs.onSurface, fontSize: 16),
           ),
           content: content,
           actions: [
@@ -36,7 +36,7 @@ class AboutUsPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.call, color: cs.onSurface, size: 32),
+                        Icon(Icons.call, color: cs.onSurface, size: 29),
                         const SizedBox(height: 4),
                         Text(
                           "phone call".tr,
@@ -51,7 +51,7 @@ class AboutUsPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 35),
+                          const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 32),
                           const SizedBox(height: 4),
                           Text(
                             "whatsapp".tr,
@@ -95,12 +95,7 @@ class AboutUsPage extends StatelessWidget {
     callDialog(String phone, bool whatsapp) => alertDialogWithIcons(
           onPressed: () {
             Get.back();
-            aUC.callPhone(
-              phone,
-              // isCustomer
-              //     ? oC.order!.acceptedApplication!.driver.phoneNumber
-              //     : oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
-            );
+            aUC.callPhone(phone);
           },
           onPressedWhatsApp: whatsapp
               ? () {

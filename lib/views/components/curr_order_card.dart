@@ -67,23 +67,23 @@ class CurrOrderCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width / 2,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4),
                               child: Text(
                                 order == null ? "N/A".tr : "#${order!.id} - ${order!.description}",
                                 style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
-                                maxLines: 2,
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+                      const SizedBox(width: 8),
                       if (order != null)
                         Container(
                           decoration: BoxDecoration(

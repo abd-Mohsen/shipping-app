@@ -46,20 +46,28 @@ class OrderView extends StatelessWidget {
     bool isCustomer = getStorage.read("role") == "customer";
     OrderController oC = Get.put(OrderController(orderID: orderID));
 
-    alertDialog({required onPressed, required String title, onPressedWhatsApp, Widget? content}) => AlertDialog(
+    alertDialog({
+      onPressed,
+      required String title,
+      String? cancelText,
+      onPressedWhatsApp,
+      Widget? content,
+    }) =>
+        AlertDialog(
           title: Text(
             title,
             style: tt.titleSmall!.copyWith(color: cs.onSurface),
           ),
           content: content,
           actions: [
-            TextButton(
-              onPressed: onPressed,
-              child: Text(
-                "yes".tr,
-                style: tt.titleSmall!.copyWith(color: Colors.red),
+            if (onPressed != null)
+              TextButton(
+                onPressed: onPressed,
+                child: Text(
+                  "yes".tr,
+                  style: tt.titleSmall!.copyWith(color: Colors.red),
+                ),
               ),
-            ),
             if (onPressedWhatsApp != null)
               TextButton(
                 onPressed: onPressedWhatsApp,
@@ -73,7 +81,7 @@ class OrderView extends StatelessWidget {
                 Get.back();
               },
               child: Text(
-                "no".tr,
+                cancelText ?? "no".tr,
                 style: tt.titleSmall!.copyWith(color: cs.onSurface),
               ),
             ),
@@ -84,7 +92,7 @@ class OrderView extends StatelessWidget {
         AlertDialog(
           title: Text(
             title,
-            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+            style: tt.titleMedium!.copyWith(color: cs.onSurface, fontSize: 16),
           ),
           content: content,
           actions: [
@@ -98,7 +106,7 @@ class OrderView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.call, color: cs.onSurface, size: 32),
+                        Icon(Icons.call, color: cs.onSurface, size: 29),
                         const SizedBox(height: 4),
                         Text(
                           "phone call".tr,
@@ -114,7 +122,7 @@ class OrderView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 35),
+                            const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 32),
                             const SizedBox(height: 4),
                             Text(
                               "whatsapp".tr,
@@ -172,7 +180,8 @@ class OrderView extends StatelessWidget {
           title: 'how do you want to call this person?'.tr,
         );
 
-    mainButton({required alertDialog, required bool isLoading, required String buttonText, Color? color, onPressed}) =>
+    mainButton(
+            {required alertDialog, required bool isLoading, required String buttonText, Color? color, onPressed = 1}) =>
         Padding(
           padding: const EdgeInsets.only(bottom: 8, right: 12, left: 12),
           child: CustomButton(
@@ -1242,18 +1251,36 @@ class OrderView extends StatelessWidget {
                                                 if (["approved", "processing", "done"]
                                                         .contains(controller.order!.status) &&
                                                     controller.order!.paymentMethods[i].payment.fullName != null) {
-                                                  Get.defaultDialog(
-                                                      backgroundColor: cs.surface,
-                                                      title: "details".tr,
-                                                      titleStyle: tt.titleMedium!.copyWith(color: cs.onSurface),
-                                                      content: Text(
-                                                        "${controller.order!.paymentMethods[i].payment.fullName!}\n"
-                                                        "${controller.order!.paymentMethods[i].payment.phoneNumber ?? controller.order!.paymentMethods[i].payment.accountDetails ?? ''}",
-                                                        style: tt.labelMedium!.copyWith(color: cs.onSurface),
-                                                        overflow: TextOverflow.ellipsis,
-                                                        maxLines: 4,
-                                                      ));
-
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) => alertDialog(
+                                                        title: "details".tr,
+                                                        cancelText: "ok".tr,
+                                                        content: Column(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          children: [
+                                                            DetailsTile(
+                                                              //iconData: Icons.description_outlined,
+                                                              title: "full name".tr,
+                                                              subtitle:
+                                                                  controller.order!.paymentMethods[i].payment.fullName!,
+                                                            ),
+                                                            DetailsTile(
+                                                              //iconData: Icons.attach_money,
+                                                              title: controller.order!.paymentMethods[i].payment
+                                                                          .phoneNumber ==
+                                                                      null
+                                                                  ? "account details".tr
+                                                                  : "phone".tr,
+                                                              subtitle: controller
+                                                                      .order!.paymentMethods[i].payment.phoneNumber ??
+                                                                  controller.order!.paymentMethods[i].payment
+                                                                      .accountDetails ??
+                                                                  '',
+                                                            ),
+                                                          ],
+                                                        )),
+                                                  );
                                                   // showPopover(
                                                   //   context: context,
                                                   //   backgroundColor: cs.surface,
@@ -1808,8 +1835,8 @@ class OrderView extends StatelessWidget {
                             if (isCustomer && oC.order!.status == "done" && controller.showRatingBox)
                               Positioned(
                                 top: 0,
-                                left: 0,
-                                right: 0,
+                                left: 20,
+                                right: 20,
                                 child: alertStack(
                                   title: "do you want to rate your experience with the driver?".tr,
                                   onPressedGreen: () {

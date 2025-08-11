@@ -66,7 +66,7 @@ class NewDriverTab extends StatelessWidget {
         AlertDialog(
           title: Text(
             title,
-            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+            style: tt.titleMedium!.copyWith(color: cs.onSurface, fontSize: 16),
           ),
           content: content,
           actions: [
@@ -80,7 +80,7 @@ class NewDriverTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.call, color: cs.onSurface, size: 32),
+                        Icon(Icons.call, color: cs.onSurface, size: 29),
                         const SizedBox(height: 4),
                         Text(
                           "phone call".tr,
@@ -96,7 +96,7 @@ class NewDriverTab extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 35),
+                            const Icon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 32),
                             const SizedBox(height: 4),
                             Text(
                               "whatsapp".tr,
@@ -140,12 +140,7 @@ class NewDriverTab extends StatelessWidget {
     callDialog(String phone) => alertDialogWithIcons(
           onPressed: () {
             Get.back();
-            hC.callPhone(
-              phone,
-              // isCustomer
-              //     ? oC.order!.acceptedApplication!.driver.phoneNumber
-              //     : oC.order!.orderOwner?.phoneNumber.toString() ?? "order owner is null",
-            );
+            hC.callPhone(phone);
           },
           onPressedWhatsApp: () {
             Get.back();
@@ -359,7 +354,7 @@ class NewDriverTab extends StatelessWidget {
                                                       child: Row(
                                                         children: [
                                                           Expanded(
-                                                            flex: 3,
+                                                            flex: 4,
                                                             child: GestureDetector(
                                                               onTap: () {
                                                                 Get.to(() => OrderView(
@@ -368,7 +363,7 @@ class NewDriverTab extends StatelessWidget {
                                                               },
                                                               child: Text(
                                                                 innerController.currOrders.first.description,
-                                                                style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                                style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                                                 textAlign: TextAlign.start,
                                                                 maxLines: 1,
                                                                 overflow: TextOverflow.ellipsis,
@@ -481,23 +476,22 @@ class NewDriverTab extends StatelessWidget {
                                                       ),
                                                     ),
                                                     Divider(color: cs.onSurface, indent: 30, endIndent: 30),
+                                                    ApplicationCard2(
+                                                      title: innerController.currOrders.first.orderOwner!.name,
+                                                      isLast: true,
+                                                      showButtons: true,
+                                                      color: cs.surface,
+                                                      onTapCall: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) => callDialog(
+                                                              innerController.currOrders.first.orderOwner!.phoneNumber),
+                                                        );
+                                                      },
+                                                    ),
                                                   ],
                                                 ),
                                               ),
-                                            ),
-                                            //todo: fill with real data and show call dilog
-                                            ApplicationCard2(
-                                              title: innerController.currOrders.first.orderOwner!.name,
-                                              isLast: true,
-                                              showButtons: true,
-                                              color: cs.surface,
-                                              onTapCall: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) => callDialog(
-                                                      innerController.currOrders.first.orderOwner!.phoneNumber),
-                                                );
-                                              },
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -550,8 +544,8 @@ class NewDriverTab extends StatelessWidget {
                                                   Expanded(
                                                     child: CustomButton(
                                                       onTap: () {
-                                                        controller.finishOrderDriver(
-                                                          innerController.currOrders.first.id,
+                                                        Get.to(
+                                                          () => OrderView(orderID: innerController.currOrders.first.id),
                                                         );
                                                       },
                                                       child: Center(
