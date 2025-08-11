@@ -169,7 +169,7 @@ class OrderCard2 extends StatelessWidget {
                           ? Color.lerp(cs.primary, Colors.white, 0.22)
                           : order.status == "done"
                               ? Color.lerp(Colors.green, Colors.white, 0.15)
-                              : order.status == "processing"
+                              : order.status == "processing" || order.status == "draft"
                                   ? cs.primaryContainer
                                   : cs.primary,
                       borderRadius: BorderRadius.circular(20),
