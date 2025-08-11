@@ -807,6 +807,7 @@ class MyLocale extends Translations {
           'error, click to refresh': 'خطأ, انقر للتحديث',
           'employee phone': 'رقم هاتف الموظف',
           "an invitation code was send to the employee": "تم ارسال رمز دعوة الى الموظف",
+          "phone call": "مكالمة هاتفية",
         },
       };
 }

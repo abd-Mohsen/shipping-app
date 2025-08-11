@@ -39,7 +39,7 @@ class AboutUsPage extends StatelessWidget {
                         Icon(Icons.call, color: cs.onSurface, size: 32),
                         const SizedBox(height: 4),
                         Text(
-                          "phone".tr,
+                          "phone call".tr,
                           style: tt.titleSmall!.copyWith(color: cs.onSurface),
                         ),
                       ],
