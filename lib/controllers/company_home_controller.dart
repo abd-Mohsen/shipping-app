@@ -60,6 +60,7 @@ class CompanyHomeController extends GetxController {
       Get.showSnackbar(GetSnackBar(
         message: "an invitation code was send to the employee".tr,
         duration: const Duration(milliseconds: 4500),
+        backgroundColor: Colors.green,
       ));
       phone.text == "";
     }

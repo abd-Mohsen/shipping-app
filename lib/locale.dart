@@ -388,6 +388,8 @@ class MyLocale extends Translations {
           "you must select vehicle": "you must select vehicle",
           "order details": "order details",
           'error, click to refresh': 'error, click to refresh',
+          'employee phone': 'employee phone',
+          "an invitation code was send to the employee": "an invitation code was send to the employee",
         },
 
         ///
@@ -802,6 +804,8 @@ class MyLocale extends Translations {
           "you must select vehicle": "يجب أن تختار سيارة",
           "order details": "تفاصيل الطلبية",
           'error, click to refresh': 'خطأ, انقر للتحديث',
+          'employee phone': 'رقم هاتف الموظف',
+          "an invitation code was send to the employee": "تم ارسال رمز دعوة الى الموظف",
         },
       };
 }

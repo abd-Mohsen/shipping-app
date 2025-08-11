@@ -2,7 +2,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'dart:io';
 
 class CompressImageService {
-  Future<XFile> compressImage(XFile file, {int maxSizeMB = 2}) async {
+  Future<XFile> compressImage(XFile file, {int maxSizeMB = 1}) async {
     final originalFile = File(file.path);
     final originalSize = await originalFile.length();
     final maxSizeBytes = maxSizeMB * 1024 * 1024;

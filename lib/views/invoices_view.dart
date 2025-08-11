@@ -80,7 +80,7 @@ class InvoicesView extends StatelessWidget {
                                 padding: const EdgeInsets.only(top: 4.0),
                                 child: Text(
                                   "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? ""
-                                      "x" : cUC.currentUser?.wallet?.balances.first.amount}\$",
+                                      "0" : cUC.currentUser?.wallet?.balances.first.amount}\$",
                                   style: tt.headlineLarge!.copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
                                 ),
                               ),

@@ -76,7 +76,13 @@ class RemoteServices {
       "driving_license_photo_front": licenseFront,
       "driving_license_photo_rare": licenseRear,
     };
-    String? json = await api.requestWithFiles("auth/register/", images, body, auth: false, utf8Decode: false);
+    String? json = await api.requestWithFiles(
+      "auth/register/",
+      images,
+      body,
+      auth: false,
+      utf8Decode: false,
+    );
     if (json == null) return null;
 
     return LoginModel.fromJson(jsonDecode(json));

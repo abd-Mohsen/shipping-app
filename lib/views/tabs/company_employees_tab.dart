@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/views/components/add_employee_sheet.dart';
 import 'package:shipment/views/components/employee_card.dart';
+import 'package:shipment/views/components/my_loading_animation.dart';
 
 import '../components/custom_button.dart';
 
@@ -53,27 +53,7 @@ class CompanyEmployeesTab extends StatelessWidget {
                     : RefreshIndicator(
                         onRefresh: controller.refreshMyEmployees,
                         child: controller.myEmployees.isEmpty
-                            ? Center(
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  children: [
-                                    Lottie.asset("assets/animations/driver.json", height: 200),
-                                    Padding(
-                                      padding: const EdgeInsets.all(32),
-                                      child: Center(
-                                        child: Text(
-                                          "no data, pull down to refresh".tr,
-                                          style: tt.titleMedium!.copyWith(
-                                            color: cs.onSurface,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
+                            ? const MyLoadingAnimation()
                             : ListView.builder(
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                                 itemCount: controller.myEmployees.length,

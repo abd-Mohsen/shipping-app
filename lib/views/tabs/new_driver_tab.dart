@@ -499,17 +499,19 @@ class NewDriverTab extends StatelessWidget {
                                                       ? Padding(
                                                           padding:
                                                               const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                                                          child: ElevatedButton(
-                                                            onPressed: () {
-                                                              innerController.getGovernorates();
-                                                            },
-                                                            style: ButtonStyle(
-                                                              backgroundColor:
-                                                                  WidgetStateProperty.all<Color>(cs.primary),
-                                                            ),
-                                                            child: Text(
-                                                              'error, click to refresh'.tr,
-                                                              style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                                          child: Center(
+                                                            child: ElevatedButton(
+                                                              onPressed: () {
+                                                                innerController.getGovernorates();
+                                                              },
+                                                              style: ButtonStyle(
+                                                                backgroundColor:
+                                                                    WidgetStateProperty.all<Color>(cs.primary),
+                                                              ),
+                                                              child: Text(
+                                                                'error, click to refresh'.tr,
+                                                                style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+                                                              ),
                                                             ),
                                                           ),
                                                         )

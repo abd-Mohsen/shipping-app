@@ -70,6 +70,7 @@ class Api {
     bool toMyServer = true,
     bool utf8Decode = true,
     bool showErrorFromServer = true,
+    Duration timeOutDuration = kTimeOutDuration,
     Map<String, String>? customHeaders,
   }) async {
     print("sending to ${toMyServer ? "$_hostIP/" : ""}$endPoint");
@@ -82,7 +83,7 @@ class Api {
             headers: customHeaders ?? (!auth ? headers : {...headers, "Authorization": "Token $accessToken"}),
             body: jsonEncode(body),
           )
-          .timeout(kTimeOutDuration2);
+          .timeout(kTimeOutDuration);
       String responseBody = utf8Decode ? utf8.decode(latin1.encode(response.body)) : response.body;
       print("$responseBody ======$endPoint===== ${response.statusCode}");
 
@@ -244,7 +245,7 @@ class Api {
         request.files.add(multipartFile);
       }
 
-      var response = await request.send().timeout(kTimeOutDurationLong);
+      var response = await request.send().timeout(kTimeOutDurationVeryLong);
       String responseBody = await response.stream.bytesToString();
       if (utf8Decode) responseBody = utf8.decode(latin1.encode(responseBody));
       print("$responseBody===========${response.statusCode}");

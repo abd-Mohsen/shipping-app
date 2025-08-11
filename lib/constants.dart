@@ -9,10 +9,11 @@ String kHostIP = "https://shipping.adadevs.com";
 
 String kFontFamily = 'Alexandria';
 
-Duration kTimeOutDurationLong = const Duration(seconds: 60);
-Duration kTimeOutDuration = const Duration(seconds: 25);
-Duration kTimeOutDuration2 = const Duration(seconds: 15);
-Duration kTimeOutDuration3 = const Duration(seconds: 7);
+const Duration kTimeOutDurationVeryLong = Duration(seconds: 90);
+const Duration kTimeOutDurationLong = Duration(seconds: 60);
+const Duration kTimeOutDuration = Duration(seconds: 30);
+const Duration kTimeOutDuration2 = Duration(seconds: 15);
+const Duration kTimeOutDuration3 = Duration(seconds: 7);
 
 AlertDialog kCloseAppDialog() => AlertDialog(
       shape: RoundedRectangleBorder(

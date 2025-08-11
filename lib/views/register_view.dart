@@ -63,7 +63,7 @@ class RegisterView extends StatelessWidget {
                                   ...rC.roles.map(
                                     (role) => Column(
                                       children: [
-                                        SvgPicture.asset("assets/images/$role.svg", height: 150),
+                                        SvgPicture.asset("assets/images/$role.svg", height: 120),
                                         Text(
                                           role.tr,
                                           style: tt.titleMedium!.copyWith(color: cs.onSurface),
