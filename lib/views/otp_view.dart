@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 import '../controllers/otp_controller.dart';
@@ -22,8 +21,8 @@ class OTPView extends StatelessWidget {
     // late ResetPassController rPC;
     // if (source == "reset") rPC = Get.find();
     //OTPController oC = Get.find();
-    late CurrentUserController cUC;
-    if (source == "register") cUC = Get.find();
+    // late CurrentUserController cUC;
+    // if (source == "register") cUC = Get.find();
 
     return SafeArea(
       child: PopScope(
@@ -162,26 +161,26 @@ class OTPView extends StatelessWidget {
                             );
                           },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16),
-                          child: Visibility(
-                            visible: source == "register",
-                            child: ListTile(
-                              leading: const Icon(
-                                Icons.logout,
-                                color: Colors.red,
-                                size: 25,
-                              ),
-                              onTap: () {
-                                cUC.logout(); //todo test
-                              },
-                              title: Text(
-                                "logout".tr,
-                                style: tt.titleSmall!.copyWith(color: cs.error),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 16),
+                        //   child: Visibility(
+                        //     visible: source == "register",
+                        //     child: ListTile(
+                        //       leading: const Icon(
+                        //         Icons.logout,
+                        //         color: Colors.red,
+                        //         size: 25,
+                        //       ),
+                        //       onTap: () {
+                        //         cUC.logout(); //todo test
+                        //       },
+                        //       title: Text(
+                        //         "logout".tr,
+                        //         style: tt.titleSmall!.copyWith(color: cs.error),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

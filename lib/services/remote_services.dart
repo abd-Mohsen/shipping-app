@@ -143,7 +143,7 @@ class RemoteServices {
     Map<String, dynamic> body = {"phone_number": phone, "otp": otp};
     String? json = await api.postRequest("auth/verify-otp/", body, auth: false);
     if (json == null) return null;
-    return jsonDecode(json)["reset_token"];
+    return jsonDecode(json)["reset_token"] ?? "any string just in case (for register)";
   }
 
   static Future<bool> resetPassword(String resetToken, String password, String rePassword) async {

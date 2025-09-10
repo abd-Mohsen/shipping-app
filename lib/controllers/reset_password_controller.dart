@@ -30,6 +30,7 @@ class ResetPassController extends GetxController {
   bool button1Pressed = false;
 
   Future toOTP() async {
+    if(isLoading1) return;
     button1Pressed = true;
     bool isValid = firstFormKey.currentState!.validate();
     if (!isValid) return;

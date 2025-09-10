@@ -393,6 +393,8 @@ class MyLocale extends Translations {
           "phone call": "phone call",
           "captain was rejected": "captain was rejected",
           "captain cancelled the order": "cancelled by captain",
+          "register in the app":"register in the app",
+          "enter your phone to create an account":"enter your phone to create an account",
         },
 
         ///
@@ -812,6 +814,8 @@ class MyLocale extends Translations {
           "phone call": "مكالمة هاتفية",
           "captain was rejected": "تم رفض الكابتن",
           "captain cancelled the order": "الكابتن قام بالالغاء",
+          "register in the app":"التسجيل في التطبيق",
+          "enter your phone to create an account":"أدخل رقم هاتفك لانشاء حساب في التطبيق",
         },
       };
 }

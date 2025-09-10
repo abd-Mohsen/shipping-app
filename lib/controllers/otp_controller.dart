@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
+import 'package:shipment/views/register_view.dart';
 import 'package:shipment/views/reset_pass_view2.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:flutter/material.dart';
@@ -71,12 +72,13 @@ class OTPController extends GetxController {
     String? resetToken = await RemoteServices.verifyOtp(phone, pin); //success
     if (resetToken != null) {
       if (source == "register") {
-        Get.back();
-        Get.showSnackbar(GetSnackBar(
-          message: "done successfully".tr,
-          duration: const Duration(milliseconds: 2500),
-          backgroundColor: Colors.green,
-        ));
+        // Get.back();
+        // Get.showSnackbar(GetSnackBar(
+        //   message: "done successfully".tr,
+        //   duration: const Duration(milliseconds: 2500),
+        //   backgroundColor: Colors.green,
+        // ));
+        Get.to(() => RegisterView() );
       } else {
         resetPassController!.setOtp(pin);
         resetPassController!.setResetToken(resetToken);

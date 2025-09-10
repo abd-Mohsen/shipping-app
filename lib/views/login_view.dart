@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/login_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
 import 'package:shipment/views/components/custom_button.dart';
-import 'package:shipment/views/register_view.dart';
+import 'package:shipment/views/register_phone_view.dart';
 import 'package:shipment/views/reset_pass_view1.dart';
 import 'package:shipment/views/web_view_page.dart';
 import 'components/auth_background.dart';
@@ -144,7 +144,7 @@ class LoginView extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to(() => RegisterView());
+                                Get.to(() => const RegisterPhoneView());
                               },
                               child: Text(
                                 "register here".tr,

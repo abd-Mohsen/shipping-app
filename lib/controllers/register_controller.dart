@@ -7,13 +7,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shipment/models/login_model.dart';
 import 'package:shipment/views/redirect_page.dart';
-import '../models/user_model.dart';
 import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
 import '../views/company_home_view.dart';
-import '../views/components/show_video_dialog.dart';
 import '../views/customer_home_view.dart';
 import '../views/driver_home_view.dart';
+import '../views/otp_view.dart';
+import 'otp_controller.dart';
 
 class RegisterController extends GetxController {
   @override
@@ -40,11 +40,12 @@ class RegisterController extends GetxController {
 
   @override
   void onInit() async {
-    if (!_getStorage.hasData("viewed_register_dialog")) {
-      await Future.delayed(const Duration(milliseconds: 1500));
-      Get.dialog(const AssetVideoDialog());
-    }
-    _getStorage.write("viewed_register_dialog", true);
+    //todo: uncomment this after adding video back
+    // if (!_getStorage.hasData("viewed_register_dialog")) {
+    //   await Future.delayed(const Duration(milliseconds: 1500));
+    //   Get.dialog(const AssetVideoDialog());
+    // }
+    //_getStorage.write("viewed_register_dialog", true);
     super.onInit();
   }
 
@@ -60,12 +61,14 @@ class RegisterController extends GetxController {
 
   final GetStorage _getStorage = GetStorage();
 
+  GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
+  bool button1Pressed = false;
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
-  bool buttonPressed = false;
+  bool button2Pressed = false;
 
   bool _isLoadingRegister = false;
   bool get isLoading => _isLoadingRegister;
-  void toggleLoadingRegister(bool value) {
+  void toggleLoading(bool value) {
     _isLoadingRegister = value;
     update();
   }
@@ -107,17 +110,22 @@ class RegisterController extends GetxController {
     Get.back();
   }
 
-  List<UserModel> availableSupervisors = [];
-  Future<void> getSupervisorsNames() async {
-    // List<UserModel> supervisors = await RemoteServices.fetchSupervisors() ?? [];
-    // for (UserModel supervisor in supervisors) {
-    //   availableSupervisors.add(supervisor);
-    // }
-    update();
+  Future toOTP() async {
+    if(isLoading) return;
+    button1Pressed = true;
+    bool isValid = phoneFormKey.currentState!.validate();
+    if (!isValid) return;
+    toggleLoading(true);
+
+    if (await RemoteServices.sendOtp(phone.text)) {
+      Get.put(OTPController(phone.text, "register",null));
+      Get.to(() => const OTPView(source: "register"));
+    }
+    toggleLoading(false);
   }
 
   Future register() async {
-    buttonPressed = true;
+    button2Pressed = true;
     bool isValid = registerFormKey.currentState!.validate();
     if (!isValid) return;
     //todo(later): add map selector here
@@ -131,7 +139,7 @@ class RegisterController extends GetxController {
       ));
       return;
     }
-    toggleLoadingRegister(true);
+    toggleLoading(true);
     File? idFrontFile = idFront == null ? null : File(idFront!.path);
     File? idRearFile = idRear == null ? null : File(idRear!.path);
     File? lFrontFile = dLicenseFront == null ? null : File(dLicenseFront!.path);
@@ -170,6 +178,6 @@ class RegisterController extends GetxController {
       }
     }
 
-    toggleLoadingRegister(false);
+    toggleLoading(false);
   }
 }

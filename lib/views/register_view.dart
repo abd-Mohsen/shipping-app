@@ -20,7 +20,7 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    RegisterController rC = Get.put(RegisterController());
+    RegisterController rC = Get.find();
 
     return SafeArea(
       child: AuthBackground(
@@ -122,7 +122,7 @@ class RegisterView extends StatelessWidget {
                                 return validateInput(rC.companyName.text, 2, 50, "");
                               },
                               onChanged: (val) {
-                                if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                                if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
                               },
                             ),
                           ),
@@ -139,7 +139,7 @@ class RegisterView extends StatelessWidget {
                               return validateInput(rC.firstName.text, 2, 50, "");
                             },
                             onChanged: (val) {
-                              if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                              if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
                             },
                           ),
                           AuthField(
@@ -155,7 +155,7 @@ class RegisterView extends StatelessWidget {
                               return validateInput(rC.middleName.text, 2, 50, "");
                             },
                             onChanged: (val) {
-                              if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                              if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
                             },
                           ),
                           AuthField(
@@ -171,25 +171,25 @@ class RegisterView extends StatelessWidget {
                               return validateInput(rC.lastName.text, 2, 50, "");
                             },
                             onChanged: (val) {
-                              if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                              if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
                             },
                           ),
-                          AuthField(
-                            controller: rC.phone,
-                            keyboardType: TextInputType.phone,
-                            textInputAction: TextInputAction.next,
-                            label: "phone".tr,
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Icon(Icons.phone_android, color: cs.primary),
-                            ),
-                            validator: (val) {
-                              return validateInput(rC.phone.text, 10, 10, "phone");
-                            },
-                            onChanged: (val) {
-                              if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
-                            },
-                          ),
+                          // AuthField(
+                          //   controller: rC.phone,
+                          //   keyboardType: TextInputType.phone,
+                          //   textInputAction: TextInputAction.next,
+                          //   label: "phone".tr,
+                          //   prefixIcon: Padding(
+                          //     padding: const EdgeInsets.symmetric(horizontal: 16),
+                          //     child: Icon(Icons.phone_android, color: cs.primary),
+                          //   ),
+                          //   validator: (val) {
+                          //     return validateInput(rC.phone.text, 10, 10, "phone");
+                          //   },
+                          //   onChanged: (val) {
+                          //     if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
+                          //   },
+                          // ),
                           GetBuilder<RegisterController>(
                             builder: (controller) {
                               return AuthField(
@@ -215,7 +215,7 @@ class RegisterView extends StatelessWidget {
                                   return validateInput(rC.password.text, 8, 50, "password");
                                 },
                                 onChanged: (val) {
-                                  if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                                  if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
                                 },
                               );
                             },
@@ -246,7 +246,7 @@ class RegisterView extends StatelessWidget {
                                       pass: rC.password.text, rePass: rC.rePassword.text);
                                 },
                                 onChanged: (val) {
-                                  if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                                  if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
                                 },
                                 onTapOutside: (_) {
                                   FocusScope.of(context).unfocus();
@@ -284,7 +284,7 @@ class RegisterView extends StatelessWidget {
                                 return validateInput(rC.otp.text, 4, 6, "", wholeNumber: true);
                               },
                               onChanged: (val) {
-                                if (rC.buttonPressed) rC.registerFormKey.currentState!.validate();
+                                if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
                               },
                               onTapOutside: (_) {
                                 FocusScope.of(context).unfocus();

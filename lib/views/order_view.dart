@@ -180,6 +180,8 @@ class OrderView extends StatelessWidget {
           title: 'how do you want to call this person?'.tr,
         );
 
+    //todo: dont click if map not loaded yet (to avoid crash)
+    //todo: dont get back if map not loaded yet (to avoid crash)
     mainButton(
             {required alertDialog, required bool isLoading, required String buttonText, Color? color, onPressed = 1}) =>
         Padding(
@@ -1728,6 +1730,29 @@ class OrderView extends StatelessWidget {
                                                       ),
                                                     ),
                                                   ),
+                                                  // todo replace deprecated
+                                                  // RadioGroup<PaymentMethod>(
+                                                  //   groupValue: controller.selectedPayment,
+                                                  //   onChanged: (PaymentMethod? method) {
+                                                  //     if (method != null) {
+                                                  //       controller.selectPayment(method);
+                                                  //     }
+                                                  //   },
+                                                  //   child: Column(
+                                                  //     children: oC.order!.paymentMethods.map((payment) {
+                                                  //       return Radio<PaymentMethod>(
+                                                  //         value: payment,
+                                                  //         child: ListTile(
+                                                  //           title: Text(
+                                                  //             payment.payment.methodName,
+                                                  //             style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                                                  //           ),
+                                                  //         ),
+                                                  //       );
+                                                  //     }).toList(),
+                                                  //   ),
+                                                  // ),
+
                                                   Visibility(
                                                     visible: ["Bank Account", "Money Transfer"]
                                                         .contains(controller.selectedPayment.payment.methodValue),
