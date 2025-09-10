@@ -36,8 +36,8 @@ dependencies:
   easy_stepper: ^0.8.5+1
   flutter_local_notifications: ^18.0.1
   fl_chart: ^0.66.0
-  firebase_core: ^3.12.1
-  firebase_messaging: ^15.2.4
+  firebase_core: ^4.1.0
+  firebase_messaging: ^16.0.1
   popover: ^0.2.8+2
   pie_chart: ^5.4.0
   timeago: ^3.7.0

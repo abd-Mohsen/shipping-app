@@ -133,8 +133,8 @@ class RemoteServices {
   //   return true;
   // }
 
-  static Future<bool> sendOtp(String phone) async {
-    Map<String, dynamic> body = {"phone_number": phone};
+  static Future<bool> sendOtp(String phone, bool isRegistration) async {
+    Map<String, dynamic> body = {"phone_number": phone, "is_registration": isRegistration,};
     String? json = await api.postRequest("auth/send-otp/", body, auth: false);
     return json != null;
   }

@@ -117,7 +117,7 @@ class RegisterController extends GetxController {
     if (!isValid) return;
     toggleLoading(true);
 
-    if (await RemoteServices.sendOtp(phone.text)) {
+    if (await RemoteServices.sendOtp(phone.text, true)) {
       Get.put(OTPController(phone.text, "register",null));
       Get.to(() => const OTPView(source: "register"));
     }

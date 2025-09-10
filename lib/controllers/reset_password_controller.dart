@@ -36,7 +36,7 @@ class ResetPassController extends GetxController {
     if (!isValid) return;
     toggleLoading1(true);
 
-    if (await RemoteServices.sendOtp(phone.text)) {
+    if (await RemoteServices.sendOtp(phone.text, false)) {
       Get.put(OTPController(phone.text, "reset", this));
       Get.to(() => const OTPView(source: "reset"));
     }
