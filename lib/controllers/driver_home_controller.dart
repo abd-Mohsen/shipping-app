@@ -153,7 +153,8 @@ class DriverHomeController extends GetxController {
     update();
   }
 
-  Future<void> drawPath(bool source, LatLng end) async {
+  // draw on click, not used now
+  Future<void> drawPathOld(bool source, LatLng end) async {
     if (driverMarker == null) return;
     if ((source && roadToSource.isNotEmpty) || (!source && roadToDestination.isNotEmpty)) {
       road = source ? roadToSource : roadToDestination;
@@ -168,6 +169,23 @@ class DriverHomeController extends GetxController {
         [];
     source ? roadToSource.addAll(newRoad) : roadToDestination.addAll(newRoad);
     road = source ? roadToSource : roadToDestination;
+    update();
+  }
+
+  Future<void> drawPath() async {
+    if (driverMarker == null) return;
+    bool reachedSource = _getStorage.read("reached_source");
+    if(!reachedSource && roadToSource.isNotEmpty) return;
+    if(reachedSource && roadToDestination.isNotEmpty) return;
+    List<LatLng> newRoad = await RemoteServices.getRoadPoints(
+        startLat: driverMarker!.point.latitude,
+        startLng: driverMarker!.point.longitude,
+        endLat: reachedSource ? destinationMarker!.point.latitude: sourceMarker!.point.latitude,
+        endLng: reachedSource ? destinationMarker!.point.longitude: sourceMarker!.point.longitude,
+    ) ??
+        [];
+    reachedSource ? roadToDestination.addAll(newRoad) : roadToSource.addAll(newRoad);
+    reachedSource ? road =  roadToDestination : road = roadToSource;
     update();
   }
 
@@ -290,9 +308,22 @@ class DriverHomeController extends GetxController {
         if (_isWebSocketConnected()) {
           websocket!.add(jsonEncode(pos));
         }
+        if(arePointsClose(driverMarker!.point, sourceMarker!.point, 20)){
+          // store flag in local storage and recalculate route to end
+          _getStorage.write("reached_source", true);
+          drawPath();
+        }
       },
       cancelOnError: false,
     );
+  }
+
+  bool arePointsClose(LatLng p1, LatLng p2, double thresholdMeters) {
+    // const distance = Distance(); // Vincenty by default
+    // final double meter = distance(p1, p2); // distance in meters
+    const haversine = Distance(calculator: Haversine());
+    double meter = haversine(p1, p2);
+    return meter < thresholdMeters;
   }
 
   void updateDriverMarker(double lat, double long, bool moveCamera) {
@@ -304,6 +335,7 @@ class DriverHomeController extends GetxController {
       child: kCurrLocation,
     );
     currMarkers.add(driverMarker!);
+    drawPath();
     update();
   }
 
@@ -475,9 +507,10 @@ class DriverHomeController extends GetxController {
       cUC.getCurrentUser();
       currMarkers.remove(sourceMarker);
       currMarkers.remove(destinationMarker);
-      road.clear();
       roadToSource.clear();
       roadToDestination.clear();
+      _getStorage.remove("reached_source");
+      road.clear();
     }
     toggleLoadingFinish(false);
   }
@@ -521,4 +554,13 @@ class DriverHomeController extends GetxController {
     mapContainerScrollController.dispose();
     super.dispose();
   }
+
+  // void test(){
+  //   updateDriverMarker(sourceMarker!.point.latitude, sourceMarker!.point.longitude, false);
+  //   if(arePointsClose(driverMarker!.point, sourceMarker!.point, 20)){
+  //     // store flag in local storage and recalculate route to end
+  //     _getStorage.write("reached_source", true);
+  //     drawPath();
+  //   }
+  // }
 }

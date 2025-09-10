@@ -306,6 +306,7 @@ class OrderController extends GetxController {
     if (success) {
       refreshOrder();
       showSuccessSnackbar();
+      _getStorage.write("reached_source", false);
     }
     toggleLoadingSubmit(false);
   }
@@ -321,6 +322,7 @@ class OrderController extends GetxController {
       refreshOrder();
       showSuccessSnackbar();
       cUC.getCurrentUser();
+      _getStorage.remove("reached_source");
     }
     toggleLoadingSubmit(false);
   }

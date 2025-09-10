@@ -403,22 +403,22 @@ class NewDriverTab extends StatelessWidget {
                                                                 Expanded(
                                                                   child: GestureDetector(
                                                                     onTap: () {
-                                                                      controller.drawPath(
-                                                                        true,
-                                                                        LatLng(
-                                                                          innerController
-                                                                              .currOrders.first.startPoint.latitude,
-                                                                          innerController
-                                                                              .currOrders.first.startPoint.longitude,
-                                                                        ),
-                                                                      );
+                                                                      // controller.drawPath(
+                                                                      //   true,
+                                                                      //   LatLng(
+                                                                      //     innerController
+                                                                      //         .currOrders.first.startPoint.latitude,
+                                                                      //     innerController
+                                                                      //         .currOrders.first.startPoint.longitude,
+                                                                      //   ),
+                                                                      // );
                                                                     },
                                                                     child: Text(
                                                                       innerController.currOrders.first.startPoint
                                                                           .toString(),
                                                                       style: tt.labelMedium!.copyWith(
-                                                                        color: Colors.blue,
-                                                                        decoration: TextDecoration.underline,
+                                                                        // color: Colors.blue,
+                                                                        // decoration: TextDecoration.underline,
                                                                       ),
                                                                       maxLines: 2,
                                                                       overflow: TextOverflow.ellipsis,
@@ -447,22 +447,22 @@ class NewDriverTab extends StatelessWidget {
                                                                 Expanded(
                                                                   child: GestureDetector(
                                                                     onTap: () {
-                                                                      controller.drawPath(
-                                                                        false,
-                                                                        LatLng(
-                                                                          innerController
-                                                                              .currOrders.first.endPoint.latitude,
-                                                                          innerController
-                                                                              .currOrders.first.endPoint.longitude,
-                                                                        ),
-                                                                      );
+                                                                      // controller.drawPath(
+                                                                      //   false,
+                                                                      //   LatLng(
+                                                                      //     innerController
+                                                                      //         .currOrders.first.endPoint.latitude,
+                                                                      //     innerController
+                                                                      //         .currOrders.first.endPoint.longitude,
+                                                                      //   ),
+                                                                      // );
                                                                     },
                                                                     child: Text(
                                                                       innerController.currOrders.first.endPoint
                                                                           .toString(),
                                                                       style: tt.labelMedium!.copyWith(
-                                                                        color: Colors.blue,
-                                                                        decoration: TextDecoration.underline,
+                                                                        // color: Colors.blue,
+                                                                        // decoration: TextDecoration.underline,
                                                                       ),
                                                                       maxLines: 2,
                                                                       overflow: TextOverflow.ellipsis,
