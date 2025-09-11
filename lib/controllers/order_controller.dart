@@ -122,10 +122,26 @@ class OrderController extends GetxController {
     await Future.delayed(const Duration(milliseconds: 800));
     await mapController.addMarker(end,
         markerIcon: kMapDefaultMarkerCustom(
-          Color(0xffFFA500),
+          const Color(0xffFFA500),
         ));
-    await mapController.drawRoad(start, end);
-    //todo(later): draw stored path
+    if(order!.status != "done") {
+      await mapController.drawRoad(start, end);
+    }
+    else{
+      List<GeoPoint> coords = await RemoteServices.drawStoredPath(orderID);
+      const roadOption = RoadOption(
+        roadColor: Colors.red,
+        roadWidth: 10,
+        roadBorderColor: Colors.white,
+        roadBorderWidth: 1.5,
+        zoomInto: false, // set true if you want map zoomed to show whole path
+        isDotted: false,
+      );
+      await mapController.drawRoadManually(coords, roadOption);
+      for(int i=0;i<4; i++) {
+        mapController.zoomIn();
+      }
+    }
     //todo(later): connect when button is pressed
     if (role == "customer" && ["processing"].contains(order!.status)) connectTrackingSocket();
     update();

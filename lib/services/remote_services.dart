@@ -31,6 +31,7 @@ import '../models/login_model.dart';
 import '../models/order_model_2.dart';
 import '../models/user_model.dart';
 import '../models/vehicle_model.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class RemoteServices {
   static Map<String, String> headers = {
@@ -845,5 +846,17 @@ class RemoteServices {
       body: {"password": password},
     );
     return json;
+  }
+
+  static Future<List<GeoPoint>> drawStoredPath(int orderID) async{
+    String? json = await api.getRequest("order_path/$orderID/", auth: true);
+    if (json == null) return [];
+    final List<dynamic> route = jsonDecode(json)["route"];
+    return route.map<GeoPoint>((point) {
+      return GeoPoint(
+        latitude: (point["latitude"] as num).toDouble(),
+        longitude: (point["longitude"] as num).toDouble(),
+      );
+    }).toList();
   }
 }
