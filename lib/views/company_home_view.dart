@@ -195,7 +195,11 @@ class CompanyHomeView extends StatelessWidget {
                     ).createShader(rect);
                   },
                   blendMode: BlendMode.dstOut,
-                  child: tabs[controller.tabIndex],
+                  child: IndexedStack(
+                    index: controller.tabIndex,
+                    children: tabs,
+                  ),
+                  // child: tabs[controller.tabIndex],
                 ),
                 // arrow to indicate that there is a drawer
                 Positioned(

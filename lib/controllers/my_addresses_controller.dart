@@ -2,6 +2,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:shipment/models/my_address_model.dart';
+import '../constants.dart';
 import '../models/location_model.dart';
 import '../services/remote_services.dart';
 import 'make_order_controller.dart';
@@ -17,11 +18,11 @@ class MyAddressesController extends GetxController {
   void onInit() {
     getMyAddresses();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => mapController.listenerMapSingleTapping.addListener(
+      (_) => selectionMapController.listenerMapSingleTapping.addListener(
         () async {
-          if (selectedPosition != null) mapController.removeMarker(selectedPosition!);
-          selectedPosition = mapController.listenerMapSingleTapping.value!;
-          await mapController.addMarker(
+          if (selectedPosition != null) selectionMapController.removeMarker(selectedPosition!);
+          selectedPosition = selectionMapController.listenerMapSingleTapping.value!;
+          await selectionMapController.addMarker(
             selectedPosition!,
             markerIcon: const MarkerIcon(
               icon: Icon(
@@ -37,7 +38,7 @@ class MyAddressesController extends GetxController {
     super.onInit();
   }
 
-  MapController mapController = MapController(
+  MapController selectionMapController = MapController(
     initMapWithUserPosition: const UserTrackingOption(
       enableTracking: true,
       unFollowUser: true,
@@ -124,5 +125,25 @@ class MyAddressesController extends GetxController {
       refreshMyAddress();
     }
     toggleLoadingAdd(false);
+  }
+
+  //-------------------------------
+
+  MapController mapController = MapController(
+    initPosition: GeoPoint(latitude: 33.5101876, longitude: 36.2775732),
+  );
+
+  void selectAddress(MyAddressModel myAddress) async {
+    GeoPoint currPosition = GeoPoint(
+      latitude: myAddress.address.latitude,
+      longitude: myAddress.address.longitude,
+    );
+    mapController.moveTo(currPosition);
+    await Future.delayed(const Duration(milliseconds: 100));
+    mapController.addMarker(
+      currPosition,
+      markerIcon: kMapDefaultMarker,
+    );
+    update();
   }
 }

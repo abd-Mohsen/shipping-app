@@ -90,10 +90,12 @@ class EditProfileView extends StatelessWidget {
                                           if (ePC.button3Pressed) ePC.deleteFormKey.currentState!.validate();
                                         },
                                       ),
+                                      const SizedBox(height: 8),
                                       CustomButton(
                                         onTap: () {
                                           controller.deleteAccount();
                                         },
+                                        color: cs.error,
                                         child: Center(
                                           child: controller.isLoadingDelete
                                               ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)

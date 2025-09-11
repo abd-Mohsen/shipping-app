@@ -189,7 +189,7 @@ class OrderView extends StatelessWidget {
           child: CustomButton(
             elevation: 2,
             onTap: () {
-              if (onPressed != null) {
+              if (oC.isMapReady && onPressed != null) {
                 showDialog(
                   context: context,
                   builder: (context) => alertDialog,
@@ -282,7 +282,7 @@ class OrderView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: !showWarningDialogs
+                      onPressed: !oC.isMapReady ? null: !showWarningDialogs
                           ? onPressedGreen
                           : () {
                               showDialog(
@@ -307,7 +307,7 @@ class OrderView extends StatelessWidget {
                             ),
                     ),
                     ElevatedButton(
-                      onPressed: !showWarningDialogs
+                      onPressed: !oC.isMapReady ? null : !showWarningDialogs
                           ? onPressedRed
                           : () {
                               showDialog(
@@ -1905,7 +1905,7 @@ class OrderView extends StatelessWidget {
                                                     tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                                                 label: Text(
                                                   "comment".tr,
-                                                  style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                                                  style: tt.titleSmall!.copyWith(color: cs.onSurface),
                                                 ),
                                               ),
                                               style: tt.titleSmall!.copyWith(color: cs.onSurface),

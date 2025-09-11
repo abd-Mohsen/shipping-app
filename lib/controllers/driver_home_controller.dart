@@ -174,6 +174,7 @@ class DriverHomeController extends GetxController {
 
   Future<void> drawPath() async {
     if (driverMarker == null) return;
+    if (sourceMarker == null) return; // to not return if no running order
     bool reachedSource = _getStorage.read("reached_source");
     if(!reachedSource && roadToSource.isNotEmpty) return;
     if(reachedSource && roadToDestination.isNotEmpty) return;
