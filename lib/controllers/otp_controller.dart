@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/register_view.dart';
@@ -18,7 +17,7 @@ class OTPController extends GetxController {
   final OtpFieldController otpFieldController = OtpFieldController();
   final CountdownController timeController = CountdownController(autoStart: true);
 
-  final GetStorage _getStorage = GetStorage();
+  //final GetStorage _getStorage = GetStorage();
 
   @override
   void onInit() async {
@@ -78,7 +77,7 @@ class OTPController extends GetxController {
         //   duration: const Duration(milliseconds: 2500),
         //   backgroundColor: Colors.green,
         // ));
-        Get.to(() => RegisterView() );
+        Get.off(() => RegisterView() );
       } else {
         resetPassController!.setOtp(pin);
         resetPassController!.setResetToken(resetToken);

@@ -26,7 +26,7 @@ class OTPView extends StatelessWidget {
 
     return SafeArea(
       child: PopScope(
-        canPop: false,
+        canPop: true,
         onPopInvokedWithResult: (bool didPop, res) {
           if (didPop) return;
 

@@ -345,9 +345,12 @@ class PaymentMethodSelectionCard extends StatelessWidget {
           paymentSelectionModel.name,
           style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
         ),
-        subtitle: Text(
-          paymentSelectionModel.subtitle,
-          style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.45)),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 4.0),
+          child: Text(
+            paymentSelectionModel.subtitle,
+            style: tt.labelSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.45)),
+          ),
         ),
         trailing: Container(
           width: 37,

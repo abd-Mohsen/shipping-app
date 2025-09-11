@@ -55,10 +55,14 @@ class AddressCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: SizedBox(
-                      height: 200,
+                  child: Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color(0xff0e5aa6), width: 2.5),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
                       child: OSMFlutter(
                         controller: mAC.mapController,
                         mapIsLoading: SpinKitFoldingCube(color: cs.primary),

@@ -60,9 +60,9 @@ class IdImageSelector extends StatelessWidget {
                           ? Icon(Icons.close, color: cs.error)
                           : Icon(Icons.add_a_photo, color: cs.primaryContainer),
           onTap:
-              // uploadStatus != null && uploadStatus!.toLowerCase() == "verified"
-              //     ? null
-              //     :
+              uploadStatus != null && uploadStatus!.toLowerCase() == "pending"
+                  ? null
+                  :
               () async {
             FocusScope.of(context).requestFocus(FocusNode());
             bool cameraAllowed = await PermissionService().requestPermission(Permission.camera);

@@ -110,6 +110,14 @@ class CompleteAccountView extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: tt.titleSmall!.copyWith(color: cs.onSurface),
                         ),
+                      ),ListTile(
+                        leading: Icon(Icons.add_a_photo, color: cs.primaryContainer),
+                        title: Text(
+                          "no picture is uploaded".tr,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                        ),
                       ),
                     ],
                   ),

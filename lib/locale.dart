@@ -395,6 +395,7 @@ class MyLocale extends Translations {
           "captain cancelled the order": "cancelled by captain",
           "register in the app":"register in the app",
           "enter your phone to create an account":"enter your phone to create an account",
+          "no picture is uploaded":"no picture is uploaded",
         },
 
         ///
@@ -816,6 +817,7 @@ class MyLocale extends Translations {
           "captain cancelled the order": "الكابتن قام بالالغاء",
           "register in the app":"التسجيل في التطبيق",
           "enter your phone to create an account":"أدخل رقم هاتفك لانشاء حساب في التطبيق",
+          "no picture is uploaded":"لم يتم اختيار صورة",
         },
       };
 }
