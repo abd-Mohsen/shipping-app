@@ -9,6 +9,7 @@ import '../controllers/current_user_controller.dart';
 import '../controllers/shared_home_controller.dart';
 import 'components/my_bottom_bar.dart';
 import 'components/my_drawer.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class DriverHomeView extends StatelessWidget {
   const DriverHomeView({super.key});
@@ -150,52 +151,61 @@ class DriverHomeView extends StatelessWidget {
             //   index: controller.tabIndex,
             //   children: tabs,
             // ),
-            body: Stack(
-              children: [
-                ShaderMask(
-                  shaderCallback: (Rect rect) {
-                    return const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.transparent, Colors.white],
-                      //set stops as par your requirement
-                      stops: [0.97, 1], // 50% transparent, 50% white
-                    ).createShader(rect);
-                  },
-                  blendMode: BlendMode.dstOut,
-                  child: IndexedStack(
-                    index: controller.tabIndex,
-                    children: tabs,
-                  ),
-                ),
-                // arrow to indicate that there is a drawer
-                Positioned(
-                  top: MediaQuery.of(context).size.height / 2,
-                  child: GestureDetector(
-                    onTap: () {
-                      cUC.scaffoldKey.currentState!.openDrawer();
-                    },
-                    child: ClipRect(
-                      child: Align(
-                        alignment: Directionality.of(context) == TextDirection.rtl
-                            ? Alignment.centerLeft // Clip to right half for RTL
-                            : Alignment.centerRight, // Clip to left half for LTR
-                        widthFactor: 0.5,
-                        child: CircleAvatar(
-                          backgroundColor: cs.primary.withValues(alpha: 0.7),
-                          foregroundColor: cs.onPrimary,
-                          child: Padding(
-                            padding: Directionality.of(context) == TextDirection.rtl
-                                ? const EdgeInsets.only(right: 16)
-                                : const EdgeInsets.only(left: 16),
-                            child: const Icon(Icons.arrow_forward_ios, size: 18),
+            body: GetBuilder<CurrentUserController>(
+              builder: (innerController) {
+                return ModalProgressHUD(
+                  inAsyncCall: innerController.isLoadingUser,
+                  blur: 4, // optional blur behind the indicator
+                  progressIndicator: const CircularProgressIndicator(),
+                  child: Stack(
+                    children: [
+                      ShaderMask(
+                        shaderCallback: (Rect rect) {
+                          return const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.transparent, Colors.white],
+                            //set stops as par your requirement
+                            stops: [0.97, 1], // 50% transparent, 50% white
+                          ).createShader(rect);
+                        },
+                        blendMode: BlendMode.dstOut,
+                        child: IndexedStack(
+                          index: controller.tabIndex,
+                          children: tabs,
+                        ),
+                      ),
+                      // arrow to indicate that there is a drawer
+                      Positioned(
+                        top: MediaQuery.of(context).size.height / 2,
+                        child: GestureDetector(
+                          onTap: () {
+                            cUC.scaffoldKey.currentState!.openDrawer();
+                          },
+                          child: ClipRect(
+                            child: Align(
+                              alignment: Directionality.of(context) == TextDirection.rtl
+                                  ? Alignment.centerLeft // Clip to right half for RTL
+                                  : Alignment.centerRight, // Clip to left half for LTR
+                              widthFactor: 0.5,
+                              child: CircleAvatar(
+                                backgroundColor: cs.primary.withValues(alpha: 0.7),
+                                foregroundColor: cs.onPrimary,
+                                child: Padding(
+                                  padding: Directionality.of(context) == TextDirection.rtl
+                                      ? const EdgeInsets.only(right: 16)
+                                      : const EdgeInsets.only(left: 16),
+                                  child: const Icon(Icons.arrow_forward_ios, size: 18),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ],
+                );
+              }
             ),
             drawer: GetBuilder<CurrentUserController>(
               builder: (controller) {
