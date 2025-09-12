@@ -51,13 +51,12 @@ class RefreshSocketController extends GetxController {
 
       websocket!.listen(
         (message) async {
-          //todo: separate
-          //todo: in new driver tab, the list appears empty for seconds when refreshing
-          //todo: the list appears empty in recent and in driver new tab
+          //todo(later): in new driver tab, the list appears empty for seconds when refreshing
+          //the list appears empty in recent and in driver new tab
           print('Message from server: $message');
           message = jsonDecode(message);
           if (message["type"] == "group_switched") return;
-          await sHC.refreshEverything();
+          await sHC.refreshEverything(); //todo(later): separate (new and my orders)
         },
         onDone: () {
           _cleanUpWebSocket();

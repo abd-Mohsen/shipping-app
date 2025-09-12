@@ -21,8 +21,8 @@ class OTPController extends GetxController {
 
   @override
   void onInit() async {
-    //todo(later): handle null, and the otp page might open while not receiving the code (timeout)
-    //todo(later): sometimes i get a timeout, but receive the code anyways
+    //handle null, and the otp page might open while not receiving the code (timeout)
+    //sometimes i get a timeout, but receive the code anyways
     //if (!_getStorage.hasData("from_register")) await RemoteServices.sendOtp(phone, false);
     await Future.delayed(const Duration(milliseconds: 200));
     otpFieldController.setFocus(0);

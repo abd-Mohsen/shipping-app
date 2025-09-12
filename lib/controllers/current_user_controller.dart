@@ -80,7 +80,7 @@ class CurrentUserController extends GetxController {
     if (logoutAnyway || (currentUser != null && await RemoteServices.logout())) {
       _getStorage.remove("token");
       _getStorage.remove("role");
-      //Get.put(LoginController()); todo
+      //Get.put(LoginController());
       Get.offAll(() => const LoginView());
     }
     toggleLoadingLogout(false);

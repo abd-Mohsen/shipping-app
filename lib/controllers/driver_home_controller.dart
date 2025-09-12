@@ -18,7 +18,7 @@ import '../models/order_model_2.dart';
 class DriverHomeController extends GetxController {
   @override
   onInit() async {
-    getRecentOrders();
+    //getRecentOrders();
     getUserLocation();
     //
     // Use controller for instant expansion
@@ -95,25 +95,24 @@ class DriverHomeController extends GetxController {
 
   OrderModel2? currentOrder;
 
-  Future<void> getRecentOrders({bool showLoading = true}) async {
-    if (currentOrder != null) trackingID = currentOrder!.id;
-    print("tracking order with ID ${trackingID.toString()}");
-    if (trackingID != 0) {
-      connectTrackingSocket(); //todo(later): if refreshed in real time, handle reconnection
-    } else {
-      setTrackingStatus("no running order");
-    }
-    //
-  }
+  // Future<void> getRecentOrders({bool showLoading = true}) async {
+  //   if (currentOrder != null) trackingID = currentOrder!.id;
+  //   if (trackingID != 0) {
+  //     connectTrackingSocket();
+  //   } else {
+  //     setTrackingStatus("no running order");
+  //   }
+  //   //
+  // }
 
-  Future<void> refreshRecentOrders({bool showLoading = true}) async {
-    currentOrder = null;
-    recentOrders.clear();
-
-    if (showLoading) await _cleanUpWebSocket(); // Make sure everything's cleaned up first
-    await getRecentOrders(showLoading: showLoading);
-    //_connectTrackingSocket(); // Call this directly instead of getRecentOrders()
-  }
+  // Future<void> refreshRecentOrders({bool showLoading = true}) async {
+  //   currentOrder = null;
+  //   recentOrders.clear();
+  //
+  //   if (showLoading) await _cleanUpWebSocket(); // Make sure everything's cleaned up first
+  //   await getRecentOrders(showLoading: showLoading);
+  //   //_connectTrackingSocket(); // Call this directly instead of getRecentOrders()
+  // }
   //----------------------------------- map -----------------------------------------------
 
   MapController mapController = MapController();

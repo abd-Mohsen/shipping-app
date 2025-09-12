@@ -40,7 +40,7 @@ class RegisterController extends GetxController {
 
   @override
   void onInit() async {
-    //todo: uncomment this after adding video back
+    // to show video on first register time (i dont need it)
     // if (!_getStorage.hasData("viewed_register_dialog")) {
     //   await Future.delayed(const Duration(milliseconds: 1500));
     //   Get.dialog(const AssetVideoDialog());
@@ -128,8 +128,7 @@ class RegisterController extends GetxController {
     button2Pressed = true;
     bool isValid = registerFormKey.currentState!.validate();
     if (!isValid) return;
-    //todo(later): add map selector here
-    //todo: middle name instead of username
+    //add map selector here if required
     if (((roles[roleIndex] == "employee" || roles[roleIndex] == "driver") &&
         (dLicenseFront == null || dLicenseRear == null))) {
       Get.showSnackbar(GetSnackBar(
