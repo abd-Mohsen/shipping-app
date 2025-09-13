@@ -58,7 +58,7 @@ class InvoicesView extends StatelessWidget {
                                 stops: [0, 1],
                               )),
                           child: Column(
-                            //todo: add usd/syp switch and change
+                            //todo(later): add usd/syp switch and change
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(

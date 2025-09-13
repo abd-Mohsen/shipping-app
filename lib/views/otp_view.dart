@@ -172,7 +172,7 @@ class OTPView extends StatelessWidget {
                         //         size: 25,
                         //       ),
                         //       onTap: () {
-                        //         cUC.logout(); //todo test
+                        //         cUC.logout();
                         //       },
                         //       title: Text(
                         //         "logout".tr,

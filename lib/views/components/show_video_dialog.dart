@@ -10,7 +10,7 @@ class AssetVideoDialog extends StatefulWidget {
 }
 
 class _AssetVideoDialogState extends State<AssetVideoDialog> {
-  late VideoPlayerController _controller; //todo: add video
+  late VideoPlayerController _controller;
 
   @override
   void initState() {

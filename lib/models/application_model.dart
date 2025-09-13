@@ -10,7 +10,7 @@ class ApplicationModel {
   final Vehicle vehicle;
   final bool canSeePhone;
   final bool isRejected;
-  final DateTime appliedAt; //todo: 10 min
+  final DateTime appliedAt;
   final DateTime? deletedAt;
 
   ApplicationModel({

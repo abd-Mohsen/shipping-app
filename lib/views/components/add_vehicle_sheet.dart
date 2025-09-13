@@ -12,7 +12,7 @@ import 'auth_field.dart';
 import 'id_image_selector.dart';
 
 // i get an error if i redirect to vehicle page
-//todo: so fucking slow
+// so fucking slow
 class AddVehicleSheet extends StatelessWidget {
   final VehicleModel? vehicle;
   const AddVehicleSheet({super.key, this.vehicle});

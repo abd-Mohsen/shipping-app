@@ -180,7 +180,6 @@ class OrderView extends StatelessWidget {
           title: 'how do you want to call this person?'.tr,
         );
 
-    //todo: dont click if map not loaded yet (to avoid crash)
     //todo: dont get back if map not loaded yet (to avoid crash)
     mainButton(
             {required alertDialog, required bool isLoading, required String buttonText, Color? color, onPressed = 1}) =>
@@ -606,7 +605,7 @@ class OrderView extends StatelessWidget {
                                                         ? controller.acceptOrderCompany()
                                                         : controller.acceptOrderDriver();
                                                   },
-                                                  //todo: handle cache orders
+                                                  //todo(later): handle cache orders
                                                   // content: controller.isLoadingCurr
                                                   //     ? SpinKitSquareCircle(color: cs.primary, size: 26)
                                                   //     : controller.currOrders.isEmpty
@@ -654,7 +653,7 @@ class OrderView extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                //todo: for company: show the name of the driver ("driver" didnt start the order yet)
+                                //for company: show the name of the driver ("driver" didnt start the order yet)
                                 /// start order & cancel with penalty
                                 ///
                                 if (!isCustomer &&
@@ -960,7 +959,7 @@ class OrderView extends StatelessWidget {
                                             );
                                           },
                                           onTapAccept: () {
-                                            //todo: doesnt close sometimes after confirm
+                                            //doesnt close sometimes after confirm
                                             showDialog(
                                               context: context,
                                               builder: (context) => alertDialog(
