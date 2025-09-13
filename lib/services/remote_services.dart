@@ -58,7 +58,7 @@ class RemoteServices {
     File? idFront,
     File? idRear,
     File? licenseFront,
-    File? licenseRear,
+    File? licenseRear, String registerToken,
   ) async {
     Map<String, String> body = {
       "first_name": firstName,
@@ -70,6 +70,7 @@ class RemoteServices {
       "role": role,
       "company_name": companyName ?? "null",
       "otp_code": otp ?? "null",
+      "register_token": registerToken,
     };
     Map<String, File?> images = {
       "ID_photo_front": idFront,
@@ -140,11 +141,11 @@ class RemoteServices {
     return json != null;
   }
 
-  static Future<String?> verifyOtp(String phone, String otp) async {
+  static Future<String?> verifyOtp(String phone, String otp, String source) async {
     Map<String, dynamic> body = {"phone_number": phone, "otp": otp};
     String? json = await api.postRequest("auth/verify-otp/", body, auth: false);
     if (json == null) return null;
-    return jsonDecode(json)["reset_token"] ?? "any string just in case (for register)";
+    return source == "register" ? jsonDecode(json)["register_token"] : jsonDecode(json)["reset_token"];
   }
 
   static Future<bool> resetPassword(String resetToken, String password, String rePassword) async {

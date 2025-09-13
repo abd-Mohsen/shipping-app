@@ -54,7 +54,7 @@ class CurrentUserController extends GetxController {
       }
       //
       if (!currentUser!.isVerified) {
-        Get.put(OTPController(currentUser!.phoneNumber, "register", null));
+        Get.put(OTPController(currentUser!.phoneNumber, "register"));
         Get.to(() => const OTPView(source: "register"));
       }
     }

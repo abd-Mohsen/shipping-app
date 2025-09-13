@@ -118,10 +118,16 @@ class RegisterController extends GetxController {
     toggleLoading(true);
 
     if (await RemoteServices.sendOtp(phone.text, true)) {
-      Get.put(OTPController(phone.text, "register",null));
+      Get.put(OTPController(phone.text, "register"));
       Get.to(() => const OTPView(source: "register"));
     }
     toggleLoading(false);
+  }
+
+  String registerToken  = "";
+
+  void setRegisterToken(String registerToken){
+    this.registerToken = registerToken;
   }
 
   Future register() async {
@@ -158,6 +164,7 @@ class RegisterController extends GetxController {
       ["driver", "employee", "company"].contains(roles[roleIndex]) ? idRearFile : null,
       ["driver", "employee"].contains(roles[roleIndex]) ? lFrontFile : null,
       ["driver", "employee"].contains(roles[roleIndex]) ? lRearFile : null,
+      registerToken,
     ));
     if (registerData != null) {
       Get.back();

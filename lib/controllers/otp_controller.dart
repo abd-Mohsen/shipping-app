@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
+import 'package:shipment/controllers/register_controller.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
 import 'package:shipment/views/register_view.dart';
 import 'package:shipment/views/reset_pass_view2.dart';
@@ -10,9 +11,8 @@ import '../services/remote_services.dart';
 class OTPController extends GetxController {
   late String phone;
   late String source;
-  ResetPassController? resetPassController;
 
-  OTPController(this.phone, this.source, this.resetPassController);
+  OTPController(this.phone, this.source);
 
   final OtpFieldController otpFieldController = OtpFieldController();
   final CountdownController timeController = CountdownController(autoStart: true);
@@ -68,8 +68,8 @@ class OTPController extends GetxController {
       return;
     }
     toggleLoading(true);
-    String? resetToken = await RemoteServices.verifyOtp(phone, pin); //success
-    if (resetToken != null) {
+    String? otpToken = await RemoteServices.verifyOtp(phone, pin, source); //success
+    if (otpToken != null) {
       if (source == "register") {
         // Get.back();
         // Get.showSnackbar(GetSnackBar(
@@ -77,10 +77,13 @@ class OTPController extends GetxController {
         //   duration: const Duration(milliseconds: 2500),
         //   backgroundColor: Colors.green,
         // ));
-        Get.off(() => RegisterView() );
+        RegisterController rC = Get.find();
+        rC.setRegisterToken(otpToken);
+        Get.off(() => const RegisterView() );
       } else {
-        resetPassController!.setOtp(pin);
-        resetPassController!.setResetToken(resetToken);
+        ResetPassController rPC = Get.find();
+        rPC!.setOtp(pin);
+        rPC!.setResetToken(otpToken);
         Get.off(() => const ResetPassView2());
       }
     } else {
