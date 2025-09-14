@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shipment/controllers/order_controller.dart';
-import 'package:shipment/views/components/application_card.dart';
 
 class TempMapPage extends StatelessWidget {
   final Widget map;
@@ -10,7 +8,7 @@ class TempMapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
-    TextTheme tt = Theme.of(context).textTheme;
+    //TextTheme tt = Theme.of(context).textTheme;
 
     return Scaffold(
       body: Stack(

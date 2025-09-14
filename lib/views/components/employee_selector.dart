@@ -92,7 +92,7 @@ class EmployeeSelector extends StatelessWidget {
       ),
       items: (filter, infiniteScrollProps) => items,
       itemAsString: (EmployeeModel e) =>
-          e.user.toString() + "\n" + e.vehicle!.vehicleType + " #" + e.vehicle!.vehicleRegistrationNumber,
+          "${e.user}\n${e.vehicle!.vehicleType} #${e.vehicle!.vehicleRegistrationNumber}",
       onChanged: onChanged,
       // dropdownBuilder: (_, e) => ListTile(
       //   title: Text(

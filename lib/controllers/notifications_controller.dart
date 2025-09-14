@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/order_controller.dart';
 import 'package:shipment/models/notification_model.dart';
 import 'package:shipment/views/order_view.dart';

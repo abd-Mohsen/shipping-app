@@ -190,7 +190,7 @@ class CompanyHomeController extends GetxController {
     int dayOffset = 6;
     for (MapEntry<String, dynamic> pair in companyStats!.lastWeekOrders.entries) {
       sheet.appendRow([
-        TextCellValue("${Jiffy.parseFromDateTime(DateTime.now()).subtract(days: dayOffset).format(pattern: "d/M/y")}"),
+        TextCellValue(Jiffy.parseFromDateTime(DateTime.now()).subtract(days: dayOffset).format(pattern: "d/M/y")),
         TextCellValue(pair.key),
         TextCellValue(pair.value.toString()),
       ]);

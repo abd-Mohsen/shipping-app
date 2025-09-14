@@ -82,8 +82,8 @@ class OTPController extends GetxController {
         Get.off(() => const RegisterView() );
       } else {
         ResetPassController rPC = Get.find();
-        rPC!.setOtp(pin);
-        rPC!.setResetToken(otpToken);
+        rPC.setOtp(pin);
+        rPC.setResetToken(otpToken);
         Get.off(() => const ResetPassView2());
       }
     } else {

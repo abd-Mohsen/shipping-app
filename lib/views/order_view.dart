@@ -403,7 +403,7 @@ class OrderView extends StatelessWidget {
                       ? Badge(
                           smallSize: 10,
                           backgroundColor: cs.primaryContainer,
-                          child: Icon(Icons.edit),
+                          child: const Icon(Icons.edit),
                         )
                       : const Icon(Icons.edit),
                 ),

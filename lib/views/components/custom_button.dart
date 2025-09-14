@@ -39,7 +39,7 @@ class CustomButton extends StatelessWidget {
                       colors: [Color.lerp(cs.primary, Colors.white, 0.25)!, cs.primary],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      stops: [0, 1],
+                      stops: const [0, 1],
                     )
                   : null,
             ),

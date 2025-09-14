@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:popover/popover.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/invoices_view.dart';

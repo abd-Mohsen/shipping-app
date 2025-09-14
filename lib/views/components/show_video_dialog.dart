@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 class AssetVideoDialog extends StatefulWidget {
-  const AssetVideoDialog({Key? key}) : super(key: key);
+  const AssetVideoDialog({super.key});
 
   @override
   _AssetVideoDialogState createState() => _AssetVideoDialogState();

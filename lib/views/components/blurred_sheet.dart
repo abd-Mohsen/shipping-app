@@ -40,7 +40,7 @@ class BlurredSheet extends StatelessWidget {
         decoration: BoxDecoration(
           color: cs.surface,
           borderRadius: sheetPadding == EdgeInsets.zero
-              ? BorderRadius.only(topRight: Radius.circular(24), topLeft: Radius.circular(24))
+              ? const BorderRadius.only(topRight: Radius.circular(24), topLeft: Radius.circular(24))
               : BorderRadius.circular(24),
         ),
         child: Column(

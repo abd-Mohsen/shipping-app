@@ -169,7 +169,7 @@ class ExploreOrdersTab extends StatelessWidget {
                 : RefreshIndicator(
                     onRefresh: controller.refreshExploreOrders,
                     child: controller.exploreOrders.isEmpty
-                        ? MyLoadingAnimation(file: "search", height: 300)
+                        ? const MyLoadingAnimation(file: "search", height: 300)
                         : ListView.builder(
                             controller: controller.exploreOrdersScrollController,
                             physics: const AlwaysScrollableScrollPhysics(),

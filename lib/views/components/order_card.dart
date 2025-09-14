@@ -111,7 +111,7 @@ class OrderCard extends StatelessWidget {
                       color: order.status == "canceled"
                           ? Color.lerp(Colors.red, Colors.white, 0.05)
                           : order.status == "done"
-                              ? Color.lerp(Color(0xff04bb2b), Colors.white, 0.15)
+                              ? Color.lerp(const Color(0xff04bb2b), Colors.white, 0.15)
                               : order.status == "processing" || order.status == "draft"
                                   ? cs.primaryContainer
                                   : cs.primary,

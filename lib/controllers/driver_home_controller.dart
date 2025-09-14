@@ -434,7 +434,7 @@ class DriverHomeController extends GetxController {
 
       setTrackingStatus("connecting");
 
-      websocket = await WebSocket.connect(socketUrl).timeout(Duration(seconds: 20));
+      websocket = await WebSocket.connect(socketUrl).timeout(const Duration(seconds: 20));
 
       websocket!.listen(
         (message) {

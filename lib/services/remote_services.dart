@@ -760,7 +760,7 @@ class RemoteServices {
     required double endLng,
   }) async {
     String? json = await api.getRequest(
-      'https://api.openrouteservice.org/v2/directions/driving-car?api_key=$routeServiceApiKey&start=${startLng},${startLat}&end=${endLng},${endLat}',
+      'https://api.openrouteservice.org/v2/directions/driving-car?api_key=$routeServiceApiKey&start=$startLng,$startLat&end=$endLng,$endLat',
       // {
       //   "coordinates": [
       //     [startLng, startLat], // Notice: lng first, then lat

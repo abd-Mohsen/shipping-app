@@ -55,7 +55,7 @@ class InvoicesView extends StatelessWidget {
                                 colors: [Color.lerp(cs.primary, Colors.white, 0.2)!, cs.primary],
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
-                                stops: [0, 1],
+                                stops: const [0, 1],
                               )),
                           child: Column(
                             //todo(later): add usd/syp switch and change

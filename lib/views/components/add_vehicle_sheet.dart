@@ -100,7 +100,7 @@ class AddVehicleSheet extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: IdImageSelector(
-                                  padding: EdgeInsets.symmetric(vertical: 4),
+                                  padding: const EdgeInsets.symmetric(vertical: 4),
                                   title: "registration".tr,
                                   isSubmitted: controller.registration != null,
                                   image: controller.registration,

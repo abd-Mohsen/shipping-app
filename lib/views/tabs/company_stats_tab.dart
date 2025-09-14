@@ -77,7 +77,7 @@ class CompanyStatsTab extends StatelessWidget {
             : RefreshIndicator(
                 onRefresh: controller.getCompanyStats,
                 child: controller.companyStats == null
-                    ? MyLoadingAnimation(file: "stats4", height: 300)
+                    ? const MyLoadingAnimation(file: "stats4", height: 300)
                     : ListView(
                         children: [
                           Column(
@@ -113,7 +113,7 @@ class CompanyStatsTab extends StatelessWidget {
                                                 colors: [cs.primary, Colors.deepPurple],
                                                 begin: Alignment.bottomCenter,
                                                 end: Alignment.topCenter,
-                                                stops: [0.3, 1],
+                                                stops: const [0.3, 1],
                                               ),
                                               borderRadius: BorderRadius.circular(5),
                                             ),
@@ -272,7 +272,7 @@ class CompanyStatsTab extends StatelessWidget {
                                           color: Colors.black.withValues(alpha: 0.2), // Shadow color
                                           blurRadius: 4, // Soften the shadow
                                           spreadRadius: 1, // Extend the shadow
-                                          offset: Offset(2, 2), // Shadow direction (x, y)
+                                          offset: const Offset(2, 2), // Shadow direction (x, y)
                                         ),
                                       ],
                                     ),

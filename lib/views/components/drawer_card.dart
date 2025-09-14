@@ -49,8 +49,8 @@ class DrawerCard extends StatelessWidget {
             //     radius: 5,
             //   ),
             // ),
-            Padding(
-                padding: const EdgeInsets.all(4.0),
+            const Padding(
+                padding: EdgeInsets.all(4.0),
                 child: Icon(
                   Icons.error,
                   color: Color(0xFFF1C68B),
