@@ -281,17 +281,19 @@ class OrderView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: !oC.isMapReady ? null: !showWarningDialogs
-                          ? onPressedGreen
-                          : () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => alertDialog(
-                                  onPressed: onPressedGreen,
-                                  title: "accept the order?".tr,
-                                ),
-                              );
-                            },
+                      onPressed: !oC.isMapReady
+                          ? null
+                          : !showWarningDialogs
+                              ? onPressedGreen
+                              : () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => alertDialog(
+                                      onPressed: onPressedGreen,
+                                      title: "accept the order?".tr,
+                                    ),
+                                  );
+                                },
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all<Color>(const Color(0xff10AB43)),
                       ),
@@ -306,17 +308,19 @@ class OrderView extends StatelessWidget {
                             ),
                     ),
                     ElevatedButton(
-                      onPressed: !oC.isMapReady ? null : !showWarningDialogs
-                          ? onPressedRed
-                          : () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => alertDialog(
-                                  onPressed: onPressedRed,
-                                  title: "refuse the order?".tr,
-                                ),
-                              );
-                            },
+                      onPressed: !oC.isMapReady
+                          ? null
+                          : !showWarningDialogs
+                              ? onPressedRed
+                              : () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => alertDialog(
+                                      onPressed: onPressedRed,
+                                      title: "refuse the order?".tr,
+                                    ),
+                                  );
+                                },
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all<Color>(Colors.redAccent),
                       ),
@@ -1730,6 +1734,9 @@ class OrderView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   // todo replace deprecated
+                                                  // todo: not drawing path for employee (driver home), try in driver
+                                                  // todo: fix crash (all buttons)
+                                                  // todo dont let show number fast before accept (until map is ready)
                                                   // RadioGroup<PaymentMethod>(
                                                   //   groupValue: controller.selectedPayment,
                                                   //   onChanged: (PaymentMethod? method) {

@@ -68,19 +68,38 @@ AlertDialog kActivateAccountDialog() => AlertDialog(
 Widget kEnableLocationDialog(onConfirm) => PopScope(
       canPop: false,
       child: AlertDialog(
-        backgroundColor: Colors.white,
-        title: Text('location Required'.tr, style: const TextStyle(color: Colors.black)),
-        content: Text('please enable location services then press ok'.tr, style: const TextStyle(color: Colors.black)),
+        backgroundColor: Get.isDarkMode ? const Color(0xff262424) : const Color(0xffEEEEDC),
+        title: Text(
+          'cant use the app'.tr,
+          style: TextStyle(
+            color: !Get.isDarkMode ? const Color(0xff666666) : const Color(0xffEEEEDC),
+            fontSize: 20,
+          ),
+        ),
+        content: Text(
+          'please enable location services then press ok'.tr,
+          style: TextStyle(
+            color: !Get.isDarkMode ? const Color(0xff666666) : const Color(0xffEEEEDC),
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () {
               Geolocator.openLocationSettings();
             },
-            child: Text("open settings".tr, style: const TextStyle(color: Colors.black)),
+            child: Text(
+              "open settings".tr,
+              style: TextStyle(
+                color: !Get.isDarkMode ? const Color(0xff666666) : const Color(0xffEEEEDC),
+              ),
+            ),
           ),
           TextButton(
             onPressed: onConfirm,
-            child: Text("ok".tr, style: const TextStyle(color: Colors.black)),
+            child: Text("ok".tr,
+                style: TextStyle(
+                  color: !Get.isDarkMode ? const Color(0xff666666) : const Color(0xffEEEEDC),
+                )),
           ),
         ],
       ),
@@ -319,15 +338,29 @@ Widget kEnableLocationDialog2(onConfirm) => PopScope(
 Widget kNoValidCarDialog(onConfirm) => PopScope(
       canPop: false,
       child: AlertDialog(
-        backgroundColor: Colors.white,
-        title: Text('cant use the app'.tr, style: const TextStyle(color: Colors.black)),
+        backgroundColor: Get.isDarkMode ? const Color(0xff262424) : const Color(0xffEEEEDC),
+        title: Text(
+          'cant use the app'.tr,
+          style: TextStyle(
+            color: !Get.isDarkMode ? const Color(0xff666666) : const Color(0xffEEEEDC),
+            fontSize: 20,
+          ),
+        ),
         content: Text(
-            'you do not have a vehicle associated with your account, please register a vehicle to continue'.tr,
-            style: const TextStyle(color: Colors.black)),
+          'you do not have a vehicle associated with your account, please register a vehicle to continue'.tr,
+          style: TextStyle(
+            color: !Get.isDarkMode ? const Color(0xff666666) : const Color(0xffEEEEDC),
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: onConfirm,
-            child: Text("ok".tr, style: const TextStyle(color: Colors.black)),
+            child: Text(
+              "register vehicle".tr,
+              style: TextStyle(
+                color: !Get.isDarkMode ? const Color(0xff666666) : const Color(0xffEEEEDC),
+              ),
+            ),
           ),
         ],
       ),
