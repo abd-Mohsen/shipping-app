@@ -14,6 +14,7 @@ class ApplicationCard extends StatelessWidget {
   final bool? isAccepted;
   final bool isLast;
   final bool? showPhone;
+  final bool isOrderCanceled;
 
   const ApplicationCard({
     super.key,
@@ -27,6 +28,7 @@ class ApplicationCard extends StatelessWidget {
     this.onSeePhone,
     this.isAccepted,
     this.showPhone,
+    required this.isOrderCanceled,
   });
 
   @override
@@ -90,8 +92,9 @@ class ApplicationCard extends StatelessWidget {
                                       application.driver.name,
                                       style: tt.labelMedium!.copyWith(
                                         color: cs.onSurface,
-                                        decoration:
-                                            application.isRejected ? TextDecoration.lineThrough : TextDecoration.none,
+                                        decoration: application.isRejected || application.deletedAt != null
+                                            ? TextDecoration.lineThrough
+                                            : TextDecoration.none,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
@@ -138,7 +141,7 @@ class ApplicationCard extends StatelessWidget {
                             maxLines: 2,
                           ),
                         ),
-                      if (!application.isRejected && application.deletedAt != null)
+                      if (!application.isRejected && application.deletedAt != null && !isOrderCanceled)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(

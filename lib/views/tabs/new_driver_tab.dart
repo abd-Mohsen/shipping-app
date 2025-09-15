@@ -417,8 +417,9 @@ class NewDriverTab extends StatelessWidget {
                                                                       innerController.currOrders.first.startPoint
                                                                           .toString(),
                                                                       style: tt.labelMedium!.copyWith(
-                                                                        // color: Colors.blue,
+                                                                        //color: Colors.blue,
                                                                         // decoration: TextDecoration.underline,
+                                                                        color: cs.onSurface,
                                                                       ),
                                                                       maxLines: 2,
                                                                       overflow: TextOverflow.ellipsis,
@@ -463,6 +464,7 @@ class NewDriverTab extends StatelessWidget {
                                                                       style: tt.labelMedium!.copyWith(
                                                                         // color: Colors.blue,
                                                                         // decoration: TextDecoration.underline,
+                                                                        color: cs.onSurface,
                                                                       ),
                                                                       maxLines: 2,
                                                                       overflow: TextOverflow.ellipsis,

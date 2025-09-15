@@ -231,6 +231,7 @@ class TrackingView extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 12),
                             child: ApplicationCard(
+                              isOrderCanceled: controller.order!.status == "canceled",
                               application: controller.order!.acceptedApplication!,
                               isLast: true,
                               showPhone: false,

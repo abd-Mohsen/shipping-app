@@ -105,7 +105,7 @@ class OrderController extends GetxController {
     pathDistance = distance;
   }
 
-  void initMap() async {
+  Future initMap() async {
     // todo: is called twice (consumes double the api calls)
     if (pathDistance == null) getDistance();
     GeoPoint start = GeoPoint(
@@ -124,10 +124,9 @@ class OrderController extends GetxController {
         markerIcon: kMapDefaultMarkerCustom(
           const Color(0xffFFA500),
         ));
-    if(order!.status != "done") {
+    if (order!.status != "done") {
       await mapController.drawRoad(start, end);
-    }
-    else{
+    } else {
       List<GeoPoint> coords = await RemoteServices.drawStoredPath(orderID);
       const roadOption = RoadOption(
         roadColor: Colors.red,
@@ -138,7 +137,7 @@ class OrderController extends GetxController {
         isDotted: false,
       );
       await mapController.drawRoadManually(coords, roadOption);
-      for(int i=0;i<4; i++) {
+      for (int i = 0; i < 4; i++) {
         mapController.zoomIn();
       }
     }
@@ -148,8 +147,8 @@ class OrderController extends GetxController {
   }
 
   bool isMapReady = false;
-  setMapReady(bool v) {
-    initMap();
+  setMapReady(bool v) async {
+    await initMap();
     isMapReady = v;
     update();
   }

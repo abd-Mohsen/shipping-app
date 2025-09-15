@@ -948,6 +948,7 @@ class OrderView extends StatelessWidget {
                                       children: List.generate(
                                         controller.order!.driversApplications.length,
                                         (i) => ApplicationCard(
+                                          isOrderCanceled: oC.order!.status == "canceled",
                                           showButtons:
                                               isCompany ? false : controller.order!.status == "waiting_approval",
                                           application: controller.order!.driversApplications[i],
