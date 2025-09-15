@@ -175,17 +175,17 @@ class DriverHomeController extends GetxController {
     if (driverMarker == null) return;
     if (sourceMarker == null) return; // to not return if no running order
     bool reachedSource = _getStorage.read("reached_source");
-    if(!reachedSource && roadToSource.isNotEmpty) return;
-    if(reachedSource && roadToDestination.isNotEmpty) return;
+    if (!reachedSource && roadToSource.isNotEmpty) return;
+    if (reachedSource && roadToDestination.isNotEmpty) return;
     List<LatLng> newRoad = await RemoteServices.getRoadPoints(
-        startLat: driverMarker!.point.latitude,
-        startLng: driverMarker!.point.longitude,
-        endLat: reachedSource ? destinationMarker!.point.latitude: sourceMarker!.point.latitude,
-        endLng: reachedSource ? destinationMarker!.point.longitude: sourceMarker!.point.longitude,
-    ) ??
+          startLat: driverMarker!.point.latitude,
+          startLng: driverMarker!.point.longitude,
+          endLat: reachedSource ? destinationMarker!.point.latitude : sourceMarker!.point.latitude,
+          endLng: reachedSource ? destinationMarker!.point.longitude : sourceMarker!.point.longitude,
+        ) ??
         [];
     reachedSource ? roadToDestination.addAll(newRoad) : roadToSource.addAll(newRoad);
-    reachedSource ? road =  roadToDestination : road = roadToSource;
+    reachedSource ? road = roadToDestination : road = roadToSource;
     update();
   }
 
@@ -308,7 +308,7 @@ class DriverHomeController extends GetxController {
         if (_isWebSocketConnected()) {
           websocket!.add(jsonEncode(pos));
         }
-        if(arePointsClose(driverMarker!.point, sourceMarker!.point, 20)){
+        if (arePointsClose(driverMarker!.point, sourceMarker!.point, 20)) {
           // store flag in local storage and recalculate route to end
           _getStorage.write("reached_source", true);
           drawPath();
@@ -349,51 +349,6 @@ class DriverHomeController extends GetxController {
     //update();
   }
 
-  // void _startPeriodicLocationUpdates() async {
-  //   _locationTimer?.cancel();
-  //   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     setTrackingStatus("turn location on");
-  //     return;
-  //   }
-  //   LocationPermission permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //       setTrackingStatus("location permission is denied");
-  //       return;
-  //     }
-  //   }
-  //   if (permission == LocationPermission.deniedForever) {
-  //     setTrackingStatus("Location permission is permanently denied");
-  //     return;
-  //   }
-  //
-  //   _locationTimer = Timer.periodic(Duration(seconds: 10), (timer) async {
-  //     try {
-  //       Position position = await Geolocator.getCurrentPosition(
-  //         desiredAccuracy: LocationAccuracy.bestForNavigation,
-  //       );
-  //
-  //       Map pos = {
-  //         'latitude': position.latitude,
-  //         'longitude': position.longitude,
-  //       };
-  //       print("Foreground location: $pos");
-  //
-  //       if (websocket!.readyState == WebSocket.open) {
-  //         websocket!.add(jsonEncode(pos));
-  //       } else {
-  //         // Handle reconnection
-  //         //_reconnectWebSocket();
-  //       }
-  //     } catch (e) {
-  //       print("Error getting location: $e");
-  //     }
-  //   });
-  // }
-
-  //bool _shouldReconnect = true;
   final Duration _initialReconnectDelay = const Duration(seconds: 5);
 
   void startCheckingLocation() {
@@ -503,14 +458,16 @@ class DriverHomeController extends GetxController {
         : await RemoteServices.driverFinishOrder(orderID);
     if (success) {
       showSuccessSnackbar();
-      CurrentUserController cUC = Get.find();
-      cUC.getCurrentUser();
-      currMarkers.remove(sourceMarker);
+      await _cleanUpWebSocket();
+      currMarkers.remove(sourceMarker); //todo: markers not removed
       currMarkers.remove(destinationMarker);
       roadToSource.clear();
       roadToDestination.clear();
       _getStorage.remove("reached_source");
       road.clear();
+      CurrentUserController cUC = Get.find();
+      cUC.getCurrentUser();
+      update();
     }
     toggleLoadingFinish(false);
   }
@@ -552,8 +509,54 @@ class DriverHomeController extends GetxController {
     //things go to shit when i refresh (realme x)
     await _cleanUpWebSocket();
     mapContainerScrollController.dispose();
-    super.dispose();
+    super.onClose();
   }
+
+// void _startPeriodicLocationUpdates() async {
+//   _locationTimer?.cancel();
+//   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+//   if (!serviceEnabled) {
+//     setTrackingStatus("turn location on");
+//     return;
+//   }
+//   LocationPermission permission = await Geolocator.checkPermission();
+//   if (permission == LocationPermission.denied) {
+//     permission = await Geolocator.requestPermission();
+//     if (permission == LocationPermission.denied) {
+//       setTrackingStatus("location permission is denied");
+//       return;
+//     }
+//   }
+//   if (permission == LocationPermission.deniedForever) {
+//     setTrackingStatus("Location permission is permanently denied");
+//     return;
+//   }
+//
+//   _locationTimer = Timer.periodic(Duration(seconds: 10), (timer) async {
+//     try {
+//       Position position = await Geolocator.getCurrentPosition(
+//         desiredAccuracy: LocationAccuracy.bestForNavigation,
+//       );
+//
+//       Map pos = {
+//         'latitude': position.latitude,
+//         'longitude': position.longitude,
+//       };
+//       print("Foreground location: $pos");
+//
+//       if (websocket!.readyState == WebSocket.open) {
+//         websocket!.add(jsonEncode(pos));
+//       } else {
+//         // Handle reconnection
+//         //_reconnectWebSocket();
+//       }
+//     } catch (e) {
+//       print("Error getting location: $e");
+//     }
+//   });
+// }
+
+//bool _shouldReconnect = true;
 
   // void test(){
   //   updateDriverMarker(sourceMarker!.point.latitude, sourceMarker!.point.longitude, false);

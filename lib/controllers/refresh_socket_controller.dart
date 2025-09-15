@@ -6,6 +6,12 @@ import 'package:shipment/controllers/shared_home_controller.dart';
 
 class RefreshSocketController extends GetxController {
   SharedHomeController sHC = Get.find();
+  WebSocket? websocket;
+  final GetStorage _getStorage = GetStorage();
+
+  final Duration _initialReconnectDelay = const Duration(seconds: 5);
+  bool _isConnecting = false;
+  bool _shouldReconnect = true;
 
   @override
   void onInit() {
@@ -13,19 +19,9 @@ class RefreshSocketController extends GetxController {
     super.onInit();
   }
 
-  WebSocket? websocket;
-
-  final GetStorage _getStorage = GetStorage();
-
   bool _isWebSocketConnected() {
     return websocket != null && websocket!.readyState == WebSocket.open;
   }
-
-  final Duration _initialReconnectDelay = const Duration(seconds: 5);
-
-  int get governorateID => sHC.selectedGovernorate?.id ?? 0;
-
-  bool _isConnecting = false;
 
   void sendLocationID(int id) {
     if (!_isWebSocketConnected()) return;
@@ -36,9 +32,7 @@ class RefreshSocketController extends GetxController {
   }
 
   void _connectSocket() async {
-    if (_isConnecting) return;
-    if (_isWebSocketConnected()) return;
-
+    if (_isConnecting || _isWebSocketConnected()) return;
     _isConnecting = true;
 
     try {
@@ -51,12 +45,9 @@ class RefreshSocketController extends GetxController {
 
       websocket!.listen(
         (message) async {
-          //todo(later): in new driver tab, the list appears empty for seconds when refreshing
-          //the list appears empty in recent and in driver new tab
-          print('Message from server: $message');
-          message = jsonDecode(message);
-          if (message["type"] == "group_switched") return;
-          await sHC.refreshEverything(); //todo(later): separate (new and my orders)
+          final decoded = jsonDecode(message);
+          if (decoded["type"] == "group_switched") return;
+          await sHC.refreshEverything();
         },
         onDone: () {
           _cleanUpWebSocket();
@@ -86,15 +77,16 @@ class RefreshSocketController extends GetxController {
   }
 
   void _scheduleReconnect() {
+    if (!_shouldReconnect) return;
     Future.delayed(_initialReconnectDelay, () {
       _connectSocket();
     });
   }
 
   @override
-  void onClose() async {
-    //todo(later): not disposing (because 2 instances are running?)
-    await _cleanUpWebSocket();
-    super.dispose();
+  void onClose() {
+    _shouldReconnect = false; // prevent auto-reconnect
+    _cleanUpWebSocket();
+    super.onClose();
   }
 }

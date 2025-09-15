@@ -5,29 +5,27 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class OnlineSocketController extends GetxController {
+  WebSocket? websocket;
+  Timer? timer;
+  final GetStorage _getStorage = GetStorage();
+
+  final Duration _initialReconnectDelay = const Duration(seconds: 5);
+  bool _isConnecting = false;
+  bool _shouldReconnect = true; // 🔑 new flag
+
   @override
   void onInit() {
     _connectSocket();
-    //startPinging();
+    // startPinging();
     super.onInit();
   }
-
-  WebSocket? websocket;
-
-  final GetStorage _getStorage = GetStorage();
 
   bool _isWebSocketConnected() {
     return websocket != null && websocket!.readyState == WebSocket.open;
   }
 
-  final Duration _initialReconnectDelay = const Duration(seconds: 5);
-
-  bool _isConnecting = false;
-
   void _connectSocket() async {
-    if (_isConnecting) return;
-    if (_isWebSocketConnected()) return;
-
+    if (_isConnecting || _isWebSocketConnected()) return;
     _isConnecting = true;
 
     try {
@@ -59,22 +57,16 @@ class OnlineSocketController extends GetxController {
     }
   }
 
-  Timer? timer;
-
-  void startPinging() async {
+  void startPinging() {
     timer?.cancel();
-
-    timer = Timer.periodic(const Duration(seconds: 15), (timer) async {
+    timer = Timer.periodic(const Duration(seconds: 15), (timer) {
       try {
         if (_isWebSocketConnected()) {
           websocket!.add(json.encode({"type": "ping"}));
           print("ping");
-        } else {
-          // Handle reconnection
-          //_reconnectWebSocket();
         }
       } catch (e) {
-        print("Error getting location: $e");
+        print("Error sending ping: $e");
       }
     });
   }
@@ -87,22 +79,23 @@ class OnlineSocketController extends GetxController {
       try {
         await websocket!.close();
       } catch (e) {
-        print(e.toString());
+        print("Error closing socket: $e");
       }
       websocket = null;
     }
   }
 
   void _scheduleReconnect() {
+    if (!_shouldReconnect) return; // 🔑 only reconnect if allowed
     Future.delayed(_initialReconnectDelay, () {
       _connectSocket();
     });
   }
 
   @override
-  void onClose() async {
-    //todo(later): not disposing (because 2 instances are running?)
-    await _cleanUpWebSocket();
-    super.dispose();
+  void onClose() {
+    _shouldReconnect = false; // 🔑 stop reconnect loop
+    _cleanUpWebSocket();
+    super.onClose();
   }
 }
