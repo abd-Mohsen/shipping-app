@@ -992,6 +992,7 @@ class OrderView extends StatelessWidget {
                                             );
                                           },
                                           onTapAccept: () {
+                                            if (!oC.isMapReady) return;
                                             //doesnt close sometimes after confirm
                                             showDialog(
                                               context: context,
@@ -1006,6 +1007,7 @@ class OrderView extends StatelessWidget {
                                             );
                                           },
                                           onSeePhone: () {
+                                            if (!oC.isMapReady) return;
                                             showDialog(
                                               context: context,
                                               builder: (context) => alertDialog(
@@ -1019,6 +1021,7 @@ class OrderView extends StatelessWidget {
                                             );
                                           },
                                           onTapRefuse: () {
+                                            if (!oC.isMapReady) return;
                                             showDialog(
                                               context: context,
                                               builder: (context) => alertDialog(

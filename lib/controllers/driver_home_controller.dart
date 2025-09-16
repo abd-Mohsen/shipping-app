@@ -172,12 +172,19 @@ class DriverHomeController extends GetxController {
   }
 
   //todo: drawing 2 paths sometimes on start
+  bool _isDrawingPath = false; // guard flag
+
   Future<void> drawPath() async {
-    if (driverMarker == null) return;
-    if (sourceMarker == null) return; // to not return if no running order
-    bool reachedSource = _getStorage.read("reached_source");
+    if (_isDrawingPath) return;
+    if (driverMarker == null || sourceMarker == null) return;
+
+    bool reachedSource = _getStorage.read("reached_source") != null && _getStorage.read("reached_source");
+
     if (!reachedSource && roadToSource.isNotEmpty) return;
     if (reachedSource && roadToDestination.isNotEmpty) return;
+
+    _isDrawingPath = true; // prevent re-entry
+
     List<LatLng> newRoad = await RemoteServices.getRoadPoints(
           startLat: driverMarker!.point.latitude,
           startLng: driverMarker!.point.longitude,
@@ -185,8 +192,16 @@ class DriverHomeController extends GetxController {
           endLng: reachedSource ? destinationMarker!.point.longitude : sourceMarker!.point.longitude,
         ) ??
         [];
-    reachedSource ? roadToDestination.addAll(newRoad) : roadToSource.addAll(newRoad);
-    reachedSource ? road = roadToDestination : road = roadToSource;
+
+    if (reachedSource) {
+      roadToDestination.addAll(newRoad);
+      road = roadToDestination;
+    } else {
+      roadToSource.addAll(newRoad);
+      road = roadToSource;
+    }
+
+    _isDrawingPath = false;
     update();
   }
 
