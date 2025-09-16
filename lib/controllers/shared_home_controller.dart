@@ -205,6 +205,7 @@ class SharedHomeController extends GetxController {
         print("tracking order with ID ${currOrders.first.id.toString()}");
       }
       if (dHC.trackingID != 0) {
+        //dHC.setShouldReconnect(true);
         dHC.connectTrackingSocket(); //todo(later): if refreshed in real time, handle reconnection
       } else {
         dHC.setTrackingStatus("no running order");
@@ -218,6 +219,10 @@ class SharedHomeController extends GetxController {
     await getRecentOrders(showLoading: showLoading);
   }
 
+  void clearCurrOrders() {
+    currOrders.clear();
+    update();
+  }
   //-------------------------------- explore -----------------------------
 
   List<GovernorateModel> governorates = [];

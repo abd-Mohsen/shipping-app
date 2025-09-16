@@ -528,6 +528,7 @@ class OrderView extends StatelessWidget {
                                     child: CustomButton(
                                       color: cs.primaryContainer,
                                       onTap: () {
+                                        if (!controller.isMapReady) return;
                                         if (isCompany) {
                                           Get.bottomSheet(
                                             GetBuilder<OrderController>(

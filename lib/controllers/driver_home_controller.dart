@@ -171,6 +171,7 @@ class DriverHomeController extends GetxController {
     update();
   }
 
+  //todo: drawing 2 paths sometimes on start
   Future<void> drawPath() async {
     if (driverMarker == null) return;
     if (sourceMarker == null) return; // to not return if no running order
@@ -459,14 +460,22 @@ class DriverHomeController extends GetxController {
     if (success) {
       showSuccessSnackbar();
       await _cleanUpWebSocket();
-      currMarkers.remove(sourceMarker); //todo: markers not removed
-      currMarkers.remove(destinationMarker);
+      if (sourceMarker != null) {
+        currMarkers.remove(sourceMarker);
+        sourceMarker = null;
+      }
+      if (destinationMarker != null) {
+        currMarkers.remove(destinationMarker);
+        destinationMarker = null;
+      }
       roadToSource.clear();
       roadToDestination.clear();
       _getStorage.remove("reached_source");
       road.clear();
       CurrentUserController cUC = Get.find();
       cUC.getCurrentUser();
+      SharedHomeController sHC = Get.find();
+      sHC.clearCurrOrders();
       update();
     }
     toggleLoadingFinish(false);
