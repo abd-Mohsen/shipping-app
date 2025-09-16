@@ -14,6 +14,7 @@ import 'package:shipment/models/vehicle_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/remote_services.dart';
 import 'current_user_controller.dart';
+import 'dart:math' show cos, sqrt, asin, sin, pi;
 
 class OrderController extends GetxController {
   CurrentUserController cUC = Get.find();
@@ -38,6 +39,7 @@ class OrderController extends GetxController {
     await getRemainingCancels();
     if (order != null && !order!.isRatedByMe) setShowRatingBox(true);
     super.onInit();
+    //Get.defaultDialog(title: order!.status, titleStyle: TextStyle(color: Colors.black));
   }
 
   checkForTimer() {
@@ -105,6 +107,24 @@ class OrderController extends GetxController {
     pathDistance = distance;
   }
 
+  double _degToRad(double deg) => deg * (pi / 180.0);
+
+  bool areGeoPointsClose(GeoPoint p1, GeoPoint p2, double thresholdMeters) {
+    const double earthRadius = 6371000; // meters
+
+    double dLat = _degToRad(p2.latitude - p1.latitude);
+    double dLon = _degToRad(p2.longitude - p1.longitude);
+
+    double a = (sin(dLat / 2) * sin(dLat / 2)) +
+        cos(_degToRad(p1.latitude)) * cos(_degToRad(p2.latitude)) * (sin(dLon / 2) * sin(dLon / 2));
+
+    double c = 2 * asin(sqrt(a));
+
+    double distance = earthRadius * c;
+
+    return distance < thresholdMeters;
+  }
+
   Future initMap() async {
     // todo: is called twice (consumes double the api calls)
     if (pathDistance == null) getDistance();
@@ -119,13 +139,13 @@ class OrderController extends GetxController {
     await mapController.moveTo(start);
     await mapController.addMarker(start, markerIcon: kMapDefaultMarkerCustom(const Color(0xff003366)));
 
-    await Future.delayed(const Duration(milliseconds: 800));
+    await Future.delayed(const Duration(milliseconds: 400));
     await mapController.addMarker(end,
         markerIcon: kMapDefaultMarkerCustom(
           const Color(0xffFFA500),
         ));
     if (order!.status != "done") {
-      await mapController.drawRoad(start, end);
+      if (!areGeoPointsClose(start, end, 50)) await mapController.drawRoad(start, end);
     } else {
       List<GeoPoint> coords = await RemoteServices.drawStoredPath(orderID);
       const roadOption = RoadOption(

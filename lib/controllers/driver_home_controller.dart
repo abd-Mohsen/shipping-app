@@ -324,7 +324,9 @@ class DriverHomeController extends GetxController {
         if (_isWebSocketConnected()) {
           websocket!.add(jsonEncode(pos));
         }
-        if (arePointsClose(driverMarker!.point, sourceMarker!.point, 20)) {
+        if (sourceMarker != null &&
+            driverMarker != null &&
+            arePointsClose(driverMarker!.point, sourceMarker!.point, 20)) {
           // store flag in local storage and recalculate route to end
           _getStorage.write("reached_source", true);
           drawPath();

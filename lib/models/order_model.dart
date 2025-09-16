@@ -96,7 +96,7 @@ class OrderModel {
         extraInfo: List<OrderExtraInfoModel>.from(json["order_extra_info"].map((x) => OrderExtraInfoModel.fromJson(x))),
         dateTime: DateTime.parse(json["DateTime"]),
         otherInfo: json["other_info"],
-        status: json["status"],
+        status: (json["is_canceled_by_me"] ?? false) ? "canceled" : json["status"],
         ownerApproved: json["owner_is_approved"],
         driverApproved: json["driver_is_approved"],
         paymentMethods: List<PaymentMethod>.from(json["payment_methods"].map((x) => PaymentMethod.fromJson(x))),
