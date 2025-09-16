@@ -454,7 +454,33 @@ class OrderView extends StatelessWidget {
                     Icons.delete,
                     color: cs.onSurface,
                   ),
-                )
+                ),
+              if (oC.order != null && !["draft", "available"].contains(oC.order!.status))
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 4),
+                  decoration: BoxDecoration(
+                    color: oC.order!.status == "canceled"
+                        ? Color.lerp(Colors.red, Colors.white, 0.05)
+                        : oC.order!.status == "done"
+                            ? Color.lerp(const Color(0xff04bb2b), Colors.white, 0.15)
+                            : oC.order!.status == "processing" || oC.order!.status == "draft"
+                                ? cs.primaryContainer
+                                : cs.primary,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+                    child: Text(
+                      oC.order!.status.tr,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: tt.labelSmall!.copyWith(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                ),
             ],
             leading: IconButton(
               onPressed: () {

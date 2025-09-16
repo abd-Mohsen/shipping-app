@@ -76,12 +76,21 @@ class InvoicesView extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 12),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 4.0),
-                                child: Text(
-                                  "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? ""
-                                      "0" : cUC.currentUser?.wallet?.balances.first.amount}\$",
-                                  style: tt.headlineLarge!.copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
+                              Column(
+                                children: List.generate(
+                                  cUC.currentUser?.wallet?.balances.length ?? 0,
+                                  (i) => Padding(
+                                    padding: const EdgeInsets.only(top: 4.0),
+                                    child: Text(
+                                      "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? ""
+                                          "0" : cUC.currentUser?.wallet?.balances[i].amount} "
+                                      "${cUC.currentUser?.wallet?.balances[i].currency.symbol}",
+                                      style: tt.titleLarge!.copyWith(
+                                        color: cs.onPrimary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],
