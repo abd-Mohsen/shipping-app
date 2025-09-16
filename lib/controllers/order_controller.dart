@@ -410,12 +410,13 @@ class OrderController extends GetxController {
     toggleLoadingSubmit(false);
   }
 
-  showSuccessSnackbar() => Get.showSnackbar(
-        GetSnackBar(
-          message: "success".tr,
-          duration: const Duration(milliseconds: 2500),
-          backgroundColor: Colors.green,
-        ),
+  showSuccessSnackbar() => Get.snackbar(
+        "success".tr,
+        "success".tr,
+        colorText: Colors.white,
+        backgroundColor: Colors.green,
+        icon: const Icon(Icons.done, color: Colors.white),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
       );
 
   //-------------------------------------vehicle and employees-----------------------

@@ -197,7 +197,7 @@ class OrderView extends StatelessWidget {
             },
             color: color ?? cs.primaryContainer,
             child: Center(
-              child: isLoading
+              child: isLoading || !oC.isMapReady
                   ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -297,14 +297,14 @@ class OrderView extends StatelessWidget {
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all<Color>(const Color(0xff10AB43)),
                       ),
-                      child: !isLoadingGreen
-                          ? Text(
-                              greenText,
-                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                            )
-                          : SpinKitThreeBounce(
+                      child: isLoadingGreen || !oC.isMapReady
+                          ? SpinKitThreeBounce(
                               color: cs.onPrimary,
                               size: 18,
+                            )
+                          : Text(
+                              greenText,
+                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                             ),
                     ),
                     ElevatedButton(
@@ -324,14 +324,14 @@ class OrderView extends StatelessWidget {
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all<Color>(Colors.redAccent),
                       ),
-                      child: !isLoadingRed
-                          ? Text(
-                              redText,
-                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                            )
-                          : SpinKitThreeBounce(
+                      child: isLoadingRed || !oC.isMapReady
+                          ? SpinKitThreeBounce(
                               color: cs.onPrimary,
                               size: 18,
+                            )
+                          : Text(
+                              redText,
+                              style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                             ),
                     ),
                   ],
@@ -604,11 +604,12 @@ class OrderView extends StatelessWidget {
                                                       ),
                                                       CustomButton(
                                                         onTap: () {
+                                                          if (!oC.isMapReady) return;
                                                           controller.acceptOrderCompany();
                                                         },
                                                         color: cs.primaryContainer,
                                                         child: Center(
-                                                          child: controller.isLoadingSubmit
+                                                          child: controller.isLoadingSubmit || !oC.isMapReady
                                                               ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                                               : Text(
                                                                   "ok".tr.toUpperCase(),
@@ -675,7 +676,7 @@ class OrderView extends StatelessWidget {
                                         }
                                       },
                                       child: Center(
-                                        child: controller.isLoadingSubmit
+                                        child: controller.isLoadingSubmit || !oC.isMapReady
                                             ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                             : Text(
                                                 "apply".tr.toUpperCase(),
@@ -1861,12 +1862,13 @@ class OrderView extends StatelessWidget {
                                                   CustomButton(
                                                     color: cs.primaryContainer,
                                                     onTap: () {
+                                                      if (!oC.isMapReady) return;
                                                       isCompany || isEmployee
                                                           ? controller.confirmOrderCompany()
                                                           : controller.confirmOrderDriver();
                                                     },
                                                     child: Center(
-                                                      child: controller.isLoadingSubmit
+                                                      child: controller.isLoadingSubmit || !oC.isMapReady
                                                           ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                                           : Text(
                                                               "add".tr.toUpperCase(),
