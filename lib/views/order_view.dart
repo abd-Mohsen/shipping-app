@@ -457,7 +457,7 @@ class OrderView extends StatelessWidget {
                 ),
               if (oC.order != null && !["draft", "available"].contains(oC.order!.status))
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 4),
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
                   decoration: BoxDecoration(
                     color: oC.order!.status == "canceled"
                         ? Color.lerp(Colors.red, Colors.white, 0.05)
@@ -466,10 +466,10 @@ class OrderView extends StatelessWidget {
                             : oC.order!.status == "processing" || oC.order!.status == "draft"
                                 ? cs.primaryContainer
                                 : cs.primary,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                     child: Text(
                       oC.order!.status.tr,
                       maxLines: 1,

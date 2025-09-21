@@ -156,9 +156,11 @@ class OrderController extends GetxController {
         zoomInto: false, // set true if you want map zoomed to show whole path
         isDotted: false,
       );
-      await mapController.drawRoadManually(coords, roadOption);
-      for (int i = 0; i < 4; i++) {
-        mapController.zoomIn();
+      if (coords.first.latitude != coords.last.latitude && coords.first.longitude != coords.last.longitude) {
+        await mapController.drawRoadManually(coords, roadOption);
+        for (int i = 0; i < 4; i++) {
+          mapController.zoomIn();
+        }
       }
     }
     //todo(later): connect when button is pressed
