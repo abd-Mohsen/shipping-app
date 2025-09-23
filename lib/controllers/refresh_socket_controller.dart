@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 
 class RefreshSocketController extends GetxController {
@@ -46,8 +47,15 @@ class RefreshSocketController extends GetxController {
       websocket!.listen(
         (message) async {
           final decoded = jsonDecode(message);
-          if (decoded["type"] == "group_switched") return;
-          await sHC.refreshEverything();
+          print(decoded);
+          if (decoded["type"] == "group_switched")
+            return;
+          else if (decoded["type"] == "balance_update") {
+            CurrentUserController cUC = Get.find();
+            cUC.getCurrentUser();
+          } else {
+            await sHC.refreshEverything();
+          }
         },
         onDone: () {
           _cleanUpWebSocket();

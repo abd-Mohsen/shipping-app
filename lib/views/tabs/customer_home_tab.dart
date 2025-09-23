@@ -102,24 +102,28 @@ class CustomerHomeTab extends StatelessWidget {
             ),
             //todo: giving errors in console
             //todo: add dots
-            CarouselSlider(
-              items: List.generate(
-                controller.currOrders.isEmpty ? 1 : controller.currOrders.length,
-                (i) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: controller.isLoadingRecent
-                      ? SpinKitThreeBounce(color: cs.surface, size: 20)
-                      : CurrOrderCard(
-                          order: controller.currOrders.isEmpty ? null : controller.currOrders[i],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                ),
-              ),
-              options: CarouselOptions(
-                  enableInfiniteScroll: false,
-                  //aspectRatio: 16 / 8,
-                  viewportFraction: 1,
-                  height: MediaQuery.of(context).size.height / 3.5), //todo: make it not fixed
+            // CarouselSlider(
+            //   items: List.generate(
+            //     controller.currOrders.isEmpty ? 1 : controller.currOrders.length,
+            //     (i) => Padding(
+            //       padding: const EdgeInsets.symmetric(vertical: 4),
+            //       child: controller.isLoadingRecent
+            //           ? SpinKitThreeBounce(color: cs.surface, size: 20)
+            //           : CurrOrderCard(
+            //               order: controller.currOrders.isEmpty ? null : controller.currOrders[i],
+            //               borderRadius: BorderRadius.circular(10),
+            //             ),
+            //     ),
+            //   ),
+            //   options: CarouselOptions(
+            //       enableInfiniteScroll: false,
+            //       //aspectRatio: 16 / 8,
+            //       viewportFraction: 1,
+            //       height: MediaQuery.of(context).size.height / 3.5), //todo: make it not fixed
+            // ),
+            CurrOrderCard(
+              order: controller.currOrders.isEmpty ? null : controller.currOrders.last,
+              borderRadius: BorderRadius.circular(10),
             ),
             // This is the scrollable section
             controller.isLoadingRecent
