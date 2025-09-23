@@ -68,27 +68,36 @@ class InvoicesView extends StatelessWidget {
                                     "الرصيد الحالي".tr,
                                     style: tt.labelMedium!.copyWith(color: cs.onPrimary),
                                   ),
-                                  if (cUC.currentUser?.wallet != null)
-                                    Text(
-                                      "${"reserved".tr}:  ${cUC.currentUser?.wallet!.reservedCommission}\$",
-                                      style: tt.labelSmall!.copyWith(color: cs.onPrimary),
-                                    ),
                                 ],
                               ),
                               const SizedBox(height: 12),
                               Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: List.generate(
                                   cUC.currentUser?.wallet?.balances.length ?? 0,
                                   (i) => Padding(
-                                    padding: const EdgeInsets.only(top: 4.0),
-                                    child: Text(
-                                      "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? ""
-                                          "0" : cUC.currentUser?.wallet?.balances[i].amount} "
-                                      "${cUC.currentUser?.wallet?.balances[i].currency.symbol}",
-                                      style: tt.titleLarge!.copyWith(
-                                        color: cs.onPrimary,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    padding: EdgeInsets.only(top: i == 0 ? 0 : 12.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? "0" : cUC.currentUser?.wallet?.balances[i].amount} "
+                                          "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? "" : cUC.currentUser?.wallet?.balances[i].currency.symbol}",
+                                          style: tt.titleLarge!.copyWith(
+                                            color: cs.onPrimary,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 2),
+                                          child: Text(
+                                            "${"reserved".tr}: ${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? ""
+                                                "0" : cUC.currentUser?.wallet?.balances[i].reservedCommission} "
+                                            "${cUC.currentUser?.wallet?.balances[i].currency.symbol}",
+                                            style: tt.labelSmall!.copyWith(color: cs.onPrimary),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

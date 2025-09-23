@@ -40,6 +40,6 @@ class InvoiceModel {
       };
 
   String formatedAmount() {
-    return amount.toStringAsFixed(2) + currency!.symbol;
+    return "${amount.toStringAsFixed(2)} ${currency!.symbol}";
   }
 }

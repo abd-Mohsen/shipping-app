@@ -228,8 +228,8 @@ class UserProfileTile extends StatelessWidget {
                     Text(
                       isLoadingUser
                           ? ""
-                          : "${user?.wallet != null && user!.wallet!.balances.isEmpty ? ""
-                              "0.00" : user?.wallet?.balances.first.amount}\$",
+                          : "${user?.wallet != null && user!.wallet!.balances.isEmpty ? "0.00" : user?.wallet?.balances.first.amount} "
+                              "${user?.wallet != null && user!.wallet!.balances.isEmpty ? "" : user?.wallet?.balances.first.currency.symbol}",
                       style:
                           tt.titleSmall!.copyWith(color: (isPrimaryColor ?? true) ? cs.onPrimary : cs.primaryContainer),
                     )
