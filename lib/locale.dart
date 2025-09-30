@@ -396,6 +396,8 @@ class MyLocale extends Translations {
           "enter your phone to create an account": "enter your phone to create an account",
           "no picture is uploaded": "no picture is uploaded",
           "register vehicle": "register vehicle",
+          'click here if you want to create a new account': 'click here if you want to create a new account',
+          'make sure to read before using the app': 'make sure to read before using the app',
         },
 
         ///
@@ -819,6 +821,8 @@ class MyLocale extends Translations {
           "enter your phone to create an account": "أدخل رقم هاتفك لانشاء حساب في التطبيق",
           "no picture is uploaded": "لم يتم اختيار صورة",
           "register vehicle": "تسجيل مركبة",
+          'click here if you want to create a new account': 'اضغط هنا في حال أردت إنشاء حسابٍ جديد',
+          'make sure to read before using the app': 'تأكد من القراءة قبل استخدام التطبيق',
         },
       };
 }

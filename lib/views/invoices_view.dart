@@ -57,53 +57,54 @@ class InvoicesView extends StatelessWidget {
                                 end: Alignment.bottomCenter,
                                 stops: const [0, 1],
                               )),
-                          child: Column(
-                            //todo(later): add usd/syp switch and change
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "الرصيد الحالي".tr,
-                                    style: tt.labelMedium!.copyWith(color: cs.onPrimary),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 12),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: List.generate(
-                                  cUC.currentUser?.wallet?.balances.length ?? 0,
-                                  (i) => Padding(
-                                    padding: EdgeInsets.only(top: i == 0 ? 0 : 12.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? "0" : cUC.currentUser?.wallet?.balances[i].amount} "
-                                          "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? "" : cUC.currentUser?.wallet?.balances[i].currency.symbol}",
-                                          style: tt.titleLarge!.copyWith(
-                                            color: cs.onPrimary,
-                                            fontWeight: FontWeight.bold,
+                          child: GetBuilder<CurrentUserController>(builder: (innerController) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "الرصيد الحالي".tr,
+                                      style: tt.labelMedium!.copyWith(color: cs.onPrimary),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 12),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: List.generate(
+                                    cUC.currentUser?.wallet?.balances.length ?? 0,
+                                    (i) => Padding(
+                                      padding: EdgeInsets.only(top: i == 0 ? 0 : 12.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? "0" : cUC.currentUser?.wallet?.balances[i].amount} "
+                                            "${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? "" : cUC.currentUser?.wallet?.balances[i].currency.symbol}",
+                                            style: tt.titleLarge!.copyWith(
+                                              color: cs.onPrimary,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 2),
-                                          child: Text(
-                                            "${"reserved".tr}: ${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? ""
-                                                "0" : cUC.currentUser?.wallet?.balances[i].reservedCommission} "
-                                            "${cUC.currentUser?.wallet?.balances[i].currency.symbol}",
-                                            style: tt.labelSmall!.copyWith(color: cs.onPrimary),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 2),
+                                            child: Text(
+                                              "${"reserved".tr}: ${cUC.currentUser?.wallet != null && cUC.currentUser!.wallet!.balances.isEmpty ? ""
+                                                  "0" : cUC.currentUser?.wallet?.balances[i].reservedCommission} "
+                                              "${cUC.currentUser?.wallet?.balances[i].currency.symbol}",
+                                              style: tt.labelSmall!.copyWith(color: cs.onPrimary),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            );
+                          }),
                         ),
                         controller.invoices.isEmpty
                             ? Expanded(

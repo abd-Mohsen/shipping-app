@@ -8,11 +8,29 @@ import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/register_phone_view.dart';
 import 'package:shipment/views/reset_pass_view1.dart';
 import 'package:shipment/views/web_view_page.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final GlobalKey _showKey1 = GlobalKey();
+  final GlobalKey _showKey2 = GlobalKey();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      print("object");
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,44 +160,52 @@ class LoginView extends StatelessWidget {
                               "don’t have an Account? ".tr,
                               style: tt.titleSmall!.copyWith(color: cs.onSurface),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => const RegisterPhoneView());
-                              },
-                              child: Text(
-                                "register here".tr,
-                                style: tt.titleSmall!.copyWith(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                            Showcase(
+                              key: _showKey1,
+                              description: 'click here if you want to create a new account'.tr,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(() => const RegisterPhoneView());
+                                },
+                                child: Text(
+                                  "register here".tr,
+                                  style: tt.titleSmall!.copyWith(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 32),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
-                              },
-                              child: Text(
-                                "privacy policy".tr,
-                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                        Showcase(
+                          key: _showKey2,
+                          description: 'make sure to read before using the app'.tr,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
+                                },
+                                child: Text(
+                                  "privacy policy".tr,
+                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                                ),
                               ),
-                            ),
-                            Text(
-                              " | ".tr,
-                              style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => WebViewPage(title: "terms and conditions".tr, url: "terms"));
-                              },
-                              child: Text(
-                                "terms and conditions".tr,
-                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                              Text(
+                                " | ".tr,
+                                style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                               ),
-                            ),
-                          ],
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => WebViewPage(title: "terms and conditions".tr, url: "terms"));
+                                },
+                                child: Text(
+                                  "terms and conditions".tr,
+                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

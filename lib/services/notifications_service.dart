@@ -34,7 +34,7 @@ class NotificationService {
         channelDescription: "Daily Notification Channel",
         importance: Importance.max,
         priority: Priority.high,
-        color: Color(0xffd1261b),
+        color: Color(0xffFFA500),
         icon: "ic_notification",
       ),
       iOS: DarwinNotificationDetails(),
