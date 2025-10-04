@@ -34,9 +34,12 @@ class CompanyVehiclesTab extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   barrierColor: Colors.black.withValues(alpha: 0.5),
                   enableDrag: true,
-                  builder: (context) => BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: const AddVehicleSheet(),
+                  builder: (context) => Padding(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                      child: const AddVehicleSheet(),
+                    ),
                   ),
                 );
               },
