@@ -9,6 +9,7 @@ import 'package:shipment/views/company_home_view.dart';
 import 'package:shipment/views/customer_home_view.dart';
 import 'package:shipment/views/driver_home_view.dart';
 import 'package:shipment/views/login_view.dart';
+import 'package:shipment/views/onboarding_view.dart';
 
 import '../controllers/company_home_controller.dart';
 import '../controllers/current_user_controller.dart';
@@ -48,7 +49,9 @@ class _RedirectPageState extends State<RedirectPage> {
 
   Future navigateToApp() async {
     !getStorage.hasData("token")
-        ? Get.to(() => const LoginView())
+        ? !getStorage.hasData("onboarding")
+            ? Get.to(() => const OnboardingView())
+            : Get.to(() => const LoginView())
         : getStorage.read("role") == "driver" || getStorage.read("role") == "company_employee"
             ? Get.to(() => const DriverHomeView(), binding: DriverBindings())
             : getStorage.read("role") == "customer"

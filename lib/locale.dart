@@ -398,6 +398,21 @@ class MyLocale extends Translations {
           "register vehicle": "register vehicle",
           'click here if you want to create a new account': 'click here if you want to create a new account',
           'make sure to read before using the app': 'make sure to read before using the app',
+          "Welcome to Kamiyon": "Welcome to Kamiyon",
+          "smart orders": "smart orders",
+          "Real-Time Tracking": "Real-Time Tracking",
+          "Manage Your Fleet": "Manage Your Fleet",
+          "Easily connect with drivers, companies, and customers to manage every shipment in one place.":
+              "Easily connect with drivers, companies, and customers to manage every shipment in one place.",
+          "Create or accept shipment requests in seconds — simple, fast, and reliable for everyone.":
+              "Create or accept shipment requests in seconds — simple, fast, and reliable for everyone.",
+          "Track every delivery live on the map. Stay informed about your shipment’s progress anytime, anywhere.":
+              "Track every delivery live on the map. Stay informed about your shipment’s progress anytime, anywhere.",
+          "For companies with multiple vehicles and drivers — organize, assign, and monitor everything effortlessly.":
+              "For companies with multiple vehicles and drivers — organize, assign, and monitor everything effortlessly.",
+          "next": "next",
+          "skip": "skip",
+          "continue": "continue",
         },
 
         ///
@@ -823,6 +838,21 @@ class MyLocale extends Translations {
           "register vehicle": "تسجيل مركبة",
           'click here if you want to create a new account': 'اضغط هنا في حال أردت إنشاء حسابٍ جديد',
           'make sure to read before using the app': 'تأكد من القراءة قبل استخدام التطبيق',
+          "Welcome to Kamiyon": "مرحباً بك في كميون",
+          "smart orders": "طلبات ذكية",
+          "Real-Time Tracking": "تتبع موقع فوري",
+          "Manage Your Fleet": "إدارة الاسطول",
+          "Easily connect with drivers, companies, and customers to manage every shipment in one place.":
+              "اتصل بسهولة بالسائقين والشركات والعملاء لإدارة جميع الشحنات في مكان واحد.",
+          "Create or accept shipment requests in seconds — simple, fast, and reliable for everyone.":
+              "أنشئ أو اقبل طلبات الشحن في ثوانٍ — بطريقة سهلة وسريعة وموثوقة للجميع.",
+          "Track every delivery live on the map. Stay informed about your shipment’s progress anytime, anywhere.":
+              "تابع كل عملية تسليم مباشرة على الخريطة. كن على اطلاع دائم بحالة شحنتك في أي وقت ومن أي مكان.",
+          "For companies with multiple vehicles and drivers — organize, assign, and monitor everything effortlessly.":
+              "للشركات التي تمتلك عدة مركبات وسائقين — نظّم ووزّع وراقب كل شيء بسهولة.",
+          "next": "التالي",
+          "skip": "تخطي",
+          "continue": "متابعة",
         },
       };
 }
