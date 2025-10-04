@@ -27,7 +27,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
   void initState() {
     //todo: check local storage if shown in this page before
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ShowCaseWidget.of(context).startShowCase([_showKey1a, _showKey2a]);
+      //ShowCaseWidget.of(context).startShowCase([_showKey1a, _showKey2a]);
     });
     super.initState();
   }

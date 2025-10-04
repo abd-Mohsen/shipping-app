@@ -39,7 +39,7 @@ class MyThemes {
       //surface: Color(0xffF6FAF8),
       surface: Color(0xffd7cfc4),
       onSurface: Color(0xff666666),
-      secondaryContainer: Color(0xffEEEEDC),
+      secondaryContainer: Color(0xffeeefdd),
       onSecondaryContainer: Color(0xff666666),
       primaryContainer: Color(0xffFFA500),
     ),
