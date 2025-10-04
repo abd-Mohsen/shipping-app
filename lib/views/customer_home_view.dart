@@ -6,13 +6,31 @@ import 'package:shipment/views/components/my_drawer.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/tabs/customer_home_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../constants.dart';
 import '../controllers/current_user_controller.dart';
 import '../controllers/home_navigation_controller.dart';
 import 'edit_profile_view.dart';
 
-class CustomerHomeView extends StatelessWidget {
+class CustomerHomeView extends StatefulWidget {
   const CustomerHomeView({super.key});
+
+  @override
+  State<CustomerHomeView> createState() => _CustomerHomeViewState();
+}
+
+class _CustomerHomeViewState extends State<CustomerHomeView> {
+  final GlobalKey _showKey1a = GlobalKey();
+  final GlobalKey _showKey2a = GlobalKey();
+
+  @override
+  void initState() {
+    //todo: check local storage if shown in this page before
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ShowCaseWidget.of(context).startShowCase([_showKey1a, _showKey2a]);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,14 +205,18 @@ class CustomerHomeView extends StatelessWidget {
                             ? Alignment.centerLeft // Clip to right half for RTL
                             : Alignment.centerRight, // Clip to left half for LTR
                         widthFactor: 0.5,
-                        child: CircleAvatar(
-                          backgroundColor: cs.primary.withValues(alpha: 0.7),
-                          foregroundColor: cs.onPrimary,
-                          child: Padding(
-                            padding: Directionality.of(context) == TextDirection.rtl
-                                ? const EdgeInsets.only(right: 16)
-                                : const EdgeInsets.only(left: 16),
-                            child: const Icon(Icons.arrow_forward_ios, size: 18),
+                        child: Showcase(
+                          key: _showKey2a,
+                          description: 'click or drag to view more options',
+                          child: CircleAvatar(
+                            backgroundColor: cs.primary.withValues(alpha: 0.7),
+                            foregroundColor: cs.onPrimary,
+                            child: Padding(
+                              padding: Directionality.of(context) == TextDirection.rtl
+                                  ? const EdgeInsets.only(right: 16)
+                                  : const EdgeInsets.only(left: 16),
+                              child: const Icon(Icons.arrow_forward_ios, size: 18),
+                            ),
                           ),
                         ),
                       ),
@@ -228,14 +250,18 @@ class CustomerHomeView extends StatelessWidget {
             //     ),
             //   ],
             // ),
-            floatingActionButton: FloatingActionButton(
-              elevation: 10,
-              onPressed: () {
-                Get.to(() => const MakeOrderView(edit: false));
-              },
-              foregroundColor: cs.onPrimary,
-              shape: const CircleBorder(),
-              child: Icon(Icons.add, color: Get.isDarkMode ? cs.secondaryFixed : cs.primary),
+            floatingActionButton: Showcase(
+              key: _showKey1a,
+              description: 'click here to add a new order'.tr,
+              child: FloatingActionButton(
+                elevation: 10,
+                onPressed: () {
+                  Get.to(() => const MakeOrderView(edit: false));
+                },
+                foregroundColor: cs.onPrimary,
+                shape: const CircleBorder(),
+                child: Icon(Icons.add, color: Get.isDarkMode ? cs.secondaryFixed : cs.primary),
+              ),
             ),
             drawer: GetBuilder<CurrentUserController>(
               builder: (controller) {

@@ -25,6 +25,7 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void initState() {
+    //todo: check local storage if shown in this page before
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
       print("object");
