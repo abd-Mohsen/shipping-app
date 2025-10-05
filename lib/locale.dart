@@ -413,6 +413,9 @@ class MyLocale extends Translations {
           "next": "next",
           "skip": "skip",
           "continue": "continue",
+          "how do you want to receive the code?": "how do you want to receive the code?",
+          "sms message": "sms message",
+          "email": "email",
         },
 
         ///
@@ -853,6 +856,9 @@ class MyLocale extends Translations {
           "next": "التالي",
           "skip": "تخطي",
           "continue": "متابعة",
+          "how do you want to receive the code?": "ارسال الرمز عن طريق",
+          "sms message": "رسالة sms",
+          "email": "بريد الكتروني",
         },
       };
 }

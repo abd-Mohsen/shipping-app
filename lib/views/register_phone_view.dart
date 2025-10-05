@@ -7,6 +7,8 @@ import 'package:shipment/views/components/custom_button.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'components/select_otp_method_sheet.dart';
+
 class RegisterPhoneView extends StatelessWidget {
   const RegisterPhoneView({super.key});
 
@@ -77,15 +79,23 @@ class RegisterPhoneView extends StatelessWidget {
                           builder: (controller) {
                             return CustomButton(
                               onTap: () {
-                                controller.toOTP();
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (context) => SelectOtpMethodSheet(
+                                    onTapWhatsapp: () => controller.toOTP("whatsapp"),
+                                    onTapEmail: () => controller.toOTP("email"),
+                                    onTapSMS: () => controller.toOTP("sms"),
+                                  ),
+                                );
                               },
                               child: Center(
                                 child: controller.isLoading
                                     ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                     : Text(
-                                  "send".tr.toUpperCase(),
-                                  style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                ),
+                                        "send".tr.toUpperCase(),
+                                        style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                      ),
                               ),
                             );
                           },

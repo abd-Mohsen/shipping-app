@@ -11,8 +11,9 @@ import '../services/remote_services.dart';
 class OTPController extends GetxController {
   late String phone;
   late String source;
+  late String method;
 
-  OTPController(this.phone, this.source);
+  OTPController(this.phone, this.source, this.method);
 
   final OtpFieldController otpFieldController = OtpFieldController();
   final CountdownController timeController = CountdownController(autoStart: true);
@@ -48,7 +49,7 @@ class OTPController extends GetxController {
   void resendOtp() async {
     if (!_isTimeUp || isLoading) return;
     toggleLoading(true);
-    bool sent = await RemoteServices.sendOtp(phone,source == "register");
+    bool sent = await RemoteServices.sendOtp(phone, source == "register", method);
     if (sent) {
       timeController.restart();
       otpFieldController.clear();
@@ -79,7 +80,7 @@ class OTPController extends GetxController {
         // ));
         RegisterController rC = Get.find();
         rC.setRegisterToken(otpToken);
-        Get.off(() => const RegisterView() );
+        Get.off(() => const RegisterView());
       } else {
         ResetPassController rPC = Get.find();
         rPC.setOtp(pin);

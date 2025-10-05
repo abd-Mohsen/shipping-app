@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:shipment/views/components/blurred_sheet.dart';
 import 'package:shipment/views/components/input_field.dart';
+import 'package:shipment/views/components/select_otp_method_sheet.dart';
 import 'auth_field.dart';
 
 class AddEmployeeSheet extends StatelessWidget {
@@ -39,7 +40,14 @@ class AddEmployeeSheet extends StatelessWidget {
         title: "add employee".tr,
         confirmText: "add".tr,
         onConfirm: () {
-          cHC.addEmployee();
+          showModalBottomSheet(
+            context: context,
+            builder: (_) => SelectOtpMethodSheet(
+              onTapWhatsapp: () => cHC.addEmployee("whatsapp"),
+              onTapEmail: () => cHC.addEmployee("email"),
+              onTapSMS: () => cHC.addEmployee("sms"),
+            ),
+          );
         },
       );
     });

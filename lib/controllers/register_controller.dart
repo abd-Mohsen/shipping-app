@@ -110,23 +110,24 @@ class RegisterController extends GetxController {
     Get.back();
   }
 
-  Future toOTP() async {
-    if(isLoading) return;
+  Future toOTP(String otpMethod) async {
+    if (isLoading) return;
     button1Pressed = true;
     bool isValid = phoneFormKey.currentState!.validate();
     if (!isValid) return;
     toggleLoading(true);
+    Get.back();
 
-    if (await RemoteServices.sendOtp(phone.text, true)) {
-      Get.put(OTPController(phone.text, "register"));
+    if (await RemoteServices.sendOtp(phone.text, true, otpMethod)) {
+      Get.put(OTPController(phone.text, "register", otpMethod));
       Get.to(() => const OTPView(source: "register"));
     }
     toggleLoading(false);
   }
 
-  String registerToken  = "";
+  String registerToken = "";
 
-  void setRegisterToken(String registerToken){
+  void setRegisterToken(String registerToken) {
     this.registerToken = registerToken;
   }
 

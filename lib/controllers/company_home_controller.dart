@@ -48,13 +48,14 @@ class CompanyHomeController extends GetxController {
 
   TextEditingController phone = TextEditingController();
 
-  void addEmployee() async {
+  void addEmployee(String otpMethod) async {
     if (isLoadingEmployeesAdd) return;
     bool valid = addEmployeeFormKey.currentState!.validate();
     if (!valid) return;
     employeeButtonPressed = true;
     toggleLoadingEmployeesAdd(true);
-    bool success = await RemoteServices.addEmployee(phone.text);
+    Get.back();
+    bool success = await RemoteServices.addEmployee(phone.text, otpMethod);
     if (success) {
       Get.back();
       Get.showSnackbar(GetSnackBar(

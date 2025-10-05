@@ -7,6 +7,8 @@ import 'package:shipment/views/components/custom_button.dart';
 import 'components/auth_background.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'components/select_otp_method_sheet.dart';
+
 class ResetPassView1 extends StatelessWidget {
   const ResetPassView1({super.key});
 
@@ -77,7 +79,14 @@ class ResetPassView1 extends StatelessWidget {
                           builder: (controller) {
                             return CustomButton(
                               onTap: () {
-                                controller.toOTP();
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (_) => SelectOtpMethodSheet(
+                                    onTapWhatsapp: () => controller.toOTP("whatsapp"),
+                                    onTapEmail: () => controller.toOTP("email"),
+                                    onTapSMS: () => controller.toOTP("sms"),
+                                  ),
+                                );
                               },
                               child: Center(
                                 child: controller.isLoading1

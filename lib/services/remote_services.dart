@@ -58,7 +58,8 @@ class RemoteServices {
     File? idFront,
     File? idRear,
     File? licenseFront,
-    File? licenseRear, String registerToken,
+    File? licenseRear,
+    String registerToken,
   ) async {
     Map<String, String> body = {
       "first_name": firstName,
@@ -135,8 +136,12 @@ class RemoteServices {
   //   return true;
   // }
 
-  static Future<bool> sendOtp(String phone, bool isRegistration) async {
-    Map<String, dynamic> body = {"phone_number": phone, "is_registration": isRegistration,};
+  static Future<bool> sendOtp(String phone, bool isRegistration, String method) async {
+    Map<String, dynamic> body = {
+      "phone_number": phone,
+      "is_registration": isRegistration,
+      "method": method,
+    };
     String? json = await api.postRequest("auth/send-otp/", body, auth: false);
     return json != null;
   }
@@ -313,10 +318,10 @@ class RemoteServices {
     return await api.deleteRequest("cstomer_payment_methods/$id/", auth: true);
   }
 
-  static Future<bool> addEmployee(String phoneNumber) async {
+  static Future<bool> addEmployee(String phoneNumber, String method) async {
     String? json = await api.postRequest(
       "auth/employee-register/",
-      {"phone_number": phoneNumber},
+      {"phone_number": phoneNumber, "method": method, "is_registration": true},
       auth: true,
     );
     return json != null;
@@ -849,7 +854,7 @@ class RemoteServices {
     return json;
   }
 
-  static Future<List<GeoPoint>> drawStoredPath(int orderID) async{
+  static Future<List<GeoPoint>> drawStoredPath(int orderID) async {
     String? json = await api.getRequest("order_path/$orderID/", auth: true);
     if (json == null) return [];
     final List<dynamic> route = jsonDecode(json)["route"];

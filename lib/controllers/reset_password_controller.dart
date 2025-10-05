@@ -29,18 +29,17 @@ class ResetPassController extends GetxController {
   GlobalKey<FormState> firstFormKey = GlobalKey<FormState>();
   bool button1Pressed = false;
 
-  Future toOTP() async {
-    if(isLoading1) return;
+  Future toOTP(String otpMethod) async {
+    if (isLoading1) return;
     button1Pressed = true;
     bool isValid = firstFormKey.currentState!.validate();
     if (!isValid) return;
     toggleLoading1(true);
-
-    if (await RemoteServices.sendOtp(phone.text, false)) {
-      Get.put(OTPController(phone.text, "reset"));
+    Get.back();
+    if (await RemoteServices.sendOtp(phone.text, false, otpMethod)) {
+      Get.put(OTPController(phone.text, "reset", otpMethod));
       Get.to(() => const OTPView(source: "reset"));
     }
-
     toggleLoading1(false);
   }
 

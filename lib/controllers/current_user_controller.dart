@@ -8,9 +8,7 @@ import '../models/user_model.dart';
 import '../services/remote_services.dart';
 import '../views/complete_account_view.dart';
 import '../views/login_view.dart';
-import '../views/otp_view.dart';
 import 'complete_account_controller.dart';
-import 'otp_controller.dart';
 
 class CurrentUserController extends GetxController {
   UserModel? currentUser;
@@ -53,10 +51,10 @@ class CurrentUserController extends GetxController {
         Get.to(const CompleteAccountView());
       }
       //
-      if (!currentUser!.isVerified) {
-        Get.put(OTPController(currentUser!.phoneNumber, "register"));
-        Get.to(() => const OTPView(source: "register"));
-      }
+      // if (!currentUser!.isVerified) {
+      //   Get.put(OTPController(currentUser!.phoneNumber, "register"));
+      //   Get.to(() => const OTPView(source: "register"));
+      // }
     }
 
     if (currentUser == null) {
