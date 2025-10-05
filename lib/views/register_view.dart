@@ -347,6 +347,20 @@ class RegisterView extends StatelessWidget {
                               },
                             ),
                           ),
+                          Visibility(
+                            visible: ["company"].contains(controller.roles[controller.roleIndex]),
+                            child: IdImageSelector(
+                              title: "commercial registration".tr,
+                              isSubmitted: controller.commercialRegistration != null,
+                              image: controller.commercialRegistration,
+                              onTapCamera: () {
+                                controller.pickImage("commercial registration".tr, "camera");
+                              },
+                              onTapGallery: () {
+                                controller.pickImage("commercial registration".tr, "gallery");
+                              },
+                            ),
+                          ),
                           const SizedBox(height: 16),
                           GetBuilder<RegisterController>(
                             builder: (controller) {

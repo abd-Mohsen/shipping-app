@@ -59,6 +59,7 @@ class RemoteServices {
     File? idRear,
     File? licenseFront,
     File? licenseRear,
+    File? commercialRegistration,
     String registerToken,
   ) async {
     Map<String, String> body = {
@@ -78,6 +79,7 @@ class RemoteServices {
       "ID_photo_rare": idRear,
       "driving_license_photo_front": licenseFront,
       "driving_license_photo_rare": licenseRear,
+      "company_account_photo": commercialRegistration,
     };
     String? json = await api.requestWithFiles(
       "auth/register/",

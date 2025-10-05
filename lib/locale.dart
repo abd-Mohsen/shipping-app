@@ -416,6 +416,7 @@ class MyLocale extends Translations {
           "how do you want to receive the code?": "how do you want to receive the code?",
           "sms message": "sms message",
           "email": "email",
+          "commercial registration": "commercial registration",
         },
 
         ///
@@ -830,7 +831,7 @@ class MyLocale extends Translations {
           "you must select vehicle": "يجب أن تختار مركبة",
           "order details": "تفاصيل الطلبية",
           'error, click to refresh': 'خطأ, انقر للتحديث',
-          'employee phone': 'رقم هاتف الموظف',
+          'employee phone': 'رقم هاتف الكابتن',
           "an invitation code was send to the employee": "تم ارسال رمز دعوة الى الموظف",
           "phone call": "مكالمة هاتفية",
           "captain was rejected": "تم رفض الكابتن",
@@ -859,6 +860,7 @@ class MyLocale extends Translations {
           "how do you want to receive the code?": "ارسال الرمز عن طريق",
           "sms message": "رسالة sms",
           "email": "بريد الكتروني",
+          "commercial registration": "سجل تجاري",
         },
       };
 }

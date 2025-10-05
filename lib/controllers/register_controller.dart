@@ -91,6 +91,7 @@ class RegisterController extends GetxController {
   XFile? idRear;
   XFile? dLicenseFront;
   XFile? dLicenseRear;
+  XFile? commercialRegistration;
 
   Future pickImage(String selectedImage, String source) async {
     XFile? pickedImage = await ImagePicker().pickImage(
@@ -105,6 +106,7 @@ class RegisterController extends GetxController {
     if (selectedImage == "ID (rear)".tr) idRear = pickedImage;
     if (selectedImage == "driving license (front)".tr) dLicenseFront = pickedImage;
     if (selectedImage == "driving license (rear)".tr) dLicenseRear = pickedImage;
+    if (selectedImage == "commercial registration".tr) commercialRegistration = pickedImage;
 
     update();
     Get.back();
@@ -150,6 +152,7 @@ class RegisterController extends GetxController {
     File? idRearFile = idRear == null ? null : File(idRear!.path);
     File? lFrontFile = dLicenseFront == null ? null : File(dLicenseFront!.path);
     File? lRearFile = dLicenseRear == null ? null : File(dLicenseRear!.path);
+    File? commercialRegistrationFile = commercialRegistration == null ? null : File(commercialRegistration!.path);
 
     LoginModel? registerData = (await RemoteServices.register(
       firstName.text,
@@ -165,6 +168,7 @@ class RegisterController extends GetxController {
       ["driver", "employee", "company"].contains(roles[roleIndex]) ? idRearFile : null,
       ["driver", "employee"].contains(roles[roleIndex]) ? lFrontFile : null,
       ["driver", "employee"].contains(roles[roleIndex]) ? lRearFile : null,
+      ["company"].contains(roles[roleIndex]) ? commercialRegistrationFile : null,
       registerToken,
     ));
     if (registerData != null) {
