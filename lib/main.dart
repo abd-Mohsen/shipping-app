@@ -47,24 +47,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeController t = Get.put(ThemeController());
     LocaleController l = Get.put(LocaleController());
-    return ShowCaseWidget(builder: (context) {
-      return GetMaterialApp(
-        translations: MyLocale(),
-        locale: l.initialLang,
-        title: 'shipping',
-        home: const RedirectPage(),
-        theme: MyThemes.myLightMode, //custom light theme
-        darkTheme: MyThemes.myDarkMode, //custom dark theme
-        themeMode: t.getThemeMode(),
-        debugShowCheckedModeBanner: false,
-        builder: (context, child) {
-          return MediaQuery(
-            ///to make text factor 1 for all text widgets (user cant fuck it up from phone settings)
-            data: MediaQuery.of(context).copyWith(devicePixelRatio: 1, textScaler: const TextScaler.linear(1)),
-            child: child!,
-          );
-        },
-      );
-    });
+    return GetMaterialApp(
+      translations: MyLocale(),
+      locale: l.initialLang,
+      title: 'shipping',
+      home: const RedirectPage(),
+      theme: MyThemes.myLightMode, //custom light theme
+      darkTheme: MyThemes.myDarkMode, //custom dark theme
+      themeMode: t.getThemeMode(),
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return MediaQuery(
+          ///to make text factor 1 for all text widgets (user cant fuck it up from phone settings)
+          data: MediaQuery.of(context).copyWith(devicePixelRatio: 1, textScaler: const TextScaler.linear(1)),
+          child: child!,
+        );
+      },
+    );
   }
 }

@@ -205,18 +205,16 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                             ? Alignment.centerLeft // Clip to right half for RTL
                             : Alignment.centerRight, // Clip to left half for LTR
                         widthFactor: 0.5,
-                        child: Showcase(
-                          key: _showKey2a,
-                          description: 'click or drag to view more options',
-                          child: CircleAvatar(
-                            backgroundColor: cs.primary.withValues(alpha: 0.7),
-                            foregroundColor: cs.onPrimary,
-                            child: Padding(
-                              padding: Directionality.of(context) == TextDirection.rtl
-                                  ? const EdgeInsets.only(right: 16)
-                                  : const EdgeInsets.only(left: 16),
-                              child: const Icon(Icons.arrow_forward_ios, size: 18),
-                            ),
+                        // key: _showKey2a,
+                        // description: 'click or drag to view more options',
+                        child: CircleAvatar(
+                          backgroundColor: cs.primary.withValues(alpha: 0.7),
+                          foregroundColor: cs.onPrimary,
+                          child: Padding(
+                            padding: Directionality.of(context) == TextDirection.rtl
+                                ? const EdgeInsets.only(right: 16)
+                                : const EdgeInsets.only(left: 16),
+                            child: const Icon(Icons.arrow_forward_ios, size: 18),
                           ),
                         ),
                       ),
@@ -250,18 +248,17 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
             //     ),
             //   ],
             // ),
-            floatingActionButton: Showcase(
-              key: _showKey1a,
-              description: 'click here to add a new order'.tr,
-              child: FloatingActionButton(
-                elevation: 10,
-                onPressed: () {
-                  Get.to(() => const MakeOrderView(edit: false));
-                },
-                foregroundColor: cs.onPrimary,
-                shape: const CircleBorder(),
-                child: Icon(Icons.add, color: Get.isDarkMode ? cs.secondaryFixed : cs.primary),
-              ),
+            //
+            // key: _showKey1a,
+            // description: 'click here to add a new order'.tr,
+            floatingActionButton: FloatingActionButton(
+              elevation: 10,
+              onPressed: () {
+                Get.to(() => const MakeOrderView(edit: false));
+              },
+              foregroundColor: cs.onPrimary,
+              shape: const CircleBorder(),
+              child: Icon(Icons.add, color: Get.isDarkMode ? cs.secondaryFixed : cs.primary),
             ),
             drawer: GetBuilder<CurrentUserController>(
               builder: (controller) {

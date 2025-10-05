@@ -161,52 +161,48 @@ class _LoginViewState extends State<LoginView> {
                               "don’t have an Account? ".tr,
                               style: tt.titleSmall!.copyWith(color: cs.onSurface),
                             ),
-                            Showcase(
-                              key: _showKey1,
-                              description: 'click here if you want to create a new account'.tr,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.to(() => const RegisterPhoneView());
-                                },
-                                child: Text(
-                                  "register here".tr,
-                                  style: tt.titleSmall!.copyWith(color: Colors.blueAccent, fontWeight: FontWeight.bold),
-                                ),
+                            // key: _showKey1,
+                            // description: 'click here if you want to create a new account'.tr,
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => const RegisterPhoneView());
+                              },
+                              child: Text(
+                                "register here".tr,
+                                style: tt.titleSmall!.copyWith(color: Colors.blueAccent, fontWeight: FontWeight.bold),
                               ),
                             ),
                           ],
                         ),
                         const SizedBox(height: 32),
-                        Showcase(
-                          key: _showKey2,
-                          description: 'make sure to read before using the app'.tr,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
-                                },
-                                child: Text(
-                                  "privacy policy".tr,
-                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
-                                ),
+                        // key: _showKey2,
+                        // description: 'make sure to read before using the app'.tr,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
+                              },
+                              child: Text(
+                                "privacy policy".tr,
+                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                               ),
-                              Text(
-                                " | ".tr,
-                                style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                            ),
+                            Text(
+                              " | ".tr,
+                              style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => WebViewPage(title: "terms and conditions".tr, url: "terms"));
+                              },
+                              child: Text(
+                                "terms and conditions".tr,
+                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.to(() => WebViewPage(title: "terms and conditions".tr, url: "terms"));
-                                },
-                                child: Text(
-                                  "terms and conditions".tr,
-                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
