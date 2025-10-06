@@ -37,7 +37,7 @@ class MyThemes {
       error: Colors.redAccent,
       onError: Colors.white70,
       //surface: Color(0xffF6FAF8),
-      surface: Color(0xffd7cfc4),
+      surface: Color(0xffe8e8e9),
       onSurface: Color(0xff666666),
       secondaryContainer: Color(0xffeeefdd),
       onSecondaryContainer: Color(0xff666666),

@@ -312,7 +312,7 @@ MarkerIcon kCurrLocationBig = const MarkerIcon(
 
 const Color kNotificationColor = Color(0xffFFA500);
 const Color kNotificationUnreadDarkColor = Color(0xff3f3f3f);
-const Color kNotificationUnreadLightColor = Color(0xfff9f9e5);
+const Color kNotificationUnreadLightColor = Color(0xfff6f6f1);
 
 Widget kEnableLocationDialog2(onConfirm) => PopScope(
       canPop: false,
