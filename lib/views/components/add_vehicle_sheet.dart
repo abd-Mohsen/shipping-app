@@ -9,6 +9,7 @@ import '../../models/vehicle_model.dart';
 import '../../models/vehicle_type_model.dart';
 import 'package:badges/badges.dart' as badges;
 import 'auth_field.dart';
+import 'governorate_selector.dart';
 import 'id_image_selector.dart';
 
 // i get an error if i redirect to vehicle page
@@ -80,6 +81,19 @@ class AddVehicleSheet extends StatelessWidget {
                                 await Future.delayed(const Duration(milliseconds: 1000));
                                 if (controller.buttonPressed) controller.formKey.currentState!.validate();
                               },
+                            ),
+                      controller.isLoadingGovernorates
+                          ? SpinKitThreeBounce(color: cs.primary, size: 20)
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: GovernorateSelector(
+                                selectedItem: controller.selectedGovernorate,
+                                items: controller.governorates,
+                                onChanged: (g) {
+                                  controller.setGovernorate(g);
+                                },
+                                color: cs.primary,
+                              ),
                             ),
                       controller.isLoadingImage
                           ? Padding(

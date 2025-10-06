@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:shipment/services/download_image_service.dart';
 
 import '../constants.dart';
+import '../models/governorate_model.dart';
 import '../models/vehicle_model.dart';
 import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
@@ -22,6 +23,7 @@ class MyVehiclesController extends GetxController {
   onInit() {
     getVehicleTypes();
     getMyVehicles();
+    getGovernorates();
     super.onInit();
   }
 
@@ -90,6 +92,28 @@ class MyVehiclesController extends GetxController {
     List<VehicleModel> newItems = await RemoteServices.fetchDriverVehicles(_getStorage.read("role")) ?? [];
     myVehicles.addAll(newItems);
     toggleLoading(false);
+  }
+
+  bool _isLoadingGovernorates = false;
+  bool get isLoadingGovernorates => _isLoadingGovernorates;
+  void toggleLoadingGovernorate(bool value) {
+    _isLoadingGovernorates = value;
+    update();
+  }
+
+  List<GovernorateModel> governorates = [];
+  GovernorateModel? selectedGovernorate;
+
+  void setGovernorate(GovernorateModel? governorate) {
+    selectedGovernorate = governorate;
+    update();
+  }
+
+  void getGovernorates() async {
+    toggleLoadingGovernorate(true);
+    List<GovernorateModel> newItems = await RemoteServices.fetchGovernorates() ?? [];
+    governorates.addAll(newItems);
+    toggleLoadingGovernorate(false);
   }
 
   Future<void> refreshMyVehicles() async {
@@ -164,6 +188,7 @@ class MyVehiclesController extends GetxController {
             selectedVehicleType!.id,
             licensePlate.text,
             File(registration!.path),
+            selectedGovernorate!.id,
             GetStorage().read("role"),
           );
     if (success) {

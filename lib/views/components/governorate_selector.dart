@@ -7,12 +7,14 @@ class GovernorateSelector extends StatelessWidget {
   final GovernorateModel? selectedItem;
   final List<GovernorateModel> items;
   final void Function(GovernorateModel?) onChanged;
+  final Color? color;
 
   const GovernorateSelector({
     super.key,
     this.selectedItem,
     required this.items,
     required this.onChanged,
+    this.color,
   });
 
   @override
@@ -78,7 +80,7 @@ class GovernorateSelector extends StatelessWidget {
           fillColor: cs.secondaryContainer,
           prefixIcon: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Icon(Icons.location_city, color: cs.primaryContainer),
+            child: Icon(Icons.location_city, color: color ?? cs.primaryContainer),
           ),
           labelText: "select governorate".tr,
           labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
