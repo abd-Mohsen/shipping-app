@@ -14,6 +14,7 @@ class SendReportSheet extends StatelessWidget {
 
     return BlurredSheet(
         height: MediaQuery.of(context).size.height / 2.5,
+        isLoading: sRC.isLoading,
         content: GetBuilder<SendReportController>(
           builder: (controller) {
             return Form(

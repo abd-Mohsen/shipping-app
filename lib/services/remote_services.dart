@@ -867,4 +867,13 @@ class RemoteServices {
       );
     }).toList();
   }
+
+  static Future<bool> addNoteToOrder(int orderID, String note) async {
+    String? json = await api.postRequest(
+      "orders/$orderID/notes/",
+      {"note": note},
+      auth: true,
+    );
+    return json != null;
+  }
 }

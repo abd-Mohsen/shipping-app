@@ -9,7 +9,7 @@ class BlurredSheet extends StatelessWidget {
   final String confirmText;
   final void Function() onConfirm;
   final double? height;
-  final bool? isLoading;
+  final bool? isLoading; //todo not working
   final bool? dynamicContent;
   final double? fontSize;
   final EdgeInsetsGeometry? sheetPadding;

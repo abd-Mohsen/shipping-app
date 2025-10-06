@@ -580,6 +580,34 @@ class OrderController extends GetxController {
     remainingCancels = await RemoteServices.getRemainingCancels() ?? -1;
   }
 
+  //--------------------------------------------------------------------------
+
+  GlobalKey<FormState> noteFormKey = GlobalKey<FormState>();
+  bool buttonNotePressed = false;
+
+  TextEditingController note = TextEditingController();
+
+  bool isLoadingNote = false;
+  void toggleLoadingNote(bool value) {
+    isLoadingNote = value;
+    update();
+  }
+
+  void addNote() async {
+    if (isLoadingNote) return;
+    buttonNotePressed = true;
+    bool valid = noteFormKey.currentState!.validate();
+    if (!valid) return;
+    toggleLoadingNote(true);
+    bool success = await RemoteServices.addNoteToOrder(order!.id, note.text);
+    if (success) {
+      Get.back();
+      refreshOrder();
+      showSuccessSnackbar();
+    }
+    toggleLoadingNote(false);
+  }
+
   @override
   void onClose() {
     mapController.dispose();

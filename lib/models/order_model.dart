@@ -6,6 +6,7 @@ import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/application_model.dart';
 import 'package:shipment/models/currency_model.dart';
 import 'package:shipment/models/make_order_model.dart';
+import 'package:shipment/models/note_model.dart';
 import 'package:shipment/models/vehicle_type_model.dart';
 
 List<OrderModel> orderModelFromJson(String str) =>
@@ -34,6 +35,9 @@ class OrderModel {
   final bool ownerApproved;
   final bool driverApproved;
   final List<PaymentMethod> paymentMethods;
+  final List<NoteModel> myNotes;
+  final List<NoteModel> customerNotes;
+  final List<NoteModel> driverNotes;
   final DateTime createdAt;
   final DateTime? updatedAt;
   final DateTime? startedAt;
@@ -43,6 +47,7 @@ class OrderModel {
   final bool isRatedByMe;
   final bool isCancelledByMe;
   final bool isAppliedByMe;
+  final bool canAddNotes;
   final List<ApplicationModel> driversApplications;
 
   OrderModel({
@@ -66,6 +71,9 @@ class OrderModel {
     required this.ownerApproved,
     required this.driverApproved,
     required this.paymentMethods,
+    required this.myNotes,
+    required this.driverNotes,
+    required this.customerNotes,
     required this.createdAt,
     required this.updatedAt,
     required this.startedAt,
@@ -75,6 +83,7 @@ class OrderModel {
     required this.isRatedByMe,
     required this.isCancelledByMe,
     required this.isAppliedByMe,
+    required this.canAddNotes,
     required this.driversApplications,
   });
 
@@ -100,12 +109,16 @@ class OrderModel {
         ownerApproved: json["owner_is_approved"],
         driverApproved: json["driver_is_approved"],
         paymentMethods: List<PaymentMethod>.from(json["payment_methods"].map((x) => PaymentMethod.fromJson(x))),
+        myNotes: List<NoteModel>.from(json["my_notes"].map((x) => NoteModel.fromJson(x))),
+        driverNotes: List<NoteModel>.from(json["driver_notes"].map((x) => NoteModel.fromJson(x))),
+        customerNotes: List<NoteModel>.from(json["customer_notes"].map((x) => NoteModel.fromJson(x))),
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         startedAt: json["started_at"] == null ? DateTime.now() : DateTime.parse(json["started_at"]),
         finishedAt: json["finished_at"] == null ? null : DateTime.parse(json["finished_at"]),
         customerWannaCancel: json["customer_wanna_cancel"],
         driverWannaCancel: json["driver_wanna_cancel"],
+        canAddNotes: json["can_add_note"],
         isRatedByMe: json["is_rated_by_me"] ?? false,
         isCancelledByMe: json["is_canceled_by_me"] ?? false,
         isAppliedByMe: json["is_applied_by_this_user"] ?? false,

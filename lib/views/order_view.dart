@@ -9,6 +9,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/order_controller.dart';
+import 'package:shipment/views/components/add_note_sheet.dart';
 import 'package:shipment/views/components/application_card2.dart';
 import 'package:shipment/models/employee_model.dart';
 import 'package:shipment/views/components/application_card.dart';
@@ -766,6 +767,35 @@ class OrderView extends StatelessWidget {
                                       ),
                                       isLoading: controller.isLoadingSubmit,
                                       buttonText: "finish".tr.toUpperCase(),
+                                    ),
+                                  ),
+
+                                /// add note button
+                                ///
+                                if (oC.order!.canAddNotes)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                                    child: CustomButton(
+                                      onTap: () async {
+                                        showMaterialModalBottomSheet(
+                                          context: context,
+                                          backgroundColor: Colors.transparent,
+                                          barrierColor: Colors.black.withValues(alpha: 0.5),
+                                          enableDrag: false,
+                                          builder: (context) => Padding(
+                                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                            child: const AddNoteSheet(),
+                                          ),
+                                        );
+                                      },
+                                      color: cs.primaryContainer,
+                                      child: Center(
+                                        child: Text(
+                                          "add note",
+                                          style: tt.labelMedium!
+                                              .copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
                                   ),
 
