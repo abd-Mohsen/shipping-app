@@ -41,7 +41,7 @@ class AddNoteSheet extends StatelessWidget {
             );
           },
         ),
-        title: "send a report".tr,
+        title: "add note".tr,
         confirmText: "send".tr.toUpperCase(),
         isLoading: oC.isLoadingNote,
         onConfirm: () {

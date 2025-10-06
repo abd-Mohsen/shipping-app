@@ -421,6 +421,7 @@ class MyLocale extends Translations {
           "my notes": "my notes",
           "customer notes": "customer notes",
           "driver notes": "driver notes",
+          "No notes yet": "No notes yet",
         },
 
         ///
@@ -869,6 +870,7 @@ class MyLocale extends Translations {
           "my notes": "ملاحظاتي",
           "customer notes": "ملاحظات العميل",
           "driver notes": "ملاحظات الكابتن",
+          "No notes yet": "لا يوجد ملاحظات بعد",
         },
       };
 }
