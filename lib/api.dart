@@ -295,17 +295,23 @@ class Api {
 
     Get.dialog(
         AlertDialog(
-          backgroundColor: Colors.white,
-          title: Text(title.tr, style: const TextStyle(color: Colors.black)),
-          content: Text(content.tr, style: const TextStyle(color: Colors.black)),
+          backgroundColor: Get.isDarkMode ? Color(0xff272524) : Color(0xffe8e8e9),
+          title: Text(title.tr,
+              style: TextStyle(
+                color: Get.isDarkMode ? Color(0xffd0cbcb) : Color(0xff666666),
+              )),
+          content: Text(content.tr,
+              style: TextStyle(
+                color: Get.isDarkMode ? Color(0xffd0cbcb) : Color(0xff666666),
+              )),
           actions: [
             TextButton(
               onPressed: () {
                 Get.back();
               },
-              child: const Text(
-                "ok",
-                style: TextStyle(color: Colors.black),
+              child: Text(
+                "ok".tr,
+                style: TextStyle(color: Get.isDarkMode ? Color(0xffd0cbcb) : Color(0xff666666)),
               ),
             ),
           ],
