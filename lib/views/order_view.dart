@@ -23,6 +23,7 @@ import 'components/auth_field.dart';
 import 'components/blurred_sheet.dart';
 import 'components/count_down_timer.dart';
 import 'components/input_field.dart';
+import 'components/multi_titled_card.dart';
 import 'components/sheet_details_tile.dart';
 import 'make_order_view.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -791,7 +792,7 @@ class OrderView extends StatelessWidget {
                                       color: cs.primaryContainer,
                                       child: Center(
                                         child: Text(
-                                          "add note",
+                                          "add note".tr,
                                           style: tt.labelMedium!
                                               .copyWith(color: cs.onPrimary, fontWeight: FontWeight.bold),
                                         ),
@@ -1734,6 +1735,96 @@ class OrderView extends StatelessWidget {
                                 //   ),
                                 // ),
                                 // const SizedBox(height: 24),
+
+                                /// notes
+                                ///
+                                if (controller.order!.status == "done")
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 8.0, bottom: 8, right: 4, left: 4),
+                                    child: MultiTitledCard(
+                                      titles: isCompany
+                                          ? ["driver notes".tr, "customer notes".tr]
+                                          : isCustomer
+                                              ? ["my notes".tr, "driver notes".tr]
+                                              : ["my notes".tr, "customer notes".tr],
+                                      contents: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: List.generate(
+                                            isCompany
+                                                ? controller.order!.driverNotes.length
+                                                : controller.order!.myNotes.length,
+                                            (i) => Padding(
+                                              padding: const EdgeInsets.only(bottom: 6.0, left: 12, right: 12),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  CircleAvatar(
+                                                    radius: 8,
+                                                    backgroundColor: cs.primaryContainer,
+                                                    child: Icon(
+                                                      Icons.done,
+                                                      color: cs.secondaryContainer,
+                                                      size: 15,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 6),
+                                                  Expanded(
+                                                    child: Text(
+                                                      isCompany
+                                                          ? controller.order!.driverNotes[i].note
+                                                          : controller.order!.myNotes[i].note,
+                                                      style: tt.labelMedium!.copyWith(color: cs.onSecondaryContainer),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: List.generate(
+                                            isCompany
+                                                ? controller.order!.customerNotes.length
+                                                : isCustomer
+                                                    ? controller.order!.driverNotes.length
+                                                    : controller.order!.customerNotes.length,
+                                            (i) => Padding(
+                                              padding: const EdgeInsets.only(bottom: 6.0, left: 12, right: 12),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  CircleAvatar(
+                                                    radius: 8,
+                                                    backgroundColor: cs.primaryContainer,
+                                                    child: Icon(
+                                                      Icons.done,
+                                                      color: cs.secondaryContainer,
+                                                      size: 15,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 6),
+                                                  Expanded(
+                                                    child: Text(
+                                                      isCompany
+                                                          ? controller.order!.customerNotes[i].note
+                                                          : isCustomer
+                                                              ? controller.order!.driverNotes[i].note
+                                                              : controller.order!.customerNotes[i].note,
+                                                      style: tt.labelMedium!.copyWith(color: cs.onSecondaryContainer),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                               ],
                             ),
 

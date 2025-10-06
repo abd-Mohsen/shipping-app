@@ -417,6 +417,10 @@ class MyLocale extends Translations {
           "sms message": "sms message",
           "email": "email",
           "commercial registration": "commercial registration",
+          "add note": "add note",
+          "my notes": "my notes",
+          "customer notes": "customer notes",
+          "driver notes": "driver notes",
         },
 
         ///
@@ -861,6 +865,10 @@ class MyLocale extends Translations {
           "sms message": "رسالة sms",
           "email": "بريد الكتروني",
           "commercial registration": "سجل تجاري",
+          "add note": "اضافة ملاحظة",
+          "my notes": "ملاحظاتي",
+          "customer notes": "ملاحظات العميل",
+          "driver notes": "ملاحظات الكابتن",
         },
       };
 }
