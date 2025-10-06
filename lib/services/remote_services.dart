@@ -243,7 +243,7 @@ class RemoteServices {
     int vehicleTypeID,
     String vehicleRegistrationNumber,
     File? vehicleRegistrationPhoto,
-    int governorateID,
+    int? governorateID,
     String role,
   ) async {
     Map<String, String> body = {

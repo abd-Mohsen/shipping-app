@@ -33,6 +33,14 @@ class MyVehiclesController extends GetxController {
   TextEditingController licensePlate = TextEditingController();
   TextEditingController vehicleOwner = TextEditingController();
 
+  bool isOldPlate = false;
+  void setIsOldPlate(bool v) {
+    licensePlate.text = "";
+    selectedGovernorate = null;
+    isOldPlate = v;
+    update();
+  }
+
   VehicleTypeModel? selectedVehicleType;
   void selectVehicleType(VehicleTypeModel? v) {
     selectedVehicleType = v;
@@ -188,7 +196,7 @@ class MyVehiclesController extends GetxController {
             selectedVehicleType!.id,
             licensePlate.text,
             File(registration!.path),
-            selectedGovernorate!.id,
+            isOldPlate ? selectedGovernorate!.id : null,
             GetStorage().read("role"),
           );
     if (success) {

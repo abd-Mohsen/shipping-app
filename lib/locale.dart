@@ -422,6 +422,8 @@ class MyLocale extends Translations {
           "customer notes": "customer notes",
           "driver notes": "driver notes",
           "No notes yet": "No notes yet",
+          "old license plate": "old license plate",
+          'Please fill all digits': 'Please fill all digits',
         },
 
         ///
@@ -871,6 +873,8 @@ class MyLocale extends Translations {
           "customer notes": "ملاحظات العميل",
           "driver notes": "ملاحظات الكابتن",
           "No notes yet": "لا يوجد ملاحظات بعد",
+          "old license plate": "نمرة قديمة",
+          'Please fill all digits': 'يرجى تعبئة كل الخانات',
         },
       };
 }
