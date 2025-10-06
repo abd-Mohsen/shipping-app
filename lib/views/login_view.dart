@@ -186,12 +186,12 @@ class _LoginViewState extends State<LoginView> {
                               },
                               child: Text(
                                 "privacy policy".tr,
-                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
                               ),
                             ),
                             Text(
                               " | ".tr,
-                              style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                              style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -199,7 +199,7 @@ class _LoginViewState extends State<LoginView> {
                               },
                               child: Text(
                                 "terms and conditions".tr,
-                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
                               ),
                             ),
                           ],

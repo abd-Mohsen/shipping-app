@@ -41,7 +41,7 @@ class VehicleModel {
         fullNameOwner: json["full_name_owner"],
         vehicleType: json["vehicle_type"],
         vehicleTypeInfo: VehicleTypeModel.fromJson(json["vehicle_type_info"]),
-        licensePlate: json["vehicle_registration_number"],
+        licensePlate: json["vehicle_registration_number"].toString(),
         registrationPhoto: json["vehicle_registration_photo"],
         registrationStatus: json["registration_status"],
         createdAt: DateTime.parse(json["created_at"]),

@@ -250,7 +250,7 @@ class RemoteServices {
       "full_name_owner": ownerName,
       "vehicle_type": vehicleTypeID.toString(),
       "vehicle_registration_number": vehicleRegistrationNumber,
-      "governorate": governorateID.toString(),
+      "governorate": governorateID?.toString() ?? "",
     };
     Map<String, File?> images = {
       "vehicle_registration_photo": vehicleRegistrationPhoto,

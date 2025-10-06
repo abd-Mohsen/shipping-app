@@ -103,6 +103,7 @@ class OTPView extends StatelessWidget {
                             builder: (con) => Directionality(
                               textDirection: TextDirection.ltr,
                               child: OTPTextField(
+                                //todo replace with pinput
                                 controller: con.otpFieldController,
                                 otpFieldStyle: OtpFieldStyle(
                                   focusBorderColor: cs.primary,

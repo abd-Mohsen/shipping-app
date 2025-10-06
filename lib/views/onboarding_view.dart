@@ -50,93 +50,115 @@ class _OnboardingViewState extends State<OnboardingView> {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView(
-              controller: pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: List.generate(
-                contents.length,
-                (i) => Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    images[i],
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12.0, right: 12, bottom: 32),
-                          child: Text(
-                            titles[i],
-                            style: tt.headlineLarge!.copyWith(color: cs.primary),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: cs.surface,
+        body: Column(
+          children: [
+            Expanded(
+              child: PageView(
+                controller: pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: List.generate(
+                  contents.length,
+                  (i) => Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0, right: 12, bottom: 32),
+                            child: Text(
+                              titles[i],
+                              style: tt.headlineLarge!.copyWith(color: cs.primary),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
-                          child: Text(
-                            contents[i],
-                            style: tt.titleMedium!.copyWith(color: cs.onSurface),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+                            child: Text(
+                              contents[i],
+                              style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          images[i],
+                          const SizedBox(height: 56),
+                          AnimatedSmoothIndicator(
+                            activeIndex: currPage,
+                            count: contents.length,
+                            effect: WormEffect(
+                              dotHeight: 10,
+                              dotWidth: 10,
+                              activeDotColor: cs.primaryContainer,
+                              dotColor: cs.onSurface.withValues(alpha: 0.6),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Container(
-            color: cs.primary,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      Get.offAll(const LoginView());
-                    },
-                    child: Text(
-                      currPage == contents.length - 1 ? "continue".tr : "skip".tr,
-                      style: tt.titleLarge!.copyWith(color: cs.onPrimary),
-                    ),
-                  ),
-                  AnimatedSmoothIndicator(
-                    activeIndex: currPage,
-                    count: contents.length,
-                    effect: WormEffect(
-                      dotHeight: 11,
-                      dotWidth: 11,
-                      activeDotColor: cs.primaryContainer,
-                      dotColor: cs.onPrimary,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: currPage == contents.length - 1
-                        ? null
-                        : () {
-                            setState(() {
-                              pageController.nextPage(
-                                duration: const Duration(milliseconds: 400),
-                                curve: Curves.easeIn,
-                              );
-                              currPage++;
-                            });
-                          },
-                    child: Text(
-                      "next".tr,
-                      style: tt.titleLarge!.copyWith(
-                        color: currPage == contents.length - 1 ? cs.primary : cs.onPrimary,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.offAll(const LoginView());
+                      },
+                      child: Text(
+                        currPage == contents.length - 1 ? "continue".tr : "skip".tr,
+                        style: tt.titleMedium!.copyWith(
+                          color: cs.onSurface,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
+                  if (currPage != contents.length - 1)
+                    GestureDetector(
+                      onTap: currPage == contents.length - 1
+                          ? null
+                          : () {
+                              setState(() {
+                                pageController.nextPage(
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.easeIn,
+                                );
+                                currPage++;
+                              });
+                            },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: cs.primary,
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 48),
+                          child: Text(
+                            "next".tr,
+                            style: tt.titleSmall!.copyWith(
+                              color: currPage == contents.length - 1 ? cs.primary : cs.onPrimary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
