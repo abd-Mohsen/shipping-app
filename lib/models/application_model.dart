@@ -125,7 +125,7 @@ class Vehicle {
         id: json["id"],
         vehicleType: VehicleType.fromJson(json["vehicle_type"]),
         owner: Owner.fromJson(json["owner"]),
-        vehicleRegistrationNumber: json["vehicle_registration_number"],
+        vehicleRegistrationNumber: json["vehicle_registration_number"].toString(),
         vehicleRegistrationPhoto: json["vehicle_registration_photo"],
       );
 
