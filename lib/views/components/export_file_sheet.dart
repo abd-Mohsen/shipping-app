@@ -13,40 +13,38 @@ class ExportFileSheet extends StatelessWidget {
     // ColorScheme cs = Theme.of(context).colorScheme;
     // TextTheme tt = Theme.of(context).textTheme;
     CompanyHomeController cHC = Get.find();
-    return BlurredSheet(
-        height: MediaQuery.of(context).size.height / 3,
-        content: GetBuilder<CompanyHomeController>(
-          builder: (controller) {
-            return Form(
-              key: controller.exportFileFormKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                child: InputField(
-                  controller: controller.fileName,
-                  label: "file name".tr,
-                  textInputAction: TextInputAction.done,
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  prefixIcon: Icons.attach_file,
-                  validator: (val) {
-                    return validateInput(
-                      controller.fileName.text,
-                      1,
-                      10000,
-                      "",
-                    );
-                  },
-                  onChanged: (val) {
-                    controller.exportFileFormKey.currentState!.validate();
-                  },
-                ),
+    return GetBuilder<CompanyHomeController>(builder: (controller) {
+      return BlurredSheet(
+          height: MediaQuery.of(context).size.height / 3,
+          content: Form(
+            key: controller.exportFileFormKey,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              child: InputField(
+                controller: controller.fileName,
+                label: "file name".tr,
+                textInputAction: TextInputAction.done,
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                prefixIcon: Icons.attach_file,
+                validator: (val) {
+                  return validateInput(
+                    controller.fileName.text,
+                    1,
+                    10000,
+                    "",
+                  );
+                },
+                onChanged: (val) {
+                  controller.exportFileFormKey.currentState!.validate();
+                },
               ),
-            );
-          },
-        ),
-        title: "export excel file".tr,
-        confirmText: "export".tr.toUpperCase(),
-        onConfirm: () {
-          cHC.export();
-        });
+            ),
+          ),
+          title: "export excel file".tr,
+          confirmText: "export".tr.toUpperCase(),
+          onConfirm: () {
+            cHC.export();
+          });
+    });
   }
 }

@@ -12,40 +12,38 @@ class AddNoteSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     OrderController oC = Get.find();
 
-    return BlurredSheet(
-        height: MediaQuery.of(context).size.height / 3,
-        content: GetBuilder<OrderController>(
-          builder: (controller) {
-            return Form(
-              key: controller.noteFormKey,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    child: InputField(
-                      controller: controller.note,
-                      label: "note".tr,
-                      textInputAction: TextInputAction.next,
-                      floatingLabelBehavior: FloatingLabelBehavior.auto,
-                      prefixIcon: Icons.note,
-                      validator: (val) {
-                        return validateInput(controller.note.text, 1, 10000, "");
-                      },
-                      onChanged: (val) {
-                        controller.noteFormKey.currentState!.validate();
-                      },
-                    ),
+    return GetBuilder<OrderController>(builder: (controller) {
+      return BlurredSheet(
+          height: MediaQuery.of(context).size.height / 3,
+          content: Form(
+            key: controller.noteFormKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  child: InputField(
+                    controller: controller.note,
+                    label: "note".tr,
+                    textInputAction: TextInputAction.next,
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    prefixIcon: Icons.note,
+                    validator: (val) {
+                      return validateInput(controller.note.text, 1, 10000, "");
+                    },
+                    onChanged: (val) {
+                      controller.noteFormKey.currentState!.validate();
+                    },
                   ),
-                ],
-              ),
-            );
-          },
-        ),
-        title: "add note".tr,
-        confirmText: "send".tr.toUpperCase(),
-        isLoading: oC.isLoadingNote,
-        onConfirm: () {
-          oC.addNote();
-        });
+                ),
+              ],
+            ),
+          ),
+          title: "add note".tr,
+          confirmText: "send".tr.toUpperCase(),
+          isLoading: oC.isLoadingNote,
+          onConfirm: () {
+            oC.addNote();
+          });
+    });
   }
 }

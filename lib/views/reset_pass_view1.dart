@@ -79,6 +79,7 @@ class ResetPassView1 extends StatelessWidget {
                           builder: (controller) {
                             return CustomButton(
                               onTap: () {
+                                if (!rPC.firstFormKey.currentState!.validate()) return;
                                 showModalBottomSheet(
                                   context: context,
                                   builder: (_) => SelectOtpMethodSheet(

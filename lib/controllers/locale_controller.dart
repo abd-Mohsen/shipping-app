@@ -23,7 +23,8 @@ class LocaleController extends GetxController {
     } else if (currentLang == "en") {
       return "English".tr;
     } else {
-      return Get.deviceLocale!.languageCode == "ar" ? "Arabic ".tr : "English ".tr;
+      //return Get.deviceLocale!.languageCode == "en" ? "English ".tr : "Arabic ".tr;
+      return "Arabic".tr;
     }
   }
 

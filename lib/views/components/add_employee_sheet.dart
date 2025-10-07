@@ -40,6 +40,7 @@ class AddEmployeeSheet extends StatelessWidget {
         title: "add employee".tr,
         confirmText: "add".tr,
         onConfirm: () {
+          if (!controller.addEmployeeFormKey.currentState!.validate()) return;
           showModalBottomSheet(
             context: context,
             builder: (_) => SelectOtpMethodSheet(
