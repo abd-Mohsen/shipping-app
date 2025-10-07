@@ -29,9 +29,16 @@ class RegisterPhoneView extends StatelessWidget {
               children: [
                 Text(
                   "register in the app".tr.toUpperCase(),
-                  style: tt.titleLarge!.copyWith(color: cs.onSurface),
+                  style: tt.titleLarge!.copyWith(color: cs.onSurface, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
+                Center(
+                  child: Text(
+                    "enter your phone to create an account".tr,
+                    style: tt.titleSmall!.copyWith(color: cs.onSurface),
+                  ),
+                ),
+                const SizedBox(height: 24),
                 Row(
                   children: [
                     const Spacer(),
@@ -79,6 +86,7 @@ class RegisterPhoneView extends StatelessWidget {
                           builder: (controller) {
                             return CustomButton(
                               onTap: () {
+                                if (!rC.phoneFormKey.currentState!.validate()) return;
                                 showModalBottomSheet(
                                   context: context,
                                   isScrollControlled: true,
@@ -93,19 +101,12 @@ class RegisterPhoneView extends StatelessWidget {
                                 child: controller.isLoading
                                     ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                                     : Text(
-                                        "send".tr.toUpperCase(),
+                                        "next".tr.toUpperCase(),
                                         style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                                       ),
                               ),
                             );
                           },
-                        ),
-                        const SizedBox(height: 24),
-                        Center(
-                          child: Text(
-                            "enter your phone to create an account".tr,
-                            style: tt.titleSmall!.copyWith(color: cs.onSurface),
-                          ),
                         ),
                       ],
                     ),

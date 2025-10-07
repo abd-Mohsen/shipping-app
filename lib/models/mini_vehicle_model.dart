@@ -19,7 +19,7 @@ class MiniVehicleModel {
 
   factory MiniVehicleModel.fromJson(Map<String, dynamic> json) => MiniVehicleModel(
         id: json["id"],
-        vehicleRegistrationNumber: json["vehicle_registration_number"],
+        vehicleRegistrationNumber: json["vehicle_registration_number"].toString(),
         vehicleType: json["vehicle_type"],
       );
 

@@ -54,7 +54,6 @@ class CompanyHomeController extends GetxController {
     if (!valid) return;
     employeeButtonPressed = true;
     toggleLoadingEmployeesAdd(true);
-    Get.back();
     bool success = await RemoteServices.addEmployee(phone.text, otpMethod);
     if (success) {
       Get.back();

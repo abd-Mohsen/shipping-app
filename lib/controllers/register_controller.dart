@@ -118,7 +118,6 @@ class RegisterController extends GetxController {
     bool isValid = phoneFormKey.currentState!.validate();
     if (!isValid) return;
     toggleLoading(true);
-    Get.back();
 
     if (await RemoteServices.sendOtp(phone.text, true, otpMethod)) {
       Get.put(OTPController(phone.text, "register", otpMethod));

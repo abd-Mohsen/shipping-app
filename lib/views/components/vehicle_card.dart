@@ -64,7 +64,7 @@ class VehicleCard extends StatelessWidget {
             title: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
-                vehicle.licensePlate,
+                vehicle.formattedLicensePlate,
                 style: tt.titleMedium!.copyWith(color: cs.onSurface),
               ),
             ),

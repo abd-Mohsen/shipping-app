@@ -68,7 +68,7 @@ class VehicleSelector<T> extends StatelessWidget {
             child: Icon(Icons.local_shipping),
           ),
           labelText: title ?? "required vehicle".tr,
-          labelStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
+          labelStyle: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.6)),
           floatingLabelBehavior: floatingLabelBehavior ?? FloatingLabelBehavior.never,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(32),

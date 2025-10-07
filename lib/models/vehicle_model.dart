@@ -15,6 +15,7 @@ class VehicleModel {
   final int vehicleType;
   final VehicleTypeModel vehicleTypeInfo;
   final String licensePlate;
+  final String formattedLicensePlate;
   final String registrationPhoto;
   final String registrationStatus;
   final DateTime createdAt;
@@ -28,6 +29,7 @@ class VehicleModel {
     required this.vehicleType,
     required this.vehicleTypeInfo,
     required this.licensePlate,
+    required this.formattedLicensePlate,
     required this.registrationPhoto,
     required this.registrationStatus,
     required this.createdAt,
@@ -42,6 +44,7 @@ class VehicleModel {
         vehicleType: json["vehicle_type"],
         vehicleTypeInfo: VehicleTypeModel.fromJson(json["vehicle_type_info"]),
         licensePlate: json["vehicle_registration_number"].toString(),
+        formattedLicensePlate: json["formatted_registration_number"].toString(),
         registrationPhoto: json["vehicle_registration_photo"],
         registrationStatus: json["registration_status"],
         createdAt: DateTime.parse(json["created_at"]),
@@ -56,6 +59,7 @@ class VehicleModel {
         "vehicle_type": vehicleType,
         "vehicle_type_info": vehicleTypeInfo.toJson(),
         "vehicle_registration_number": licensePlate,
+        "formatted_registration_number": formattedLicensePlate,
         "vehicle_registration_photo": registrationPhoto,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt,
@@ -63,7 +67,7 @@ class VehicleModel {
 
   @override
   String toString() {
-    return "$fullNameOwner #$licensePlate";
+    return "$fullNameOwner #$formattedLicensePlate";
   }
 
   @override
@@ -76,7 +80,8 @@ class VehicleModel {
   int get hashCode => id.hashCode;
 
   MiniVehicleModel toMiniModel() {
-    return MiniVehicleModel(id: id, vehicleRegistrationNumber: licensePlate, vehicleType: vehicleTypeInfo.type);
+    return MiniVehicleModel(
+        id: id, vehicleRegistrationNumber: formattedLicensePlate, vehicleType: vehicleTypeInfo.type);
   }
 }
 
