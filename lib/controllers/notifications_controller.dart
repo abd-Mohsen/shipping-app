@@ -25,7 +25,8 @@ class NotificationsController extends GetxController {
 
   @override
   void onClose() {
-    super.dispose();
+    //
+    super.onClose();
   }
 
   //final GetStorage _getStorage = GetStorage();

@@ -7,6 +7,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/send_report_controller.dart';
 import 'package:shipment/models/user_model.dart';
 import 'package:shipment/views/components/send_report_sheet.dart';
+import 'package:shipment/views/components/share_app_sheet.dart';
 import 'package:shipment/views/faq_page.dart';
 import 'package:shipment/views/payment_methods_view.dart';
 import '../../controllers/locale_controller.dart';
@@ -326,6 +327,23 @@ class MyDrawer extends StatelessWidget {
                   icon: Icons.question_mark,
                   onTap: () {
                     Get.to(() => const FaqPage());
+                  },
+                ),
+                DrawerCard(
+                  title: "share this app".tr,
+                  icon: Icons.share,
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: cs.surface,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                      ),
+                      builder: (context) {
+                        return const ShareAppSheet();
+                      },
+                    );
                   },
                 ),
                 DrawerCard(

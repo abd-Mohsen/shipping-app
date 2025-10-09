@@ -424,6 +424,9 @@ class MyLocale extends Translations {
           "No notes yet": "No notes yet",
           "old license plate": "old license plate",
           'Please fill all digits': 'Please fill all digits',
+          "share this app": "share this app",
+          "to share, scan the QR code above": "to share, scan the QR code above",
+          "View in Play Store": "View in Play Store",
         },
 
         ///
@@ -875,6 +878,9 @@ class MyLocale extends Translations {
           "No notes yet": "لا يوجد ملاحظات بعد",
           "old license plate": "نمرة قديمة",
           'Please fill all digits': 'يرجى تعبئة كل الخانات',
+          "share this app": "مشاركة التطبيق",
+          "to share, scan the QR code above": "قم بمسح رمز QR في الأعلى لمشاركة التطبيق",
+          "View in Play Store": "تحميل من بلاي ستور",
         },
       };
 }
