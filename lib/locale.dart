@@ -427,6 +427,10 @@ class MyLocale extends Translations {
           "share this app": "share this app",
           "to share, scan the QR code above": "to share, scan the QR code above",
           "View in Play Store": "View in Play Store",
+          "share direct download link": "share direct download link",
+          "make your shipments easier and smarter with Kamiyon, to download click on the link below": "make your "
+              "shipments easier and smarter with Kamiyon, to download click on the link below",
+          "Kamiyon App": "Kamiyon App",
         },
 
         ///
@@ -881,6 +885,10 @@ class MyLocale extends Translations {
           "share this app": "مشاركة التطبيق",
           "to share, scan the QR code above": "قم بمسح رمز QR في الأعلى لمشاركة التطبيق",
           "View in Play Store": "تحميل من بلاي ستور",
+          "share direct download link": "مشاركة رابط تحميل مباشر",
+          "make your shipments easier and smarter with Kamiyon, to download click on the link below":
+              "اجعل عمليات الشحن اسهل و اذكى مع تطبيق كميون, يمكنك التحميل من الرابط",
+          "Kamiyon App": "تطبيق كميون",
         },
       };
 }

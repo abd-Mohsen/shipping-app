@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ShareAppSheet extends StatelessWidget {
@@ -66,6 +67,29 @@ class ShareAppSheet extends StatelessWidget {
 
             // Divider
             Divider(color: cs.onSurface.withValues(alpha: 0.6)),
+
+            // share the link
+            ListTile(
+              leading: const FaIcon(
+                FontAwesomeIcons.shareNodes,
+                color: Colors.blue,
+              ),
+              title: Text(
+                "share direct download link".tr,
+                style: tt.titleSmall!.copyWith(
+                  color: cs.onSurface,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onTap: () async {
+                await Share.share(
+                  '${"make your shipments easier and smarter with Kamiyon, to download click on the link below".tr}:'
+                  '\n\n$directDownloadLink',
+                  subject: "Kamiyon App".tr,
+                );
+                Get.back();
+              },
+            ),
 
             // ListTile for Play Store link
             ListTile(
