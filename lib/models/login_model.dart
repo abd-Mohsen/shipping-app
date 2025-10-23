@@ -37,23 +37,26 @@ class CompanyInfo {
 class LoginModel {
   final int id;
   final String token;
-  final Role role;
+  final bool isRegisterComplete;
+  final Role? role;
 
   LoginModel({
     required this.token,
     required this.id,
+    required this.isRegisterComplete,
     required this.role,
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         id: json["id"] ?? 0,
         token: json["token"],
-        role: Role.fromJson(json["role"]),
+        isRegisterComplete: json["is_info_completed"],
+        role: json["role"] == null ? null : Role.fromJson(json["role"]),
       );
 
   Map<String, dynamic> toJson() => {
         "token": token,
-        "role": role.toJson(),
+        "role": role?.toJson(),
       };
 }
 

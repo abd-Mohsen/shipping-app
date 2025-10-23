@@ -20,7 +20,7 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
-    RegisterController rC = Get.find();
+    RegisterController rC = Get.put(RegisterController());
 
     return SafeArea(
       child: AuthBackground(
@@ -190,70 +190,70 @@ class RegisterView extends StatelessWidget {
                           //     if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
                           //   },
                           // ),
-                          GetBuilder<RegisterController>(
-                            builder: (controller) {
-                              return AuthField(
-                                controller: rC.password,
-                                obscure: !controller.passwordVisible,
-                                keyboardType: TextInputType.text,
-                                textInputAction: TextInputAction.next,
-                                label: "password".tr,
-                                prefixIcon: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                                  child: Icon(Icons.lock, color: cs.primary),
-                                ),
-                                suffixIcon: controller.passwordVisible
-                                    ? GestureDetector(
-                                        onTap: () => controller.togglePasswordVisibility(false),
-                                        child: Icon(CupertinoIcons.eye_slash_fill, color: cs.primary),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () => controller.togglePasswordVisibility(true),
-                                        child: Icon(CupertinoIcons.eye_fill, color: cs.primary),
-                                      ),
-                                validator: (val) {
-                                  return validateInput(rC.password.text, 8, 50, "password");
-                                },
-                                onChanged: (val) {
-                                  if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
-                                },
-                              );
-                            },
-                          ),
-                          GetBuilder<RegisterController>(
-                            builder: (controller) {
-                              return AuthField(
-                                controller: rC.rePassword,
-                                obscure: !controller.rePasswordVisible,
-                                keyboardType: TextInputType.text,
-                                textInputAction: TextInputAction.next,
-                                label: "re enter password".tr,
-                                prefixIcon: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                                  child: Icon(Icons.lock, color: cs.primary),
-                                ),
-                                suffixIcon: controller.rePasswordVisible
-                                    ? GestureDetector(
-                                        onTap: () => controller.toggleRePasswordVisibility(false),
-                                        child: Icon(CupertinoIcons.eye_slash_fill, color: cs.primary),
-                                      )
-                                    : GestureDetector(
-                                        onTap: () => controller.toggleRePasswordVisibility(true),
-                                        child: Icon(CupertinoIcons.eye_fill, color: cs.primary),
-                                      ),
-                                validator: (val) {
-                                  return validateInput(rC.rePassword.text, 8, 50, "password",
-                                      pass: rC.password.text, rePass: rC.rePassword.text);
-                                },
-                                onChanged: (val) {
-                                  if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
-                                },
-                                onTapOutside: (_) {
-                                  FocusScope.of(context).unfocus();
-                                },
-                              );
-                            },
-                          ),
+                          // GetBuilder<RegisterController>(
+                          //   builder: (controller) {
+                          //     return AuthField(
+                          //       controller: rC.password,
+                          //       obscure: !controller.passwordVisible,
+                          //       keyboardType: TextInputType.text,
+                          //       textInputAction: TextInputAction.next,
+                          //       label: "password".tr,
+                          //       prefixIcon: Padding(
+                          //         padding: const EdgeInsets.symmetric(horizontal: 16),
+                          //         child: Icon(Icons.lock, color: cs.primary),
+                          //       ),
+                          //       suffixIcon: controller.passwordVisible
+                          //           ? GestureDetector(
+                          //               onTap: () => controller.togglePasswordVisibility(false),
+                          //               child: Icon(CupertinoIcons.eye_slash_fill, color: cs.primary),
+                          //             )
+                          //           : GestureDetector(
+                          //               onTap: () => controller.togglePasswordVisibility(true),
+                          //               child: Icon(CupertinoIcons.eye_fill, color: cs.primary),
+                          //             ),
+                          //       validator: (val) {
+                          //         return validateInput(rC.password.text, 8, 50, "password");
+                          //       },
+                          //       onChanged: (val) {
+                          //         if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
+                          //       },
+                          //     );
+                          //   },
+                          // ),
+                          // GetBuilder<RegisterController>(
+                          //   builder: (controller) {
+                          //     return AuthField(
+                          //       controller: rC.rePassword,
+                          //       obscure: !controller.rePasswordVisible,
+                          //       keyboardType: TextInputType.text,
+                          //       textInputAction: TextInputAction.next,
+                          //       label: "re enter password".tr,
+                          //       prefixIcon: Padding(
+                          //         padding: const EdgeInsets.symmetric(horizontal: 16),
+                          //         child: Icon(Icons.lock, color: cs.primary),
+                          //       ),
+                          //       suffixIcon: controller.rePasswordVisible
+                          //           ? GestureDetector(
+                          //               onTap: () => controller.toggleRePasswordVisibility(false),
+                          //               child: Icon(CupertinoIcons.eye_slash_fill, color: cs.primary),
+                          //             )
+                          //           : GestureDetector(
+                          //               onTap: () => controller.toggleRePasswordVisibility(true),
+                          //               child: Icon(CupertinoIcons.eye_fill, color: cs.primary),
+                          //             ),
+                          //       validator: (val) {
+                          //         return validateInput(rC.rePassword.text, 8, 50, "password",
+                          //             pass: rC.password.text, rePass: rC.rePassword.text);
+                          //       },
+                          //       onChanged: (val) {
+                          //         if (rC.button2Pressed) rC.registerFormKey.currentState!.validate();
+                          //       },
+                          //       onTapOutside: (_) {
+                          //         FocusScope.of(context).unfocus();
+                          //       },
+                          //     );
+                          //   },
+                          // ),
                           Visibility(
                             visible: controller.roles[controller.roleIndex] == "employee",
                             child: AuthField(
@@ -366,7 +366,7 @@ class RegisterView extends StatelessWidget {
                             builder: (controller) {
                               return CustomButton(
                                 onTap: () {
-                                  controller.register();
+                                  controller.completeRegister();
                                 },
                                 child: Center(
                                   child: controller.isLoading

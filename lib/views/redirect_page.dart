@@ -10,6 +10,7 @@ import 'package:shipment/views/customer_home_view.dart';
 import 'package:shipment/views/driver_home_view.dart';
 import 'package:shipment/views/login_view.dart';
 import 'package:shipment/views/onboarding_view.dart';
+import 'package:shipment/views/register_view.dart';
 
 import '../controllers/company_home_controller.dart';
 import '../controllers/current_user_controller.dart';
@@ -52,13 +53,15 @@ class _RedirectPageState extends State<RedirectPage> {
         ? !getStorage.hasData("onboarding")
             ? Get.to(() => const OnboardingView())
             : Get.to(() => const LoginView())
-        : getStorage.read("role") == "driver" || getStorage.read("role") == "company_employee"
-            ? Get.to(() => const DriverHomeView(), binding: DriverBindings())
-            : getStorage.read("role") == "customer"
-                ? Get.to(() => const CustomerHomeView(), binding: CustomerBindings())
-                : getStorage.read("role") == "company"
-                    ? Get.to(() => const CompanyHomeView(), binding: CompanyBindings())
-                    : Get.to(() => const Placeholder());
+        : getStorage.read("role") == null
+            ? Get.to(() => const RegisterView())
+            : getStorage.read("role") == "driver" || getStorage.read("role") == "company_employee"
+                ? Get.to(() => const DriverHomeView(), binding: DriverBindings())
+                : getStorage.read("role") == "customer"
+                    ? Get.to(() => const CustomerHomeView(), binding: CustomerBindings())
+                    : getStorage.read("role") == "company"
+                        ? Get.to(() => const CompanyHomeView(), binding: CompanyBindings())
+                        : Get.to(() => const Placeholder());
 
     await Future.delayed(const Duration(milliseconds: 600));
     if ((widget.toNotifications ?? false) && getStorage.hasData("token")) {

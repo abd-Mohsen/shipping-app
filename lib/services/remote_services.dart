@@ -45,14 +45,26 @@ class RemoteServices {
 
   static var client = http.Client();
 
-  static Future<LoginModel?> register(
+  static Future<LoginModel?> register(String phone, String registerToken, String password, String rePassword) async {
+    Map<String, dynamic> body = {
+      "phone_number": phone,
+      "register_token": registerToken,
+      "password": password,
+      "confirmation_password": rePassword,
+    };
+    String? json = await api.postRequest("auth/register/", body, auth: false);
+    if (json == null) return null;
+    return LoginModel.fromJson(jsonDecode(json));
+  }
+
+  static Future<LoginModel?> completeRegister(
     String firstName,
     String middleName,
     String lastName,
     String role,
     String phone,
-    String password,
-    String passwordConfirmation,
+    // String password,
+    // String passwordConfirmation,
     String? companyName,
     String? otp,
     File? idFront,
@@ -67,8 +79,8 @@ class RemoteServices {
       "last_name": lastName,
       "middel_name": middleName,
       "phone_number": phone,
-      "password": password,
-      "confirmation_password": passwordConfirmation,
+      // "password": password,
+      // "confirmation_password": passwordConfirmation,
       "role": role,
       "company_name": companyName ?? "null",
       "otp_code": otp ?? "null",
@@ -82,10 +94,10 @@ class RemoteServices {
       "company_account_photo": commercialRegistration,
     };
     String? json = await api.requestWithFiles(
-      "auth/register/",
+      "auth/register/complete/",
       images,
       body,
-      auth: false,
+      auth: true,
       utf8Decode: false,
     );
     if (json == null) return null;

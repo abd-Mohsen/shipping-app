@@ -5,6 +5,7 @@ import 'package:shipment/views/company_home_view.dart';
 import 'package:shipment/views/customer_home_view.dart';
 import 'package:shipment/views/driver_home_view.dart';
 import 'package:shipment/views/redirect_page.dart';
+import 'package:shipment/views/register_view.dart';
 
 import '../models/login_model.dart';
 import '../services/remote_services.dart';
@@ -53,14 +54,16 @@ class LoginController extends GetxController {
       return;
     }
     _getStorage.write("token", loginData.token);
-    _getStorage.write("role", loginData.role.type);
+    _getStorage.write("role", loginData.role?.type);
     _getStorage.write("id", loginData.id);
     print(_getStorage.read("token"));
-    if (loginData.role.type == "driver" || loginData.role.type == "company_employee") {
+    if (!loginData.isRegisterComplete) {
+      Get.offAll(() => const RegisterView());
+    } else if (loginData.role!.type == "driver" || loginData.role!.type == "company_employee") {
       Get.offAll(() => const DriverHomeView(), binding: DriverBindings());
-    } else if (loginData.role.type == "customer") {
+    } else if (loginData.role!.type == "customer") {
       Get.offAll(() => const CustomerHomeView(), binding: CustomerBindings());
-    } else if (loginData.role.type == "company") {
+    } else if (loginData.role!.type == "company") {
       Get.offAll(() => const CompanyHomeView(), binding: CompanyBindings());
     } else {
       print("wrong role");

@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shipment/models/login_model.dart';
 import 'package:shipment/views/redirect_page.dart';
+import 'package:shipment/views/register_view.dart';
 import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
 import '../views/company_home_view.dart';
@@ -64,6 +65,7 @@ class RegisterController extends GetxController {
   GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
   bool button1Pressed = false;
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> passwordFormKey = GlobalKey<FormState>();
   bool button2Pressed = false;
 
   bool _isLoadingRegister = false;
@@ -132,7 +134,29 @@ class RegisterController extends GetxController {
     this.registerToken = registerToken;
   }
 
-  Future register() async {
+  void register() async {
+    button2Pressed = true;
+    bool isValid = passwordFormKey.currentState!.validate();
+    if (!isValid) return;
+    toggleLoading(true);
+    LoginModel? registerData = await RemoteServices.register(phone.text, registerToken, password.text, rePassword.text);
+    if (registerData != null) {
+      _getStorage.write("token", registerData.token);
+      _getStorage.write("from_register", true);
+      print(_getStorage.read("token"));
+      Get.offAll(() => const RegisterView());
+
+      Get.showSnackbar(GetSnackBar(
+        message: "registered successfully".tr,
+        duration: const Duration(milliseconds: 3500),
+        backgroundColor: Colors.green,
+      ));
+    }
+
+    toggleLoading(false);
+  }
+
+  Future completeRegister() async {
     button2Pressed = true;
     bool isValid = registerFormKey.currentState!.validate();
     if (!isValid) return;
@@ -153,14 +177,14 @@ class RegisterController extends GetxController {
     File? lRearFile = dLicenseRear == null ? null : File(dLicenseRear!.path);
     File? commercialRegistrationFile = commercialRegistration == null ? null : File(commercialRegistration!.path);
 
-    LoginModel? registerData = (await RemoteServices.register(
+    LoginModel? registerData = (await RemoteServices.completeRegister(
       firstName.text,
       middleName.text,
       lastName.text,
       roles[roleIndex] == "employee" ? "company_employee" : roles[roleIndex],
       phone.text,
-      password.text,
-      rePassword.text,
+      // password.text,
+      // rePassword.text,
       roles[roleIndex] == "company" ? companyName.text : null,
       roles[roleIndex] == "employee" ? otp.text : null,
       ["driver", "employee", "company"].contains(roles[roleIndex]) ? idFrontFile : null,
@@ -171,16 +195,17 @@ class RegisterController extends GetxController {
       registerToken,
     ));
     if (registerData != null) {
-      Get.back();
+      // Get.back();
       _getStorage.write("token", registerData.token);
-      _getStorage.write("role", registerData.role.type);
-      _getStorage.write("from_register", true);
+      _getStorage.write("role", registerData.role!.type);
+      _getStorage.write("id", registerData.id);
+      //_getStorage.write("from_register", true);
       print(_getStorage.read("token"));
-      if (registerData.role.type == "driver" || registerData.role.type == "company_employee") {
+      if (registerData.role!.type == "driver" || registerData.role!.type == "company_employee") {
         Get.offAll(() => const DriverHomeView(), binding: DriverBindings());
-      } else if (registerData.role.type == "customer") {
+      } else if (registerData.role!.type == "customer") {
         Get.offAll(() => const CustomerHomeView(), binding: CustomerBindings());
-      } else if (registerData.role.type == "company") {
+      } else if (registerData.role!.type == "company") {
         Get.offAll(() => const CompanyHomeView(), binding: CompanyBindings());
       } else {
         print("wrong role");

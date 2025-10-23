@@ -431,6 +431,9 @@ class MyLocale extends Translations {
           "make your shipments easier and smarter with Kamiyon, to download click on the link below": "make your "
               "shipments easier and smarter with Kamiyon, to download click on the link below",
           "Kamiyon App": "Kamiyon App",
+          "set password for your account": "set password for your account",
+          "you can fill the remaining data after logging in to your account": "you can fill the remaining data after "
+              "logging in to your account",
         },
 
         ///
@@ -889,6 +892,9 @@ class MyLocale extends Translations {
           "make your shipments easier and smarter with Kamiyon, to download click on the link below":
               "اجعل عمليات الشحن اسهل و اذكى مع تطبيق كميون, يمكنك التحميل من الرابط",
           "Kamiyon App": "تطبيق كميون",
+          "set password for your account": "عين كلمة مرور لحسابك",
+          "you can fill the remaining data after logging in to your account": "يمكنك تعبئة باقي البيانات بعد تسجيل "
+              "الدخول",
         },
       };
 }

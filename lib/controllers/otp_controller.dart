@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:shipment/controllers/register_controller.dart';
 import 'package:shipment/controllers/reset_password_controller.dart';
-import 'package:shipment/views/register_view.dart';
 import 'package:shipment/views/reset_pass_view2.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:flutter/material.dart';
 import '../services/remote_services.dart';
+import '../views/register_view2.dart';
 
 class OTPController extends GetxController {
   late String phone;
@@ -80,7 +80,7 @@ class OTPController extends GetxController {
         // ));
         RegisterController rC = Get.find();
         rC.setRegisterToken(otpToken);
-        Get.off(() => const RegisterView());
+        Get.off(() => const RegisterView2());
       } else {
         ResetPassController rPC = Get.find();
         rPC.setOtp(pin);
