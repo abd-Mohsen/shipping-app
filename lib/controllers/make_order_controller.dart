@@ -8,6 +8,7 @@ import 'package:multi_dropdown/multi_dropdown.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/customer_home_controller.dart';
+import 'package:shipment/controllers/my_addresses_controller.dart';
 import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/location_model.dart';
 import 'package:shipment/models/make_order_model.dart';
@@ -419,6 +420,11 @@ class MakeOrderController extends GetxController {
     if (success) {
       // customerHomeController.refreshOrders();
       // customerHomeController.refreshRecentOrders();
+      MyAddressesController mAC = Get.put(MyAddressesController(isInBackground: true));
+      mAC.addAddressInBackground(sourceAddress!);
+      mAC.addAddressInBackground(targetAddress!);
+      mAC.dispose();
+      //
       Get.back();
       Get.snackbar(
         "order added successfully".tr,

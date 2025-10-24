@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:shipment/models/address_model.dart';
 
 List<MyAddressModel> myAddressModelFromJson(String str) =>
-    List<MyAddressModel>.from(json.decode(str).map((x) => MyAddressModel.fromJson(x)));
+    List<MyAddressModel>.from(json.decode(str)["results"].map((x) => MyAddressModel.fromJson(x)));
 
 String myAddressModelToJson(List<MyAddressModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 

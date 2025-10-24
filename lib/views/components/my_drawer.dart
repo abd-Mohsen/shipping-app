@@ -233,7 +233,7 @@ class MyDrawer extends StatelessWidget {
                     },
                   ),
                 ),
-                if (currentUser != null && role == "driver")
+                if (currentUser != null && ["company_employee", "driver"].contains(role))
                   DrawerCard(
                     title: "my vehicles".tr,
                     icon: Icons.local_shipping_outlined,

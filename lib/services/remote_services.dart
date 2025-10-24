@@ -78,7 +78,7 @@ class RemoteServices {
       "first_name": firstName,
       "last_name": lastName,
       "middel_name": middleName,
-      "phone_number": phone,
+      // "phone_number": phone,
       // "password": password,
       // "confirmation_password": passwordConfirmation,
       "role": role,

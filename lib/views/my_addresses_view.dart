@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:shipment/views/components/address_card.dart';
 import 'package:shipment/views/components/my_loading_animation.dart';
 
+import '../controllers/map_selector_controller.dart';
 import 'components/map_sheet.dart';
 
 class MyAddressesView extends StatelessWidget {
@@ -124,7 +125,7 @@ class MyAddressesView extends StatelessWidget {
                           //     controller.addAddress();
                           //   },
                           // );
-
+                          if (controller.isLoadingAdd) return;
                           showMaterialModalBottomSheet(
                             context: context,
                             enableDrag: false,
@@ -135,6 +136,8 @@ class MyAddressesView extends StatelessWidget {
                                 onDone: controller.setPosition,
                               ),
                             ),
+                          ).then(
+                            (_) => Get.delete<MapSelectorController>(),
                           );
                         },
                         foregroundColor: cs.onPrimary,

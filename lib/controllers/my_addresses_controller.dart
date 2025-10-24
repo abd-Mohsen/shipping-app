@@ -1,6 +1,7 @@
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:shipment/models/address_model.dart';
 import 'package:shipment/models/my_address_model.dart';
 import '../constants.dart';
 import '../models/location_model.dart';
@@ -9,32 +10,35 @@ import 'make_order_controller.dart';
 
 class MyAddressesController extends GetxController {
   late MakeOrderController? makeOrderController;
+  late bool isInBackground;
 
-  MyAddressesController({this.makeOrderController});
+  MyAddressesController({this.makeOrderController, this.isInBackground = false});
 
   bool get selectionMode => makeOrderController != null;
 
   @override
   void onInit() {
-    getMyAddresses();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) => selectionMapController.listenerMapSingleTapping.addListener(
-        () async {
-          if (selectedPosition != null) selectionMapController.removeMarker(selectedPosition!);
-          selectedPosition = selectionMapController.listenerMapSingleTapping.value!;
-          await selectionMapController.addMarker(
-            selectedPosition!,
-            markerIcon: const MarkerIcon(
-              icon: Icon(
-                Icons.location_on,
-                color: Colors.red,
-                size: 40,
+    if (!isInBackground) {
+      getMyAddresses();
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => selectionMapController.listenerMapSingleTapping.addListener(
+          () async {
+            if (selectedPosition != null) selectionMapController.removeMarker(selectedPosition!);
+            selectedPosition = selectionMapController.listenerMapSingleTapping.value!;
+            await selectionMapController.addMarker(
+              selectedPosition!,
+              markerIcon: const MarkerIcon(
+                icon: Icon(
+                  Icons.location_on,
+                  color: Colors.red,
+                  size: 40,
+                ),
               ),
-            ),
-          );
-        },
-      ),
-    );
+            );
+          },
+        ),
+      );
+    }
     super.onInit();
   }
 
@@ -119,12 +123,18 @@ class MyAddressesController extends GetxController {
     ));
     if (success) {
       Get.showSnackbar(GetSnackBar(
-        message: "the address was added successfully".tr,
+        message: "success".tr,
+        backgroundColor: Colors.green,
         duration: const Duration(milliseconds: 2500),
       ));
       refreshMyAddress();
     }
     toggleLoadingAdd(false);
+  }
+
+  Future<void> addAddressInBackground(AddressModel address) async {
+    bool success = await RemoteServices.addAddress(address);
+    if (success) print("${address.toString()} is added to my addresses");
   }
 
   //-------------------------------

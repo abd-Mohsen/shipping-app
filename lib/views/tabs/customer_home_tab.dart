@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -127,7 +127,10 @@ class CustomerHomeTab extends StatelessWidget {
             ),
             // This is the scrollable section
             controller.isLoadingRecent
-                ? SpinKitSquareCircle(color: cs.primary)
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: SpinKitSquareCircle(color: cs.primary),
+                  )
                 : Padding(
                     padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
                     child: TitledScrollingCard(

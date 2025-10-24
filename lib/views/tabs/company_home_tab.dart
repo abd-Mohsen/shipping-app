@@ -391,7 +391,10 @@ class CompanyHomeTab extends StatelessWidget {
             ),
 
             controller.isLoadingRecent
-                ? SpinKitSquareCircle(color: cs.primary)
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: SpinKitSquareCircle(color: cs.primary),
+                  )
                 : Padding(
                     padding: const EdgeInsets.only(left: 12, right: 12, bottom: 8),
                     child: TitledScrollingCard(
