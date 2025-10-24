@@ -7,6 +7,7 @@ import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/edit_profile_controller.dart';
 import 'package:shipment/views/components/custom_button.dart';
 import 'package:shipment/views/components/input_field.dart';
+import 'package:shipment/views/reset_pass_view1.dart';
 import 'components/auth_field.dart';
 
 class EditProfileView extends StatelessWidget {
@@ -313,6 +314,19 @@ class EditProfileView extends StatelessWidget {
                         onChanged: (val) {
                           if (controller.button2Pressed) controller.passFormKey.currentState!.validate();
                         },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 0, top: 8),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(() => const ResetPassView1());
+                          },
+                          child: Text(
+                            "forgot password?".tr,
+                            style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
                       ),
                       AuthField(
                         controller: controller.newPass,

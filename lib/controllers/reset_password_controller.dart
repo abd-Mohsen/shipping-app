@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/otp_controller.dart';
 
 import '../services/remote_services.dart';
@@ -28,6 +29,8 @@ class ResetPassController extends GetxController {
 
   GlobalKey<FormState> firstFormKey = GlobalKey<FormState>();
   bool button1Pressed = false;
+
+  final GetStorage _getStorage = GetStorage();
 
   Future toOTP(String otpMethod) async {
     if (isLoading1) return;
@@ -82,7 +85,13 @@ class ResetPassController extends GetxController {
     toggleLoading2(true);
 
     if (await RemoteServices.resetPassword(resetToken!, newPassword.text, rePassword.text)) {
-      Get.offAll(() => const LoginView());
+      bool loggedIn = _getStorage.hasData("token");
+      if (loggedIn) {
+        Get.back();
+        Get.back();
+      } else {
+        Get.offAll(() => const LoginView());
+      }
       Get.showSnackbar(GetSnackBar(
         message: "done successfully".tr,
         duration: const Duration(milliseconds: 2500),
