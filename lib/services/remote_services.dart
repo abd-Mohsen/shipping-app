@@ -277,12 +277,14 @@ class RemoteServices {
     int vehicleTypeID,
     String vehicleRegistrationNumber,
     File? vehicleRegistrationPhoto,
+    int? governorateID,
     String role,
   ) async {
     Map<String, String> body = {
       "full_name_owner": ownerName,
       "vehicle_type": vehicleTypeID.toString(),
       "vehicle_registration_number": vehicleRegistrationNumber,
+      "governorate": governorateID?.toString() ?? "",
     };
     Map<String, File?> images = {
       "vehicle_registration_photo": vehicleRegistrationPhoto,

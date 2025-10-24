@@ -189,6 +189,7 @@ class MyVehiclesController extends GetxController {
             selectedVehicleType!.id,
             licensePlate.text,
             File(registration!.path),
+            isOldPlate ? selectedGovernorate!.id : null,
             _getStorage.read("role"),
           )
         : await RemoteServices.addVehicle(
