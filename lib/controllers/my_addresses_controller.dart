@@ -19,6 +19,7 @@ class MyAddressesController extends GetxController {
   @override
   void onInit() {
     if (!isInBackground) {
+      setPaginationListener();
       getMyAddresses();
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => selectionMapController.listenerMapSingleTapping.addListener(
@@ -84,14 +85,39 @@ class MyAddressesController extends GetxController {
 
   List<MyAddressModel> myAddresses = [];
 
+  ScrollController scrollController = ScrollController();
+
+  int page = 1, limit = 15;
+  bool hasMore = true;
+
+  //bool failed = false;
+
+  void setPaginationListener() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+        getMyAddresses();
+      }
+    });
+  }
+
   void getMyAddresses() async {
+    hasMore = true;
+    if (isLoading) return;
     toggleLoading(true);
-    List<MyAddressModel> newItems = await RemoteServices.fetchMyAddresses() ?? [];
-    myAddresses.addAll(newItems);
+    List<MyAddressModel>? newItems = await RemoteServices.fetchMyAddresses(page: page);
+    if (newItems != null) {
+      if (newItems.length < limit) hasMore = false;
+      myAddresses.addAll(newItems);
+      page++;
+    } else {
+      hasMore = false;
+    }
     toggleLoading(false);
   }
 
   Future<void> refreshMyAddress() async {
+    page = 1;
+    hasMore = true;
     myAddresses.clear();
     getMyAddresses();
   }

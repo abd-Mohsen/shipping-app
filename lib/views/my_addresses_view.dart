@@ -52,40 +52,54 @@ class MyAddressesView extends StatelessWidget {
         children: [
           GetBuilder<MyAddressesController>(
             builder: (controller) {
-              return controller.isLoading
+              return controller.isLoading && controller.page == 1
                   ? SpinKitSquareCircle(color: cs.primary)
                   : RefreshIndicator(
                       onRefresh: controller.refreshMyAddress,
                       child: controller.myAddresses.isEmpty
                           ? const MyLoadingAnimation()
                           : ListView.builder(
+                              controller: controller.scrollController,
+                              physics: const AlwaysScrollableScrollPhysics(),
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                              itemCount: controller.myAddresses.length,
-                              itemBuilder: (context, i) => AddressCard(
-                                myAddress: controller.myAddresses[i],
-                                selectMode: selectionMode,
-                                onDelete: () {
-                                  controller.deleteAddress(controller.myAddresses[i].id);
-                                },
-                                onSelect: () {
-                                  if (!selectionMode) return;
-                                  if (makeOrderController != null) {
-                                    if (isStart!) {
-                                      makeOrderController!.selectStartAddress(controller.myAddresses[i].address);
-                                    } else {
-                                      makeOrderController!.selectEndAddress(controller.myAddresses[i].address);
-                                    }
-                                  }
-                                  // else if (editOrderController != null) {
-                                  //   if (isStart!) {
-                                  //     editOrderController!.selectStartAddress(controller.myAddresses[i]);
-                                  //   } else {
-                                  //     editOrderController!.selectEndAddress(controller.myAddresses[i]);
-                                  //   }
-                                  // }
-                                },
-                                isLast: controller.myAddresses.length - 1 == i,
-                              ),
+                              itemCount: controller.myAddresses.length + 1,
+                              itemBuilder: (context, i) => i < controller.myAddresses.length
+                                  ? AddressCard(
+                                      myAddress: controller.myAddresses[i],
+                                      selectMode: selectionMode,
+                                      onDelete: () {
+                                        controller.deleteAddress(controller.myAddresses[i].id);
+                                      },
+                                      onSelect: () {
+                                        if (!selectionMode) return;
+                                        if (makeOrderController != null) {
+                                          if (isStart!) {
+                                            makeOrderController!.selectStartAddress(controller.myAddresses[i].address);
+                                          } else {
+                                            makeOrderController!.selectEndAddress(controller.myAddresses[i].address);
+                                          }
+                                        }
+                                        // else if (editOrderController != null) {
+                                        //   if (isStart!) {
+                                        //     editOrderController!.selectStartAddress(controller.myAddresses[i]);
+                                        //   } else {
+                                        //     editOrderController!.selectEndAddress(controller.myAddresses[i]);
+                                        //   }
+                                        // }
+                                      },
+                                      isLast: controller.myAddresses.length - 1 == i,
+                                    )
+                                  : Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 24),
+                                        child: controller.hasMore
+                                            ? CircularProgressIndicator(color: cs.primary)
+                                            : CircleAvatar(
+                                                radius: 5,
+                                                backgroundColor: cs.onSurface.withValues(alpha: 0.4),
+                                              ),
+                                      ),
+                                    ),
                             ),
                     );
             },

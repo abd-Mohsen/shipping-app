@@ -222,8 +222,8 @@ class RemoteServices {
     return json != null;
   }
 
-  static Future<List<MyAddressModel>?> fetchMyAddresses() async {
-    String? json = await api.getRequest("user_addresses/", auth: true);
+  static Future<List<MyAddressModel>?> fetchMyAddresses({int page = 1}) async {
+    String? json = await api.getRequest("user_addresses/?page=$page", auth: true);
     if (json == null) return null;
     return myAddressModelFromJson(json);
   }
