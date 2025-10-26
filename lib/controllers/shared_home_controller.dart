@@ -10,6 +10,7 @@ import 'package:shipment/controllers/refresh_socket_controller.dart';
 import '../models/governorate_model.dart';
 import '../models/order_model_2.dart';
 import '../services/remote_services.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class SharedHomeController extends GetxController {
   HomeNavigationController homeNavigationController = Get.find();
@@ -22,6 +23,12 @@ class SharedHomeController extends GetxController {
     if (role != "customer") orderTypes = ["taken", "accepted", "current", "finished"];
     if (role != "customer") orderIcons = [Icons.watch_later, Icons.done, Icons.local_shipping, Icons.done_all];
     if (["driver", "company_employee"].contains(role)) dHC = Get.find();
+    if (!["driver", "company_employee"].contains(role)) {
+      staticMapController = MapController.withPosition(
+        initPosition: GeoPoint(latitude: 33.5132, longitude: 36.2768),
+      );
+    }
+
     selectedOrderTypes = List.from(orderTypes);
     getOrders();
     getRecentOrders();
@@ -306,6 +313,10 @@ class SharedHomeController extends GetxController {
     //print("update============================");
     update();
   }
+
+  //--------- static map for customer and company -------------
+
+  late final MapController staticMapController;
 
   // bool _isLoadingSubmit = false;
   // bool get isLoadingSubmit => _isLoadingSubmit;

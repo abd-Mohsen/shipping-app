@@ -1,19 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shipment/controllers/shared_home_controller.dart';
 
 class TempMapPage extends StatelessWidget {
-  final Widget map;
-  const TempMapPage({super.key, required this.map});
+  const TempMapPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     //TextTheme tt = Theme.of(context).textTheme;
+    SharedHomeController sHC = Get.find();
 
     return Scaffold(
       body: Stack(
         children: [
-          map,
+          OSMFlutter(
+            controller: sHC.staticMapController,
+            mapIsLoading: SpinKitRing(color: cs.primary),
+            onMapIsReady: (v) {
+              //
+            },
+            osmOption: OSMOption(
+              isPicker: false,
+              userLocationMarker: UserLocationMaker(
+                personMarker: MarkerIcon(
+                  icon: Icon(Icons.person, color: cs.primary, size: 40),
+                ),
+                directionArrowMarker: MarkerIcon(
+                  icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                ),
+              ),
+              zoomOption: const ZoomOption(
+                //initZoom: 17.65,
+                initZoom: 6,
+              ),
+              roadConfiguration: RoadOption(
+                roadColor: cs.primary,
+                roadWidth: 4,
+              ),
+            ),
+          ),
           Positioned(
             top: 50,
             right: 15,
