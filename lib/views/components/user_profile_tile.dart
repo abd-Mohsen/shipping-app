@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/invoices_view.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../../controllers/notifications_controller.dart';
 import '../../models/user_model.dart';
 import '../notifications_view.dart';
@@ -210,7 +211,12 @@ class UserProfileTile extends StatelessWidget {
           if (cUC.currentUser?.role.type != "company_employee")
             GestureDetector(
               onTap: () {
-                if (cUC.currentUser != null) Get.to(const InvoicesView());
+                if (cUC.currentUser != null) {
+                  Get.to(const Placeholder());
+                  Get.off(() => ShowCaseWidget(builder: (context) {
+                        return const InvoicesView();
+                      }));
+                }
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),

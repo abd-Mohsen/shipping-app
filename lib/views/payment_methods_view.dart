@@ -5,13 +5,37 @@ import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/controllers/payments_controller.dart';
 import 'package:shipment/models/payment_selection_model.dart';
-
+import 'package:shipment/views/components/my_showcase.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'components/bank_details_card.dart';
 import 'components/blurred_sheet.dart';
 import 'components/branch_card.dart';
+import 'package:get_storage/get_storage.dart';
 
-class PaymentMethodsView extends StatelessWidget {
+class PaymentMethodsView extends StatefulWidget {
   const PaymentMethodsView({super.key});
+
+  @override
+  State<PaymentMethodsView> createState() => _PaymentMethodsViewState();
+}
+
+class _PaymentMethodsViewState extends State<PaymentMethodsView> {
+  final GlobalKey _showKey1 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_payment_methods";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1]);
+      //_getStorage.write(storageKey, true);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +47,14 @@ class PaymentMethodsView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: cs.primary,
         centerTitle: true,
-        title: Text(
-          "payment methods".tr.toUpperCase(),
-          style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+        title: MyShowcase(
+          globalKey: _showKey1,
+          description: 'here you can see the methods you can recharge your balance'.tr,
+          enabled: isEnabled,
+          child: Text(
+            "payment methods".tr.toUpperCase(),
+            style: tt.titleMedium!.copyWith(color: cs.onPrimary),
+          ),
         ),
         iconTheme: IconThemeData(color: cs.onPrimary),
       ),

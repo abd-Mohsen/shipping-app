@@ -254,7 +254,10 @@ class MyDrawer extends StatelessWidget {
                     icon: Icons.monetization_on_outlined,
                     onTap: () {
                       //Get.to(const PaymentsView());
-                      Get.to(() => const PaymentMethodsView());
+                      Get.to(const Placeholder());
+                      Get.off(() => ShowCaseWidget(builder: (context) {
+                            return const PaymentMethodsView();
+                          }));
                     },
                   ),
                 ),
@@ -296,7 +299,10 @@ class MyDrawer extends StatelessWidget {
                     title: "payment history".tr,
                     icon: Icons.text_snippet_outlined,
                     onTap: () {
-                      Get.to(() => const InvoicesView());
+                      Get.to(const Placeholder());
+                      Get.off(() => ShowCaseWidget(builder: (context) {
+                            return const InvoicesView();
+                          }));
                     },
                   ),
                 ),

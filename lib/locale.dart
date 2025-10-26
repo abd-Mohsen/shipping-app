@@ -455,6 +455,13 @@ class MyLocale extends Translations {
           'you can add an address from here': 'you can add an address from here',
           "morning": "morning",
           "evening": "evening",
+          'here you can see the methods you can recharge your balance': 'here you can see the methods you can recharge'
+              ' your balance',
+          "balance explanation": "Balance: The amount of money available in your account that you can use to place "
+              "new orders.\n Reserved Balance: A commission held temporarily for your running "
+              "orders. It remains reserved until the order is completed, then it’s released or deducted as needed.",
+          'here your invoices will be shown when you charge your account': 'here your invoices will be shown when '
+              'you charge your account',
         },
 
         ///
@@ -916,7 +923,6 @@ class MyLocale extends Translations {
           "set password for your account": "عين كلمة مرور لحسابك",
           "you can fill the remaining data after logging in to your account": "يمكنك تعبئة باقي البيانات بعد تسجيل "
               "الدخول",
-
           'click here to make a new order': 'اضغط هنا لانشاء طلب جديد',
           'click here to view sidebar': 'اضغط هنا لعرض الشريط الجانبي',
           'here you can see your profile, see notifications and view your balance': 'هنا يمكنك رؤية بيانات حسابك '
@@ -938,6 +944,12 @@ class MyLocale extends Translations {
           'you can add an address from here': 'يمكنك اضافة عنوان جديد من هنا',
           "morning": "صباحاً",
           "evening": "مساءً",
+          'here you can see the methods you can recharge your balance': 'هنا يمكنك رؤية طرق تعبئة حسابك',
+          "balance explanation": "الرصيد: هو المبلغ المتاح في حسابك, يمكن زيادته عن طريق ايداع اموال في حسابك, و "
+              "وينقص في حال اكتمال طلبية\n الذمة: عمولة يتم حجزها مؤقتًا للطلبات الجارية. تبقى محجوزة حتى اكتمال "
+              "الطلب، ثم يتم خصمها من رصيدك أو إرجاعها حسب حالة الطلب.",
+          'here your invoices will be shown when you charge your account': 'هنا سيتم عرض فواتيرك, ستظهر فاتورة عند '
+              'إيداع مبلغ في حسابك',
         },
       };
 }
