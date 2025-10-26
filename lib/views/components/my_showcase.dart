@@ -26,10 +26,10 @@ class MyShowcase extends StatelessWidget {
         ? Showcase(
             key: globalKey,
             description: description,
-            textColor: cs.onSurface,
-            tooltipBackgroundColor: cs.surface,
-            child: child,
+            // textColor: cs.onSurface,
+            // tooltipBackgroundColor: cs.surface,
             onBarrierClick: onClick,
+            child: child,
           )
         : child;
   }

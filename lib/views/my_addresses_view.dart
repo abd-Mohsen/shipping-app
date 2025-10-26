@@ -9,11 +9,13 @@ import 'package:shipment/controllers/my_addresses_controller.dart';
 import 'package:get/get.dart';
 import 'package:shipment/views/components/address_card.dart';
 import 'package:shipment/views/components/my_loading_animation.dart';
-
+import 'package:get_storage/get_storage.dart';
+import 'package:shipment/views/components/my_showcase.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../controllers/map_selector_controller.dart';
 import 'components/map_sheet.dart';
 
-class MyAddressesView extends StatelessWidget {
+class MyAddressesView extends StatefulWidget {
   final MakeOrderController? makeOrderController;
   final bool? isStart;
   const MyAddressesView({
@@ -23,13 +25,38 @@ class MyAddressesView extends StatelessWidget {
   });
 
   @override
+  State<MyAddressesView> createState() => _MyAddressesViewState();
+}
+
+class _MyAddressesViewState extends State<MyAddressesView> {
+  final GlobalKey _showKey1 = GlobalKey();
+  final GlobalKey _showKey2 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_my_addresses";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey) && widget.makeOrderController == null;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isEnabled) {
+        ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      }
+      //_getStorage.write(storageKey, true);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     Get.put(MyAddressesController(
-      makeOrderController: makeOrderController,
+      makeOrderController: widget.makeOrderController,
     ));
-    bool selectionMode = makeOrderController != null;
+    bool selectionMode = widget.makeOrderController != null;
     return Scaffold(
       backgroundColor: cs.surface,
       appBar: AppBar(
@@ -40,11 +67,16 @@ class MyAddressesView extends StatelessWidget {
           statusBarColor: cs.surface, // Match your AppBar
         ),
         centerTitle: true,
-        title: Text(
-          selectionMode ? "select an address".tr : 'my addresses'.tr,
-          style: tt.titleMedium!.copyWith(
-            color: cs.onSurface,
-            fontWeight: FontWeight.bold,
+        title: MyShowcase(
+          globalKey: _showKey1,
+          description: 'here you can save and see important addresses to use them later when making aan order'.tr,
+          enabled: isEnabled,
+          child: Text(
+            selectionMode ? "select an address".tr : 'my addresses'.tr,
+            style: tt.titleMedium!.copyWith(
+              color: cs.onSurface,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -72,11 +104,13 @@ class MyAddressesView extends StatelessWidget {
                                       },
                                       onSelect: () {
                                         if (!selectionMode) return;
-                                        if (makeOrderController != null) {
-                                          if (isStart!) {
-                                            makeOrderController!.selectStartAddress(controller.myAddresses[i].address);
+                                        if (widget.makeOrderController != null) {
+                                          if (widget.isStart!) {
+                                            widget.makeOrderController!
+                                                .selectStartAddress(controller.myAddresses[i].address);
                                           } else {
-                                            makeOrderController!.selectEndAddress(controller.myAddresses[i].address);
+                                            widget.makeOrderController!
+                                                .selectEndAddress(controller.myAddresses[i].address);
                                           }
                                         }
                                         // else if (editOrderController != null) {
@@ -107,57 +141,62 @@ class MyAddressesView extends StatelessWidget {
           Positioned(
             bottom: 16,
             left: 16,
-            child: makeOrderController == null
+            child: widget.makeOrderController == null
                 ? GetBuilder<MyAddressesController>(
                     builder: (controller) {
-                      return FloatingActionButton(
-                        heroTag: "my addresses button",
-                        onPressed: () {
-                          // showModalBottomSheet(
-                          //   context: context,
-                          //   enableDrag: false,
-                          //   builder: (context) => OSMFlutter(
-                          //     controller: mAC.mapController,
-                          //     mapIsLoading: SpinKitFoldingCube(color: cs.primary),
-                          //     osmOption: OSMOption(
-                          //       isPicker: true,
-                          //       userLocationMarker: UserLocationMaker(
-                          //         personMarker: MarkerIcon(
-                          //           icon: Icon(Icons.person, color: cs.primary, size: 40),
-                          //         ),
-                          //         directionArrowMarker: MarkerIcon(
-                          //           icon: Icon(Icons.location_history, color: cs.primary, size: 40),
-                          //         ),
-                          //       ),
-                          //       zoomOption: const ZoomOption(
-                          //         initZoom: 16,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ).whenComplete(
-                          //   () {
-                          //     controller.addAddress();
-                          //   },
-                          // );
-                          if (controller.isLoadingAdd) return;
-                          showMaterialModalBottomSheet(
-                            context: context,
-                            enableDrag: false,
-                            //isScrollControlled: true,
-                            builder: (context) => BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                              child: MapSheet(
-                                onDone: controller.setPosition,
+                      return MyShowcase(
+                        globalKey: _showKey2,
+                        description: 'you can add an address from here'.tr,
+                        enabled: isEnabled,
+                        child: FloatingActionButton(
+                          heroTag: "my addresses button",
+                          onPressed: () {
+                            // showModalBottomSheet(
+                            //   context: context,
+                            //   enableDrag: false,
+                            //   builder: (context) => OSMFlutter(
+                            //     controller: mAC.mapController,
+                            //     mapIsLoading: SpinKitFoldingCube(color: cs.primary),
+                            //     osmOption: OSMOption(
+                            //       isPicker: true,
+                            //       userLocationMarker: UserLocationMaker(
+                            //         personMarker: MarkerIcon(
+                            //           icon: Icon(Icons.person, color: cs.primary, size: 40),
+                            //         ),
+                            //         directionArrowMarker: MarkerIcon(
+                            //           icon: Icon(Icons.location_history, color: cs.primary, size: 40),
+                            //         ),
+                            //       ),
+                            //       zoomOption: const ZoomOption(
+                            //         initZoom: 16,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ).whenComplete(
+                            //   () {
+                            //     controller.addAddress();
+                            //   },
+                            // );
+                            if (controller.isLoadingAdd) return;
+                            showMaterialModalBottomSheet(
+                              context: context,
+                              enableDrag: false,
+                              //isScrollControlled: true,
+                              builder: (context) => BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                                child: MapSheet(
+                                  onDone: controller.setPosition,
+                                ),
                               ),
-                            ),
-                          ).then(
-                            (_) => Get.delete<MapSelectorController>(),
-                          );
-                        },
-                        foregroundColor: cs.onPrimary,
-                        child: controller.isLoadingAdd
-                            ? SpinKitRotatingPlain(color: cs.onPrimary, size: 20)
-                            : Icon(Icons.add, color: cs.onPrimary),
+                            ).then(
+                              (_) => Get.delete<MapSelectorController>(),
+                            );
+                          },
+                          foregroundColor: cs.onPrimary,
+                          child: controller.isLoadingAdd
+                              ? SpinKitRotatingPlain(color: cs.onPrimary, size: 20)
+                              : Icon(Icons.add, color: cs.onPrimary),
+                        ),
                       );
                     },
                   )

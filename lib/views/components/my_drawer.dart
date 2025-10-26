@@ -10,6 +10,7 @@ import 'package:shipment/views/components/send_report_sheet.dart';
 import 'package:shipment/views/components/share_app_sheet.dart';
 import 'package:shipment/views/faq_page.dart';
 import 'package:shipment/views/payment_methods_view.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../../controllers/locale_controller.dart';
 import '../../controllers/theme_controller.dart';
 import '../about_us_page.dart';
@@ -229,7 +230,10 @@ class MyDrawer extends StatelessWidget {
                     title: "My Addresses".tr,
                     icon: Icons.maps_home_work_outlined,
                     onTap: () {
-                      Get.to(() => const MyAddressesView());
+                      Get.to(const Placeholder());
+                      Get.off(() => ShowCaseWidget(builder: (context) {
+                            return const MyAddressesView();
+                          }));
                     },
                   ),
                 ),

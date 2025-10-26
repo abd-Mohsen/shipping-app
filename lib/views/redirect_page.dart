@@ -53,11 +53,19 @@ class _RedirectPageState extends State<RedirectPage> {
     !getStorage.hasData("token")
         ? !getStorage.hasData("onboarding")
             ? Get.to(() => const OnboardingView())
-            : Get.to(() => const LoginView())
+            : Get.to(() => ShowCaseWidget(builder: (context) {
+                  return const LoginView();
+                }))
         : getStorage.read("role") == null
-            ? Get.to(() => const RegisterView())
+            ? Get.to(() => ShowCaseWidget(builder: (context) {
+                  return const RegisterView();
+                }))
             : getStorage.read("role") == "driver" || getStorage.read("role") == "company_employee"
-                ? Get.to(() => const DriverHomeView(), binding: DriverBindings())
+                ? Get.to(
+                    () => ShowCaseWidget(builder: (context) {
+                          return const DriverHomeView();
+                        }),
+                    binding: DriverBindings())
                 : getStorage.read("role") == "customer"
                     ? Get.to(
                         () => ShowCaseWidget(builder: (context) {
@@ -65,7 +73,11 @@ class _RedirectPageState extends State<RedirectPage> {
                             }),
                         binding: CustomerBindings())
                     : getStorage.read("role") == "company"
-                        ? Get.to(() => const CompanyHomeView(), binding: CompanyBindings())
+                        ? Get.to(
+                            () => ShowCaseWidget(builder: (context) {
+                                  return const CompanyHomeView();
+                                }),
+                            binding: CompanyBindings())
                         : Get.to(() => const Placeholder());
 
     await Future.delayed(const Duration(milliseconds: 600));

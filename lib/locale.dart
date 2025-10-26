@@ -450,6 +450,11 @@ class MyLocale extends Translations {
               'you from your balance',
           'choose the payment method that you can pay with': 'choose the payment method that you can pay with',
           'choose when you want the shipment to arrive': 'choose when you want the shipment to arrive',
+          'here you can save and see important addresses to use them later when making aan order': 'here you can save '
+              'and see important addresses to use them later when making aan order',
+          'you can add an address from here': 'you can add an address from here',
+          "morning": "morning",
+          "evening": "evening",
         },
 
         ///
@@ -928,6 +933,11 @@ class MyLocale extends Translations {
           'choose the payment method that you can pay with': 'اختر طرق الدفع التي يمكنك أن تستخدمها للدفع للكابتن '
               '(السائق الذي سيشحن طلبك)',
           'choose when you want the shipment to arrive': 'حدد متى تريد للطبية أن تصل لوجهتها',
+          'here you can save and see important addresses to use them later when making aan order': "هنا يمكنك حفظ و "
+              "رؤية العناوين المهمة لاستخدامها عند إنشاء طلبية جديدة",
+          'you can add an address from here': 'يمكنك اضافة عنوان جديد من هنا',
+          "morning": "صباحاً",
+          "evening": "مساءً",
         },
       };
 }
