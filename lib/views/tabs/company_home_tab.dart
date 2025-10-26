@@ -4,18 +4,43 @@ import 'package:get/get.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
+import 'package:shipment/views/components/my_showcase.dart';
 // import 'package:shipment/views/components/selection_circle.dart';
 // import 'package:shipment/views/components/titled_card.dart';
 import 'package:shipment/views/components/titled_scrolling_card.dart';
 import 'package:shipment/views/components/user_profile_tile.dart';
+// import 'package:showcaseview/showcaseview.dart';
 import '../components/order_card_2.dart';
 import '../components/order_page_map.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 import '../temp_map_page.dart';
+import 'package:get_storage/get_storage.dart';
 
-class CompanyHomeTab extends StatelessWidget {
+class CompanyHomeTab extends StatefulWidget {
   const CompanyHomeTab({super.key});
+
+  @override
+  State<CompanyHomeTab> createState() => _CompanyHomeTabState();
+}
+
+class _CompanyHomeTabState extends State<CompanyHomeTab> {
+  final GlobalKey _showKey1 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_company_home_tab";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      //if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1]);
+      // _getStorage.write(storageKey, true);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +54,18 @@ class CompanyHomeTab extends StatelessWidget {
         return ListView(
           children: [
             GetBuilder<CurrentUserController>(builder: (innerController) {
-              return UserProfileTile(
-                onTapProfile: () {
-                  innerController.scaffoldKey.currentState?.openDrawer();
-                },
-                isLoadingUser: innerController.isLoadingUser,
-                user: innerController.currentUser,
-                isPrimaryColor: false,
+              return MyShowcase(
+                globalKey: _showKey1,
+                description: 'here you can see your profile, see notifications and view your balance'.tr,
+                enabled: isEnabled,
+                child: UserProfileTile(
+                  onTapProfile: () {
+                    innerController.scaffoldKey.currentState?.openDrawer();
+                  },
+                  isLoadingUser: innerController.isLoadingUser,
+                  user: innerController.currentUser,
+                  isPrimaryColor: false,
+                ),
               );
             }),
             Padding(

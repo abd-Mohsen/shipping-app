@@ -266,9 +266,10 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
             //
             // key: _showKey1a,
             // description: 'click here to add a new order'.tr,
-            floatingActionButton: Showcase(
-              key: _showKey1,
+            floatingActionButton: MyShowcase(
+              globalKey: _showKey1,
               description: 'click here to make a new order'.tr,
+              enabled: isEnabled,
               child: FloatingActionButton(
                 elevation: 10,
                 onPressed: () {

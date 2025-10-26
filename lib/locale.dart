@@ -462,6 +462,9 @@ class MyLocale extends Translations {
               "orders. It remains reserved until the order is completed, then it’s released or deducted as needed.",
           'here your invoices will be shown when you charge your account': 'here your invoices will be shown when '
               'you charge your account',
+          'company bottom bar explanation': "my orders: here you can view all the orders that you or your captains "
+              "have interacted with. \n explore: here you can view available orders to apply for it and assign it to "
+              "a captain",
         },
 
         ///
@@ -950,6 +953,8 @@ class MyLocale extends Translations {
               "الطلب، ثم يتم خصمها من رصيدك أو إرجاعها حسب حالة الطلب.",
           'here your invoices will be shown when you charge your account': 'هنا سيتم عرض فواتيرك, ستظهر فاتورة عند '
               'إيداع مبلغ في حسابك',
+          'company bottom bar explanation': "تصفح جديد: هنا سيتم عرض الطلبات المتاحة في جميع المحافظات, عند ايجاد "
+              "طلب مناسب للشحن يتم التقديم عليه و تعيين كابتن لتوصيله \n\nطلباتي: هنا سيعرض جميع الطلبات التي قمت انت او الكابتنز بالتفاعل معها",
         },
       };
 }

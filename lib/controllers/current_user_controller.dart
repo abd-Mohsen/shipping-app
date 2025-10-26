@@ -73,16 +73,17 @@ class CurrentUserController extends GetxController {
     update();
   }
 
-  void logout({bool logoutAnyway = false}) async {
+  Future logout({bool logoutAnyway = false}) async {
     if (isLoadingLogout) return;
     toggleLoadingLogout(true);
     if (logoutAnyway || (currentUser != null && await RemoteServices.logout())) {
-      _getStorage.remove("token");
-      _getStorage.remove("role");
       //Get.put(LoginController());
+      await Future.delayed(const Duration(milliseconds: 600));
       Get.offAll(() => ShowCaseWidget(builder: (context) {
             return const LoginView();
           }));
+      _getStorage.remove("token");
+      _getStorage.remove("role");
     }
     toggleLoadingLogout(false);
   }

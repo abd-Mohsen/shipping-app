@@ -2,17 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/current_user_controller.dart';
 import 'package:shipment/views/components/my_bottom_bar.dart';
+import 'package:shipment/views/components/my_showcase.dart';
 import 'package:shipment/views/tabs/company_home_tab.dart';
 import 'package:shipment/views/tabs/explore_orders_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../constants.dart';
 import '../controllers/home_navigation_controller.dart';
 import '../controllers/shared_home_controller.dart';
 import 'components/my_drawer.dart';
 import 'edit_profile_view.dart';
+import 'package:get_storage/get_storage.dart';
 
-class CompanyHomeView extends StatelessWidget {
+class CompanyHomeView extends StatefulWidget {
   const CompanyHomeView({super.key});
+
+  @override
+  State<CompanyHomeView> createState() => _CompanyHomeViewState();
+}
+
+class _CompanyHomeViewState extends State<CompanyHomeView> {
+  final GlobalKey _showKey1 = GlobalKey();
+  final GlobalKey _showKey2 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_company_home_view";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      // _getStorage.write(storageKey, true);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +84,17 @@ class CompanyHomeView extends StatelessWidget {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             key: cUC.scaffoldKey,
-            bottomNavigationBar: MyBottomBar(
-              onChanged: (i) {
-                controller.changeTab(i);
-                sHC.filterController.clearFilters();
-              },
-              currentIndex: controller.tabIndex,
+            bottomNavigationBar: MyShowcase(
+              globalKey: _showKey2,
+              description: 'company bottom bar explanation'.tr,
+              enabled: isEnabled,
+              child: MyBottomBar(
+                onChanged: (i) {
+                  controller.changeTab(i);
+                  sHC.filterController.clearFilters();
+                },
+                currentIndex: controller.tabIndex,
+              ),
             ),
             // BottomNavigationBar(
             //   items: [
@@ -208,20 +239,25 @@ class CompanyHomeView extends StatelessWidget {
                     onTap: () {
                       cUC.scaffoldKey.currentState!.openDrawer();
                     },
-                    child: ClipRect(
-                      child: Align(
-                        alignment: Directionality.of(context) == TextDirection.rtl
-                            ? Alignment.centerLeft // Clip to right half for RTL
-                            : Alignment.centerRight, // Clip to left half for LTR
-                        widthFactor: 0.5,
-                        child: CircleAvatar(
-                          backgroundColor: cs.primary.withValues(alpha: 0.7),
-                          foregroundColor: cs.onPrimary,
-                          child: Padding(
-                            padding: Directionality.of(context) == TextDirection.rtl
-                                ? const EdgeInsets.only(right: 16)
-                                : const EdgeInsets.only(left: 16),
-                            child: const Icon(Icons.arrow_forward_ios, size: 18),
+                    child: MyShowcase(
+                      globalKey: _showKey1,
+                      description: 'click here to view sidebar'.tr,
+                      enabled: isEnabled,
+                      child: ClipRect(
+                        child: Align(
+                          alignment: Directionality.of(context) == TextDirection.rtl
+                              ? Alignment.centerLeft // Clip to right half for RTL
+                              : Alignment.centerRight, // Clip to left half for LTR
+                          widthFactor: 0.5,
+                          child: CircleAvatar(
+                            backgroundColor: cs.primary.withValues(alpha: 0.7),
+                            foregroundColor: cs.onPrimary,
+                            child: Padding(
+                              padding: Directionality.of(context) == TextDirection.rtl
+                                  ? const EdgeInsets.only(right: 16)
+                                  : const EdgeInsets.only(left: 16),
+                              child: const Icon(Icons.arrow_forward_ios, size: 18),
+                            ),
                           ),
                         ),
                       ),
