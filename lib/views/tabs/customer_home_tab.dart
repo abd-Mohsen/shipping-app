@@ -5,15 +5,41 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/curr_order_card.dart';
+import 'package:shipment/views/components/my_showcase.dart';
 import 'package:shipment/views/components/titled_scrolling_card.dart';
 import 'package:shipment/views/components/user_profile_tile.dart';
 import 'package:shipment/views/temp_map_page.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../../controllers/current_user_controller.dart';
 import '../components/order_card_2.dart';
 import '../components/order_page_map.dart';
+import 'package:get_storage/get_storage.dart';
 
-class CustomerHomeTab extends StatelessWidget {
+class CustomerHomeTab extends StatefulWidget {
   const CustomerHomeTab({super.key});
+
+  @override
+  State<CustomerHomeTab> createState() => _CustomerHomeTabState();
+}
+
+class _CustomerHomeTabState extends State<CustomerHomeTab> {
+  final GlobalKey _showKey1 = GlobalKey();
+  final GlobalKey _showKey2 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_customer_home_tab";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      // _getStorage.write(storageKey, true);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +53,18 @@ class CustomerHomeTab extends StatelessWidget {
         return ListView(
           children: [
             GetBuilder<CurrentUserController>(builder: (innerController) {
-              return UserProfileTile(
-                onTapProfile: () {
-                  innerController.scaffoldKey.currentState?.openDrawer();
-                },
-                isLoadingUser: innerController.isLoadingUser,
-                user: innerController.currentUser,
-                isPrimaryColor: false,
+              return MyShowcase(
+                globalKey: _showKey1,
+                description: 'here you can see your profile, see notifications and view your balance'.tr,
+                enabled: isEnabled,
+                child: UserProfileTile(
+                  onTapProfile: () {
+                    innerController.scaffoldKey.currentState?.openDrawer();
+                  },
+                  isLoadingUser: innerController.isLoadingUser,
+                  user: innerController.currentUser,
+                  isPrimaryColor: false,
+                ),
               );
             }),
             Padding(
@@ -121,9 +152,14 @@ class CustomerHomeTab extends StatelessWidget {
             //       viewportFraction: 1,
             //       height: MediaQuery.of(context).size.height / 3.5), //todo: make it not fixed
             // ),
-            CurrOrderCard(
-              order: controller.currOrders.isEmpty ? null : controller.currOrders.last,
-              borderRadius: BorderRadius.circular(10),
+            MyShowcase(
+              globalKey: _showKey2,
+              description: 'here you can see your running order if you have any'.tr,
+              enabled: isEnabled,
+              child: CurrOrderCard(
+                order: controller.currOrders.isEmpty ? null : controller.currOrders.last,
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
             // This is the scrollable section
             controller.isLoadingRecent

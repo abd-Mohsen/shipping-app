@@ -434,6 +434,11 @@ class MyLocale extends Translations {
           "set password for your account": "set password for your account",
           "you can fill the remaining data after logging in to your account": "you can fill the remaining data after "
               "logging in to your account",
+          'click here to make a new order': 'click here to make a new order',
+          'click here to view sidebar': 'click here to view sidebar',
+          'here you can see your profile, see notifications and view your balance': 'here you can see your profile, '
+              'see notifications and view your balance',
+          'here you can see your running order if you have any': 'here you can see your running order if you have any',
         },
 
         ///
@@ -895,6 +900,12 @@ class MyLocale extends Translations {
           "set password for your account": "عين كلمة مرور لحسابك",
           "you can fill the remaining data after logging in to your account": "يمكنك تعبئة باقي البيانات بعد تسجيل "
               "الدخول",
+
+          'click here to make a new order': 'اضغط هنا لانشاء طلب جديد',
+          'click here to view sidebar': 'اضغط هنا لعرض الشريط الجانبي',
+          'here you can see your profile, see notifications and view your balance': 'هنا يمكنك رؤية بيانات حسابك '
+              'الشخصي و اشعاراتك و رصيدك الحالي',
+          'here you can see your running order if you have any': 'هنا يتم عرض طلبك الجاري (إن وجد)',
         },
       };
 }

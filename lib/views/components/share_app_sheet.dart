@@ -13,7 +13,7 @@ class ShareAppSheet extends StatelessWidget {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
 
-    String directDownloadLink = "https://shipping.adadevs.com/en/download/app/";
+    String directDownloadLink = "https://shipping.adadevs.com/en/home/";
     String playStoreLink = "";
     return SafeArea(
       child: Padding(

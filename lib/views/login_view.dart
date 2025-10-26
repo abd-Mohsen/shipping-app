@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shipment/controllers/login_controller.dart';
 import 'package:shipment/views/components/auth_field.dart';
 import 'package:shipment/views/components/custom_button.dart';
+import 'package:shipment/views/components/my_showcase.dart';
 import 'package:shipment/views/register_phone_view.dart';
 import 'package:shipment/views/reset_pass_view1.dart';
 import 'package:shipment/views/web_view_page.dart';
@@ -23,12 +25,18 @@ class _LoginViewState extends State<LoginView> {
   final GlobalKey _showKey1 = GlobalKey();
   final GlobalKey _showKey2 = GlobalKey();
 
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_login";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
+
   @override
   void initState() {
-    //todo: check local storage if shown in this page before
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
-      print("object");
+      print(isEnabled);
+      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      _getStorage.write(storageKey, true);
     });
     super.initState();
   }
@@ -163,13 +171,18 @@ class _LoginViewState extends State<LoginView> {
                             ),
                             // key: _showKey1,
                             // description: 'click here if you want to create a new account'.tr,
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => const RegisterPhoneView());
-                              },
-                              child: Text(
-                                "register here".tr,
-                                style: tt.titleSmall!.copyWith(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                            MyShowcase(
+                              globalKey: _showKey1,
+                              description: 'click here if you want to create a new account'.tr,
+                              enabled: isEnabled,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(() => const RegisterPhoneView());
+                                },
+                                child: Text(
+                                  "register here".tr,
+                                  style: tt.titleSmall!.copyWith(color: Colors.blueAccent, fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           ],
@@ -177,32 +190,37 @@ class _LoginViewState extends State<LoginView> {
                         const SizedBox(height: 32),
                         // key: _showKey2,
                         // description: 'make sure to read before using the app'.tr,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
-                              },
-                              child: Text(
-                                "privacy policy".tr,
-                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
+                        MyShowcase(
+                          globalKey: _showKey2,
+                          description: 'make sure to read before using the app'.tr,
+                          enabled: isEnabled,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => WebViewPage(title: "privacy policy".tr, url: "privacy"));
+                                },
+                                child: Text(
+                                  "privacy policy".tr,
+                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
+                                ),
                               ),
-                            ),
-                            Text(
-                              " | ".tr,
-                              style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => WebViewPage(title: "terms and conditions".tr, url: "terms"));
-                              },
-                              child: Text(
-                                "terms and conditions".tr,
-                                style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
+                              Text(
+                                " | ".tr,
+                                style: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
                               ),
-                            ),
-                          ],
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => WebViewPage(title: "terms and conditions".tr, url: "terms"));
+                                },
+                                child: Text(
+                                  "terms and conditions".tr,
+                                  style: tt.labelMedium!.copyWith(color: cs.onSurface.withValues(alpha: 0.8)),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

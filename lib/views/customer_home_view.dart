@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/shared_home_controller.dart';
 import 'package:shipment/views/components/my_drawer.dart';
+import 'package:shipment/views/components/my_showcase.dart';
 import 'package:shipment/views/make_order_view.dart';
 import 'package:shipment/views/tabs/customer_home_tab.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
@@ -11,6 +12,7 @@ import '../constants.dart';
 import '../controllers/current_user_controller.dart';
 import '../controllers/home_navigation_controller.dart';
 import 'edit_profile_view.dart';
+import 'package:get_storage/get_storage.dart';
 
 class CustomerHomeView extends StatefulWidget {
   const CustomerHomeView({super.key});
@@ -20,14 +22,20 @@ class CustomerHomeView extends StatefulWidget {
 }
 
 class _CustomerHomeViewState extends State<CustomerHomeView> {
-  final GlobalKey _showKey1a = GlobalKey();
-  final GlobalKey _showKey2a = GlobalKey();
+  final GlobalKey _showKey1 = GlobalKey();
+  final GlobalKey _showKey2 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_customer_home_view";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
 
   @override
   void initState() {
-    //todo: check local storage if shown in this page before
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //ShowCaseWidget.of(context).startShowCase([_showKey1a, _showKey2a]);
+      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      // _getStorage.write(storageKey, true);
     });
     super.initState();
   }
@@ -50,7 +58,9 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
     TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
-      const CustomerHomeTab(),
+      ShowCaseWidget(builder: (context) {
+        return const CustomerHomeTab();
+      }),
       const MyOrdersTab(),
     ];
 
@@ -199,22 +209,27 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                     onTap: () {
                       cUC.scaffoldKey.currentState!.openDrawer();
                     },
-                    child: ClipRect(
-                      child: Align(
-                        alignment: Directionality.of(context) == TextDirection.rtl
-                            ? Alignment.centerLeft // Clip to right half for RTL
-                            : Alignment.centerRight, // Clip to left half for LTR
-                        widthFactor: 0.5,
-                        // key: _showKey2a,
-                        // description: 'click or drag to view more options',
-                        child: CircleAvatar(
-                          backgroundColor: cs.primary.withValues(alpha: 0.7),
-                          foregroundColor: cs.onPrimary,
-                          child: Padding(
-                            padding: Directionality.of(context) == TextDirection.rtl
-                                ? const EdgeInsets.only(right: 16)
-                                : const EdgeInsets.only(left: 16),
-                            child: const Icon(Icons.arrow_forward_ios, size: 18),
+                    child: MyShowcase(
+                      globalKey: _showKey2,
+                      description: 'click here to view sidebar'.tr,
+                      enabled: isEnabled,
+                      child: ClipRect(
+                        child: Align(
+                          alignment: Directionality.of(context) == TextDirection.rtl
+                              ? Alignment.centerLeft // Clip to right half for RTL
+                              : Alignment.centerRight, // Clip to left half for LTR
+                          widthFactor: 0.5,
+                          // key: _showKey2a,
+                          // description: 'click or drag to view more options',
+                          child: CircleAvatar(
+                            backgroundColor: cs.primary.withValues(alpha: 0.7),
+                            foregroundColor: cs.onPrimary,
+                            child: Padding(
+                              padding: Directionality.of(context) == TextDirection.rtl
+                                  ? const EdgeInsets.only(right: 16)
+                                  : const EdgeInsets.only(left: 16),
+                              child: const Icon(Icons.arrow_forward_ios, size: 18),
+                            ),
                           ),
                         ),
                       ),
@@ -251,14 +266,18 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
             //
             // key: _showKey1a,
             // description: 'click here to add a new order'.tr,
-            floatingActionButton: FloatingActionButton(
-              elevation: 10,
-              onPressed: () {
-                Get.to(() => const MakeOrderView(edit: false));
-              },
-              foregroundColor: cs.onPrimary,
-              shape: const CircleBorder(),
-              child: Icon(Icons.add, color: Get.isDarkMode ? cs.secondaryFixed : cs.primary),
+            floatingActionButton: Showcase(
+              key: _showKey1,
+              description: 'click here to make a new order'.tr,
+              child: FloatingActionButton(
+                elevation: 10,
+                onPressed: () {
+                  Get.to(() => const MakeOrderView(edit: false));
+                },
+                foregroundColor: cs.onPrimary,
+                shape: const CircleBorder(),
+                child: Icon(Icons.add, color: Get.isDarkMode ? cs.secondaryFixed : cs.primary),
+              ),
             ),
             drawer: GetBuilder<CurrentUserController>(
               builder: (controller) {

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/views/login_view.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -113,7 +114,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                     padding: const EdgeInsets.symmetric(horizontal: 48.0),
                     child: TextButton(
                       onPressed: () {
-                        Get.offAll(const LoginView());
+                        Get.offAll(ShowCaseWidget(builder: (context) {
+                          return const LoginView();
+                        }));
                       },
                       child: Text(
                         currPage == contents.length - 1 ? "continue".tr : "skip".tr,

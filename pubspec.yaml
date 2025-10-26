@@ -3,7 +3,7 @@ description: "shipment app"
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.9.5+1
+version: 0.9.5+4
 
 environment:
   sdk: ^3.5.1

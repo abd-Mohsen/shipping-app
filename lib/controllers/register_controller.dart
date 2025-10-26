@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shipment/models/login_model.dart';
 import 'package:shipment/views/redirect_page.dart';
 import 'package:shipment/views/register_view.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../services/compress_image_service.dart';
 import '../services/remote_services.dart';
 import '../views/company_home_view.dart';
@@ -144,7 +145,9 @@ class RegisterController extends GetxController {
       _getStorage.write("token", registerData.token);
       _getStorage.write("from_register", true);
       print(_getStorage.read("token"));
-      Get.offAll(() => const RegisterView());
+      Get.offAll(() => ShowCaseWidget(builder: (context) {
+            return const RegisterView();
+          }));
 
       Get.showSnackbar(GetSnackBar(
         message: "registered successfully".tr,
@@ -202,11 +205,23 @@ class RegisterController extends GetxController {
       //_getStorage.write("from_register", true);
       print(_getStorage.read("token"));
       if (registerData.role!.type == "driver" || registerData.role!.type == "company_employee") {
-        Get.offAll(() => const DriverHomeView(), binding: DriverBindings());
+        Get.offAll(
+            () => ShowCaseWidget(builder: (context) {
+                  return const DriverHomeView();
+                }),
+            binding: DriverBindings());
       } else if (registerData.role!.type == "customer") {
-        Get.offAll(() => const CustomerHomeView(), binding: CustomerBindings());
+        Get.offAll(
+            () => ShowCaseWidget(builder: (context) {
+                  return const CustomerHomeView();
+                }),
+            binding: CustomerBindings());
       } else if (registerData.role!.type == "company") {
-        Get.offAll(() => const CompanyHomeView(), binding: CompanyBindings());
+        Get.offAll(
+            () => ShowCaseWidget(builder: (context) {
+                  return const CompanyHomeView();
+                }),
+            binding: CompanyBindings());
       } else {
         print("wrong role");
         return; // other role
