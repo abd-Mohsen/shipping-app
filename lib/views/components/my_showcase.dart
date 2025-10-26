@@ -6,6 +6,7 @@ class MyShowcase extends StatelessWidget {
   final Widget child;
   final String description;
   final bool enabled;
+  final void Function()? onClick;
 
   const MyShowcase({
     super.key,
@@ -13,10 +14,23 @@ class MyShowcase extends StatelessWidget {
     required this.child,
     required this.description,
     required this.enabled,
+    this.onClick,
   });
 
   @override
   Widget build(BuildContext context) {
-    return (enabled) ? Showcase(key: globalKey, description: description, child: child) : child;
+    ColorScheme cs = Theme.of(context).colorScheme;
+    TextTheme tt = Theme.of(context).textTheme;
+
+    return (enabled)
+        ? Showcase(
+            key: globalKey,
+            description: description,
+            textColor: cs.onSurface,
+            tooltipBackgroundColor: cs.surface,
+            child: child,
+            onBarrierClick: onClick,
+          )
+        : child;
   }
 }

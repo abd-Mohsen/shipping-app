@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shipment/constants.dart';
 import 'package:shipment/views/my_vehicles_view.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../models/user_model.dart';
 import '../services/remote_services.dart';
@@ -79,7 +80,9 @@ class CurrentUserController extends GetxController {
       _getStorage.remove("token");
       _getStorage.remove("role");
       //Get.put(LoginController());
-      Get.offAll(() => const LoginView());
+      Get.offAll(() => ShowCaseWidget(builder: (context) {
+            return const LoginView();
+          }));
     }
     toggleLoadingLogout(false);
   }

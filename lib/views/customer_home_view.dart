@@ -272,7 +272,10 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
               child: FloatingActionButton(
                 elevation: 10,
                 onPressed: () {
-                  Get.to(() => const MakeOrderView(edit: false));
+                  Get.to(() => const Placeholder());
+                  Get.off(() => ShowCaseWidget(builder: (context) {
+                        return const MakeOrderView(edit: false);
+                      }));
                 },
                 foregroundColor: cs.onPrimary,
                 shape: const CircleBorder(),

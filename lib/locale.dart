@@ -439,6 +439,17 @@ class MyLocale extends Translations {
           'here you can see your profile, see notifications and view your balance': 'here you can see your profile, '
               'see notifications and view your balance',
           'here you can see your running order if you have any': 'here you can see your running order if you have any',
+          'you can search for specific order here': 'you can search for specific order here',
+          'you can filter orders here': 'you can filter orders here',
+          'select the type of vehicle you want to ship your order': 'select the type of vehicle you want to ship your '
+              'order',
+          'describe your shipment': 'describe your shipment',
+          'specify the expected price and currency you want to pay with': 'specify the expected price and currency you'
+              ' want to pay with',
+          'here is how much the shipment will cost you from your balance': 'here is how much the shipment will cost '
+              'you from your balance',
+          'choose the payment method that you can pay with': 'choose the payment method that you can pay with',
+          'choose when you want the shipment to arrive': 'choose when you want the shipment to arrive',
         },
 
         ///
@@ -906,6 +917,17 @@ class MyLocale extends Translations {
           'here you can see your profile, see notifications and view your balance': 'هنا يمكنك رؤية بيانات حسابك '
               'الشخصي و اشعاراتك و رصيدك الحالي',
           'here you can see your running order if you have any': 'هنا يتم عرض طلبك الجاري (إن وجد)',
+          'you can search for specific order here': 'يمكنك البحث عن طلبية محددة من هنا',
+          'you can filter orders here': 'يمكنك فلترة طلبياتك من هنا',
+          'select the type of vehicle you want to ship your order': 'اختر نوعية السيارة التي تريد ان تنقل شحنتك',
+          'describe your shipment': 'وصف قصير و واضح للطلبية ',
+          'specify the expected price and currency you want to pay with': 'قم بتحديد المبلغ الذي تريد أن تدفعه مع '
+              'العملة',
+          'here is how much the shipment will cost you from your balance':
+              'هنا سيظهر المبلغ الذي ستدفعه من رصيدك لاجراء هذه الطلبية (عمولة التطبيق)',
+          'choose the payment method that you can pay with': 'اختر طرق الدفع التي يمكنك أن تستخدمها للدفع للكابتن '
+              '(السائق الذي سيشحن طلبك)',
+          'choose when you want the shipment to arrive': 'حدد متى تريد للطبية أن تصل لوجهتها',
         },
       };
 }

@@ -14,14 +14,17 @@ import 'package:shipment/views/components/custom_dropdown_button.dart';
 import 'package:shipment/views/components/date_selector.dart';
 import 'package:shipment/views/components/input_field.dart';
 import 'package:shipment/views/components/map_selector.dart';
+import 'package:shipment/views/components/my_showcase.dart';
 import 'package:shipment/views/components/time_selector.dart';
 import 'package:badges/badges.dart' as bdg;
 import 'package:shipment/views/components/vehicle_type_selector.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../controllers/make_order_controller.dart';
 import '../models/order_model.dart';
 import 'components/auth_field.dart';
+import 'package:get_storage/get_storage.dart';
 
-class MakeOrderView extends StatelessWidget {
+class MakeOrderView extends StatefulWidget {
   final bool edit;
   final OrderModel? order;
   const MakeOrderView({
@@ -31,11 +34,42 @@ class MakeOrderView extends StatelessWidget {
   });
 
   @override
+  State<MakeOrderView> createState() => _MakeOrderViewState();
+}
+
+class _MakeOrderViewState extends State<MakeOrderView> {
+  final GlobalKey _showKey1 = GlobalKey();
+  final GlobalKey _showKey2 = GlobalKey();
+  final GlobalKey _showKey3 = GlobalKey();
+  final GlobalKey _showKey4 = GlobalKey();
+  final GlobalKey _showKey5 = GlobalKey();
+  final GlobalKey _showKey6 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_make_order";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
+
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isEnabled) {
+        ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2, _showKey3]);
+      }
+      //_getStorage.write(storageKey, true);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ColorScheme cs = Theme.of(context).colorScheme;
     TextTheme tt = Theme.of(context).textTheme;
     CustomerHomeController cHC = Get.find();
-    MakeOrderController mOC = Get.put(MakeOrderController(customerHomeController: cHC, order: order));
+    MakeOrderController mOC = Get.put(MakeOrderController(customerHomeController: cHC, order: widget.order));
 
     OutlineInputBorder border({Color? color, double width = 0.5}) {
       return OutlineInputBorder(
@@ -52,7 +86,7 @@ class MakeOrderView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: cs.surface,
         title: Text(
-          edit ? 'edit order'.tr : 'new order'.tr,
+          widget.edit ? 'edit order'.tr : 'new order'.tr,
           style: tt.titleMedium!.copyWith(color: cs.onSecondaryContainer, fontWeight: FontWeight.bold),
         ),
         elevation: 0,
@@ -75,6 +109,7 @@ class MakeOrderView extends StatelessWidget {
           return Form(
             key: controller.formKey,
             child: ListView(
+              controller: _scrollController,
               padding: const EdgeInsets.only(left: 12, right: 12, bottom: 16),
               children: [
                 //child: SvgPicture.asset("assets/images/make_order.svg", height: 200),
@@ -91,7 +126,7 @@ class MakeOrderView extends StatelessWidget {
                   address: controller.sourceAddress,
                   selectedPoint: controller.startPosition,
                   isLoading: controller.isLoadingSelect1,
-                  source: edit ? "edit" : "make",
+                  source: widget.edit ? "edit" : "make",
                 ),
                 MapSelector(
                   makeOrderController: mOC,
@@ -99,36 +134,46 @@ class MakeOrderView extends StatelessWidget {
                   address: controller.targetAddress,
                   selectedPoint: controller.endPosition,
                   isLoading: controller.isLoadingSelect2,
-                  source: edit ? "edit" : "make",
+                  source: widget.edit ? "edit" : "make",
                 ),
                 const SizedBox(height: 8),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: controller.isLoadingInfo
                       ? SpinKitThreeBounce(color: cs.primaryContainer, size: 20)
-                      : VehicleTypeSelector(
-                          padding: EdgeInsets.zero,
-                          selectedItem: controller.selectedVehicleType,
-                          items: controller.vehicleTypes,
-                          onChanged: (VehicleTypeModel? type) async {
-                            controller.selectVehicleType(type);
-                            await Future.delayed(const Duration(milliseconds: 1000));
-                            if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                          },
+                      : MyShowcase(
+                          globalKey: _showKey1,
+                          description: 'select the type of vehicle you want to ship your order'.tr,
+                          enabled: isEnabled,
+                          child: VehicleTypeSelector(
+                            padding: EdgeInsets.zero,
+                            selectedItem: controller.selectedVehicleType,
+                            items: controller.vehicleTypes,
+                            onChanged: (VehicleTypeModel? type) async {
+                              controller.selectVehicleType(type);
+                              await Future.delayed(const Duration(milliseconds: 1000));
+                              if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                            },
+                          ),
                         ),
                 ),
-                InputField(
-                  controller: controller.description,
-                  label: "description placeholder".tr,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                  prefixIcon: Icons.text_snippet_rounded,
-                  validator: (val) {
-                    return validateInput(controller.description.text, 4, 1000, "text");
-                  },
-                  onChanged: (val) {
-                    if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                  },
+                MyShowcase(
+                  globalKey: _showKey2,
+                  description: 'describe your shipment'.tr,
+                  enabled: isEnabled,
+                  child: InputField(
+                    controller: controller.description,
+                    label: "description placeholder".tr,
+                    keyboardType: TextInputType.multiline,
+                    textInputAction: TextInputAction.newline,
+                    prefixIcon: Icons.text_snippet_rounded,
+                    validator: (val) {
+                      return validateInput(controller.description.text, 4, 1000, "text");
+                    },
+                    onChanged: (val) {
+                      if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                    },
+                  ),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -166,121 +211,145 @@ class MakeOrderView extends StatelessWidget {
                     )
                   ],
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: InputField(
-                        controller: controller.price,
-                        label: "expected price".tr,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        prefixIcon: Icons.attach_money,
-                        validator: (val) {
-                          return validateInput(controller.price.text, 1, 18, "", floatingPointNumber: true);
-                        },
-                        onChanged: (val) {
-                          if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                          controller.calculateApplicationCommission();
-                        },
-                        onTapOutside: (_) {
-                          FocusScope.of(context).unfocus();
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: controller.isLoadingInfo
-                          ? Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: SpinKitThreeBounce(color: cs.primaryContainer, size: 20),
-                            )
-                          : CustomDropdownButton<CurrencyModel>(
-                              items: controller.currencies,
-                              onSelect: (c) {
-                                controller.selectCurrency(c);
-                              },
-                              selectedValue: controller.selectedCurrency,
-                            ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
-                  child: Text(
-                    "${"order commission".tr}: "
-                    "${controller.applicationCommission.toPrecision(2)}${controller.selectedCurrency?.symbol ?? ""}",
-                    style: tt.labelMedium!
-                        .copyWith(color: cs.onSurface.withValues(alpha: 0.7), fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: controller.isLoadingInfo
-                      ? SpinKitThreeBounce(color: cs.primaryContainer, size: 20)
-                      : MultiDropdown<PaymentMethodModel>(
-                          items: controller.paymentMethods
-                              .map(
-                                (paymentMethod) => DropdownItem(
-                                  label: paymentMethod.name,
-                                  value: paymentMethod,
-                                ),
-                              )
-                              .toList(),
-                          controller: controller.paymentMethodController,
-                          enabled: true,
-                          //searchEnabled: true,
-                          chipDecoration: ChipDecoration(
-                            backgroundColor: cs.primary,
-                            wrap: true,
-                            runSpacing: 2,
-                            spacing: 10,
-                          ),
-                          fieldDecoration: FieldDecoration(
-                            backgroundColor: cs.secondaryContainer,
-                            hintText: 'payment methods'.tr,
-                            hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
-                              child: Icon(
-                                Icons.credit_card,
-                                color: cs.primary,
-                              ),
-                            ),
-                            showClearIcon: false,
-                            border: border(width: 1.5),
-                            focusedBorder: border(width: 2),
-                            errorBorder: border(color: cs.error, width: 1.5),
-                          ),
-                          dropdownDecoration: const DropdownDecoration(
-                            elevation: 8,
-                            marginTop: -4,
-                            maxHeight: 500,
-                          ),
-                          dropdownItemDecoration: DropdownItemDecoration(
-                            // filled: true,
-                            // fillColor: cs.secondary,
-                            backgroundColor: cs.secondaryContainer,
-                            disabledBackgroundColor: cs.secondaryContainer,
-                            selectedBackgroundColor: cs.secondaryContainer,
-                            textColor: cs.onSurface,
-                            selectedTextColor: cs.onSurface,
-                            selectedIcon: Icon(Icons.check_box, color: cs.primaryContainer),
-                            //disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'select payment method'.tr;
-                            }
-                            return null;
+                MyShowcase(
+                  globalKey: _showKey3,
+                  description: 'specify the expected price and currency you want to pay with'.tr,
+                  enabled: isEnabled,
+                  onClick: () async {
+                    await _scrollController.animateTo(
+                      _scrollController.offset +
+                          MediaQuery.of(context).size.height / 3.5, // 👈 scroll down fixed pixels
+                      duration: const Duration(milliseconds: 600),
+                      curve: Curves.easeInOut,
+                    );
+                    ShowCaseWidget.of(context).startShowCase([_showKey4, _showKey5, _showKey6]);
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: InputField(
+                          controller: controller.price,
+                          label: "expected price".tr,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          prefixIcon: Icons.attach_money,
+                          validator: (val) {
+                            return validateInput(controller.price.text, 1, 18, "", floatingPointNumber: true);
                           },
-                          onSelectionChange: (selectedItems) {
+                          onChanged: (val) {
                             if (controller.buttonPressed) controller.formKey.currentState!.validate();
-                            print("OnSelectionChange: $selectedItems");
-                            //controller.toggleFields();
+                            controller.calculateApplicationCommission();
+                          },
+                          onTapOutside: (_) {
+                            FocusScope.of(context).unfocus();
                           },
                         ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: controller.isLoadingInfo
+                            ? Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: SpinKitThreeBounce(color: cs.primaryContainer, size: 20),
+                              )
+                            : CustomDropdownButton<CurrencyModel>(
+                                items: controller.currencies,
+                                onSelect: (c) {
+                                  controller.selectCurrency(c);
+                                },
+                                selectedValue: controller.selectedCurrency,
+                              ),
+                      )
+                    ],
+                  ),
+                ),
+                MyShowcase(
+                  globalKey: _showKey4,
+                  description: 'here is how much the shipment will cost you from your balance'.tr,
+                  enabled: isEnabled,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8, bottom: 4),
+                    child: Text(
+                      "${"order commission".tr}: "
+                      "${controller.applicationCommission.toPrecision(2)}${controller.selectedCurrency?.symbol ?? ""}",
+                      style: tt.labelMedium!
+                          .copyWith(color: cs.onSurface.withValues(alpha: 0.7), fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                MyShowcase(
+                  globalKey: _showKey5,
+                  description: 'choose the payment method that you can pay with'.tr,
+                  enabled: isEnabled,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: controller.isLoadingInfo
+                        ? SpinKitThreeBounce(color: cs.primaryContainer, size: 20)
+                        : MultiDropdown<PaymentMethodModel>(
+                            items: controller.paymentMethods
+                                .map(
+                                  (paymentMethod) => DropdownItem(
+                                    label: paymentMethod.name,
+                                    value: paymentMethod,
+                                  ),
+                                )
+                                .toList(),
+                            controller: controller.paymentMethodController,
+                            enabled: true,
+                            //searchEnabled: true,
+                            chipDecoration: ChipDecoration(
+                              backgroundColor: cs.primary,
+                              wrap: true,
+                              runSpacing: 2,
+                              spacing: 10,
+                            ),
+                            fieldDecoration: FieldDecoration(
+                              backgroundColor: cs.secondaryContainer,
+                              hintText: 'payment methods'.tr,
+                              hintStyle: tt.titleSmall!.copyWith(color: cs.onSurface.withValues(alpha: 0.7)),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 14),
+                                child: Icon(
+                                  Icons.credit_card,
+                                  color: cs.primary,
+                                ),
+                              ),
+                              showClearIcon: false,
+                              border: border(width: 1.5),
+                              focusedBorder: border(width: 2),
+                              errorBorder: border(color: cs.error, width: 1.5),
+                            ),
+                            dropdownDecoration: const DropdownDecoration(
+                              elevation: 8,
+                              marginTop: -4,
+                              maxHeight: 500,
+                            ),
+                            dropdownItemDecoration: DropdownItemDecoration(
+                              // filled: true,
+                              // fillColor: cs.secondary,
+                              backgroundColor: cs.secondaryContainer,
+                              disabledBackgroundColor: cs.secondaryContainer,
+                              selectedBackgroundColor: cs.secondaryContainer,
+                              textColor: cs.onSurface,
+                              selectedTextColor: cs.onSurface,
+                              selectedIcon: Icon(Icons.check_box, color: cs.primaryContainer),
+                              //disabledIcon: Icon(Icons.lock, color: Colors.grey.shade300),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'select payment method'.tr;
+                              }
+                              return null;
+                            },
+                            onSelectionChange: (selectedItems) {
+                              if (controller.buttonPressed) controller.formKey.currentState!.validate();
+                              print("OnSelectionChange: $selectedItems");
+                              //controller.toggleFields();
+                            },
+                          ),
+                  ),
                 ),
                 InputField(
                   controller: controller.otherInfo,
@@ -301,49 +370,54 @@ class MakeOrderView extends StatelessWidget {
                     if (controller.buttonPressed) controller.formKey.currentState!.validate();
                   },
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Card(
-                          color: cs.secondaryContainer,
-                          elevation: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: bdg.Badge(
-                              showBadge: edit && order!.dateTime.isBefore(DateTime.now()),
-                              position: bdg.BadgePosition.topStart(),
-                              // smallSize: 10,
-                              // backgroundColor: const Color(0xff00ff00),
-                              // alignment: Alignment.topRight,
-                              // offset: const Offset(-5, -5),
-                              badgeStyle: bdg.BadgeStyle(
-                                shape: bdg.BadgeShape.circle,
-                                badgeColor: const Color(0xff00ff00),
-                                borderRadius: BorderRadius.circular(4),
+                MyShowcase(
+                  globalKey: _showKey6,
+                  description: 'choose when you want the shipment to arrive'.tr,
+                  enabled: isEnabled,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Card(
+                            color: cs.secondaryContainer,
+                            elevation: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: bdg.Badge(
+                                showBadge: widget.edit && widget.order!.dateTime.isBefore(DateTime.now()),
+                                position: bdg.BadgePosition.topStart(),
+                                // smallSize: 10,
+                                // backgroundColor: const Color(0xff00ff00),
+                                // alignment: Alignment.topRight,
+                                // offset: const Offset(-5, -5),
+                                badgeStyle: bdg.BadgeStyle(
+                                  shape: bdg.BadgeShape.circle,
+                                  badgeColor: const Color(0xff00ff00),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child:
+                                    DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
                               ),
-                              child:
-                                  DateSelector(date: controller.selectedDate, selectDateCallback: controller.setDate),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Card(
-                          color: cs.secondaryContainer,
-                          elevation: 3,
-                          child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child:
-                                  TimeSelector(time: controller.selectedTime, selectTimeCallback: controller.setTime)),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Card(
+                            color: cs.secondaryContainer,
+                            elevation: 3,
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: TimeSelector(
+                                    time: controller.selectedTime, selectTimeCallback: controller.setTime)),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -382,13 +456,13 @@ class MakeOrderView extends StatelessWidget {
                   color: cs.primaryContainer,
                   onTap: () {
                     //print(GetStorage().read("token"));
-                    edit ? controller.editOrder() : controller.makeOrder();
+                    widget.edit ? controller.editOrder() : controller.makeOrder();
                   },
                   child: Center(
                     child: controller.isLoading
                         ? SpinKitThreeBounce(color: cs.onPrimary, size: 20)
                         : Text(
-                            edit ? "edit".tr.toUpperCase() : "add".tr.toUpperCase(),
+                            widget.edit ? "edit".tr.toUpperCase() : "add".tr.toUpperCase(),
                             style: tt.titleSmall!.copyWith(color: cs.onPrimary),
                           ),
                   ),
