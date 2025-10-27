@@ -465,6 +465,12 @@ class MyLocale extends Translations {
           'company bottom bar explanation': "my orders: here you can view all the orders that you or your captains "
               "have interacted with. \n explore: here you can view available orders to apply for it and assign it to "
               "a captain",
+          'here you can view your vehicles, edit them and add new ones': 'here you can view your vehicles, edit them '
+              'and add new ones',
+          'here you can view your employees, remove them and manage their status': 'here you can view your employees, '
+              'remove them and manage their status',
+          'you can export your statistics as an exel file from here': 'you can export your statistics as an exel file '
+              'from here',
         },
 
         ///
@@ -955,6 +961,11 @@ class MyLocale extends Translations {
               'إيداع مبلغ في حسابك',
           'company bottom bar explanation': "تصفح جديد: هنا سيتم عرض الطلبات المتاحة في جميع المحافظات, عند ايجاد "
               "طلب مناسب للشحن يتم التقديم عليه و تعيين كابتن لتوصيله \n\nطلباتي: هنا سيعرض جميع الطلبات التي قمت انت او الكابتنز بالتفاعل معها",
+          'here you can view your vehicles, edit them and add new ones': 'من هنا يمكنك استعراض مركباتك, يمكنك التعديل'
+              ' او الحذف او اضافة مركبات جديدة',
+          'here you can view your employees, remove them and manage their status': 'هنا ادارة الموظفين, حيث يمكنك '
+              'اضافة موظف جديد او حذفه او التحكم بخصائصه',
+          'you can export your statistics as an exel file from here': "يمكنك تصدير الاحصائيات كملف اكسل من هنا",
         },
       };
 }

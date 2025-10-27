@@ -1,13 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/company_home_controller.dart';
+import 'package:shipment/views/components/my_showcase.dart';
 import 'package:shipment/views/tabs/company_employees_tab.dart';
 import 'package:shipment/views/tabs/company_vehicles_tab.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:showcaseview/showcaseview.dart';
 
-class CompanyManageTab extends StatelessWidget {
+class CompanyManageTab extends StatefulWidget {
   const CompanyManageTab({super.key});
 
+  @override
+  State<CompanyManageTab> createState() => _CompanyManageTabState();
+}
+
+class _CompanyManageTabState extends State<CompanyManageTab> {
   //todo: when refreshing, some times employees load before vehicles
+
+  final GlobalKey _showKey1 = GlobalKey();
+  final GlobalKey _showKey2 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_company_manage";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      _getStorage.write(storageKey, true);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     //CurrentUserController cUC = Get.find();
@@ -61,36 +88,46 @@ class CompanyManageTab extends StatelessWidget {
               indicatorColor: cs.primary,
               indicatorWeight: 4,
               tabs: [
-                Tab(
-                  icon: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.local_shipping_outlined,
-                      color: cs.onSecondaryContainer,
-                      size: 23,
+                MyShowcase(
+                  globalKey: _showKey1,
+                  description: 'here you can view your vehicles, edit them and add new ones'.tr,
+                  enabled: isEnabled,
+                  child: Tab(
+                    icon: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Icon(
+                        Icons.local_shipping_outlined,
+                        color: cs.onSecondaryContainer,
+                        size: 23,
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    "my vehicles".tr,
-                    style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    child: Text(
+                      "my vehicles".tr,
+                      style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
-                Tab(
-                  icon: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.people_alt_outlined,
-                      color: cs.onSecondaryContainer,
-                      size: 23,
+                MyShowcase(
+                  globalKey: _showKey2,
+                  description: 'here you can view your employees, remove them and manage their status'.tr,
+                  enabled: isEnabled,
+                  child: Tab(
+                    icon: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Icon(
+                        Icons.people_alt_outlined,
+                        color: cs.onSecondaryContainer,
+                        size: 23,
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    "employees".tr,
-                    style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    child: Text(
+                      "employees".tr,
+                      style: tt.bodySmall!.copyWith(color: cs.onSecondaryContainer),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               ],

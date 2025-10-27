@@ -267,10 +267,10 @@ class MyDrawer extends StatelessWidget {
                     title: "manage".tr,
                     icon: Icons.manage_accounts_outlined,
                     onTap: () {
-                      //Get.to(const PaymentsView());
-                      Get.to(
-                        const CompanyManageTab(),
-                      );
+                      Get.to(const Placeholder());
+                      Get.off(() => ShowCaseWidget(builder: (context) {
+                            return const CompanyManageTab();
+                          }));
                     },
                   ),
                 ),
@@ -288,8 +288,10 @@ class MyDrawer extends StatelessWidget {
                     title: "statistics".tr,
                     icon: FontAwesomeIcons.chartLine,
                     onTap: () {
-                      //Get.to(const PaymentsView());
-                      Get.to(() => const CompanyStatsTab());
+                      Get.to(const Placeholder());
+                      Get.off(() => ShowCaseWidget(builder: (context) {
+                            return const CompanyStatsTab();
+                          }));
                     },
                   ),
                 ),

@@ -10,10 +10,35 @@ import 'package:shipment/controllers/company_home_controller.dart';
 import 'package:pie_chart/pie_chart.dart' as pie;
 import 'package:shipment/views/components/export_file_sheet.dart';
 import 'package:shipment/views/components/my_loading_animation.dart';
+import 'package:shipment/views/components/my_showcase.dart';
 import 'package:shipment/views/components/stats_tile.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:showcaseview/showcaseview.dart';
 
-class CompanyStatsTab extends StatelessWidget {
+class CompanyStatsTab extends StatefulWidget {
   const CompanyStatsTab({super.key});
+
+  @override
+  State<CompanyStatsTab> createState() => _CompanyStatsTabState();
+}
+
+class _CompanyStatsTabState extends State<CompanyStatsTab> {
+  final GlobalKey _showKey1 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_company_stats";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1]);
+      _getStorage.write(storageKey, true);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,24 +74,29 @@ class CompanyStatsTab extends StatelessWidget {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {
-              showMaterialModalBottomSheet(
-                context: context,
-                backgroundColor: Colors.transparent,
-                barrierColor: Colors.black.withValues(alpha: 0.5),
-                enableDrag: false,
-                builder: (context) => Padding(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: const ExportFileSheet(),
-                ),
-              );
-            },
-            icon: FaIcon(
-              //FontAwesomeIcons.fileExcel,
-              Icons.print,
-              //color: const Color(0xFF1E7045),
-              color: cs.onSurface,
+          MyShowcase(
+            globalKey: _showKey1,
+            description: 'you can export your statistics as an exel file from here'.tr,
+            enabled: isEnabled,
+            child: IconButton(
+              onPressed: () {
+                showMaterialModalBottomSheet(
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  barrierColor: Colors.black.withValues(alpha: 0.5),
+                  enableDrag: false,
+                  builder: (context) => Padding(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: const ExportFileSheet(),
+                  ),
+                );
+              },
+              icon: FaIcon(
+                //FontAwesomeIcons.fileExcel,
+                Icons.print,
+                //color: const Color(0xFF1E7045),
+                color: cs.onSurface,
+              ),
             ),
           ),
         ],
