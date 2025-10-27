@@ -1411,6 +1411,12 @@ class OrderView extends StatelessWidget {
                                               title: "price".tr,
                                               subtitle: controller.order!.fullPrice(),
                                             ),
+                                            if (controller.order!.appCommission != null)
+                                              DetailsTile(
+                                                iconData: Icons.attach_money,
+                                                title: "order commission".tr,
+                                                subtitle: controller.order!.fullCommission(),
+                                              ),
                                             DetailsTile(
                                               iconData: Icons.local_shipping,
                                               title: "required vehicle type".tr,

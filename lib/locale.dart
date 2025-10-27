@@ -473,6 +473,7 @@ class MyLocale extends Translations {
               'from here',
           'you can choose an available order to take it, choose a governorate to view orders in it': 'you can choose '
               'an available order to take it, choose a governorate to view orders in it',
+          "extra commission": "extra commission",
         },
 
         ///
@@ -971,6 +972,7 @@ class MyLocale extends Translations {
           'you can export your statistics as an exel file from here': "يمكنك تصدير الاحصائيات كملف اكسل من هنا",
           'you can choose an available order to take it, choose a governorate to view orders in it': 'هنا يتم عرض '
               ' الطلبات المتاحة في كل محافظة, يمكنك اختيار طلب للتقديم عليه و انتظار رد صاحب الطلب',
+          "extra commission": "رسوم اضافية من رصيدك",
         },
       };
 }

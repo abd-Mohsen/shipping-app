@@ -49,6 +49,7 @@ class OrderModel {
   final bool isAppliedByMe;
   final bool canAddNotes;
   final List<ApplicationModel> driversApplications;
+  final double? appCommission; // to show for driver and company since they cant know it otherwise
 
   OrderModel({
     required this.id,
@@ -85,6 +86,7 @@ class OrderModel {
     required this.isAppliedByMe,
     required this.canAddNotes,
     required this.driversApplications,
+    required this.appCommission,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
@@ -125,6 +127,7 @@ class OrderModel {
         driversApplications: json["drivers_applications"] == null
             ? []
             : List<ApplicationModel>.from(json["drivers_applications"].map((x) => ApplicationModel.fromJson(x))),
+        appCommission: json["app_commission"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -189,6 +192,11 @@ class OrderModel {
 
   String fullPrice() {
     return "${NumberFormat('#,###').format(price)} ${currency.symbol}";
+  }
+
+  String fullCommission() {
+    if (appCommission == null) return "";
+    return "${NumberFormat('#,###').format(appCommission)} ${currency.symbol}";
   }
 }
 

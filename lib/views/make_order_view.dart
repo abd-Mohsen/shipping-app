@@ -59,7 +59,7 @@ class _MakeOrderViewState extends State<MakeOrderView> {
       if (isEnabled) {
         ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2, _showKey3]);
       }
-      //_getStorage.write(storageKey, true);
+      _getStorage.write(storageKey, true);
     });
     super.initState();
   }

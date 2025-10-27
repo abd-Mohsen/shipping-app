@@ -39,8 +39,11 @@ class _NewDriverTabState extends State<NewDriverTab> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey11]);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (isEnabled) {
+        await Future.delayed(Duration(milliseconds: 12000));
+        ShowCaseWidget.of(context).startShowCase([_showKey11]);
+      }
       _getStorage.write(storageKey, true);
     });
     super.initState();

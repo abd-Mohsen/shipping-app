@@ -33,8 +33,11 @@ class _DriverHomeViewState extends State<DriverHomeView> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (isEnabled) {
+        await Future.delayed(Duration(milliseconds: 6000));
+        ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      }
       _getStorage.write(storageKey, true);
     });
     super.initState();

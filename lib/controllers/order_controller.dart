@@ -110,6 +110,7 @@ class OrderController extends GetxController {
   double _degToRad(double deg) => deg * (pi / 180.0);
 
   bool areGeoPointsClose(GeoPoint p1, GeoPoint p2, double thresholdMeters) {
+    // todo: sometimes when order is finished and cant raw road, the download never ends
     const double earthRadius = 6371000; // meters
 
     double dLat = _degToRad(p2.latitude - p1.latitude);
