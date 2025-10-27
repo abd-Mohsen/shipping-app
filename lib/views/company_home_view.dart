@@ -35,7 +35,7 @@ class _CompanyHomeViewState extends State<CompanyHomeView> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
-      // _getStorage.write(storageKey, true);
+      _getStorage.write(storageKey, true);
     });
     super.initState();
   }

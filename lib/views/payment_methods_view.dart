@@ -32,7 +32,7 @@ class _PaymentMethodsViewState extends State<PaymentMethodsView> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1]);
-      //_getStorage.write(storageKey, true);
+      _getStorage.write(storageKey, true);
     });
     super.initState();
   }
