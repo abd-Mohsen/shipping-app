@@ -295,6 +295,7 @@ class RemoteServices {
   }
 
   static Future<List<VehicleModel>?> fetchDriverVehicles(String role) async {
+    if (role == "company_employee") role = "company";
     String? json = await api.getRequest("$role/vehicles/", auth: true);
     if (json == null) return null;
     return vehicleModelFromJson(json);

@@ -68,7 +68,8 @@ class MyVehiclesView extends StatelessWidget {
       floatingActionButton: GetBuilder<MyVehiclesController>(
         builder: (controller) {
           return Visibility(
-            visible: controller.myVehicles.isEmpty && !controller.isLoading,
+            visible:
+                controller.myVehicles.isEmpty && !controller.isLoading && getStorage.read("role") != "company_employee",
             child: FloatingActionButton(
               onPressed: () {
                 openAddSheet();

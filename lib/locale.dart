@@ -962,7 +962,8 @@ class MyLocale extends Translations {
           'here your invoices will be shown when you charge your account': 'هنا سيتم عرض فواتيرك, ستظهر فاتورة عند '
               'إيداع مبلغ في حسابك',
           'company bottom bar explanation': "تصفح جديد: هنا سيتم عرض الطلبات المتاحة في جميع المحافظات, عند ايجاد "
-              "طلب مناسب للشحن يتم التقديم عليه و تعيين كابتن لتوصيله \n\nطلباتي: هنا سيعرض جميع الطلبات التي قمت انت او الكابتنز بالتفاعل معها",
+              "طلب مناسب للشحن يتم التقديم عليه و تعيين كابتن لتوصيله \n\nطلباتي: هنا سيعرض جميع الطلبات التي قمت انت"
+              " او موظفينك بالتفاعل معها",
           'here you can view your vehicles, edit them and add new ones': 'من هنا يمكنك استعراض مركباتك, يمكنك التعديل'
               ' او الحذف او اضافة مركبات جديدة',
           'here you can view your employees, remove them and manage their status': 'هنا ادارة الموظفين, حيث يمكنك '

@@ -3,6 +3,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shipment/constants.dart';
@@ -176,76 +177,26 @@ class VehicleCard extends StatelessWidget {
                   //   ),
                   // ),
                   const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: onDelete,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: cs.error,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(Icons.close, color: cs.onPrimary, size: 17),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    "delete".tr,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: tt.titleSmall!.copyWith(color: cs.onPrimary),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: badges.Badge(
-                            showBadge: vehicle.registrationStatus == "refused",
-                            position: badges.BadgePosition.topStart(
-                              top: 0, // Negative value moves it up
-                              start: -6, // Negative value moves it left
-                            ),
-                            badgeStyle: badges.BadgeStyle(
-                              shape: badges.BadgeShape.circle,
-                              badgeColor: kNotificationColor,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
+                  if (GetStorage().read("role") != "company_employee")
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Center(
                             child: GestureDetector(
-                              onTap: () {
-                                mVC.prePopulate(vehicle);
-                                showMaterialModalBottomSheet(
-                                  context: context,
-                                  backgroundColor: Colors.transparent,
-                                  barrierColor: Colors.black.withValues(alpha: 0.5),
-                                  enableDrag: true,
-                                  builder: (context) => BackdropFilter(
-                                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                                    child: AddVehicleSheet(vehicle: vehicle),
-                                  ),
-                                );
-                              },
+                              onTap: onDelete,
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                 decoration: BoxDecoration(
-                                  color: cs.primary,
+                                  color: cs.error,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Icon(Icons.edit, color: cs.onPrimary, size: 17),
+                                    Icon(Icons.close, color: cs.onPrimary, size: 17),
                                     const SizedBox(width: 4),
                                     Text(
-                                      "edit".tr,
+                                      "delete".tr,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: tt.titleSmall!.copyWith(color: cs.onPrimary),
@@ -257,9 +208,60 @@ class VehicleCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
+                        Expanded(
+                          child: Center(
+                            child: badges.Badge(
+                              showBadge: vehicle.registrationStatus == "refused",
+                              position: badges.BadgePosition.topStart(
+                                top: 0, // Negative value moves it up
+                                start: -6, // Negative value moves it left
+                              ),
+                              badgeStyle: badges.BadgeStyle(
+                                shape: badges.BadgeShape.circle,
+                                badgeColor: kNotificationColor,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  mVC.prePopulate(vehicle);
+                                  showMaterialModalBottomSheet(
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    barrierColor: Colors.black.withValues(alpha: 0.5),
+                                    enableDrag: true,
+                                    builder: (context) => BackdropFilter(
+                                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                                      child: AddVehicleSheet(vehicle: vehicle),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: cs.primary,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.edit, color: cs.onPrimary, size: 17),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        "edit".tr,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: tt.titleSmall!.copyWith(color: cs.onPrimary),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   const SizedBox(height: 12),
                   Center(
                     child: Padding(
