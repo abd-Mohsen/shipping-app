@@ -1,18 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shipment/controllers/home_navigation_controller.dart';
+import 'package:shipment/views/components/my_showcase.dart';
 import 'package:shipment/views/edit_profile_view.dart';
 import 'package:shipment/views/tabs/my_orders_tab.dart';
 import 'package:shipment/views/tabs/new_driver_tab.dart';
+import 'package:showcaseview/showcaseview.dart';
 import '../constants.dart';
 import '../controllers/current_user_controller.dart';
 import '../controllers/shared_home_controller.dart';
 import 'components/my_bottom_bar.dart';
 import 'components/my_drawer.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:get_storage/get_storage.dart';
 
-class DriverHomeView extends StatelessWidget {
+class DriverHomeView extends StatefulWidget {
   const DriverHomeView({super.key});
+
+  @override
+  State<DriverHomeView> createState() => _DriverHomeViewState();
+}
+
+class _DriverHomeViewState extends State<DriverHomeView> {
+  final GlobalKey _showKey1 = GlobalKey();
+  final GlobalKey _showKey2 = GlobalKey();
+
+  final GetStorage _getStorage = GetStorage();
+
+  final String storageKey = "showcase_driver_home_view";
+
+  bool get isEnabled => !_getStorage.hasData(storageKey);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      // _getStorage.write(storageKey, true);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +56,9 @@ class DriverHomeView extends StatelessWidget {
     //TextTheme tt = Theme.of(context).textTheme;
 
     List<Widget> tabs = [
-      const NewDriverTab(),
+      ShowCaseWidget(builder: (context) {
+        return const NewDriverTab();
+      }),
       const MyOrdersTab(),
       //const ExploreOrdersTab(),
     ];
@@ -182,20 +210,25 @@ class DriverHomeView extends StatelessWidget {
                           onTap: () {
                             cUC.scaffoldKey.currentState!.openDrawer();
                           },
-                          child: ClipRect(
-                            child: Align(
-                              alignment: Directionality.of(context) == TextDirection.rtl
-                                  ? Alignment.centerLeft // Clip to right half for RTL
-                                  : Alignment.centerRight, // Clip to left half for LTR
-                              widthFactor: 0.5,
-                              child: CircleAvatar(
-                                backgroundColor: cs.primary.withValues(alpha: 0.7),
-                                foregroundColor: cs.onPrimary,
-                                child: Padding(
-                                  padding: Directionality.of(context) == TextDirection.rtl
-                                      ? const EdgeInsets.only(right: 16)
-                                      : const EdgeInsets.only(left: 16),
-                                  child: const Icon(Icons.arrow_forward_ios, size: 18),
+                          child: MyShowcase(
+                            globalKey: _showKey1,
+                            description: 'click here to view sidebar'.tr,
+                            enabled: isEnabled,
+                            child: ClipRect(
+                              child: Align(
+                                alignment: Directionality.of(context) == TextDirection.rtl
+                                    ? Alignment.centerLeft // Clip to right half for RTL
+                                    : Alignment.centerRight, // Clip to left half for LTR
+                                widthFactor: 0.5,
+                                child: CircleAvatar(
+                                  backgroundColor: cs.primary.withValues(alpha: 0.7),
+                                  foregroundColor: cs.onPrimary,
+                                  child: Padding(
+                                    padding: Directionality.of(context) == TextDirection.rtl
+                                        ? const EdgeInsets.only(right: 16)
+                                        : const EdgeInsets.only(left: 16),
+                                    child: const Icon(Icons.arrow_forward_ios, size: 18),
+                                  ),
                                 ),
                               ),
                             ),
