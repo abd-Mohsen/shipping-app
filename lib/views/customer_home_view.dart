@@ -33,8 +33,11 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isEnabled) ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (isEnabled) {
+        await Future.delayed(Duration(milliseconds: 1400));
+        ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
+      }
       _getStorage.write(storageKey, true);
     });
     super.initState();

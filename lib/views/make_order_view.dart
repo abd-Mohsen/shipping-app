@@ -55,8 +55,9 @@ class _MakeOrderViewState extends State<MakeOrderView> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (isEnabled) {
+        await Future.delayed(Duration(milliseconds: 4000));
         ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2, _showKey3]);
       }
       _getStorage.write(storageKey, true);

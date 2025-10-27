@@ -24,6 +24,8 @@ import '../controllers/refresh_socket_controller.dart';
 import '../controllers/shared_home_controller.dart';
 
 class RedirectPage extends StatefulWidget {
+  //todo: get the link from app-info and store it
+  //todo: force update based on app version
   final bool? toNotifications;
   const RedirectPage({super.key, this.toNotifications});
 

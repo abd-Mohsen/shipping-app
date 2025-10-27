@@ -30,7 +30,7 @@ class _InvoicesViewState extends State<InvoicesView> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (isEnabled) {
-        await Future.delayed(Duration(milliseconds: 2000));
+        await Future.delayed(Duration(milliseconds: 1400));
         ShowCaseWidget.of(context).startShowCase([_showKey1, _showKey2]);
       }
       _getStorage.write(storageKey, true);

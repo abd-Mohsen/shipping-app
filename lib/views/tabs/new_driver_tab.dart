@@ -41,7 +41,7 @@ class _NewDriverTabState extends State<NewDriverTab> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (isEnabled) {
-        await Future.delayed(Duration(milliseconds: 12000));
+        await Future.delayed(Duration(milliseconds: 10000));
         ShowCaseWidget.of(context).startShowCase([_showKey11]);
       }
       _getStorage.write(storageKey, true);
